@@ -1,0 +1,4 @@
+隐藏启动动画时的statusbar：
+1.在-info.list文件中，加上“Status bar is initially hidden”选项，选择yes
+2在程序里面添加
+[[UIApplication sharedApplication] setStatusBarHidden:NO];

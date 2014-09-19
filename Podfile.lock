@@ -1,0 +1,91 @@
+PODS:
+  - AFNetworking (2.4.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+    - AFNetworking/UIKit
+  - AFNetworking/NSURLConnection (2.4.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.4.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.4.1)
+  - AFNetworking/Security (2.4.1)
+  - AFNetworking/Serialization (2.4.1)
+  - AFNetworking/UIKit (2.4.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - CocoaAsyncSocket (7.3.5)
+  - CocoaLumberjack (2.0.0-beta):
+    - CocoaLumberjack/CLI
+    - CocoaLumberjack/Core
+    - CocoaLumberjack/Extensions
+  - CocoaLumberjack/CLI (2.0.0-beta):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Core (2.0.0-beta)
+  - CocoaLumberjack/Extensions (2.0.0-beta):
+    - CocoaLumberjack/Core
+  - EAIntroView (2.6.3)
+  - EGOTableViewPullRefresh (0.1.0)
+  - FMDB (2.3):
+    - FMDB/standard
+  - FMDB/common (2.3)
+  - FMDB/standard (2.3):
+    - FMDB/common
+  - HexColors (2.2.1)
+  - MBProgressHUD (0.9)
+  - MJPopupViewController (0.4)
+  - NSDate+Calendar (0.0.4)
+  - PNChart (0.5):
+    - UICountingLabel (~> 1.0.0)
+  - Reachability (3.1.1)
+  - SGNavigationProgress (1.2)
+  - Toast (2.3)
+  - TWMessageBarManager (1.7.0)
+  - UICountingLabel (1.0.0)
+
+DEPENDENCIES:
+  - AFNetworking
+  - CocoaAsyncSocket
+  - CocoaLumberjack
+  - EAIntroView (~> 2.6.0)
+  - EGOTableViewPullRefresh
+  - FMDB
+  - HexColors
+  - MBProgressHUD (from `https://github.com/jdg/MBProgressHUD.git`)
+  - MJPopupViewController
+  - NSDate+Calendar
+  - PNChart (~> 0.5)
+  - Reachability
+  - SGNavigationProgress
+  - Toast (~> 2.3)
+  - TWMessageBarManager (~> 1.7.0)
+
+EXTERNAL SOURCES:
+  MBProgressHUD:
+    :git: https://github.com/jdg/MBProgressHUD.git
+
+SPEC CHECKSUMS:
+  AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
+  CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
+  CocoaLumberjack: aadc76d7bd6c839ca84b38ed50cbf89d7cf8c693
+  EAIntroView: 45924b81c153d1206ee24f4fa654e9d9dae79e93
+  EGOTableViewPullRefresh: 04bb7d115f660c91a036ebade5e6678c7ef26c59
+  FMDB: 31ec26773c7f7b7890a6038235a1f2bbd933a7cb
+  HexColors: 01384d2bbe8dc4ffa43c3b4135db6e976952d153
+  MBProgressHUD: 85f9608e8473269aba4f6603958bb8bafcb60388
+  MJPopupViewController: b087684832981731f3d11b7a2ae6293a9073e011
+  NSDate+Calendar: d1e6f7298a9f95f3e0bb999acc445aee282e6769
+  PNChart: 0d0cf4531de3aa7f2b12434a54845d70d9c9cfe3
+  Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7
+  SGNavigationProgress: 6c38006ca3c652618411c67d493b263343d5aece
+  Toast: 1d773017c5d2e7b1d90565a5f9530340e6eeff72
+  TWMessageBarManager: 427c1f2463b22f4048ea2663184d33644212be37
+  UICountingLabel: 0a0e9e34bf4690dbd127aaec552d19ed938087a9
+
+COCOAPODS: 0.33.1
