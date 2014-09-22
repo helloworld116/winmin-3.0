@@ -37,6 +37,9 @@
 - (void)setup {
   [self setupStyle];
 
+  UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+  backButtonItem.title = @"返回";
+  self.navigationItem.backBarButtonItem = backButtonItem;
   self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
   if (!self.switchs || self.switchs.count == 0) {
   } else {

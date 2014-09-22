@@ -68,32 +68,6 @@
 }
 
 - (void)setSocketInfo:(SDZGSocket *)socket {
-  //  NSString *img1Name = socket.imageNames[0];
-  //  NSString *img2Name = socket.imageNames[1];
-  //  NSString *img3Name = socket.imageNames[2];
-  //  UIImage *img1, *img2, *img3;
-  //  if (img1Name.length < 5) {
-  //    img1 = [UIImage imageNamed:img1Name];
-  //  } else {
-  //    img1 = [UIImage
-  //        imageWithContentsOfFile:[PATH_OF_DOCUMENT
-  //                                    stringByAppendingPathComponent:img1Name]];
-  //  }
-  //  if (img2Name.length < 5) {
-  //    img2 = [UIImage imageNamed:img2Name];
-  //  } else {
-  //    img2 = [UIImage
-  //        imageWithContentsOfFile:[PATH_OF_DOCUMENT
-  //                                    stringByAppendingPathComponent:img2Name]];
-  //  }
-  //  if (img3Name.length < 5) {
-  //    img3 = [UIImage imageNamed:img3Name];
-  //  } else {
-  //    img3 = [UIImage
-  //        imageWithContentsOfFile:[PATH_OF_DOCUMENT
-  //                                    stringByAppendingPathComponent:img3Name]];
-  //    img3 = [UIImage circleImage:img3 withParam:0];
-  //  }
   self.imgViewSocket1.image = [SDZGSocket imgNameToImage:socket.imageNames[0]];
   self.imgViewSocket2.image = [SDZGSocket imgNameToImage:socket.imageNames[1]];
   self.imgViewSocket3.image = [SDZGSocket imgNameToImage:socket.imageNames[2]];

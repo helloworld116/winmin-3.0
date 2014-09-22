@@ -12,4 +12,5 @@
 + (instancetype)sharedInstance;
 - (void)showMessageInViewController:(UIViewController *)viewController
                             message:(NSString *)messsage;
+
 @end

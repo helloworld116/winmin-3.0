@@ -90,28 +90,19 @@
 
 - (void)responseMsg12Or14:(CC3xMessage *)message {
   if (message.state == 0) {
-    //    NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
-    //    SDZGSwitch *editSwitch;
-    //    for (SDZGSwitch *aSwitch in switchs) {
-    //      if ([message.mac isEqualToString:aSwitch.mac]) {
-    //        editSwitch = aSwitch;
-    //        break;
-    //      }
-    //    }
-    //    SDZGSocket *socket =
-    //        [editSwitch.sockets objectAtIndex:(message.socketGroupId - 1)];
-    //    [[SwitchDataCeneter sharedInstance]
-    //    updateSocketStaus:!socket.socketStatus
-    //                                            socketGroupId:socket.groupId
-    //                                                      mac:message.mac];
-    //    [[NSNotificationCenter defaultCenter]
-    //    postNotificationName:kSwitchUpdate
-    //                                                        object:self
-    //                                                      userInfo:nil];
-
     SDZGSocket *socket =
         [self.aSwitch.sockets objectAtIndex:message.socketGroupId - 1];
     socket.socketStatus = !socket.socketStatus;
+    [self.aSwitch.sockets replaceObjectAtIndex:message.socketGroupId - 1
+                                    withObject:socket];
+    NSDictionary *userInfo = @{
+      @"switch" : self.aSwitch,
+      @"socketGroupId" : @(message.socketGroupId)
+    };
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:kSwitchOnOffStateChange
+                      object:self
+                    userInfo:userInfo];
   }
 }
 

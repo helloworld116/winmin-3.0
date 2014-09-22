@@ -55,7 +55,7 @@
     }
   }
   self.imgViewOfState.image = [UIImage imageNamed:imageName];
-  self.imgViewOfSwitch.image = [UIImage imageNamed:@"switch_default_online"];
+  self.imgViewOfSwitch.image = [SDZGSwitch imgNameToImage:aSwitch.imageName];
 }
 
 @end

@@ -27,6 +27,7 @@
 #import "DB.h"
 #import "DESUtil.h"
 #import "UIImage+Color.h"
+#import "UIView+NoDataView.h"
 #import "AppDelegate.h"
 #endif
 
@@ -72,6 +73,7 @@
 #define DEFAULT_SOCKET1_NAME NSLocalizedString(@"Socket1", nil)
 #define DEFAULT_SOCKET2_NAME NSLocalizedString(@"Socket2", nil)
 #define socket_default_image @"099"
+#define switch_default_image @"100"
 
 //在家测试
 #define isHome 0
@@ -87,6 +89,7 @@
 #define kLoginResponse @"LoginResponse"
 #define kRegisterResponse @"RegisterResponse"
 #define kLoginSuccess @"LoginSuccess"
+#define kSwitchOnOffStateChange @"SwitchOnOffStateChange"
 
 //加密
 #define __ENCRYPT(str) [DESUtil encryptString:str]

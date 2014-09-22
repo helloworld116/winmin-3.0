@@ -10,6 +10,8 @@
 #import "SocketImgTemplateViewController.h"
 #import "SocketView.h"
 #import "SwitchDetailModel.h"
+#import "TimerViewController.h"
+#import "SwitchInfoViewController.h"
 
 @interface SwitchDetailViewController ()<SocketViewDelegate,
                                          SocketImgTemplateDelegate>
@@ -30,6 +32,9 @@
 }
 
 - (void)setup {
+  UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+  backButtonItem.title = @"返回";
+  self.navigationItem.backBarButtonItem = backButtonItem;
   self.socketView1.sockeViewDelegate = self;
   self.socketView1.groupId = 1;
   SDZGSocket *socket1 = [self.aSwitch.sockets objectAtIndex:0];
@@ -49,6 +54,21 @@
   [self setup];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(changeOnOffState:)
+                                               name:kSwitchOnOffStateChange
+                                             object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kSwitchOnOffStateChange
+                                                object:nil];
+}
+
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
@@ -63,6 +83,9 @@ preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   // Get the new view controller using [segue destinationViewController].
   // Pass the selected object to the new view controller.
+  SwitchInfoViewController *destViewController =
+      [segue destinationViewController];
+  destViewController.aSwitch = self.aSwitch;
 }
 
 #pragma mark -
@@ -96,6 +119,12 @@ preparation before navigation
 }
 
 - (void)touchTimerWithSelf:(SocketView *)_self {
+  TimerViewController *nextViewController = [self.storyboard
+      instantiateViewControllerWithIdentifier:@"TimerViewController"];
+  nextViewController.aSwitch = self.aSwitch;
+  nextViewController.socketGroupId = _self.groupId;
+  [self.navigationController pushViewController:nextViewController
+                                       animated:YES];
 }
 - (void)touchDelayWithSelf:(SocketView *)_self {
 }
@@ -117,5 +146,20 @@ preparation before navigation
     default:
       break;
   }
+}
+
+#pragma mark - 通知
+- (void)changeOnOffState:(NSNotification *)notif {
+  NSDictionary *userInfo = notif.userInfo;
+  self.aSwitch = [userInfo objectForKey:@"switch"];
+  int socketGroupId = [[userInfo objectForKey:@"socketGroupId"] intValue];
+  SDZGSocket *socket = [self.aSwitch.sockets objectAtIndex:socketGroupId - 1];
+  dispatch_async(MAIN_QUEUE, ^{
+      if (socketGroupId == 1) {
+        [self.socketView1 changeSocketState:socket];
+      } else if (socketGroupId == 2) {
+        [self.socketView2 changeSocketState:socket];
+      }
+  });
 }
 @end

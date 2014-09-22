@@ -84,6 +84,14 @@
 		158D993619C7E2530068AFC5 /* SceneDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D993119C7E2530068AFC5 /* SceneDetail.m */; };
 		158D993719C7E2530068AFC5 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D993319C7E2530068AFC5 /* Scene.m */; };
 		158D993819C7E2530068AFC5 /* SceneDataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D993519C7E2530068AFC5 /* SceneDataCenter.m */; };
+		15AC863519CFBF7800D154EB /* SwitchInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC863419CFBF7800D154EB /* SwitchInfoViewController.m */; };
+		15AC863C19CFC6C900D154EB /* TimerEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC863719CFC6C800D154EB /* TimerEditViewController.m */; };
+		15AC863D19CFC6C900D154EB /* CycleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC863919CFC6C900D154EB /* CycleViewController.m */; };
+		15AC863E19CFC6C900D154EB /* TimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC863B19CFC6C900D154EB /* TimerViewController.m */; };
+		15AC864119CFC71400D154EB /* TimerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864019CFC71400D154EB /* TimerCell.m */; };
+		15AC864419CFC7B100D154EB /* TimerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864319CFC7B100D154EB /* TimerModel.m */; };
+		15AC864719CFFE7000D154EB /* UIView+NoDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864619CFFE7000D154EB /* UIView+NoDataView.m */; };
+		15AC864A19D02F7300D154EB /* SwitchInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864919D02F7300D154EB /* SwitchInfoModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,6 +221,22 @@
 		158D993319C7E2530068AFC5 /* Scene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scene.m; sourceTree = "<group>"; };
 		158D993419C7E2530068AFC5 /* SceneDataCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDataCenter.h; sourceTree = "<group>"; };
 		158D993519C7E2530068AFC5 /* SceneDataCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDataCenter.m; sourceTree = "<group>"; };
+		15AC863319CFBF7800D154EB /* SwitchInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchInfoViewController.h; sourceTree = "<group>"; };
+		15AC863419CFBF7800D154EB /* SwitchInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchInfoViewController.m; sourceTree = "<group>"; };
+		15AC863619CFC6C800D154EB /* TimerEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerEditViewController.h; sourceTree = "<group>"; };
+		15AC863719CFC6C800D154EB /* TimerEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerEditViewController.m; sourceTree = "<group>"; };
+		15AC863819CFC6C900D154EB /* CycleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CycleViewController.h; sourceTree = "<group>"; };
+		15AC863919CFC6C900D154EB /* CycleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CycleViewController.m; sourceTree = "<group>"; };
+		15AC863A19CFC6C900D154EB /* TimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerViewController.h; sourceTree = "<group>"; };
+		15AC863B19CFC6C900D154EB /* TimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerViewController.m; sourceTree = "<group>"; };
+		15AC863F19CFC71400D154EB /* TimerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerCell.h; sourceTree = "<group>"; };
+		15AC864019CFC71400D154EB /* TimerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerCell.m; sourceTree = "<group>"; };
+		15AC864219CFC7B100D154EB /* TimerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerModel.h; sourceTree = "<group>"; };
+		15AC864319CFC7B100D154EB /* TimerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerModel.m; sourceTree = "<group>"; };
+		15AC864519CFFE7000D154EB /* UIView+NoDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+NoDataView.h"; sourceTree = "<group>"; };
+		15AC864619CFFE7000D154EB /* UIView+NoDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+NoDataView.m"; sourceTree = "<group>"; };
+		15AC864819D02F7300D154EB /* SwitchInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchInfoModel.h; sourceTree = "<group>"; };
+		15AC864919D02F7300D154EB /* SwitchInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchInfoModel.m; sourceTree = "<group>"; };
 		3D7C9184B0EB44E997A6779A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		95B2B7BB80C1420797A2EE26 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -304,6 +328,10 @@
 				1560130319C91EF800BF7E12 /* SwitchListModel.m */,
 				1560132619CBDCA700BF7E12 /* SwitchDetailModel.h */,
 				1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */,
+				15AC864219CFC7B100D154EB /* TimerModel.h */,
+				15AC864319CFC7B100D154EB /* TimerModel.m */,
+				15AC864819D02F7300D154EB /* SwitchInfoModel.h */,
+				15AC864919D02F7300D154EB /* SwitchInfoModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -311,6 +339,8 @@
 		1560131C19C96BEE00BF7E12 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				15AC863F19CFC71400D154EB /* TimerCell.h */,
+				15AC864019CFC71400D154EB /* TimerCell.m */,
 				156012FF19C846EE00BF7E12 /* SwitchListCell.h */,
 				1560130019C846EE00BF7E12 /* SwitchListCell.m */,
 				1560131E19CA6E9500BF7E12 /* SocketView.h */,
@@ -322,12 +352,20 @@
 		1560131D19C96BF400BF7E12 /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				15AC863619CFC6C800D154EB /* TimerEditViewController.h */,
+				15AC863719CFC6C800D154EB /* TimerEditViewController.m */,
+				15AC863819CFC6C900D154EB /* CycleViewController.h */,
+				15AC863919CFC6C900D154EB /* CycleViewController.m */,
+				15AC863A19CFC6C900D154EB /* TimerViewController.h */,
+				15AC863B19CFC6C900D154EB /* TimerViewController.m */,
 				156012FC19C8464000BF7E12 /* SwitchListViewController.h */,
 				156012FD19C8464000BF7E12 /* SwitchListViewController.m */,
 				1560131819C96BE100BF7E12 /* SwitchDetailViewController.h */,
 				1560131919C96BE200BF7E12 /* SwitchDetailViewController.m */,
 				1560132119CA795100BF7E12 /* SocketImgTemplateViewController.h */,
 				1560132219CA795100BF7E12 /* SocketImgTemplateViewController.m */,
+				15AC863319CFBF7800D154EB /* SwitchInfoViewController.h */,
+				15AC863419CFBF7800D154EB /* SwitchInfoViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -568,6 +606,8 @@
 				158D991419C7CBC50068AFC5 /* DESUtil.m */,
 				1560131219C9600600BF7E12 /* UIImage+Color.h */,
 				1560131319C9600600BF7E12 /* UIImage+Color.m */,
+				15AC864519CFFE7000D154EB /* UIView+NoDataView.h */,
+				15AC864619CFFE7000D154EB /* UIView+NoDataView.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -796,9 +836,13 @@
 				158D988B19C6F39C0068AFC5 /* AppDelegate.m in Sources */,
 				156012FE19C8464000BF7E12 /* SwitchListViewController.m in Sources */,
 				1560130119C846EE00BF7E12 /* SwitchListCell.m in Sources */,
+				15AC864A19D02F7300D154EB /* SwitchInfoModel.m in Sources */,
 				1560131419C9600600BF7E12 /* UIImage+Color.m in Sources */,
 				158D992219C7DF830068AFC5 /* CC3xMessage.m in Sources */,
+				15AC863519CFBF7800D154EB /* SwitchInfoViewController.m in Sources */,
+				15AC864119CFC71400D154EB /* TimerCell.m in Sources */,
 				158D992919C7E1390068AFC5 /* ViewUtil.m in Sources */,
+				15AC864419CFC7B100D154EB /* TimerModel.m in Sources */,
 				158D993819C7E2530068AFC5 /* SceneDataCenter.m in Sources */,
 				158D992F19C7E2380068AFC5 /* HistoryElec.m in Sources */,
 				158D992E19C7E2380068AFC5 /* SwitchDataCeneter.m in Sources */,
@@ -807,18 +851,22 @@
 				1560130B19C9542C00BF7E12 /* MoreViewController.m in Sources */,
 				158D992619C7E0FF0068AFC5 /* SDZGSwitch.m in Sources */,
 				1560130E19C956A600BF7E12 /* MoreCellTypeSecond.m in Sources */,
+				15AC864719CFFE7000D154EB /* UIView+NoDataView.m in Sources */,
 				158D993719C7E2530068AFC5 /* Scene.m in Sources */,
 				1560130419C91EF800BF7E12 /* SwitchListModel.m in Sources */,
 				158D988719C6F39C0068AFC5 /* main.m in Sources */,
 				158D991519C7CBC50068AFC5 /* UdpRequest.m in Sources */,
+				15AC863C19CFC6C900D154EB /* TimerEditViewController.m in Sources */,
 				1560132819CBDCA700BF7E12 /* SwitchDetailModel.m in Sources */,
 				156012BE19C8129300BF7E12 /* ConfigLoadingViewController.m in Sources */,
 				158D991719C7CBC50068AFC5 /* DESUtil.m in Sources */,
 				1560132319CA795100BF7E12 /* SocketImgTemplateViewController.m in Sources */,
 				158D991F19C7DF7A0068AFC5 /* CRC.c in Sources */,
+				15AC863E19CFC6C900D154EB /* TimerViewController.m in Sources */,
 				158D991619C7CBC50068AFC5 /* DB.m in Sources */,
 				1560132019CA6E9500BF7E12 /* SocketView.m in Sources */,
 				156012BB19C804AC00BF7E12 /* ConfigurationViewController.m in Sources */,
+				15AC863D19CFC6C900D154EB /* CycleViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

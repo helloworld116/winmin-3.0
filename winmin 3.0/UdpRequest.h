@@ -114,7 +114,7 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
  *  @param mode
  */
 - (void)sendMsg11Or13:(SDZGSwitch *)aSwitch
-             socketGroupId:(int)socketId
+        socketGroupId:(int)socketId
              sendMode:(SENDMODE)mode;
 /**
  *  手机获取设备定时列表
@@ -124,7 +124,7 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
  *  @param mode
  */
 - (void)sendMsg17Or19:(SDZGSwitch *)aSwitch
-             socketId:(int)socketId
+        socketGroupId:(int)socketGroupId
              sendMode:(SENDMODE)mode;
 /**
  *  手机设置设备定时列表
@@ -135,7 +135,7 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
  *  @param mode
  */
 - (void)sendMsg1DOr1F:(SDZGSwitch *)aSwitch
-             socketId:(int)socketId
+        socketGroupId:(int)socketGroupId
              timeList:(NSArray *)timeList
              sendMode:(SENDMODE)mode;
 /**

@@ -43,6 +43,8 @@
     socket2.imageNames =
         @[ socket_default_image, socket_default_image, socket_default_image ];
     [aSwitch.sockets addObject:socket2];
+
+    aSwitch.imageName = switch_default_image;
   }
   aSwitch.mac = message.mac;
   aSwitch.ip = message.ip;
@@ -61,6 +63,23 @@
     [[DBUtil sharedInstance] saveSwitch:aSwitch];
   }
   return aSwitch;
+}
+
++ (UIImage *)imgNameToImage:(NSString *)imgName {
+  UIImage *image;
+  if (imgName.length < 5) {
+    image = [UIImage imageNamed:imgName];
+  } else {
+    image = [UIImage
+        imageWithContentsOfFile:[PATH_OF_DOCUMENT
+                                    stringByAppendingPathComponent:imgName]];
+    if (!image) {
+      image = [UIImage imageNamed:socket_default_image];
+    } else {
+      image = [UIImage circleImage:image withParam:0];
+    }
+  }
+  return image;
 }
 @end
 

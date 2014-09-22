@@ -91,10 +91,12 @@
   self.textWIFI.text = self.ssid;
 #endif
   //设置之前配置成功用的密码
-  NSString *password =
-      [[NSUserDefaults standardUserDefaults] objectForKey:self.ssid];
-  if (password) {
-    self.textPassword.text = password;
+  if (self.ssid) {
+    NSString *password =
+        [[NSUserDefaults standardUserDefaults] objectForKey:self.ssid];
+    if (password) {
+      self.textPassword.text = password;
+    }
   }
   self.textPassword.secureTextEntry = YES;
   self.imgViewShowPassword.image = [UIImage imageNamed:@"password_normal"];
