@@ -24,8 +24,8 @@
   return self;
 }
 
-- (void)setSwitch:(SDZGSwitch *)aSwitch lockStatus:(LockStatus)lockStatus {
-  [self.request sendMsg47Or49:aSwitch sendMode:ActiveMode];
+- (void)changeSwitchLockStatus {
+  dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg47Or49]; });
 }
 
 - (void)setSwitchName:(NSString *)name {
@@ -39,23 +39,43 @@
                      sendMode:ActiveMode];
 }
 
+- (void)sendMsg47Or49 {
+  [self.request sendMsg47Or49:self.aSwitch sendMode:ActiveMode];
+}
+
 #pragma mark - UdpRequest代理
 - (void)responseMsg:(CC3xMessage *)message address:(NSData *)address {
   switch (message.msgId) {
     case 0x40:
     case 0x42:
       [self responseMsg40Or42:message];
+      break;
+    case 0x48:
+    case 0x4A:
+      [self responseMsg48Or4A:message];
+      break;
     default:
       break;
   }
 }
 - (void)responseMsg40Or42:(CC3xMessage *)message {
-  //  [[SwitchDataCeneter sharedInstance] updateSwitchName:self.switchName
-  //                                           socketNames:@[]
-  //                                                   mac:self.aSwitch.mac];
+  //  message.socketGroupId;  // 0代表插座名字，1-n表示插孔n的名字
+  //  message.state;
+  if (message.state == 0) {
+    //成功
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSwitchNameChange
+                                                        object:self
+                                                      userInfo:nil];
+  }
+}
 
-  message.socketGroupId;  // 0代表插座名字，1-n表示插孔n的名字
-  message.state;
-  debugLog(@"socketId is %d", message.socketGroupId);
+- (void)responseMsg48Or4A:(CC3xMessage *)message {
+  if (message.state == 0) {
+    //成功
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:kSwitchOnOffStateChange
+                      object:self
+                    userInfo:nil];
+  }
 }
 @end

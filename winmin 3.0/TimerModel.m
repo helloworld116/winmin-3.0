@@ -13,6 +13,7 @@
 @property(nonatomic, strong) NSMutableArray *timers;
 @property(nonatomic, strong) SDZGSwitch *aSwitch;
 @property(nonatomic, assign) int groupId;
+@property(nonatomic, assign) int type;
 @end
 
 @implementation TimerModel
@@ -32,8 +33,9 @@
   dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg17Or19]; });
 }
 
-- (void)updateTimers:(NSMutableArray *)timers {
+- (void)updateTimers:(NSMutableArray *)timers type:(int)type {
   self.timers = timers;
+  self.type = type;
   dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg1DOr1F]; });
 }
 
@@ -97,6 +99,28 @@
     //        postNotificationName:kAddOrEditTimerNotification
     //                      object:self
     //                    userInfo:userInfo];
+    switch (self.type) {
+      case 1:
+        [[NSNotificationCenter defaultCenter]
+            postNotificationName:kTimerAddNotification
+                          object:nil
+                        userInfo:nil];
+        break;
+      case 2:
+        [[NSNotificationCenter defaultCenter]
+            postNotificationName:kTimerUpdateNotification
+                          object:nil
+                        userInfo:nil];
+        break;
+      case 3:
+        [[NSNotificationCenter defaultCenter]
+            postNotificationName:kTimerDeleteNotification
+                          object:nil
+                        userInfo:nil];
+        break;
+      default:
+        break;
+    }
   }
 }
 

@@ -12,6 +12,7 @@
 #import "SwitchDetailModel.h"
 #import "TimerViewController.h"
 #import "SwitchInfoViewController.h"
+#import "DelayViewController.h"
 
 @interface SwitchDetailViewController ()<SocketViewDelegate,
                                          SocketImgTemplateDelegate>
@@ -127,6 +128,12 @@ preparation before navigation
                                        animated:YES];
 }
 - (void)touchDelayWithSelf:(SocketView *)_self {
+  DelayViewController *nextViewController = [self.storyboard
+      instantiateViewControllerWithIdentifier:@"DelayViewController"];
+  nextViewController.aSwitch = self.aSwitch;
+  nextViewController.socketGroupId = _self.groupId;
+  [self.navigationController pushViewController:nextViewController
+                                       animated:YES];
 }
 
 - (void)socketView:(SocketView *)socketView

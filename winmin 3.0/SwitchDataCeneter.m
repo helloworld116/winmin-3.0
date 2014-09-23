@@ -148,6 +148,15 @@
   }
 }
 
+- (void)updateSwitchImageName:(NSString *)imgName mac:(NSString *)mac {
+  @synchronized(self) {
+    //一定存在
+    SDZGSwitch *aSwitch = [self.switchsDict objectForKey:mac];
+    aSwitch.imageName = imgName;
+    [self.switchsDict setObject:aSwitch forKey:mac];
+  }
+}
+
 /**
  *  延迟时间更改后执行
  *

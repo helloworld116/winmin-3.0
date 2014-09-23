@@ -167,7 +167,7 @@
   if (indexPath && gestureRecognizer.state == UIGestureRecognizerStateBegan) {
     self.editIndexPath = indexPath;
     UIActionSheet *actionSheet =
-        [[UIActionSheet alloc] initWithTitle:@"确定删除定时列表"
+        [[UIActionSheet alloc] initWithTitle:@"确定删除该定时记录"
                                     delegate:self
                            cancelButtonTitle:@"取消"
                       destructiveButtonTitle:nil

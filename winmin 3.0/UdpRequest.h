@@ -191,7 +191,7 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
  *  @param mode
  */
 - (void)sendMsg4DOr4F:(SDZGSwitch *)aSwitch
-             socketId:(int)socketId
+        socketGroupId:(int)socketGroupId
             delayTime:(NSInteger)delayTime
              switchOn:(BOOL)on
              sendMode:(SENDMODE)mode;
@@ -203,7 +203,7 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
  *  @param mode
  */
 - (void)sendMsg53Or55:(SDZGSwitch *)aSwitch
-             socketId:(int)socketId
+        socketGroupId:(int)socketGroupId
              sendMode:(SENDMODE)mode;
 
 /**

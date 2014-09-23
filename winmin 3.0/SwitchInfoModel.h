@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface SwitchInfoModel : NSObject
-- (void)setSwitch:(SDZGSwitch *)aSwitch lockStatus:(LockStatus)lockStatus;
+- (id)initWithSwitch:(SDZGSwitch *)aSwitch;
+
+- (void)changeSwitchLockStatus;
 
 - (void)setSwitchName:(NSString *)name;
 @end

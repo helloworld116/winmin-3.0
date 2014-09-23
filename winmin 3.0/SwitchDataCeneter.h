@@ -35,6 +35,15 @@
  *  @return <#return value description#>
  */
 - (NSArray *)updateSwitchLockStaus:(LockStatus)lockStatus mac:(NSString *)mac;
+
+/**
+ *  修改图片
+ *
+ *  @param imgName <#imgName description#>
+ *  @param mac     <#mac description#>
+ *
+ */
+- (void)updateSwitchImageName:(NSString *)imgName mac:(NSString *)mac;
 /**
  *  查询到设备状态后执行
  *

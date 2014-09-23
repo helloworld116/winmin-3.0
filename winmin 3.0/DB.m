@@ -224,6 +224,16 @@
   }
 }
 
+- (BOOL)updateSwitch:(SDZGSwitch *)aSwitch imageName:(NSString *)imageName {
+  BOOL result = NO;
+  NSString *sql = @"update switch set imagename=? where mac =?";
+  if ([self.db open]) {
+    result = [self.db executeUpdate:sql, imageName, aSwitch.mac];
+    [self.db close];
+  }
+  return result;
+}
+
 - (NSArray *)getSwitchs {
   NSMutableArray *switchs = [@[] mutableCopy];
   NSString *switchSql = @"select * from switch";

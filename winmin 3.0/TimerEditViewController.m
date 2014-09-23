@@ -106,6 +106,30 @@
   [self setup];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(timerAddNotification:)
+             name:kTimerAddNotification
+           object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(timerUpdateNotification:)
+             name:kTimerUpdateNotification
+           object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kTimerAddNotification
+                                                object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kTimerUpdateNotification
+                                                object:nil];
+}
+
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
@@ -113,23 +137,16 @@
 
 #pragma mark - UINavigationBar事件_保存
 - (void)save:(id)sender {
+  int type = 0;
   if (self.index == -1) {
     //添加
+    type = 1;
     [self.timers addObject:self.timer];
   } else {
+    type = 2;
     [self.timers replaceObjectAtIndex:self.index withObject:self.timer];
   }
-  [self.model updateTimers:self.timers];
-  //  if (!self.request) {
-  //    self.request = [UdpRequest manager];
-  //    self.request.delegate = self;
-  //  }
-  //  dispatch_sync(GLOBAL_QUEUE,
-  //                ^{//      [self.request sendMsg1DOr1F:self.aSwtich
-  //                  //                         socketId:self.socketId
-  //                  //                         timeList:self.timers
-  //                  //                         sendMode:ActiveMode];
-  //                });
+  [self.model updateTimers:self.timers type:type];
 }
 
 #pragma mark -
@@ -216,4 +233,12 @@
 //    //                                               socketId:self.socketId];
 //  }
 //}
+
+#pragma mark - 通知
+- (void)timerAddNotification:(NSNotification *)notification {
+}
+
+- (void)timerUpdateNotification:(NSNotification *)notification {
+}
+
 @end

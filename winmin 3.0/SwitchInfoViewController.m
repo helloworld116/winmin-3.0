@@ -7,15 +7,21 @@
 //
 
 #import "SwitchInfoViewController.h"
+#import "SwitchInfoModel.h"
 @interface InfoTextField : UITextField
 
 @end
 
 @implementation InfoTextField
+//控制文本所在的的位置，左右缩 10
+- (CGRect)textRectForBounds:(CGRect)bounds {
+  return CGRectInset(bounds, 20, 0);
+}
+
 //控制编辑文本时所在的位置，左右缩 10
-//- (CGRect)editingRectForBounds:(CGRect)bounds {
-//  return CGRectInset(bounds, 100, 0);
-//}
+- (CGRect)editingRectForBounds:(CGRect)bounds {
+  return CGRectInset(bounds, 20, 0);
+}
 @end
 
 @interface SwitchInfoCell : UITableViewCell
@@ -37,11 +43,16 @@
 @property(nonatomic, strong) IBOutlet UIImageView *imgViewSwitch;
 @property(nonatomic, strong) IBOutlet UITextField *textFieldName;
 @property(nonatomic, strong) IBOutlet UISwitch *_switch;
+@property(nonatomic, strong)
+    NSString *switchName;  //保存修改前的名称，对比不一致才提交请求
+@property(nonatomic, assign) LockStatus lockStatus;
 - (IBAction)showActionSheet:(id)sender;
 - (IBAction)switchValueChanged:(id)sender;
 
 @property(nonatomic, strong) NSString *imgName;  //保存在本地的图片名称
+@property(nonatomic, strong) SwitchInfoModel *model;
 @end
+
 @implementation SwitchInfoViewController
 - (id)initWithNibName:(NSString *)nibNameOrNil
                bundle:(NSBundle *)nibBundleOrNil {
@@ -54,28 +65,50 @@
 
 - (void)setup {
   self.navigationItem.title = @"winmin插排设置";
-  self.navigationItem.rightBarButtonItem =
-      [[UIBarButtonItem alloc] initWithTitle:@"保存"
-                                       style:UIBarButtonItemStylePlain
-                                      target:self
-                                      action:@selector(save:)];
   UIView *tableHeaderView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 10)];
   tableHeaderView.backgroundColor = [UIColor clearColor];
   self.tableView.tableHeaderView = tableHeaderView;
   self.textFieldName.delegate = self;
   self.textFieldName.text = self.aSwitch.name;
+  self.switchName = self.aSwitch.name;
+  self.imgViewSwitch.image = [SDZGSwitch imgNameToImage:self.aSwitch.imageName];
   if (self.aSwitch.lockStatus == LockStatusOn) {
     self._switch.on = YES;
   } else {
     self._switch.on = NO;
   }
+  self.model = [[SwitchInfoModel alloc] initWithSwitch:self.aSwitch];
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   [self setup];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(switchNameChanged:)
+             name:kSwitchOnOffStateChange
+           object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(switchOnOffChanged:)
+             name:kSwitchNameChange
+           object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kSwitchOnOffStateChange
+                                                object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kSwitchNameChange
+                                                object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,7 +140,12 @@ preparation before navigation
 
 - (IBAction)switchValueChanged:(id)sender {
   [self.textFieldName resignFirstResponder];
-  self._switch.on;
+  if (self._switch.on) {
+    self.lockStatus = LockStatusOn;
+  } else {
+    self.lockStatus = LockStatusOff;
+  }
+  [self.model changeSwitchLockStatus];
 }
 
 #pragma mark - UITextField协议
@@ -116,8 +154,41 @@ preparation before navigation
   return YES;
 }
 
-#pragma mark -
-- (void)save:(id)sender {
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+  NSString *switchName = textField.text;
+  if (switchName.length && ![self.switchName isEqualToString:switchName]) {
+    self.switchName = switchName;
+    [self.model setSwitchName:switchName];
+  }
+}
+
+//- (BOOL)textField:(UITextField *)textField
+//    shouldChangeCharactersInRange:(NSRange)range
+//                replacementString:(NSString *)string {
+//  if (range.location == textField.text.length &&
+//      [string isEqualToString:@" "]) {
+//    // ignore replacement string and add your own
+//    textField.text = [textField.text stringByAppendingString:@"\u00a0"];
+//    return NO;
+//  }
+//  // for all other cases, proceed with replacement
+//  return YES;
+//}
+
+#pragma mark - 通知
+- (void)switchNameChanged:(NSNotification *)notification {
+  if (notification.object == self.model) {
+    [[SwitchDataCeneter sharedInstance] updateSwitchName:self.switchName
+                                             socketNames:nil
+                                                     mac:self.aSwitch.mac];
+  }
+}
+
+- (void)switchOnOffChanged:(NSNotification *)notification {
+  if (notification.object == self.model) {
+    [[SwitchDataCeneter sharedInstance] updateSwitchLockStaus:self.lockStatus
+                                                          mac:self.aSwitch.mac];
+  }
 }
 
 #pragma mark - 选择图片
@@ -140,19 +211,11 @@ preparation before navigation
 }
 
 - (BOOL)saveImage:(NSString *)imgName {
-  //  //保存到数据库
-  //  BOOL saveToDBResult =
-  //      [[DBUtil sharedInstance] updateSocketImage:imgName
-  //                                         groupId:self.socketView.groupId
-  //                                        socketId:self.socketId
-  //                                     whichSwitch:self.aSwitch];
-  //  //修改内存中的备份
-  //  [[SwitchDataCeneter sharedInstance] updateSocketImage:imgName
-  //                                                groupId:self.socketView.groupId
-  //                                               socketId:self.socketId
-  //                                            whichSwitch:self.aSwitch];
-  //  return saveToDBResult;
-  return NO;
+  BOOL result =
+      [[DBUtil sharedInstance] updateSwitch:self.aSwitch imageName:imgName];
+  [[SwitchDataCeneter sharedInstance] updateSwitchImageName:imgName
+                                                        mac:self.aSwitch.mac];
+  return result;
 }
 
 #pragma mark---获取图片
@@ -216,16 +279,9 @@ preparation before navigation
   [self dismissViewControllerAnimated:YES completion:nil];
   self.imgName = name;
   self.imgViewSwitch.image = [SDZGSwitch imgNameToImage:name];
-  //  if ([self saveImage:name]) {
-  //    if (self.delegate &&
-  //        [self.delegate
-  //            respondsToSelector:@selector(socketView:socketId:imgName:)]) {
-  //      [self.delegate socketView:self.socketView
-  //                       socketId:self.socketId
-  //                        imgName:name];
-  //    }
-  //    [self performSelector:@selector(close:) withObject:nil afterDelay:1];
-  //  }
+  if (![self saveImage:name]) {
+    // TOOD:提示修改失败
+  }
 }
 
 #pragma mark 保存图片到document

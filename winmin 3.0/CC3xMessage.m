@@ -1347,6 +1347,22 @@ typedef struct {
   return message;
 }
 
++ (CC3xMessage *)parseD2P3A:(NSData *)aData {
+  CC3xMessage *message = nil;
+  d2pMsg3A msg;
+  [aData getBytes:&msg length:sizeof(msg)];
+
+  message = [[CC3xMessage alloc] init];
+  message.msgId = msg.header.msgId;
+  message.msgDir = msg.header.msgDir;
+  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+                                           msg.mac[0], msg.mac[1], msg.mac[2],
+                                           msg.mac[3], msg.mac[4], msg.mac[5]];
+  message.state = msg.state;
+  message.crc = msg.crc;
+  return message;
+}
+
 + (CC3xMessage *)parseD2P54:(NSData *)aData {
   CC3xMessage *message = nil;
   d2pMsg54 msg;
@@ -1479,16 +1495,17 @@ typedef struct {
     case 0x20:
     case 0x26:
     case 0x28:
-    case 0x3a:
-    case 0x3c:
     case 0x40:
     case 0x42:
-    case 0x48:
-    case 0x49:
-    case 0x4a:
     case 0x4e:
     case 0x50:
       result = [CC3xMessageUtil parseD2P12:data];
+      break;
+    case 0x3a:
+    case 0x3c:
+    case 0x48:
+    case 0x4a:
+      result = [CC3xMessageUtil parseD2P3A:data];
       break;
     case 0x54:
     case 0x56:

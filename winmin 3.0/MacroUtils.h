@@ -38,8 +38,6 @@
 
 #define kCheckNetworkWebsite @"www.baidu.com"
 
-//通知消息字段
-#define kDelayNotification @"DelayNotification"
 // UDP过期时间,单位秒
 #define kUDPTimeOut -1
 #define kCheckPrivateResponseInterval \
@@ -90,6 +88,12 @@
 #define kRegisterResponse @"RegisterResponse"
 #define kLoginSuccess @"LoginSuccess"
 #define kSwitchOnOffStateChange @"SwitchOnOffStateChange"
+#define kSwitchNameChange @"SwitchNameChange"
+#define kDelayQueryNotification @"DelayQueryNotification"
+#define kDelaySettingNotification @"DelaySettingNotification"
+#define kTimerAddNotification @"TimerAddNotification"
+#define kTimerUpdateNotification @"TimerUpdateNotification"
+#define kTimerDeleteNotification @"TimerDeleteNotification"
 
 //加密
 #define __ENCRYPT(str) [DESUtil encryptString:str]

@@ -9,6 +9,10 @@
 #import "ConfigLoadingViewController.h"
 
 @interface ConfigLoadingViewController ()<UdpRequestDelegate>
+@property(strong, nonatomic) IBOutlet UIView *loadingView;
+@property(strong, nonatomic) IBOutlet UIView *successView;
+@property(strong, nonatomic) IBOutlet UIView *timeoutView;
+@property(strong, nonatomic) IBOutlet UILabel *lblTitle;
 @property(strong, nonatomic) IBOutlet UIButton *btn;
 @property(strong, nonatomic) IBOutlet UIProgressView *progressView;
 @property(strong, nonatomic) FirstTimeConfig *config;
@@ -29,6 +33,7 @@
 }
 
 - (void)setupStyle {
+  self.view.layer.masksToBounds = YES;
   self.view.layer.cornerRadius = 5.f;
   self.btn.layer.cornerRadius = 5.f;
 }
@@ -56,10 +61,14 @@
   // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)cancel:(id)sender {
+- (void)success {
   self.request = nil;
   [self.timer invalidate];
   [self stopAction];
+}
+
+- (IBAction)cancel:(id)sender {
+  [self success];
   if (self.delegate &&
       [self.delegate respondsToSelector:@selector(cancelButtonClicked:)]) {
     [self.delegate cancelButtonClicked:self];
@@ -72,6 +81,19 @@
     [self.timer invalidate];
     //停止发送
     [self stopAction];
+    CGRect selfFrame = self.view.frame;
+    selfFrame.origin.y -= 35.f;
+    selfFrame.size =
+        CGSizeMake(selfFrame.size.width, selfFrame.size.height + 70);
+    [UIView animateWithDuration:0.3f
+                     animations:^{
+                         self.view.frame = selfFrame;
+                         self.loadingView.hidden = YES;
+                         self.timeoutView.hidden = NO;
+                         self.lblTitle.text = @"配置超时";
+                         [self.btn setTitle:@"关  闭"
+                                   forState:UIControlStateNormal];
+                     }];
   }
 }
 
@@ -137,19 +159,16 @@
         //保存wifi信息
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:self.password forKey:self.ssid];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self cancel:nil];
-            //            [self.view
-            //                makeToast:@"添加成功"
-            //                 duration:1.f
-            //                 position:[NSValue valueWithCGPoint:
-            //                                       CGPointMake(
-            //                                           self.view.frame.size.width
-            //                                           / 2,
-            //                                           self.view.frame.size.height
-            //                                           - 40)]];
-            //            [self performSelector:@selector(back:)
-            //            withObject:nil afterDelay:1];
+        dispatch_async(MAIN_QUEUE, ^{
+            [self success];
+            [UIView animateWithDuration:0.3f
+                             animations:^{
+                                 self.successView.hidden = NO;
+                                 self.loadingView.hidden = YES;
+                                 self.lblTitle.text = @"配置成功";
+                                 [self.btn setTitle:@"关  闭"
+                                           forState:UIControlStateNormal];
+                             }];
         });
       }
       debugLog(@"mac is %@ state is %d", message.mac, message.state);

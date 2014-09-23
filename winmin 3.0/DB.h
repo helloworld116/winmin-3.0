@@ -19,6 +19,8 @@
 
 - (void)deleteSwitch:(NSString *)mac;
 
+- (BOOL)updateSwitch:(SDZGSwitch *)aSwitch imageName:(NSString *)imageName;
+
 - (BOOL)updateSocketImage:(NSString *)imageName
                   groupId:(int)groupId
                  socketId:(int)socketId

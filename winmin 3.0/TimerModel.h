@@ -14,5 +14,11 @@
 
 - (void)queryTimers;
 
-- (void)updateTimers:(NSMutableArray *)timers;
+/**
+ *  <#Description#>
+ *
+ *  @param timers <#timers description#>
+ *  @param type   1表示添加，2表示修改，3表示删除
+ */
+- (void)updateTimers:(NSMutableArray *)timers type:(int)type;
 @end

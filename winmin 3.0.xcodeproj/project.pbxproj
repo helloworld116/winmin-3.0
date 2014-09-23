@@ -92,6 +92,11 @@
 		15AC864419CFC7B100D154EB /* TimerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864319CFC7B100D154EB /* TimerModel.m */; };
 		15AC864719CFFE7000D154EB /* UIView+NoDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864619CFFE7000D154EB /* UIView+NoDataView.m */; };
 		15AC864A19D02F7300D154EB /* SwitchInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864919D02F7300D154EB /* SwitchInfoModel.m */; };
+		15AC864D19D10A2100D154EB /* DelayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864C19D10A2100D154EB /* DelayViewController.m */; };
+		15AC865119D10A4E00D154EB /* DelaySettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864F19D10A4E00D154EB /* DelaySettingViewController.m */; };
+		15AC865219D10A4E00D154EB /* DelaySettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15AC865019D10A4E00D154EB /* DelaySettingViewController.xib */; };
+		15AC865519D1555600D154EB /* DelayTimeCountDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865419D1555600D154EB /* DelayTimeCountDownView.m */; };
+		15AC865819D158D700D154EB /* DelayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865719D158D700D154EB /* DelayModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -237,6 +242,15 @@
 		15AC864619CFFE7000D154EB /* UIView+NoDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+NoDataView.m"; sourceTree = "<group>"; };
 		15AC864819D02F7300D154EB /* SwitchInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchInfoModel.h; sourceTree = "<group>"; };
 		15AC864919D02F7300D154EB /* SwitchInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchInfoModel.m; sourceTree = "<group>"; };
+		15AC864B19D10A2100D154EB /* DelayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayViewController.h; sourceTree = "<group>"; };
+		15AC864C19D10A2100D154EB /* DelayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelayViewController.m; sourceTree = "<group>"; };
+		15AC864E19D10A4E00D154EB /* DelaySettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelaySettingViewController.h; sourceTree = "<group>"; };
+		15AC864F19D10A4E00D154EB /* DelaySettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelaySettingViewController.m; sourceTree = "<group>"; };
+		15AC865019D10A4E00D154EB /* DelaySettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DelaySettingViewController.xib; sourceTree = "<group>"; };
+		15AC865319D1555600D154EB /* DelayTimeCountDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayTimeCountDownView.h; sourceTree = "<group>"; };
+		15AC865419D1555600D154EB /* DelayTimeCountDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelayTimeCountDownView.m; sourceTree = "<group>"; };
+		15AC865619D158D700D154EB /* DelayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayModel.h; sourceTree = "<group>"; };
+		15AC865719D158D700D154EB /* DelayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelayModel.m; sourceTree = "<group>"; };
 		3D7C9184B0EB44E997A6779A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		95B2B7BB80C1420797A2EE26 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -332,6 +346,8 @@
 				15AC864319CFC7B100D154EB /* TimerModel.m */,
 				15AC864819D02F7300D154EB /* SwitchInfoModel.h */,
 				15AC864919D02F7300D154EB /* SwitchInfoModel.m */,
+				15AC865619D158D700D154EB /* DelayModel.h */,
+				15AC865719D158D700D154EB /* DelayModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -339,6 +355,8 @@
 		1560131C19C96BEE00BF7E12 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				15AC865319D1555600D154EB /* DelayTimeCountDownView.h */,
+				15AC865419D1555600D154EB /* DelayTimeCountDownView.m */,
 				15AC863F19CFC71400D154EB /* TimerCell.h */,
 				15AC864019CFC71400D154EB /* TimerCell.m */,
 				156012FF19C846EE00BF7E12 /* SwitchListCell.h */,
@@ -366,6 +384,11 @@
 				1560132219CA795100BF7E12 /* SocketImgTemplateViewController.m */,
 				15AC863319CFBF7800D154EB /* SwitchInfoViewController.h */,
 				15AC863419CFBF7800D154EB /* SwitchInfoViewController.m */,
+				15AC864B19D10A2100D154EB /* DelayViewController.h */,
+				15AC864C19D10A2100D154EB /* DelayViewController.m */,
+				15AC864E19D10A4E00D154EB /* DelaySettingViewController.h */,
+				15AC864F19D10A4E00D154EB /* DelaySettingViewController.m */,
+				15AC865019D10A4E00D154EB /* DelaySettingViewController.xib */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -773,6 +796,7 @@
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
 				158D98E819C7C9660068AFC5 /* ShareSDKLocalizable.strings in Resources */,
 				158D988E19C6F39C0068AFC5 /* Main.storyboard in Resources */,
+				15AC865219D10A4E00D154EB /* DelaySettingViewController.xib in Resources */,
 				1560130819C93A0B00BF7E12 /* 积累 in Resources */,
 				158D98F419C7C9660068AFC5 /* ShareSDKFlatShareViewUI.bundle in Resources */,
 				158D991A19C7DE950068AFC5 /* Localizable.strings in Resources */,
@@ -835,9 +859,11 @@
 				158D993619C7E2530068AFC5 /* SceneDetail.m in Sources */,
 				158D988B19C6F39C0068AFC5 /* AppDelegate.m in Sources */,
 				156012FE19C8464000BF7E12 /* SwitchListViewController.m in Sources */,
+				15AC865519D1555600D154EB /* DelayTimeCountDownView.m in Sources */,
 				1560130119C846EE00BF7E12 /* SwitchListCell.m in Sources */,
 				15AC864A19D02F7300D154EB /* SwitchInfoModel.m in Sources */,
 				1560131419C9600600BF7E12 /* UIImage+Color.m in Sources */,
+				15AC864D19D10A2100D154EB /* DelayViewController.m in Sources */,
 				158D992219C7DF830068AFC5 /* CC3xMessage.m in Sources */,
 				15AC863519CFBF7800D154EB /* SwitchInfoViewController.m in Sources */,
 				15AC864119CFC71400D154EB /* TimerCell.m in Sources */,
@@ -856,8 +882,10 @@
 				1560130419C91EF800BF7E12 /* SwitchListModel.m in Sources */,
 				158D988719C6F39C0068AFC5 /* main.m in Sources */,
 				158D991519C7CBC50068AFC5 /* UdpRequest.m in Sources */,
+				15AC865819D158D700D154EB /* DelayModel.m in Sources */,
 				15AC863C19CFC6C900D154EB /* TimerEditViewController.m in Sources */,
 				1560132819CBDCA700BF7E12 /* SwitchDetailModel.m in Sources */,
+				15AC865119D10A4E00D154EB /* DelaySettingViewController.m in Sources */,
 				156012BE19C8129300BF7E12 /* ConfigLoadingViewController.m in Sources */,
 				158D991719C7CBC50068AFC5 /* DESUtil.m in Sources */,
 				1560132319CA795100BF7E12 /* SocketImgTemplateViewController.m in Sources */,
