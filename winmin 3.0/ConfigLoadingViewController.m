@@ -7,6 +7,7 @@
 //
 
 #import "ConfigLoadingViewController.h"
+#import <DDProgressView.h>
 
 @interface ConfigLoadingViewController ()<UdpRequestDelegate>
 @property(strong, nonatomic) IBOutlet UIView *loadingView;
@@ -14,7 +15,7 @@
 @property(strong, nonatomic) IBOutlet UIView *timeoutView;
 @property(strong, nonatomic) IBOutlet UILabel *lblTitle;
 @property(strong, nonatomic) IBOutlet UIButton *btn;
-@property(strong, nonatomic) IBOutlet UIProgressView *progressView;
+@property(strong, nonatomic) IBOutlet DDProgressView *progressView;
 @property(strong, nonatomic) FirstTimeConfig *config;
 @property(strong, nonatomic) UdpRequest *request;
 @property(strong, nonatomic) NSTimer *timer;
@@ -36,6 +37,10 @@
   self.view.layer.masksToBounds = YES;
   self.view.layer.cornerRadius = 5.f;
   self.btn.layer.cornerRadius = 5.f;
+
+  self.progressView.outerColor = [UIColor whiteColor];
+  self.progressView.innerColor = kThemeColor;
+  self.progressView.emptyColor = [UIColor colorWithHexString:@"#F0EFEF"];
 }
 
 - (void)setup {

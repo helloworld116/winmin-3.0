@@ -10,7 +10,7 @@
                 <outlet property="btn" destination="bAW-0u-A4z" id="Ot4-RA-dmM"/>
                 <outlet property="lblTitle" destination="YJn-9S-CTg" id="PgJ-gz-KNP"/>
                 <outlet property="loadingView" destination="kBO-Rk-x4v" id="uyK-oV-Ek8"/>
-                <outlet property="progressView" destination="doW-wy-Uly" id="GFz-rQ-8cU"/>
+                <outlet property="progressView" destination="6eG-eS-HB5" id="BEk-mJ-jXo"/>
                 <outlet property="successView" destination="bbN-q1-Tlj" id="0Dn-XC-JfB"/>
                 <outlet property="timeoutView" destination="ZZ0-21-zbM" id="FWk-SQ-caq"/>
                 <outlet property="view" destination="bUj-Bz-t3G" id="UDH-XJ-rCV"/>
@@ -174,10 +174,11 @@
                             <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="doW-wy-Uly">
-                            <rect key="frame" x="20" y="58" width="240" height="3"/>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6eG-eS-HB5" customClass="DDProgressView">
+                            <rect key="frame" x="20" y="55" width="230" height="10"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </progressView>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>

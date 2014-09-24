@@ -11,7 +11,7 @@
 #import "DelayModel.h"
 #import "DelaySettingViewController.h"
 
-@interface DelayViewController ()
+@interface DelayViewController ()<DelaySettingControllerDelegate>
 @property(nonatomic, strong) IBOutlet DelayTimeCountDownView *countDownView;
 @property(nonatomic, strong) IBOutlet UIButton *settingBtn;
 - (IBAction)showSetting:(id)sender;
@@ -34,7 +34,7 @@
   self.settingBtn.layer.borderWidth = .5f;
   self.settingBtn.layer.borderColor =
       [UIColor colorWithHexString:@"#39ac42"].CGColor;
-  self.settingBtn.layer.cornerRadius = 10.f;
+  self.settingBtn.layer.cornerRadius = 8.f;
 }
 
 - (void)setup {
@@ -86,8 +86,20 @@ preparation before navigation
       [[DelaySettingViewController alloc]
           initWithNibName:@"DelaySettingViewController"
                    bundle:nil];
+  viewController.model = self.model;
+  viewController.delegate = self;
   [self presentPopupViewController:viewController
-                     animationType:MJPopupViewAnimationFade];
+                     animationType:MJPopupViewAnimationFade
+               backgroundClickable:YES];
+}
+
+- (void)closePopViewController:(UIViewController *)controller
+                  passMinitues:(int)minitues {
+  dispatch_async(MAIN_QUEUE, ^{
+      [self
+          dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+      [self.countDownView countDown:minitues * 60];
+  });
 }
 
 #pragma mark - 通知

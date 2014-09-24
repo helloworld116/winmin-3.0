@@ -74,13 +74,31 @@
         imageWithContentsOfFile:[PATH_OF_DOCUMENT
                                     stringByAppendingPathComponent:imgName]];
     if (!image) {
-      image = [UIImage imageNamed:socket_default_image];
+      image = [UIImage imageNamed:switch_default_image];
     } else {
       image = [UIImage circleImage:image withParam:0];
     }
   }
   return image;
 }
+
++ (UIImage *)imgNameToImageOffline:(NSString *)imgName {
+  UIImage *image;
+  if (imgName.length < 5) {
+    image = [UIImage imageNamed:switch_default_image_offline];
+  } else {
+    image = [UIImage
+        imageWithContentsOfFile:[PATH_OF_DOCUMENT
+                                    stringByAppendingPathComponent:imgName]];
+    if (!image) {
+      image = [UIImage imageNamed:switch_default_image_offline];
+    } else {
+      image = [UIImage circleImage:[UIImage grayImage:image] withParam:0];
+    }
+  }
+  return image;
+}
+
 @end
 
 @implementation SDZGSocket

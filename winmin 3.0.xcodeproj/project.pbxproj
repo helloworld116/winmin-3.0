@@ -97,6 +97,8 @@
 		15AC865219D10A4E00D154EB /* DelaySettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15AC865019D10A4E00D154EB /* DelaySettingViewController.xib */; };
 		15AC865519D1555600D154EB /* DelayTimeCountDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865419D1555600D154EB /* DelayTimeCountDownView.m */; };
 		15AC865819D158D700D154EB /* DelayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865719D158D700D154EB /* DelayModel.m */; };
+		15AC865B19D2C56400D154EB /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865A19D2C56400D154EB /* DatePickerViewController.m */; };
+		15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15AC865C19D2C6C800D154EB /* DatePickerViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +253,9 @@
 		15AC865419D1555600D154EB /* DelayTimeCountDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelayTimeCountDownView.m; sourceTree = "<group>"; };
 		15AC865619D158D700D154EB /* DelayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayModel.h; sourceTree = "<group>"; };
 		15AC865719D158D700D154EB /* DelayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelayModel.m; sourceTree = "<group>"; };
+		15AC865919D2C56400D154EB /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
+		15AC865A19D2C56400D154EB /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
+		15AC865C19D2C6C800D154EB /* DatePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerViewController.xib; sourceTree = "<group>"; };
 		3D7C9184B0EB44E997A6779A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		95B2B7BB80C1420797A2EE26 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -389,6 +394,9 @@
 				15AC864E19D10A4E00D154EB /* DelaySettingViewController.h */,
 				15AC864F19D10A4E00D154EB /* DelaySettingViewController.m */,
 				15AC865019D10A4E00D154EB /* DelaySettingViewController.xib */,
+				15AC865919D2C56400D154EB /* DatePickerViewController.h */,
+				15AC865A19D2C56400D154EB /* DatePickerViewController.m */,
+				15AC865C19D2C6C800D154EB /* DatePickerViewController.xib */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -793,6 +801,7 @@
 			files = (
 				156012FB19C81C9600BF7E12 /* ConfigLoadingViewController.xib in Resources */,
 				158D989619C6F39C0068AFC5 /* Images.xcassets in Resources */,
+				15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
 				158D98E819C7C9660068AFC5 /* ShareSDKLocalizable.strings in Resources */,
 				158D988E19C6F39C0068AFC5 /* Main.storyboard in Resources */,
@@ -864,6 +873,7 @@
 				15AC864A19D02F7300D154EB /* SwitchInfoModel.m in Sources */,
 				1560131419C9600600BF7E12 /* UIImage+Color.m in Sources */,
 				15AC864D19D10A2100D154EB /* DelayViewController.m in Sources */,
+				15AC865B19D2C56400D154EB /* DatePickerViewController.m in Sources */,
 				158D992219C7DF830068AFC5 /* CC3xMessage.m in Sources */,
 				15AC863519CFBF7800D154EB /* SwitchInfoViewController.m in Sources */,
 				15AC864119CFC71400D154EB /* TimerCell.m in Sources */,

@@ -55,7 +55,12 @@
     }
   }
   self.imgViewOfState.image = [UIImage imageNamed:imageName];
-  self.imgViewOfSwitch.image = [SDZGSwitch imgNameToImage:aSwitch.imageName];
+  if (aSwitch.networkStatus == SWITCH_OFFLINE) {
+    self.imgViewOfSwitch.image =
+        [SDZGSwitch imgNameToImageOffline:aSwitch.imageName];
+  } else {
+    self.imgViewOfSwitch.image = [SDZGSwitch imgNameToImage:aSwitch.imageName];
+  }
 }
 
 @end

@@ -10,28 +10,30 @@
 #import "CycleViewController.h"
 #import <NSDate+Calendar.h>
 #import "SwitchDataCeneter.h"
+#import "DatePickerViewController.h"
 
-@interface TimerEditViewController ()<PassValueDelegate>
+@interface TimerEditViewController ()<PassValueDelegate,
+                                      DatePickerControllerDelegate>
 @property(strong, nonatomic) IBOutlet UIView *cellView1;
 @property(strong, nonatomic) IBOutlet UIView *cellView2;
 @property(strong, nonatomic) IBOutlet UIView *cellView3;
 @property(strong, nonatomic) IBOutlet UILabel *lblTime;
 @property(strong, nonatomic) IBOutlet UILabel *lblRepeatDesc;
-@property(strong, nonatomic) IBOutlet UISwitch *_switch;
-@property(strong, nonatomic) IBOutlet UIDatePicker *datePicker;
-- (IBAction)switchValueChanged:(id)sender;
+@property(strong, nonatomic) IBOutlet UIButton *btnOnOff;
+//@property(strong, nonatomic) IBOutlet UIDatePicker *datePicker;
+- (IBAction)onOffChanged:(id)sender;
 - (IBAction)showDatePicker:(id)sender;
 - (IBAction)changeWeek:(id)sender;
 - (IBAction)touchBackground:(id)sender;
 - (IBAction)timeValueChanged:(id)sender;
 
-@property(nonatomic, strong) SDZGSwitch *aSwtich;
-@property(nonatomic, assign) int socketGroupId;
+//@property(nonatomic, strong) SDZGSwitch *aSwtich;
+//@property(nonatomic, assign) int socketGroupId;
 @property(nonatomic, strong) NSMutableArray *timers;  //所有的定时任务
 @property(nonatomic, strong) SDZGTimerTask *timer;  //正在编辑的定时任务
 @property(nonatomic, assign)
     int index;  //正在编辑的timer在数组中位置，方便后续编辑操作时replace
-@property(strong, nonatomic) NSDateFormatter *dateFormatter;
+//@property(strong, nonatomic) NSDateFormatter *dateFormatter;
 @property(strong, nonatomic) TimerModel *model;
 @end
 
@@ -62,18 +64,6 @@
 }
 
 - (void)setup {
-  self.cellView1.layer.borderWidth = 1.0f;
-  self.cellView1.layer.borderColor = [UIColor lightGrayColor].CGColor;
-  self.cellView1.layer.cornerRadius = 1.5f;
-  self.cellView2.layer.borderWidth = 1.0f;
-  self.cellView2.layer.borderColor = [UIColor lightGrayColor].CGColor;
-  self.cellView2.layer.cornerRadius = 1.5f;
-  self.cellView3.layer.borderWidth = 1.0f;
-  self.cellView3.layer.borderColor = [UIColor lightGrayColor].CGColor;
-  self.cellView3.layer.cornerRadius = 1.5f;
-  //设置公用的时间选择器
-  self.dateFormatter = [[NSDateFormatter alloc] init];
-  [self.dateFormatter setDateFormat:@"HH:mm"];
   if (!self.timer) {
     // timer不存在，则表明正在进行添加操作
     self.timer = [[SDZGTimerTask alloc] init];
@@ -89,7 +79,7 @@
   }
   self.lblTime.text = [self.timer actionTimeString];
   self.lblRepeatDesc.text = [self.timer actionWeekString];
-  self._switch.on = self.timer.timerActionType;
+  self.btnOnOff.selected = self.timer.timerActionType;
 }
 
 - (void)viewDidLoad {
@@ -151,24 +141,17 @@
 
 #pragma mark -
 - (IBAction)showDatePicker:(id)sender {
-  [UIView animateWithDuration:0.3
-                   animations:^{
-                       NSDate *defaultDate = [self.dateFormatter
-                           dateFromString:[self.timer actionTimeString]];
-                       self.datePicker.date = defaultDate;
-                       if (self.datePicker.hidden) {
-                         self.datePicker.hidden = NO;
-                       } else {
-                         self.datePicker.hidden = YES;
-                       }
-                   }];
+  DatePickerViewController *popupViewController =
+      [[DatePickerViewController alloc]
+          initWithNibName:@"DatePickerViewController"
+                   bundle:nil];
+  popupViewController.delegate = self;
+  [self presentPopupViewController:popupViewController
+                     animationType:MJPopupViewAnimationFade
+               backgroundClickable:YES];
 }
 
 - (IBAction)changeWeek:(id)sender {
-  if (!self.datePicker.hidden) {
-    [UIView animateWithDuration:0.3
-                     animations:^{ self.datePicker.hidden = YES; }];
-  }
   CycleViewController *nextVC = [self.storyboard
       instantiateViewControllerWithIdentifier:@"CycleViewController"];
   nextVC.week = self.timer.week;
@@ -177,23 +160,32 @@
 }
 
 - (IBAction)touchBackground:(id)sender {
-  if (!self.datePicker.hidden) {
-    [UIView animateWithDuration:0.3
-                     animations:^{ self.datePicker.hidden = YES; }];
-  }
+  //  if (!self.datePicker.hidden) {
+  //    [UIView animateWithDuration:0.3
+  //                     animations:^{ self.datePicker.hidden = YES; }];
+  //  }
 }
 
 - (IBAction)timeValueChanged:(id)sender {
   //时间选择时，输出格式
-  NSString *dateString =
-      [self.dateFormatter stringFromDate:self.datePicker.date];
-  self.lblTime.text = dateString;
-  NSArray *time = [dateString componentsSeparatedByString:@":"];
-  self.timer.actionTime = [time[0] intValue] * 3600 + [time[1] intValue] * 60;
+  //  NSString *dateString =
+  //      [self.dateFormatter stringFromDate:self.datePicker.date];
+  //  self.lblTime.text = dateString;
+  //  NSArray *time = [dateString componentsSeparatedByString:@":"];
+  //  self.timer.actionTime = [time[0] intValue] * 3600 + [time[1] intValue] *
+  //  60;
 }
 
-- (IBAction)switchValueChanged:(id)sender {
-  self.timer.timerActionType = self._switch.on;
+//- (IBAction)switchValueChanged:(id)sender {
+//  self.timer.timerActionType = self._switch.on;
+//}
+
+- (IBAction)onOffChanged:(id)sender {
+  [UIView animateWithDuration:0.3
+                   animations:^{
+                       self.btnOnOff.selected = !self.btnOnOff.selected;
+                   }];
+  self.timer.timerActionType = self.btnOnOff.selected;
 }
 
 #pragma mark - PassValueDelegate
@@ -203,42 +195,40 @@
   self.lblRepeatDesc.text = [self.timer actionWeekString];
 }
 
-//#pragma mark - UdpRequestDelegate
-//- (void)responseMsg:(CC3xMessage *)message address:(NSData *)address {
-//  switch (message.msgId) {
-//    //设置定时
-//    case 0x1e:
-//    case 0x20:
-//      [self responseMsg1EOr20:message];
-//      break;
-//
-//    default:
-//      break;
-//  }
-//}
-//
-//- (void)responseMsg1EOr20:(CC3xMessage *)message {
-//  if (message.state == 0) {
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        NSDictionary *userInfo = @{ @"type" : @(self.index) };
-//        [[NSNotificationCenter defaultCenter]
-//            postNotificationName:kAddOrEditTimerNotification
-//                          object:self
-//                        userInfo:userInfo];
-//        [self.navigationController popViewControllerAnimated:YES];
-//    });
-//    //更新数据
-//    //    [[SwitchDataCeneter sharedInstance] updateTimerList:self.timers
-//    //                                                    mac:self.aSwtich.mac
-//    //                                               socketId:self.socketId];
-//  }
-//}
+#pragma mark - DatePickerControllerDelegate
+- (void)okBtnClicked:(UIViewController *)viewController
+         passSeconds:(int)seconds
+          dateString:(NSString *)dateString {
+  self.lblTime.text = dateString;
+  self.timer.actionTime = seconds;
+  [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+}
+
+- (void)cancelBtnClicked:(UIViewController *)viewController {
+  [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+}
 
 #pragma mark - 通知
 - (void)timerAddNotification:(NSNotification *)notification {
+  dispatch_async(MAIN_QUEUE, ^{
+      NSDictionary *userInfo = @{ @"type" : @(self.index) };
+      [[NSNotificationCenter defaultCenter]
+          postNotificationName:kAddOrEditTimerNotification
+                        object:self
+                      userInfo:userInfo];
+      [self.navigationController popViewControllerAnimated:YES];
+  });
 }
 
 - (void)timerUpdateNotification:(NSNotification *)notification {
+  dispatch_async(MAIN_QUEUE, ^{
+      NSDictionary *userInfo = @{ @"type" : @(self.index) };
+      [[NSNotificationCenter defaultCenter]
+          postNotificationName:kAddOrEditTimerNotification
+                        object:self
+                      userInfo:userInfo];
+      [self.navigationController popViewControllerAnimated:YES];
+  });
 }
 
 @end

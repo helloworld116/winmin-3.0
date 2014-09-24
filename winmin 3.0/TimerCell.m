@@ -9,7 +9,7 @@
 #import "TimerCell.h"
 
 @interface TimerCell ()
-@property(strong, nonatomic) IBOutlet UIView *viewContent;
+@property(strong, nonatomic) IBOutlet UIView *viewTimeBackground;
 @property(strong, nonatomic) IBOutlet UILabel *lblTimeInfo;
 @property(strong, nonatomic) IBOutlet UILabel *lblAction;
 @property(strong, nonatomic) IBOutlet UILabel *lblRepeate;
@@ -32,9 +32,7 @@
 
 - (void)awakeFromNib {
   // Initialization code
-  self.viewContent.layer.borderColor = [UIColor lightGrayColor].CGColor;
-  self.viewContent.layer.borderWidth = 1.f;
-  self.viewContent.layer.cornerRadius = 1.5f;
+  self.viewTimeBackground.layer.cornerRadius = 3.f;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -47,15 +45,29 @@
   self.lblTimeInfo.text = [task actionTimeString];
   self._switch.on = [task actionEffective];
   self.lblAction.text = [task actionTypeString];
-  self.lblRepeate.text = [task actionWeekString];
+  NSString *repeateText = [task actionWeekString];
+  CGRect repeateFrame = [repeateText
+      boundingRectWithSize:CGSizeMake(self.lblRepeate.frame.size.width,
+                                      MAXFLOAT)
+                   options:NSStringDrawingUsesLineFragmentOrigin
+                attributes:@{
+                  NSFontAttributeName : self.lblRepeate.font
+                } context:nil];
+  if (repeateFrame.size.height > self.lblRepeate.frame.size.height) {
+    CGRect lblRepeateFrame = self.lblRepeate.frame;
+    lblRepeateFrame.size =
+        CGSizeMake(lblRepeateFrame.size.width, repeateFrame.size.height);
+    self.lblRepeate.frame = lblRepeateFrame;
+  }
+  self.lblRepeate.text = repeateText;
 }
 
 - (IBAction)switchValueChanged:(id)sender {
   //    kTimerSwitchValueChanged
-
+  NSDictionary *userInfo = @{ @"effective" : @(self._switch.on) };
   [[NSNotificationCenter defaultCenter]
-      postNotificationName:kTimerSwitchValueChanged
+      postNotificationName:kTimerEffectiveChanged
                     object:self
-                  userInfo:nil];
+                  userInfo:userInfo];
 }
 @end

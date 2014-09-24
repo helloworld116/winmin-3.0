@@ -72,6 +72,7 @@
 #define DEFAULT_SOCKET2_NAME NSLocalizedString(@"Socket2", nil)
 #define socket_default_image @"099"
 #define switch_default_image @"100"
+#define switch_default_image_offline @"100_"
 
 //在家测试
 #define isHome 0
@@ -91,9 +92,12 @@
 #define kSwitchNameChange @"SwitchNameChange"
 #define kDelayQueryNotification @"DelayQueryNotification"
 #define kDelaySettingNotification @"DelaySettingNotification"
+
+#define kTimerListChanged @"TimerListChanged"
 #define kTimerAddNotification @"TimerAddNotification"
 #define kTimerUpdateNotification @"TimerUpdateNotification"
 #define kTimerDeleteNotification @"TimerDeleteNotification"
+#define kTimerEffectiveChangedNotifcation @"TimerEffectiveChangedNotifcation"
 
 //加密
 #define __ENCRYPT(str) [DESUtil encryptString:str]

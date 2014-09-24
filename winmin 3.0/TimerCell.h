@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#define kTimerSwitchValueChanged @"TimerSwitchValueChanged"
+#define kTimerEffectiveChanged @"TimerEffectiveChanged"
 
 @interface TimerCell : UITableViewCell
 - (void)setCellInfo:(SDZGTimerTask *)task;

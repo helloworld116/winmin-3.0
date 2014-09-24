@@ -17,11 +17,16 @@
 @property(strong, nonatomic) IBOutlet UIButton *btnMinitues60;
 @property(strong, nonatomic) IBOutlet UIButton *btnMinitues90;
 @property(strong, nonatomic) IBOutlet UIButton *btnMinitues120;
+@property(strong, nonatomic) IBOutlet UIButton *btnOnOff;
+@property(strong, nonatomic) IBOutlet UIButton *btnSave;
 - (IBAction)choiceAction:(id)sender;
+- (IBAction)onOffAction:(id)sender;
+- (IBAction)save:(id)sender;
 
 @property(nonatomic, assign) BOOL actionState;     //开关状态
 @property(nonatomic, assign) int actionMinitues;   //延迟时间
 @property(nonatomic, strong) UIButton *btnOfLast;  //最后操作的按钮
+@property(nonatomic, strong) UIButton *btnDone;    //键盘左下角的按钮
 @end
 
 @implementation DelaySettingViewController
@@ -35,22 +40,58 @@
   return self;
 }
 
+- (void)setupStyle {
+  self.btnSave.layer.cornerRadius = 5.f;
+}
+
 - (void)setup {
+  [self setupStyle];
   self.textField.delegate = self;
   self.actionState = YES;
   //默认选中5分钟的按钮
   self.actionMinitues = 5;
   self.btnOfLast = self.btnMinitues5;
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(keyboardDidShow:)
+             name:UIKeyboardDidShowNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(keyboardWillBeHidden:)
+             name:UIKeyboardWillHideNotification
+           object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(delaySetSuccess:)
+                                               name:kDelaySettingNotification
+                                             object:nil];
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
+  [self setup];
 }
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+  [self.textField resignFirstResponder];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIKeyboardDidShowNotification
+              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIKeyboardWillHideNotification
+              object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kDelaySettingNotification
+                                                object:nil];
 }
 
 - (IBAction)choiceAction:(id)sender {
@@ -96,7 +137,7 @@
       break;
     case 307:
       // 自定义分钟
-      minitues = 0;
+      minitues = 10;
       btnOfCurrentSelected = self.btnInput;
       [self.textField becomeFirstResponder];
       break;
@@ -110,5 +151,77 @@
                        btnOfCurrentSelected.selected = YES;
                        self.btnOfLast = btnOfCurrentSelected;
                    }];
+}
+
+- (IBAction)onOffAction:(id)sender {
+  [UIView animateWithDuration:0.3
+                   animations:^{
+                       self.btnOnOff.selected = !self.btnOnOff.selected;
+                   }];
+  self.actionState = self.btnOnOff.selected;
+}
+- (IBAction)save:(id)sender {
+  [self.model setDelayWithMinitues:self.actionMinitues
+                           onOrOff:self.actionState];
+}
+
+#pragma mark - UITextField协议
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+  [self.textField resignFirstResponder];
+  return YES;
+}
+
+#pragma mark - 键盘通知
+- (void)keyboardDidShow:(NSNotification *)notification {
+  NSDictionary *info = [notification userInfo];
+  CGSize kbSize =
+      [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+  CGFloat width = kbSize.width / 3;
+  CGFloat height = kbSize.height / 4;
+  if (self.btnDone == nil) {
+    self.btnDone = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnDone.frame = CGRectMake(0, SCREEN_HEIGHT - height, width, height);
+    [self.btnDone setTitle:@"完成" forState:UIControlStateNormal];
+    [self.btnDone setTitleColor:[UIColor blackColor]
+                       forState:UIControlStateNormal];
+    [self.btnDone addTarget:self
+                     action:@selector(finishAction:)
+           forControlEvents:UIControlEventTouchUpInside];
+  }
+
+  // locate keyboard view
+  UIWindow *tempWindow =
+      [[[UIApplication sharedApplication] windows] objectAtIndex:1];
+  if (self.btnDone.superview == nil) {
+    [tempWindow addSubview:self.btnDone];  // 注意这里直接加到window上
+  }
+
+  CGRect selfFrame = self.view.frame;
+  selfFrame.origin.y -= 90;
+  [UIView animateWithDuration:0.3 animations:^{ self.view.frame = selfFrame; }];
+}
+
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
+  CGRect selfFrame = self.view.frame;
+  selfFrame.origin.y += 90;
+  [UIView animateWithDuration:0.3 animations:^{ self.view.frame = selfFrame; }];
+  if (self.btnDone.superview) {
+    [self.btnDone removeFromSuperview];
+    self.btnDone = nil;
+  }
+}
+
+- (void)finishAction:(id)sender {
+  [self.textField resignFirstResponder];
+  self.actionMinitues = [self.textField.text intValue];
+}
+
+- (void)delaySetSuccess:(NSNotification *)notification {
+  if (self.delegate &&
+      [self.delegate
+          respondsToSelector:@selector(closePopViewController:passMinitues:)]) {
+    [self.delegate closePopViewController:self
+                             passMinitues:self.actionMinitues];
+  }
 }
 @end

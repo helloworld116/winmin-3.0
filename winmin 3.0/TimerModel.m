@@ -118,6 +118,12 @@
                           object:nil
                         userInfo:nil];
         break;
+      case 4:
+        [[NSNotificationCenter defaultCenter]
+            postNotificationName:kTimerEffectiveChangedNotifcation
+                          object:nil
+                        userInfo:nil];
+        break;
       default:
         break;
     }

@@ -49,8 +49,9 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE) {
     password;  //设置的设备密码，添加修改设备相关信息需要使用，未设置的情况下默认为空
 + (SDZGSwitch *)parseMessageCOrEToSwitch:(CC3xMessage *)message;
 + (UIImage *)imgNameToImage:(NSString *)imgName;
-@end
++ (UIImage *)imgNameToImageOffline:(NSString *)imgName;
 
+@end
 @interface SDZGSocket : NSObject
 @property(nonatomic, assign) int groupId;
 @property(nonatomic, strong) NSString *name;

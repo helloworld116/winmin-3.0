@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#define kTimerListChanged @"TimerListChanged"
 
 @interface TimerModel : NSObject
 - (id)initWithSwitch:(SDZGSwitch *)aSwitch socketGroupId:(int)groupId;
@@ -18,7 +17,7 @@
  *  <#Description#>
  *
  *  @param timers <#timers description#>
- *  @param type   1表示添加，2表示修改，3表示删除
+ *  @param type   1表示添加，2表示修改，3表示删除,4表示生效修改
  */
 - (void)updateTimers:(NSMutableArray *)timers type:(int)type;
 @end

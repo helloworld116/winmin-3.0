@@ -78,6 +78,12 @@
 #define COCOAPODS_VERSION_MINOR_CocoaLumberjack_Extensions 0
 #define COCOAPODS_VERSION_PATCH_CocoaLumberjack_Extensions 0
 
+// DDProgressView
+#define COCOAPODS_POD_AVAILABLE_DDProgressView
+#define COCOAPODS_VERSION_MAJOR_DDProgressView 0
+#define COCOAPODS_VERSION_MINOR_DDProgressView 1
+#define COCOAPODS_VERSION_PATCH_DDProgressView 0
+
 // EAIntroView
 #define COCOAPODS_POD_AVAILABLE_EAIntroView
 #define COCOAPODS_VERSION_MAJOR_EAIntroView 2

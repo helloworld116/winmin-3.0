@@ -19,6 +19,8 @@
     NSIndexPath *editIndexPath;  //正在编辑或删除的indexPath
 @property(nonatomic, strong) TimerModel *model;
 @property(nonatomic, strong) UIView *noDataView;
+@property(nonatomic, strong)
+    SDZGTimerTask *timer;  //修改定时任务是否生效时当前的timer
 @end
 
 @implementation TimerViewController
@@ -31,7 +33,14 @@
   return self;
 }
 
+- (void)setupStyle {
+  UIView *view = [[UIView alloc] init];
+  view.backgroundColor = [UIColor clearColor];
+  self.tableView.tableFooterView = view;
+}
+
 - (void)setup {
+  [self setupStyle];
   self.noDataView =
       [[UIView alloc] initWithSize:self.view.frame.size
                            imgName:@"noswitch"
@@ -49,21 +58,35 @@
   } else {
     self.noDataView.hidden = NO;
   }
-  //  [[NSNotificationCenter defaultCenter]
-  //      addObserver:self
-  //         selector:@selector(addOrEditTimerNotification:)
-  //             name:kAddOrEditTimerNotification
-  //           object:nil];
-  //  [[NSNotificationCenter defaultCenter]
-  //      addObserver:self
-  //         selector:@selector(timerSwitchValueChanged:)
-  //             name:kTimerSwitchValueChanged
-  //           object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(addOrEditTimerNotification:)
+             name:kAddOrEditTimerNotification
+           object:nil];
+  //定时任务生效页面改变通知
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(timerEffectiveChanged:)
+             name:kTimerEffectiveChanged
+           object:nil];
 
+  //查询通知
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(changeTimersList:)
                                                name:kTimerListChanged
                                              object:nil];
+  //删除通知
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(timerDeleteNotification:)
+             name:kTimerDeleteNotification
+           object:nil];
+  //修改定时任务生效报文请求后通知
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(timerEffectiveChangedNotifcation:)
+             name:kTimerEffectiveChangedNotifcation
+           object:nil];
 }
 
 - (void)viewDidLoad {
@@ -89,17 +112,20 @@
 }
 
 - (void)dealloc {
-  //  [[NSNotificationCenter defaultCenter]
-  //      removeObserver:self
-  //                name:kAddOrEditTimerNotification
-  //              object:nil];
-  //  [[NSNotificationCenter defaultCenter] removeObserver:self
-  //                                                  name:kTimerSwitchValueChanged
-  //                                                object:nil];
-
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:kAddOrEditTimerNotification
+              object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kTimerEffectiveChanged
+                                                object:nil];
   [[NSNotificationCenter defaultCenter] removeObserver:self
                                                   name:kTimerListChanged
                                                 object:nil];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:kTimerEffectiveChangedNotifcation
+              object:nil];
 }
 
 #pragma mark - Table view data source
@@ -180,8 +206,9 @@
     clickedButtonAtIndex:(NSInteger)buttonIndex {
   if (buttonIndex == 0) {
     //删除
-    [self.timers removeObjectAtIndex:self.editIndexPath.row];
-    //    [self sendMsg1DOr1F];
+    NSMutableArray *timers = [NSMutableArray arrayWithArray:self.timers];
+    [timers removeObjectAtIndex:self.editIndexPath.row];
+    [self.model updateTimers:timers type:3];
   }
 }
 
@@ -200,6 +227,7 @@
       [self.tableView insertRowsAtIndexPaths:@[ indexPath ]
                             withRowAnimation:UITableViewRowAnimationRight];
       [self.tableView endUpdates];
+      [self updateViewWithReloadData:NO];
       break;
     default:
       message = @"修改成功";
@@ -217,19 +245,58 @@
                                          self.view.frame.size.height - 40)]];
 }
 
-- (void)timerSwitchValueChanged:(NSNotification *)notification {
-}
-
 - (void)changeTimersList:(NSNotification *)notification {
   NSDictionary *userInfo = notification.userInfo;
   self.timers = [userInfo objectForKey:@"timers"];
+  dispatch_async(MAIN_QUEUE, ^{ [self updateViewWithReloadData:YES]; });
+  [self updateMemorySwitch];
+}
+
+- (void)timerDeleteNotification:(NSNotification *)notification {
+  [self.timers removeObjectAtIndex:self.editIndexPath.row];
   dispatch_async(MAIN_QUEUE, ^{
-      if (self.timers && self.timers.count) {
-        self.noDataView.hidden = YES;
-        [self.tableView reloadData];
-      } else {
-        self.noDataView.hidden = YES;
-      }
+      [self.tableView beginUpdates];
+      [self.tableView deleteRowsAtIndexPaths:@[ self.editIndexPath ]
+                            withRowAnimation:UITableViewRowAnimationLeft];
+      [self.tableView endUpdates];
+      [self updateViewWithReloadData:NO];
   });
+  [self updateMemorySwitch];
+}
+
+//定时任务生效改变
+- (void)timerEffectiveChanged:(NSNotification *)notification {
+  TimerCell *cell = (TimerCell *)notification.object;
+  NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+  self.editIndexPath = indexPath;
+  BOOL effective =
+      [[notification.userInfo objectForKey:@"effective"] boolValue];
+  NSMutableArray *timers = [NSMutableArray arrayWithArray:self.timers];
+  self.timer = [timers objectAtIndex:indexPath.row];
+  self.timer.isEffective = effective;
+  [timers replaceObjectAtIndex:indexPath.row withObject:self.timer];
+  [self.model updateTimers:timers type:4];
+}
+
+- (void)timerEffectiveChangedNotifcation:(NSNotification *)notification {
+  [self.timers replaceObjectAtIndex:self.editIndexPath.row
+                         withObject:self.timer];
+}
+
+- (void)updateMemorySwitch {
+  [[SwitchDataCeneter sharedInstance] updateTimerList:self.timers
+                                                  mac:self.aSwitch.mac
+                                        socketGroupId:self.socketGroupId];
+}
+
+- (void)updateViewWithReloadData:(BOOL)reloadData {
+  if (self.timers && self.timers.count) {
+    self.noDataView.hidden = YES;
+    if (reloadData) {
+      [self.tableView reloadData];
+    }
+  } else {
+    self.noDataView.hidden = NO;
+  }
 }
 @end

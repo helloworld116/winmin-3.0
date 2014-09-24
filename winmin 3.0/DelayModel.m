@@ -70,6 +70,9 @@
 
 - (void)responseMsg4EOr50:(CC3xMessage *)message {
   if (message.state == 0) {
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:kDelaySettingNotification
+                      object:self];
   }
 }
 

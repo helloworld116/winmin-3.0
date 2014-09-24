@@ -53,7 +53,18 @@ static void *const keypath = (void *)&keypath;
 - (void)presentPopupViewController:(UIViewController *)popupViewController
                      animationType:(MJPopupViewAnimation)animationType {
   self.mj_popupViewController = popupViewController;
-  [self presentPopupView:popupViewController.view animationType:animationType];
+  [self presentPopupView:popupViewController.view
+            animationType:animationType
+      backgroundClickable:NO];
+}
+
+- (void)presentPopupViewController:(UIViewController *)popupViewController
+                     animationType:(MJPopupViewAnimation)animationType
+               backgroundClickable:(BOOL)clickAble {
+  self.mj_popupViewController = popupViewController;
+  [self presentPopupView:popupViewController.view
+            animationType:animationType
+      backgroundClickable:clickAble];
 }
 
 - (void)dismissPopupViewControllerWithanimationType:
@@ -91,7 +102,8 @@ static void *const keypath = (void *)&keypath;
 #pragma mark View Handling
 
 - (void)presentPopupView:(UIView *)popupView
-           animationType:(MJPopupViewAnimation)animationType {
+           animationType:(MJPopupViewAnimation)animationType
+     backgroundClickable:(BOOL)clickAble {
   UIView *sourceView = [self topView];
   sourceView.tag = kMJSourceViewTag;
   popupView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin |
@@ -129,19 +141,21 @@ static void *const keypath = (void *)&keypath;
 
   // Make the Background Clickable
   UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-  dismissButton.autoresizingMask =
-      UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  dismissButton.backgroundColor = [UIColor clearColor];
-  dismissButton.frame = sourceView.bounds;
-  [overlayView addSubview:dismissButton];
+  if (clickAble) {
+    dismissButton.autoresizingMask =
+        UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    dismissButton.backgroundColor = [UIColor clearColor];
+    dismissButton.frame = sourceView.bounds;
+    [overlayView addSubview:dismissButton];
+    [dismissButton addTarget:self
+                      action:@selector(dismissPopupViewControllerWithanimation:)
+            forControlEvents:UIControlEventTouchUpInside];
+  }
 
   popupView.alpha = 0.0f;
   [overlayView addSubview:popupView];
   [sourceView addSubview:overlayView];
 
-  //    [dismissButton addTarget:self
-  //    action:@selector(dismissPopupViewControllerWithanimation:)
-  //    forControlEvents:UIControlEventTouchUpInside];
   switch (animationType) {
     case MJPopupViewAnimationSlideBottomTop:
     case MJPopupViewAnimationSlideBottomBottom:

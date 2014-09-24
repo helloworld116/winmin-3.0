@@ -12,4 +12,6 @@
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
 
 + (UIImage *)circleImage:(UIImage *)image withParam:(CGFloat)inset;
+
++ (UIImage *)grayImage:(UIImage *)sourceImage;
 @end
