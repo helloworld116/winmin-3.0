@@ -12,20 +12,26 @@
 #import "SwitchDataCeneter.h"
 #import "DatePickerViewController.h"
 
+@interface TimerEditCell : UITableViewCell
+@property(strong, nonatomic) IBOutlet UIView *viewOfCellContent;
+@end
+@implementation TimerEditCell
+- (void)awakeFromNib {
+  self.viewOfCellContent.layer.borderWidth = .5f;
+  self.viewOfCellContent.layer.borderColor =
+      [UIColor colorWithHexString:@"#c3c3c3"].CGColor;
+  self.viewOfCellContent.layer.cornerRadius = 10.f;
+}
+@end
+
 @interface TimerEditViewController ()<PassValueDelegate,
                                       DatePickerControllerDelegate>
-@property(strong, nonatomic) IBOutlet UIView *cellView1;
-@property(strong, nonatomic) IBOutlet UIView *cellView2;
-@property(strong, nonatomic) IBOutlet UIView *cellView3;
 @property(strong, nonatomic) IBOutlet UILabel *lblTime;
 @property(strong, nonatomic) IBOutlet UILabel *lblRepeatDesc;
 @property(strong, nonatomic) IBOutlet UIButton *btnOnOff;
-//@property(strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 - (IBAction)onOffChanged:(id)sender;
 - (IBAction)showDatePicker:(id)sender;
 - (IBAction)changeWeek:(id)sender;
-- (IBAction)touchBackground:(id)sender;
-- (IBAction)timeValueChanged:(id)sender;
 
 //@property(nonatomic, strong) SDZGSwitch *aSwtich;
 //@property(nonatomic, assign) int socketGroupId;
@@ -33,7 +39,6 @@
 @property(nonatomic, strong) SDZGTimerTask *timer;  //正在编辑的定时任务
 @property(nonatomic, assign)
     int index;  //正在编辑的timer在数组中位置，方便后续编辑操作时replace
-//@property(strong, nonatomic) NSDateFormatter *dateFormatter;
 @property(strong, nonatomic) TimerModel *model;
 @end
 
@@ -64,6 +69,10 @@
 }
 
 - (void)setup {
+  UIView *tableHeaderView = [[UIView alloc]
+      initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 15)];
+  tableHeaderView.backgroundColor = [UIColor clearColor];
+  self.tableView.tableHeaderView = tableHeaderView;
   if (!self.timer) {
     // timer不存在，则表明正在进行添加操作
     self.timer = [[SDZGTimerTask alloc] init];
@@ -146,6 +155,7 @@
           initWithNibName:@"DatePickerViewController"
                    bundle:nil];
   popupViewController.delegate = self;
+  popupViewController.actionTimeString = [self.timer actionTimeString];
   [self presentPopupViewController:popupViewController
                      animationType:MJPopupViewAnimationFade
                backgroundClickable:YES];
@@ -158,27 +168,6 @@
   nextVC.delegate = self;
   [self.navigationController pushViewController:nextVC animated:YES];
 }
-
-- (IBAction)touchBackground:(id)sender {
-  //  if (!self.datePicker.hidden) {
-  //    [UIView animateWithDuration:0.3
-  //                     animations:^{ self.datePicker.hidden = YES; }];
-  //  }
-}
-
-- (IBAction)timeValueChanged:(id)sender {
-  //时间选择时，输出格式
-  //  NSString *dateString =
-  //      [self.dateFormatter stringFromDate:self.datePicker.date];
-  //  self.lblTime.text = dateString;
-  //  NSArray *time = [dateString componentsSeparatedByString:@":"];
-  //  self.timer.actionTime = [time[0] intValue] * 3600 + [time[1] intValue] *
-  //  60;
-}
-
-//- (IBAction)switchValueChanged:(id)sender {
-//  self.timer.timerActionType = self._switch.on;
-//}
 
 - (IBAction)onOffChanged:(id)sender {
   [UIView animateWithDuration:0.3

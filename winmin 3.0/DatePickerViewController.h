@@ -17,4 +17,5 @@
 
 @interface DatePickerViewController : UIViewController
 @property(nonatomic, assign) id<DatePickerControllerDelegate> delegate;
+@property(nonatomic, strong) NSString *actionTimeString;
 @end

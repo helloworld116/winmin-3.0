@@ -10,7 +10,7 @@
 #import "TimerModel.h"
 
 #define kAddOrEditTimerNotification @"AddOrEditTimerNotification"
-@interface TimerEditViewController : UIViewController
+@interface TimerEditViewController : UITableViewController
 
 /**
  *  初始化参数设置

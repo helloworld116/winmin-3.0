@@ -67,7 +67,7 @@
 
 + (UIImage *)imgNameToImage:(NSString *)imgName {
   UIImage *image;
-  if (imgName.length < 5) {
+  if (imgName.length < 10) {
     image = [UIImage imageNamed:imgName];
   } else {
     image = [UIImage
@@ -84,7 +84,7 @@
 
 + (UIImage *)imgNameToImageOffline:(NSString *)imgName {
   UIImage *image;
-  if (imgName.length < 5) {
+  if (imgName.length < 10) {
     image = [UIImage imageNamed:switch_default_image_offline];
   } else {
     image = [UIImage
@@ -104,7 +104,7 @@
 @implementation SDZGSocket
 + (UIImage *)imgNameToImage:(NSString *)imgName {
   UIImage *image;
-  if (imgName.length < 5) {
+  if (imgName.length < 10) {
     image = [UIImage imageNamed:imgName];
   } else {
     image = [UIImage

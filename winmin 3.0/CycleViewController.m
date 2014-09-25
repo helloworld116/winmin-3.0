@@ -195,7 +195,7 @@
              [array[4] intValue] << 4 | [array[5] intValue] << 5 |
              [array[6] intValue] << 6;
   [self.delegate passValue:@(week)];
-  debugLog(@"week is %d", week);
+  //  debugLog(@"week is %d", week);
   [self.navigationController popViewControllerAnimated:YES];
 }
 @end

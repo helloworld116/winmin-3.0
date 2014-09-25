@@ -40,11 +40,14 @@
 
 - (void)setup {
   [self setupStyle];
-  dispatch_async(GLOBAL_QUEUE, ^{
-      //设置公用的时间选择器
-      self.dateFormatter = [[NSDateFormatter alloc] init];
-      [self.dateFormatter setDateFormat:@"HH:mm"];
-  });
+  //设置公用的时间选择器
+  self.dateFormatter = [[NSDateFormatter alloc] init];
+  [self.dateFormatter setDateFormat:@"HH:mm"];
+
+  self.dateString = self.actionTimeString;
+  NSDate *defaultDate =
+      [self.dateFormatter dateFromString:self.actionTimeString];
+  self.datePicker.date = defaultDate;
 }
 
 - (void)viewDidLoad {

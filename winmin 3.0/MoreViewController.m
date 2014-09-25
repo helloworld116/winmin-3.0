@@ -34,11 +34,7 @@
 - (void)setup {
   [self setupStyle];
   self.titles = @[ @"关于我们", @"更新版本", @"常见问题" ];
-  self.icons = @[
-    @"switch_default_online",
-    @"switch_default_online",
-    @"switch_default_online",
-  ];
+  self.icons = @[ @"100", @"100", @"100", ];
 }
 
 - (void)viewDidLoad {
