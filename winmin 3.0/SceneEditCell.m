@@ -17,31 +17,54 @@
 @property(strong, nonatomic) IBOutlet UIView *bgView;
 @property(strong, nonatomic) IBOutlet UILabel *lblStatus;
 @property(strong, nonatomic) IBOutlet UIButton *btnOnOff;
-- (IBAction)btnTouched:(id)sender;
+@property(strong, nonatomic) IBOutlet UIButton *btnSelected;
+@property(assign, nonatomic) int groupId;
+- (IBAction)onOrOff:(id)sender;
+- (IBAction)selectedOrNO:(id)sender;
 @end
 
 @implementation SceneSocketView
 - (void)awakeFromNib {
   self.lblStatus.layer.cornerRadius = 15.f;
+  [self setDefault];
+}
+
+- (void)setDefault {
   //默认关闭
   self.lblStatus.backgroundColor = kUnselectColor;
   self.lblStatus.textColor = [UIColor colorWithHexString:@"#CCCCCC"];
   self.lblStatus.text = @"关";
   self.bgView.backgroundColor = kUnselectColor;
+  self.btnSelected.selected = NO;
+  self.btnOnOff.selected = NO;
 }
 
-- (IBAction)btnTouched:(id)sender {
-  self.btnOnOff.selected = !self.btnOnOff.selected;
-  if (self.btnOnOff.selected) {
+- (IBAction)onOrOff:(id)sender {
+  if (self.btnSelected.selected) {
+    self.btnOnOff.selected = !self.btnOnOff.selected;
+    if (self.btnOnOff.selected) {
+      self.lblStatus.backgroundColor = kSelectColor;
+      self.lblStatus.textColor = [UIColor whiteColor];
+      self.lblStatus.text = @"开";
+    } else {
+      self.lblStatus.backgroundColor = kUnselectColor;
+      self.lblStatus.textColor = [UIColor colorWithHexString:@"#CCCCCC"];
+      self.lblStatus.text = @"关";
+    }
+  }
+}
+
+- (IBAction)selectedOrNO:(id)sender {
+  self.btnSelected.selected = !self.btnSelected.selected;
+  if (self.btnSelected.selected) {
+    self.bgView.backgroundColor = kSelectColor;
+
     self.lblStatus.backgroundColor = kSelectColor;
     self.lblStatus.textColor = [UIColor whiteColor];
     self.lblStatus.text = @"开";
-    self.bgView.backgroundColor = kSelectColor;
+    self.btnOnOff.selected = YES;
   } else {
-    self.lblStatus.backgroundColor = kUnselectColor;
-    self.lblStatus.textColor = [UIColor colorWithHexString:@"#CCCCCC"];
-    self.lblStatus.text = @"关";
-    self.bgView.backgroundColor = kUnselectColor;
+    [self setDefault];
   }
 }
 
@@ -89,6 +112,8 @@
   self.textFieldSwitchName.layer.borderWidth = 1.f;
   self.textFieldSwitchName.layer.cornerRadius = 12.f;
   self.textFieldSwitchName.enabled = NO;
+  self.sceneSocketView1.groupId = 1;
+  self.sceneSocketView2.groupId = 2;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

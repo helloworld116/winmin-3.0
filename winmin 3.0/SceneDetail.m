@@ -13,17 +13,23 @@ static double interval = 0.5;
 
 - (id)initWithMac:(NSString *)mac
           groupId:(int)groupId
-       switchName:(NSString *)switchName
-       socketName:(NSString *)socketName
-          onOrOff:(BOOL)onOrOff {
-  self = [super init];
+          onOrOff:(BOOL)onOrOff
+     isInitSwitch:(BOOL)isInitSwitch {
+  self = [self init];
   if (self) {
     self.mac = mac;
-    self.switchName = switchName;
     self.groupId = groupId;
-    self.socketName = socketName;
     self.onOrOff = onOrOff;
-    self.interval = interval;
+    if (isInitSwitch) {
+      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+      for (SDZGSwitch *aSwitch in switchs) {
+        if ([aSwitch.mac isEqualToString:self.mac]) {
+          self.aSwitch = aSwitch;
+          self.socket = self.aSwitch.sockets[self.groupId - 1];
+          break;
+        }
+      }
+    }
   }
   return self;
 }
@@ -43,7 +49,7 @@ static double interval = 0.5;
   } else {
     operation = @"关闭";
   }
-  return [NSString stringWithFormat:@"%@ %@ %@", operation, self.switchName,
-                                    self.socketName];
+  return [NSString stringWithFormat:@"%@ %@ %@", operation, self.aSwitch.name,
+                                    self.socket.name];
 }
 @end

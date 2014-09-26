@@ -8,10 +8,11 @@
 
 #import "SceneListViewController.h"
 #import "SceneDetailViewController.h"
+#import "SceneExecuteViewController.h"
 #import "SceneCell.h"
 
-@interface SceneListViewController ()
-
+@interface SceneListViewController ()<UIActionSheetDelegate>
+@property(nonatomic, strong) NSIndexPath *longPressIndexPath;
 @end
 
 @implementation SceneListViewController
@@ -66,6 +67,12 @@ preparation before navigation
       [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier
                                                 forIndexPath:indexPath];
   //  cell.backgroundColor = [UIColor grayColor];
+  UILongPressGestureRecognizer *longPressGesture =
+      [[UILongPressGestureRecognizer alloc]
+          initWithTarget:self
+                  action:@selector(handlerLongPress:)];
+  longPressGesture.minimumPressDuration = 0.5;
+  [cell addGestureRecognizer:longPressGesture];
   return cell;
 }
 
@@ -78,15 +85,26 @@ preparation before navigation
 // UICollectionView被选中时调用的方法
 - (void)collectionView:(UICollectionView *)collectionView
     didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-  SceneCell *cell =
-      (SceneCell *)[collectionView cellForItemAtIndexPath:indexPath];
+  [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+  //  SceneCell *cell =
+  //      (SceneCell *)[collectionView cellForItemAtIndexPath:indexPath];
   //  cell.backgroundColor = [UIColor whiteColor];
+  //  SceneExecuteViewController *executeViewController = [self.storyboard
+  //      instantiateViewControllerWithIdentifier:@"SceneExecuteViewController"];
+  SceneExecuteViewController *executeViewController =
+      [[SceneExecuteViewController alloc] init];
+
+  UIWindow *window =
+      [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+  [window addSubview:executeViewController.view];
+  //  [self.navigationController pushViewController:executeViewController
+  //                                       animated:YES];
 }
 
 //返回这个UICollectionView是否可以被选择
 - (BOOL)collectionView:(UICollectionView *)collectionView
     shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-  return NO;
+  return YES;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -111,4 +129,39 @@ preparation before navigation
   [self.navigationController pushViewController:nextViewController
                                        animated:YES];
 }
+
+#pragma mark - 长按处理
+- (void)handlerLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+  CGPoint p = [gestureRecognizer locationInView:self.collectionView];
+  NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:p];
+  if (indexPath && gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    self.longPressIndexPath = indexPath;
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                 initWithTitle:@"您希望对这个场景执行怎样的操作"
+                      delegate:self
+             cancelButtonTitle:@"取消"
+        destructiveButtonTitle:nil
+             otherButtonTitles:@"编辑", @"删除", nil];
+    [actionSheet showFromTabBar:self.tabBarController.tabBar];
+  }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet
+    clickedButtonAtIndex:(NSInteger)buttonIndex {
+  //  SDZGSwitch *aSwitch =
+  //      [self.switchs objectAtIndex:self.longPressIndexPath.row];
+  switch (buttonIndex) {
+    case 0:
+      //编辑
+      //      [self.model blinkSwitch:aSwitch];
+      break;
+    case 1:
+      //删除
+      //      [[SwitchDataCeneter sharedInstance] removeSwitch:aSwitch];
+      break;
+    default:
+      break;
+  }
+}
+
 @end

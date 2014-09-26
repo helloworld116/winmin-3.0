@@ -80,16 +80,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "winmin 3.0/SceneCell.m"
-            timestampString = "433316140.352633"
+            filePath = "winmin 3.0/SceneExecuteViewController.m"
+            timestampString = "433420545.792345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "-setSelected:"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "-cancelOrOk:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

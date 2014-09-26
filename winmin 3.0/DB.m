@@ -112,8 +112,8 @@
 
 - (BOOL)createTableScene {
   if ([self.db open]) {
-    NSString *sql =
-        @"create table scene(id integer primary key autoincrement,name text);";
+    NSString *sql = @"create table scene(id integer primary key "
+        @"autoincrement,name text,imagename text);";
     BOOL success = [self.db executeUpdate:sql];
     if (success) {
       debugLog(@"创建表scene成功");
@@ -348,7 +348,7 @@
   }
 }
 
-- (NSArray *)getScenes {
+- (NSArray *)scenes {
   NSMutableArray *scenes = [@[] mutableCopy];
   if ([self.db open]) {
     NSString *sql = @"select * from scene order by id asc";
@@ -357,25 +357,20 @@
       Scene *scene = [[Scene alloc] init];
       scene.indentifier = [sceneResultSet intForColumn:@"id"];
       scene.name = [sceneResultSet stringForColumn:@"name"];
-      sql = @"select switch.name as switchname,socket.name as "
-          @"socketname,scenedetail.mac as mac,scenedetail.interval as "
-          @"interval,scenedetail.action as "
-          @"action,scenedetail.groupid as groupid from "
-          @"switch,socket,scenedetail where switch.mac=scenedetail.mac and "
-          @"socket.groupid=scenedetail.groupid and scenedetail.sceneid = ? "
-          @"order by scenedetail.id asc;";
+      scene.imageName = [sceneResultSet stringForColumn:@"imagename"];
+      sql = @"select mac,action,groupid,interval from scenedetail where "
+          @"sceneid=?";
       NSMutableArray *sceneDetails = [@[] mutableCopy];
       FMResultSet *sceneDetailResultSet =
           [self.db executeQuery:sql, @(scene.indentifier)];
       while (sceneDetailResultSet.next) {
-        SceneDetail *detail = [[SceneDetail alloc] init];
-        detail.mac = [sceneDetailResultSet stringForColumn:@"mac"];
-        detail.switchName =
-            [sceneDetailResultSet stringForColumn:@"switchname"];
-        detail.groupId = [sceneDetailResultSet intForColumn:@"groupid"];
-        detail.socketName =
-            [sceneDetailResultSet stringForColumn:@"socketname"];
-        detail.onOrOff = [sceneDetailResultSet boolForColumn:@"action"];
+        NSString *mac = [sceneDetailResultSet stringForColumn:@"mac"];
+        int groupId = [sceneDetailResultSet intForColumn:@"groupid"];
+        BOOL onOrOff = [sceneDetailResultSet boolForColumn:@"action"];
+        SceneDetail *detail = [[SceneDetail alloc] initWithMac:mac
+                                                       groupId:groupId
+                                                       onOrOff:onOrOff
+                                                  isInitSwitch:YES];
         detail.interval = [sceneDetailResultSet doubleForColumn:@"interval"];
         [sceneDetails addObject:detail];
       }
@@ -395,13 +390,14 @@
     int sceneId;
     if (scene.indentifier) {
       sceneId = scene.indentifier;
-      NSString *sql = @"update scene set name=? where id = ?";
-      [self.db executeUpdate:sql, scene.name, @(scene.indentifier)];
+      NSString *sql = @"update scene set name=?,imagename=? where id = ?";
+      [self.db
+          executeUpdate:sql, scene.name, scene.imageName, @(scene.indentifier)];
       sql = @"delete from scenedetail where sceneid = ?";
       [self.db executeUpdate:sql, @(scene.indentifier)];
     } else {
-      NSString *sql = @"insert into scene(name) values (?)";
-      [self.db executeUpdate:sql, scene.name];
+      NSString *sql = @"insert into scene(name,imagename) values (?,?)";
+      [self.db executeUpdate:sql, scene.name, scene.imageName];
       sceneId = (int)[self.db lastInsertRowId];
     }
     for (SceneDetail *detail in scene.detailList) {
@@ -420,10 +416,16 @@
   BOOL result = NO;
   Scene *scene = (Scene *)object;
   if ([self.db open]) {
-    NSString *sql = @"delete from scene where id=?";
+    NSString *sql = @"select sceneid from scene where id=?";
+    FMResultSet *resultSet = [self.db executeQuery:sql, @(scene.indentifier)];
+    int sceneId;
+    if ([resultSet next]) {
+      sceneId = [resultSet intForColumn:@"sceneid"];
+    }
+    sql = @"delete from scene where id=?";
     result = [self.db executeUpdate:sql, @(scene.indentifier)];
     sql = @"delete from scenedetail where sceneid = ?";
-    [self.db executeUpdate:sql, @(scene.indentifier)];
+    [self.db executeUpdate:sql, @(sceneId)];
     [self.db close];
   }
   return result;

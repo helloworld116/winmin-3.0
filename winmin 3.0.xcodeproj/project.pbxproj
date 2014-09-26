@@ -12,6 +12,9 @@
 		155A5BF319D3E260007864C8 /* SceneTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BF219D3E260007864C8 /* SceneTemplateViewController.m */; };
 		155A5BF619D3E718007864C8 /* SceneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BF519D3E718007864C8 /* SceneDetailViewController.m */; };
 		155A5BF919D3F306007864C8 /* SceneEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BF819D3F306007864C8 /* SceneEditCell.m */; };
+		155A5BFC19D53835007864C8 /* SceneExecuteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BFB19D53835007864C8 /* SceneExecuteViewController.m */; };
+		155A5BFF19D54206007864C8 /* SceneExcCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BFE19D54206007864C8 /* SceneExcCell.m */; };
+		155A5C0119D569BE007864C8 /* SceneExcCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 155A5C0019D569BD007864C8 /* SceneExcCell.xib */; };
 		156012BB19C804AC00BF7E12 /* ConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156012BA19C804AC00BF7E12 /* ConfigurationViewController.m */; };
 		156012BE19C8129300BF7E12 /* ConfigLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156012BD19C8129300BF7E12 /* ConfigLoadingViewController.m */; };
 		156012FB19C81C9600BF7E12 /* ConfigLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 156012FA19C81C9600BF7E12 /* ConfigLoadingViewController.xib */; };
@@ -125,6 +128,11 @@
 		155A5BF519D3E718007864C8 /* SceneDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDetailViewController.m; sourceTree = "<group>"; };
 		155A5BF719D3F306007864C8 /* SceneEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneEditCell.h; sourceTree = "<group>"; };
 		155A5BF819D3F306007864C8 /* SceneEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneEditCell.m; sourceTree = "<group>"; };
+		155A5BFA19D53835007864C8 /* SceneExecuteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneExecuteViewController.h; sourceTree = "<group>"; };
+		155A5BFB19D53835007864C8 /* SceneExecuteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneExecuteViewController.m; sourceTree = "<group>"; };
+		155A5BFD19D54206007864C8 /* SceneExcCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneExcCell.h; sourceTree = "<group>"; };
+		155A5BFE19D54206007864C8 /* SceneExcCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneExcCell.m; sourceTree = "<group>"; };
+		155A5C0019D569BD007864C8 /* SceneExcCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SceneExcCell.xib; sourceTree = "<group>"; };
 		156012B919C804AC00BF7E12 /* ConfigurationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationViewController.h; sourceTree = "<group>"; };
 		156012BA19C804AC00BF7E12 /* ConfigurationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationViewController.m; sourceTree = "<group>"; };
 		156012BC19C8129300BF7E12 /* ConfigLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigLoadingViewController.h; sourceTree = "<group>"; };
@@ -337,6 +345,8 @@
 				155A5BF219D3E260007864C8 /* SceneTemplateViewController.m */,
 				155A5BF419D3E718007864C8 /* SceneDetailViewController.h */,
 				155A5BF519D3E718007864C8 /* SceneDetailViewController.m */,
+				155A5BFA19D53835007864C8 /* SceneExecuteViewController.h */,
+				155A5BFB19D53835007864C8 /* SceneExecuteViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -348,6 +358,9 @@
 				155A5BEF19D3D7B3007864C8 /* SceneCell.m */,
 				155A5BF719D3F306007864C8 /* SceneEditCell.h */,
 				155A5BF819D3F306007864C8 /* SceneEditCell.m */,
+				155A5BFD19D54206007864C8 /* SceneExcCell.h */,
+				155A5BFE19D54206007864C8 /* SceneExcCell.m */,
+				155A5C0019D569BD007864C8 /* SceneExcCell.xib */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -355,6 +368,12 @@
 		155A5BED19D3D793007864C8 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				158D993019C7E2530068AFC5 /* SceneDetail.h */,
+				158D993119C7E2530068AFC5 /* SceneDetail.m */,
+				158D993219C7E2530068AFC5 /* Scene.h */,
+				158D993319C7E2530068AFC5 /* Scene.m */,
+				158D993419C7E2530068AFC5 /* SceneDataCenter.h */,
+				158D993519C7E2530068AFC5 /* SceneDataCenter.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -389,6 +408,12 @@
 		1560131B19C96BE800BF7E12 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				158D992C19C7E2380068AFC5 /* HistoryElec.h */,
+				158D992D19C7E2380068AFC5 /* HistoryElec.m */,
+				158D992A19C7E2380068AFC5 /* SwitchDataCeneter.h */,
+				158D992B19C7E2380068AFC5 /* SwitchDataCeneter.m */,
+				158D992419C7E0FF0068AFC5 /* SDZGSwitch.h */,
+				158D992519C7E0FF0068AFC5 /* SDZGSwitch.m */,
 				1560130219C91EF800BF7E12 /* SwitchListModel.h */,
 				1560130319C91EF800BF7E12 /* SwitchListModel.m */,
 				1560132619CBDCA700BF7E12 /* SwitchDetailModel.h */,
@@ -495,7 +520,6 @@
 				158D993919C7E4930068AFC5 /* 控制 */,
 				158D993C19C7E4A70068AFC5 /* 更多 */,
 				158D993B19C7E4A20068AFC5 /* 场景 */,
-				158D992319C7E0D70068AFC5 /* model */,
 				158D991C19C7DF6A0068AFC5 /* 报文相关 */,
 				158D990D19C7CBB40068AFC5 /* util */,
 				158D988919C6F39C0068AFC5 /* AppDelegate.h */,
@@ -708,25 +732,6 @@
 			name = "报文相关";
 			sourceTree = "<group>";
 		};
-		158D992319C7E0D70068AFC5 /* model */ = {
-			isa = PBXGroup;
-			children = (
-				158D993019C7E2530068AFC5 /* SceneDetail.h */,
-				158D993119C7E2530068AFC5 /* SceneDetail.m */,
-				158D993219C7E2530068AFC5 /* Scene.h */,
-				158D993319C7E2530068AFC5 /* Scene.m */,
-				158D993419C7E2530068AFC5 /* SceneDataCenter.h */,
-				158D993519C7E2530068AFC5 /* SceneDataCenter.m */,
-				158D992A19C7E2380068AFC5 /* SwitchDataCeneter.h */,
-				158D992B19C7E2380068AFC5 /* SwitchDataCeneter.m */,
-				158D992C19C7E2380068AFC5 /* HistoryElec.h */,
-				158D992D19C7E2380068AFC5 /* HistoryElec.m */,
-				158D992419C7E0FF0068AFC5 /* SDZGSwitch.h */,
-				158D992519C7E0FF0068AFC5 /* SDZGSwitch.m */,
-			);
-			name = model;
-			sourceTree = "<group>";
-		};
 		158D993919C7E4930068AFC5 /* 控制 */ = {
 			isa = PBXGroup;
 			children = (
@@ -852,6 +857,7 @@
 				158D989619C6F39C0068AFC5 /* Images.xcassets in Resources */,
 				15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
+				155A5C0119D569BE007864C8 /* SceneExcCell.xib in Resources */,
 				158D98E819C7C9660068AFC5 /* ShareSDKLocalizable.strings in Resources */,
 				158D988E19C6F39C0068AFC5 /* Main.storyboard in Resources */,
 				15AC865219D10A4E00D154EB /* DelaySettingViewController.xib in Resources */,
@@ -944,6 +950,7 @@
 				15AC864719CFFE7000D154EB /* UIView+NoDataView.m in Sources */,
 				158D993719C7E2530068AFC5 /* Scene.m in Sources */,
 				1560130419C91EF800BF7E12 /* SwitchListModel.m in Sources */,
+				155A5BFF19D54206007864C8 /* SceneExcCell.m in Sources */,
 				158D988719C6F39C0068AFC5 /* main.m in Sources */,
 				158D991519C7CBC50068AFC5 /* UdpRequest.m in Sources */,
 				15AC865819D158D700D154EB /* DelayModel.m in Sources */,
@@ -955,6 +962,7 @@
 				1560132319CA795100BF7E12 /* SocketImgTemplateViewController.m in Sources */,
 				158D991F19C7DF7A0068AFC5 /* CRC.c in Sources */,
 				15AC863E19CFC6C900D154EB /* TimerViewController.m in Sources */,
+				155A5BFC19D53835007864C8 /* SceneExecuteViewController.m in Sources */,
 				158D991619C7CBC50068AFC5 /* DB.m in Sources */,
 				1560132019CA6E9500BF7E12 /* SocketView.m in Sources */,
 				156012BB19C804AC00BF7E12 /* ConfigurationViewController.m in Sources */,

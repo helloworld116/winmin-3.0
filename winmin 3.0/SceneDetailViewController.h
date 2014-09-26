@@ -9,6 +9,4 @@
 #import <UIKit/UIKit.h>
 
 @interface SceneDetailViewController : UIViewController
-@property(nonatomic, strong) NSString *sceneImageName;
-@property(nonatomic, strong) NSString *sceneName;
 @end

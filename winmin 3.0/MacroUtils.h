@@ -73,6 +73,15 @@
 #define socket_default_image @"099"
 #define switch_default_image @"100"
 #define switch_default_image_offline @"100_"
+#define kSceneTemplateDict \
+  @{                       \
+    @"101" : @"客厅",    \
+    @"102" : @"厨房",    \
+    @"103" : @"卧室",    \
+    @"104" : @"书房",    \
+    @"105" : @"儿童房", \
+    @"106" : @"玄关"     \
+  }
 
 //在家测试
 #define isHome 0

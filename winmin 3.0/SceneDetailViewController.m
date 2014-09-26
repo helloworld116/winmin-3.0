@@ -75,17 +75,6 @@
   self.textFieldSceneName.attributedPlaceholder = [[NSAttributedString alloc]
       initWithString:@"请输入场景名称"
           attributes:@{NSForegroundColorAttributeName : kThemeColor}];
-  self.textFieldSceneName.text = self.sceneName;
-
-  if (self.sceneImageName.length > 10) {
-    CGRect imgViewFrame = self.imgViewScene.frame;
-    imgViewFrame.origin.x -= 12;
-    imgViewFrame.origin.y -= 12;
-    imgViewFrame.size.width += 24;
-    imgViewFrame.size.height += 24;
-    self.imgViewScene.frame = imgViewFrame;
-  }
-  self.imgViewScene.image = [SDZGSwitch imgNameToImage:self.sceneImageName];
   self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
 }
 
@@ -129,6 +118,14 @@
 
 #pragma mark - 保存
 - (void)save:(id)sender {
+  //  CATransition *animation = [CATransition animation];
+  //  [animation setDuration:0.5];
+  //  [animation setType:kCATransitionMoveIn];
+  //  [animation setSubtype:kCATransitionFromBottom];
+  //  [animation setTimingFunction:
+  //                 [CAMediaTimingFunction
+  //                     functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+  //  [[self.view layer] addAnimation:animation forKey:@"saveback"];
 }
 
 #pragma mark - 模板
@@ -151,5 +148,20 @@
 
 #pragma mark - SceneTemplateDelegate
 - (void)imgName:(NSString *)imgName sceneName:(NSString *)sceneName {
+  //在模板内的名称进行替换
+  if ([[kSceneTemplateDict allValues]
+          containsObject:self.textFieldSceneName.text] ||
+      self.textFieldSceneName.text.length == 0) {
+    self.textFieldSceneName.text = sceneName;
+  }
+  //  if (imgName.length > 10) {
+  //    CGRect imgViewFrame = self.imgViewScene.frame;
+  //    imgViewFrame.origin.x -= 12;
+  //    imgViewFrame.origin.y -= 12;
+  //    imgViewFrame.size.width += 24;
+  //    imgViewFrame.size.height += 24;
+  //    self.imgViewScene.frame = imgViewFrame;
+  //  }
+  self.imgViewScene.image = [SDZGSwitch imgNameToImage:imgName];
 }
 @end

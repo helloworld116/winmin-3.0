@@ -40,6 +40,8 @@
   if (selected) {
     self.viewBg.backgroundColor = kThemeColor;
     //        self.imgViewScene.image
+  } else {
+    self.viewBg.backgroundColor = [UIColor whiteColor];
   }
 }
 @end

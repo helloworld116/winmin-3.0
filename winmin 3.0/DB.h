@@ -26,7 +26,7 @@
                  socketId:(int)socketId
               whichSwitch:(id)aSwitch;
 
-- (NSArray *)getScenes;
+- (NSArray *)scenes;
 
 - (BOOL)saveScene:(id)scene;
 

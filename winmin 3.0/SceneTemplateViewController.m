@@ -8,15 +8,6 @@
 
 #import "SceneTemplateViewController.h"
 #import "SceneDetailViewController.h"
-#define kSceneTemplateDict \
-  @{                       \
-    @"101" : @"客厅",    \
-    @"102" : @"厨房",    \
-    @"103" : @"卧室",    \
-    @"104" : @"书房",    \
-    @"105" : @"儿童房", \
-    @"106" : @"玄关"     \
-  }
 
 @interface SceneTemplateViewController ()<UIActionSheetDelegate,
                                           UINavigationControllerDelegate,
@@ -62,7 +53,7 @@
     NSString *imgName = [NSString stringWithFormat:@"%d__", imgId];
     NSString *sceneName = [kSceneTemplateDict
         objectForKey:[NSString stringWithFormat:@"%d", imgId]];
-    [self toNextViewControllerWithImgName:imgName sceneName:sceneName];
+    [self passImgName:imgName sceneName:sceneName delay:NO];
   } else {
     //自定义
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
@@ -75,15 +66,19 @@
   }
 }
 
-- (void)toNextViewControllerWithImgName:(NSString *)imgName
-                              sceneName:(NSString *)sceneName {
-  //  SceneDetailViewController *nextViewController = [self.storyboard
-  //      instantiateViewControllerWithIdentifier:@"SceneDetailViewController"];
-  //  nextViewController.sceneImageName = imgName;
-  //  nextViewController.sceneName = sceneName;
-  //  [self dismissController];
-  //  [self.navigationController pushViewController:nextViewController
-  //                                       animated:YES];
+- (void)passImgName:(NSString *)imgName
+          sceneName:(NSString *)sceneName
+              delay:(BOOL)delay {
+  if (self.sceneTemplateDelegate &&
+      [self.sceneTemplateDelegate
+          respondsToSelector:@selector(imgName:sceneName:)]) {
+    [self.sceneTemplateDelegate imgName:imgName sceneName:sceneName];
+  }
+  if (delay) {
+    [self performSelector:@selector(close:) withObject:nil afterDelay:1];
+  } else {
+    [self close:nil];
+  }
 }
 
 #pragma mark---------- ActionSheetDelegate----
@@ -156,24 +151,14 @@
     UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
   }
   UIImage *theImage =
-      [self imageWithImageSimple:image scaledToSize:CGSizeMake(120.0, 120.0)];
+      [self imageWithImageSimple:image scaledToSize:CGSizeMake(168.0, 168.0)];
   NSString *str =
       [NSString stringWithFormat:@"%f", [[NSDate date] timeIntervalSince1970]];
   NSString *name = [[[str componentsSeparatedByString:@"."] objectAtIndex:0]
       stringByAppendingString:@".png"];
   [self saveImage:theImage withName:name];
   [self dismissViewControllerAnimated:YES completion:nil];
-  //  if ([self saveImage:name]) {
-  //    if (self.delegate &&
-  //        [self.delegate
-  //            respondsToSelector:@selector(socketView:socketId:imgName:)]) {
-  //      [self.delegate socketView:self.socketView
-  //                       socketId:self.socketId
-  //                        imgName:name];
-  //    }
-  //    [self performSelector:@selector(close:) withObject:nil afterDelay:1];
-  //  }
-  [self toNextViewControllerWithImgName:name sceneName:nil];
+  [self passImgName:name sceneName:nil delay:YES];
 }
 
 #pragma mark 保存图片到document

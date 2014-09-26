@@ -10,15 +10,14 @@
 
 @interface SceneDetail : NSObject
 @property(nonatomic, strong) NSString *mac;
-@property(nonatomic, strong) NSString *switchName;
 @property(nonatomic, assign) int groupId;
-@property(nonatomic, strong) NSString *socketName;
+@property(nonatomic, strong) SDZGSwitch *aSwitch;
+@property(nonatomic, strong) SDZGSocket *socket;
 @property(nonatomic, assign) BOOL onOrOff;
 @property(nonatomic, assign) double interval;  //执行时间间隔
 
 - (id)initWithMac:(NSString *)mac
           groupId:(int)groupId
-       switchName:(NSString *)switchName
-       socketName:(NSString *)socketName
-          onOrOff:(BOOL)onOrOff;
+          onOrOff:(BOOL)onOrOff
+     isInitSwitch:(BOOL)isInitSwitch;
 @end

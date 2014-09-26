@@ -15,7 +15,7 @@
 - (id)init {
   self = [super init];
   if (self) {
-    self.scenes = [[DBUtil sharedInstance] getScenes];
+    self.scenes = [[DBUtil sharedInstance] scenes];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sceneChanged:)
                                                  name:kSceneDataChanged
@@ -42,6 +42,6 @@
 }
 
 - (void)sceneChanged:(NSNotification *)notification {
-  self.scenes = [[DBUtil sharedInstance] getScenes];
+  self.scenes = [[DBUtil sharedInstance] scenes];
 }
 @end
