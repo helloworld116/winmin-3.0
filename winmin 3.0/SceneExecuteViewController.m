@@ -14,12 +14,6 @@
 
 @interface SceneExecuteViewController ()<UITableViewDelegate,
                                          UITableViewDataSource>
-//@property(nonatomic, strong) IBOutlet UILabel *lblSceneName;
-//@property(nonatomic, strong) IBOutlet UILabel *lblStatus;
-//@property(nonatomic, strong) UIButton *btncancelOrOk;
-//@property(nonatomic, strong) IBOutlet UITableView *tableView;
-//@property(nonatomic, strong) IBOutlet UIView *topView;
-//@property(nonatomic, strong) IBOutlet UIView *bottomView;
 @property(nonatomic, strong) UILabel *lblStatus;
 @property(nonatomic, strong) UIButton *btnCancelOrOk;
 
@@ -39,9 +33,7 @@
 
 - (void)setup {
   //  self.lblSceneName.text = self.scene.name;
-  //  self.sceneDetails = self.scene.detailList;
-  self.scene.name = @"智能插座";
-  self.sceneDetails = @[ @1, @2, @3, @4 ];
+  self.sceneDetails = self.scene.detailList;
 
   UIButton *btnCancelOrOk = [UIButton buttonWithType:UIButtonTypeSystem];
   btnCancelOrOk.backgroundColor = [UIColor whiteColor];
@@ -61,6 +53,7 @@
                                       tableViewHeight,
                                SCREEN_WIDTH, tableViewHeight)
               style:UITableViewStylePlain];
+  tableView.bounces = NO;
   tableView.dataSource = self;
   tableView.delegate = self;
   [self.view addSubview:tableView];
@@ -75,8 +68,9 @@
   CGSize sceneNameSize =
       [self.scene.name sizeWithFont:[UIFont systemFontOfSize:20]];
   UILabel *lblTitle =
-      [[UILabel alloc] initWithFrame:CGRectMake(40, 16, sceneNameSize.width,
+      [[UILabel alloc] initWithFrame:CGRectMake(80, 16, sceneNameSize.width,
                                                 sceneNameSize.height)];
+  lblTitle.font = [UIFont systemFontOfSize:20];
   lblTitle.textColor = [UIColor whiteColor];
   lblTitle.text = self.scene.name;
   [titleView addSubview:lblTitle];
@@ -87,6 +81,7 @@
       initWithFrame:CGRectMake(CGRectGetMaxX(lblTitle.frame) + 15, 17,
                                statusSize.width, statusSize.height)];
   lblStatus.textColor = [UIColor whiteColor];
+  lblStatus.font = [UIFont systemFontOfSize:18];
   lblStatus.text = status;
   self.lblStatus = lblStatus;
   [titleView addSubview:lblStatus];
@@ -105,9 +100,10 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  [self.view performSelector:@selector(removeFromSuperview)
-                  withObject:nil
-                  afterDelay:3.f];
+  //  [self.view performSelector:@selector(removeFromSuperview)
+  //                  withObject:nil
+  //                  afterDelay:3.f];
+  [self performSelector:@selector(removeWindow) withObject:nil afterDelay:3.f];
   [self setup];
 }
 
@@ -130,17 +126,22 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *CellId = @"SceneExcCell";
-  //  SceneExcCell *cell =
-  //      [self.tableView dequeueReusableCellWithIdentifier:CellId];
   SceneExcCell *cell =
       [[[NSBundle mainBundle] loadNibNamed:CellId owner:self options:nil]
           objectAtIndex:0];
-
+  SceneDetail *detail = self.sceneDetails[indexPath.row];
+  [cell setSceneDetail:detail row:indexPath.row + 1];
   return cell;
 }
 
 #pragma mark -
 - (void)cancelOrOk:(id)sender {
-  debugLog(@"cancel");
+  [self removeWindow];
+}
+
+#pragma mark - 清除自定义window
+- (void)removeWindow {
+  [kSharedAppliction.userWindow resignKeyWindow];
+  kSharedAppliction.userWindow = nil;
 }
 @end

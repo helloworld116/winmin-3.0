@@ -16,8 +16,5 @@
 @property(nonatomic, assign) BOOL onOrOff;
 @property(nonatomic, assign) double interval;  //执行时间间隔
 
-- (id)initWithMac:(NSString *)mac
-          groupId:(int)groupId
-          onOrOff:(BOOL)onOrOff
-     isInitSwitch:(BOOL)isInitSwitch;
+- (id)initWithMac:(NSString *)mac groupId:(int)groupId onOrOff:(BOOL)onOrOff;
 @end

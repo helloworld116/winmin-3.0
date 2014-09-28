@@ -13,6 +13,7 @@
 
 @interface SceneListViewController ()<UIActionSheetDelegate>
 @property(nonatomic, strong) NSIndexPath *longPressIndexPath;
+@property(nonatomic, strong) NSMutableArray *scenes;
 @end
 
 @implementation SceneListViewController
@@ -35,6 +36,12 @@
       initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                            target:self
                            action:@selector(addScene:)];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(addOrUpdateScene:)
+             name:kSceneAddOrUpdateNotification
+           object:nil];
+  self.scenes = [[[DBUtil sharedInstance] scenes] mutableCopy];
 }
 
 - (void)viewDidLoad {
@@ -46,6 +53,10 @@
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*
@@ -63,10 +74,11 @@ preparation before navigation
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *CellIdentifier = @"SceneCell";
-  UICollectionViewCell *cell =
+  SceneCell *cell =
       [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier
                                                 forIndexPath:indexPath];
-  //  cell.backgroundColor = [UIColor grayColor];
+  Scene *scene = self.scenes[indexPath.row];
+  [cell setCellInfo:scene];
   UILongPressGestureRecognizer *longPressGesture =
       [[UILongPressGestureRecognizer alloc]
           initWithTarget:self
@@ -78,7 +90,7 @@ preparation before navigation
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-  return 5;
+  return self.scenes.count;
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -86,19 +98,16 @@ preparation before navigation
 - (void)collectionView:(UICollectionView *)collectionView
     didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
   [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-  //  SceneCell *cell =
-  //      (SceneCell *)[collectionView cellForItemAtIndexPath:indexPath];
-  //  cell.backgroundColor = [UIColor whiteColor];
-  //  SceneExecuteViewController *executeViewController = [self.storyboard
-  //      instantiateViewControllerWithIdentifier:@"SceneExecuteViewController"];
   SceneExecuteViewController *executeViewController =
       [[SceneExecuteViewController alloc] init];
-
+  Scene *scene = self.scenes[indexPath.row];
+  executeViewController.scene = scene;
   UIWindow *window =
-      [[[UIApplication sharedApplication] windows] objectAtIndex:0];
-  [window addSubview:executeViewController.view];
-  //  [self.navigationController pushViewController:executeViewController
-  //                                       animated:YES];
+      [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  kSharedAppliction.userWindow = window;
+  window.rootViewController = executeViewController;
+  window.windowLevel = UIWindowLevelAlert;
+  [window makeKeyAndVisible];
 }
 
 //返回这个UICollectionView是否可以被选择
@@ -148,20 +157,54 @@ preparation before navigation
 
 - (void)actionSheet:(UIActionSheet *)actionSheet
     clickedButtonAtIndex:(NSInteger)buttonIndex {
-  //  SDZGSwitch *aSwitch =
-  //      [self.switchs objectAtIndex:self.longPressIndexPath.row];
+  Scene *scene = self.scenes[self.longPressIndexPath.row];
   switch (buttonIndex) {
     case 0:
       //编辑
-      //      [self.model blinkSwitch:aSwitch];
+      {
+        SceneDetailViewController *nextViewController =
+            [self.storyboard instantiateViewControllerWithIdentifier:
+                                 @"SceneDetailViewController"];
+        nextViewController.scene = scene;
+        nextViewController.row = self.longPressIndexPath.row;
+        [self.navigationController pushViewController:nextViewController
+                                             animated:YES];
+      }
+
       break;
     case 1:
       //删除
-      //      [[SwitchDataCeneter sharedInstance] removeSwitch:aSwitch];
+      {
+        [[DBUtil sharedInstance] removeScene:scene];
+        //删除后提示页面
+        NSArray *indexPaths = @[ self.longPressIndexPath ];
+        [self.collectionView performBatchUpdates:^{
+            [self.scenes removeObjectAtIndex:self.longPressIndexPath.row];
+            [self.collectionView deleteItemsAtIndexPaths:indexPaths];
+        } completion:^(BOOL finished) {}];
+      }
       break;
     default:
       break;
   }
 }
 
+#pragma mark - 添加后修改scene后通知
+- (void)addOrUpdateScene:(NSNotification *)notification {
+  NSDictionary *userInfo = notification.userInfo;
+  int row = [userInfo[@"row"] intValue];
+  Scene *scene = userInfo[@"scene"];
+  if (row == -1) {
+    //添加
+    [self.collectionView performBatchUpdates:^{
+        [self.scenes addObject:scene];
+        NSIndexPath *indexPath =
+            [NSIndexPath indexPathForRow:self.scenes.count - 1 inSection:0];
+        [self.collectionView insertItemsAtIndexPaths:@[ indexPath ]];
+    } completion:^(BOOL finished) {}];
+
+  } else {
+    //修改
+  }
+}
 @end

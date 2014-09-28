@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SceneCell : UICollectionViewCell
-
+- (void)setCellInfo:(id)scene;
 @end

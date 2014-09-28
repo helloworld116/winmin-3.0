@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+@class SceneDetail;
 
 @interface SceneExcCell : UITableViewCell
-
+- (void)setSceneDetail:(SceneDetail *)sceneDetail row:(int)row;
 @end

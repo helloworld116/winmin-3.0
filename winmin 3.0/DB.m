@@ -37,6 +37,9 @@
     if (![self isExistTable:@"scenedetail"]) {
       [self createTableSceneDetail];
     }
+    if (![self isExistTable:@"scenedetailtmp"]) {
+      [self createTableSceneDetailTmp];
+    }
   }
   return self;
 }
@@ -133,9 +136,26 @@
         @"integer,groupid integer,interval real);";
     BOOL success = [self.db executeUpdate:sql];
     if (success) {
-      debugLog(@"创建表sceneeetail成功");
+      debugLog(@"创建表scenedetail成功");
     } else {
       debugLog(@"创建表scenedetail失败");
+    }
+    [self.db close];
+    return success;
+  }
+  return NO;
+}
+
+- (BOOL)createTableSceneDetailTmp {
+  if ([self.db open]) {
+    NSString *createTableSql =
+        @"create table scenedetailtmp(id integer primary key autoincrement,mac "
+        @"text,groupid integer,onoff integer);";
+    BOOL success = [self.db executeUpdate:createTableSql];
+    if (success) {
+      debugLog(@"创建表sceneeetailtmp成功");
+    } else {
+      debugLog(@"创建表scenedetailtmp失败");
     }
     [self.db close];
     return success;
@@ -369,8 +389,7 @@
         BOOL onOrOff = [sceneDetailResultSet boolForColumn:@"action"];
         SceneDetail *detail = [[SceneDetail alloc] initWithMac:mac
                                                        groupId:groupId
-                                                       onOrOff:onOrOff
-                                                  isInitSwitch:YES];
+                                                       onOrOff:onOrOff];
         detail.interval = [sceneDetailResultSet doubleForColumn:@"interval"];
         [sceneDetails addObject:detail];
       }
@@ -412,22 +431,94 @@
   return result;
 }
 
-- (BOOL)deleteScene:(id)object {
+- (BOOL)removeScene:(id)object {
   BOOL result = NO;
   Scene *scene = (Scene *)object;
   if ([self.db open]) {
-    NSString *sql = @"select sceneid from scene where id=?";
-    FMResultSet *resultSet = [self.db executeQuery:sql, @(scene.indentifier)];
-    int sceneId;
-    if ([resultSet next]) {
-      sceneId = [resultSet intForColumn:@"sceneid"];
-    }
-    sql = @"delete from scene where id=?";
+    //    NSString *sql = @"select sceneid from scene where id=?";
+    //    FMResultSet *resultSet = [self.db executeQuery:sql,
+    //    @(scene.indentifier)];
+    //    int sceneId;
+    //    if ([resultSet next]) {
+    //      sceneId = [resultSet intForColumn:@"sceneid"];
+    //    }
+    NSString *sql = @"delete from scene where id=?";
     result = [self.db executeUpdate:sql, @(scene.indentifier)];
     sql = @"delete from scenedetail where sceneid = ?";
-    [self.db executeUpdate:sql, @(sceneId)];
+    [self.db executeUpdate:sql, @(scene.indentifier)];
     [self.db close];
   }
   return result;
+}
+
+#pragma mark - 操作时的临时保存场景数据
+- (void)addSceneToSceneDetailTmp:(id)object {
+  Scene *scene = (Scene *)object;
+  if ([self.db open]) {
+    if (scene) {
+      static NSString *sql =
+          @"insert into scenedetailtmp (mac,groupid,onoff) values (?,?,?)";
+      for (SceneDetail *detail in scene.detailList) {
+        [self.db executeUpdate:sql, detail.mac, @(detail.groupId),
+                               @(detail.onOrOff)];
+      }
+    }
+    [self.db close];
+  }
+}
+
+- (void)addDetailTmpWithSwitchMac:(NSString *)mac groupId:(int)groupid {
+  if ([self.db open]) {
+    static NSString *sql =
+        @"insert into scenedetailtmp (mac,groupid,onoff) values (?,?,?)";
+    [self.db executeUpdate:sql, mac, @(groupid), @(1)];
+    [self.db close];
+  }
+}
+
+- (void)removeDetailTmpWithSwitchMac:(NSString *)mac groupId:(int)groupid {
+  if ([self.db open]) {
+    static NSString *sql =
+        @"delete from scenedetailtmp where mac=? and groupid=?";
+    [self.db executeUpdate:sql, mac, @(groupid)];
+  }
+  [self.db close];
+}
+
+- (void)updateDetailTmpWithSwitchMac:(NSString *)mac
+                             groupId:(int)groupid
+                         onOffStatus:(BOOL)onOffStatus {
+  if ([self.db open]) {
+    static NSString *sql =
+        @"update scenedetailtmp set onoff=? where mac=? and groupid=?";
+    [self.db executeUpdate:sql, @(onOffStatus), mac, @(groupid)];
+  }
+  [self.db close];
+}
+
+- (NSArray *)allSceneDetailsTmp {
+  NSMutableArray *details = [@[] mutableCopy];
+  static NSString *sql = @"select mac,groupid,onoff from scenedetailtmp";
+  if ([self.db open]) {
+    FMResultSet *resultSet = [self.db executeQuery:sql];
+    while ([resultSet next]) {
+      NSString *mac = [resultSet stringForColumn:@"mac"];
+      int groupId = [resultSet intForColumn:@"groupid"];
+      BOOL onOff = [resultSet boolForColumn:@"onoff"];
+      SceneDetail *detail =
+          [[SceneDetail alloc] initWithMac:mac groupId:groupId onOrOff:onOff];
+      [details addObject:detail];
+    }
+    [self.db close];
+  }
+  return details;
+}
+
+- (void)removeAllSceneDetailTmp {
+  if ([self.db open]) {
+    static NSString *sql = @"delete from scenedetailtmp";
+    [self.db executeUpdate:sql];
+    [self.db close];
+  }
 }
 @end

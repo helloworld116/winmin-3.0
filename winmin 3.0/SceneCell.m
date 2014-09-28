@@ -7,6 +7,7 @@
 //
 
 #import "SceneCell.h"
+#import "Scene.h"
 
 @interface SceneCell ()
 @property(nonatomic, strong) IBOutlet UILabel *lblName;
@@ -43,5 +44,11 @@
   } else {
     self.viewBg.backgroundColor = [UIColor whiteColor];
   }
+}
+
+- (void)setCellInfo:(id)scene {
+  Scene *_scene = (Scene *)scene;
+  self.lblName.text = _scene.name;
+  self.imgViewScene.image = [Scene imgNameToImage:_scene.imageName];
 }
 @end

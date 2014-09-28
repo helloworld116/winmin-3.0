@@ -30,5 +30,15 @@
 
 - (BOOL)saveScene:(id)scene;
 
-- (BOOL)deleteScene:(id)object;
+- (BOOL)removeScene:(id)object;
+
+#pragma mark - 临时表
+- (void)addSceneToSceneDetailTmp:(id)object;
+- (void)addDetailTmpWithSwitchMac:(NSString *)mac groupId:(int)groupid;
+- (void)removeDetailTmpWithSwitchMac:(NSString *)mac groupId:(int)groupid;
+- (void)updateDetailTmpWithSwitchMac:(NSString *)mac
+                             groupId:(int)groupid
+                         onOffStatus:(BOOL)onOffStatus;
+- (NSArray *)allSceneDetailsTmp;
+- (void)removeAllSceneDetailTmp;
 @end

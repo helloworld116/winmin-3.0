@@ -11,23 +11,18 @@
 @implementation SceneDetail
 static double interval = 0.5;
 
-- (id)initWithMac:(NSString *)mac
-          groupId:(int)groupId
-          onOrOff:(BOOL)onOrOff
-     isInitSwitch:(BOOL)isInitSwitch {
+- (id)initWithMac:(NSString *)mac groupId:(int)groupId onOrOff:(BOOL)onOrOff {
   self = [self init];
   if (self) {
     self.mac = mac;
     self.groupId = groupId;
     self.onOrOff = onOrOff;
-    if (isInitSwitch) {
-      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
-      for (SDZGSwitch *aSwitch in switchs) {
-        if ([aSwitch.mac isEqualToString:self.mac]) {
-          self.aSwitch = aSwitch;
-          self.socket = self.aSwitch.sockets[self.groupId - 1];
-          break;
-        }
+    NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+    for (SDZGSwitch *aSwitch in switchs) {
+      if ([aSwitch.mac isEqualToString:self.mac]) {
+        self.aSwitch = aSwitch;
+        self.socket = self.aSwitch.sockets[self.groupId - 1];
+        break;
       }
     }
   }
@@ -49,7 +44,13 @@ static double interval = 0.5;
   } else {
     operation = @"关闭";
   }
-  return [NSString stringWithFormat:@"%@ %@ %@", operation, self.aSwitch.name,
-                                    self.socket.name];
+  NSString *socketName;
+  if (self.groupId == 1) {
+    socketName = @"插孔I";
+  } else {
+    socketName = @"插孔II";
+  }
+  return [NSString
+      stringWithFormat:@"%@ %@ %@", operation, self.aSwitch.name, socketName];
 }
 @end

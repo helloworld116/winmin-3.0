@@ -9,6 +9,7 @@
 #import "SceneDetailViewController.h"
 #import "SceneTemplateViewController.h"
 #import "SceneEditCell.h"
+#import "Scene.h"
 
 @interface SceneTextField : UITextField
 
@@ -36,6 +37,7 @@
 @property(strong, nonatomic) IBOutlet UITableView *tableView;
 
 @property(strong, nonatomic) NSArray *switchs;
+@property(strong, nonatomic) NSString *sceneImageName;
 - (IBAction)showTemplate:(id)sender;
 @end
 
@@ -67,7 +69,7 @@
                                       action:@selector(save:)];
 }
 
-- (void)setUp {
+- (void)setup {
   [self setupStyle];
   self.tableView.delegate = self;
   self.tableView.dataSource = self;
@@ -76,12 +78,17 @@
       initWithString:@"请输入场景名称"
           attributes:@{NSForegroundColorAttributeName : kThemeColor}];
   self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
+
+  //修改时添加场景数据到数据库临时表中
+  if (self.scene) {
+    [[DBUtil sharedInstance] addSceneToSceneDetailTmp:self.scene];
+  }
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  [self setUp];
+  [self setup];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,14 +125,31 @@
 
 #pragma mark - 保存
 - (void)save:(id)sender {
-  //  CATransition *animation = [CATransition animation];
-  //  [animation setDuration:0.5];
-  //  [animation setType:kCATransitionMoveIn];
-  //  [animation setSubtype:kCATransitionFromBottom];
-  //  [animation setTimingFunction:
-  //                 [CAMediaTimingFunction
-  //                     functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-  //  [[self.view layer] addAnimation:animation forKey:@"saveback"];
+  NSArray *details = [[DBUtil sharedInstance] allSceneDetailsTmp];
+  NSString *sceneName = self.textFieldSceneName.text;
+  if (sceneName.length == 0) {
+    [self.view makeToast:@"请输入场景名称"];
+    return;
+  }
+  if (details && details.count) {
+    Scene *scene = [[Scene alloc] init];
+    scene.name = sceneName;
+    scene.imageName = self.sceneImageName;
+    scene.detailList = details;
+    [[DBUtil sharedInstance] saveScene:scene];
+    //保存后删除临时表中的数据
+    [[DBUtil sharedInstance] removeAllSceneDetailTmp];
+    [self.navigationController popViewControllerAnimated:YES];
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:kSceneAddOrUpdateNotification
+                      object:self
+                    userInfo:@{
+                      @"row" : @(-1),
+                      @"scene" : scene
+                    }];
+  } else {
+    [self.view makeToast:@"请添加一条操作"];
+  }
 }
 
 #pragma mark - 模板
@@ -162,6 +186,10 @@
   //    imgViewFrame.size.height += 24;
   //    self.imgViewScene.frame = imgViewFrame;
   //  }
-  self.imgViewScene.image = [SDZGSwitch imgNameToImage:imgName];
+  self.imgViewScene.image = [Scene imgNameToImage:imgName];
+  if (imgName.length < 10) {
+    imgName = [imgName substringToIndex:imgName.length - 1];
+  }
+  self.sceneImageName = imgName;
 }
 @end

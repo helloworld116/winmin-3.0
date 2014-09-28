@@ -108,6 +108,8 @@
 #define kTimerDeleteNotification @"TimerDeleteNotification"
 #define kTimerEffectiveChangedNotifcation @"TimerEffectiveChangedNotifcation"
 
+#define kSceneAddOrUpdateNotification @"SceneAddOrUpdateNotification"
+
 //加密
 #define __ENCRYPT(str) [DESUtil encryptString:str]
 #define __DECRYPT(str) [DESUtil decryptString:str]

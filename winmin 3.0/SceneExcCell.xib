@@ -33,7 +33,7 @@
                         <color key="textColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="exc_ok" translatesAutoresizingMaskIntoConstraints="NO" id="WXR-Cd-GrO">
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="exc_ok" translatesAutoresizingMaskIntoConstraints="NO" id="WXR-Cd-GrO">
                         <rect key="frame" x="283" y="8" width="27" height="27"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>

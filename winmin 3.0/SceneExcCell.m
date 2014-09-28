@@ -7,6 +7,7 @@
 //
 
 #import "SceneExcCell.h"
+#import "SceneDetail.h"
 @interface SceneExcCell ()
 @property(nonatomic, strong) IBOutlet UILabel *lblSeq;
 @property(nonatomic, strong) IBOutlet UILabel *lblDesc;
@@ -35,4 +36,8 @@
   // Configure the view for the selected state
 }
 
+- (void)setSceneDetail:(SceneDetail *)sceneDetail row:(int)row {
+  self.lblSeq.text = [NSString stringWithFormat:@"%d", row];
+  self.lblDesc.text = [sceneDetail description];
+}
 @end

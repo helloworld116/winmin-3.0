@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+@class Scene;
 
 @interface SceneDetailViewController : UIViewController
+@property(nonatomic, strong) Scene *scene;
+@property(nonatomic, assign) int row;
 @end

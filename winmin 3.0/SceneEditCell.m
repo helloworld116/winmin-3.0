@@ -7,6 +7,7 @@
 //
 
 #import "SceneEditCell.h"
+
 #define kSelectColor kThemeColor
 #define kUnselectColor [UIColor colorWithHexString:@"#F0EFEF"]
 
@@ -18,7 +19,9 @@
 @property(strong, nonatomic) IBOutlet UILabel *lblStatus;
 @property(strong, nonatomic) IBOutlet UIButton *btnOnOff;
 @property(strong, nonatomic) IBOutlet UIButton *btnSelected;
+
 @property(assign, nonatomic) int groupId;
+@property(strong, nonatomic) NSString *mac;
 - (IBAction)onOrOff:(id)sender;
 - (IBAction)selectedOrNO:(id)sender;
 @end
@@ -51,6 +54,10 @@
       self.lblStatus.textColor = [UIColor colorWithHexString:@"#CCCCCC"];
       self.lblStatus.text = @"关";
     }
+    [[DBUtil sharedInstance]
+        updateDetailTmpWithSwitchMac:self.mac
+                             groupId:self.groupId
+                         onOffStatus:self.btnOnOff.selected];
   }
 }
 
@@ -63,8 +70,13 @@
     self.lblStatus.textColor = [UIColor whiteColor];
     self.lblStatus.text = @"开";
     self.btnOnOff.selected = YES;
+    [[DBUtil sharedInstance] addDetailTmpWithSwitchMac:self.mac
+                                               groupId:self.groupId];
   } else {
     [self setDefault];
+
+    [[DBUtil sharedInstance] removeDetailTmpWithSwitchMac:self.mac
+                                                  groupId:self.groupId];
   }
 }
 
@@ -130,7 +142,9 @@
   }
   self.textFieldSwitchName.text = aSwitch.name;
   [self.sceneSocketView1 setSocketInfo:aSwitch.sockets[0]];
+  self.sceneSocketView1.mac = aSwitch.mac;
   [self.sceneSocketView2 setSocketInfo:aSwitch.sockets[1]];
+  self.sceneSocketView2.mac = aSwitch.mac;
 }
 
 @end
