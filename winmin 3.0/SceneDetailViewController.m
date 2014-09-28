@@ -82,6 +82,16 @@
   //修改时添加场景数据到数据库临时表中
   if (self.scene) {
     [[DBUtil sharedInstance] addSceneToSceneDetailTmp:self.scene];
+    NSString *imgName;
+    if (self.scene.imageName.length < 10) {
+      imgName = [NSString stringWithFormat:@"%@_", self.scene.imageName];
+    } else {
+      imgName = self.scene.imageName;
+    }
+    self.imgViewScene.image = [Scene imgNameToImage:imgName];
+    self.textFieldSceneName.text = self.scene.name;
+  } else {
+    self.row = -1;
   }
 }
 
@@ -144,7 +154,7 @@
         postNotificationName:kSceneAddOrUpdateNotification
                       object:self
                     userInfo:@{
-                      @"row" : @(-1),
+                      @"row" : @(self.row),
                       @"scene" : scene
                     }];
   } else {
@@ -178,14 +188,15 @@
       self.textFieldSceneName.text.length == 0) {
     self.textFieldSceneName.text = sceneName;
   }
-  //  if (imgName.length > 10) {
-  //    CGRect imgViewFrame = self.imgViewScene.frame;
-  //    imgViewFrame.origin.x -= 12;
-  //    imgViewFrame.origin.y -= 12;
-  //    imgViewFrame.size.width += 24;
-  //    imgViewFrame.size.height += 24;
-  //    self.imgViewScene.frame = imgViewFrame;
-  //  }
+  if (imgName.length > 10) {
+    CGRect imgViewFrame = self.imgViewScene.frame;
+    imgViewFrame.origin.x -= 12;
+    imgViewFrame.origin.y -= 12;
+    imgViewFrame.size.width += 24;
+    imgViewFrame.size.height += 24;
+    self.imgViewScene.frame = imgViewFrame;
+  }
+
   self.imgViewScene.image = [Scene imgNameToImage:imgName];
   if (imgName.length < 10) {
     imgName = [imgName substringToIndex:imgName.length - 1];
