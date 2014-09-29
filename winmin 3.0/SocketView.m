@@ -76,9 +76,9 @@
 
 - (void)changeSocketState:(SDZGSocket *)socket {
   if (socket.socketStatus == SocketStatusOn) {
-    [self.btnOnOrOff setTitle:@"开" forState:UIControlStateNormal];
+    self.btnOnOrOff.selected = YES;
   } else {
-    [self.btnOnOrOff setTitle:@"关" forState:UIControlStateNormal];
+    self.btnOnOrOff.selected = NO;
   }
 }
 @end

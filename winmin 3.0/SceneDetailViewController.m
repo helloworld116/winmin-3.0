@@ -88,6 +88,7 @@
     } else {
       imgName = self.scene.imageName;
     }
+    self.sceneImageName = [imgName substringToIndex:imgName.length - 1];
     self.imgViewScene.image = [Scene imgNameToImage:imgName];
     self.textFieldSceneName.text = self.scene.name;
   } else {
@@ -99,6 +100,12 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   [self setup];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  //保存后删除临时表中的数据
+  [[DBUtil sharedInstance] removeAllSceneDetailTmp];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -119,7 +126,9 @@
   SceneEditCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId
                                                         forIndexPath:indexPath];
   SDZGSwitch *aSwtich = self.switchs[indexPath.row];
-  [cell setSwitchInfo:aSwtich row:indexPath.row];
+  [cell setSwitchInfo:aSwtich
+                  row:indexPath.row
+         sceneDetails:self.scene.detailList];
   return cell;
 }
 
@@ -142,13 +151,16 @@
     return;
   }
   if (details && details.count) {
-    Scene *scene = [[Scene alloc] init];
+    Scene *scene;
+    if (self.scene) {
+      scene = self.scene;
+    } else {
+      scene = [[Scene alloc] init];
+    }
     scene.name = sceneName;
     scene.imageName = self.sceneImageName;
     scene.detailList = details;
     [[DBUtil sharedInstance] saveScene:scene];
-    //保存后删除临时表中的数据
-    [[DBUtil sharedInstance] removeAllSceneDetailTmp];
     [self.navigationController popViewControllerAnimated:YES];
     [[NSNotificationCenter defaultCenter]
         postNotificationName:kSceneAddOrUpdateNotification

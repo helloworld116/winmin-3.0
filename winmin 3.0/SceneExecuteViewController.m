@@ -10,6 +10,7 @@
 #import "SceneExcCell.h"
 #import "Scene.h"
 #import "SceneDetail.h"
+#import "SceneExecuteModel.h"
 #define kSceneExcCellHeight 45.f
 
 @interface SceneExecuteViewController ()<UITableViewDelegate,
@@ -18,6 +19,7 @@
 @property(nonatomic, strong) UIButton *btnCancelOrOk;
 
 @property(nonatomic, strong) NSArray *sceneDetails;
+@property(nonatomic, strong) SceneExecuteModel *model;
 @end
 
 @implementation SceneExecuteViewController
@@ -95,16 +97,21 @@
   shadowView.backgroundColor = [UIColor blackColor];
   shadowView.alpha = .2f;
   [self.view addSubview:shadowView];
+
+  self.model = [[SceneExecuteModel alloc] init];
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  //  [self.view performSelector:@selector(removeFromSuperview)
-  //                  withObject:nil
-  //                  afterDelay:3.f];
-  [self performSelector:@selector(removeWindow) withObject:nil afterDelay:3.f];
+  //  [self performSelector:@selector(removeWindow) withObject:nil
+  //  afterDelay:3.f];
   [self setup];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  [self.model executeSceneDetails:self.sceneDetails];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -136,6 +143,7 @@
 
 #pragma mark -
 - (void)cancelOrOk:(id)sender {
+  [self.model cancelExecute];
   [self removeWindow];
 }
 

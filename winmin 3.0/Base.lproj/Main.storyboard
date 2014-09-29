@@ -130,9 +130,10 @@
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJD-q0-izU" userLabel="开关按钮">
                                                         <rect key="frame" x="258" y="54" width="45" height="45"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" backgroundImage="socket_onoff_normal">
+                                                        <state key="normal" title="关" backgroundImage="socket_onoff_normal">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <state key="selected" title="开" backgroundImage="socket_onoff_highligthed"/>
                                                         <state key="highlighted" backgroundImage="socket_onoff_highligthed"/>
                                                         <connections>
                                                             <action selector="touchOnOrOff:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="GbY-gM-esv"/>
@@ -223,9 +224,10 @@
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1fG-DM-5AU" userLabel="开关按钮">
                                                         <rect key="frame" x="258" y="54" width="45" height="45"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" backgroundImage="socket_onoff_normal">
+                                                        <state key="normal" title="关" backgroundImage="socket_onoff_normal">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <state key="selected" title="开" backgroundImage="socket_onoff_highligthed"/>
                                                         <state key="highlighted" backgroundImage="socket_onoff_highligthed"/>
                                                         <connections>
                                                             <action selector="touchOnOrOff:" destination="ZoC-de-892" eventType="touchUpInside" id="e5r-8H-o8y"/>

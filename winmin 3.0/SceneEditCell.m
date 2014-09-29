@@ -7,6 +7,7 @@
 //
 
 #import "SceneEditCell.h"
+#import "SceneDetail.h"
 
 #define kSelectColor kThemeColor
 #define kUnselectColor [UIColor colorWithHexString:@"#F0EFEF"]
@@ -29,30 +30,38 @@
 @implementation SceneSocketView
 - (void)awakeFromNib {
   self.lblStatus.layer.cornerRadius = 15.f;
-  [self setDefault];
+  [self setSelected:NO onOff:NO];
 }
 
-- (void)setDefault {
-  //默认关闭
-  self.lblStatus.backgroundColor = kUnselectColor;
-  self.lblStatus.textColor = [UIColor colorWithHexString:@"#CCCCCC"];
-  self.lblStatus.text = @"关";
-  self.bgView.backgroundColor = kUnselectColor;
-  self.btnSelected.selected = NO;
-  self.btnOnOff.selected = NO;
+- (void)setSelected:(BOOL)selected onOff:(BOOL)onOff {
+  if (selected) {
+    self.bgView.backgroundColor = kSelectColor;
+    self.btnSelected.selected = YES;
+  } else {
+    self.bgView.backgroundColor = kUnselectColor;
+    self.btnSelected.selected = NO;
+  }
+  if (onOff) {
+    self.lblStatus.backgroundColor = kSelectColor;
+    self.lblStatus.textColor = [UIColor whiteColor];
+    self.lblStatus.text = @"开";
+    self.btnOnOff.selected = YES;
+  } else {
+    //默认关闭
+    self.lblStatus.backgroundColor = kUnselectColor;
+    self.lblStatus.textColor = [UIColor colorWithHexString:@"#CCCCCC"];
+    self.lblStatus.text = @"关";
+    self.btnOnOff.selected = NO;
+  }
 }
 
 - (IBAction)onOrOff:(id)sender {
   if (self.btnSelected.selected) {
     self.btnOnOff.selected = !self.btnOnOff.selected;
     if (self.btnOnOff.selected) {
-      self.lblStatus.backgroundColor = kSelectColor;
-      self.lblStatus.textColor = [UIColor whiteColor];
-      self.lblStatus.text = @"开";
+      [self setSelected:YES onOff:YES];
     } else {
-      self.lblStatus.backgroundColor = kUnselectColor;
-      self.lblStatus.textColor = [UIColor colorWithHexString:@"#CCCCCC"];
-      self.lblStatus.text = @"关";
+      [self setSelected:YES onOff:NO];
     }
     [[DBUtil sharedInstance]
         updateDetailTmpWithSwitchMac:self.mac
@@ -64,23 +73,20 @@
 - (IBAction)selectedOrNO:(id)sender {
   self.btnSelected.selected = !self.btnSelected.selected;
   if (self.btnSelected.selected) {
-    self.bgView.backgroundColor = kSelectColor;
-
-    self.lblStatus.backgroundColor = kSelectColor;
-    self.lblStatus.textColor = [UIColor whiteColor];
-    self.lblStatus.text = @"开";
-    self.btnOnOff.selected = YES;
+    [self setSelected:YES onOff:YES];
     [[DBUtil sharedInstance] addDetailTmpWithSwitchMac:self.mac
                                                groupId:self.groupId];
   } else {
-    [self setDefault];
-
+    [self setSelected:NO onOff:NO];
     [[DBUtil sharedInstance] removeDetailTmpWithSwitchMac:self.mac
                                                   groupId:self.groupId];
   }
 }
 
-- (void)setSocketInfo:(SDZGSocket *)socket {
+- (void)setSocketInfo:(SDZGSocket *)socket
+                  mac:(NSString *)mac
+         sceneDetails:(NSArray *)sceneDetails {
+  self.mac = mac;
   NSString *socket1ImageName = socket.imageNames[0];
   socket1ImageName = socket1ImageName.length < 10
                          ? [NSString stringWithFormat:@"%@_", socket1ImageName]
@@ -97,6 +103,15 @@
   self.imgViewSocket1.image = [SDZGSocket imgNameToImage:socket1ImageName];
   self.imgViewSocket2.image = [SDZGSocket imgNameToImage:socket2ImageName];
   self.imgViewSocket3.image = [SDZGSocket imgNameToImage:socket3ImageName];
+  if (sceneDetails && sceneDetails.count) {
+    for (SceneDetail *sceneDetail in sceneDetails) {
+      if ([sceneDetail.mac isEqualToString:self.mac] &&
+          sceneDetail.groupId == self.groupId) {
+        [self setSelected:YES onOff:sceneDetail.onOrOff];
+        break;
+      }
+    }
+  }
 }
 @end
 
@@ -134,17 +149,21 @@
   // Configure the view for the selected state
 }
 
-- (void)setSwitchInfo:(SDZGSwitch *)aSwitch row:(NSInteger)row {
+- (void)setSwitchInfo:(SDZGSwitch *)aSwitch
+                  row:(NSInteger)row
+         sceneDetails:(NSArray *)sceneDetails {
   if (row == 0) {
     self.topLineView.hidden = YES;
   } else {
     self.topLineView.hidden = NO;
   }
   self.textFieldSwitchName.text = aSwitch.name;
-  [self.sceneSocketView1 setSocketInfo:aSwitch.sockets[0]];
-  self.sceneSocketView1.mac = aSwitch.mac;
-  [self.sceneSocketView2 setSocketInfo:aSwitch.sockets[1]];
-  self.sceneSocketView2.mac = aSwitch.mac;
+  [self.sceneSocketView1 setSocketInfo:aSwitch.sockets[0]
+                                   mac:aSwitch.mac
+                          sceneDetails:sceneDetails];
+  [self.sceneSocketView2 setSocketInfo:aSwitch.sockets[1]
+                                   mac:aSwitch.mac
+                          sceneDetails:sceneDetails];
 }
 
 @end

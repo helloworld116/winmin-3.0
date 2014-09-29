@@ -14,6 +14,8 @@
 @interface SceneListViewController ()<UIActionSheetDelegate>
 @property(nonatomic, strong) NSIndexPath *longPressIndexPath;
 @property(nonatomic, strong) NSMutableArray *scenes;
+
+@property(nonatomic, strong) UIView *noDataView;
 @end
 
 @implementation SceneListViewController
@@ -36,12 +38,21 @@
       initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                            target:self
                            action:@selector(addScene:)];
+  self.noDataView =
+      [[UIView alloc] initWithSize:self.view.frame.size
+                           imgName:@"noscene"
+                           message:@"您暂时还未添加任何场景"];
+  self.noDataView.hidden = YES;
+  [self.view addSubview:self.noDataView];
   [[NSNotificationCenter defaultCenter]
       addObserver:self
          selector:@selector(addOrUpdateScene:)
              name:kSceneAddOrUpdateNotification
            object:nil];
   self.scenes = [[[DBUtil sharedInstance] scenes] mutableCopy];
+  if (!self.scenes || self.scenes.count == 0) {
+    self.noDataView.hidden = NO;
+  }
 }
 
 - (void)viewDidLoad {
@@ -181,7 +192,14 @@ preparation before navigation
         [self.collectionView performBatchUpdates:^{
             [self.scenes removeObjectAtIndex:self.longPressIndexPath.row];
             [self.collectionView deleteItemsAtIndexPaths:indexPaths];
-        } completion:^(BOOL finished) {}];
+        } completion:^(BOOL finished) {
+            if (finished) {
+              if (self.scenes.count == 0) {
+                [UIView animateWithDuration:0.3
+                                 animations:^{ self.noDataView.hidden = NO; }];
+              }
+            }
+        }];
       }
       break;
     default:
@@ -195,6 +213,9 @@ preparation before navigation
   int row = [userInfo[@"row"] intValue];
   Scene *scene = userInfo[@"scene"];
   if (row == -1) {
+    if (!self.noDataView.hidden) {
+      self.noDataView.hidden = YES;
+    }
     //添加
     [self.collectionView performBatchUpdates:^{
         [self.scenes addObject:scene];
@@ -202,9 +223,13 @@ preparation before navigation
             [NSIndexPath indexPathForRow:self.scenes.count - 1 inSection:0];
         [self.collectionView insertItemsAtIndexPaths:@[ indexPath ]];
     } completion:^(BOOL finished) {}];
-
   } else {
     //修改
+    [self.collectionView performBatchUpdates:^{
+        [self.scenes replaceObjectAtIndex:row withObject:scene];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+        [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
+    } completion:^(BOOL finished) {}];
   }
 }
 @end

@@ -40,34 +40,15 @@
     self.request.delegate = self;
   }
   [self.request sendMsg0B:ActiveMode];
-
-  //  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC),
-  //                 GLOBAL_QUEUE, ^{
-  //      NSArray *macs = [self.switchDict allKeys];
-  //      int j = 0;
-  //      for (int i = 0; i < macs.count; i++) {
-  //        NSString *mac = [[self.switchDict allKeys] objectAtIndex:i];
-  //        CC3xSwitch *aSwitch = [self.switchDict objectForKey:mac];
-  //        if (aSwitch.status != SWITCH_LOCAL &&
-  //            aSwitch.status != SWITCH_LOCAL_LOCK) {
-  //          [[MessageUtil shareInstance] sendMsg0D:self.udpSocket
-  //                                             mac:mac
-  //                                        sendMode:ActiveMode];
-  //          double delayInSeconds = 0.5 * j +
-  //          kCheckPublicPrivateResponseInterval;
-  //          //外网每个延迟0.5秒发送请求
-  //          dispatch_time_t delayInNanoSeconds =
-  //              dispatch_time(DISPATCH_TIME_NOW, delayInSeconds *
-  //              NSEC_PER_SEC);
-  //          dispatch_after(delayInNanoSeconds, GLOBAL_QUEUE, ^{
-  //              [[MessageUtil shareInstance] sendMsg0D:self.udpSocket
-  //                                                 mac:mac
-  //                                            sendMode:ActiveMode];
-  //          });
-  //          j++;
-  //        }
-  //      }
-  //  });
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC),
+                 GLOBAL_QUEUE, ^{
+      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+      for (SDZGSwitch *aSwitch in switchs) {
+        //        aSwitch.networkStatus = SWITCH_OFFLINE;
+        [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
+        [NSThread sleepForTimeInterval:0.1f];
+      }
+  });
 }
 
 - (void)blinkSwitch:(SDZGSwitch *)aSwitch {

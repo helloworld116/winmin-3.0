@@ -1549,244 +1549,112 @@ static dispatch_queue_t delegateQueue;
  *  @param tag
  */
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag {
-  if (isHome) {
-    debugLog(@"didSendDataWithTag :%ld", tag);
-    CC3xMessage *msg;
-    switch (tag) {
-      case P2D_SERVER_INFO_05:
-        self.responseData6 = nil;
-        break;
-      case P2D_SCAN_DEV_09:
-        self.responseDataA = nil;
-        break;
-      case P2D_STATE_INQUIRY_0B:
-        self.responseDataC = [NSData
-            dataWithContentsOfFile:
-                [PATH_OF_DOCUMENT stringByAppendingPathComponent:@"switch95"]];
-        msg = [CC3xMessageUtil parseMessage:self.responseDataC];
-        break;
-      case P2S_STATE_INQUIRY_0D:
-        self.responseDataE = nil;
-        break;
-      case P2D_CONTROL_REQ_11:
-        self.responseData12 = nil;
-        break;
-      case P2S_CONTROL_REQ_13:
-        self.responseData14 = nil;
-        break;
-      case P2D_GET_TIMER_REQ_17: {
-        self.responseData18 = [NSData
-            dataWithContentsOfFile:
-                [PATH_OF_DOCUMENT
-                    stringByAppendingPathComponent:@"dingshiliebiao95"]];
-        CC3xMessage *msg = [CC3xMessageUtil parseMessage:self.responseData18];
-        if ([self.delegate
-                respondsToSelector:@selector(responseMsg:address:)]) {
-          [self.delegate responseMsg:msg address:nil];
-        }
-      } break;
-      case P2S_GET_TIMER_REQ_19:
-        self.responseData1A = nil;
-        break;
-      case P2D_SET_TIMER_REQ_1D:
-        self.responseData1E = nil;
-        break;
-      case P2S_SET_TIMER_REQ_1F:
-        self.responseData20 = nil;
-        break;
-      case P2D_GET_PROPERTY_REQ_25:
-        self.responseData26 = nil;
-        break;
-      case P2S_GET_PROPERTY_REQ_27:
-        self.responseData28 = nil;
-        break;
-      case P2D_GET_POWER_INFO_REQ_33:
-        self.responseData34 = [NSData
-            dataWithContentsOfFile:
-                [PATH_OF_DOCUMENT
-                    stringByAppendingPathComponent:@"shishidianliang95"]];
-        msg = [CC3xMessageUtil parseMessage:self.responseData34];
-        break;
-      case P2S_GET_POWER_INFO_REQ_35:
-        self.responseData36 = nil;
-        break;
-      case P2D_LOCATE_REQ_39:
-        self.responseData3A = nil;
-        break;
-      case P2S_LOCATE_REQ_3B:
-        self.responseData3C = nil;
-        break;
-      case P2D_SET_NAME_REQ_3F:
-        self.responseData40 = nil;
-        break;
-      case P2S_SET_NAME_REQ_41:
-        self.responseData42 = nil;
-        break;
-      case P2D_DEV_LOCK_REQ_47:
-        self.responseData48 = nil;
-        break;
-      case P2S_DEV_LOCK_REQ_49:
-        self.responseData4A = nil;
-        break;
-      case P2D_SET_DELAY_REQ_4D:
-        self.responseData4E = nil;
-        break;
-      case P2S_SET_DELAY_REQ_4F:
-        self.responseData50 = nil;
-        break;
-      case P2D_GET_DELAY_REQ_53:
-        self.responseData54 = [NSData
-            dataWithContentsOfFile:
-                [PATH_OF_DOCUMENT
-                    stringByAppendingPathComponent:@"chaxunshebeiyanshi95"]];
-        msg = [CC3xMessageUtil parseMessage:self.responseData54];
-        break;
-      case P2S_GET_DELAY_REQ_55:
-        self.responseData56 = nil;
-        break;
-      case P2S_PHONE_INIT_REQ_59:
-        self.responseData5A = nil;
-        break;
-      case P2D_GET_NAME_REQ_5D:
-        self.responseData5E = [NSData
-            dataWithContentsOfFile:
-                [PATH_OF_DOCUMENT
-                    stringByAppendingPathComponent:@"chaxunshebeimingcheng95"]];
-        msg = [CC3xMessageUtil parseMessage:self.responseData5E];
-        break;
-      case P2S_GET_NAME_REQ_5F:
-        self.responseData60 = nil;
-        break;
-      case P2S_GET_POWER_LOG_REQ_63:
-        self.responseData64 = nil;
-        break;
-      case P2S_GET_CITY_REQ_65:
-        self.responseData66 = nil;
-        break;
-      case P2S_GET_CITY_WEATHER_REQ_67:
-        self.responseData68 = nil;
-        break;
-      case P2D_SET_PASSWD_REQ_69:
-        self.responseData6A = nil;
-        break;
-      default: {
-        // TODO:设备在保存到数据库等本地文件时，设置一个tag标志，通过tag标识可以找到mac
-        NSString *mac;
-        [self.responseDictE setObject:[NSNull null] forKey:mac];
-        break;
-      }
+  debugLog(@"didSendDataWithTag :%ld", tag);
+  //需要执行的操作：
+  // 1、清空响应数据
+  // 2、指定时间后检查数据是否为空，为空说明未响应，触发请求重发
+  switch (tag) {
+    case P2D_SERVER_INFO_05:
+      self.responseData6 = nil;
+      break;
+    case P2D_SCAN_DEV_09:
+      self.responseDataA = nil;
+      break;
+    case P2D_STATE_INQUIRY_0B:
+      self.responseDataC = nil;
+      break;
+    case P2S_STATE_INQUIRY_0D:
+      self.responseDataE = nil;
+      break;
+    case P2D_CONTROL_REQ_11:
+      self.responseData12 = nil;
+      break;
+    case P2S_CONTROL_REQ_13:
+      self.responseData14 = nil;
+      break;
+    case P2D_GET_TIMER_REQ_17:
+      self.responseData18 = nil;
+      break;
+    case P2S_GET_TIMER_REQ_19:
+      self.responseData1A = nil;
+      break;
+    case P2D_SET_TIMER_REQ_1D:
+      self.responseData1E = nil;
+      break;
+    case P2S_SET_TIMER_REQ_1F:
+      self.responseData20 = nil;
+      break;
+    case P2D_GET_PROPERTY_REQ_25:
+      self.responseData26 = nil;
+      break;
+    case P2S_GET_PROPERTY_REQ_27:
+      self.responseData28 = nil;
+      break;
+    case P2D_GET_POWER_INFO_REQ_33:
+      self.responseData34 = nil;
+      break;
+    case P2S_GET_POWER_INFO_REQ_35:
+      self.responseData36 = nil;
+      break;
+    case P2D_LOCATE_REQ_39:
+      self.responseData3A = nil;
+      break;
+    case P2S_LOCATE_REQ_3B:
+      self.responseData3C = nil;
+      break;
+    case P2D_SET_NAME_REQ_3F:
+      self.responseData40 = nil;
+      break;
+    case P2S_SET_NAME_REQ_41:
+      self.responseData42 = nil;
+      break;
+    case P2D_DEV_LOCK_REQ_47:
+      self.responseData48 = nil;
+      break;
+    case P2S_DEV_LOCK_REQ_49:
+      self.responseData4A = nil;
+      break;
+    case P2D_SET_DELAY_REQ_4D:
+      self.responseData4E = nil;
+      break;
+    case P2S_SET_DELAY_REQ_4F:
+      self.responseData50 = nil;
+      break;
+    case P2D_GET_DELAY_REQ_53:
+      self.responseData54 = nil;
+      break;
+    case P2S_GET_DELAY_REQ_55:
+      self.responseData56 = nil;
+      break;
+    case P2S_PHONE_INIT_REQ_59:
+      self.responseData5A = nil;
+      break;
+    case P2D_GET_NAME_REQ_5D:
+      self.responseData5E = nil;
+      break;
+    case P2S_GET_NAME_REQ_5F:
+      self.responseData60 = nil;
+      break;
+    case P2S_GET_POWER_LOG_REQ_63:
+      self.responseData64 = nil;
+      break;
+    case P2S_GET_CITY_REQ_65:
+      self.responseData66 = nil;
+      break;
+    case P2S_GET_CITY_WEATHER_REQ_67:
+      self.responseData68 = nil;
+      break;
+    case P2D_SET_PASSWD_REQ_69:
+      self.responseData6A = nil;
+      break;
+    default: {
+      // TODO:设备在保存到数据库等本地文件时，设置一个tag标志，通过tag标识可以找到mac
+      //        NSString *mac;
+      //        [self.responseDictE setObject:[NSNull null] forKey:mac];
+      break;
     }
-    if ([self.delegate respondsToSelector:@selector(responseMsg:address:)]) {
-      [self.delegate responseMsg:msg address:nil];
-    }
-  } else {
-    debugLog(@"didSendDataWithTag :%ld", tag);
-    //需要执行的操作：
-    // 1、清空响应数据
-    // 2、指定时间后检查数据是否为空，为空说明未响应，触发请求重发
-    switch (tag) {
-      case P2D_SERVER_INFO_05:
-        self.responseData6 = nil;
-        break;
-      case P2D_SCAN_DEV_09:
-        self.responseDataA = nil;
-        break;
-      case P2D_STATE_INQUIRY_0B:
-        self.responseDataC = nil;
-        break;
-      case P2S_STATE_INQUIRY_0D:
-        self.responseDataE = nil;
-        break;
-      case P2D_CONTROL_REQ_11:
-        self.responseData12 = nil;
-        break;
-      case P2S_CONTROL_REQ_13:
-        self.responseData14 = nil;
-        break;
-      case P2D_GET_TIMER_REQ_17:
-        self.responseData18 = nil;
-        break;
-      case P2S_GET_TIMER_REQ_19:
-        self.responseData1A = nil;
-        break;
-      case P2D_SET_TIMER_REQ_1D:
-        self.responseData1E = nil;
-        break;
-      case P2S_SET_TIMER_REQ_1F:
-        self.responseData20 = nil;
-        break;
-      case P2D_GET_PROPERTY_REQ_25:
-        self.responseData26 = nil;
-        break;
-      case P2S_GET_PROPERTY_REQ_27:
-        self.responseData28 = nil;
-        break;
-      case P2D_GET_POWER_INFO_REQ_33:
-        self.responseData34 = nil;
-        break;
-      case P2S_GET_POWER_INFO_REQ_35:
-        self.responseData36 = nil;
-        break;
-      case P2D_LOCATE_REQ_39:
-        self.responseData3A = nil;
-        break;
-      case P2S_LOCATE_REQ_3B:
-        self.responseData3C = nil;
-        break;
-      case P2D_SET_NAME_REQ_3F:
-        self.responseData40 = nil;
-        break;
-      case P2S_SET_NAME_REQ_41:
-        self.responseData42 = nil;
-        break;
-      case P2D_DEV_LOCK_REQ_47:
-        self.responseData48 = nil;
-        break;
-      case P2S_DEV_LOCK_REQ_49:
-        self.responseData4A = nil;
-        break;
-      case P2D_SET_DELAY_REQ_4D:
-        self.responseData4E = nil;
-        break;
-      case P2S_SET_DELAY_REQ_4F:
-        self.responseData50 = nil;
-        break;
-      case P2D_GET_DELAY_REQ_53:
-        self.responseData54 = nil;
-        break;
-      case P2S_GET_DELAY_REQ_55:
-        self.responseData56 = nil;
-        break;
-      case P2S_PHONE_INIT_REQ_59:
-        self.responseData5A = nil;
-        break;
-      case P2D_GET_NAME_REQ_5D:
-        self.responseData5E = nil;
-        break;
-      case P2S_GET_NAME_REQ_5F:
-        self.responseData60 = nil;
-        break;
-      case P2S_GET_POWER_LOG_REQ_63:
-        self.responseData64 = nil;
-        break;
-      case P2S_GET_CITY_REQ_65:
-        self.responseData66 = nil;
-        break;
-      case P2S_GET_CITY_WEATHER_REQ_67:
-        self.responseData68 = nil;
-        break;
-      case P2D_SET_PASSWD_REQ_69:
-        self.responseData6A = nil;
-        break;
-      default: {
-        // TODO:设备在保存到数据库等本地文件时，设置一个tag标志，通过tag标识可以找到mac
-        NSString *mac;
-        [self.responseDictE setObject:[NSNull null] forKey:mac];
-        break;
-      }
-    }
-    [self checkResponseDataAfterSettingIntervalWithTag:tag];
   }
+  [self checkResponseDataAfterSettingIntervalWithTag:tag];
 }
 
 /**
@@ -1921,7 +1789,6 @@ static dispatch_queue_t delegateQueue;
        didReceiveData:(NSData *)data
           fromAddress:(NSData *)address
     withFilterContext:(id)filterContext {
-  //  debugLog(@"socket is %@", sock);
   debugLog(@"receiveData is %@", [CC3xMessageUtil hexString:data]);
   if (data) {
     CC3xMessage *msg = (CC3xMessage *)filterContext;
@@ -1939,14 +1806,6 @@ static dispatch_queue_t delegateQueue;
         break;
       case 0xc:
         if (msg.version == 2) {
-          //          if ([msg.mac isEqualToString:@"00:19:94:37:a2:95"]) {
-          //            NSLog(
-          //                @"write to file is %d",
-          //                [data
-          //                    writeToFile:[PATH_OF_DOCUMENT
-          //                                    stringByAppendingPathComponent:@"switch95"]
-          //                     atomically:YES]);
-          //          }
           self.responseDataC = data;
         }
         break;
@@ -1955,19 +1814,12 @@ static dispatch_queue_t delegateQueue;
         [self.responseDictE setObject:data forKey:msg.mac];
         break;
       case 0x12:
-        //        [data writeToFile:[PATH_OF_DOCUMENT
-        //                              stringByAppendingPathComponent:@"kaiguan95"]
-        //               atomically:YES];
         self.responseData12 = data;
         break;
       case 0x14:
         self.responseData14 = data;
         break;
       case 0x18:
-        //        [data
-        //            writeToFile:[PATH_OF_DOCUMENT
-        //                            stringByAppendingPathComponent:@"dingshiliebiao95"]
-        //             atomically:YES];
         self.responseData18 = data;
         break;
       case 0x1a:
@@ -1986,58 +1838,36 @@ static dispatch_queue_t delegateQueue;
         self.responseData28 = data;
         break;
       case 0x34:
-        //        [data
-        //            writeToFile:[PATH_OF_DOCUMENT
-        //                            stringByAppendingPathComponent:@"shishidianliang95"]
-        //             atomically:YES];
         self.responseData34 = data;
         break;
       case 0x36:
         self.responseData36 = data;
         break;
       case 0x3A:
-        //        [data writeToFile:[PATH_OF_DOCUMENT
-        //                              stringByAppendingPathComponent:@"shansuo95"]
-        //               atomically:YES];
         self.responseData3A = data;
         break;
       case 0x3C:
         self.responseData3C = data;
         break;
       case 0x40:
-        //        [data
-        //            writeToFile:[PATH_OF_DOCUMENT
-        //                            stringByAppendingPathComponent:@"shebeimingcheng95"]
-        //             atomically:YES];
         self.responseData40 = data;
         break;
       case 0x42:
         self.responseData42 = data;
         break;
       case 0x48:
-        //        [data writeToFile:[PATH_OF_DOCUMENT
-        //                              stringByAppendingPathComponent:@"jiasuo95"]
-        //               atomically:YES];
         self.responseData48 = data;
         break;
       case 0x4a:
         self.responseData4A = data;
         break;
       case 0x4e:
-        //        [data writeToFile:[PATH_OF_DOCUMENT
-        //        stringByAppendingPathComponent:
-        //                                                @"shezhishebeiyanshi95"]
-        //               atomically:YES];
         self.responseData4E = data;
         break;
       case 0x50:
         self.responseData50 = data;
         break;
       case 0x54:
-        //        [data writeToFile:[PATH_OF_DOCUMENT
-        //        stringByAppendingPathComponent:
-        //                                                @"chaxunshebeiyanshi95"]
-        //               atomically:YES];
         self.responseData54 = data;
         break;
       case 0x56:
@@ -2047,10 +1877,6 @@ static dispatch_queue_t delegateQueue;
         self.responseData5A = data;
         break;
       case 0x5e:
-        //        [data writeToFile:[PATH_OF_DOCUMENT
-        //        stringByAppendingPathComponent:
-        //                                                @"chaxunshebeimingcheng95"]
-        //               atomically:YES];
         self.responseData5E = data;
         break;
       case 0x60:

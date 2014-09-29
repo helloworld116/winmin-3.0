@@ -36,6 +36,7 @@
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
   backButtonItem.title = @"返回";
   self.navigationItem.backBarButtonItem = backButtonItem;
+  self.navigationItem.title = self.aSwitch.name;
   self.socketView1.sockeViewDelegate = self;
   self.socketView1.groupId = 1;
   SDZGSocket *socket1 = [self.aSwitch.sockets objectAtIndex:0];

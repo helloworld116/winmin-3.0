@@ -46,7 +46,8 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE) {
 @property(nonatomic, assign) long tag;  //记录udp请求发送时的tag
 @property(nonatomic, strong) NSString *imageName;
 @property(nonatomic, strong) NSString *
-    password;  //设置的设备密码，添加修改设备相关信息需要使用，未设置的情况下默认为空
+    password;                                                    //设置的设备密码，添加修改设备相关信息需要使用，未设置的情况下默认为空
+@property(nonatomic, assign) NSTimeInterval lastUpdateInterval;  //最近修改时间
 + (SDZGSwitch *)parseMessageCOrEToSwitch:(CC3xMessage *)message;
 + (UIImage *)imgNameToImage:(NSString *)imgName;
 + (UIImage *)imgNameToImageOffline:(NSString *)imgName;

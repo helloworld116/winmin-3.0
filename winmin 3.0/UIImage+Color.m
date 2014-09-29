@@ -24,7 +24,7 @@
 + (UIImage *)circleImage:(UIImage *)image withParam:(CGFloat)inset {
   UIGraphicsBeginImageContext(image.size);
   CGContextRef context = UIGraphicsGetCurrentContext();
-  CGContextSetLineWidth(context, 2);
+  CGContextSetLineWidth(context, 0.1);
   CGContextSetStrokeColorWithColor(context, kThemeColor.CGColor);
   CGRect rect = CGRectMake(inset, inset, image.size.width - inset * 2.0f,
                            image.size.height - inset * 2.0f);
@@ -58,4 +58,5 @@
   CGContextRelease(context);
   return grayImage;
 }
+
 @end

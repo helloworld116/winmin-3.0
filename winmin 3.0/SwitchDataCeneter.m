@@ -224,6 +224,7 @@
 }
 
 - (NSArray *)switchs {
+  debugLog(@"$$$$$$$$$ %f", [[NSDate date] timeIntervalSince1970]);
   return [self.switchsDict allValues];
 }
 

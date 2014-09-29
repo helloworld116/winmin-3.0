@@ -90,7 +90,6 @@
 		158D992F19C7E2380068AFC5 /* HistoryElec.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D992D19C7E2380068AFC5 /* HistoryElec.m */; };
 		158D993619C7E2530068AFC5 /* SceneDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D993119C7E2530068AFC5 /* SceneDetail.m */; };
 		158D993719C7E2530068AFC5 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D993319C7E2530068AFC5 /* Scene.m */; };
-		158D993819C7E2530068AFC5 /* SceneDataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D993519C7E2530068AFC5 /* SceneDataCenter.m */; };
 		15AC863519CFBF7800D154EB /* SwitchInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC863419CFBF7800D154EB /* SwitchInfoViewController.m */; };
 		15AC863C19CFC6C900D154EB /* TimerEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC863719CFC6C800D154EB /* TimerEditViewController.m */; };
 		15AC863D19CFC6C900D154EB /* CycleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC863919CFC6C900D154EB /* CycleViewController.m */; };
@@ -106,6 +105,7 @@
 		15AC865819D158D700D154EB /* DelayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865719D158D700D154EB /* DelayModel.m */; };
 		15AC865B19D2C56400D154EB /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865A19D2C56400D154EB /* DatePickerViewController.m */; };
 		15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15AC865C19D2C6C800D154EB /* DatePickerViewController.xib */; };
+		15BBD6F219D92AC30002D973 /* SceneExecuteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F119D92AC30002D973 /* SceneExecuteModel.m */; };
 		15F31C1E19D3C7C70095E5BD /* SceneListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F31C1D19D3C7C70095E5BD /* SceneListViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -247,8 +247,6 @@
 		158D993119C7E2530068AFC5 /* SceneDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDetail.m; sourceTree = "<group>"; };
 		158D993219C7E2530068AFC5 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		158D993319C7E2530068AFC5 /* Scene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scene.m; sourceTree = "<group>"; };
-		158D993419C7E2530068AFC5 /* SceneDataCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDataCenter.h; sourceTree = "<group>"; };
-		158D993519C7E2530068AFC5 /* SceneDataCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDataCenter.m; sourceTree = "<group>"; };
 		15AC863319CFBF7800D154EB /* SwitchInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchInfoViewController.h; sourceTree = "<group>"; };
 		15AC863419CFBF7800D154EB /* SwitchInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchInfoViewController.m; sourceTree = "<group>"; };
 		15AC863619CFC6C800D154EB /* TimerEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerEditViewController.h; sourceTree = "<group>"; };
@@ -277,6 +275,8 @@
 		15AC865919D2C56400D154EB /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
 		15AC865A19D2C56400D154EB /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
 		15AC865C19D2C6C800D154EB /* DatePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerViewController.xib; sourceTree = "<group>"; };
+		15BBD6F019D92AC30002D973 /* SceneExecuteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneExecuteModel.h; sourceTree = "<group>"; };
+		15BBD6F119D92AC30002D973 /* SceneExecuteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneExecuteModel.m; sourceTree = "<group>"; };
 		15F31C1C19D3C7C70095E5BD /* SceneListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneListViewController.h; sourceTree = "<group>"; };
 		15F31C1D19D3C7C70095E5BD /* SceneListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneListViewController.m; sourceTree = "<group>"; };
 		3D7C9184B0EB44E997A6779A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -372,8 +372,8 @@
 				158D993119C7E2530068AFC5 /* SceneDetail.m */,
 				158D993219C7E2530068AFC5 /* Scene.h */,
 				158D993319C7E2530068AFC5 /* Scene.m */,
-				158D993419C7E2530068AFC5 /* SceneDataCenter.h */,
-				158D993519C7E2530068AFC5 /* SceneDataCenter.m */,
+				15BBD6F019D92AC30002D973 /* SceneExecuteModel.h */,
+				15BBD6F119D92AC30002D973 /* SceneExecuteModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -939,7 +939,6 @@
 				158D992919C7E1390068AFC5 /* ViewUtil.m in Sources */,
 				155A5BF019D3D7B3007864C8 /* SceneCell.m in Sources */,
 				15AC864419CFC7B100D154EB /* TimerModel.m in Sources */,
-				158D993819C7E2530068AFC5 /* SceneDataCenter.m in Sources */,
 				158D992F19C7E2380068AFC5 /* HistoryElec.m in Sources */,
 				158D992E19C7E2380068AFC5 /* SwitchDataCeneter.m in Sources */,
 				1560131119C956C700BF7E12 /* MoreCellTypeFirst.m in Sources */,
@@ -952,6 +951,7 @@
 				1560130419C91EF800BF7E12 /* SwitchListModel.m in Sources */,
 				155A5BFF19D54206007864C8 /* SceneExcCell.m in Sources */,
 				158D988719C6F39C0068AFC5 /* main.m in Sources */,
+				15BBD6F219D92AC30002D973 /* SceneExecuteModel.m in Sources */,
 				158D991519C7CBC50068AFC5 /* UdpRequest.m in Sources */,
 				15AC865819D158D700D154EB /* DelayModel.m in Sources */,
 				15AC863C19CFC6C900D154EB /* TimerEditViewController.m in Sources */,

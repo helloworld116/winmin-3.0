@@ -19,48 +19,59 @@
       break;
     }
   }
-  if (aSwitch) {
-    needToDBImmediately = NO;
-    NSMutableArray *sockets = aSwitch.sockets;
-    for (int i = 0; i < sockets.count; i++) {
-      SDZGSocket *socket = sockets[i];
-      socket.socketStatus = ((message.onStatus & 1 << i) == 1 << i);
+  NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+  NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
+  if (diff > REFRESH_DEV_TIME / 2) {
+    if (aSwitch) {
+      needToDBImmediately = NO;
+      NSMutableArray *sockets = aSwitch.sockets;
+      for (int i = 0; i < sockets.count; i++) {
+        SDZGSocket *socket = sockets[i];
+        socket.socketStatus = ((message.onStatus & 1 << i) == 1 << i);
+      }
+    } else {
+      needToDBImmediately = YES;
+      aSwitch = [[SDZGSwitch alloc] init];
+      aSwitch.sockets = [@[] mutableCopy];
+      SDZGSocket *socket1 = [[SDZGSocket alloc] init];
+      socket1.groupId = 1;
+      socket1.socketStatus = ((message.onStatus & 1 << 0) == 1 << 0);
+      socket1.imageNames = @[
+        socket_default_image,
+        socket_default_image,
+        socket_default_image
+      ];
+      [aSwitch.sockets addObject:socket1];
+
+      SDZGSocket *socket2 = [[SDZGSocket alloc] init];
+      socket2.groupId = 2;
+      socket2.socketStatus = ((message.onStatus & 1 << 1) == 1 << 1);
+      socket2.imageNames = @[
+        socket_default_image,
+        socket_default_image,
+        socket_default_image
+      ];
+      [aSwitch.sockets addObject:socket2];
+
+      aSwitch.imageName = switch_default_image;
     }
-  } else {
-    needToDBImmediately = YES;
-    aSwitch = [[SDZGSwitch alloc] init];
-    aSwitch.sockets = [@[] mutableCopy];
-    SDZGSocket *socket1 = [[SDZGSocket alloc] init];
-    socket1.groupId = 1;
-    socket1.socketStatus = ((message.onStatus & 1 << 0) == 1 << 0);
-    socket1.imageNames =
-        @[ socket_default_image, socket_default_image, socket_default_image ];
-    [aSwitch.sockets addObject:socket1];
-
-    SDZGSocket *socket2 = [[SDZGSocket alloc] init];
-    socket2.groupId = 2;
-    socket2.socketStatus = ((message.onStatus & 1 << 1) == 1 << 1);
-    socket2.imageNames =
-        @[ socket_default_image, socket_default_image, socket_default_image ];
-    [aSwitch.sockets addObject:socket2];
-
-    aSwitch.imageName = switch_default_image;
-  }
-  aSwitch.mac = message.mac;
-  aSwitch.ip = message.ip;
-  aSwitch.port = message.port;
-  aSwitch.name = message.deviceName;
-  aSwitch.version = message.version;
-  aSwitch.lockStatus = message.lockStatus;
-  if (message.msgId == 0xc) {
-    aSwitch.networkStatus = SWITCH_LOCAL;
-  } else if (message.msgId == 0xe) {
-    aSwitch.networkStatus = SWITCH_REMOTE;
-  } else {
-    aSwitch.networkStatus = SWITCH_OFFLINE;
-  }
-  if (needToDBImmediately) {
-    [[DBUtil sharedInstance] saveSwitch:aSwitch];
+    aSwitch.mac = message.mac;
+    aSwitch.ip = message.ip;
+    aSwitch.port = message.port;
+    aSwitch.name = message.deviceName;
+    aSwitch.version = message.version;
+    aSwitch.lockStatus = message.lockStatus;
+    if (message.msgId == 0xc) {
+      aSwitch.networkStatus = SWITCH_LOCAL;
+    } else if (message.msgId == 0xe) {
+      aSwitch.networkStatus = SWITCH_REMOTE;
+    } else {
+      aSwitch.networkStatus = SWITCH_OFFLINE;
+    }
+    if (needToDBImmediately) {
+      [[DBUtil sharedInstance] saveSwitch:aSwitch];
+    }
+    aSwitch.lastUpdateInterval = current;
   }
   return aSwitch;
 }

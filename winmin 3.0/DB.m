@@ -418,6 +418,7 @@
       NSString *sql = @"insert into scene(name,imagename) values (?,?)";
       [self.db executeUpdate:sql, scene.name, scene.imageName];
       sceneId = (int)[self.db lastInsertRowId];
+      scene.indentifier = sceneId;  //添加后设置标识符便于后续删除
     }
     for (SceneDetail *detail in scene.detailList) {
       NSString *sql =
@@ -435,13 +436,6 @@
   BOOL result = NO;
   Scene *scene = (Scene *)object;
   if ([self.db open]) {
-    //    NSString *sql = @"select sceneid from scene where id=?";
-    //    FMResultSet *resultSet = [self.db executeQuery:sql,
-    //    @(scene.indentifier)];
-    //    int sceneId;
-    //    if ([resultSet next]) {
-    //      sceneId = [resultSet intForColumn:@"sceneid"];
-    //    }
     NSString *sql = @"delete from scene where id=?";
     result = [self.db executeUpdate:sql, @(scene.indentifier)];
     sql = @"delete from scenedetail where sceneid = ?";
@@ -516,7 +510,7 @@
 
 - (void)removeAllSceneDetailTmp {
   if ([self.db open]) {
-    static NSString *sql = @"delete from scenedetailtmp";
+    static NSString *sql = @"delete from scenedetailtmp;";
     [self.db executeUpdate:sql];
     [self.db close];
   }
