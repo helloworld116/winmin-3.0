@@ -15,6 +15,7 @@
 
 @interface SceneExecuteViewController ()<UITableViewDelegate,
                                          UITableViewDataSource>
+@property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) UILabel *lblStatus;
 @property(nonatomic, strong) UIButton *btnCancelOrOk;
 
@@ -58,6 +59,7 @@
   tableView.bounces = NO;
   tableView.dataSource = self;
   tableView.delegate = self;
+  self.tableView = tableView;
   [self.view addSubview:tableView];
 
   UIView *titleView = [[UIView alloc]
@@ -81,7 +83,7 @@
   CGSize statusSize = [status sizeWithFont:[UIFont systemFontOfSize:18]];
   UILabel *lblStatus = [[UILabel alloc]
       initWithFrame:CGRectMake(CGRectGetMaxX(lblTitle.frame) + 15, 17,
-                               statusSize.width, statusSize.height)];
+                               statusSize.width + 10, statusSize.height)];
   lblStatus.textColor = [UIColor whiteColor];
   lblStatus.font = [UIFont systemFontOfSize:18];
   lblStatus.text = status;
@@ -99,6 +101,16 @@
   [self.view addSubview:shadowView];
 
   self.model = [[SceneExecuteModel alloc] init];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(sceneExecuteResult:)
+             name:kSceneExecuteResultNotification
+           object:self.model];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(sceneExecuteFinished:)
+             name:kSceneExecuteFinishedNotification
+           object:self.model];
 }
 
 - (void)viewDidLoad {
@@ -117,6 +129,10 @@
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - UITableViewDataSource
@@ -151,5 +167,25 @@
 - (void)removeWindow {
   [kSharedAppliction.userWindow resignKeyWindow];
   kSharedAppliction.userWindow = nil;
+}
+
+#pragma mark - 场景执行通知
+- (void)sceneExecuteResult:(NSNotification *)notification {
+  NSDictionary *userInfo = notification.userInfo;
+  int row = [userInfo[@"row"] intValue];
+  BOOL resultType = [userInfo[@"resultType"] boolValue];
+  NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+  [self.tableView scrollToRowAtIndexPath:indexPath
+                        atScrollPosition:UITableViewScrollPositionBottom
+                                animated:YES];
+  SceneExcCell *cell =
+      (SceneExcCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+  dispatch_async(MAIN_QUEUE, ^{ [cell updatePage:resultType]; });
+}
+
+- (void)sceneExecuteFinished:(NSNotification *)notification {
+  dispatch_async(MAIN_QUEUE, ^{ self.lblStatus.text = @"场景执行完成"; });
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
+                 MAIN_QUEUE, ^{ [self removeWindow]; });
 }
 @end

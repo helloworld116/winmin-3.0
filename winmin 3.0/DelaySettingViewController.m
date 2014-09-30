@@ -42,6 +42,12 @@
 
 - (void)setupStyle {
   self.btnSave.layer.cornerRadius = 5.f;
+
+  self.view.layer.borderColor =
+      [UIColor colorWithHexString:@"#C3C3C3" alpha:1].CGColor;
+  self.view.layer.cornerRadius = 5.f;
+  //  self.view.layer.borderWidth = 1.f;
+  self.view.layer.masksToBounds = YES;
 }
 
 - (void)setup {

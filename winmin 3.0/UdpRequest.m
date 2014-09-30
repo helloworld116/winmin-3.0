@@ -1549,7 +1549,7 @@ static dispatch_queue_t delegateQueue;
  *  @param tag
  */
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag {
-  debugLog(@"didSendDataWithTag :%ld", tag);
+  //  debugLog(@"didSendDataWithTag :%ld", tag);
   //需要执行的操作：
   // 1、清空响应数据
   // 2、指定时间后检查数据是否为空，为空说明未响应，触发请求重发
@@ -1789,7 +1789,7 @@ static dispatch_queue_t delegateQueue;
        didReceiveData:(NSData *)data
           fromAddress:(NSData *)address
     withFilterContext:(id)filterContext {
-  debugLog(@"receiveData is %@", [CC3xMessageUtil hexString:data]);
+  //  debugLog(@"receiveData is %@", [CC3xMessageUtil hexString:data]);
   if (data) {
     CC3xMessage *msg = (CC3xMessage *)filterContext;
     if ([self.delegate respondsToSelector:@selector(responseMsg:address:)]) {

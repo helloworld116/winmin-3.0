@@ -109,6 +109,8 @@
 #define kTimerEffectiveChangedNotifcation @"TimerEffectiveChangedNotifcation"
 
 #define kSceneAddOrUpdateNotification @"SceneAddOrUpdateNotification"
+#define kSceneExecuteResultNotification @"SceneExecuteResultNotification"
+#define kSceneExecuteFinishedNotification @"SceneExecuteFinishedNotification"
 
 //加密
 #define __ENCRYPT(str) [DESUtil encryptString:str]
@@ -133,7 +135,7 @@
 
 #define DEVICE_PORT 56797
 
-#define REFRESH_DEV_TIME 15
+#define REFRESH_DEV_TIME 10
 
 #define BROADCAST_ADDRESS @"255.255.255.255"
 

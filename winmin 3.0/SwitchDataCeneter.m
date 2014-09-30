@@ -8,7 +8,6 @@
 
 #import "SwitchDataCeneter.h"
 @interface SwitchDataCeneter ()
-@property(strong, atomic) NSMutableDictionary *switchsDict;
 @property(nonatomic, assign) UIBackgroundTaskIdentifier backgroundUpdateTask;
 @end
 
@@ -18,7 +17,7 @@
   if (self) {
     // TODO: 从本地文件加载
     self.switchs = [[DBUtil sharedInstance] getSwitchs];
-    self.switchsDict = [[NSMutableDictionary alloc] init];
+    _switchsDict = [[NSMutableDictionary alloc] init];
     //这里一定不能使用self.switchs,因为覆写了switchs的get方法
     for (SDZGSwitch *aSwitch in _switchs) {
       if (aSwitch.mac) {
@@ -224,7 +223,13 @@
 }
 
 - (NSArray *)switchs {
-  debugLog(@"$$$$$$$$$ %f", [[NSDate date] timeIntervalSince1970]);
+  NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+  NSArray *switchs = [self.switchsDict allValues];
+  for (SDZGSwitch *aSwitch in switchs) {
+    if (current - aSwitch.lastUpdateInterval > 2 * REFRESH_DEV_TIME) {
+      aSwitch.networkStatus = SWITCH_OFFLINE;
+    }
+  }
   return [self.switchsDict allValues];
 }
 

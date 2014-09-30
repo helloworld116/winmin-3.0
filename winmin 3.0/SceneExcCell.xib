@@ -27,7 +27,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="待执行" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xx7-qk-FEN">
-                        <rect key="frame" x="217" y="11" width="51" height="21"/>
+                        <rect key="frame" x="227" y="11" width="51" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -43,7 +43,7 @@
                     <constraint firstItem="l7M-n8-6Bc" firstAttribute="top" secondItem="QvK-iD-o0T" secondAttribute="top" constant="11" id="KOB-ah-74k"/>
                     <constraint firstItem="Xx7-qk-FEN" firstAttribute="top" secondItem="QvK-iD-o0T" secondAttribute="top" constant="11" id="NAe-6w-A31"/>
                     <constraint firstItem="WXR-Cd-GrO" firstAttribute="top" secondItem="QvK-iD-o0T" secondAttribute="top" constant="8" id="UQQ-on-IEH"/>
-                    <constraint firstItem="WXR-Cd-GrO" firstAttribute="leading" secondItem="Xx7-qk-FEN" secondAttribute="trailing" constant="15" id="dmJ-7p-bJG"/>
+                    <constraint firstItem="WXR-Cd-GrO" firstAttribute="leading" secondItem="Xx7-qk-FEN" secondAttribute="trailing" constant="5" id="dmJ-7p-bJG"/>
                     <constraint firstItem="l7M-n8-6Bc" firstAttribute="leading" secondItem="QvK-iD-o0T" secondAttribute="leading" constant="15" id="eIX-Fm-36E"/>
                     <constraint firstItem="OrH-jH-s64" firstAttribute="leading" secondItem="l7M-n8-6Bc" secondAttribute="trailing" constant="15" id="hf8-oj-tYe"/>
                     <constraint firstItem="OrH-jH-s64" firstAttribute="top" secondItem="QvK-iD-o0T" secondAttribute="top" constant="11" id="xr5-bX-RXz"/>

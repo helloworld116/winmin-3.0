@@ -40,4 +40,19 @@
   self.lblSeq.text = [NSString stringWithFormat:@"%d", row];
   self.lblDesc.text = [sceneDetail description];
 }
+
+- (void)updatePage:(BOOL)success {
+  NSString *result;
+  NSString *imgName;
+  if (success) {
+    result = @"执行成功";
+    imgName = @"exc_ok";
+  } else {
+    result = @"执行失败";
+    imgName = @"exc_failure";
+  }
+  self.lblExcResult.text = result;
+  self.imgViewResult.image = [UIImage imageNamed:imgName];
+  self.imgViewResult.hidden = NO;
+}
 @end

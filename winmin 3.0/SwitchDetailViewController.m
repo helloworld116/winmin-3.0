@@ -13,11 +13,13 @@
 #import "TimerViewController.h"
 #import "SwitchInfoViewController.h"
 #import "DelayViewController.h"
+#import "ElecView.h"
 
 @interface SwitchDetailViewController ()<SocketViewDelegate,
                                          SocketImgTemplateDelegate>
 @property(strong, nonatomic) IBOutlet SocketView *socketView1;
 @property(strong, nonatomic) IBOutlet SocketView *socketView2;
+@property(strong, nonatomic) IBOutlet ElecView *elecView;
 @property(strong, nonatomic) SwitchDetailModel *model;
 @end
 
@@ -46,6 +48,12 @@
   self.socketView2.groupId = 2;
   SDZGSocket *socket2 = [self.aSwitch.sockets objectAtIndex:1];
   [self.socketView2 setSocketInfo:socket2];
+
+  self.elecView.layer.borderColor =
+      [UIColor colorWithHexString:@"#C3C3C3" alpha:1].CGColor;
+  self.elecView.layer.cornerRadius = 5.f;
+  self.elecView.layer.borderWidth = 1.f;
+  self.elecView.layer.masksToBounds = YES;
 
   self.model = [[SwitchDetailModel alloc] init];
 }

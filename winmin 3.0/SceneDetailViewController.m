@@ -38,6 +38,7 @@
 
 @property(strong, nonatomic) NSArray *switchs;
 @property(strong, nonatomic) NSString *sceneImageName;
+@property(assign, nonatomic) BOOL showTemplateController;
 - (IBAction)showTemplate:(id)sender;
 @end
 
@@ -104,8 +105,10 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
-  //保存后删除临时表中的数据
-  [[DBUtil sharedInstance] removeAllSceneDetailTmp];
+  if (!self.showTemplateController) {
+    //保存后删除临时表中的数据
+    [[DBUtil sharedInstance] removeAllSceneDetailTmp];
+  }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -176,6 +179,7 @@
 
 #pragma mark - 模板
 - (IBAction)showTemplate:(id)sender {
+  self.showTemplateController = YES;
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
   SceneTemplateViewController *templateController = [self.storyboard
       instantiateViewControllerWithIdentifier:@"SceneTemplateViewController"];
@@ -194,20 +198,24 @@
 
 #pragma mark - SceneTemplateDelegate
 - (void)imgName:(NSString *)imgName sceneName:(NSString *)sceneName {
+  self.showTemplateController = NO;
   //在模板内的名称进行替换
-  if ([[kSceneTemplateDict allValues]
-          containsObject:self.textFieldSceneName.text] ||
-      self.textFieldSceneName.text.length == 0) {
+  if (([[kSceneTemplateDict allValues]
+           containsObject:self.textFieldSceneName.text] ||
+       self.textFieldSceneName.text.length == 0) &&
+      sceneName) {
     self.textFieldSceneName.text = sceneName;
   }
-  if (imgName.length > 10) {
-    CGRect imgViewFrame = self.imgViewScene.frame;
-    imgViewFrame.origin.x -= 12;
-    imgViewFrame.origin.y -= 12;
-    imgViewFrame.size.width += 24;
-    imgViewFrame.size.height += 24;
-    self.imgViewScene.frame = imgViewFrame;
-  }
+  //  if (imgName.length > 10) {
+  //    CGRect imgViewFrame = self.imgViewScene.frame;
+  //    imgViewFrame.origin.x -= 12;
+  //    imgViewFrame.origin.y -= 12;
+  //    imgViewFrame.size.width += 24;
+  //    imgViewFrame.size.height += 24;
+  //    self.imgViewScene.frame = imgViewFrame;
+  //  }
+
+  self.imgViewScene.frame = CGRectMake(10, 10, 40, 40);
 
   self.imgViewScene.image = [Scene imgNameToImage:imgName];
   if (imgName.length < 10) {

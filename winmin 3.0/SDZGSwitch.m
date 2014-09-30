@@ -10,18 +10,13 @@
 
 @implementation SDZGSwitch
 + (SDZGSwitch *)parseMessageCOrEToSwitch:(CC3xMessage *)message {
+  //  debugLog(@"message id is %x", message.msgId);
   BOOL needToDBImmediately;  //新扫描到的设备立即添加到数据库
-  SDZGSwitch *aSwitch;
-  NSArray *switchs = [SwitchDataCeneter sharedInstance].switchs;
-  for (SDZGSwitch *oldSwitch in switchs) {
-    if ([oldSwitch.mac isEqualToString:message.mac]) {
-      aSwitch = oldSwitch;
-      break;
-    }
-  }
+  SDZGSwitch *aSwitch =
+      [[SwitchDataCeneter sharedInstance].switchsDict objectForKey:message.mac];
   NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
   NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
-  if (diff > REFRESH_DEV_TIME / 2) {
+  if (diff > REFRESH_DEV_TIME / 4) {
     if (aSwitch) {
       needToDBImmediately = NO;
       NSMutableArray *sockets = aSwitch.sockets;
@@ -64,6 +59,12 @@
     if (message.msgId == 0xc) {
       aSwitch.networkStatus = SWITCH_LOCAL;
     } else if (message.msgId == 0xe) {
+      if (aSwitch.networkStatus == SWITCH_LOCAL ||
+          aSwitch.networkStatus == SWITCH_LOCAL_LOCK) {
+        if (diff < 2 * REFRESH_DEV_TIME) {
+          return nil;
+        }
+      }
       aSwitch.networkStatus = SWITCH_REMOTE;
     } else {
       aSwitch.networkStatus = SWITCH_OFFLINE;
@@ -72,8 +73,9 @@
       [[DBUtil sharedInstance] saveSwitch:aSwitch];
     }
     aSwitch.lastUpdateInterval = current;
+    return aSwitch;
   }
-  return aSwitch;
+  return nil;
 }
 
 + (UIImage *)imgNameToImage:(NSString *)imgName {

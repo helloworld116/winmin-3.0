@@ -78,209 +78,384 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oWh-oX-OWV">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pQ8-cN-gbp">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pQ8-cN-gbp">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JL5-Fc-0vL" customClass="SocketView">
+                                        <rect key="frame" x="0.0" y="10" width="320" height="110"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JL5-Fc-0vL" customClass="SocketView">
-                                                <rect key="frame" x="0.0" y="10" width="320" height="110"/>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="oV6-Bq-Koh" userLabel="背景图片">
+                                                <rect key="frame" x="7" y="50" width="306" height="52"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ee-Sf-ebI" userLabel="孔1按钮">
+                                                <rect key="frame" x="24" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
+                                                <connections>
+                                                    <action selector="touchSocket1:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="1fc-Mn-5FD"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BRZ-JH-M7g" userLabel="孔2按钮">
+                                                <rect key="frame" x="89" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
+                                                <connections>
+                                                    <action selector="touchSocket2:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="mLJ-ji-tha"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QQ7-Nw-1X6" userLabel="孔3按钮">
+                                                <rect key="frame" x="154" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
+                                                <connections>
+                                                    <action selector="touchSocket3:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="aZR-SZ-GaN"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJD-q0-izU" userLabel="开关按钮">
+                                                <rect key="frame" x="258" y="54" width="45" height="45"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="关" backgroundImage="socket_onoff_normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected" title="开" backgroundImage="socket_onoff_highligthed"/>
+                                                <state key="highlighted" backgroundImage="socket_onoff_highligthed"/>
+                                                <connections>
+                                                    <action selector="touchOnOrOff:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="GbY-gM-esv"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="d6B-1L-KE2" userLabel="孔1图片">
+                                                <rect key="frame" x="24" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="zyC-yh-BAY" userLabel="孔2图片">
+                                                <rect key="frame" x="89" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="S0W-bG-hZM" userLabel="孔3图片">
+                                                <rect key="frame" x="154" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hE1-u5-U5v" userLabel="定时按钮">
+                                                <rect key="frame" x="32" y="66" width="56" height="35"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="定时" image="timer">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="touchTimer:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="HTC-Ft-T3k"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lq6-md-TsT" userLabel="延时按钮">
+                                                <rect key="frame" x="126" y="66" width="56" height="35"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="延时" image="delay">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="touchDelay:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="VMz-gn-LEC"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="110" id="fuT-vC-kyB"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="btnOnOrOff" destination="IJD-q0-izU" id="ltC-zR-7Bb"/>
+                                            <outlet property="imgViewSocket1" destination="d6B-1L-KE2" id="DYf-NB-Re0"/>
+                                            <outlet property="imgViewSocket2" destination="zyC-yh-BAY" id="PrU-y8-xAq"/>
+                                            <outlet property="imgViewSocket3" destination="S0W-bG-hZM" id="ISX-LC-Jpf"/>
+                                        </connections>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZoC-de-892" customClass="SocketView">
+                                        <rect key="frame" x="0.0" y="119" width="320" height="110"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="wBG-uJ-a9k" userLabel="背景图片">
+                                                <rect key="frame" x="7" y="50" width="306" height="52"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xeU-37-nZS" userLabel="孔1按钮">
+                                                <rect key="frame" x="24" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
+                                                <connections>
+                                                    <action selector="touchSocket1:" destination="ZoC-de-892" eventType="touchUpInside" id="2AU-tG-lCz"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qDA-4p-Xzt" userLabel="孔2按钮">
+                                                <rect key="frame" x="89" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
+                                                <connections>
+                                                    <action selector="touchSocket2:" destination="ZoC-de-892" eventType="touchUpInside" id="bnq-k9-CyB"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n5X-Kc-kM8" userLabel="孔3按钮">
+                                                <rect key="frame" x="154" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
+                                                <connections>
+                                                    <action selector="touchSocket3:" destination="ZoC-de-892" eventType="touchUpInside" id="S6j-Ke-Xvi"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1fG-DM-5AU" userLabel="开关按钮">
+                                                <rect key="frame" x="258" y="54" width="45" height="45"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="关" backgroundImage="socket_onoff_normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected" title="开" backgroundImage="socket_onoff_highligthed"/>
+                                                <state key="highlighted" backgroundImage="socket_onoff_highligthed"/>
+                                                <connections>
+                                                    <action selector="touchOnOrOff:" destination="ZoC-de-892" eventType="touchUpInside" id="e5r-8H-o8y"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="gtB-Ub-JWe" userLabel="孔1图片">
+                                                <rect key="frame" x="24" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="dKg-ag-3U2" userLabel="孔2图片">
+                                                <rect key="frame" x="89" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="gIx-mU-bns" userLabel="孔3图片">
+                                                <rect key="frame" x="154" y="5" width="56" height="56"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58q-ea-yYU" userLabel="定时按钮">
+                                                <rect key="frame" x="32" y="66" width="56" height="35"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="定时" image="timer">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="touchTimer:" destination="ZoC-de-892" eventType="touchUpInside" id="7lh-ga-9rD"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzk-Ah-mge" userLabel="延时按钮">
+                                                <rect key="frame" x="126" y="66" width="56" height="35"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="延时" image="delay">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="touchDelay:" destination="ZoC-de-892" eventType="touchUpInside" id="VPc-ln-yli"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="110" id="TNR-42-2u9"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="btnOnOrOff" destination="1fG-DM-5AU" id="tbb-hO-Zcf"/>
+                                            <outlet property="imgViewSocket1" destination="gtB-Ub-JWe" id="8i7-HZ-sdW"/>
+                                            <outlet property="imgViewSocket2" destination="dKg-ag-3U2" id="P4s-RY-dkv"/>
+                                            <outlet property="imgViewSocket3" destination="gIx-mU-bns" id="9My-9B-ZKP"/>
+                                        </connections>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Kp-op-mYm" customClass="ElecView">
+                                        <rect key="frame" x="10" y="234" width="300" height="324"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MqG-zb-Sia">
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="oV6-Bq-Koh" userLabel="背景图片">
-                                                        <rect key="frame" x="7" y="50" width="306" height="52"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ee-Sf-ebI" userLabel="孔1按钮">
-                                                        <rect key="frame" x="24" y="5" width="56" height="56"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7wr-d1-WBN">
+                                                        <rect key="frame" x="3" y="0.0" width="42" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" backgroundImage="socket_bg_normal">
+                                                        <state key="normal" title="实时">
+                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
+                                                        <state key="selected">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
                                                         <connections>
-                                                            <action selector="touchSocket1:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="1fc-Mn-5FD"/>
+                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="8zG-8P-yHa"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BRZ-JH-M7g" userLabel="孔2按钮">
-                                                        <rect key="frame" x="89" y="5" width="56" height="56"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8CF-tY-69s">
+                                                        <rect key="frame" x="45" y="0.0" width="42" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" backgroundImage="socket_bg_normal">
+                                                        <state key="normal" title="1天">
+                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
+                                                        <state key="selected">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
                                                         <connections>
-                                                            <action selector="touchSocket2:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="mLJ-ji-tha"/>
+                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="HLM-IU-X1N"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QQ7-Nw-1X6" userLabel="孔3按钮">
-                                                        <rect key="frame" x="154" y="5" width="56" height="56"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XXX-2J-eId">
+                                                        <rect key="frame" x="87" y="0.0" width="42" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" backgroundImage="socket_bg_normal">
+                                                        <state key="normal" title="1周">
+                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
+                                                        <state key="selected">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
                                                         <connections>
-                                                            <action selector="touchSocket3:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="aZR-SZ-GaN"/>
+                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="ABd-f2-YS0"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJD-q0-izU" userLabel="开关按钮">
-                                                        <rect key="frame" x="258" y="54" width="45" height="45"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ywm-SG-V6s">
+                                                        <rect key="frame" x="129" y="0.0" width="42" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" title="关" backgroundImage="socket_onoff_normal">
+                                                        <state key="normal" title="1月">
+                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="selected" title="开" backgroundImage="socket_onoff_highligthed"/>
-                                                        <state key="highlighted" backgroundImage="socket_onoff_highligthed"/>
+                                                        <state key="selected">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
                                                         <connections>
-                                                            <action selector="touchOnOrOff:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="GbY-gM-esv"/>
+                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="rpi-AY-dIE"/>
                                                         </connections>
                                                     </button>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="d6B-1L-KE2" userLabel="孔1图片">
-                                                        <rect key="frame" x="24" y="5" width="56" height="56"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F35-e2-b6b">
+                                                        <rect key="frame" x="171" y="0.0" width="42" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    </imageView>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="zyC-yh-BAY" userLabel="孔2图片">
-                                                        <rect key="frame" x="89" y="5" width="56" height="56"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    </imageView>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="S0W-bG-hZM" userLabel="孔3图片">
-                                                        <rect key="frame" x="154" y="5" width="56" height="56"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hE1-u5-U5v" userLabel="定时按钮">
-                                                        <rect key="frame" x="32" y="66" width="56" height="35"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" title="定时" image="timer">
+                                                        <state key="normal" title="3月">
+                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <state key="selected">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
                                                         <connections>
-                                                            <action selector="touchTimer:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="HTC-Ft-T3k"/>
+                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="r5s-f6-FWV"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lq6-md-TsT" userLabel="延时按钮">
-                                                        <rect key="frame" x="126" y="66" width="56" height="35"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iha-vB-vGu">
+                                                        <rect key="frame" x="213" y="0.0" width="42" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" title="延时" image="delay">
+                                                        <state key="normal" title="6月">
+                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <state key="selected">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
                                                         <connections>
-                                                            <action selector="touchDelay:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="VMz-gn-LEC"/>
+                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="Nb6-bi-M0X"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35W-mQ-9Ou">
+                                                        <rect key="frame" x="255" y="0.0" width="42" height="40"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <state key="normal" title="1年">
+                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <state key="selected">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="k9P-Im-kaR"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <connections>
-                                                    <outlet property="btnOnOrOff" destination="IJD-q0-izU" id="ltC-zR-7Bb"/>
-                                                    <outlet property="imgViewSocket1" destination="d6B-1L-KE2" id="DYf-NB-Re0"/>
-                                                    <outlet property="imgViewSocket2" destination="zyC-yh-BAY" id="PrU-y8-xAq"/>
-                                                    <outlet property="imgViewSocket3" destination="S0W-bG-hZM" id="ISX-LC-Jpf"/>
-                                                </connections>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="GS6-de-cgv"/>
+                                                </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZoC-de-892" customClass="SocketView">
-                                                <rect key="frame" x="0.0" y="119" width="320" height="110"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TLY-rz-uaK" userLabel="Line">
+                                                <rect key="frame" x="0.0" y="40" width="300" height="1"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.76470588235294112" green="0.76470588235294112" blue="0.76470588235294112" alpha="1" colorSpace="calibratedRGB"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-Bd-crA">
+                                                <rect key="frame" x="0.0" y="41" width="300" height="283"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="wBG-uJ-a9k" userLabel="背景图片">
-                                                        <rect key="frame" x="7" y="50" width="306" height="52"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H70-3X-xFu" customClass="ElecRealTimeView">
+                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="283"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xeU-37-nZS" userLabel="孔1按钮">
-                                                        <rect key="frame" x="24" y="5" width="56" height="56"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" backgroundImage="socket_bg_normal">
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
-                                                        <connections>
-                                                            <action selector="touchSocket1:" destination="ZoC-de-892" eventType="touchUpInside" id="2AU-tG-lCz"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qDA-4p-Xzt" userLabel="孔2按钮">
-                                                        <rect key="frame" x="89" y="5" width="56" height="56"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" backgroundImage="socket_bg_normal">
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
-                                                        <connections>
-                                                            <action selector="touchSocket2:" destination="ZoC-de-892" eventType="touchUpInside" id="bnq-k9-CyB"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n5X-Kc-kM8" userLabel="孔3按钮">
-                                                        <rect key="frame" x="154" y="5" width="56" height="56"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" backgroundImage="socket_bg_normal">
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
-                                                        <connections>
-                                                            <action selector="touchSocket3:" destination="ZoC-de-892" eventType="touchUpInside" id="S6j-Ke-Xvi"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1fG-DM-5AU" userLabel="开关按钮">
-                                                        <rect key="frame" x="258" y="54" width="45" height="45"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" title="关" backgroundImage="socket_onoff_normal">
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="selected" title="开" backgroundImage="socket_onoff_highligthed"/>
-                                                        <state key="highlighted" backgroundImage="socket_onoff_highligthed"/>
-                                                        <connections>
-                                                            <action selector="touchOnOrOff:" destination="ZoC-de-892" eventType="touchUpInside" id="e5r-8H-o8y"/>
-                                                        </connections>
-                                                    </button>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="gtB-Ub-JWe" userLabel="孔1图片">
-                                                        <rect key="frame" x="24" y="5" width="56" height="56"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    </imageView>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="dKg-ag-3U2" userLabel="孔2图片">
-                                                        <rect key="frame" x="89" y="5" width="56" height="56"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    </imageView>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="gIx-mU-bns" userLabel="孔3图片">
-                                                        <rect key="frame" x="154" y="5" width="56" height="56"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58q-ea-yYU" userLabel="定时按钮">
-                                                        <rect key="frame" x="32" y="66" width="56" height="35"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" title="定时" image="timer">
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="touchTimer:" destination="ZoC-de-892" eventType="touchUpInside" id="7lh-ga-9rD"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzk-Ah-mge" userLabel="延时按钮">
-                                                        <rect key="frame" x="126" y="66" width="56" height="35"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" title="延时" image="delay">
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="touchDelay:" destination="ZoC-de-892" eventType="touchUpInside" id="VPc-ln-yli"/>
-                                                        </connections>
-                                                    </button>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </view>
                                                 </subviews>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <connections>
-                                                    <outlet property="btnOnOrOff" destination="1fG-DM-5AU" id="tbb-hO-Zcf"/>
-                                                    <outlet property="imgViewSocket1" destination="gtB-Ub-JWe" id="8i7-HZ-sdW"/>
-                                                    <outlet property="imgViewSocket2" destination="dKg-ag-3U2" id="P4s-RY-dkv"/>
-                                                    <outlet property="imgViewSocket3" destination="gIx-mU-bns" id="9My-9B-ZKP"/>
-                                                </connections>
+                                                <color key="backgroundColor" red="0.83529418706893921" green="0.94509810209274292" blue="0.85490202903747559" alpha="1" colorSpace="deviceRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="bottom" secondItem="H70-3X-xFu" secondAttribute="bottom" id="4aP-Nl-9ez"/>
+                                                    <constraint firstAttribute="trailing" secondItem="H70-3X-xFu" secondAttribute="trailing" id="F6g-sd-6dz"/>
+                                                    <constraint firstItem="H70-3X-xFu" firstAttribute="top" secondItem="vcZ-Bd-crA" secondAttribute="top" id="VCc-uZ-qrN"/>
+                                                    <constraint firstItem="H70-3X-xFu" firstAttribute="leading" secondItem="vcZ-Bd-crA" secondAttribute="leading" id="wmF-fG-8M8"/>
+                                                </constraints>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.94117647058823528" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="MqG-zb-Sia" secondAttribute="trailing" id="7xh-2t-aK6"/>
+                                            <constraint firstItem="MqG-zb-Sia" firstAttribute="leading" secondItem="9Kp-op-mYm" secondAttribute="leading" id="8Mi-Ep-fqH"/>
+                                            <constraint firstItem="MqG-zb-Sia" firstAttribute="top" secondItem="9Kp-op-mYm" secondAttribute="top" id="CrM-to-GtD"/>
+                                            <constraint firstItem="vcZ-Bd-crA" firstAttribute="top" secondItem="MqG-zb-Sia" secondAttribute="bottom" constant="1" id="G5H-dK-quG"/>
+                                            <constraint firstAttribute="trailing" secondItem="vcZ-Bd-crA" secondAttribute="trailing" id="ZVC-Os-hoN"/>
+                                            <constraint firstAttribute="bottom" secondItem="vcZ-Bd-crA" secondAttribute="bottom" id="osC-4K-Qt8"/>
+                                            <constraint firstItem="vcZ-Bd-crA" firstAttribute="leading" secondItem="9Kp-op-mYm" secondAttribute="leading" id="yMB-EU-OWl"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="btnOneDay" destination="8CF-tY-69s" id="ewj-Yu-LTa"/>
+                                            <outlet property="btnOneMonth" destination="ywm-SG-V6s" id="TLV-3K-4BE"/>
+                                            <outlet property="btnOneWeek" destination="XXX-2J-eId" id="b0d-5W-OMM"/>
+                                            <outlet property="btnOneYear" destination="35W-mQ-9Ou" id="CBf-Ns-fq8"/>
+                                            <outlet property="btnRealTime" destination="7wr-d1-WBN" id="JRz-PB-JiJ"/>
+                                            <outlet property="btnSixMonth" destination="Iha-vB-vGu" id="CaH-bR-yxX"/>
+                                            <outlet property="btnThreeMonth" destination="F35-e2-b6b" id="ve7-B1-A8j"/>
+                                            <outlet property="realTimeView" destination="H70-3X-xFu" id="gGk-Qa-Xjq"/>
+                                        </connections>
                                     </view>
                                 </subviews>
-                            </scrollView>
+                                <color key="backgroundColor" red="0.94117647058823528" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="JL5-Fc-0vL" firstAttribute="top" secondItem="pQ8-cN-gbp" secondAttribute="top" constant="10" id="E02-vn-swP"/>
+                                    <constraint firstAttribute="bottom" secondItem="9Kp-op-mYm" secondAttribute="bottom" constant="10" id="JC9-LE-w59"/>
+                                    <constraint firstItem="ZoC-de-892" firstAttribute="top" secondItem="pQ8-cN-gbp" secondAttribute="top" constant="119" id="Ks8-gT-ILz"/>
+                                    <constraint firstItem="JL5-Fc-0vL" firstAttribute="leading" secondItem="pQ8-cN-gbp" secondAttribute="leading" id="TD9-H1-IRY"/>
+                                    <constraint firstItem="9Kp-op-mYm" firstAttribute="top" secondItem="ZoC-de-892" secondAttribute="bottom" constant="5" id="Tid-xR-2oj"/>
+                                    <constraint firstItem="9Kp-op-mYm" firstAttribute="leading" secondItem="pQ8-cN-gbp" secondAttribute="leading" constant="10" id="Uox-xS-F60"/>
+                                    <constraint firstItem="ZoC-de-892" firstAttribute="leading" secondItem="pQ8-cN-gbp" secondAttribute="leading" id="VV5-D4-J0R"/>
+                                    <constraint firstAttribute="trailing" secondItem="JL5-Fc-0vL" secondAttribute="trailing" id="cyF-He-Tho"/>
+                                    <constraint firstAttribute="trailing" secondItem="9Kp-op-mYm" secondAttribute="trailing" constant="10" id="hQH-an-elD"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZoC-de-892" secondAttribute="trailing" id="jfv-0a-z2K"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="pQ8-cN-gbp" firstAttribute="leading" secondItem="hTv-DA-YbW" secondAttribute="leading" id="0wD-NA-cfc"/>
+                            <constraint firstItem="nCX-m4-ig1" firstAttribute="top" secondItem="pQ8-cN-gbp" secondAttribute="bottom" id="131-HQ-wI8"/>
+                            <constraint firstItem="pQ8-cN-gbp" firstAttribute="top" secondItem="hTv-DA-YbW" secondAttribute="top" id="El4-ru-qVF"/>
+                            <constraint firstAttribute="trailing" secondItem="pQ8-cN-gbp" secondAttribute="trailing" id="wPJ-nX-sSr"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="winmin智能" id="Kv8-vZ-VK9">
@@ -291,6 +466,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="elecView" destination="9Kp-op-mYm" id="9IC-hj-sDI"/>
                         <outlet property="socketView1" destination="JL5-Fc-0vL" id="kvv-4J-P5n"/>
                         <outlet property="socketView2" destination="ZoC-de-892" id="gov-bu-TiN"/>
                     </connections>
@@ -1551,8 +1727,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="47"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tQd-U4-JQS">
-                                            <rect key="frame" x="20" y="8" width="32" height="32"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="about_us" translatesAutoresizingMaskIntoConstraints="NO" id="tQd-U4-JQS">
+                                            <rect key="frame" x="20" y="13" width="22" height="22"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NY1-e2-Aey">
@@ -1560,9 +1736,9 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="关于我们" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ij-vw-Zq2">
-                                            <rect key="frame" x="70" y="12" width="80" height="24"/>
+                                            <rect key="frame" x="62" y="13" width="72" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -1687,6 +1863,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbq-dl-YRn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1725" y="1634"/>
+        </scene>
+        <!--Test View Controller-->
+        <scene sceneID="J6e-2g-Lym">
+            <objects>
+                <viewController storyboardIdentifier="TestViewController" id="mz1-2N-M29" customClass="TestViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aiK-rh-7vF"/>
+                        <viewControllerLayoutGuide type="bottom" id="C9f-7x-HK4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4aG-Y2-1fl">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ikJ-So-pHL" customClass="ElecRealTimeView">
+                                <rect key="frame" x="10" y="20" width="300" height="300"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.80000007152557373" green="0.80000007152557373" blue="0.80000007152557373" alpha="1" colorSpace="deviceRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="realTimeView" destination="ikJ-So-pHL" id="nwE-K7-dQ6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Jb-EO-eE1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2165" y="1634"/>
         </scene>
         <!--Navigation Controller - 更多-->
         <scene sceneID="wdB-jy-2GP">
@@ -2402,6 +2606,7 @@
         <image name="104" width="60" height="60"/>
         <image name="105" width="60" height="60"/>
         <image name="106" width="60" height="60"/>
+        <image name="about_us" width="22" height="22"/>
         <image name="cj" width="30" height="30"/>
         <image name="cj_edit_bg" width="84" height="84"/>
         <image name="delay" width="20" height="20"/>

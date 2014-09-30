@@ -40,7 +40,7 @@
     self.request.delegate = self;
   }
   [self.request sendMsg0B:ActiveMode];
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC),
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC),
                  GLOBAL_QUEUE, ^{
       NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
       for (SDZGSwitch *aSwitch in switchs) {
@@ -80,10 +80,12 @@
 - (void)responseMsgCOrE:(CC3xMessage *)message {
   if (message.version == 2 && message.state == 0) {
     SDZGSwitch *aSwitch = [SDZGSwitch parseMessageCOrEToSwitch:message];
-    [[SwitchDataCeneter sharedInstance] updateSwitch:aSwitch];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSwitchUpdate
-                                                        object:self
-                                                      userInfo:nil];
+    if (aSwitch) {
+      [[SwitchDataCeneter sharedInstance] updateSwitch:aSwitch];
+      [[NSNotificationCenter defaultCenter] postNotificationName:kSwitchUpdate
+                                                          object:self
+                                                        userInfo:nil];
+    }
   }
 }
 
