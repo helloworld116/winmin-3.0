@@ -68,9 +68,6 @@
 
   [[UITabBar appearance]
       setBarTintColor:[UIColor colorWithHexString:@"#F0EFEF"]];
-  //  [[UITabBar appearance] setBarStyle:UIBarStyleDefault];
-  //  [[UITabBar appearance] setSelectionIndicatorImage:[UIImage
-  //  imageNamed:@""]];
   [[UITabBar appearance] setSelectedImageTintColor:[UIColor whiteColor]];
 }
 

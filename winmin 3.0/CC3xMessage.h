@@ -57,15 +57,11 @@ enum {
 + (NSData *)getP2dMsg09;
 + (NSData *)getP2dMsg0B;
 + (NSData *)getP2SMsg0D:(NSString *)mac;
-+ (NSData *)getP2dMsg11:(BOOL)on;
 + (NSData *)getP2dMsg11:(BOOL)on socketGroupId:(int)socketGroupId;
-+ (NSData *)getP2sMsg13:(NSString *)mac aSwitch:(BOOL)on;
 + (NSData *)getP2sMsg13:(NSString *)mac
                 aSwitch:(BOOL)on
           socketGroupId:(int)socketGroupId;
-+ (NSData *)getP2dMsg17;
 + (NSData *)getP2dMsg17:(int)socketGroupId;
-+ (NSData *)getP2SMsg19:(NSString *)mac;
 + (NSData *)getP2SMsg19:(NSString *)mac socketGroupId:(int)socketGroupId;
 + (NSData *)getP2dMsg25;
 + (NSData *)getP2SMsg27:(NSString *)mac;
@@ -102,9 +98,7 @@ enum {
                      on:(BOOL)on
           socketGroupId:(int)socketGroupId
                password:(NSString *)password;
-+ (NSData *)getP2dMsg53;
 + (NSData *)getP2dMsg53:(int)socketGroupId;
-+ (NSData *)getP2SMsg55:(NSString *)mac;
 + (NSData *)getP2SMsg55:(NSString *)mac socketGroupId:(int)socketGroupId;
 + (NSData *)getP2SMsg59:(NSString *)mac;
 + (NSData *)getP2DMsg5D;
