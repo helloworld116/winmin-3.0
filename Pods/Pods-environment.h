@@ -132,6 +132,12 @@
 #define COCOAPODS_VERSION_MINOR_MJPopupViewController 4
 #define COCOAPODS_VERSION_PATCH_MJPopupViewController 0
 
+// NCICharts
+#define COCOAPODS_POD_AVAILABLE_NCICharts
+#define COCOAPODS_VERSION_MAJOR_NCICharts 2
+#define COCOAPODS_VERSION_MINOR_NCICharts 0
+#define COCOAPODS_VERSION_PATCH_NCICharts 1
+
 // NSDate+Calendar
 #define COCOAPODS_POD_AVAILABLE_NSDate_Calendar
 #define COCOAPODS_VERSION_MAJOR_NSDate_Calendar 0

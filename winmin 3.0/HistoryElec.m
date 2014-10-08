@@ -64,10 +64,100 @@
   return param;
 }
 
+//- (HistoryElecData *)parseResponse:(NSArray *)responseArray
+//                             param:(HistoryElecParam *)param {
+//  NSMutableDictionary *needDict = [@{} mutableCopy];
+//  int needCount = (param.endTime + 1 - param.beginTime) / param.interval;
+//  NSString *key;
+//  //设置默认值为0
+//  for (int i = 0; i < needCount; i++) {
+//    key = [NSString
+//        stringWithFormat:@"%d", (int)(param.beginTime + i * param.interval)];
+//    [needDict setObject:@(0) forKey:key];
+//  }
+//  //替换服务器响应的数据
+//  if (responseArray && responseArray.count) {
+//    for (HistoryElecResponse *response in responseArray) {
+//      NSString *key = [NSString stringWithFormat:@"%d", response.time];
+//      [needDict setObject:@(response.power) forKey:key];
+//    }
+//  }
+//
+//  HistoryElecData *data = [[HistoryElecData alloc] init];
+//  if (param.interval == kTimeIntervalDay) {
+//    [self.dateFormatter setDateFormat:@"HH:mm"];
+//  } else if (param.interval == kTimeIntervalMonth) {
+//    [self.dateFormatter setDateFormat:@"MM-dd"];
+//  }
+//  NSMutableArray *times = [@[] mutableCopy];
+//  NSMutableArray *values = [@[] mutableCopy];
+//  NSString *formatterDateStr;
+//  int value;
+//  //排序后的时间戳
+//  NSArray *timeArray = [[needDict allKeys]
+//      sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//          return [obj1 intValue] - [obj2 intValue];
+//      }];
+//  for (NSString *dateInterval in timeArray) {
+//    NSDate *date =
+//        [NSDate dateWithTimeIntervalSince1970:[dateInterval intValue]];
+//    formatterDateStr = [self.dateFormatter stringFromDate:date];
+//    value = [[needDict objectForKey:dateInterval] intValue];
+//    [times addObject:formatterDateStr];
+//    [values addObject:@(value)];
+//  }
+//  data.times = times;
+//  data.values = values;
+//  return data;
+//}
+
+static const int oneDayInterval = 3600 * 24;
+- (HistoryElecParam *)getParam:(NSTimeInterval)timeInterval
+                      dateType:(HistoryElecDateType)dateType {
+  long interval = 0;
+  NSDate *startDate;
+  NSDate *endDate;
+  switch (dateType) {
+    case OneDay:
+      [self.dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+      break;
+    case OneWeek:
+      [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
+      interval = oneDayInterval;
+      startDate = [NSDate dateWithTimeIntervalSinceNow:-7 * oneDayInterval];
+      break;
+    case OneMonth:
+      [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
+      interval = oneDayInterval;
+      startDate = [NSDate dateWithTimeIntervalSinceNow:-30 * oneDayInterval];
+      break;
+    case ThreeMonth:
+      [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
+      interval = oneDayInterval;
+      startDate = [NSDate dateWithTimeIntervalSinceNow:-91 * oneDayInterval];
+      break;
+    case SixMonth:
+      [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
+      interval = 2 * oneDayInterval;
+      startDate = [NSDate dateWithTimeIntervalSinceNow:-183 * oneDayInterval];
+      break;
+    case OneYear:
+      [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
+      interval = 4 * oneDayInterval;
+      startDate = [NSDate dateWithTimeIntervalSinceNow:-365 * oneDayInterval];
+      break;
+  }
+  HistoryElecParam *param = [[HistoryElecParam alloc] init];
+  param.beginTime = [startDate timeIntervalSince1970];
+  param.endTime = timeInterval;
+  param.interval = interval;
+  return param;
+}
+
 - (HistoryElecData *)parseResponse:(NSArray *)responseArray
                              param:(HistoryElecParam *)param {
   NSMutableDictionary *needDict = [@{} mutableCopy];
-  int needCount = (param.endTime + 1 - param.beginTime) / param.interval;
+  int needCount = (param.endTime - param.beginTime) / param.interval;
   NSString *key;
   //设置默认值为0
   for (int i = 0; i < needCount; i++) {
@@ -84,14 +174,14 @@
   }
 
   HistoryElecData *data = [[HistoryElecData alloc] init];
-  if (param.interval == kTimeIntervalDay) {
-    [self.dateFormatter setDateFormat:@"HH:mm"];
-  } else if (param.interval == kTimeIntervalMonth) {
-    [self.dateFormatter setDateFormat:@"MM-dd"];
-  }
+  //  if (param.interval < oneDayInterval) {
+  //    [self.dateFormatter setDateFormat:@"HH:mm"];
+  //  } else {
+  //    [self.dateFormatter setDateFormat:@"MM-dd"];
+  //  }
   NSMutableArray *times = [@[] mutableCopy];
   NSMutableArray *values = [@[] mutableCopy];
-  NSString *formatterDateStr;
+  //  NSString *formatterDateStr;
   int value;
   //排序后的时间戳
   NSArray *timeArray = [[needDict allKeys]
@@ -99,17 +189,19 @@
           return [obj1 intValue] - [obj2 intValue];
       }];
   for (NSString *dateInterval in timeArray) {
-    NSDate *date =
-        [NSDate dateWithTimeIntervalSince1970:[dateInterval intValue]];
-    formatterDateStr = [self.dateFormatter stringFromDate:date];
+    //    NSDate *date =
+    //        [NSDate dateWithTimeIntervalSince1970:[dateInterval intValue]];
+    //    formatterDateStr = [self.dateFormatter stringFromDate:date];
     value = [[needDict objectForKey:dateInterval] intValue];
-    [times addObject:formatterDateStr];
+    //    [times addObject:formatterDateStr];
+    [times addObject:dateInterval];
     [values addObject:@(value)];
   }
   data.times = times;
   data.values = values;
   return data;
 }
+
 @end
 
 @implementation HistoryElecResponse

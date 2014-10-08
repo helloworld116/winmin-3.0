@@ -55,7 +55,8 @@
   self.elecView.layer.borderWidth = 1.f;
   self.elecView.layer.masksToBounds = YES;
 
-  self.model = [[SwitchDetailModel alloc] init];
+  self.model = [[SwitchDetailModel alloc] initWithSwitch:self.aSwitch];
+  [self.model historyElec:OneYear];
 }
 
 - (void)viewDidLoad {

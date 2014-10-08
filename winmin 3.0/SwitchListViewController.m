@@ -15,6 +15,7 @@
 @property(nonatomic, strong) SwitchListModel *model;
 @property(nonatomic, strong) NSArray *switchs;
 @property(nonatomic, strong) NSIndexPath *longPressIndexPath;
+@property(nonatomic, strong) UIView *noDataView;
 @end
 
 @implementation SwitchListViewController
@@ -32,16 +33,23 @@
   UIView *view = [[UIView alloc] init];
   view.backgroundColor = [UIColor clearColor];
   self.tableView.tableFooterView = view;
-}
-
-- (void)setup {
-  [self setupStyle];
 
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
   backButtonItem.title = @"返回";
   self.navigationItem.backBarButtonItem = backButtonItem;
+}
+
+- (void)setup {
+  [self setupStyle];
+  self.noDataView =
+      [[UIView alloc] initWithSize:self.view.frame.size
+                           imgName:@"noswitch"
+                           message:@"您暂时还未添加任何设备"];
+  self.noDataView.hidden = YES;
+  [self.view addSubview:self.noDataView];
   self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
   if (!self.switchs || self.switchs.count == 0) {
+    self.noDataView.hidden = NO;
   } else {
     [self.tableView reloadData];
   }
@@ -74,9 +82,7 @@
 }
 
 - (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kSwitchUpdate
-                                                object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - 通知
@@ -86,9 +92,12 @@
   //  }
   self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
   if (!self.switchs || self.switchs.count == 0) {
-    // TODO:添加友好提示
+    self.noDataView.hidden = NO;
   } else {
-    dispatch_async(MAIN_QUEUE, ^{ [self.tableView reloadData]; });
+    dispatch_async(MAIN_QUEUE, ^{
+        self.noDataView.hidden = YES;
+        [self.tableView reloadData];
+    });
   }
 }
 

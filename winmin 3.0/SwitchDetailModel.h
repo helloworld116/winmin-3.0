@@ -7,8 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HistoryElec.h"
 
 @interface SwitchDetailModel : NSObject
+- (id)initWithSwitch:(SDZGSwitch *)aSwitch;
+
 - (void)openOrCloseSwitch:(SDZGSwitch *)aSwitch groupId:(int)groupId;
 
 /**
@@ -19,4 +22,22 @@
  *  结束扫描设备
  */
 - (void)stopScanSwitchState;
+
+/**
+ *  开始扫描实时电量
+ */
+- (void)startRealTimeElec;
+
+/**
+ *  停止扫描实时电量
+ */
+- (void)stopRealTimeElec;
+
+/**
+ *  历史电量
+ *
+ *  @param param
+ */
+- (void)historyElec:(HistoryElecDateType)dateType;
+
 @end

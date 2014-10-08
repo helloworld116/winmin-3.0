@@ -41,6 +41,7 @@ PODS:
   - HexColors (2.2.1)
   - MBProgressHUD (0.9)
   - MJPopupViewController (0.4)
+  - NCICharts (2.0.1)
   - NSDate+Calendar (0.0.4)
   - PNChart (0.5):
     - UICountingLabel (~> 1.0.0)
@@ -61,6 +62,7 @@ DEPENDENCIES:
   - HexColors
   - MBProgressHUD (from `https://github.com/jdg/MBProgressHUD.git`)
   - MJPopupViewController
+  - NCICharts
   - NSDate+Calendar
   - PNChart (~> 0.5)
   - Reachability
@@ -83,6 +85,7 @@ SPEC CHECKSUMS:
   HexColors: 01384d2bbe8dc4ffa43c3b4135db6e976952d153
   MBProgressHUD: 85f9608e8473269aba4f6603958bb8bafcb60388
   MJPopupViewController: b087684832981731f3d11b7a2ae6293a9073e011
+  NCICharts: 4d203189de31450f20cebfc3f4dfbc08a2321338
   NSDate+Calendar: d1e6f7298a9f95f3e0bb999acc445aee282e6769
   PNChart: 0d0cf4531de3aa7f2b12434a54845d70d9c9cfe3
   Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7

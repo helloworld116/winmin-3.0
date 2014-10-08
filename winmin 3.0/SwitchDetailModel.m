@@ -7,15 +7,31 @@
 //
 
 #import "SwitchDetailModel.h"
+#import "HistoryElec.h"
+#define kElecRefreshInterval 2
+
 @interface SwitchDetailModel ()<UdpRequestDelegate>
 @property(strong, nonatomic) NSTimer *timer;
+@property(strong, nonatomic) NSTimer *timerElec;
 @property(nonatomic, strong) UdpRequest *request11Or13;
 @property(nonatomic, strong) UdpRequest *request0BOr0D;
+@property(nonatomic, strong) UdpRequest *request33Or35;
+@property(nonatomic, strong) UdpRequest *request63;
 
 @property(nonatomic, strong) SDZGSwitch *aSwitch;
+@property(nonatomic, strong) HistoryElec *historyElec;
+@property(nonatomic, strong) HistoryElecParam *param;
 @end
 
 @implementation SwitchDetailModel
+
+- (id)initWithSwitch:(SDZGSwitch *)aSwitch {
+  if (self = [super init]) {
+    self.aSwitch = aSwitch;
+  }
+  return self;
+}
+
 - (void)openOrCloseSwitch:(SDZGSwitch *)aSwitch groupId:(int)groupId {
   dispatch_async(GLOBAL_QUEUE, ^{
       self.aSwitch = aSwitch;
@@ -62,6 +78,56 @@
   [self.request0BOr0D sendMsg0BOr0D:aSwitch sendMode:ActiveMode];
 }
 
+- (void)startRealTimeElec {
+  self.timerElec = [NSTimer timerWithTimeInterval:kElecRefreshInterval
+                                           target:self
+                                         selector:@selector(sendMsg33Or35)
+                                         userInfo:nil
+                                          repeats:YES];
+  [[NSRunLoop currentRunLoop] addTimer:self.timerElec
+                               forMode:NSDefaultRunLoopMode];
+  [self.timerElec fire];
+}
+
+- (void)stopRealTimeElec {
+  [self.timerElec invalidate];
+  self.timerElec = nil;
+}
+
+- (void)historyElec:(HistoryElecDateType)dateType {
+  dispatch_async(GLOBAL_QUEUE, ^{
+      if (!self.historyElec) {
+        self.historyElec = [[HistoryElec alloc] init];
+      }
+      self.param =
+          [self.historyElec getParam:[[NSDate date] timeIntervalSince1970]
+                            dateType:dateType];
+      [self senMsg63:self.param];
+  });
+}
+
+//实时电量
+- (void)sendMsg33Or35 {
+  if (!self.request33Or35) {
+    self.request33Or35 = [UdpRequest manager];
+    self.request33Or35.delegate = self;
+  }
+  [self.request33Or35 sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
+}
+
+//历史电量
+- (void)senMsg63:(HistoryElecParam *)param {
+  if (!self.request63) {
+    self.request63 = [UdpRequest manager];
+    self.request63.delegate = self;
+  }
+  [self.request63 sendMsg63:self.aSwitch
+                  beginTime:param.beginTime
+                    endTime:param.endTime
+                   interval:param.interval
+                   sendMode:ActiveMode];
+}
+
 #pragma mark - UdpRequestDelegate
 - (void)responseMsg:(CC3xMessage *)message address:(NSData *)address {
   switch (message.msgId) {
@@ -74,6 +140,15 @@
     case 0x12:
     case 0x14:
       [self responseMsg12Or14:message];
+      break;
+    //实时电量
+    case 0x34:
+    case 0x36:
+      [self responseMsg34Or36:message];
+      break;
+    //历史电量
+    case 0x64:
+      [self responseMsg64:message];
       break;
   }
 }
@@ -106,4 +181,24 @@
   }
 }
 
+- (void)responseMsg34Or36:(CC3xMessage *)message {
+  //    [self.powers addObject:@(message.power)];
+  //    self.viewOfElecRealTime.powers = self.powers;
+}
+
+- (void)responseMsg64:(CC3xMessage *)message {
+  if (message.state == 0) {
+    HistoryElecData *data =
+        [self.historyElec parseResponse:message.historyElecs param:self.param];
+    //    self.viewOfHistoryElec.values = data.values;
+    //    self.viewOfHistoryElec.times = data.times;
+    debugLog(@"times is %@", data.times);
+    debugLog(@"values is %@", data.values);
+
+    dispatch_async(
+        dispatch_get_main_queue(),
+        ^{//                       [self.viewOfHistoryElec setNeedsLayout];
+        });
+  }
+}
 @end
