@@ -8,12 +8,18 @@
 
 #import "AppDelegate.h"
 
+@interface AppDelegate ()
+@property(nonatomic, strong) NetUtil *netUtil;
+@end
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
-  self.networkStatus = ReachableViaWiFi;
+  self.networkStatus = ReachableViaWiFi;  //这里必不可少,必须在view展现前执行
+  self.netUtil = [NetUtil sharedInstance];
+  [self.netUtil addNetWorkChangeNotification];
   [self setStyle];
   [self setData];
   return YES;
@@ -34,12 +40,12 @@
   // application to its current state in case it is terminated later.
   // If your application supports background execution, this method is called
   // instead of applicationWillTerminate: when the user quits.
+  [[SwitchDataCeneter sharedInstance] saveSwitchsToDB];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
   // Called as part of the transition from the background to the inactive state;
   // here you can undo many of the changes made on entering the background.
-  [[SwitchDataCeneter sharedInstance] saveSwitchsToDB];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

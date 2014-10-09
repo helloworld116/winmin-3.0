@@ -59,8 +59,7 @@
     if (message.msgId == 0xc) {
       aSwitch.networkStatus = SWITCH_LOCAL;
     } else if (message.msgId == 0xe) {
-      if (aSwitch.networkStatus == SWITCH_LOCAL ||
-          aSwitch.networkStatus == SWITCH_LOCAL_LOCK) {
+      if (aSwitch.networkStatus == SWITCH_LOCAL) {
         if (diff < 2 * REFRESH_DEV_TIME) {
           return nil;
         }

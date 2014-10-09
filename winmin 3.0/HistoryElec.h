@@ -27,7 +27,7 @@
 
 @interface HistoryElec : NSObject
 typedef NS_OPTIONS(NSUInteger, HistoryElecDateType) {
-    OneDay = 0, OneWeek, OneMonth, ThreeMonth, SixMonth, OneYear,
+    RealTime = 0, OneDay, OneWeek, OneMonth, ThreeMonth, SixMonth, OneYear,
 };
 
 - (HistoryElecParam *)getParam:(int)currentYear

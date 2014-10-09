@@ -863,11 +863,13 @@ static dispatch_queue_t delegateQueue;
 - (void)sendMsg11Or13:(SDZGSwitch *)aSwitch
         socketGroupId:(int)socketGroupId
              sendMode:(SENDMODE)mode {
+  debugLog(@"networkStatus is %d", kSharedAppliction.networkStatus);
+  debugLog(@"switch net is %d", aSwitch.networkStatus);
   dispatch_async(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL ||
-            aSwitch.networkStatus == SWITCH_LOCAL_LOCK) {
+            aSwitch.networkStatus == SWITCH_OFFLINE) {
           [self sendMsg11WithSwitch:aSwitch
                       socketGroupId:socketGroupId
                            sendMode:mode];

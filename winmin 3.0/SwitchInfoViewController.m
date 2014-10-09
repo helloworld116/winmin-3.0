@@ -64,7 +64,7 @@
 }
 
 - (void)setup {
-  self.navigationItem.title = @"winmin插排设置";
+  self.navigationItem.title = self.aSwitch.name;
   UIView *tableHeaderView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 10)];
   tableHeaderView.backgroundColor = [UIColor clearColor];
@@ -181,6 +181,8 @@ preparation before navigation
     [[SwitchDataCeneter sharedInstance] updateSwitchName:self.switchName
                                              socketNames:nil
                                                      mac:self.aSwitch.mac];
+    dispatch_async(MAIN_QUEUE,
+                   ^{ self.navigationItem.title = self.switchName; });
   }
 }
 

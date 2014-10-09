@@ -8,15 +8,15 @@
 
 #import "ElecRealTimeView.h"
 
-#define kLineColor kThemeColor
+#define kLineColor [UIColor orangeColor]
 #define kFillColor [UIColor colorWithWhite:1.0 alpha:0.2]
-#define kBigRoundStrokeColor kThemeColor
-#define kBigRoundFillColor kThemeColor
-#define kTextColor kThemeColor
+#define kBigRoundStrokeColor [UIColor orangeColor]
+#define kBigRoundFillColor [UIColor orangeColor]
+#define kTextColor [UIColor orangeColor]
 #define str(value) [NSString stringWithFormat:@"%.2fw", value]
 #define kTopMargin 10  //上边距
 #define kLeftMargin 4  //左边距
-#define kCount 8       //显示点个数
+#define kCount 10      //显示点个数
 
 @interface ElecRealTimeView ()
 @property(nonatomic, strong) dispatch_source_t timer;
@@ -28,23 +28,40 @@ static CGFloat scaleX;
 
 - (void)awakeFromNib {
   self.powers = [@[] mutableCopy];
+  scaleX = (self.frame.size.width - kLeftMargin * 2) / (kCount - 1);
+}
+
+- (void)start {
   __weak id weakSelf = self;
-  double delayInSeconds = 2;
+  static double delayInSeconds = 2;
   self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,
                                       dispatch_get_main_queue());
   dispatch_source_set_timer(_timer, dispatch_walltime(NULL, 0),
                             (unsigned)(delayInSeconds * NSEC_PER_SEC), 0);
   dispatch_source_set_event_handler(_timer, ^{ [weakSelf updateView]; });
   dispatch_resume(_timer);
-  scaleX = (self.frame.size.width - kLeftMargin * 2) / (kCount - 1);
 }
 
+- (void)stop {
+  dispatch_source_cancel(self.timer);
+}
+
+//- (void)updateView {
+//  //随机取0到2000的值
+//  int value = (arc4random() % 500);
+//  //  int value = 0;
+//  //  NSLog(@"next value is %d", value);
+//  [self.powers addObject:@(value)];
+//  if (self.powers.count > kCount) {
+//    NSRange range = NSMakeRange(self.powers.count - kCount, kCount);
+//    self.points = [self.powers subarrayWithRange:range];
+//  } else {
+//    self.points = self.powers;
+//  }
+//  [self setNeedsDisplay];
+//}
+
 - (void)updateView {
-  //随机取0到2000的值
-  int value = (arc4random() % 500);
-  //  int value = 0;
-  NSLog(@"next value is %d", value);
-  [self.powers addObject:@(value)];
   if (self.powers.count > kCount) {
     NSRange range = NSMakeRange(self.powers.count - kCount, kCount);
     self.points = [self.powers subarrayWithRange:range];
@@ -53,18 +70,6 @@ static CGFloat scaleX;
   }
   [self setNeedsDisplay];
 }
-
-//- (void)updateView {
-//  if (self.powers.count > kCount) {
-//    NSRange range = NSMakeRange(self.powers.count - kCount, kCount);
-//    self.points = [self.powers subarrayWithRange:range];
-//  } else {
-//    self.points = self.powers;
-//  }
-//  self.lblCurrent.text = [NSString
-//      stringWithFormat:@"当前 %.2fw", [[self.points lastObject] floatValue]];
-//  [self setNeedsDisplay];
-//}
 
 - (void)dealloc {
   dispatch_source_cancel(self.timer);
@@ -189,12 +194,12 @@ static CGFloat scaleX;
   if (isEqualOrGreaterToiOS7) {
     [str drawAtPoint:point
         withAttributes:@{
-                         NSFontAttributeName : [UIFont systemFontOfSize:10],
+                         NSFontAttributeName : [UIFont systemFontOfSize:8],
                          NSForegroundColorAttributeName : kTextColor
                        }];
 
   } else {
-    [str drawAtPoint:point withFont:[UIFont systemFontOfSize:10]];
+    [str drawAtPoint:point withFont:[UIFont systemFontOfSize:8]];
   }
 }
 

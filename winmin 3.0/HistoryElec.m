@@ -116,35 +116,32 @@ static const int oneDayInterval = 3600 * 24;
                       dateType:(HistoryElecDateType)dateType {
   long interval = 0;
   NSDate *startDate;
-  NSDate *endDate;
   switch (dateType) {
     case OneDay:
-      [self.dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+      interval = oneDayInterval / 72;  //一天取72个样本，20分钟一个样本
+      startDate = [NSDate dateWithTimeIntervalSinceNow:-oneDayInterval];
       break;
     case OneWeek:
-      [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
-      interval = oneDayInterval;
+      interval = oneDayInterval / 12;  //一周取84个样本，2小时一个样本
       startDate = [NSDate dateWithTimeIntervalSinceNow:-7 * oneDayInterval];
       break;
     case OneMonth:
-      [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
-      interval = oneDayInterval;
+      interval = oneDayInterval / 3;  //一个月取90个样本，8小时一个样本
       startDate = [NSDate dateWithTimeIntervalSinceNow:-30 * oneDayInterval];
       break;
     case ThreeMonth:
-      [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
       interval = oneDayInterval;
       startDate = [NSDate dateWithTimeIntervalSinceNow:-91 * oneDayInterval];
       break;
     case SixMonth:
-      [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
       interval = 2 * oneDayInterval;
       startDate = [NSDate dateWithTimeIntervalSinceNow:-183 * oneDayInterval];
       break;
     case OneYear:
-      [self.dateFormatter setDateFormat:@"yyyy-MM-dd"];
       interval = 4 * oneDayInterval;
       startDate = [NSDate dateWithTimeIntervalSinceNow:-365 * oneDayInterval];
+      break;
+    default:
       break;
   }
   HistoryElecParam *param = [[HistoryElecParam alloc] init];

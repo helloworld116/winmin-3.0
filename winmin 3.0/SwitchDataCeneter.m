@@ -233,10 +233,14 @@
   return [self.switchsDict allValues];
 }
 
+- (NSArray *)switchsToDB {
+  return [self.switchsDict allValues];
+}
+
 - (void)saveSwitchsToDB {
   dispatch_async(GLOBAL_QUEUE, ^{
       [self beginBackgroundUpdateTask];
-      [[DBUtil sharedInstance] saveSwitchs:self.switchs];
+      [[DBUtil sharedInstance] saveSwitchs:[self switchsToDB]];
       [self endBackgroundUpdateTask];
   });
 }

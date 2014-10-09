@@ -27,6 +27,7 @@
 #import "DB.h"
 #import "DESUtil.h"
 #import "UIImage+Color.h"
+#import "NetUtil.h"
 #import "UIView+NoDataView.h"
 #import "AppDelegate.h"
 #endif
@@ -101,6 +102,8 @@
 #define kSwitchNameChange @"SwitchNameChange"
 #define kDelayQueryNotification @"DelayQueryNotification"
 #define kDelaySettingNotification @"DelaySettingNotification"
+#define kHistoryElecNotification @"HistoryElecNotification"
+#define kRealTimeElecNotification @"RealTimeElecNotification"
 
 #define kTimerListChanged @"TimerListChanged"
 #define kTimerAddNotification @"TimerAddNotification"

@@ -7,7 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HistoryElec.h"
+
+@protocol ElecViewDelegate<NSObject>
+- (void)selectedDatetype:(HistoryElecDateType)dateType
+             needGetData:(BOOL)needGetData;
+@end
 
 @interface ElecView : UIView
+@property(nonatomic, assign) id<ElecViewDelegate> delegate;
 
+- (void)showChart:(HistoryElecData *)data
+         dateType:(HistoryElecDateType)dateType;
+
+- (void)showRealTimeData:(NSMutableArray *)powers;
 @end

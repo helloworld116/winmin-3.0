@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		06276B622ABA4D69A45BB762 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B2B7BB80C1420797A2EE26 /* libPods.a */; };
+		15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 15476D4B19E68B6B00EC6BD1 /* NetUtil.m */; };
 		155A5BF019D3D7B3007864C8 /* SceneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BEF19D3D7B3007864C8 /* SceneCell.m */; };
 		155A5BF319D3E260007864C8 /* SceneTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BF219D3E260007864C8 /* SceneTemplateViewController.m */; };
 		155A5BF619D3E718007864C8 /* SceneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BF519D3E718007864C8 /* SceneDetailViewController.m */; };
@@ -123,6 +124,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15476D4A19E68B6B00EC6BD1 /* NetUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetUtil.h; sourceTree = "<group>"; };
+		15476D4B19E68B6B00EC6BD1 /* NetUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetUtil.m; sourceTree = "<group>"; };
 		155A5BEE19D3D7B3007864C8 /* SceneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneCell.h; sourceTree = "<group>"; };
 		155A5BEF19D3D7B3007864C8 /* SceneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneCell.m; sourceTree = "<group>"; };
 		155A5BF119D3E260007864C8 /* SceneTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneTemplateViewController.h; sourceTree = "<group>"; };
@@ -711,6 +714,8 @@
 			isa = PBXGroup;
 			children = (
 				158D991819C7CC2E0068AFC5 /* protocol */,
+				15476D4A19E68B6B00EC6BD1 /* NetUtil.h */,
+				15476D4B19E68B6B00EC6BD1 /* NetUtil.m */,
 				158D992719C7E1390068AFC5 /* ViewUtil.h */,
 				158D992819C7E1390068AFC5 /* ViewUtil.m */,
 				158D990E19C7CBC50068AFC5 /* UdpRequest.h */,
@@ -948,6 +953,7 @@
 				1560131419C9600600BF7E12 /* UIImage+Color.m in Sources */,
 				15AC864D19D10A2100D154EB /* DelayViewController.m in Sources */,
 				15AC865B19D2C56400D154EB /* DatePickerViewController.m in Sources */,
+				15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */,
 				158D992219C7DF830068AFC5 /* CC3xMessage.m in Sources */,
 				15BBD6FB19DA89540002D973 /* TestViewController.m in Sources */,
 				15AC863519CFBF7800D154EB /* SwitchInfoViewController.m in Sources */,
@@ -1117,6 +1123,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3D7C9184B0EB44E997A6779A /* Pods.xcconfig */;
 			buildSettings = {
+				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1140,6 +1147,7 @@
 					"$(PROJECT_DIR)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1148,6 +1156,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3D7C9184B0EB44E997A6779A /* Pods.xcconfig */;
 			buildSettings = {
+				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1171,6 +1180,7 @@
 					"$(PROJECT_DIR)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

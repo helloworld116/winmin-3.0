@@ -21,6 +21,7 @@
 @property(nonatomic, strong) SDZGSwitch *aSwitch;
 @property(nonatomic, strong) HistoryElec *historyElec;
 @property(nonatomic, strong) HistoryElecParam *param;
+@property(nonatomic, assign) HistoryElecDateType dateType;
 @end
 
 @implementation SwitchDetailModel
@@ -99,6 +100,7 @@
       if (!self.historyElec) {
         self.historyElec = [[HistoryElec alloc] init];
       }
+      self.dateType = dateType;
       self.param =
           [self.historyElec getParam:[[NSDate date] timeIntervalSince1970]
                             dateType:dateType];
@@ -182,8 +184,12 @@
 }
 
 - (void)responseMsg34Or36:(CC3xMessage *)message {
-  //    [self.powers addObject:@(message.power)];
-  //    self.viewOfElecRealTime.powers = self.powers;
+  debugLog(@"power is %f", message.power);
+  NSDictionary *userInfo = @{ @"power" : @(message.power) };
+  [[NSNotificationCenter defaultCenter]
+      postNotificationName:kRealTimeElecNotification
+                    object:self
+                  userInfo:userInfo];
 }
 
 - (void)responseMsg64:(CC3xMessage *)message {
@@ -192,13 +198,16 @@
         [self.historyElec parseResponse:message.historyElecs param:self.param];
     //    self.viewOfHistoryElec.values = data.values;
     //    self.viewOfHistoryElec.times = data.times;
-    debugLog(@"times is %@", data.times);
-    debugLog(@"values is %@", data.values);
-
-    dispatch_async(
-        dispatch_get_main_queue(),
-        ^{//                       [self.viewOfHistoryElec setNeedsLayout];
-        });
+    //    debugLog(@"times is %@", data.times);
+    //    debugLog(@"values is %@", data.values);
+    NSDictionary *userInfo = @{
+      @"data" : data,
+      @"dateType" : @(self.dateType)
+    };
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:kHistoryElecNotification
+                      object:self
+                    userInfo:userInfo];
   }
 }
 @end

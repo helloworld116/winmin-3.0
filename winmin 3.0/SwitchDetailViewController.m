@@ -14,13 +14,17 @@
 #import "SwitchInfoViewController.h"
 #import "DelayViewController.h"
 #import "ElecView.h"
+#import "HistoryElec.h"
 
-@interface SwitchDetailViewController ()<SocketViewDelegate,
-                                         SocketImgTemplateDelegate>
+@interface SwitchDetailViewController ()<
+    SocketViewDelegate, SocketImgTemplateDelegate, ElecViewDelegate>
 @property(strong, nonatomic) IBOutlet SocketView *socketView1;
 @property(strong, nonatomic) IBOutlet SocketView *socketView2;
 @property(strong, nonatomic) IBOutlet ElecView *elecView;
 @property(strong, nonatomic) SwitchDetailModel *model;
+
+@property(assign, nonatomic) BOOL showingRealTimeElecView;
+@property(strong, nonatomic) NSMutableArray *powers;  //保存实时电量数据
 @end
 
 @implementation SwitchDetailViewController
@@ -54,35 +58,65 @@
   self.elecView.layer.cornerRadius = 5.f;
   self.elecView.layer.borderWidth = 1.f;
   self.elecView.layer.masksToBounds = YES;
+  self.elecView.delegate = self;
 
   self.model = [[SwitchDetailModel alloc] initWithSwitch:self.aSwitch];
-  [self.model historyElec:OneYear];
+  self.powers = [@[] mutableCopy];
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   [self setup];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-  [super viewDidAppear:animated];
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(changeOnOffState:)
                                                name:kSwitchOnOffStateChange
                                              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(historyElecDataRecivied:)
+             name:kHistoryElecNotification
+           object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(realTimeElecDataRecivied:)
+             name:kRealTimeElecNotification
+           object:nil];
+  [self addObserver:self
+         forKeyPath:@"showingRealTimeElecView"
+            options:NSKeyValueObservingOptionNew
+            context:nil];
+
+  [self.aSwitch
+      addObserver:self
+       forKeyPath:@"networkStatus"
+          options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+          context:nil];
+
+  self.showingRealTimeElecView = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  debugLog(@"%s", __FUNCTION__);
+  debugLog(@"model is %@", self.model);
+  //  self.aSwitch.networkStatus = SWITCH_LOCAL;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kSwitchOnOffStateChange
-                                                object:nil];
+  debugLog(@"%s", __FUNCTION__);
+  [self.model stopRealTimeElec];
 }
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [self removeObserver:self forKeyPath:@"showingRealTimeElecView"];
 }
 
 /*
@@ -165,6 +199,31 @@ preparation before navigation
   }
 }
 
+#pragma mark - 电量代理
+- (void)selectedDatetype:(HistoryElecDateType)dateType
+             needGetData:(BOOL)needGetData {
+  switch (dateType) {
+    case RealTime:
+      //      [self.model startRealTimeElec];
+      self.showingRealTimeElecView = YES;
+      break;
+    case OneDay:
+    case OneWeek:
+    case OneMonth:
+    case ThreeMonth:
+    case SixMonth:
+    case OneYear:
+      //      [self.model stopRealTimeElec];
+      self.showingRealTimeElecView = NO;
+      if (needGetData) {
+        [self.model historyElec:dateType];
+      }
+      break;
+    default:
+      break;
+  }
+}
+
 #pragma mark - 通知
 - (void)changeOnOffState:(NSNotification *)notif {
   NSDictionary *userInfo = notif.userInfo;
@@ -179,4 +238,43 @@ preparation before navigation
       }
   });
 }
+
+- (void)historyElecDataRecivied:(NSNotification *)notif {
+  NSDictionary *userInfo = notif.userInfo;
+  HistoryElecData *data = userInfo[@"data"];
+  HistoryElecDateType dateType = [userInfo[@"dateType"] intValue];
+  dispatch_async(MAIN_QUEUE,
+                 ^{ [self.elecView showChart:data dateType:dateType]; });
+}
+
+- (void)realTimeElecDataRecivied:(NSNotification *)notif {
+  NSDictionary *userInfo = notif.userInfo;
+  float power = [userInfo[@"power"] floatValue];
+  [self.powers addObject:@(power)];
+
+  [self.elecView showRealTimeData:self.powers];
+}
+
+#pragma mark - 观察显示view变化
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+  if ([keyPath isEqual:@"showingRealTimeElecView"]) {
+    BOOL showingRealTimeElecView =
+        [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
+    if (showingRealTimeElecView) {
+      [self.model startRealTimeElec];
+    } else {
+      [self.model stopRealTimeElec];
+    }
+  } else if ([keyPath isEqualToString:@"networkStatus"]) {
+    debugLog(@"########### networkStatus  Changed");
+    debugLog(@"object is %@", object);
+    int newValue = [[change objectForKey:NSKeyValueChangeNewKey] intValue];
+    int oldValue = [[change objectForKey:NSKeyValueChangeOldKey] intValue];
+    debugLog(@"old value is %d and new value is %d", oldValue, newValue);
+  }
+}
+
 @end
