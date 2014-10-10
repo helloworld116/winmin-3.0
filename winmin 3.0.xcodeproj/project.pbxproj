@@ -168,7 +168,7 @@
 		1560132419CA79D700BF7E12 /* image.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = image.plist; sourceTree = "<group>"; };
 		1560132619CBDCA700BF7E12 /* SwitchDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchDetailModel.h; sourceTree = "<group>"; };
 		1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchDetailModel.m; sourceTree = "<group>"; };
-		158D987719C6F39C0068AFC5 /* winmin 3.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "winmin 3.0.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		158D987719C6F39C0068AFC5 /* 微云智控.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微云智控.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		158D987A19C6F39C0068AFC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		158D987E19C6F39C0068AFC5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -348,6 +348,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15476D4D19E7817A00EC6BD1 /* 欢迎 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "欢迎";
+			sourceTree = "<group>";
+		};
 		155A5BEB19D3D77B007864C8 /* controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -505,7 +512,7 @@
 		158D987819C6F39C0068AFC5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				158D987719C6F39C0068AFC5 /* winmin 3.0.app */,
+				158D987719C6F39C0068AFC5 /* 微云智控.app */,
 				158D989B19C6F39D0068AFC5 /* winmin 3.0Tests.xctest */,
 			);
 			name = Products;
@@ -534,6 +541,7 @@
 		158D988019C6F39C0068AFC5 /* winmin 3.0 */ = {
 			isa = PBXGroup;
 			children = (
+				15476D4D19E7817A00EC6BD1 /* 欢迎 */,
 				158D993A19C7E49C0068AFC5 /* 配置 */,
 				158D993919C7E4930068AFC5 /* 控制 */,
 				158D993C19C7E4A70068AFC5 /* 更多 */,
@@ -813,7 +821,7 @@
 			);
 			name = "winmin 3.0";
 			productName = "winmin 3.0";
-			productReference = 158D987719C6F39C0068AFC5 /* winmin 3.0.app */;
+			productReference = 158D987719C6F39C0068AFC5 /* 微云智控.app */;
 			productType = "com.apple.product-type.application";
 		};
 		158D989A19C6F39D0068AFC5 /* winmin 3.0Tests */ = {
@@ -1081,7 +1089,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1113,7 +1121,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1137,7 +1145,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "winmin 3.0/winmin 3.0-Prefix.pch";
 				INFOPLIST_FILE = "winmin 3.0/winmin 3.0-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShareSDK/Extend/SinaWeiboSDK",
@@ -1146,7 +1154,7 @@
 					"$(PROJECT_DIR)/ShareSDK/Extend/YiXinSDK",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "微云智控";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1170,7 +1178,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "winmin 3.0/winmin 3.0-Prefix.pch";
 				INFOPLIST_FILE = "winmin 3.0/winmin 3.0-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShareSDK/Extend/SinaWeiboSDK",
@@ -1179,7 +1187,7 @@
 					"$(PROJECT_DIR)/ShareSDK/Extend/YiXinSDK",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "微云智控";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

@@ -62,6 +62,8 @@
 
   self.model = [[SwitchDetailModel alloc] initWithSwitch:self.aSwitch];
   self.powers = [@[] mutableCopy];
+  //必须在添加观察者之前
+  self.showingRealTimeElecView = YES;
 }
 
 - (void)viewDidLoad {
@@ -82,31 +84,30 @@
          selector:@selector(realTimeElecDataRecivied:)
              name:kRealTimeElecNotification
            object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(switchStateChanged:)
+             name:kOneSwitchUpdate
+           object:nil];
   [self addObserver:self
          forKeyPath:@"showingRealTimeElecView"
             options:NSKeyValueObservingOptionNew
             context:nil];
-
-  [self.aSwitch
-      addObserver:self
-       forKeyPath:@"networkStatus"
-          options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-          context:nil];
-
-  self.showingRealTimeElecView = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
-  debugLog(@"%s", __FUNCTION__);
-  debugLog(@"model is %@", self.model);
-  //  self.aSwitch.networkStatus = SWITCH_LOCAL;
+  //从详情、定时和延时页面返回时如果选中的是实时则开启刷新
+  if (self.showingRealTimeElecView) {
+    self.showingRealTimeElecView = YES;
+  }
+  [self.model startScanSwitchState];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
-  debugLog(@"%s", __FUNCTION__);
   [self.model stopRealTimeElec];
+  [self.model stopScanSwitchState];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -160,7 +161,7 @@ preparation before navigation
 }
 
 - (void)touchOnOrOffWithSelf:(SocketView *)_self {
-  [self.model openOrCloseSwitch:self.aSwitch groupId:_self.groupId];
+  [self.model openOrCloseWithGroupId:_self.groupId];
 }
 
 - (void)touchTimerWithSelf:(SocketView *)_self {
@@ -255,6 +256,20 @@ preparation before navigation
   [self.elecView showRealTimeData:self.powers];
 }
 
+- (void)switchStateChanged:(NSNotification *)notif {
+  NSDictionary *userInfo = notif.userInfo;
+  self.aSwitch = userInfo[@"switch"];
+  NSArray *sockets = self.aSwitch.sockets;
+  SDZGSocket *socket1 = sockets[0];
+  SDZGSocket *socket2 = sockets[1];
+  dispatch_async(MAIN_QUEUE, ^{
+      [self.socketView1 changeSocketState:socket1];
+      [self.socketView2 changeSocketState:socket2];
+  });
+
+  debugLog(@"############## 修改界面");
+}
+
 #pragma mark - 观察显示view变化
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
@@ -268,12 +283,6 @@ preparation before navigation
     } else {
       [self.model stopRealTimeElec];
     }
-  } else if ([keyPath isEqualToString:@"networkStatus"]) {
-    debugLog(@"########### networkStatus  Changed");
-    debugLog(@"object is %@", object);
-    int newValue = [[change objectForKey:NSKeyValueChangeNewKey] intValue];
-    int oldValue = [[change objectForKey:NSKeyValueChangeOldKey] intValue];
-    debugLog(@"old value is %d and new value is %d", oldValue, newValue);
   }
 }
 

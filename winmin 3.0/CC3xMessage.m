@@ -236,7 +236,7 @@ typedef struct {
   msgHeader header;
   unsigned char mac[6];
   unsigned char socketGroupId;
-  char password[4];
+  char password[6];
   unsigned int currentTime;
   unsigned char timerNumber;
   unsigned short crc;
@@ -798,51 +798,55 @@ typedef struct {
   [data appendData:data1];
   [data appendData:data2];
   unsigned short crc =
-      htons(CRC16((unsigned char *)[data bytes], [data length] - 2));
+      htons(CRC16((unsigned char *)[data bytes], [data length]));
   [data appendData:[NSData dataWithBytes:&crc length:2]];
   return data;
 }
 // P2S_SET_TIMER_REQ	0X1F
 + (NSData *)getP2SMsg1F:(NSUInteger)currentTime
-                password:(NSString *)password
-               socketGroupId:(int)socketGroupId
+               password:(NSString *)password
+          socketGroupId:(int)socketGroupId
               timerList:(NSArray *)timerList
                     mac:(NSString *)mac {
-    p2sMsg1F msg;
-    memset(&msg, 0, sizeof(msg));
-    unsigned short size = sizeof(msg) + sizeof(timerTask) * timerList.count;
-    msg.header.msgLength = htons(size);
-    msg.header.msgId = 0x1F;
-    msg.header.msgDir = 0xA5;
-    Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
-    memcpy(&msg.mac, macBytes, sizeof(msg.mac));
-    free(macBytes);
-    msg.socketGroupId = socketGroupId;
-    NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
-    memcpy(&msg.password, [passwordData bytes], [password length]);
-    msg.currentTime = htonl(currentTime);
-    msg.timerNumber = timerList.count;
-    NSData *data1 = [NSData dataWithBytes:&msg length:sizeof(msg) - 2];
-    
-    timerTask tasks[timerList.count];
-    for (int i = 0; i < timerList.count; i++) {
-        SDZGTimerTask *task = [timerList objectAtIndex:i];
-        timerTask timerTask;
-        memset(&timerTask, 0, sizeof(timerTask));
-        timerTask.week = task.week;
-        timerTask.actionTime = htonl(task.actionTime);
-        timerTask.takeEffect = task.isEffective;
-        timerTask.actionType = task.timerActionType;
-        tasks[i] = timerTask;
-    }
-    NSData *data2 = [NSData dataWithBytes:&tasks length:sizeof(tasks)];
-    NSMutableData *data = [[NSMutableData alloc] init];
-    [data appendData:data1];
-    [data appendData:data2];
-    unsigned short crc =
-    htons(CRC16((unsigned char *)[data bytes], [data length] - 2));
-    [data appendData:[NSData dataWithBytes:&crc length:2]];
-    return data;
+  p2sMsg1F msg;
+  memset(&msg, 0, sizeof(msg));
+  unsigned short size = sizeof(msg) + sizeof(timerTask) * timerList.count;
+  msg.header.msgLength = htons(size);
+  msg.header.msgId = 0x1F;
+  msg.header.msgDir = 0xA5;
+  Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
+  memcpy(&msg.mac, macBytes, sizeof(msg.mac));
+  free(macBytes);
+  msg.socketGroupId = socketGroupId;
+  NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
+  memcpy(&msg.password, [passwordData bytes], [password length]);
+  msg.currentTime = htonl(currentTime);
+  msg.timerNumber = timerList.count;
+  NSData *data1 = [NSData dataWithBytes:&msg length:sizeof(msg) - 2];
+
+  timerTask tasks[timerList.count];
+  for (int i = 0; i < timerList.count; i++) {
+    SDZGTimerTask *task = [timerList objectAtIndex:i];
+    timerTask timerTask;
+    memset(&timerTask, 0, sizeof(timerTask));
+    timerTask.week = task.week;
+    timerTask.actionTime = htonl(task.actionTime);
+    timerTask.takeEffect = task.isEffective;
+    timerTask.actionType = task.timerActionType;
+    tasks[i] = timerTask;
+  }
+  NSData *data2 = [NSData dataWithBytes:&tasks length:sizeof(tasks)];
+  NSMutableData *data = [[NSMutableData alloc] init];
+  [data appendData:data1];
+  [data appendData:data2];
+  debugLog(@"data1 is %@", data1);
+  debugLog(@"data2 is %@", data2);
+  unsigned short crc = CRC16((unsigned char *)[data bytes], [data length]);
+  //  debugLog(@"before is %d", crc);
+  //  crc = htons(crc);
+  //  debugLog(@"after crc is %d", crc);
+  [data appendData:[NSData dataWithBytes:&crc length:2]];
+  return data;
 }
 
 // P2D_GET_PROPERTY_REQ	0X25
@@ -1152,9 +1156,13 @@ typedef struct {
 
 + (NSData *)getP2SMsg67:(NSString *)mac
                    type:(int)type
-               cityName:(NSString *)cityName{return nil;}
+               cityName:(NSString *)cityName {
+  return nil;
+}
 + (NSData *)getP2DMsg69:(NSString *)oldPassword
-            newPassword:(NSString *)newPassword{return nil;}
+            newPassword:(NSString *)newPassword {
+  return nil;
+}
 #pragma mark - response message 解析收到的data数据，转为其他数据类型
 
 + (CC3xMessage *)parseD2P02:(NSData *)aData {

@@ -10,9 +10,10 @@
 #import "HistoryElec.h"
 
 @interface SwitchDetailModel : NSObject
+@property(nonatomic, assign, readonly) BOOL isScanning;
 - (id)initWithSwitch:(SDZGSwitch *)aSwitch;
 
-- (void)openOrCloseSwitch:(SDZGSwitch *)aSwitch groupId:(int)groupId;
+- (void)openOrCloseWithGroupId:(int)groupId;
 
 /**
  *  开始扫描设备

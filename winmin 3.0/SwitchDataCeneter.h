@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #define kSwitchUpdate @"SwitchUpdateNotification"
+#define kOneSwitchUpdate @"OneSwitchUpdateNotification"
 
 @interface SwitchDataCeneter : NSObject
 @property(strong, atomic, readonly) NSMutableDictionary *switchsDict;
@@ -15,6 +16,10 @@
 @property(strong, nonatomic) NSIndexPath *selectedIndexPath;
 + (instancetype)sharedInstance;
 
+/**
+ *  网络不可用时将所有设备修改为离线
+ */
+- (void)updateAllSwitchStautsToOffLine;
 /**
  *  socket开关状态更改
  *

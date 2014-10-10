@@ -62,7 +62,10 @@
 
 - (void)cancelExecute {
   [self.queue cancelAllOperations];
-  [self.queue waitUntilAllOperationsAreFinished];
+  NSArray *operations = [self.queue operations];
+  for (NSBlockOperation *operation in operations) {
+    [operation cancel];
+  }
   [self.timer invalidate];
 }
 

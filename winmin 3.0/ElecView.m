@@ -161,14 +161,14 @@
           nciGraphRenderer : [NCIZoomGraphView class],
           nciIsSmooth : @[ @NO ],
           nciIsFill : @[ @NO ],
-          nciLineColors : @[ [UIColor orangeColor] ],
+          nciLineColors : @[ kThemeColor ],
           nciLineWidths : @[ @1 ],
           nciHasSelection : @NO,
           nciShowPoints : @NO,
           nciGridVertical : @{
                   nciLineColor : kThemeColor,
                   nciLineDashes : @[],
-                  nciLineWidth : @1
+                  nciLineWidth : @0.3
                   },
           nciGridHorizontal : @{
                   nciLineColor : [UIColor clearColor],

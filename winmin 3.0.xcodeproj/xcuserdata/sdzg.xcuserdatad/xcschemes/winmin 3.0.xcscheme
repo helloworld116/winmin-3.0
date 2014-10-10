@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "158D987619C6F39C0068AFC5"
-               BuildableName = "winmin 3.0.app"
+               BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x63a7;.app"
                BlueprintName = "winmin 3.0"
                ReferencedContainer = "container:winmin 3.0.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "158D987619C6F39C0068AFC5"
-            BuildableName = "winmin 3.0.app"
+            BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x63a7;.app"
             BlueprintName = "winmin 3.0"
             ReferencedContainer = "container:winmin 3.0.xcodeproj">
          </BuildableReference>
@@ -62,12 +62,32 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "158D987619C6F39C0068AFC5"
-            BuildableName = "winmin 3.0.app"
+            BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x63a7;.app"
             BlueprintName = "winmin 3.0"
             ReferencedContainer = "container:winmin 3.0.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
+         <AdditionalOption
+            key = "MallocStackLogging"
+            value = ""
+            isEnabled = "YES">
+         </AdditionalOption>
+         <AdditionalOption
+            key = "OBJC_PRINT_EXCEPTIONS"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
+         <AdditionalOption
+            key = "NSDOLoggingEnabled"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
+         <AdditionalOption
+            key = "NSZombieEnabled"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
@@ -80,7 +100,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "158D987619C6F39C0068AFC5"
-            BuildableName = "winmin 3.0.app"
+            BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x63a7;.app"
             BlueprintName = "winmin 3.0"
             ReferencedContainer = "container:winmin 3.0.xcodeproj">
          </BuildableReference>

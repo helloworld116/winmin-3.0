@@ -8,11 +8,11 @@
 
 #import "ElecRealTimeView.h"
 
-#define kLineColor [UIColor orangeColor]
+#define kLineColor kThemeColor
 #define kFillColor [UIColor colorWithWhite:1.0 alpha:0.2]
-#define kBigRoundStrokeColor [UIColor orangeColor]
-#define kBigRoundFillColor [UIColor orangeColor]
-#define kTextColor [UIColor orangeColor]
+#define kBigRoundStrokeColor kThemeColor
+#define kBigRoundFillColor kThemeColor
+#define kTextColor kThemeColor
 #define str(value) [NSString stringWithFormat:@"%.2fw", value]
 #define kTopMargin 10  //上边距
 #define kLeftMargin 4  //左边距

@@ -54,6 +54,13 @@
 //  }
 //}
 
+- (void)updateAllSwitchStautsToOffLine {
+  NSArray *switchs = [self.switchsDict allValues];
+  for (SDZGSwitch *aSwitch in switchs) {
+    aSwitch.networkStatus = SWITCH_OFFLINE;
+  }
+}
+
 /**
  *  socket开关状态更改
  *

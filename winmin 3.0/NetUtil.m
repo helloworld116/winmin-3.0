@@ -52,6 +52,9 @@
       kSharedAppliction.networkStatus = NotReachable;
       break;
   }
+  [[NSNotificationCenter defaultCenter]
+      postNotificationName:kNetChangedNotification
+                    object:self];
 }
 
 @end

@@ -58,6 +58,11 @@
                                            selector:@selector(updateSwitchList:)
                                                name:kSwitchUpdate
                                              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(netChangedNotification:)
+             name:kNetChangedNotification
+           object:nil];
 }
 
 - (void)viewDidLoad {
@@ -101,6 +106,20 @@
   }
 }
 
+- (void)netChangedNotification:(NSNotification *)notification {
+  NetworkStatus status = kSharedAppliction.networkStatus;
+  if (status == NotReachable) {
+    //网络不可用时修改所有设备状态为离线并停止扫描
+    [self.model stopScan];
+    [[SwitchDataCeneter sharedInstance] updateAllSwitchStautsToOffLine];
+    [self.tableView reloadData];
+  } else {
+    if (!self.model.isScanning) {
+      [self.model startScan];
+    }
+  }
+}
+
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView
     numberOfRowsInSection:(NSInteger)section {
@@ -127,7 +146,14 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
   SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
+  if (aSwitch.networkStatus == SWITCH_OFFLINE) {
+    [self.view makeToast:@"设" @"备" @"已" @"离"
+               @"线,请检查手机或设备网络情况"];
+    return;
+  }
+
   SwitchDetailViewController *detailViewController = [self.storyboard
       instantiateViewControllerWithIdentifier:@"SwitchDetailViewController"];
   detailViewController.aSwitch = aSwitch;

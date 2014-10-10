@@ -33,17 +33,16 @@
   return self;
 }
 
-- (void)openOrCloseSwitch:(SDZGSwitch *)aSwitch groupId:(int)groupId {
-  dispatch_async(GLOBAL_QUEUE, ^{
-      self.aSwitch = aSwitch;
-      [self sendMsg11Or13:aSwitch groupId:groupId];
-  });
+- (void)openOrCloseWithGroupId:(int)groupId {
+  dispatch_async(GLOBAL_QUEUE,
+                 ^{ [self sendMsg11Or13:self.aSwitch groupId:groupId]; });
 }
 
 - (void)startScanSwitchState {
+  _isScanning = YES;
   self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
                                        target:self
-                                     selector:@selector(querySwitchState:)
+                                     selector:@selector(querySwitchState)
                                      userInfo:nil
                                       repeats:YES];
   [self.timer fire];
@@ -51,14 +50,16 @@
 }
 
 - (void)stopScanSwitchState {
+  _isScanning = NO;
   if (self.timer) {
     [self.timer invalidate];
     self.timer = nil;
   }
 }
 
-- (void)querySwitchState:(SDZGSwitch *)aSwitch {
-  dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg0BOr0D:aSwitch]; });
+- (void)querySwitchState {
+  debugLog(@"###########发送查询设备状态请求");
+  dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg0BOr0D:self.aSwitch]; });
 }
 
 - (void)sendMsg11Or13:(SDZGSwitch *)aSwitch groupId:(int)groupId {
@@ -158,10 +159,17 @@
 - (void)responseMsgCOrE:(CC3xMessage *)message {
   if (message.state == 0) {
     SDZGSwitch *aSwitch = [SDZGSwitch parseMessageCOrEToSwitch:message];
-    [[SwitchDataCeneter sharedInstance] updateSwitch:aSwitch];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSwitchUpdate
-                                                        object:self
-                                                      userInfo:nil];
+    if (aSwitch) {
+      debugLog(@"############## recivied msg info");
+      self.aSwitch = aSwitch;
+      [[SwitchDataCeneter sharedInstance] updateSwitch:aSwitch];
+      [[NSNotificationCenter defaultCenter]
+          postNotificationName:kOneSwitchUpdate
+                        object:self
+                      userInfo:@{
+                        @"swtich" : aSwitch
+                      }];
+    }
   }
 }
 

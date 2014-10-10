@@ -539,7 +539,7 @@
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入wifi" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3mc-Qe-dOd" customClass="ConfigurationTextField">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请先连接至WIFI网络" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3mc-Qe-dOd" customClass="ConfigurationTextField">
                                                         <rect key="frame" x="10" y="0.0" width="280" height="50"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="textColor" red="0.47843140363693237" green="0.47843140363693237" blue="0.47843140363693237" alpha="1" colorSpace="deviceRGB"/>
@@ -1716,7 +1716,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="MoreViewController" id="eYn-Ia-87Q" customClass="MoreViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="48" sectionHeaderHeight="22" sectionFooterHeight="22" id="Tzf-DG-SIF">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.94117647059999998" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -1805,24 +1805,24 @@
                         <viewControllerLayoutGuide type="bottom" id="ZEn-Y1-1bf"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="3Lh-b0-5GR">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UqY-G9-OCO">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2sh-cT-lBg">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8o0-Gw-eEt">
-                                                <rect key="frame" x="15" y="20" width="290" height="55"/>
+                                                <rect key="frame" x="15" y="20" width="290" height="104"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="42L-t8-4Sm">
-                                                <rect key="frame" x="15" y="85" width="290" height="55"/>
+                                                <rect key="frame" x="15" y="85" width="290" height="104"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             </view>
@@ -1921,7 +1921,7 @@
             <objects>
                 <tabBarController id="8YX-ce-x5E" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" selectionIndicatorImage="tabbar_selected" id="JQR-rB-NYL">
+                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" selectionIndicatorImage="tabbar_selected2" id="JQR-rB-NYL">
                         <rect key="frame" x="0.0" y="431" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     </tabBar>
@@ -1929,7 +1929,6 @@
                         <segue destination="VZo-JA-V8u" kind="relationship" relationship="viewControllers" id="Evh-LM-QYH"/>
                         <segue destination="7cf-7L-NqC" kind="relationship" relationship="viewControllers" id="xgq-HU-6Vf"/>
                         <segue destination="rqU-RF-6Ks" kind="relationship" relationship="viewControllers" id="Jwt-OO-jgh"/>
-                        <segue destination="FAI-iE-oHZ" kind="relationship" relationship="viewControllers" id="cbU-9g-tLs"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FNP-y4-bzi" sceneMemberID="firstResponder"/>
@@ -2619,7 +2618,7 @@
         <image name="socket_bg_normal" width="56" height="56"/>
         <image name="socket_onoff_highligthed" width="45" height="45"/>
         <image name="socket_onoff_normal" width="45" height="45"/>
-        <image name="tabbar_selected" width="80" height="49"/>
+        <image name="tabbar_selected2" width="108" height="49"/>
         <image name="time_bg" width="44" height="59"/>
         <image name="timer" width="20" height="20"/>
         <image name="usersetting" width="56" height="56"/>

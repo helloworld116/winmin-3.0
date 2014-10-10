@@ -10,6 +10,10 @@
 
 @interface SwitchListModel : NSObject
 /**
+ *  指示当前是否正在扫描设备状态
+ */
+@property(nonatomic, assign, readonly) BOOL isScanning;
+/**
  *  开始扫描设备
  */
 - (void)startScan;

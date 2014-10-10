@@ -94,6 +94,7 @@
 #define kShake @"Shake"
 #define kShowMac @"ShowMac"
 //通知
+#define kNetChangedNotification @"NetChangedNotification"
 #define kSceneDataChanged @"SceneDataChanged"
 #define kLoginResponse @"LoginResponse"
 #define kRegisterResponse @"RegisterResponse"
@@ -126,11 +127,12 @@
                  options:kNilOptions                                  \
                    error:nil]
 
-#ifdef DEBUG
-#define SERVER_IP @"192.168.0.89"
-#else
+//#ifdef DEBUG
+//#define SERVER_IP @"192.168.0.89"
+//#else
+//#define SERVER_IP @"183.63.35.203"
+//#endif
 #define SERVER_IP @"183.63.35.203"
-#endif
 
 #define SERVER_PORT 20002
 
@@ -142,6 +144,8 @@
 
 #define BROADCAST_ADDRESS @"255.255.255.255"
 
+#define SOCKET_SERIAL_QUEUE \
+  dispatch_queue_create("socket.com.itouchco.www", DISPATCH_QUEUE_SERIAL)
 #define GLOBAL_QUEUE \
   dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 #define MAIN_QUEUE dispatch_get_main_queue()

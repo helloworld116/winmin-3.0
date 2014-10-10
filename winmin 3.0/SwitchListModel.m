@@ -16,6 +16,7 @@
 @implementation SwitchListModel
 
 - (void)startScan {
+  _isScanning = YES;
   self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
                                        target:self
                                      selector:@selector(sendMsg0BOr0D)
@@ -26,6 +27,7 @@
 }
 
 - (void)stopScan {
+  _isScanning = NO;
   if (self.timer) {
     [self.timer invalidate];
     self.timer = nil;
@@ -34,19 +36,37 @@
 
 //扫描设备
 - (void)sendMsg0BOr0D {
+  //  //先局域网内扫描，1秒后内网没有响应的请求外网，更新设备状态
+  //  dispatch_async(GLOBAL_QUEUE, ^{
+  //      if (!self.request) {
+  //        self.request = [UdpRequest manager];
+  //        self.request.delegate = self;
+  //      }
+  //      [self.request sendMsg0B:ActiveMode];
+  //  });
+  //
+  //  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC),
+  //                 GLOBAL_QUEUE, ^{
+  //      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+  //      for (SDZGSwitch *aSwitch in switchs) {
+  //        //        aSwitch.networkStatus = SWITCH_OFFLINE;
+  //        [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
+  //        [NSThread sleepForTimeInterval:0.1f];
+  //      }
+  //  });
+
   //先局域网内扫描，1秒后内网没有响应的请求外网，更新设备状态
-  if (!self.request) {
-    self.request = [UdpRequest manager];
-    self.request.delegate = self;
-  }
-  [self.request sendMsg0B:ActiveMode];
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC),
-                 GLOBAL_QUEUE, ^{
+  dispatch_async(GLOBAL_QUEUE, ^{
+      if (!self.request) {
+        self.request = [UdpRequest manager];
+        self.request.delegate = self;
+      }
+      [self.request sendMsg0B:ActiveMode];
+
       NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
       for (SDZGSwitch *aSwitch in switchs) {
         //        aSwitch.networkStatus = SWITCH_OFFLINE;
         [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
-        [NSThread sleepForTimeInterval:0.1f];
       }
   });
 }
