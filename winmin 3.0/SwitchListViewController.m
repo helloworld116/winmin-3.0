@@ -11,11 +11,11 @@
 #import "SwitchListCell.h"
 #import "SwitchListModel.h"
 
-@interface SwitchListViewController ()<UIActionSheetDelegate>
-@property(nonatomic, strong) SwitchListModel *model;
-@property(nonatomic, strong) NSArray *switchs;
-@property(nonatomic, strong) NSIndexPath *longPressIndexPath;
-@property(nonatomic, strong) UIView *noDataView;
+@interface SwitchListViewController () <UIActionSheetDelegate>
+@property (nonatomic, strong) SwitchListModel *model;
+@property (nonatomic, strong) NSArray *switchs;
+@property (nonatomic, strong) NSIndexPath *longPressIndexPath;
+@property (nonatomic, strong) UIView *noDataView;
 @end
 
 @implementation SwitchListViewController
@@ -47,7 +47,7 @@
                            message:@"您暂时还未添加任何设备"];
   self.noDataView.hidden = YES;
   [self.view addSubview:self.noDataView];
-  self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
+  self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
   if (!self.switchs || self.switchs.count == 0) {
     self.noDataView.hidden = NO;
   } else {
@@ -95,7 +95,7 @@
   //  if (notification.object == self.model) {
   //
   //  }
-  self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
+  self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
   if (!self.switchs || self.switchs.count == 0) {
     self.noDataView.hidden = NO;
   } else {

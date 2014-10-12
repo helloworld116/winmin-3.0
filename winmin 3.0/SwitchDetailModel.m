@@ -42,7 +42,7 @@
   _isScanning = YES;
   self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
                                        target:self
-                                     selector:@selector(querySwitchState)
+                                     selector:@selector(sendMsg0BOr0D)
                                      userInfo:nil
                                       repeats:YES];
   [self.timer fire];
@@ -55,29 +55,6 @@
     [self.timer invalidate];
     self.timer = nil;
   }
-}
-
-- (void)querySwitchState {
-  debugLog(@"###########发送查询设备状态请求");
-  dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg0BOr0D:self.aSwitch]; });
-}
-
-- (void)sendMsg11Or13:(SDZGSwitch *)aSwitch groupId:(int)groupId {
-  if (!self.request11Or13) {
-    self.request11Or13 = [UdpRequest manager];
-    self.request11Or13.delegate = self;
-  }
-  [self.request11Or13 sendMsg11Or13:aSwitch
-                      socketGroupId:groupId
-                           sendMode:ActiveMode];
-}
-
-- (void)sendMsg0BOr0D:(SDZGSwitch *)aSwitch {
-  if (!self.request0BOr0D) {
-    self.request0BOr0D = [UdpRequest manager];
-    self.request0BOr0D.delegate = self;
-  }
-  [self.request0BOr0D sendMsg0BOr0D:aSwitch sendMode:ActiveMode];
 }
 
 - (void)startRealTimeElec {
@@ -107,6 +84,27 @@
                             dateType:dateType];
       [self senMsg63:self.param];
   });
+}
+
+
+//状态
+- (void)sendMsg0BOr0D{
+    if (!self.request0BOr0D) {
+        self.request0BOr0D = [UdpRequest manager];
+        self.request0BOr0D.delegate = self;
+    }
+    [self.request0BOr0D sendMsg0BOr0D:self.aSwitch sendMode:ActiveMode];
+}
+
+//控制开关
+- (void)sendMsg11Or13:(SDZGSwitch *)aSwitch groupId:(int)groupId {
+    if (!self.request11Or13) {
+        self.request11Or13 = [UdpRequest manager];
+        self.request11Or13.delegate = self;
+    }
+    [self.request11Or13 sendMsg11Or13:aSwitch
+                        socketGroupId:groupId
+                             sendMode:ActiveMode];
 }
 
 //实时电量
@@ -167,7 +165,7 @@
           postNotificationName:kOneSwitchUpdate
                         object:self
                       userInfo:@{
-                        @"swtich" : aSwitch
+                        @"switch" : aSwitch
                       }];
     }
   }
@@ -204,8 +202,6 @@
   if (message.state == 0) {
     HistoryElecData *data =
         [self.historyElec parseResponse:message.historyElecs param:self.param];
-    //    self.viewOfHistoryElec.values = data.values;
-    //    self.viewOfHistoryElec.times = data.times;
     //    debugLog(@"times is %@", data.times);
     //    debugLog(@"values is %@", data.values);
     NSDictionary *userInfo = @{

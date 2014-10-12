@@ -165,12 +165,12 @@ static dispatch_queue_t delegateQueue;
   if (self.udpSocket.isClosed) {
     [self setupUdpSocket:self.udpSocket port:0];
   }
-  //  [self.udpSocket sendData:self.msg
-  //                    toHost:self.host
-  //                      port:self.port
-  //               withTimeout:kUDPTimeOut
-  //                       tag:self.tag];
-  //  dispatch_sync(GLOBAL_QUEUE, ^{ [NSThread sleepForTimeInterval:0.1]; });
+//  [self.udpSocket sendData:self.msg
+//                    toHost:self.host
+//                      port:self.port
+//               withTimeout:kUDPTimeOut
+//                       tag:self.tag];
+//  dispatch_sync(GLOBAL_QUEUE, ^{ [NSThread sleepForTimeInterval:0.1]; });
 
   dispatch_async(SOCKET_SERIAL_QUEUE, ^{
       [self.udpSocket sendData:self.msg
@@ -178,6 +178,7 @@ static dispatch_queue_t delegateQueue;
                           port:self.port
                    withTimeout:kUDPTimeOut
                            tag:self.tag];
+//      [NSThread sleepForTimeInterval:5];
   });
 }
 
@@ -1778,7 +1779,7 @@ static dispatch_queue_t delegateQueue;
        didReceiveData:(NSData *)data
           fromAddress:(NSData *)address
     withFilterContext:(id)filterContext {
-  //  debugLog(@"receiveData is %@", [CC3xMessageUtil hexString:data]);
+  debugLog(@"receiveData is %@", [CC3xMessageUtil hexString:data]);
   if (data) {
     CC3xMessage *msg = (CC3xMessage *)filterContext;
     if ([self.delegate respondsToSelector:@selector(responseMsg:address:)]) {

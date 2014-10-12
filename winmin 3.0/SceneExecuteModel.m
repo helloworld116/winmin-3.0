@@ -51,10 +51,10 @@
         NSBlockOperation *operation =
             [NSBlockOperation blockOperationWithBlock:^{
                 [self sendMsg11Or13:aSwitch groupId:sceneDetail.groupId];
+                [NSThread sleepForTimeInterval:1];
             }];
         [self.queue addOperation:operation];
         debugLog(@"######## %@", [sceneDetail description]);
-        [NSThread sleepForTimeInterval:1];
       }
   });
   [self startTimer];
@@ -62,10 +62,6 @@
 
 - (void)cancelExecute {
   [self.queue cancelAllOperations];
-  NSArray *operations = [self.queue operations];
-  for (NSBlockOperation *operation in operations) {
-    [operation cancel];
-  }
   [self.timer invalidate];
 }
 

@@ -69,6 +69,7 @@
       aSwitch.networkStatus = SWITCH_OFFLINE;
     }
     if (needToDBImmediately) {
+    aSwitch.networkStatus = SWITCH_NEW;
       [[DBUtil sharedInstance] saveSwitch:aSwitch];
     }
     aSwitch.lastUpdateInterval = current;

@@ -16,6 +16,8 @@
 @property(strong, nonatomic) NSIndexPath *selectedIndexPath;
 + (instancetype)sharedInstance;
 
+- (NSArray *)switchsWithChangeStatus;
+
 /**
  *  网络不可用时将所有设备修改为离线
  */

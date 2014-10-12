@@ -177,6 +177,7 @@ preparation before navigation
 
 #pragma mark - 通知
 - (void)switchNameChanged:(NSNotification *)notification {
+    debugLog(@"########switch name changed");
   if (notification.object == self.model) {
     [[SwitchDataCeneter sharedInstance] updateSwitchName:self.switchName
                                              socketNames:nil

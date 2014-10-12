@@ -229,7 +229,7 @@
   }
 }
 
-- (NSArray *)switchs {
+- (NSArray *)switchsWithChangeStatus {
   NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
   NSArray *switchs = [self.switchsDict allValues];
   for (SDZGSwitch *aSwitch in switchs) {
@@ -240,14 +240,14 @@
   return [self.switchsDict allValues];
 }
 
-- (NSArray *)switchsToDB {
+- (NSArray *)switchs {
   return [self.switchsDict allValues];
 }
 
 - (void)saveSwitchsToDB {
   dispatch_async(GLOBAL_QUEUE, ^{
       [self beginBackgroundUpdateTask];
-      [[DBUtil sharedInstance] saveSwitchs:[self switchsToDB]];
+      [[DBUtil sharedInstance] saveSwitchs:[self switchs]];
       [self endBackgroundUpdateTask];
   });
 }

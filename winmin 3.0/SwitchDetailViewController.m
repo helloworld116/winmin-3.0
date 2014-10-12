@@ -16,15 +16,15 @@
 #import "ElecView.h"
 #import "HistoryElec.h"
 
-@interface SwitchDetailViewController ()<
+@interface SwitchDetailViewController () <
     SocketViewDelegate, SocketImgTemplateDelegate, ElecViewDelegate>
-@property(strong, nonatomic) IBOutlet SocketView *socketView1;
-@property(strong, nonatomic) IBOutlet SocketView *socketView2;
-@property(strong, nonatomic) IBOutlet ElecView *elecView;
-@property(strong, nonatomic) SwitchDetailModel *model;
+@property (strong, nonatomic) IBOutlet SocketView *socketView1;
+@property (strong, nonatomic) IBOutlet SocketView *socketView2;
+@property (strong, nonatomic) IBOutlet ElecView *elecView;
+@property (strong, nonatomic) SwitchDetailModel *model;
 
-@property(assign, nonatomic) BOOL showingRealTimeElecView;
-@property(strong, nonatomic) NSMutableArray *powers;  //保存实时电量数据
+@property (assign, nonatomic) BOOL showingRealTimeElecView;
+@property (strong, nonatomic) NSMutableArray *powers; //保存实时电量数据
 @end
 
 @implementation SwitchDetailViewController
@@ -97,11 +97,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
+  [self.model startScanSwitchState];
   //从详情、定时和延时页面返回时如果选中的是实时则开启刷新
   if (self.showingRealTimeElecView) {
     self.showingRealTimeElecView = YES;
   }
-  [self.model startScanSwitchState];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -266,7 +266,6 @@ preparation before navigation
       [self.socketView1 changeSocketState:socket1];
       [self.socketView2 changeSocketState:socket2];
   });
-
   debugLog(@"############## 修改界面");
 }
 
