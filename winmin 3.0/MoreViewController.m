@@ -29,6 +29,10 @@
   UIView *view = [[UIView alloc] init];
   view.backgroundColor = [UIColor clearColor];
   self.tableView.tableFooterView = view;
+
+  UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+  backButtonItem.title = @"返回";
+  self.navigationItem.backBarButtonItem = backButtonItem;
 }
 
 - (void)setup {
@@ -93,10 +97,22 @@
 
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.row == 0) {
-    UIViewController *nextVC = [self.storyboard
-        instantiateViewControllerWithIdentifier:@"TestViewController"];
-    [self.navigationController pushViewController:nextVC animated:YES];
+  if (indexPath.section == 1) {
+    UIViewController *nextController;
+    switch (indexPath.row) {
+      case 0:
+        nextController = [self.storyboard
+            instantiateViewControllerWithIdentifier:@"AboutUsViewController"];
+        break;
+      case 1:
+        nextController =
+            [self.storyboard instantiateViewControllerWithIdentifier:
+                                 @"SecurityWarnViewController"];
+        break;
+      default:
+        break;
+    }
+    [self.navigationController pushViewController:nextController animated:YES];
   }
 }
 @end

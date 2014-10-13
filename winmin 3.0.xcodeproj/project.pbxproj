@@ -111,6 +111,13 @@
 		15BBD6F819DA857A0002D973 /* ElecRealTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F719DA857A0002D973 /* ElecRealTimeView.m */; };
 		15BBD6FB19DA89540002D973 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6FA19DA89540002D973 /* TestViewController.m */; };
 		15F31C1E19D3C7C70095E5BD /* SceneListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F31C1D19D3C7C70095E5BD /* SceneListViewController.m */; };
+		15F3A46B19EB717E001CD296 /* SecurityWarnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A46A19EB717E001CD296 /* SecurityWarnViewController.m */; };
+		15F3A46E19EB718A001CD296 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A46D19EB718A001CD296 /* AboutUsViewController.m */; };
+		15F3A47519EB80E4001CD296 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A47219EB80E4001CD296 /* LoginViewController.m */; };
+		15F3A47619EB80E4001CD296 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A47419EB80E4001CD296 /* RegisterViewController.m */; };
+		15F3A47E19EB8123001CD296 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A47B19EB8123001CD296 /* UserInfo.m */; };
+		15F3A47F19EB8123001CD296 /* ServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A47D19EB8123001CD296 /* ServerResponse.m */; };
+		15F3A48219EBCCE6001CD296 /* QuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A48119EBCCE6001CD296 /* QuestionViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -291,6 +298,20 @@
 		15BBD6FA19DA89540002D973 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		15F31C1C19D3C7C70095E5BD /* SceneListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneListViewController.h; sourceTree = "<group>"; };
 		15F31C1D19D3C7C70095E5BD /* SceneListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneListViewController.m; sourceTree = "<group>"; };
+		15F3A46919EB717E001CD296 /* SecurityWarnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityWarnViewController.h; sourceTree = "<group>"; };
+		15F3A46A19EB717E001CD296 /* SecurityWarnViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityWarnViewController.m; sourceTree = "<group>"; };
+		15F3A46C19EB718A001CD296 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		15F3A46D19EB718A001CD296 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
+		15F3A47119EB80E4001CD296 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		15F3A47219EB80E4001CD296 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		15F3A47319EB80E4001CD296 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		15F3A47419EB80E4001CD296 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		15F3A47A19EB8123001CD296 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		15F3A47B19EB8123001CD296 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
+		15F3A47C19EB8123001CD296 /* ServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerResponse.h; sourceTree = "<group>"; };
+		15F3A47D19EB8123001CD296 /* ServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerResponse.m; sourceTree = "<group>"; };
+		15F3A48019EBCCE6001CD296 /* QuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionViewController.h; sourceTree = "<group>"; };
+		15F3A48119EBCCE6001CD296 /* QuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionViewController.m; sourceTree = "<group>"; };
 		3D7C9184B0EB44E997A6779A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		95B2B7BB80C1420797A2EE26 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -411,6 +432,12 @@
 				1560130A19C9542C00BF7E12 /* MoreViewController.m */,
 				15BBD6F919DA89540002D973 /* TestViewController.h */,
 				15BBD6FA19DA89540002D973 /* TestViewController.m */,
+				15F3A46919EB717E001CD296 /* SecurityWarnViewController.h */,
+				15F3A46A19EB717E001CD296 /* SecurityWarnViewController.m */,
+				15F3A46C19EB718A001CD296 /* AboutUsViewController.h */,
+				15F3A46D19EB718A001CD296 /* AboutUsViewController.m */,
+				15F3A48019EBCCE6001CD296 /* QuestionViewController.h */,
+				15F3A48119EBCCE6001CD296 /* QuestionViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -541,6 +568,7 @@
 		158D988019C6F39C0068AFC5 /* winmin 3.0 */ = {
 			isa = PBXGroup;
 			children = (
+				15F3A47019EB80CF001CD296 /* 用户 */,
 				15476D4D19E7817A00EC6BD1 /* 欢迎 */,
 				158D993A19C7E49C0068AFC5 /* 配置 */,
 				158D993919C7E4930068AFC5 /* 控制 */,
@@ -802,6 +830,45 @@
 			name = "更多";
 			sourceTree = "<group>";
 		};
+		15F3A47019EB80CF001CD296 /* 用户 */ = {
+			isa = PBXGroup;
+			children = (
+				15F3A47919EB810D001CD296 /* model */,
+				15F3A47819EB8100001CD296 /* view */,
+				15F3A47719EB80F2001CD296 /* controller */,
+			);
+			name = "用户";
+			sourceTree = "<group>";
+		};
+		15F3A47719EB80F2001CD296 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				15F3A47119EB80E4001CD296 /* LoginViewController.h */,
+				15F3A47219EB80E4001CD296 /* LoginViewController.m */,
+				15F3A47319EB80E4001CD296 /* RegisterViewController.h */,
+				15F3A47419EB80E4001CD296 /* RegisterViewController.m */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
+		15F3A47819EB8100001CD296 /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
+		15F3A47919EB810D001CD296 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				15F3A47A19EB8123001CD296 /* UserInfo.h */,
+				15F3A47B19EB8123001CD296 /* UserInfo.m */,
+				15F3A47C19EB8123001CD296 /* ServerResponse.h */,
+				15F3A47D19EB8123001CD296 /* ServerResponse.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -948,6 +1015,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15F3A47619EB80E4001CD296 /* RegisterViewController.m in Sources */,
 				158D993619C7E2530068AFC5 /* SceneDetail.m in Sources */,
 				158D988B19C6F39C0068AFC5 /* AppDelegate.m in Sources */,
 				155A5BF919D3F306007864C8 /* SceneEditCell.m in Sources */,
@@ -974,11 +1042,14 @@
 				158D992E19C7E2380068AFC5 /* SwitchDataCeneter.m in Sources */,
 				1560131119C956C700BF7E12 /* MoreCellTypeFirst.m in Sources */,
 				1560131A19C96BE200BF7E12 /* SwitchDetailViewController.m in Sources */,
+				15F3A46B19EB717E001CD296 /* SecurityWarnViewController.m in Sources */,
 				1560130B19C9542C00BF7E12 /* MoreViewController.m in Sources */,
 				158D992619C7E0FF0068AFC5 /* SDZGSwitch.m in Sources */,
 				1560130E19C956A600BF7E12 /* MoreCellTypeSecond.m in Sources */,
 				15AC864719CFFE7000D154EB /* UIView+NoDataView.m in Sources */,
 				158D993719C7E2530068AFC5 /* Scene.m in Sources */,
+				15F3A47519EB80E4001CD296 /* LoginViewController.m in Sources */,
+				15F3A46E19EB718A001CD296 /* AboutUsViewController.m in Sources */,
 				1560130419C91EF800BF7E12 /* SwitchListModel.m in Sources */,
 				155A5BFF19D54206007864C8 /* SceneExcCell.m in Sources */,
 				158D988719C6F39C0068AFC5 /* main.m in Sources */,
@@ -992,7 +1063,10 @@
 				158D991719C7CBC50068AFC5 /* DESUtil.m in Sources */,
 				1560132319CA795100BF7E12 /* SocketImgTemplateViewController.m in Sources */,
 				158D991F19C7DF7A0068AFC5 /* CRC.c in Sources */,
+				15F3A48219EBCCE6001CD296 /* QuestionViewController.m in Sources */,
+				15F3A47E19EB8123001CD296 /* UserInfo.m in Sources */,
 				15BBD6F519DA7CBC0002D973 /* ElecView.m in Sources */,
+				15F3A47F19EB8123001CD296 /* ServerResponse.m in Sources */,
 				15AC863E19CFC6C900D154EB /* TimerViewController.m in Sources */,
 				155A5BFC19D53835007864C8 /* SceneExecuteViewController.m in Sources */,
 				158D991619C7CBC50068AFC5 /* DB.m in Sources */,
