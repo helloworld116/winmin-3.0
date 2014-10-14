@@ -25,6 +25,10 @@
         socket.socketStatus = ((message.onStatus & 1 << i) == 1 << i);
       }
     } else {
+      if (message.lockStatus == LockStatusOn) {
+        //锁定并不在列表中，不添加
+        return nil;
+      }
       needToDBImmediately = YES;
       aSwitch = [[SDZGSwitch alloc] init];
       aSwitch.sockets = [@[] mutableCopy];
@@ -56,20 +60,22 @@
     aSwitch.name = message.deviceName;
     aSwitch.version = message.version;
     aSwitch.lockStatus = message.lockStatus;
-    if (message.msgId == 0xc) {
-      aSwitch.networkStatus = SWITCH_LOCAL;
-    } else if (message.msgId == 0xe) {
-      if (aSwitch.networkStatus == SWITCH_LOCAL) {
-        if (diff < 2 * REFRESH_DEV_TIME) {
-          return nil;
+    if (aSwitch.networkStatus != SWITCH_NEW) {
+      if (message.msgId == 0xc) {
+        aSwitch.networkStatus = SWITCH_LOCAL;
+      } else if (message.msgId == 0xe) {
+        if (aSwitch.networkStatus == SWITCH_LOCAL) {
+          if (diff < 2 * REFRESH_DEV_TIME) {
+            return nil;
+          }
         }
+        aSwitch.networkStatus = SWITCH_REMOTE;
+      } else {
+        aSwitch.networkStatus = SWITCH_OFFLINE;
       }
-      aSwitch.networkStatus = SWITCH_REMOTE;
-    } else {
-      aSwitch.networkStatus = SWITCH_OFFLINE;
     }
     if (needToDBImmediately) {
-    aSwitch.networkStatus = SWITCH_NEW;
+      aSwitch.networkStatus = SWITCH_NEW;
       [[DBUtil sharedInstance] saveSwitch:aSwitch];
     }
     aSwitch.lastUpdateInterval = current;

@@ -55,6 +55,18 @@
   self.btnLogin.layer.borderWidth = .5f;
   self.btnLogin.layer.cornerRadius = 3.f;
   self.btnQQ.layer.cornerRadius = 3.f;
+  [self.btnQQ.layer setMasksToBounds:YES];
+  [self.btnQQ
+      setBackgroundImage:
+          [UIImage imageWithColor:[UIColor colorWithHexString:@"#3399ff"]
+                             size:self.btnQQ.frame.size]
+                forState:UIControlStateNormal];
+  [self.btnQQ
+      setBackgroundImage:
+          [UIImage imageWithColor:[UIColor colorWithHexString:@"#3399f0"]
+                             size:self.btnQQ.frame.size]
+                forState:UIControlStateHighlighted];
+
   self.btnWeibo.layer.cornerRadius = 3.f;
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
   backButtonItem.title = @"返回";
@@ -144,14 +156,30 @@
 }
 
 - (IBAction)qqLogin:(id)sender {
+  //  [ShareSDK getUserInfoWithType:ShareTypeQQSpace
+  //                    authOptions:nil
+  //                         result:^(BOOL result, id<ISSPlatformUser> userInfo,
+  //                                  id<ICMErrorInfo> error) {
+  //                             if (result) {
+  //                               NSLog(@".......nickname is %@ and uid is %@",
+  //                                     [userInfo nickname], [userInfo uid]);
+  //                             }
+  //                         }];
+
   [ShareSDK getUserInfoWithType:ShareTypeQQSpace
                     authOptions:nil
                          result:^(BOOL result, id<ISSPlatformUser> userInfo,
                                   id<ICMErrorInfo> error) {
+
                              if (result) {
-                               NSLog(@".......nickname is %@ and uid is %@",
-                                     [userInfo nickname], [userInfo uid]);
+                               //打印输出用户uid：
+                               NSLog(@"uid = %@", [userInfo uid]);
+                               //打印输出用户昵称：
+                               NSLog(@"name = %@", [userInfo nickname]);
+                               //打印输出用户头像地址：
+                               NSLog(@"icon = %@", [userInfo profileImage]);
                              }
+                             debugLog(@"error is %@", error.errorDescription);
                          }];
 }
 

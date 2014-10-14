@@ -79,6 +79,16 @@
     self._switch.on = NO;
   }
   self.model = [[SwitchInfoModel alloc] initWithSwitch:self.aSwitch];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(switchOnOffChanged:)
+             name:kSwitchOnOffStateChange
+           object:self.model];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(switchNameChanged:)
+             name:kSwitchNameChange
+           object:self.model];
 }
 
 - (void)viewDidLoad {
@@ -87,33 +97,13 @@
   [self setup];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-  [super viewDidAppear:animated];
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(switchNameChanged:)
-             name:kSwitchOnOffStateChange
-           object:nil];
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(switchOnOffChanged:)
-             name:kSwitchNameChange
-           object:nil];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kSwitchOnOffStateChange
-                                                object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kSwitchNameChange
-                                                object:nil];
-}
-
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*
@@ -177,21 +167,16 @@ preparation before navigation
 
 #pragma mark - 通知
 - (void)switchNameChanged:(NSNotification *)notification {
-    debugLog(@"########switch name changed");
-  if (notification.object == self.model) {
-    [[SwitchDataCeneter sharedInstance] updateSwitchName:self.switchName
-                                             socketNames:nil
-                                                     mac:self.aSwitch.mac];
-    dispatch_async(MAIN_QUEUE,
-                   ^{ self.navigationItem.title = self.switchName; });
-  }
+  debugLog(@"########switch name changed");
+  [[SwitchDataCeneter sharedInstance] updateSwitchName:self.switchName
+                                           socketNames:nil
+                                                   mac:self.aSwitch.mac];
+  dispatch_async(MAIN_QUEUE, ^{ self.navigationItem.title = self.switchName; });
 }
 
 - (void)switchOnOffChanged:(NSNotification *)notification {
-  if (notification.object == self.model) {
-    [[SwitchDataCeneter sharedInstance] updateSwitchLockStaus:self.lockStatus
-                                                          mac:self.aSwitch.mac];
-  }
+  [[SwitchDataCeneter sharedInstance] updateSwitchLockStaus:self.lockStatus
+                                                        mac:self.aSwitch.mac];
 }
 
 #pragma mark - 选择图片

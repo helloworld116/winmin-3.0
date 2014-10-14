@@ -11,7 +11,7 @@
 #define kOneSwitchUpdate @"OneSwitchUpdateNotification"
 
 @interface SwitchDataCeneter : NSObject
-@property(strong, atomic, readonly) NSMutableDictionary *switchsDict;
+@property(strong, nonatomic, readonly) NSMutableDictionary *switchsDict;
 @property(strong, nonatomic) NSArray *switchs;
 @property(strong, nonatomic) NSIndexPath *selectedIndexPath;
 + (instancetype)sharedInstance;
@@ -25,79 +25,79 @@
 /**
  *  socket开关状态更改
  *
- *  @param socketStaus <#socketStaus description#>
- *  @param socketGroupId    <#socketGroupId description#>
- *  @param mac         <#mac description#>
+ *  @param socketStaus
+ *  @param socketGroupId
+ *  @param mac
  *
- *  @return <#return value description#>
+ *  @return
  */
-- (NSArray *)updateSocketStaus:(SocketStatus)socketStaus
-                 socketGroupId:(int)socketGroupId
-                           mac:(NSString *)mac;
+- (void)updateSocketStaus:(SocketStatus)socketStaus
+            socketGroupId:(int)socketGroupId
+                      mac:(NSString *)mac;
 /**
  *  加解锁后执行
  *
- *  @param lockStatus <#lockStatus description#>
- *  @param mac        <#mac description#>
+ *  @param lockStatus
+ *  @param mac
  *
- *  @return <#return value description#>
+ *  @return
  */
-- (NSArray *)updateSwitchLockStaus:(LockStatus)lockStatus mac:(NSString *)mac;
+- (void)updateSwitchLockStaus:(LockStatus)lockStatus mac:(NSString *)mac;
 
 /**
  *  修改图片
  *
- *  @param imgName <#imgName description#>
- *  @param mac     <#mac description#>
+ *  @param imgName
+ *  @param mac
  *
  */
 - (void)updateSwitchImageName:(NSString *)imgName mac:(NSString *)mac;
 /**
  *  查询到设备状态后执行
  *
- *  @param aSwitch <#aSwitch description#>
+ *  @param aSwitch
  *
- *  @return <#return value description#>
+ *  @return
  */
-- (NSArray *)updateSwitch:(SDZGSwitch *)aSwitch;
+- (void)updateSwitch:(SDZGSwitch *)aSwitch;
 /**
  *  定时任务修改后执行
  *
- *  @param timerList <#timerList description#>
- *  @param mac       <#mac description#>
- *  @param socketGroupId  <#socketGroupId description#>
+ *  @param timerList
+ *  @param mac
+ *  @param socketGroupId
  *
- *  @return <#return value description#>
+ *  @return
  */
-- (NSArray *)updateTimerList:(NSArray *)timerList
-                         mac:(NSString *)mac
-               socketGroupId:(int)socketGroupId;
+- (void)updateTimerList:(NSArray *)timerList
+                    mac:(NSString *)mac
+          socketGroupId:(int)socketGroupId;
 /**
  *  延迟时间更改后执行
  *
- *  @param delayTime   <#delayTime description#>
- *  @param delayAction <#delayAction description#>
- *  @param mac         <#mac description#>
- *  @param socketGroupId    <#socketGroupId description#>
+ *  @param delayTime
+ *  @param delayAction
+ *  @param mac
+ *  @param socketGroupId
  *
- *  @return <#return value description#>
+ *  @return
  */
-- (NSArray *)updateDelayTime:(int)delayTime
-                 delayAction:(DelayAction)delayAction
-                         mac:(NSString *)mac
-               socketGroupId:(int)socketGroupId;
+- (void)updateDelayTime:(int)delayTime
+            delayAction:(DelayAction)delayAction
+                    mac:(NSString *)mac
+          socketGroupId:(int)socketGroupId;
 /**
  *  设备名字更改后执行
  *
- *  @param switchName  <#switchName description#>
- *  @param socketNames <#socketNames description#>
- *  @param mac         <#mac description#>
+ *  @param switchName
+ *  @param socketNames
+ *  @param mac
  *
- *  @return <#return value description#>
+ *  @return
  */
-- (NSArray *)updateSwitchName:(NSString *)switchName
-                  socketNames:(NSArray *)socketNames
-                          mac:(NSString *)mac;
+- (void)updateSwitchName:(NSString *)switchName
+             socketNames:(NSArray *)socketNames
+                     mac:(NSString *)mac;
 
 /**
  *  退出前保存到数据库
@@ -124,4 +124,11 @@
  *  @return
  */
 - (BOOL)removeSwitch:(SDZGSwitch *)aSwtich;
+
+/**
+ *  检测是否所有设备已离线
+ *
+ *  @return
+ */
+- (BOOL)isAllSwitchOffLine;
 @end

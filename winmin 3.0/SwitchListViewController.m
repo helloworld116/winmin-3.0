@@ -11,11 +11,11 @@
 #import "SwitchListCell.h"
 #import "SwitchListModel.h"
 
-@interface SwitchListViewController () <UIActionSheetDelegate>
-@property (nonatomic, strong) SwitchListModel *model;
-@property (nonatomic, strong) NSArray *switchs;
-@property (nonatomic, strong) NSIndexPath *longPressIndexPath;
-@property (nonatomic, strong) UIView *noDataView;
+@interface SwitchListViewController ()<UIActionSheetDelegate>
+@property(nonatomic, strong) SwitchListModel *model;
+@property(nonatomic, strong) NSArray *switchs;
+@property(nonatomic, strong) NSIndexPath *longPressIndexPath;
+@property(nonatomic, strong) UIView *noDataView;
 @end
 
 @implementation SwitchListViewController
@@ -92,9 +92,6 @@
 
 #pragma mark - 通知
 - (void)updateSwitchList:(NSNotification *)notification {
-  //  if (notification.object == self.model) {
-  //
-  //  }
   self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
   if (!self.switchs || self.switchs.count == 0) {
     self.noDataView.hidden = NO;
@@ -153,7 +150,10 @@
                @"线,请检查手机或设备网络情况"];
     return;
   }
-
+  if (aSwitch.networkStatus == SWITCH_NEW) {
+    aSwitch.networkStatus = SWITCH_LOCAL;
+    [[SwitchDataCeneter sharedInstance] updateSwitch:aSwitch];
+  }
   SwitchDetailViewController *detailViewController = [self.storyboard
       instantiateViewControllerWithIdentifier:@"SwitchDetailViewController"];
   detailViewController.aSwitch = aSwitch;

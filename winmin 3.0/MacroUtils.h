@@ -146,6 +146,9 @@
 
 #define SOCKET_SERIAL_QUEUE \
   dispatch_queue_create("socket.com.itouchco.www", DISPATCH_QUEUE_SERIAL)
+#define SWITCHDATACENTER_SERIAL_QUEUE                        \
+  dispatch_queue_create("switchdatacenter.com.itouchco.www", \
+                        DISPATCH_QUEUE_SERIAL)
 #define GLOBAL_QUEUE \
   dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 #define MAIN_QUEUE dispatch_get_main_queue()

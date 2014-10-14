@@ -7,6 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import <ShareSDK/ShareSDK.h>
+//#import <TencentOpenAPI/TencentOpenSDK.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+#import "WeiboApi.h"
 
 @interface AppDelegate ()
 @property(nonatomic, strong) NetUtil *netUtil;
@@ -22,6 +27,7 @@
   [self.netUtil addNetWorkChangeNotification];
   [self setStyle];
   [self setData];
+  [self registPlatform];
   return YES;
 }
 
@@ -59,6 +65,20 @@
   // appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+  return [ShareSDK handleOpenURL:url wxDelegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application
+              openURL:(NSURL *)url
+    sourceApplication:(NSString *)sourceApplication
+           annotation:(id)annotation {
+  return [ShareSDK handleOpenURL:url
+               sourceApplication:sourceApplication
+                      annotation:annotation
+                      wxDelegate:self];
+}
+
 - (void)setStyle {
   [[UIApplication sharedApplication] setStatusBarHidden:NO];
   [[UIApplication sharedApplication]
@@ -80,4 +100,28 @@
 - (void)setData {
   self.switchDataCeneter = [SwitchDataCeneter sharedInstance];
 }
+
+- (void)registPlatform {
+  [ShareSDK registerApp:@"3603417cd788"];
+  //添加QQ应用  注册网址  http://mobile.qq.com/api/
+  [ShareSDK connectQQWithQZoneAppKey:@"1103300130"
+                   qqApiInterfaceCls:[QQApiInterface class]
+                     tencentOAuthCls:[TencentOAuth class]];
+
+  //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
+  [ShareSDK connectQZoneWithAppKey:@"1103300130"
+                         appSecret:@"wzQBWSmbSVO9xcpR"
+                 qqApiInterfaceCls:[QQApiInterface class]
+                   tencentOAuthCls:[TencentOAuth class]];
+  //
+  //添加新浪微博应用 注册网址 http://open.weibo.com
+  [ShareSDK
+      connectSinaWeiboWithAppKey:@"2257675579"
+                       appSecret:@"8ab29da6b4322c26409d38130470bf5f"
+                     redirectUri:@"https://api.weibo.com/oauth2/default.html"];
+  //  [ShareSDK connectMail];
+  //  [ShareSDK connectSMS];
+  //  [ShareSDK connectCopy];
+}
+
 @end

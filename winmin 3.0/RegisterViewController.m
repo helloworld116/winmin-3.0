@@ -143,6 +143,7 @@ preparation before navigation
   UIButton *btn = (UIButton *)sender;
   btn.selected = !btn.selected;
   self.isAgreenProtocol = btn.selected;
+  self.btnRegister.enabled = self.isAgreenProtocol;
 }
 
 - (IBAction) register:(id)sender {
