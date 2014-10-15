@@ -109,6 +109,7 @@
                                                         userInfo:nil];
     }
   } else {
+    [[SwitchDataCeneter sharedInstance] isAllSwitchOffLine];
   }
 }
 

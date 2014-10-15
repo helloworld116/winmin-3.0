@@ -99,6 +99,7 @@
 #define kLoginResponse @"LoginResponse"
 #define kRegisterResponse @"RegisterResponse"
 #define kLoginSuccess @"LoginSuccess"
+#define kLoginOut @"LoginOut"
 #define kSwitchOnOffStateChange @"SwitchOnOffStateChange"
 #define kSwitchNameChange @"SwitchNameChange"
 #define kDelayQueryNotification @"DelayQueryNotification"
@@ -133,6 +134,7 @@
 //#define SERVER_IP @"183.63.35.203"
 //#endif
 #define SERVER_IP @"183.63.35.203"
+static NSString *const BaseURLString = @"http://192.168.0.89:8080/ais/api/";
 
 #define SERVER_PORT 20002
 

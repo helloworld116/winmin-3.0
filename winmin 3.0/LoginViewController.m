@@ -9,7 +9,7 @@
 #import "LoginViewController.h"
 #import "UserInfo.h"
 
-@interface LoginViewController ()<UITextFieldDelegate>
+@interface LoginViewController ()<UITextFieldDelegate, ISSViewDelegate>
 @property(strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property(strong, nonatomic) IBOutlet UIView *view1;
 @property(strong, nonatomic) IBOutlet UIView *view2;
@@ -144,49 +144,58 @@
 }
 
 - (IBAction)weiboLogin:(id)sender {
-  [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
-                    authOptions:nil
-                         result:^(BOOL result, id<ISSPlatformUser> userInfo,
-                                  id<ICMErrorInfo> error) {
-                             if (result) {
-                               NSLog(@".......nickname is %@ and uid is %@",
-                                     [userInfo nickname], [userInfo uid]);
-                             }
-                         }];
+  //自动授权
+  id<ISSAuthOptions> authOptions =
+      [ShareSDK authOptionsWithAutoAuth:YES
+                          allowCallback:YES
+                          authViewStyle:SSAuthViewStyleModal
+                           viewDelegate:self
+                authManagerViewDelegate:self];
+  [ShareSDK
+      getUserInfoWithType:ShareTypeSinaWeibo
+              authOptions:authOptions
+                   result:^(BOOL result, id<ISSPlatformUser> userInfo,
+                            id<ICMErrorInfo> error) {
+                       if (result) {
+                         NSLog(@".......nickname is %@ and uid is %@",
+                               [userInfo nickname], [userInfo uid]);
+                         UserInfo *uInfo = [[UserInfo alloc]
+                             initWithSinaUid:[userInfo uid]
+                                    nickname:[userInfo nickname]];
+                         [uInfo loginRequest];
+                         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                       }
+                       debugLog(@"error is %@", error.errorDescription);
+                   }];
 }
 
 - (IBAction)qqLogin:(id)sender {
-  //  [ShareSDK getUserInfoWithType:ShareTypeQQSpace
-  //                    authOptions:nil
-  //                         result:^(BOOL result, id<ISSPlatformUser> userInfo,
-  //                                  id<ICMErrorInfo> error) {
-  //                             if (result) {
-  //                               NSLog(@".......nickname is %@ and uid is %@",
-  //                                     [userInfo nickname], [userInfo uid]);
-  //                             }
-  //                         }];
+  [ShareSDK
+      getUserInfoWithType:ShareTypeQQSpace
+              authOptions:nil
+                   result:^(BOOL result, id<ISSPlatformUser> userInfo,
+                            id<ICMErrorInfo> error) {
 
-  [ShareSDK getUserInfoWithType:ShareTypeQQSpace
-                    authOptions:nil
-                         result:^(BOOL result, id<ISSPlatformUser> userInfo,
-                                  id<ICMErrorInfo> error) {
+                       if (result) {
+                         UserInfo *uInfo = [[UserInfo alloc]
+                             initWithQQUid:[userInfo uid]
+                                  nickname:[userInfo nickname]];
+                         [uInfo loginRequest];
+                         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                       }
+                       debugLog(@"error is %@", error.errorDescription);
+                   }];
+}
 
-                             if (result) {
-                               //打印输出用户uid：
-                               NSLog(@"uid = %@", [userInfo uid]);
-                               //打印输出用户昵称：
-                               NSLog(@"name = %@", [userInfo nickname]);
-                               //打印输出用户头像地址：
-                               NSLog(@"icon = %@", [userInfo profileImage]);
-                             }
-                             debugLog(@"error is %@", error.errorDescription);
-                         }];
+- (void)viewOnWillDisplay:(UIViewController *)viewController
+                shareType:(ShareType)shareType {
+  viewController.navigationItem.rightBarButtonItem = nil;
 }
 
 - (IBAction)login:(id)sender {
   if ([self check]) {
-    UserInfo *userInfo = [[UserInfo alloc] initWithUsername:self.username
-                                                   password:self.password];
+    UserInfo *userInfo =
+        [[UserInfo alloc] initWithEmail:self.username password:self.password];
     [userInfo loginRequest];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
   }
@@ -278,10 +287,10 @@
     switch (reponse.status) {
       case 1: {
         //登陆成功
-        NSDictionary *userInfo = @{ @"username" : self.username };
         [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccess
                                                             object:self
-                                                          userInfo:userInfo];
+                                                          userInfo:nil];
+        [self.navigationController popViewControllerAnimated:NO];
         break;
       }
       default:

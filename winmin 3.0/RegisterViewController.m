@@ -8,10 +8,11 @@
 
 #import "RegisterViewController.h"
 #import "UserInfo.h"
+#import "TextUtil.h"
 
 @interface RegisterViewController ()<UITextFieldDelegate>
 @property(strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property(strong, nonatomic) IBOutlet UITextField *textUsername;
+@property(strong, nonatomic) IBOutlet UITextField *textEmail;
 @property(strong, nonatomic) IBOutlet UITextField *textFieldPassword;
 @property(strong, nonatomic) IBOutlet UITextField *textFieldPassword2;
 @property(strong, nonatomic) IBOutlet UITextField *textFieldNickName;
@@ -29,7 +30,7 @@
 @property(strong, nonatomic) UITextField *activeField;
 @property(assign, nonatomic) BOOL isAgreenProtocol;
 @property(strong, nonatomic) NSString *email;
-@property(strong, nonatomic) NSString *username;
+@property(strong, nonatomic) NSString *nickName;
 @property(strong, nonatomic) NSString *password;
 @end
 
@@ -69,7 +70,7 @@
 
 - (void)setup {
   [self setupStyle];
-  self.textUsername.delegate = self;
+  self.textEmail.delegate = self;
   self.textFieldPassword.delegate = self;
   self.textFieldPassword2.delegate = self;
   self.textFieldNickName.delegate = self;
@@ -149,9 +150,9 @@ preparation before navigation
 - (IBAction) register:(id)sender {
   if ([self check]) {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    UserInfo *userInfo = [[UserInfo alloc] initWithUsername:self.username
-                                                   password:self.password
-                                                      email:self.email];
+    UserInfo *userInfo = [[UserInfo alloc] initWithEmail:self.email
+                                                password:self.password
+                                                nickName:self.nickName];
     [userInfo registerRequest];
   }
 }
@@ -160,15 +161,20 @@ preparation before navigation
   [self touchBackground:nil];
   NSCharacterSet *charSet = [NSCharacterSet whitespaceCharacterSet];
   NSString *email =
-      [self.textUsername.text stringByTrimmingCharactersInSet:charSet];
-  NSString *username =
+      [self.textEmail.text stringByTrimmingCharactersInSet:charSet];
+  NSString *nickName =
       [self.textFieldNickName.text stringByTrimmingCharactersInSet:charSet];
   NSString *password =
       [self.textFieldPassword.text stringByTrimmingCharactersInSet:charSet];
   NSString *password2 =
       [self.textFieldPassword2.text stringByTrimmingCharactersInSet:charSet];
   if (email.length) {
-    self.email = email;
+    if ([TextUtil isEmailAddress:email]) {
+      self.email = email;
+    } else {
+      [self showMessage:@"邮箱格式不正确"];
+      return NO;
+    }
   } else {
     [self showMessage:@"邮箱不能为空"];
     return NO;
@@ -183,10 +189,10 @@ preparation before navigation
     [self showMessage:@"两次输入的密码不一致"];
     return NO;
   }
-  if (username.length) {
-    self.username = username;
+  if (nickName.length) {
+    self.nickName = nickName;
   } else {
-    [self showMessage:@"用户名不能为空"];
+    [self showMessage:@"昵称不能为空"];
     return NO;
   }
   return YES;
@@ -203,7 +209,7 @@ preparation before navigation
 }
 
 - (IBAction)touchBackground:(id)sender {
-  [self.textUsername resignFirstResponder];
+  [self.textEmail resignFirstResponder];
   [self.textFieldPassword resignFirstResponder];
   [self.textFieldPassword2 resignFirstResponder];
   [self.textFieldNickName resignFirstResponder];
@@ -211,7 +217,7 @@ preparation before navigation
 
 #pragma mark - UITextField协议
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-  if (textField == self.textUsername) {
+  if (textField == self.textEmail) {
     [self.textFieldPassword becomeFirstResponder];
     return NO;
   } else if (textField == self.textFieldPassword) {
@@ -270,12 +276,11 @@ preparation before navigation
     switch (reponse.status) {
       case 1: {
         //登陆成功
-        NSDictionary *userInfo = @{ @"username" : self.username };
         [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccess
                                                             object:self
-                                                          userInfo:userInfo];
+                                                          userInfo:nil];
 
-        [self dismissViewControllerAnimated:YES completion:^{}];
+        [self.navigationController popToRootViewControllerAnimated:NO];
         break;
       }
       default:

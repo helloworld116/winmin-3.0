@@ -9,10 +9,13 @@
 #import "MoreViewController.h"
 #import "MoreCellTypeFirst.h"
 #import "MoreCellTypeSecond.h"
+#import "MoreCellTypeThird.h"
+#import "UserInfo.h"
 
 @interface MoreViewController ()
 @property(nonatomic, strong) NSArray *titles;
 @property(nonatomic, strong) NSArray *icons;
+@property(nonatomic, assign) BOOL isLogin;
 @end
 
 @implementation MoreViewController
@@ -39,6 +42,30 @@
   [self setupStyle];
   self.titles = @[ @"关于我们", @"安全警告", @"常见问题" ];
   self.icons = @[ @"about_us", @"security", @"question", ];
+  [[NSNotificationCenter defaultCenter]
+      addObserverForName:kLoginSuccess
+                  object:nil
+                   queue:nil
+              usingBlock:^(NSNotification *note) {
+                  self.isLogin = YES;
+                  dispatch_async(MAIN_QUEUE, ^{
+                      NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
+                      [self.tableView
+                            reloadSections:indexSet
+                          withRowAnimation:UITableViewRowAnimationNone];
+                  });
+              }];
+  [[NSNotificationCenter defaultCenter]
+      addObserverForName:kLoginOut
+                  object:nil
+                   queue:nil
+              usingBlock:^(NSNotification *note) {
+                  self.isLogin = NO;
+                  NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
+                  [self.tableView reloadSections:indexSet
+                                withRowAnimation:UITableViewRowAnimationNone];
+              }];
+  self.isLogin = [UserInfo userInfoInDisk];
 }
 
 - (void)viewDidLoad {
@@ -49,6 +76,10 @@
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Table view data source
@@ -81,10 +112,19 @@
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *cellType1Identifier = @"MoreCellTypeFirst";
   static NSString *cellType2Identifier = @"MoreCellTypeSecond";
+  static NSString *cellType3Identifier = @"MoreCellTypeThird";
   UITableViewCell *cell;
   if (indexPath.section == 0) {
-    cell = [tableView dequeueReusableCellWithIdentifier:cellType1Identifier
-                                           forIndexPath:indexPath];
+    if (self.isLogin) {
+      cell = [tableView dequeueReusableCellWithIdentifier:cellType3Identifier
+                                             forIndexPath:indexPath];
+      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+      ((MoreCellTypeThird *)cell).lblUsername.text =
+          [defaults objectForKey:@"nickname"];
+    } else {
+      cell = [tableView dequeueReusableCellWithIdentifier:cellType1Identifier
+                                             forIndexPath:indexPath];
+    }
   } else {
     cell = [tableView dequeueReusableCellWithIdentifier:cellType2Identifier
                                            forIndexPath:indexPath];

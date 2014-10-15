@@ -58,7 +58,6 @@
 		158D98E819C7C9660068AFC5 /* ShareSDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 158D98C019C7C9660068AFC5 /* ShareSDKLocalizable.strings */; };
 		158D98E919C7C9660068AFC5 /* Resource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 158D98C219C7C9660068AFC5 /* Resource.bundle */; };
 		158D98EA19C7C9660068AFC5 /* ShareSDKCoreService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98C319C7C9660068AFC5 /* ShareSDKCoreService.framework */; };
-		158D98EB19C7C9660068AFC5 /* ShareSDKCoreService.framework.zip in Resources */ = {isa = PBXBuildFile; fileRef = 158D98C419C7C9660068AFC5 /* ShareSDKCoreService.framework.zip */; };
 		158D98EC19C7C9660068AFC5 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98C819C7C9660068AFC5 /* TencentOpenAPI.framework */; };
 		158D98ED19C7C9660068AFC5 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 158D98C919C7C9660068AFC5 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		158D98EE19C7C9660068AFC5 /* libSinaWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98CB19C7C9660068AFC5 /* libSinaWeiboSDK.a */; };
@@ -118,6 +117,8 @@
 		15F3A47E19EB8123001CD296 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A47B19EB8123001CD296 /* UserInfo.m */; };
 		15F3A47F19EB8123001CD296 /* ServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A47D19EB8123001CD296 /* ServerResponse.m */; };
 		15F3A48219EBCCE6001CD296 /* QuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A48119EBCCE6001CD296 /* QuestionViewController.m */; };
+		15F3A48519EE0D6D001CD296 /* TextUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A48419EE0D6D001CD296 /* TextUtil.m */; };
+		15F3A48819EE521D001CD296 /* MoreCellTypeThird.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A48719EE521D001CD296 /* MoreCellTypeThird.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -205,7 +206,6 @@
 		158D98C119C7C9660068AFC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ShareSDKLocalizable.strings; sourceTree = "<group>"; };
 		158D98C219C7C9660068AFC5 /* Resource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Resource.bundle; sourceTree = "<group>"; };
 		158D98C319C7C9660068AFC5 /* ShareSDKCoreService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKCoreService.framework; sourceTree = "<group>"; };
-		158D98C419C7C9660068AFC5 /* ShareSDKCoreService.framework.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = ShareSDKCoreService.framework.zip; sourceTree = "<group>"; };
 		158D98C519C7C9660068AFC5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ShareSDKLocalizable.strings"; sourceTree = "<group>"; };
 		158D98C819C7C9660068AFC5 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		158D98C919C7C9660068AFC5 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
@@ -312,6 +312,10 @@
 		15F3A47D19EB8123001CD296 /* ServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerResponse.m; sourceTree = "<group>"; };
 		15F3A48019EBCCE6001CD296 /* QuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionViewController.h; sourceTree = "<group>"; };
 		15F3A48119EBCCE6001CD296 /* QuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionViewController.m; sourceTree = "<group>"; };
+		15F3A48319EE0D6D001CD296 /* TextUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextUtil.h; sourceTree = "<group>"; };
+		15F3A48419EE0D6D001CD296 /* TextUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextUtil.m; sourceTree = "<group>"; };
+		15F3A48619EE521D001CD296 /* MoreCellTypeThird.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreCellTypeThird.h; sourceTree = "<group>"; };
+		15F3A48719EE521D001CD296 /* MoreCellTypeThird.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreCellTypeThird.m; sourceTree = "<group>"; };
 		3D7C9184B0EB44E997A6779A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		95B2B7BB80C1420797A2EE26 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -449,6 +453,8 @@
 				1560130D19C956A600BF7E12 /* MoreCellTypeSecond.m */,
 				1560130F19C956C700BF7E12 /* MoreCellTypeFirst.h */,
 				1560131019C956C700BF7E12 /* MoreCellTypeFirst.m */,
+				15F3A48619EE521D001CD296 /* MoreCellTypeThird.h */,
+				15F3A48719EE521D001CD296 /* MoreCellTypeThird.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -661,7 +667,6 @@
 				158D98C019C7C9660068AFC5 /* ShareSDKLocalizable.strings */,
 				158D98C219C7C9660068AFC5 /* Resource.bundle */,
 				158D98C319C7C9660068AFC5 /* ShareSDKCoreService.framework */,
-				158D98C419C7C9660068AFC5 /* ShareSDKCoreService.framework.zip */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -765,6 +770,8 @@
 				1560131319C9600600BF7E12 /* UIImage+Color.m */,
 				15AC864519CFFE7000D154EB /* UIView+NoDataView.h */,
 				15AC864619CFFE7000D154EB /* UIView+NoDataView.m */,
+				15F3A48319EE0D6D001CD296 /* TextUtil.h */,
+				15F3A48419EE0D6D001CD296 /* TextUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -962,7 +969,6 @@
 				158D98ED19C7C9660068AFC5 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				158D98E919C7C9660068AFC5 /* Resource.bundle in Resources */,
 				1560132519CA79D700BF7E12 /* image.plist in Resources */,
-				158D98EB19C7C9660068AFC5 /* ShareSDKCoreService.framework.zip in Resources */,
 				158D98EF19C7C9660068AFC5 /* WeiboSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1049,6 +1055,7 @@
 				15AC864719CFFE7000D154EB /* UIView+NoDataView.m in Sources */,
 				158D993719C7E2530068AFC5 /* Scene.m in Sources */,
 				15F3A47519EB80E4001CD296 /* LoginViewController.m in Sources */,
+				15F3A48819EE521D001CD296 /* MoreCellTypeThird.m in Sources */,
 				15F3A46E19EB718A001CD296 /* AboutUsViewController.m in Sources */,
 				1560130419C91EF800BF7E12 /* SwitchListModel.m in Sources */,
 				155A5BFF19D54206007864C8 /* SceneExcCell.m in Sources */,
@@ -1068,6 +1075,7 @@
 				15BBD6F519DA7CBC0002D973 /* ElecView.m in Sources */,
 				15F3A47F19EB8123001CD296 /* ServerResponse.m in Sources */,
 				15AC863E19CFC6C900D154EB /* TimerViewController.m in Sources */,
+				15F3A48519EE0D6D001CD296 /* TextUtil.m in Sources */,
 				155A5BFC19D53835007864C8 /* SceneExecuteViewController.m in Sources */,
 				158D991619C7CBC50068AFC5 /* DB.m in Sources */,
 				1560132019CA6E9500BF7E12 /* SocketView.m in Sources */,

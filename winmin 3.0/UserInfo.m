@@ -16,36 +16,39 @@
   return self;
 }
 
-- (id)initWithUsername:(NSString *)username password:(NSString *)password {
+- (id)initWithEmail:(NSString *)email password:(NSString *)password {
   self = [super init];
   if (self) {
-    self.username = username;
+    self.email = email;
     self.password = password;
   }
   return self;
 }
 
-- (id)initWithUsername:(NSString *)username
-              password:(NSString *)password
-                 email:(NSString *)email {
-  self = [self initWithUsername:username password:password];
-  self.email = email;
+- (id)initWithEmail:(NSString *)email
+           password:(NSString *)password
+           nickName:(NSString *)nickName {
+  self = [self initWithEmail:email password:password];
+  if (self) {
+    self.nickName = nickName;
+  }
   return self;
 }
 
-- (id)initWithQQUid:(NSString *)qqUid {
+- (id)initWithQQUid:(NSString *)qqUid nickname:(NSString *)nickname {
   self = [self init];
   self.qqUid = qqUid;
+  self.nickName = nickname;
   return self;
 }
 
-- (id)initWithSinaUid:(NSString *)sinaUid {
+- (id)initWithSinaUid:(NSString *)sinaUid nickname:(NSString *)nickname {
   self = [self init];
   self.sinaUid = sinaUid;
+  self.nickName = nickname;
   return self;
 }
 
-static NSString *const BaseURLString = @"http://192.168.0.89:8080/ais/api/";
 - (void)loginRequest {
   NSString *loginUrl =
       [NSString stringWithFormat:@"%@login/login", BaseURLString];
@@ -53,8 +56,8 @@ static NSString *const BaseURLString = @"http://192.168.0.89:8080/ais/api/";
       [AFHTTPRequestOperationManager manager];
   manager.responseSerializer = [AFHTTPResponseSerializer serializer];
   NSMutableDictionary *parameters = [@{} mutableCopy];
-  if (self.username && self.password) {
-    [parameters setObject:__ENCRYPT(self.username) forKey:@"username"];
+  if (self.email && self.password) {
+    [parameters setObject:__ENCRYPT(self.email) forKey:@"username"];
     [parameters setObject:__ENCRYPT(self.password) forKey:@"password"];
   } else if (self.qqUid) {
     [parameters setObject:__ENCRYPT(self.qqUid) forKey:@"qqUid"];
@@ -70,6 +73,19 @@ static NSString *const BaseURLString = @"http://192.168.0.89:8080/ais/api/";
           NSString *responseStr = __DECRYPT(string);
           ServerResponse *response =
               [[ServerResponse alloc] initWithResponseString:responseStr];
+          //保存用户信息到本地
+          if (response.status == 1) {
+            NSString *nickname = response.data[@"username"];
+            if (self.qqUid || self.sinaUid) {
+              nickname = self.nickName;
+            }
+            [UserInfo saveUserInfo:self.email
+                          password:self.password
+                             qqUid:self.qqUid
+                           sinaUid:self.sinaUid
+                          nickname:nickname];
+          }
+
           NSDictionary *userInfo = @{ @"status" : @1, @"data" : response };
           [[NSNotificationCenter defaultCenter]
               postNotificationName:kLoginResponse
@@ -92,8 +108,8 @@ static NSString *const BaseURLString = @"http://192.168.0.89:8080/ais/api/";
       [AFHTTPRequestOperationManager manager];
   manager.responseSerializer = [AFHTTPResponseSerializer serializer];
   NSMutableDictionary *parameters = [@{} mutableCopy];
-  if (self.username && self.password && self.email) {
-    [parameters setObject:__ENCRYPT(self.username) forKey:@"username"];
+  if (self.email && self.password && self.nickName) {
+    [parameters setObject:__ENCRYPT(self.nickName) forKey:@"username"];
     [parameters setObject:__ENCRYPT(self.password) forKey:@"password"];
     [parameters setObject:__ENCRYPT(self.email) forKey:@"email"];
   } else if (self.qqUid) {
@@ -110,6 +126,14 @@ static NSString *const BaseURLString = @"http://192.168.0.89:8080/ais/api/";
           NSString *responseStr = __DECRYPT(string);
           ServerResponse *response =
               [[ServerResponse alloc] initWithResponseString:responseStr];
+          if (response.status == 1) {
+            //保存用户信息到本地
+            [UserInfo saveUserInfo:self.email
+                          password:self.password
+                             qqUid:nil
+                           sinaUid:nil
+                          nickname:self.nickName];
+          }
           NSDictionary *userInfo = @{ @"status" : @1, @"data" : response };
           [[NSNotificationCenter defaultCenter]
               postNotificationName:kRegisterResponse
@@ -123,5 +147,31 @@ static NSString *const BaseURLString = @"http://192.168.0.89:8080/ais/api/";
                             object:self
                           userInfo:userInfo];
       }];
+}
+
++ (void)saveUserInfo:(NSString *)email
+            password:(NSString *)password
+               qqUid:(NSString *)qqUid
+             sinaUid:(NSString *)sinaUid
+            nickname:(NSString *)nickname {
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  if (email && password) {
+    [userDefaults setObject:email forKey:@"email"];
+    [userDefaults setObject:password forKey:@"password"];
+  } else if (qqUid) {
+    [userDefaults setObject:qqUid forKey:@"qqUid"];
+  } else if (sinaUid) {
+    [userDefaults setObject:sinaUid forKey:@"sinaUid"];
+  }
+  [userDefaults setObject:nickname forKey:@"nickname"];
+  [userDefaults synchronize];
+}
+
++ (BOOL)userInfoInDisk {
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  if ([userDefaults objectForKey:@"nickname"]) {
+    return YES;
+  }
+  return NO;
 }
 @end
