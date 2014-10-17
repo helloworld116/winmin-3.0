@@ -62,6 +62,11 @@
   });
 }
 
+- (void)addSwitch:(SDZGSwitch *)aSwitch {
+  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE,
+                 ^{ [self.switchsDict setObject:aSwitch forKey:aSwitch.mac]; });
+}
+
 - (void)updateSwitch:(SDZGSwitch *)aSwitch {
   dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
       if ([[self.switchsDict allKeys] containsObject:aSwitch.mac]) {

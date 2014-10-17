@@ -12,20 +12,32 @@
 /**
  *  指示当前是否正在扫描设备状态
  */
-@property(nonatomic, assign, readonly) BOOL isScanning;
+@property(nonatomic, assign, readonly) BOOL isScanningState;
 /**
- *  开始扫描设备
+ *  开始扫描设备状态
  */
-- (void)startScan;
+- (void)startScanState;
 /**
- *  结束扫描设备
+ *  结束扫描设备状态
  */
-- (void)stopScan;
+- (void)stopScanState;
+
+/**
+ *  添加设备，扫描局域网内
+ */
+- (void)refreshSwitchList;
 
 /**
  *  设备闪烁
  *
- *  @param aSwitch <#aSwitch description#>
+ *  @param aSwitch
  */
 - (void)blinkSwitch:(SDZGSwitch *)aSwitch;
+
+/**
+ *  删除switch
+ *
+ *  @param aSwitch
+ */
+- (void)deleteSwitch:(SDZGSwitch *)aSwitch;
 @end

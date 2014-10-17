@@ -445,6 +445,23 @@
   return result;
 }
 
+- (BOOL)removeSceneBySwitch:(SDZGSwitch *)aSwitch {
+  if ([self.db open]) {
+    NSString *sql = @"select sceneid from scenedetail where mac = ?";
+    FMResultSet *sceneDetailResultSet = [self.db executeQuery:sql, aSwitch.mac];
+    while ([sceneDetailResultSet next]) {
+      int sceneId = [sceneDetailResultSet intForColumn:@"sceneid"];
+      sql = @"delete from scene where id = ?";
+      [self.db executeUpdate:sql, @(sceneId)];
+    }
+    sql = @"delete from scenedetail where mac = ?";
+    [self.db executeUpdate:sql, aSwitch.mac];
+    [self.db close];
+    return YES;
+  }
+  return NO;
+}
+
 #pragma mark - 操作时的临时保存场景数据
 - (void)addSceneToSceneDetailTmp:(id)object {
   Scene *scene = (Scene *)object;

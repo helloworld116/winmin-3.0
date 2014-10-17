@@ -31,4 +31,6 @@
 - (void)registerRequest;
 
 + (BOOL)userInfoInDisk;
+
++ (void)userLoginout;
 @end

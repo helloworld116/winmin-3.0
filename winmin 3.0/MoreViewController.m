@@ -61,6 +61,7 @@
                    queue:nil
               usingBlock:^(NSNotification *note) {
                   self.isLogin = NO;
+                  [UserInfo userLoginout];
                   NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
                   [self.tableView reloadSections:indexSet
                                 withRowAnimation:UITableViewRowAnimationNone];
@@ -72,6 +73,30 @@
   [super viewDidLoad];
   [self setup];
 }
+
+#pragma mark - begin iOS8下cell分割线处理
+- (void)viewDidLayoutSubviews {
+  if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+    [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+  }
+
+  if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+    [self.tableView setLayoutMargins:UIEdgeInsetsZero];
+  }
+}
+
+- (void)tableView:(UITableView *)tableView
+      willDisplayCell:(UITableViewCell *)cell
+    forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+    [cell setSeparatorInset:UIEdgeInsetsZero];
+  }
+
+  if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+    [cell setLayoutMargins:UIEdgeInsetsZero];
+  }
+}
+#pragma mark - end iOS8下cell分割线处理
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
@@ -148,6 +173,11 @@
         nextController =
             [self.storyboard instantiateViewControllerWithIdentifier:
                                  @"SecurityWarnViewController"];
+        break;
+      case 2:
+        nextController = [self.storyboard
+            instantiateViewControllerWithIdentifier:@"TestViewController"];
+
         break;
       default:
         break;

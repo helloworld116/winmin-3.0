@@ -146,7 +146,7 @@
 - (IBAction)weiboLogin:(id)sender {
   //自动授权
   id<ISSAuthOptions> authOptions =
-      [ShareSDK authOptionsWithAutoAuth:YES
+      [ShareSDK authOptionsWithAutoAuth:NO
                           allowCallback:YES
                           authViewStyle:SSAuthViewStyleModal
                            viewDelegate:self
@@ -157,8 +157,8 @@
                    result:^(BOOL result, id<ISSPlatformUser> userInfo,
                             id<ICMErrorInfo> error) {
                        if (result) {
-                         NSLog(@".......nickname is %@ and uid is %@",
-                               [userInfo nickname], [userInfo uid]);
+                         debugLog(@".......nickname is %@ and uid is %@",
+                                  [userInfo nickname], [userInfo uid]);
                          UserInfo *uInfo = [[UserInfo alloc]
                              initWithSinaUid:[userInfo uid]
                                     nickname:[userInfo nickname]];
@@ -183,7 +183,19 @@
                          [uInfo loginRequest];
                          [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                        }
-                       debugLog(@"error is %@", error.errorDescription);
+                       debugLog(@"errorCode is %d and errorDescription is %@",
+                                [error errorCode], error.errorDescription);
+                       if ([error errorCode] == -6004) {
+                         UIAlertView *alertView = [[UIAlertView alloc]
+                                 initWithTitle:@"温馨提示"
+                                       message:@"您" @"当"
+                                       @"前未安装QQ或QQ空间，请"
+                                       @"先安" @"装"
+                                      delegate:nil
+                             cancelButtonTitle:@"取消"
+                             otherButtonTitles:nil];
+                         [alertView show];
+                       }
                    }];
 }
 

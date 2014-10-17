@@ -149,15 +149,16 @@
   // Configure the view for the selected state
 }
 
-- (void)setSwitchInfo:(SDZGSwitch *)aSwitch
-                  row:(NSInteger)row
-         sceneDetails:(NSArray *)sceneDetails {
+- (void)setSwitchInfo:(SDZGSwitch *)aSwitch row:(NSInteger)row {
+  [self.sceneSocketView1 setSelected:NO onOff:NO];
+  [self.sceneSocketView2 setSelected:NO onOff:NO];
   if (row == 0) {
     self.topLineView.hidden = YES;
   } else {
     self.topLineView.hidden = NO;
   }
   self.textFieldSwitchName.text = aSwitch.name;
+  NSArray *sceneDetails = [[DBUtil sharedInstance] allSceneDetailsTmp];
   [self.sceneSocketView1 setSocketInfo:aSwitch.sockets[0]
                                    mac:aSwitch.mac
                           sceneDetails:sceneDetails];

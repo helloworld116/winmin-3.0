@@ -11,11 +11,16 @@
 #import "SwitchListCell.h"
 #import "SwitchListModel.h"
 
-@interface SwitchListViewController ()<UIActionSheetDelegate>
+@interface SwitchListViewController ()<
+    UIActionSheetDelegate, UIAlertViewDelegate, EGORefreshTableHeaderDelegate>
 @property(nonatomic, strong) SwitchListModel *model;
+@property(nonatomic, strong) SDZGSwitch *operationSwitch;  //当前操作的switch
 @property(nonatomic, strong) NSArray *switchs;
 @property(nonatomic, strong) NSIndexPath *longPressIndexPath;
 @property(nonatomic, strong) UIView *noDataView;
+
+@property(strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
+@property(assign, nonatomic) BOOL reloading;
 @end
 
 @implementation SwitchListViewController
@@ -63,6 +68,23 @@
          selector:@selector(netChangedNotification:)
              name:kNetChangedNotification
            object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(doneLoadingTableViewData)
+             name:kNewSwitch
+           object:self.model];
+
+  //下拉刷新
+  self.refreshHeaderView = [[EGORefreshTableHeaderView alloc]
+       initWithFrame:CGRectMake(0.0f, 0.0f - self.view.bounds.size.height,
+                                self.view.frame.size.width,
+                                self.view.bounds.size.height)
+      arrowImageName:@"grayArrow"
+           textColor:[UIColor grayColor]];
+  self.refreshHeaderView.backgroundColor = [UIColor whiteColor];
+  self.refreshHeaderView.delegate = self;
+  [self.view addSubview:self.refreshHeaderView];
+  [self.refreshHeaderView refreshLastUpdatedDate];
 }
 
 - (void)viewDidLoad {
@@ -73,13 +95,37 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  [self.model startScan];
+  [self.model startScanState];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
-  [self.model stopScan];
+  [self.model stopScanState];
 }
+
+#pragma mark - begin iOS8下cell分割线处理
+- (void)viewDidLayoutSubviews {
+  if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+    [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+  }
+
+  if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+    [self.tableView setLayoutMargins:UIEdgeInsetsZero];
+  }
+}
+
+- (void)tableView:(UITableView *)tableView
+      willDisplayCell:(UITableViewCell *)cell
+    forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+    [cell setSeparatorInset:UIEdgeInsetsZero];
+  }
+
+  if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+    [cell setLayoutMargins:UIEdgeInsetsZero];
+  }
+}
+#pragma mark - end iOS8下cell分割线处理
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
@@ -93,26 +139,26 @@
 #pragma mark - 通知
 - (void)updateSwitchList:(NSNotification *)notification {
   self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
-  if (!self.switchs || self.switchs.count == 0) {
-    self.noDataView.hidden = NO;
-  } else {
-    dispatch_async(MAIN_QUEUE, ^{
+  dispatch_async(MAIN_QUEUE, ^{
+      if (!self.switchs || self.switchs.count == 0) {
+        self.noDataView.hidden = NO;
+      } else {
         self.noDataView.hidden = YES;
-        [self.tableView reloadData];
-    });
-  }
+      }
+      [self.tableView reloadData];
+  });
 }
 
 - (void)netChangedNotification:(NSNotification *)notification {
   NetworkStatus status = kSharedAppliction.networkStatus;
   if (status == NotReachable) {
     //网络不可用时修改所有设备状态为离线并停止扫描
-    [self.model stopScan];
+    [self.model stopScanState];
     [[SwitchDataCeneter sharedInstance] updateAllSwitchStautsToOffLine];
     [self.tableView reloadData];
   } else {
-    if (!self.model.isScanning) {
-      [self.model startScan];
+    if (!self.model.isScanningState) {
+      [self.model startScanState];
     }
   }
 }
@@ -198,26 +244,91 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet
     clickedButtonAtIndex:(NSInteger)buttonIndex {
-  SDZGSwitch *aSwitch =
+  self.operationSwitch =
       [self.switchs objectAtIndex:self.longPressIndexPath.row];
   switch (buttonIndex) {
-    //    case 0:
-    //      //加锁
-    //      if ([self.switchTableViewDelegate
-    //              respondsToSelector:@selector(changeSwitchLockStatus:)]) {
-    //        [self.switchTableViewDelegate changeSwitchLockStatus:aSwitch];
-    //      }
-    //      break;
     case 0:
       //闪烁
-      [self.model blinkSwitch:aSwitch];
+      [self.model blinkSwitch:self.operationSwitch];
+      break;
+    case 1: {
+      UIAlertView *alertView = [[UIAlertView alloc]
+              initWithTitle:@"温馨提示"
+                    message:@"删"
+                    @"除设备将删除该设备关联下的所有"
+                    @"场景，是否继续删除该设备？"
+                   delegate:self
+          cancelButtonTitle:@"取消"
+          otherButtonTitles:@"确定", nil];
+      [alertView show];
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+- (void)alertView:(UIAlertView *)alertView
+    clickedButtonAtIndex:(NSInteger)buttonIndex {
+  switch (buttonIndex) {
+    case 0:
       break;
     case 1:
       //删除
-      [[SwitchDataCeneter sharedInstance] removeSwitch:aSwitch];
+      [self.model deleteSwitch:self.operationSwitch];
       break;
     default:
       break;
   }
 }
+
+#pragma mark - Data Source Loading / Reloading Methods
+- (void)reloadTableViewDataSource {
+  //  should be calling your tableviews data source model to reload
+  [self.model refreshSwitchList];
+  _reloading = YES;
+}
+
+- (void)doneLoadingTableViewData {
+  //  model should call this when its done loading
+  dispatch_async(MAIN_QUEUE, ^{
+      _reloading = NO;
+      [_refreshHeaderView
+          egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+  });
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+  [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
+                  willDecelerate:(BOOL)decelerate {
+  [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+}
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:
+            (EGORefreshTableHeaderView *)view {
+  [self reloadTableViewDataSource];
+  [self performSelector:@selector(doneLoadingTableViewData)
+             withObject:nil
+             afterDelay:3.0];
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:
+            (EGORefreshTableHeaderView *)view {
+  return _reloading;  // should return if data source model is reloading
+}
+
+- (NSDate *)egoRefreshTableHeaderDataSourceLastUpdated:
+                (EGORefreshTableHeaderView *)view {
+  return [NSDate date];  // should return date data source was last changed
+}
+
 @end

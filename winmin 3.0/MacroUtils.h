@@ -106,6 +106,7 @@
 #define kDelaySettingNotification @"DelaySettingNotification"
 #define kHistoryElecNotification @"HistoryElecNotification"
 #define kRealTimeElecNotification @"RealTimeElecNotification"
+#define kSwitchDeleteSceneNotification @"SwitchDeleteSceneNotification"
 
 #define kTimerListChanged @"TimerListChanged"
 #define kTimerAddNotification @"TimerAddNotification"
@@ -134,6 +135,8 @@
 //#define SERVER_IP @"183.63.35.203"
 //#endif
 #define SERVER_IP @"183.63.35.203"
+static float const kHardwareVersion = 2.0;
+static int const kUdpResponseSuccessCode = 0;
 static NSString *const BaseURLString = @"http://192.168.0.89:8080/ais/api/";
 
 #define SERVER_PORT 20002

@@ -90,6 +90,14 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
 - (void)sendMsg0B:(SENDMODE)mode;
 
 /**
+ *  手机向内网查询所有设备的开关状态
+ *
+ *  @param aSwitch 指定设备
+ *  @param mode
+ */
+- (void)sendMsg0B:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode;
+
+/**
  *  手机向外网查询所有设备的开关状态
  *
  *  @param udpSocket

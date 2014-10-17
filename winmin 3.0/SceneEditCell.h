@@ -9,7 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SceneEditCell : UITableViewCell
-- (void)setSwitchInfo:(SDZGSwitch *)aSwitch
-                  row:(NSInteger)row
-         sceneDetails:(NSArray *)sceneDetails;
+- (void)setSwitchInfo:(SDZGSwitch *)aSwitch row:(NSInteger)row;
 @end

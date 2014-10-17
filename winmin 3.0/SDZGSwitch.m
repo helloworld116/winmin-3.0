@@ -14,23 +14,29 @@
   BOOL needToDBImmediately;  //新扫描到的设备立即添加到数据库
   SDZGSwitch *aSwitch =
       [[SwitchDataCeneter sharedInstance].switchsDict objectForKey:message.mac];
-  NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
-  NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
-  if (diff > REFRESH_DEV_TIME / 4) {
-    if (aSwitch) {
-      needToDBImmediately = NO;
-      NSMutableArray *sockets = aSwitch.sockets;
-      for (int i = 0; i < sockets.count; i++) {
-        SDZGSocket *socket = sockets[i];
-        socket.socketStatus = ((message.onStatus & 1 << i) == 1 << i);
+  if (aSwitch) {
+    NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+    NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
+    if (diff > REFRESH_DEV_TIME / 4) {
+      if (aSwitch.networkStatus != SWITCH_NEW) {
+        if (message.msgId == 0xc) {
+          aSwitch.networkStatus = SWITCH_LOCAL;
+        } else if (message.msgId == 0xe) {
+          if (aSwitch.networkStatus == SWITCH_LOCAL &&
+              diff < 2 * REFRESH_DEV_TIME) {
+            return nil;
+          }
+          aSwitch.networkStatus = SWITCH_REMOTE;
+        } else {
+          aSwitch.networkStatus = SWITCH_OFFLINE;
+        }
       }
     } else {
-      if (message.lockStatus == LockStatusOn) {
-        //锁定并不在列表中，不添加
-        return nil;
-      }
+      return nil;
+    }
+
+    if (aSwitch.networkStatus == SWITCH_NEW) {
       needToDBImmediately = YES;
-      aSwitch = [[SDZGSwitch alloc] init];
       aSwitch.sockets = [@[] mutableCopy];
       SDZGSocket *socket1 = [[SDZGSocket alloc] init];
       socket1.groupId = 1;
@@ -51,8 +57,14 @@
         socket_default_image
       ];
       [aSwitch.sockets addObject:socket2];
-
       aSwitch.imageName = switch_default_image;
+    } else {
+      needToDBImmediately = NO;
+      NSMutableArray *sockets = aSwitch.sockets;
+      for (int i = 0; i < sockets.count; i++) {
+        SDZGSocket *socket = sockets[i];
+        socket.socketStatus = ((message.onStatus & 1 << i) == 1 << i);
+      }
     }
     aSwitch.mac = message.mac;
     aSwitch.ip = message.ip;
@@ -60,28 +72,14 @@
     aSwitch.name = message.deviceName;
     aSwitch.version = message.version;
     aSwitch.lockStatus = message.lockStatus;
-    if (aSwitch.networkStatus != SWITCH_NEW) {
-      if (message.msgId == 0xc) {
-        aSwitch.networkStatus = SWITCH_LOCAL;
-      } else if (message.msgId == 0xe) {
-        if (aSwitch.networkStatus == SWITCH_LOCAL) {
-          if (diff < 2 * REFRESH_DEV_TIME) {
-            return nil;
-          }
-        }
-        aSwitch.networkStatus = SWITCH_REMOTE;
-      } else {
-        aSwitch.networkStatus = SWITCH_OFFLINE;
-      }
-    }
+    aSwitch.lastUpdateInterval = current;
     if (needToDBImmediately) {
-      aSwitch.networkStatus = SWITCH_NEW;
       [[DBUtil sharedInstance] saveSwitch:aSwitch];
     }
-    aSwitch.lastUpdateInterval = current;
     return aSwitch;
+  } else {
+    return nil;
   }
-  return nil;
 }
 
 + (UIImage *)imgNameToImage:(NSString *)imgName {

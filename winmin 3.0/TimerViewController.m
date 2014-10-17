@@ -13,7 +13,8 @@
 #import "TimerModel.h"
 #define kAddTimer -1
 
-@interface TimerViewController ()<UIActionSheetDelegate>
+@interface TimerViewController ()<UIActionSheetDelegate,
+                                  EGORefreshTableHeaderDelegate>
 @property(nonatomic, strong) NSMutableArray *timers;
 @property(nonatomic, strong)
     NSIndexPath *editIndexPath;  //正在编辑或删除的indexPath
@@ -21,6 +22,9 @@
 @property(nonatomic, strong) UIView *noDataView;
 @property(nonatomic, strong)
     SDZGTimerTask *timer;  //修改定时任务是否生效时当前的timer
+
+@property(strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
+@property(assign, nonatomic) BOOL reloading;
 @end
 
 @implementation TimerViewController
@@ -87,6 +91,18 @@
          selector:@selector(timerEffectiveChangedNotifcation:)
              name:kTimerEffectiveChangedNotifcation
            object:nil];
+
+  //下拉刷新
+  self.refreshHeaderView = [[EGORefreshTableHeaderView alloc]
+       initWithFrame:CGRectMake(0.0f, 0.0f - self.view.bounds.size.height,
+                                self.view.frame.size.width,
+                                self.view.bounds.size.height)
+      arrowImageName:@"grayArrow"
+           textColor:[UIColor grayColor]];
+  self.refreshHeaderView.backgroundColor = [UIColor whiteColor];
+  self.refreshHeaderView.delegate = self;
+  [self.view addSubview:self.refreshHeaderView];
+  [self.refreshHeaderView refreshLastUpdatedDate];
 }
 
 - (void)viewDidLoad {
@@ -106,26 +122,37 @@
   [self setup];
 }
 
+#pragma mark - begin iOS8下cell分割线处理
+- (void)viewDidLayoutSubviews {
+  if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+    [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+  }
+
+  if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+    [self.tableView setLayoutMargins:UIEdgeInsetsZero];
+  }
+}
+
+- (void)tableView:(UITableView *)tableView
+      willDisplayCell:(UITableViewCell *)cell
+    forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+    [cell setSeparatorInset:UIEdgeInsetsZero];
+  }
+
+  if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+    [cell setLayoutMargins:UIEdgeInsetsZero];
+  }
+}
+#pragma mark - end iOS8下cell分割线处理
+
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
 }
 
 - (void)dealloc {
-  [[NSNotificationCenter defaultCenter]
-      removeObserver:self
-                name:kAddOrEditTimerNotification
-              object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kTimerEffectiveChanged
-                                                object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kTimerListChanged
-                                                object:nil];
-  [[NSNotificationCenter defaultCenter]
-      removeObserver:self
-                name:kTimerEffectiveChangedNotifcation
-              object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Table view data source
@@ -250,6 +277,12 @@
   self.timers = [userInfo objectForKey:@"timers"];
   dispatch_async(MAIN_QUEUE, ^{ [self updateViewWithReloadData:YES]; });
   [self updateMemorySwitch];
+
+  //  dispatch_async(MAIN_QUEUE, ^{
+  //      _reloading = NO;
+  //      [_refreshHeaderView
+  //          egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+  //  });
 }
 
 - (void)timerDeleteNotification:(NSNotification *)notification {
@@ -299,4 +332,54 @@
     self.noDataView.hidden = NO;
   }
 }
+
+#pragma mark - Data Source Loading / Reloading Methods
+- (void)reloadTableViewDataSource {
+  //  should be calling your tableviews data source model to reload
+  [self.model queryTimers];
+  _reloading = YES;
+}
+
+- (void)doneLoadingTableViewData {
+  //  model should call this when its done loading
+  dispatch_async(MAIN_QUEUE, ^{
+      _reloading = NO;
+      [_refreshHeaderView
+          egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+  });
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+  [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
+                  willDecelerate:(BOOL)decelerate {
+  [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+}
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:
+            (EGORefreshTableHeaderView *)view {
+  [self reloadTableViewDataSource];
+  [self performSelector:@selector(doneLoadingTableViewData)
+             withObject:nil
+             afterDelay:3.0];
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:
+            (EGORefreshTableHeaderView *)view {
+  return _reloading;  // should return if data source model is reloading
+}
+
+- (NSDate *)egoRefreshTableHeaderDataSourceLastUpdated:
+                (EGORefreshTableHeaderView *)view {
+  return [NSDate date];  // should return date data source was last changed
+}
+
 @end

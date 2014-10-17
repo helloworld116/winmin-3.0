@@ -15,6 +15,7 @@
 @interface TestViewController ()
 //@property(nonatomic, strong) IBOutlet ElecRealTimeView *realTimeView;
 @property(nonatomic, strong) NCISimpleChartView *chartView;
+@property(nonatomic, strong) IBOutlet UIView *containerView;
 @end
 
 @implementation TestViewController
@@ -32,73 +33,52 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
 
-  dispatch_queue_t queue =
-      dispatch_queue_create("com.itouchco.www", DISPATCH_QUEUE_SERIAL);
-  dispatch_async(queue, ^{
-      //      debugLog(@"hello 1");
-      //      debugLog(@"hello 2");
-      //      debugLog(@"hello 3");
-      //      debugLog(@"hello 4");
-      //      debugLog(@"hello 5");
-      //      debugLog(@"hello 6");
-      //      debugLog(@"hello 7");
-      //      [NSThread sleepForTimeInterval:2];
-      //      debugLog(@"hello 8");
-      //      debugLog(@"hello 9");
-      for (int i = 0; i < 1000; i++) {
-        NSLog(@"i is %d", i);
-      }
-  });
-  //
-  //  HistoryElec *elec = [[HistoryElec alloc] init];
-  //  HistoryElecParam *param =
-  //      [elec getParam:[[NSDate date] timeIntervalSince1970]
-  //      dateType:OneYear];
-  //  debugLog(@"start is %f and end is %f interval is %d", param.beginTime,
-  //           param.endTime, param.interval);
-  //
-  //  HistoryElecData *data = [elec parseResponse:nil param:param];
-  //  debugLog(@"times is %@", data.times);
-  //  debugLog(@"values is %@", data.values);
-  //
-  NCISimpleChartView *chart = [[NCISimpleChartView alloc]
-      initWithFrame:CGRectMake(10, 10, 300, 120)
-         andOptions:@{
-           nciGraphRenderer : [NCIZoomGraphView class],
-           nciIsSmooth : @[ @NO ],
-           nciIsFill : @[ @YES ],
-           nciLineColors : @[ [UIColor orangeColor] ],
-           nciLineWidths : @[ @1 ],
-           nciHasSelection : @NO,
-           nciShowPoints : @NO,
-           nciGridVertical : @{
-             nciLineColor : [UIColor purpleColor],
-             nciLineDashes : @[],
-             nciLineWidth : @1
-           },
-           nciGridHorizontal : @{
-             nciLineColor : [UIColor clearColor],
-             nciLineDashes : @[ ],
-             nciLineWidth : @1
-           },
-           nciGridColor : [[UIColor magentaColor] colorWithAlphaComponent:0.1],
-           nciGridLeftMargin : @0,
-           nciGridRightMargin : @20,
-           nciGridTopMargin : @0,
-           nciGridBottomMargin : @0,
-           nciUseDateFormatter :
-               @YES,
-           nciYAxis : @{
-                   nciLineColor : [UIColor clearColor],
-                   nciLineDashes : @[],
-                   nciAxisShift : @260,
-                   nciLineWidth : @1,
-//                   nciLabelsFont : [UIFont systemFontOfSize:12],
-                   nciLabelsColor : [UIColor blackColor],
-                   nciLabelsDistance : @50,
-                   nciLabelRenderer : ^(double value) {
-      return [[NSAttributedString alloc]
-              initWithString:[NSString stringWithFormat:@"%.1f$", value]];
+  //  [self custom];
+  //  [self demo];
+
+  self.containerView.layer.masksToBounds = YES;
+  self.containerView.layer.cornerRadius = 10;
+}
+
+- (void)custom {
+    NCISimpleChartView *chart = [[NCISimpleChartView alloc]
+                                 initWithFrame:CGRectMake(10, 10, 300, 120)
+                                 andOptions:@{
+                                              nciGraphRenderer : [NCIZoomGraphView class],
+                                              nciIsSmooth : @[ @NO ],
+                                              nciIsFill : @[ @YES ],
+                                              nciLineColors : @[ [UIColor orangeColor] ],
+                                              nciLineWidths : @[ @1 ],
+                                              nciHasSelection : @NO,
+                                              nciShowPoints : @NO,
+                                              nciGridVertical : @{
+                                                      nciLineColor : [UIColor purpleColor],
+                                                      nciLineDashes : @[],
+                                                      nciLineWidth : @1
+                                                      },
+                                              nciGridHorizontal : @{
+                                                      nciLineColor : [UIColor clearColor],
+                                                      nciLineDashes : @[ ],
+                                                      nciLineWidth : @1
+                                                      },
+                                              nciGridColor : [[UIColor magentaColor] colorWithAlphaComponent:0.1],
+                                              nciGridLeftMargin : @0,
+                                              nciGridRightMargin : @20,
+                                              nciGridTopMargin : @0,
+                                              nciGridBottomMargin : @0,
+                                              nciUseDateFormatter :
+                                                  @YES,
+                                              nciYAxis : @{
+                                                      nciLineColor : [UIColor clearColor],
+                                                      nciLineDashes : @[],
+                                                      nciAxisShift : @260,
+                                                      nciLineWidth : @1,
+                                                      //                   nciLabelsFont : [UIFont systemFontOfSize:12],
+                                                      nciLabelsColor : [UIColor blackColor],
+                                                      nciLabelsDistance : @50,
+                                                      nciLabelRenderer : ^(double value) {
+        return [[NSAttributedString alloc]
+                initWithString:[NSString stringWithFormat:@"%.1f$", value]];
 }
 }
 , nciXAxis : @{
@@ -117,8 +97,6 @@ int numOfPoints = 90;
 for (int ind = 0; ind < numOfPoints; ind++) {
   [chart addPoint:ind val:@[ @(arc4random() % 5) ]];
 }
-
-[self demo];
 }
 
 - (void)demo {

@@ -49,6 +49,17 @@
          selector:@selector(addOrUpdateScene:)
              name:kSceneAddOrUpdateNotification
            object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserverForName:kSwitchDeleteSceneNotification
+                  object:nil
+                   queue:nil
+              usingBlock:^(NSNotification *note) {
+                  self.scenes = [[[DBUtil sharedInstance] scenes] mutableCopy];
+                  [self.collectionView reloadData];
+                  if (!self.scenes || self.scenes.count == 0) {
+                    self.noDataView.hidden = NO;
+                  }
+              }];
   self.scenes = [[[DBUtil sharedInstance] scenes] mutableCopy];
   if (!self.scenes || self.scenes.count == 0) {
     self.noDataView.hidden = NO;
@@ -207,7 +218,7 @@ preparation before navigation
   }
 }
 
-#pragma mark - 添加后修改scene后通知
+#pragma mark - 添加修改scene后通知
 - (void)addOrUpdateScene:(NSNotification *)notification {
   NSDictionary *userInfo = notification.userInfo;
   int row = [userInfo[@"row"] intValue];

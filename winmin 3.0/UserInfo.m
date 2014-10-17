@@ -174,4 +174,18 @@
   }
   return NO;
 }
+
++ (void)userLoginout {
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  [defaults removeObjectForKey:@"email"];
+  [defaults removeObjectForKey:@"nickname"];
+  [defaults removeObjectForKey:@"password"];
+  [defaults removeObjectForKey:@"qqUid"];
+  [defaults removeObjectForKey:@"sinaUid"];
+  [defaults synchronize];
+
+  [ShareSDK cancelAuthWithType:ShareTypeSinaWeibo];
+  [ShareSDK cancelAuthWithType:ShareTypeQQ];
+  [ShareSDK cancelAuthWithType:ShareTypeQQSpace];
+}
 @end

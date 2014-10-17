@@ -48,11 +48,6 @@
 
 - (IBAction)loginOut:(id)sender {
   debugLog(@"退出");
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  [defaults removeObjectForKey:@"email"];
-  [defaults removeObjectForKey:@"nickname"];
-  [defaults removeObjectForKey:@"password"];
-  [defaults synchronize];
   [[NSNotificationCenter defaultCenter] postNotificationName:kLoginOut
                                                       object:self];
 }

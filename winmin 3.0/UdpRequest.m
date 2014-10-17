@@ -165,12 +165,12 @@ static dispatch_queue_t delegateQueue;
   if (self.udpSocket.isClosed) {
     [self setupUdpSocket:self.udpSocket port:0];
   }
-//  [self.udpSocket sendData:self.msg
-//                    toHost:self.host
-//                      port:self.port
-//               withTimeout:kUDPTimeOut
-//                       tag:self.tag];
-//  dispatch_sync(GLOBAL_QUEUE, ^{ [NSThread sleepForTimeInterval:0.1]; });
+  //  [self.udpSocket sendData:self.msg
+  //                    toHost:self.host
+  //                      port:self.port
+  //               withTimeout:kUDPTimeOut
+  //                       tag:self.tag];
+  //  dispatch_sync(GLOBAL_QUEUE, ^{ [NSThread sleepForTimeInterval:0.1]; });
 
   dispatch_async(SOCKET_SERIAL_QUEUE, ^{
       [self.udpSocket sendData:self.msg
@@ -178,7 +178,7 @@ static dispatch_queue_t delegateQueue;
                           port:self.port
                    withTimeout:kUDPTimeOut
                            tag:self.tag];
-//      [NSThread sleepForTimeInterval:5];
+      //      [NSThread sleepForTimeInterval:5];
   });
 }
 
@@ -872,29 +872,27 @@ static dispatch_queue_t delegateQueue;
              sendMode:(SENDMODE)mode {
   //  debugLog(@"networkStatus is %d", kSharedAppliction.networkStatus);
   //  debugLog(@"switch net is %d", aSwitch.networkStatus);
-  dispatch_async(GLOBAL_QUEUE, ^{
-      if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
-        //根据不同的网络环境，发送 本地/远程 消息
-        if (aSwitch.networkStatus == SWITCH_LOCAL ||
-            aSwitch.networkStatus == SWITCH_OFFLINE) {
-          [self sendMsg11WithSwitch:aSwitch
-                      socketGroupId:socketGroupId
-                           sendMode:mode];
-        } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
-          [self sendMsg13WithSwitch:aSwitch
-                      socketGroupId:socketGroupId
-                           sendMode:mode];
-        }
-      } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
-        [self sendMsg13WithSwitch:aSwitch
-                    socketGroupId:socketGroupId
-                         sendMode:mode];
-      } else if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
-      }
-  });
+  if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
+    //根据不同的网络环境，发送 本地/远程 消息
+    if (aSwitch.networkStatus == SWITCH_LOCAL ||
+        aSwitch.networkStatus == SWITCH_NEW) {
+      [self sendMsg11WithSwitch:aSwitch
+                  socketGroupId:socketGroupId
+                       sendMode:mode];
+    } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
+      [self sendMsg13WithSwitch:aSwitch
+                  socketGroupId:socketGroupId
+                       sendMode:mode];
+    }
+  } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
+    [self sendMsg13WithSwitch:aSwitch
+                socketGroupId:socketGroupId
+                     sendMode:mode];
+  } else if (kSharedAppliction.networkStatus == NotReachable) {
+    if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
+      [self.delegate errorMsg:kNotReachable];
+    }
+  }
 }
 
 - (void)sendMsg17Or19:(SDZGSwitch *)aSwitch

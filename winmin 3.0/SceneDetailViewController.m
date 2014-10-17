@@ -129,9 +129,7 @@
   SceneEditCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId
                                                         forIndexPath:indexPath];
   SDZGSwitch *aSwtich = self.switchs[indexPath.row];
-  [cell setSwitchInfo:aSwtich
-                  row:indexPath.row
-         sceneDetails:self.scene.detailList];
+  [cell setSwitchInfo:aSwtich row:indexPath.row];
   return cell;
 }
 
@@ -206,16 +204,16 @@
       sceneName) {
     self.textFieldSceneName.text = sceneName;
   }
-  //  if (imgName.length > 10) {
-  //    CGRect imgViewFrame = self.imgViewScene.frame;
-  //    imgViewFrame.origin.x -= 12;
-  //    imgViewFrame.origin.y -= 12;
-  //    imgViewFrame.size.width += 24;
-  //    imgViewFrame.size.height += 24;
-  //    self.imgViewScene.frame = imgViewFrame;
-  //  }
+  if (imgName.length > 10) {
+    CGRect imgViewFrame = self.imgViewScene.frame;
+    imgViewFrame.origin.x -= 12;
+    imgViewFrame.origin.y -= 12;
+    imgViewFrame.size.width += 24;
+    imgViewFrame.size.height += 24;
+    self.imgViewScene.frame = imgViewFrame;
+  }
 
-  self.imgViewScene.frame = CGRectMake(10, 10, 40, 40);
+  //  self.imgViewScene.frame = CGRectMake(10, 10, 40, 40);
 
   self.imgViewScene.image = [Scene imgNameToImage:imgName];
   if (imgName.length < 10) {

@@ -32,6 +32,8 @@
 
 - (BOOL)removeScene:(id)object;
 
+- (BOOL)removeSceneBySwitch:(SDZGSwitch *)aSwitch;
+
 #pragma mark - 临时表
 - (void)addSceneToSceneDetailTmp:(id)object;
 - (void)addDetailTmpWithSwitchMac:(NSString *)mac groupId:(int)groupid;

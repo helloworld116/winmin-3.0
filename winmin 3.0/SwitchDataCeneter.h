@@ -7,16 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
+#define kNewSwitch @"NewSwitchNotification"
 #define kSwitchUpdate @"SwitchUpdateNotification"
 #define kOneSwitchUpdate @"OneSwitchUpdateNotification"
 
 @interface SwitchDataCeneter : NSObject
-@property(strong, nonatomic, readonly) NSMutableDictionary *switchsDict;
+@property(strong, atomic, readonly) NSMutableDictionary *switchsDict;
 @property(strong, nonatomic) NSArray *switchs;
 @property(strong, nonatomic) NSIndexPath *selectedIndexPath;
 + (instancetype)sharedInstance;
 
 - (NSArray *)switchsWithChangeStatus;
+
+/**
+ *  添加switch
+ *
+ *  @param aSwitch
+ */
+- (void)addSwitch:(SDZGSwitch *)aSwitch;
 
 /**
  *  网络不可用时将所有设备修改为离线
