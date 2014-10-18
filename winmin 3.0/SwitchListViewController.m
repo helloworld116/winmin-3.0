@@ -13,14 +13,14 @@
 
 @interface SwitchListViewController ()<
     UIActionSheetDelegate, UIAlertViewDelegate, EGORefreshTableHeaderDelegate>
-@property(nonatomic, strong) SwitchListModel *model;
-@property(nonatomic, strong) SDZGSwitch *operationSwitch;  //当前操作的switch
-@property(nonatomic, strong) NSArray *switchs;
-@property(nonatomic, strong) NSIndexPath *longPressIndexPath;
-@property(nonatomic, strong) UIView *noDataView;
+@property (nonatomic, strong) SwitchListModel *model;
+@property (nonatomic, strong) SDZGSwitch *operationSwitch; //当前操作的switch
+@property (nonatomic, strong) NSArray *switchs;
+@property (nonatomic, strong) NSIndexPath *longPressIndexPath;
+@property (nonatomic, strong) UIView *noDataView;
 
-@property(strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
-@property(assign, nonatomic) BOOL reloading;
+@property (strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
+@property (assign, nonatomic) BOOL reloading;
 @end
 
 @implementation SwitchListViewController
@@ -52,6 +52,7 @@
                            message:@"您暂时还未添加任何设备"];
   self.noDataView.hidden = YES;
   [self.view addSubview:self.noDataView];
+
   self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
   if (!self.switchs || self.switchs.count == 0) {
     self.noDataView.hidden = NO;
@@ -73,6 +74,21 @@
          selector:@selector(doneLoadingTableViewData)
              name:kNewSwitch
            object:self.model];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserverForName:kConfigNewSwitch
+                  object:nil
+                   queue:nil
+              usingBlock:^(NSNotification *note) {
+                  NSString *mac = note.userInfo[@"mac"];
+                  SDZGSwitch *aSwitch =
+                      [SwitchDataCeneter sharedInstance].switchsDict[mac];
+                  if (aSwitch) {
+                    aSwitch.networkStatus = SWITCH_NEW;
+                  } else {
+                    [self.model refreshSwitchList];
+                  }
+              }];
 
   //下拉刷新
   self.refreshHeaderView = [[EGORefreshTableHeaderView alloc]
@@ -183,6 +199,9 @@
                   action:@selector(handlerLongPress:)];
   longPressGesture.minimumPressDuration = 0.5;
   [cell addGestureRecognizer:longPressGesture];
+  UIView *myBackView = [[UIView alloc] initWithFrame:cell.frame];
+  myBackView.backgroundColor = [UIColor colorWithHexString:@"#F6F4F4"];
+  cell.selectedBackgroundView = myBackView;
   return cell;
 }
 
@@ -323,12 +342,12 @@
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:
             (EGORefreshTableHeaderView *)view {
-  return _reloading;  // should return if data source model is reloading
+  return _reloading; // should return if data source model is reloading
 }
 
 - (NSDate *)egoRefreshTableHeaderDataSourceLastUpdated:
                 (EGORefreshTableHeaderView *)view {
-  return [NSDate date];  // should return date data source was last changed
+  return [NSDate date]; // should return date data source was last changed
 }
 
 @end

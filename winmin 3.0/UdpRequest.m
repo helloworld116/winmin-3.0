@@ -12,93 +12,93 @@
 @interface UdpRequest ()<GCDAsyncUdpSocketDelegate>
 
 #pragma mark - 发送请求计数变量
-@property(nonatomic, assign) int msg5SendCount;
-@property(nonatomic, assign) int msg9SendCount;
-@property(nonatomic, assign) int msgBSendCount;
-@property(nonatomic, assign) int msgDSendCount;  //指定设备查询
-@property(nonatomic, strong)
-    NSMutableDictionary *msgDSendCountDict;  //所有设备查询，{"mac":"count"}
-@property(nonatomic, assign) int msg11SendCount;
-@property(nonatomic, assign) int msg13SendCount;
-@property(nonatomic, assign) int msg17SendCount;
-@property(nonatomic, assign) int msg19SendCount;
-@property(nonatomic, assign) int msg1DSendCount;
-@property(nonatomic, assign) int msg1FSendCount;
-@property(nonatomic, assign) int msg25SendCount;
-@property(nonatomic, assign) int msg27SendCount;
-@property(nonatomic, assign) int msg33SendCount;
-@property(nonatomic, assign) int msg35SendCount;
-@property(nonatomic, assign) int msg39SendCount;
-@property(nonatomic, assign) int msg3BSendCount;
-@property(nonatomic, assign) int msg3FSendCount;
-@property(nonatomic, assign) int msg41SendCount;
-@property(nonatomic, assign) int msg47SendCount;
-@property(nonatomic, assign) int msg49SendCount;
-@property(nonatomic, assign) int msg4DSendCount;
-@property(nonatomic, assign) int msg4FSendCount;
-@property(nonatomic, assign) int msg53SendCount;
-@property(nonatomic, assign) int msg55SendCount;
-@property(nonatomic, assign) int msg59SendCount;
-@property(nonatomic, assign) int msg5DSendCount;
-@property(nonatomic, assign) int msg5FSendCount;
-@property(nonatomic, assign) int msg63SendCount;
-@property(nonatomic, assign) int msg65SendCount;
-@property(nonatomic, assign) int msg67SendCount;
-@property(nonatomic, assign) int msg69SendCount;
+@property (nonatomic, assign) int msg5SendCount;
+@property (nonatomic, assign) int msg9SendCount;
+@property (nonatomic, assign) int msgBSendCount;
+@property (nonatomic, assign) int msgDSendCount; //指定设备查询
+@property (nonatomic, strong)
+    NSMutableDictionary *msgDSendCountDict; //所有设备查询，{"mac":"count"}
+@property (nonatomic, assign) int msg11SendCount;
+@property (nonatomic, assign) int msg13SendCount;
+@property (nonatomic, assign) int msg17SendCount;
+@property (nonatomic, assign) int msg19SendCount;
+@property (nonatomic, assign) int msg1DSendCount;
+@property (nonatomic, assign) int msg1FSendCount;
+@property (nonatomic, assign) int msg25SendCount;
+@property (nonatomic, assign) int msg27SendCount;
+@property (nonatomic, assign) int msg33SendCount;
+@property (nonatomic, assign) int msg35SendCount;
+@property (nonatomic, assign) int msg39SendCount;
+@property (nonatomic, assign) int msg3BSendCount;
+@property (nonatomic, assign) int msg3FSendCount;
+@property (nonatomic, assign) int msg41SendCount;
+@property (nonatomic, assign) int msg47SendCount;
+@property (nonatomic, assign) int msg49SendCount;
+@property (nonatomic, assign) int msg4DSendCount;
+@property (nonatomic, assign) int msg4FSendCount;
+@property (nonatomic, assign) int msg53SendCount;
+@property (nonatomic, assign) int msg55SendCount;
+@property (nonatomic, assign) int msg59SendCount;
+@property (nonatomic, assign) int msg5DSendCount;
+@property (nonatomic, assign) int msg5FSendCount;
+@property (nonatomic, assign) int msg63SendCount;
+@property (nonatomic, assign) int msg65SendCount;
+@property (nonatomic, assign) int msg67SendCount;
+@property (nonatomic, assign) int msg69SendCount;
 #pragma mark - 请求响应数据
-@property(nonatomic, strong) NSData *responseData6;
-@property(nonatomic, strong) NSData *responseDataA;
-@property(nonatomic, strong) NSData *responseDataC;
-@property(nonatomic, strong) NSData *responseDataE;  //指定设备查询
-@property(nonatomic, strong)
-    NSMutableDictionary *responseDictE;  //所有设备查询，{@"mac":"data"}
-@property(nonatomic, strong) NSData *responseData12;
-@property(nonatomic, strong) NSData *responseData14;
-@property(nonatomic, strong) NSData *responseData18;
-@property(nonatomic, strong) NSData *responseData1A;
-@property(nonatomic, strong) NSData *responseData1E;
-@property(nonatomic, strong) NSData *responseData20;
-@property(nonatomic, strong) NSData *responseData26;
-@property(nonatomic, strong) NSData *responseData28;
-@property(nonatomic, strong) NSData *responseData34;
-@property(nonatomic, strong) NSData *responseData36;
-@property(nonatomic, strong) NSData *responseData3A;
-@property(nonatomic, strong) NSData *responseData3C;
-@property(nonatomic, strong) NSData *responseData40;
-@property(nonatomic, strong) NSData *responseData42;
-@property(nonatomic, strong) NSData *responseData48;
-@property(nonatomic, strong) NSData *responseData4A;
-@property(nonatomic, strong) NSData *responseData4E;
-@property(nonatomic, strong) NSData *responseData50;
-@property(nonatomic, strong) NSData *responseData54;
-@property(nonatomic, strong) NSData *responseData56;
-@property(nonatomic, strong) NSData *responseData5A;
-@property(nonatomic, strong) NSData *responseData5E;
-@property(nonatomic, strong) NSData *responseData60;
-@property(nonatomic, strong) NSData *responseData64;
-@property(nonatomic, strong) NSData *responseData66;
-@property(nonatomic, strong) NSData *responseData68;
-@property(nonatomic, strong) NSData *responseData6A;
+@property (nonatomic, strong) NSData *responseData6;
+@property (nonatomic, strong) NSData *responseDataA;
+@property (nonatomic, strong) NSData *responseDataC;
+@property (nonatomic, strong) NSData *responseDataE; //指定设备查询
+@property (nonatomic, strong)
+    NSMutableDictionary *responseDictE; //所有设备查询，{@"mac":"data"}
+@property (nonatomic, strong) NSData *responseData12;
+@property (nonatomic, strong) NSData *responseData14;
+@property (nonatomic, strong) NSData *responseData18;
+@property (nonatomic, strong) NSData *responseData1A;
+@property (nonatomic, strong) NSData *responseData1E;
+@property (nonatomic, strong) NSData *responseData20;
+@property (nonatomic, strong) NSData *responseData26;
+@property (nonatomic, strong) NSData *responseData28;
+@property (nonatomic, strong) NSData *responseData34;
+@property (nonatomic, strong) NSData *responseData36;
+@property (nonatomic, strong) NSData *responseData3A;
+@property (nonatomic, strong) NSData *responseData3C;
+@property (nonatomic, strong) NSData *responseData40;
+@property (nonatomic, strong) NSData *responseData42;
+@property (nonatomic, strong) NSData *responseData48;
+@property (nonatomic, strong) NSData *responseData4A;
+@property (nonatomic, strong) NSData *responseData4E;
+@property (nonatomic, strong) NSData *responseData50;
+@property (nonatomic, strong) NSData *responseData54;
+@property (nonatomic, strong) NSData *responseData56;
+@property (nonatomic, strong) NSData *responseData5A;
+@property (nonatomic, strong) NSData *responseData5E;
+@property (nonatomic, strong) NSData *responseData60;
+@property (nonatomic, strong) NSData *responseData64;
+@property (nonatomic, strong) NSData *responseData66;
+@property (nonatomic, strong) NSData *responseData68;
+@property (nonatomic, strong) NSData *responseData6A;
 #pragma mark -
-@property(nonatomic, strong) GCDAsyncUdpSocket *udpSocket;
-@property(nonatomic, strong) SDZGSwitch *aSwitch;
-@property(nonatomic, strong) NSString *mac;
-@property(nonatomic, assign) int socketGroupId;
-@property(nonatomic, strong) NSArray *timeList;
-@property(nonatomic, strong) NSData *msg;
-@property(nonatomic, strong) NSString *host;
-@property(nonatomic, assign) uint16_t port;
-@property(nonatomic, assign) long tag;
-@property(nonatomic, assign) BOOL on;
-@property(nonatomic, assign) int type;
-@property(nonatomic, assign) int delayTime;
-@property(nonatomic, assign) int beginTime;
-@property(nonatomic, assign) int endTime;
-@property(nonatomic, assign) int interval;
-@property(nonatomic, strong) NSString *name;  //设备名称
-@property(nonatomic, strong) NSString *cityName;
-@property(nonatomic, strong) NSString *oldPassword;
-@property(nonatomic, strong) NSString *password;
+@property (nonatomic, strong) GCDAsyncUdpSocket *udpSocket;
+@property (nonatomic, strong) SDZGSwitch *aSwitch;
+@property (nonatomic, strong) NSString *mac;
+@property (nonatomic, assign) int socketGroupId;
+@property (nonatomic, strong) NSArray *timeList;
+@property (nonatomic, strong) NSData *msg;
+@property (nonatomic, strong) NSString *host;
+@property (nonatomic, assign) uint16_t port;
+@property (nonatomic, assign) long tag;
+@property (nonatomic, assign) BOOL on;
+@property (nonatomic, assign) int type;
+@property (nonatomic, assign) int delayTime;
+@property (nonatomic, assign) int beginTime;
+@property (nonatomic, assign) int endTime;
+@property (nonatomic, assign) int interval;
+@property (nonatomic, strong) NSString *name; //设备名称
+@property (nonatomic, strong) NSString *cityName;
+@property (nonatomic, strong) NSString *oldPassword;
+@property (nonatomic, strong) NSString *password;
 @end
 @implementation UdpRequest
 
@@ -1004,7 +1004,8 @@ static dispatch_queue_t delegateQueue;
   dispatch_async(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
-        if (aSwitch.networkStatus == SWITCH_LOCAL) {
+        if (aSwitch.networkStatus == SWITCH_LOCAL ||
+            aSwitch.networkStatus == SWITCH_NEW) {
           [self sendMsg39WithSwitch:aSwitch on:on sendMode:mode];
         } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
           [self sendMsg3BWithSwitch:aSwitch on:on sendMode:mode];

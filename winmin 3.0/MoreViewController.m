@@ -157,6 +157,9 @@
     NSString *icon = [self.icons objectAtIndex:indexPath.row];
     [((MoreCellTypeSecond *)cell)setTitle:title icon:icon];
   }
+  UIView *myBackView = [[UIView alloc] initWithFrame:cell.frame];
+  myBackView.backgroundColor = [UIColor colorWithHexString:@"#F6F4F4"];
+  cell.selectedBackgroundView = myBackView;
   return cell;
 }
 

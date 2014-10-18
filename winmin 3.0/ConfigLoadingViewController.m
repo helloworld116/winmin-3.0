@@ -10,15 +10,17 @@
 #import <DDProgressView.h>
 
 @interface ConfigLoadingViewController ()<UdpRequestDelegate>
-@property(strong, nonatomic) IBOutlet UIView *loadingView;
-@property(strong, nonatomic) IBOutlet UIView *successView;
-@property(strong, nonatomic) IBOutlet UIView *timeoutView;
-@property(strong, nonatomic) IBOutlet UILabel *lblTitle;
-@property(strong, nonatomic) IBOutlet UIButton *btn;
-@property(strong, nonatomic) IBOutlet DDProgressView *progressView;
-@property(strong, nonatomic) FirstTimeConfig *config;
-@property(strong, nonatomic) UdpRequest *request;
-@property(strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) IBOutlet UIView *loadingView;
+@property (strong, nonatomic) IBOutlet UIView *successView;
+@property (strong, nonatomic) IBOutlet UIView *timeoutView;
+@property (strong, nonatomic) IBOutlet UILabel *lblTitle;
+@property (strong, nonatomic) IBOutlet UIButton *btn;
+@property (strong, nonatomic) IBOutlet DDProgressView *progressView;
+@property (strong, nonatomic) FirstTimeConfig *config;
+@property (strong, nonatomic) UdpRequest *request;
+@property (strong, nonatomic) NSTimer *timer;
+
+@property (strong, nonatomic) NSString *mac; //配置成功后设备的mac
 - (IBAction)cancel:(id)sender;
 @end
 
@@ -73,6 +75,13 @@
 }
 
 - (IBAction)cancel:(id)sender {
+  if ([self.lblTitle.text isEqualToString:@"配置成功"]) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kConfigNewSwitch
+                                                        object:self
+                                                      userInfo:@{
+                                                        @"mac" : self.mac
+                                                      }];
+  }
   [self success];
   if (self.delegate &&
       [self.delegate respondsToSelector:@selector(cancelButtonClicked:)]) {
@@ -81,7 +90,7 @@
 }
 
 - (void)changeProgress {
-  self.progressView.progress += 1.f / 60;  //默认1分钟
+  self.progressView.progress += 1.f / 60; //默认1分钟
   if (self.progressView.progress == 1.f) {
     [self.timer invalidate];
     //停止发送
@@ -164,6 +173,7 @@
         //保存wifi信息
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:self.password forKey:self.ssid];
+        self.mac = message.mac;
         dispatch_async(MAIN_QUEUE, ^{
             [self success];
             [UIView animateWithDuration:0.3f

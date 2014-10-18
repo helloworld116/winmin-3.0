@@ -1726,7 +1726,7 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fbu-Co-1JK">
-                                                <rect key="frame" x="0.0" y="326" width="320" height="130"/>
+                                                <rect key="frame" x="0.0" y="260" width="320" height="130"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CrE-TS-7SS">
                                                         <rect key="frame" x="168" y="50" width="142" height="40"/>
@@ -1856,9 +1856,9 @@
                                             <constraint firstItem="e14-PH-eKo" firstAttribute="top" secondItem="42L-t8-4Sm" secondAttribute="bottom" constant="15" id="ZGf-c0-Mos"/>
                                             <constraint firstAttribute="trailing" secondItem="8o0-Gw-eEt" secondAttribute="trailing" constant="10" id="b4T-iu-ET4"/>
                                             <constraint firstItem="42L-t8-4Sm" firstAttribute="top" secondItem="8o0-Gw-eEt" secondAttribute="bottom" constant="15" id="cZn-yA-SR3"/>
+                                            <constraint firstItem="Fbu-Co-1JK" firstAttribute="top" secondItem="Ewp-WW-nM7" secondAttribute="bottom" constant="20" id="dPU-wZ-ucN"/>
                                             <constraint firstItem="e14-PH-eKo" firstAttribute="leading" secondItem="2sh-cT-lBg" secondAttribute="leading" constant="8" id="tce-BF-LEP"/>
                                             <constraint firstItem="8o0-Gw-eEt" firstAttribute="leading" secondItem="2sh-cT-lBg" secondAttribute="leading" constant="10" id="zbB-iC-XLj"/>
-                                            <constraint firstAttribute="bottom" secondItem="Fbu-Co-1JK" secondAttribute="bottom" id="zjO-WI-ET4"/>
                                         </constraints>
                                         <connections>
                                             <action selector="touchBackground:" destination="bg6-tq-ZSh" eventType="touchDown" id="UFs-Oq-oiq"/>
@@ -2460,10 +2460,57 @@
             </objects>
             <point key="canvasLocation" x="729" y="942"/>
         </scene>
+        <!--Welcome View Controller-->
+        <scene sceneID="VD0-2n-FXL">
+            <objects>
+                <viewController storyboardIdentifier="WelcomeViewController" id="yRW-JH-Ddy" customClass="WelcomeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ARO-HW-mxl"/>
+                        <viewControllerLayoutGuide type="bottom" id="bB0-c8-6Cm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ilg-bZ-4lR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jr" translatesAutoresizingMaskIntoConstraints="NO" id="nvo-4E-bAm">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8L0-h8-Ve4">
+                                <rect key="frame" x="41" y="457" width="239" height="51"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="51" id="I13-Vr-epr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="开始体验" backgroundImage="enter">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="enter:" destination="yRW-JH-Ddy" eventType="touchUpInside" id="nV0-p0-bdh"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bB0-c8-6Cm" firstAttribute="top" secondItem="8L0-h8-Ve4" secondAttribute="bottom" constant="60" id="BUz-fG-jr0"/>
+                            <constraint firstItem="8L0-h8-Ve4" firstAttribute="leading" secondItem="Ilg-bZ-4lR" secondAttribute="leading" constant="41" id="Cui-QY-95N"/>
+                            <constraint firstItem="nvo-4E-bAm" firstAttribute="top" secondItem="Ilg-bZ-4lR" secondAttribute="top" id="H4d-xK-eD3"/>
+                            <constraint firstItem="bB0-c8-6Cm" firstAttribute="top" secondItem="nvo-4E-bAm" secondAttribute="bottom" id="M5F-Qp-oPQ"/>
+                            <constraint firstItem="nvo-4E-bAm" firstAttribute="leading" secondItem="Ilg-bZ-4lR" secondAttribute="leading" id="SKH-bQ-4Lz"/>
+                            <constraint firstAttribute="trailing" secondItem="8L0-h8-Ve4" secondAttribute="trailing" constant="40" id="VgI-gM-grT"/>
+                            <constraint firstAttribute="trailing" secondItem="nvo-4E-bAm" secondAttribute="trailing" id="yPI-aH-D9V"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CE5-fQ-JlT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-428" y="418"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Vex-rW-GRa">
             <objects>
-                <tabBarController id="8YX-ce-x5E" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainController" id="8YX-ce-x5E" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" selectionIndicatorImage="tabbar_selected" id="JQR-rB-NYL">
                         <rect key="frame" x="0.0" y="431" width="320" height="49"/>
@@ -3094,12 +3141,14 @@
         <image name="cj_edit_bg" width="84" height="84"/>
         <image name="delay" width="20" height="20"/>
         <image name="delay_split" width="14" height="19"/>
+        <image name="enter" width="19" height="51"/>
         <image name="exc_ok" width="27" height="27"/>
         <image name="gb" width="38" height="38"/>
         <image name="gd" width="30" height="30"/>
         <image name="gx" width="22" height="22"/>
         <image name="info" width="44" height="44"/>
         <image name="info_arrow" width="44" height="44"/>
+        <image name="jr" width="320" height="480"/>
         <image name="kz" width="30" height="30"/>
         <image name="more_arrow" width="44" height="44"/>
         <image name="off" width="74" height="29"/>

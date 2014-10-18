@@ -15,12 +15,12 @@
 
 @interface SceneExecuteViewController ()<UITableViewDelegate,
                                          UITableViewDataSource>
-@property(nonatomic, strong) UITableView *tableView;
-@property(nonatomic, strong) UILabel *lblStatus;
-@property(nonatomic, strong) UIButton *btnCancelOrOk;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UILabel *lblStatus;
+@property (nonatomic, strong) UIButton *btnCancelOrOk;
 
-@property(nonatomic, strong) NSArray *sceneDetails;
-@property(nonatomic, strong) SceneExecuteModel *model;
+@property (nonatomic, strong) NSArray *sceneDetails;
+@property (nonatomic, strong) SceneExecuteModel *model;
 @end
 
 @implementation SceneExecuteViewController
@@ -134,6 +134,30 @@
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+#pragma mark - begin iOS8下cell分割线处理
+- (void)viewDidLayoutSubviews {
+  if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+    [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+  }
+
+  if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+    [self.tableView setLayoutMargins:UIEdgeInsetsZero];
+  }
+}
+
+- (void)tableView:(UITableView *)tableView
+      willDisplayCell:(UITableViewCell *)cell
+    forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+    [cell setSeparatorInset:UIEdgeInsetsZero];
+  }
+
+  if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+    [cell setLayoutMargins:UIEdgeInsetsZero];
+  }
+}
+#pragma mark - end iOS8下cell分割线处理
 
 #pragma mark - UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView

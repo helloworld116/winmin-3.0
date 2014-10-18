@@ -32,6 +32,7 @@
 		1560132319CA795100BF7E12 /* SocketImgTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560132219CA795100BF7E12 /* SocketImgTemplateViewController.m */; };
 		1560132519CA79D700BF7E12 /* image.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1560132419CA79D700BF7E12 /* image.plist */; };
 		1560132819CBDCA700BF7E12 /* SwitchDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */; };
+		15736B9019F2482F00D6A45D /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15736B8F19F2482F00D6A45D /* WelcomeViewController.m */; };
 		158D987B19C6F39C0068AFC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987A19C6F39C0068AFC5 /* Foundation.framework */; };
 		158D987D19C6F39C0068AFC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */; };
 		158D987F19C6F39C0068AFC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987E19C6F39C0068AFC5 /* UIKit.framework */; };
@@ -153,7 +154,7 @@
 		156012BD19C8129300BF7E12 /* ConfigLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigLoadingViewController.m; sourceTree = "<group>"; };
 		156012FA19C81C9600BF7E12 /* ConfigLoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigLoadingViewController.xib; sourceTree = "<group>"; };
 		156012FC19C8464000BF7E12 /* SwitchListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchListViewController.h; sourceTree = "<group>"; };
-		156012FD19C8464000BF7E12 /* SwitchListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchListViewController.m; sourceTree = "<group>"; };
+		156012FD19C8464000BF7E12 /* SwitchListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchListViewController.m; sourceTree = "<group>"; usesTabs = 0; };
 		156012FF19C846EE00BF7E12 /* SwitchListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchListCell.h; sourceTree = "<group>"; };
 		1560130019C846EE00BF7E12 /* SwitchListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchListCell.m; sourceTree = "<group>"; };
 		1560130219C91EF800BF7E12 /* SwitchListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchListModel.h; sourceTree = "<group>"; };
@@ -176,6 +177,8 @@
 		1560132419CA79D700BF7E12 /* image.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = image.plist; sourceTree = "<group>"; };
 		1560132619CBDCA700BF7E12 /* SwitchDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchDetailModel.h; sourceTree = "<group>"; };
 		1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchDetailModel.m; sourceTree = "<group>"; };
+		15736B8E19F2482F00D6A45D /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
+		15736B8F19F2482F00D6A45D /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		158D987719C6F39C0068AFC5 /* 微云智控.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微云智控.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		158D987A19C6F39C0068AFC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -376,6 +379,8 @@
 		15476D4D19E7817A00EC6BD1 /* 欢迎 */ = {
 			isa = PBXGroup;
 			children = (
+				15736B8E19F2482F00D6A45D /* WelcomeViewController.h */,
+				15736B8F19F2482F00D6A45D /* WelcomeViewController.m */,
 			);
 			name = "欢迎";
 			sourceTree = "<group>";
@@ -1062,6 +1067,7 @@
 				158D988719C6F39C0068AFC5 /* main.m in Sources */,
 				15BBD6F219D92AC30002D973 /* SceneExecuteModel.m in Sources */,
 				158D991519C7CBC50068AFC5 /* UdpRequest.m in Sources */,
+				15736B9019F2482F00D6A45D /* WelcomeViewController.m in Sources */,
 				15AC865819D158D700D154EB /* DelayModel.m in Sources */,
 				15AC863C19CFC6C900D154EB /* TimerEditViewController.m in Sources */,
 				1560132819CBDCA700BF7E12 /* SwitchDetailModel.m in Sources */,

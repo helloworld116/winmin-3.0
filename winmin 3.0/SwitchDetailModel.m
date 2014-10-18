@@ -11,17 +11,17 @@
 #define kElecRefreshInterval 2
 
 @interface SwitchDetailModel ()<UdpRequestDelegate>
-@property(strong, nonatomic) NSTimer *timer;
-@property(strong, nonatomic) NSTimer *timerElec;
-@property(nonatomic, strong) UdpRequest *request11Or13;
-@property(nonatomic, strong) UdpRequest *request0BOr0D;
-@property(nonatomic, strong) UdpRequest *request33Or35;
-@property(nonatomic, strong) UdpRequest *request63;
+@property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) NSTimer *timerElec;
+@property (nonatomic, strong) UdpRequest *request11Or13;
+@property (nonatomic, strong) UdpRequest *request0BOr0D;
+@property (nonatomic, strong) UdpRequest *request33Or35;
+@property (nonatomic, strong) UdpRequest *request63;
 
-@property(nonatomic, strong) SDZGSwitch *aSwitch;
-@property(nonatomic, strong) HistoryElec *historyElec;
-@property(nonatomic, strong) HistoryElecParam *param;
-@property(nonatomic, assign) HistoryElecDateType dateType;
+@property (nonatomic, strong) SDZGSwitch *aSwitch;
+@property (nonatomic, strong) HistoryElec *historyElec;
+@property (nonatomic, strong) HistoryElecParam *param;
+@property (nonatomic, assign) HistoryElecDateType dateType;
 @end
 
 @implementation SwitchDetailModel
@@ -40,7 +40,8 @@
 
 - (void)startScanSwitchState {
   _isScanning = YES;
-  self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
+  //加上0.1是避免和实时电量查询请求同时发出，降低同时发出的几率
+  self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME + 0.1
                                        target:self
                                      selector:@selector(sendMsg0BOr0D)
                                      userInfo:nil
@@ -86,25 +87,24 @@
   });
 }
 
-
 //状态
-- (void)sendMsg0BOr0D{
-    if (!self.request0BOr0D) {
-        self.request0BOr0D = [UdpRequest manager];
-        self.request0BOr0D.delegate = self;
-    }
-    [self.request0BOr0D sendMsg0BOr0D:self.aSwitch sendMode:ActiveMode];
+- (void)sendMsg0BOr0D {
+  if (!self.request0BOr0D) {
+    self.request0BOr0D = [UdpRequest manager];
+    self.request0BOr0D.delegate = self;
+  }
+  [self.request0BOr0D sendMsg0BOr0D:self.aSwitch sendMode:ActiveMode];
 }
 
 //控制开关
 - (void)sendMsg11Or13:(SDZGSwitch *)aSwitch groupId:(int)groupId {
-    if (!self.request11Or13) {
-        self.request11Or13 = [UdpRequest manager];
-        self.request11Or13.delegate = self;
-    }
-    [self.request11Or13 sendMsg11Or13:aSwitch
-                        socketGroupId:groupId
-                             sendMode:ActiveMode];
+  if (!self.request11Or13) {
+    self.request11Or13 = [UdpRequest manager];
+    self.request11Or13.delegate = self;
+  }
+  [self.request11Or13 sendMsg11Or13:aSwitch
+                      socketGroupId:groupId
+                           sendMode:ActiveMode];
 }
 
 //实时电量
