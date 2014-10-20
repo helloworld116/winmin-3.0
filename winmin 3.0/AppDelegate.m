@@ -130,13 +130,13 @@
 - (void)registPlatform {
   [ShareSDK registerApp:@"3603417cd788"];
   //添加QQ应用  注册网址  http://mobile.qq.com/api/
-  [ShareSDK connectQQWithQZoneAppKey:@"1103377112"
+  [ShareSDK connectQQWithQZoneAppKey:@"1102403177"
                    qqApiInterfaceCls:[QQApiInterface class]
                      tencentOAuthCls:[TencentOAuth class]];
 
   //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
-  [ShareSDK connectQZoneWithAppKey:@"1103377112"
-                         appSecret:@"FIWPwObS2GxboPb7"
+  [ShareSDK connectQZoneWithAppKey:@"1102403177"
+                         appSecret:@"ciTN5giKaXVTUD7s"
                  qqApiInterfaceCls:[QQApiInterface class]
                    tencentOAuthCls:[TencentOAuth class]];
   //

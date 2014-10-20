@@ -15,16 +15,16 @@
 
 @interface TimerViewController ()<UIActionSheetDelegate,
                                   EGORefreshTableHeaderDelegate>
-@property(nonatomic, strong) NSMutableArray *timers;
-@property(nonatomic, strong)
-    NSIndexPath *editIndexPath;  //正在编辑或删除的indexPath
-@property(nonatomic, strong) TimerModel *model;
-@property(nonatomic, strong) UIView *noDataView;
-@property(nonatomic, strong)
-    SDZGTimerTask *timer;  //修改定时任务是否生效时当前的timer
+@property (nonatomic, strong) NSMutableArray *timers;
+@property (nonatomic, strong)
+    NSIndexPath *editIndexPath; //正在编辑或删除的indexPath
+@property (nonatomic, strong) TimerModel *model;
+@property (nonatomic, strong) UIView *noDataView;
+@property (nonatomic, strong)
+    SDZGTimerTask *timer; //修改定时任务是否生效时当前的timer
 
-@property(strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
-@property(assign, nonatomic) BOOL reloading;
+@property (strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
+@property (assign, nonatomic) BOOL reloading;
 @end
 
 @implementation TimerViewController
@@ -123,6 +123,7 @@
 }
 
 #pragma mark - begin iOS8下cell分割线处理
+#ifdef __IPHONE_8_0
 - (void)viewDidLayoutSubviews {
   if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
     [self.tableView setSeparatorInset:UIEdgeInsetsZero];
@@ -144,6 +145,7 @@
     [cell setLayoutMargins:UIEdgeInsetsZero];
   }
 }
+#endif
 #pragma mark - end iOS8下cell分割线处理
 
 - (void)didReceiveMemoryWarning {
@@ -267,9 +269,9 @@
       makeToast:message
        duration:1.f
        position:[NSValue
-                    valueWithCGPoint:CGPointMake(
-                                         self.view.frame.size.width / 2,
-                                         self.view.frame.size.height - 40)]];
+                    valueWithCGPoint:CGPointMake(self.view.frame.size.width / 2,
+                                                 self.view.frame.size.height -
+                                                     40)]];
 }
 
 - (void)changeTimersList:(NSNotification *)notification {
@@ -374,12 +376,12 @@
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:
             (EGORefreshTableHeaderView *)view {
-  return _reloading;  // should return if data source model is reloading
+  return _reloading; // should return if data source model is reloading
 }
 
 - (NSDate *)egoRefreshTableHeaderDataSourceLastUpdated:
                 (EGORefreshTableHeaderView *)view {
-  return [NSDate date];  // should return date data source was last changed
+  return [NSDate date]; // should return date data source was last changed
 }
 
 @end

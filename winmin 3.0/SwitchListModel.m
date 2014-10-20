@@ -8,12 +8,12 @@
 
 #import "SwitchListModel.h"
 @interface SwitchListModel ()<UdpRequestDelegate>
-@property(strong, nonatomic) NSTimer *timer;
-@property(strong, nonatomic) NSTimer *
-    timerForCheckLastOnline;  //最后一个设备离线后，导致最后一个设备页面状态无法更改
-@property(nonatomic, strong) UdpRequest *request;
-@property(nonatomic, strong) UdpRequest *request9;
-@property(nonatomic, strong) UdpRequest *request39Or3B;
+@property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) NSTimer *
+timerForCheckLastOnline; //最后一个设备离线后，导致最后一个设备页面状态无法更改
+@property (nonatomic, strong) UdpRequest *request;
+@property (nonatomic, strong) UdpRequest *request9;
+@property (nonatomic, strong) UdpRequest *request39Or3B;
 @end
 
 @implementation SwitchListModel
@@ -134,13 +134,16 @@
         objectForKey:message.mac];
     if (!aSwitch && message.lockStatus == LockStatusOff) {
       //设备未加锁，并且不在本地列表中，发送请求，查询设备状态
+      debugLog(@"########## add to dict and send ");
       aSwitch = [[SDZGSwitch alloc] init];
       aSwitch.mac = message.mac;
       aSwitch.ip = message.ip;
       aSwitch.port = message.port;
       aSwitch.networkStatus = SWITCH_NEW;
       [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
-      [self.request9 sendMsg0B:aSwitch sendMode:ActiveMode];
+      dispatch_async(GLOBAL_QUEUE, ^{
+          [self.request9 sendMsg0B:aSwitch sendMode:ActiveMode];
+      });
       [[NSNotificationCenter defaultCenter] postNotificationName:kNewSwitch
                                                           object:self];
     }

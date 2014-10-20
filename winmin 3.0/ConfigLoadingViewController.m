@@ -75,17 +75,20 @@
 }
 
 - (IBAction)cancel:(id)sender {
+  BOOL success = NO;
   if ([self.lblTitle.text isEqualToString:@"配置成功"]) {
     [[NSNotificationCenter defaultCenter] postNotificationName:kConfigNewSwitch
                                                         object:self
                                                       userInfo:@{
                                                         @"mac" : self.mac
                                                       }];
+    success = YES;
   }
   [self success];
   if (self.delegate &&
-      [self.delegate respondsToSelector:@selector(cancelButtonClicked:)]) {
-    [self.delegate cancelButtonClicked:self];
+      [self.delegate
+          respondsToSelector:@selector(cancelButtonClicked:success:)]) {
+    [self.delegate cancelButtonClicked:self success:success];
   }
 }
 

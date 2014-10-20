@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 @protocol MJConfigLoadingDelegate;
 @interface ConfigLoadingViewController : UIViewController
-@property(assign, nonatomic) id<MJConfigLoadingDelegate> delegate;
-@property(strong, nonatomic) NSString *ssid;
-@property(strong, nonatomic) NSString *password;
+@property (assign, nonatomic) id<MJConfigLoadingDelegate> delegate;
+@property (strong, nonatomic) NSString *ssid;
+@property (strong, nonatomic) NSString *password;
 @end
 
 @protocol MJConfigLoadingDelegate<NSObject>
 @optional
 - (void)cancelButtonClicked:
-        (ConfigLoadingViewController *)configLoadingViewController;
+            (ConfigLoadingViewController *)configLoadingViewController
+                    success:(BOOL)success;
 @end

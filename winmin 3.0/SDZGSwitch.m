@@ -10,8 +10,9 @@
 
 @implementation SDZGSwitch
 + (SDZGSwitch *)parseMessageCOrEToSwitch:(CC3xMessage *)message {
-  //  debugLog(@"message id is %x", message.msgId);
-  BOOL needToDBImmediately;  //新扫描到的设备立即添加到数据库
+  debugLog(@"thread is %@ and message id is %x", [NSThread currentThread],
+           message.msgId);
+  BOOL needToDBImmediately; //新扫描到的设备立即添加到数据库
   SDZGSwitch *aSwitch =
       [[SwitchDataCeneter sharedInstance].switchsDict objectForKey:message.mac];
   if (aSwitch) {

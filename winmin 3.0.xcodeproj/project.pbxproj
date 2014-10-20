@@ -18,7 +18,6 @@
 		155A5C0119D569BE007864C8 /* SceneExcCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 155A5C0019D569BD007864C8 /* SceneExcCell.xib */; };
 		156012BB19C804AC00BF7E12 /* ConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156012BA19C804AC00BF7E12 /* ConfigurationViewController.m */; };
 		156012BE19C8129300BF7E12 /* ConfigLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156012BD19C8129300BF7E12 /* ConfigLoadingViewController.m */; };
-		156012FB19C81C9600BF7E12 /* ConfigLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 156012FA19C81C9600BF7E12 /* ConfigLoadingViewController.xib */; };
 		156012FE19C8464000BF7E12 /* SwitchListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156012FD19C8464000BF7E12 /* SwitchListViewController.m */; };
 		1560130119C846EE00BF7E12 /* SwitchListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560130019C846EE00BF7E12 /* SwitchListCell.m */; };
 		1560130419C91EF800BF7E12 /* SwitchListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560130319C91EF800BF7E12 /* SwitchListModel.m */; };
@@ -106,6 +105,7 @@
 		15AC865819D158D700D154EB /* DelayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865719D158D700D154EB /* DelayModel.m */; };
 		15AC865B19D2C56400D154EB /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865A19D2C56400D154EB /* DatePickerViewController.m */; };
 		15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15AC865C19D2C6C800D154EB /* DatePickerViewController.xib */; };
+		15B3B92C19F511760058D91F /* ConfigLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15B3B92E19F511760058D91F /* ConfigLoadingViewController.xib */; };
 		15BBD6F219D92AC30002D973 /* SceneExecuteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F119D92AC30002D973 /* SceneExecuteModel.m */; };
 		15BBD6F519DA7CBC0002D973 /* ElecView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F419DA7CBC0002D973 /* ElecView.m */; };
 		15BBD6F819DA857A0002D973 /* ElecRealTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F719DA857A0002D973 /* ElecRealTimeView.m */; };
@@ -152,7 +152,6 @@
 		156012BA19C804AC00BF7E12 /* ConfigurationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationViewController.m; sourceTree = "<group>"; };
 		156012BC19C8129300BF7E12 /* ConfigLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigLoadingViewController.h; sourceTree = "<group>"; };
 		156012BD19C8129300BF7E12 /* ConfigLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigLoadingViewController.m; sourceTree = "<group>"; };
-		156012FA19C81C9600BF7E12 /* ConfigLoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigLoadingViewController.xib; sourceTree = "<group>"; };
 		156012FC19C8464000BF7E12 /* SwitchListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchListViewController.h; sourceTree = "<group>"; };
 		156012FD19C8464000BF7E12 /* SwitchListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchListViewController.m; sourceTree = "<group>"; usesTabs = 0; };
 		156012FF19C846EE00BF7E12 /* SwitchListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchListCell.h; sourceTree = "<group>"; };
@@ -179,7 +178,7 @@
 		1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchDetailModel.m; sourceTree = "<group>"; };
 		15736B8E19F2482F00D6A45D /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		15736B8F19F2482F00D6A45D /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
-		158D987719C6F39C0068AFC5 /* 微云智控.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微云智控.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		158D987719C6F39C0068AFC5 /* 微云智能.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微云智能.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		158D987A19C6F39C0068AFC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		158D987E19C6F39C0068AFC5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -291,6 +290,11 @@
 		15AC865919D2C56400D154EB /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
 		15AC865A19D2C56400D154EB /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
 		15AC865C19D2C6C800D154EB /* DatePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerViewController.xib; sourceTree = "<group>"; };
+		15B3B92919F510F50058D91F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		15B3B92B19F511000058D91F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		15B3B92D19F511760058D91F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ConfigLoadingViewController.xib; sourceTree = "<group>"; };
+		15B3B93019F5117C0058D91F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ConfigLoadingViewController.strings; sourceTree = "<group>"; };
+		15B3B93219F5117F0058D91F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ConfigLoadingViewController.strings"; sourceTree = "<group>"; };
 		15BBD6F019D92AC30002D973 /* SceneExecuteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneExecuteModel.h; sourceTree = "<group>"; };
 		15BBD6F119D92AC30002D973 /* SceneExecuteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneExecuteModel.m; sourceTree = "<group>"; };
 		15BBD6F319DA7CBC0002D973 /* ElecView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElecView.h; sourceTree = "<group>"; };
@@ -550,7 +554,7 @@
 		158D987819C6F39C0068AFC5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				158D987719C6F39C0068AFC5 /* 微云智控.app */,
+				158D987719C6F39C0068AFC5 /* 微云智能.app */,
 				158D989B19C6F39D0068AFC5 /* winmin 3.0Tests.xctest */,
 			);
 			name = Products;
@@ -817,7 +821,7 @@
 				156012BA19C804AC00BF7E12 /* ConfigurationViewController.m */,
 				156012BC19C8129300BF7E12 /* ConfigLoadingViewController.h */,
 				156012BD19C8129300BF7E12 /* ConfigLoadingViewController.m */,
-				156012FA19C81C9600BF7E12 /* ConfigLoadingViewController.xib */,
+				15B3B92E19F511760058D91F /* ConfigLoadingViewController.xib */,
 			);
 			name = "配置";
 			sourceTree = "<group>";
@@ -900,7 +904,7 @@
 			);
 			name = "winmin 3.0";
 			productName = "winmin 3.0";
-			productReference = 158D987719C6F39C0068AFC5 /* 微云智控.app */;
+			productReference = 158D987719C6F39C0068AFC5 /* 微云智能.app */;
 			productType = "com.apple.product-type.application";
 		};
 		158D989A19C6F39D0068AFC5 /* winmin 3.0Tests */ = {
@@ -960,7 +964,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				156012FB19C81C9600BF7E12 /* ConfigLoadingViewController.xib in Resources */,
+				15B3B92C19F511760058D91F /* ConfigLoadingViewController.xib in Resources */,
 				158D989619C6F39C0068AFC5 /* Images.xcassets in Resources */,
 				15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
@@ -1121,6 +1125,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				158D988D19C6F39C0068AFC5 /* Base */,
+				15B3B92919F510F50058D91F /* en */,
+				15B3B92B19F511000058D91F /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1140,6 +1146,16 @@
 				158D98C519C7C9660068AFC5 /* zh-Hans */,
 			);
 			name = ShareSDKLocalizable.strings;
+			sourceTree = "<group>";
+		};
+		15B3B92E19F511760058D91F /* ConfigLoadingViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				15B3B92D19F511760058D91F /* Base */,
+				15B3B93019F5117C0058D91F /* en */,
+				15B3B93219F5117F0058D91F /* zh-Hans */,
+			);
+			name = ConfigLoadingViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1242,7 +1258,7 @@
 					"$(PROJECT_DIR)/ShareSDK/Extend/YiXinSDK",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = "微云智控";
+				PRODUCT_NAME = "微云智能";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1275,7 +1291,7 @@
 					"$(PROJECT_DIR)/ShareSDK/Extend/YiXinSDK",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = "微云智控";
+				PRODUCT_NAME = "微云智能";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

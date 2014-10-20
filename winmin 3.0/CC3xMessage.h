@@ -10,36 +10,36 @@
 
 enum {
   P2D_SERVER_INFO_05 = 1000,
-  P2D_SCAN_DEV_09,
-  P2D_STATE_INQUIRY_0B,
-  P2S_STATE_INQUIRY_0D,
-  P2D_CONTROL_REQ_11,
-  P2S_CONTROL_REQ_13,
-  P2D_GET_TIMER_REQ_17,
-  P2S_GET_TIMER_REQ_19,
-  P2D_SET_TIMER_REQ_1D,
-  P2S_SET_TIMER_REQ_1F,
-  P2D_GET_PROPERTY_REQ_25,
-  P2S_GET_PROPERTY_REQ_27,
-  P2D_GET_POWER_INFO_REQ_33,
-  P2S_GET_POWER_INFO_REQ_35,
-  P2D_LOCATE_REQ_39,
-  P2S_LOCATE_REQ_3B,
-  P2D_SET_NAME_REQ_3F,
-  P2S_SET_NAME_REQ_41,
-  P2D_DEV_LOCK_REQ_47,
-  P2S_DEV_LOCK_REQ_49,
-  P2D_SET_DELAY_REQ_4D,
-  P2S_SET_DELAY_REQ_4F,
-  P2D_GET_DELAY_REQ_53,
-  P2S_GET_DELAY_REQ_55,
-  P2S_PHONE_INIT_REQ_59,
-  P2D_GET_NAME_REQ_5D,
-  P2S_GET_NAME_REQ_5F,
-  P2S_GET_POWER_LOG_REQ_63,
-  P2S_GET_CITY_REQ_65,
-  P2S_GET_CITY_WEATHER_REQ_67,
-  P2D_SET_PASSWD_REQ_69
+  P2D_SCAN_DEV_09 = 1001,
+  P2D_STATE_INQUIRY_0B = 1002,
+  P2S_STATE_INQUIRY_0D = 1003,
+  P2D_CONTROL_REQ_11 = 1004,
+  P2S_CONTROL_REQ_13 = 1005,
+  P2D_GET_TIMER_REQ_17 = 1006,
+  P2S_GET_TIMER_REQ_19 = 1007,
+  P2D_SET_TIMER_REQ_1D = 1008,
+  P2S_SET_TIMER_REQ_1F = 1009,
+  P2D_GET_PROPERTY_REQ_25 = 1010,
+  P2S_GET_PROPERTY_REQ_27 = 1011,
+  P2D_GET_POWER_INFO_REQ_33 = 1012,
+  P2S_GET_POWER_INFO_REQ_35 = 1013,
+  P2D_LOCATE_REQ_39 = 1014,
+  P2S_LOCATE_REQ_3B = 1015,
+  P2D_SET_NAME_REQ_3F = 1016,
+  P2S_SET_NAME_REQ_41 = 1017,
+  P2D_DEV_LOCK_REQ_47 = 1018,
+  P2S_DEV_LOCK_REQ_49 = 1019,
+  P2D_SET_DELAY_REQ_4D = 1020,
+  P2S_SET_DELAY_REQ_4F = 1021,
+  P2D_GET_DELAY_REQ_53 = 1022,
+  P2S_GET_DELAY_REQ_55 = 1023,
+  P2S_PHONE_INIT_REQ_59 = 1024,
+  P2D_GET_NAME_REQ_5D = 1025,
+  P2S_GET_NAME_REQ_5F = 1026,
+  P2S_GET_POWER_LOG_REQ_63 = 1027,
+  P2S_GET_CITY_REQ_65 = 1028,
+  P2S_GET_CITY_WEATHER_REQ_67 = 1029,
+  P2D_SET_PASSWD_REQ_69 = 1030
 };
 
 @class CC3xMessage;
@@ -117,37 +117,37 @@ enum {
 
 @interface CC3xMessage : NSObject
 
-@property(nonatomic, assign) unsigned char msgId;
-@property(nonatomic, assign) unsigned char msgDir;
-@property(nonatomic, assign) unsigned short msgLength;
+@property (nonatomic, assign) unsigned char msgId;
+@property (nonatomic, assign) unsigned char msgDir;
+@property (nonatomic, assign) unsigned short msgLength;
 
-@property(nonatomic, strong) NSString *mac;
-@property(nonatomic, strong) NSString *ip;
-@property(nonatomic, assign) unsigned short port;
-@property(nonatomic, assign) int socketGroupId;  //当前操作的socket的id
+@property (nonatomic, strong) NSString *mac;
+@property (nonatomic, strong) NSString *ip;
+@property (nonatomic, assign) unsigned short port;
+@property (nonatomic, assign) int socketGroupId; //当前操作的socket的id
 
-@property(nonatomic, strong) NSString *deviceName;
-@property(nonatomic, strong) NSArray *socketNames;
-@property(nonatomic, assign) char state;  // 0表示成功；-1表示无控制权
-@property(nonatomic, assign) char version;
-@property(nonatomic, assign) char onStatus;
-@property(nonatomic, assign) char lockStatus;
-@property(nonatomic, assign) unsigned int currentTime;
-@property(nonatomic, assign) char timerTaskNumber;
-@property(nonatomic, strong) NSArray *timerTaskList;
-@property(nonatomic, assign) short delay;
+@property (nonatomic, strong) NSString *deviceName;
+@property (nonatomic, strong) NSArray *socketNames;
+@property (nonatomic, assign) char state; // 0表示成功；-1表示无控制权
+@property (nonatomic, assign) char version;
+@property (nonatomic, assign) char onStatus;
+@property (nonatomic, assign) char lockStatus;
+@property (nonatomic, assign) unsigned int currentTime;
+@property (nonatomic, assign) char timerTaskNumber;
+@property (nonatomic, strong) NSArray *timerTaskList;
+@property (nonatomic, assign) short delay;
 
-@property(nonatomic, assign) NSInteger update;
-@property(nonatomic, assign) NSString *updateUrl;
+@property (nonatomic, assign) NSInteger update;
+@property (nonatomic, assign) NSString *updateUrl;
 
-@property(nonatomic, assign) int historyElecCount;
-@property(nonatomic, strong) NSArray *historyElecs;
+@property (nonatomic, assign) int historyElecCount;
+@property (nonatomic, strong) NSArray *historyElecs;
 
-@property(nonatomic, assign) unsigned short pmTwoPointFive;
-@property(nonatomic, assign) float temperature;
-@property(nonatomic, assign) unsigned char humidity;  //湿度
-@property(nonatomic, assign) float power;             //功率
-@property(nonatomic, assign) unsigned char airTag;    //空气质量代号
-@property(nonatomic, strong) NSString *airDesc;       //空气质量说明
-@property(nonatomic, assign) unsigned short crc;
+@property (nonatomic, assign) unsigned short pmTwoPointFive;
+@property (nonatomic, assign) float temperature;
+@property (nonatomic, assign) unsigned char humidity; //湿度
+@property (nonatomic, assign) float power;            //功率
+@property (nonatomic, assign) unsigned char airTag;   //空气质量代号
+@property (nonatomic, strong) NSString *airDesc;      //空气质量说明
+@property (nonatomic, assign) unsigned short crc;
 @end

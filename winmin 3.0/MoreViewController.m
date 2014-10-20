@@ -13,9 +13,9 @@
 #import "UserInfo.h"
 
 @interface MoreViewController ()
-@property(nonatomic, strong) NSArray *titles;
-@property(nonatomic, strong) NSArray *icons;
-@property(nonatomic, assign) BOOL isLogin;
+@property (nonatomic, strong) NSArray *titles;
+@property (nonatomic, strong) NSArray *icons;
+@property (nonatomic, assign) BOOL isLogin;
 @end
 
 @implementation MoreViewController
@@ -75,6 +75,7 @@
 }
 
 #pragma mark - begin iOS8下cell分割线处理
+#ifdef __IPHONE_8_0
 - (void)viewDidLayoutSubviews {
   if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
     [self.tableView setSeparatorInset:UIEdgeInsetsZero];
@@ -96,6 +97,7 @@
     [cell setLayoutMargins:UIEdgeInsetsZero];
   }
 }
+#endif
 #pragma mark - end iOS8下cell分割线处理
 
 - (void)didReceiveMemoryWarning {

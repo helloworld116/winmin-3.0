@@ -28,16 +28,16 @@
 
 @interface ConfigurationViewController ()<UITextFieldDelegate,
                                           MJConfigLoadingDelegate>
-@property(strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property(strong, nonatomic) IBOutlet UIView *viewWIFI;
-@property(strong, nonatomic) IBOutlet UIView *viewPassword;
-@property(strong, nonatomic) IBOutlet UITextField *textWIFI;
-@property(strong, nonatomic) IBOutlet UITextField *textPassword;
-@property(strong, nonatomic) IBOutlet UIButton *btnConfig;
-@property(strong, nonatomic) IBOutlet UIImageView *imgViewShowPassword;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UIView *viewWIFI;
+@property (strong, nonatomic) IBOutlet UIView *viewPassword;
+@property (strong, nonatomic) IBOutlet UITextField *textWIFI;
+@property (strong, nonatomic) IBOutlet UITextField *textPassword;
+@property (strong, nonatomic) IBOutlet UIButton *btnConfig;
+@property (strong, nonatomic) IBOutlet UIImageView *imgViewShowPassword;
 
-@property(strong, nonatomic) UITextField *activeField;
-@property(strong, nonatomic) NSString *ssid;
+@property (strong, nonatomic) UITextField *activeField;
+@property (strong, nonatomic) NSString *ssid;
 - (IBAction)showOrHiddenPassword:(id)sender;
 - (IBAction)doConfig:(id)sender;
 - (IBAction)touchBackground:(id)sender;
@@ -204,7 +204,11 @@
 
 #pragma mark - MJConfigLoadingDelegate
 - (void)cancelButtonClicked:
-            (ConfigLoadingViewController *)configLoadingViewController {
+            (ConfigLoadingViewController *)configLoadingViewController
+                    success:(BOOL)success {
   [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+  if (success) {
+    self.tabBarController.selectedIndex = 0;
+  }
 }
 @end

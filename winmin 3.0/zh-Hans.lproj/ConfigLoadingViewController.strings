@@ -1,0 +1,36 @@
+
+/* Class = "IBUILabel"; text = "全力加载中..."; ObjectID = "MI1-A7-dyQ"; */
+"MI1-A7-dyQ.text" = "全力加载中...";
+
+/* Class = "IBUILabel"; text = "配置成功，到控制页刷新查看"; ObjectID = "MXV-ih-hi9"; */
+"MXV-ih-hi9.text" = "配置成功，到控制页刷新查看";
+
+/* Class = "IBUILabel"; text = "设备无法配置到路由，请检查密码后重启设备并配置"; ObjectID = "MkA-rT-9sU"; */
+"MkA-rT-9sU.text" = "设备无法配置到路由，请检查密码后重启设备并配置";
+
+/* Class = "IBUILabel"; text = "配置成功"; ObjectID = "OFU-81-cY2"; */
+"OFU-81-cY2.text" = "配置成功";
+
+/* Class = "IBUILabel"; text = "恭喜您"; ObjectID = "Pgb-al-dQR"; */
+"Pgb-al-dQR.text" = "恭喜您";
+
+/* Class = "IBUILabel"; text = "配置中..."; ObjectID = "YJn-9S-CTg"; */
+"YJn-9S-CTg.text" = "配置中...";
+
+/* Class = "IBUILabel"; text = "设备未收到配置请求，请重启设备并配置"; ObjectID = "YKn-ru-1me"; */
+"YKn-ru-1me.text" = "设备未收到配置请求，请重启设备并配置";
+
+/* Class = "IBUILabel"; text = "慢闪："; ObjectID = "YPX-jj-6aw"; */
+"YPX-jj-6aw.text" = "慢闪：";
+
+/* Class = "IBUILabel"; text = "快闪："; ObjectID = "ahu-DK-Wae"; */
+"ahu-DK-Wae.text" = "快闪：";
+
+/* Class = "IBUIButton"; normalTitle = "取    消"; ObjectID = "bAW-0u-A4z"; */
+"bAW-0u-A4z.normalTitle" = "取    消";
+
+/* Class = "IBUILabel"; text = "配置结束（请检查设备指示灯状态）"; ObjectID = "fsK-Wb-pOW"; */
+"fsK-Wb-pOW.text" = "配置结束（请检查设备指示灯状态）";
+
+/* Class = "IBUILabel"; text = "常亮："; ObjectID = "sr4-xC-0m7"; */
+"sr4-xC-0m7.text" = "常亮：";

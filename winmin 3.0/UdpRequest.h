@@ -8,12 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-// typedef void (^successBlock)(CC3xMessage *message);
-// typedef void (^noResponseBlock)(int count);
-// typedef void (^noResponseWithMacBlock)(int count, NSString *mac);
-// typedef void (^noRequestBlock)(long tag);
-// typedef void (^errorBlock)(NSString *errorMsg);
-
 @protocol UdpRequestDelegate<NSObject>
 
 @required
@@ -56,7 +50,7 @@
 
 @interface UdpRequest : NSObject
 typedef enum { ActiveMode, PassiveMode } SENDMODE;
-@property(nonatomic, assign) id<UdpRequestDelegate> delegate;
+@property (nonatomic, assign) id<UdpRequestDelegate> delegate;
 + (instancetype)manager;
 /**
  *  配置时使用，使用指定端口

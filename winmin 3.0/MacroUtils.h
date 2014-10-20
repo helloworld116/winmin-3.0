@@ -34,18 +34,18 @@
 
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
-#define kSharedAppliction \
+#define kSharedAppliction                                                      \
   ((AppDelegate *)[UIApplication sharedApplication].delegate)
 
 #define kCheckNetworkWebsite @"www.baidu.com"
 
 // UDP过期时间,单位秒
 #define kUDPTimeOut -1
-#define kCheckPrivateResponseInterval \
-  0  //发送UDP内网请求后，检查是否有响应数据的间隔，单位为秒
-#define kCheckPublicResponseInterval \
-  0  //发送UDP外网请求后，检查是否有响应数据的间隔，单位为秒
-#define kTryCount -1  //请求失败后自动尝试次数
+#define kCheckPrivateResponseInterval                                          \
+  1 //发送UDP内网请求后，检查是否有响应数据的间隔，单位为秒
+#define kCheckPublicResponseInterval                                           \
+  1 //发送UDP外网请求后，检查是否有响应数据的间隔，单位为秒
+#define kTryCount 3 //请求失败后自动尝试次数
 
 //日志
 #ifdef DEBUG
@@ -56,14 +56,14 @@
 #define debugMethod()
 #endif
 
-#define isEqualOrGreaterToiOS7 \
+#define isEqualOrGreaterToiOS7                                                 \
   ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
 #define is4Inch ([[UIScreen mainScreen] bounds].size.height == 568)
 
 #define PATH_OF_APP_HOME NSHomeDirectory()
 #define PATH_OF_TEMP NSTemporaryDirectory()
-#define PATH_OF_DOCUMENT                                                      \
-  [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, \
+#define PATH_OF_DOCUMENT                                                       \
+  [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,  \
                                        YES) objectAtIndex:0]
 //延迟最大时间
 #define kDelayMax 1440
@@ -74,14 +74,14 @@
 #define socket_default_image @"099"
 #define switch_default_image @"100"
 #define switch_default_image_offline @"100_"
-#define kSceneTemplateDict \
-  @{                       \
-    @"101" : @"客厅",    \
-    @"102" : @"厨房",    \
-    @"103" : @"卧室",    \
-    @"104" : @"书房",    \
-    @"105" : @"儿童房", \
-    @"106" : @"玄关"     \
+#define kSceneTemplateDict                                                     \
+  @{                                                                           \
+    @"101" : @"客厅",                                                        \
+    @"102" : @"厨房",                                                        \
+    @"103" : @"卧室",                                                        \
+    @"104" : @"书房",                                                        \
+    @"105" : @"儿童房",                                                     \
+    @"106" : @"玄关"                                                         \
   }
 
 //在家测试
@@ -124,10 +124,10 @@
 #define __DECRYPT(str) [DESUtil decryptString:str]
 
 // json
-#define __JSON(str)                                                   \
-  [NSJSONSerialization                                                \
-      JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] \
-                 options:kNilOptions                                  \
+#define __JSON(str)                                                            \
+  [NSJSONSerialization                                                         \
+      JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]          \
+                 options:kNilOptions                                           \
                    error:nil]
 
 //#ifdef DEBUG
@@ -150,11 +150,11 @@ static NSString *const BaseURLString = @"http://192.168.0.89:8080/ais/api/";
 
 #define BROADCAST_ADDRESS @"255.255.255.255"
 
-#define SOCKET_SERIAL_QUEUE \
+#define SOCKET_SERIAL_QUEUE                                                    \
   dispatch_queue_create("socket.com.itouchco.www", DISPATCH_QUEUE_SERIAL)
-#define SWITCHDATACENTER_SERIAL_QUEUE                        \
-  dispatch_queue_create("switchdatacenter.com.itouchco.www", \
+#define SWITCHDATACENTER_SERIAL_QUEUE                                          \
+  dispatch_queue_create("switchdatacenter.com.itouchco.www",                   \
                         DISPATCH_QUEUE_SERIAL)
-#define GLOBAL_QUEUE \
+#define GLOBAL_QUEUE                                                           \
   dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 #define MAIN_QUEUE dispatch_get_main_queue()
