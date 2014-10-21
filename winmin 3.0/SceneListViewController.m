@@ -12,10 +12,10 @@
 #import "SceneCell.h"
 
 @interface SceneListViewController ()<UIActionSheetDelegate>
-@property(nonatomic, strong) NSIndexPath *longPressIndexPath;
-@property(nonatomic, strong) NSMutableArray *scenes;
+@property (nonatomic, strong) NSIndexPath *operationIndexPath;
+@property (nonatomic, strong) NSMutableArray *scenes;
 
-@property(nonatomic, strong) UIView *noDataView;
+@property (nonatomic, strong) UIView *noDataView;
 @end
 
 @implementation SceneListViewController
@@ -59,6 +59,15 @@
                   if (!self.scenes || self.scenes.count == 0) {
                     self.noDataView.hidden = NO;
                   }
+              }];
+  [[NSNotificationCenter defaultCenter]
+      addObserverForName:kSceneFinishedWindowViewRemoveNotification
+                  object:nil
+                   queue:nil
+              usingBlock:^(NSNotification *note) {
+                  [self.collectionView
+                      deselectItemAtIndexPath:self.operationIndexPath
+                                     animated:YES];
               }];
   self.scenes = [[[DBUtil sharedInstance] scenes] mutableCopy];
   if (!self.scenes || self.scenes.count == 0) {
@@ -119,7 +128,8 @@ preparation before navigation
 // UICollectionView被选中时调用的方法
 - (void)collectionView:(UICollectionView *)collectionView
     didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-  [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+  self.operationIndexPath = indexPath;
+  //  [collectionView deselectItemAtIndexPath:indexPath animated:YES];
   SceneExecuteViewController *executeViewController =
       [[SceneExecuteViewController alloc] init];
   Scene *scene = self.scenes[indexPath.row];
@@ -166,7 +176,7 @@ preparation before navigation
   CGPoint p = [gestureRecognizer locationInView:self.collectionView];
   NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:p];
   if (indexPath && gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-    self.longPressIndexPath = indexPath;
+    self.operationIndexPath = indexPath;
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                  initWithTitle:@"您希望对这个场景执行怎样的操作"
                       delegate:self
@@ -179,7 +189,7 @@ preparation before navigation
 
 - (void)actionSheet:(UIActionSheet *)actionSheet
     clickedButtonAtIndex:(NSInteger)buttonIndex {
-  Scene *scene = self.scenes[self.longPressIndexPath.row];
+  Scene *scene = self.scenes[self.operationIndexPath.row];
   switch (buttonIndex) {
     case 0:
       //编辑
@@ -188,7 +198,7 @@ preparation before navigation
             [self.storyboard instantiateViewControllerWithIdentifier:
                                  @"SceneDetailViewController"];
         nextViewController.scene = scene;
-        nextViewController.row = self.longPressIndexPath.row;
+        nextViewController.row = self.operationIndexPath.row;
         [self.navigationController pushViewController:nextViewController
                                              animated:YES];
       }
@@ -199,9 +209,9 @@ preparation before navigation
       {
         [[DBUtil sharedInstance] removeScene:scene];
         //删除后提示页面
-        NSArray *indexPaths = @[ self.longPressIndexPath ];
+        NSArray *indexPaths = @[ self.operationIndexPath ];
         [self.collectionView performBatchUpdates:^{
-            [self.scenes removeObjectAtIndex:self.longPressIndexPath.row];
+            [self.scenes removeObjectAtIndex:self.operationIndexPath.row];
             [self.collectionView deleteItemsAtIndexPaths:indexPaths];
         } completion:^(BOOL finished) {
             if (finished) {

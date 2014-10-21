@@ -9,9 +9,10 @@
 #import "AboutUsViewController.h"
 
 @interface AboutUsViewController ()
-@property(nonatomic, strong) IBOutlet UILabel *lblVersion;
-@property(nonatomic, strong) IBOutlet UIButton *btn;
+@property (nonatomic, strong) IBOutlet UILabel *lblVersion;
+@property (nonatomic, strong) IBOutlet UIButton *btn;
 - (IBAction)checkVersion:(id)sender;
+- (IBAction)moreInfo:(id)sender;
 @end
 
 @implementation AboutUsViewController
@@ -61,5 +62,8 @@ preparation before navigation
 */
 - (IBAction)checkVersion:(id)sender {
   [self.view makeToast:@"已是最新版本"];
+}
+
+- (IBAction)moreInfo:(id)sender {
 }
 @end

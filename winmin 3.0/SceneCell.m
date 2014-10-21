@@ -10,9 +10,10 @@
 #import "Scene.h"
 
 @interface SceneCell ()
-@property(nonatomic, strong) IBOutlet UILabel *lblName;
-@property(nonatomic, strong) IBOutlet UIView *viewBg;
-@property(nonatomic, strong) IBOutlet UIImageView *imgViewScene;
+@property (nonatomic, strong) IBOutlet UILabel *lblName;
+@property (nonatomic, strong) IBOutlet UIView *viewBg;
+@property (nonatomic, strong) IBOutlet UIImageView *imgViewScene;
+@property (nonatomic, strong) NSString *imgName;
 @end
 
 @implementation SceneCell
@@ -40,15 +41,23 @@
 - (void)setSelected:(BOOL)selected {
   if (selected) {
     self.viewBg.backgroundColor = kThemeColor;
-    //        self.imgViewScene.image
+    self.lblName.textColor = [UIColor whiteColor];
+    NSString *imgNewName = self.imgName;
+    if (self.imgName.length < 10) {
+      imgNewName = [NSString stringWithFormat:@"%@_", self.imgName];
+    }
+    self.imgViewScene.image = [Scene imgNameToImage:imgNewName];
   } else {
     self.viewBg.backgroundColor = [UIColor whiteColor];
+    self.lblName.textColor = kThemeColor;
+    self.imgViewScene.image = [Scene imgNameToImage:self.imgName];
   }
 }
 
 - (void)setCellInfo:(id)scene {
   Scene *_scene = (Scene *)scene;
   self.lblName.text = _scene.name;
+  self.imgName = _scene.imageName;
   self.imgViewScene.image = [Scene imgNameToImage:_scene.imageName];
 }
 @end

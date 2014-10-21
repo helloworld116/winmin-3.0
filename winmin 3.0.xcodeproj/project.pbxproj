@@ -110,6 +110,9 @@
 		15BBD6F519DA7CBC0002D973 /* ElecView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F419DA7CBC0002D973 /* ElecView.m */; };
 		15BBD6F819DA857A0002D973 /* ElecRealTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F719DA857A0002D973 /* ElecRealTimeView.m */; };
 		15BBD6FB19DA89540002D973 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6FA19DA89540002D973 /* TestViewController.m */; };
+		15EBEE4319F648F8006DF044 /* BookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15EBEE4219F648F8006DF044 /* BookViewController.m */; };
+		15EBEE4719F65B13006DF044 /* book-568@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15EBEE4519F65B13006DF044 /* book-568@2x.jpg */; };
+		15EBEE4819F65B13006DF044 /* book@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15EBEE4619F65B13006DF044 /* book@2x.jpg */; };
 		15F31C1E19D3C7C70095E5BD /* SceneListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F31C1D19D3C7C70095E5BD /* SceneListViewController.m */; };
 		15F3A46B19EB717E001CD296 /* SecurityWarnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A46A19EB717E001CD296 /* SecurityWarnViewController.m */; };
 		15F3A46E19EB718A001CD296 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A46D19EB718A001CD296 /* AboutUsViewController.m */; };
@@ -303,6 +306,10 @@
 		15BBD6F719DA857A0002D973 /* ElecRealTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ElecRealTimeView.m; sourceTree = "<group>"; };
 		15BBD6F919DA89540002D973 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		15BBD6FA19DA89540002D973 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		15EBEE4119F648F8006DF044 /* BookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookViewController.h; sourceTree = "<group>"; };
+		15EBEE4219F648F8006DF044 /* BookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookViewController.m; sourceTree = "<group>"; };
+		15EBEE4519F65B13006DF044 /* book-568@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "book-568@2x.jpg"; sourceTree = "<group>"; };
+		15EBEE4619F65B13006DF044 /* book@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "book@2x.jpg"; sourceTree = "<group>"; };
 		15F31C1C19D3C7C70095E5BD /* SceneListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneListViewController.h; sourceTree = "<group>"; };
 		15F31C1D19D3C7C70095E5BD /* SceneListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneListViewController.m; sourceTree = "<group>"; };
 		15F3A46919EB717E001CD296 /* SecurityWarnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityWarnViewController.h; sourceTree = "<group>"; };
@@ -451,6 +458,8 @@
 				15F3A46D19EB718A001CD296 /* AboutUsViewController.m */,
 				15F3A48019EBCCE6001CD296 /* QuestionViewController.h */,
 				15F3A48119EBCCE6001CD296 /* QuestionViewController.m */,
+				15EBEE4119F648F8006DF044 /* BookViewController.h */,
+				15EBEE4219F648F8006DF044 /* BookViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -583,6 +592,7 @@
 		158D988019C6F39C0068AFC5 /* winmin 3.0 */ = {
 			isa = PBXGroup;
 			children = (
+				15EBEE4419F65B03006DF044 /* 图片 */,
 				15F3A47019EB80CF001CD296 /* 用户 */,
 				15476D4D19E7817A00EC6BD1 /* 欢迎 */,
 				158D993A19C7E49C0068AFC5 /* 配置 */,
@@ -846,6 +856,15 @@
 			name = "更多";
 			sourceTree = "<group>";
 		};
+		15EBEE4419F65B03006DF044 /* 图片 */ = {
+			isa = PBXGroup;
+			children = (
+				15EBEE4519F65B13006DF044 /* book-568@2x.jpg */,
+				15EBEE4619F65B13006DF044 /* book@2x.jpg */,
+			);
+			name = "图片";
+			sourceTree = "<group>";
+		};
 		15F3A47019EB80CF001CD296 /* 用户 */ = {
 			isa = PBXGroup;
 			children = (
@@ -967,6 +986,7 @@
 				15B3B92C19F511760058D91F /* ConfigLoadingViewController.xib in Resources */,
 				158D989619C6F39C0068AFC5 /* Images.xcassets in Resources */,
 				15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */,
+				15EBEE4719F65B13006DF044 /* book-568@2x.jpg in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
 				155A5C0119D569BE007864C8 /* SceneExcCell.xib in Resources */,
 				158D98E819C7C9660068AFC5 /* ShareSDKLocalizable.strings in Resources */,
@@ -978,6 +998,7 @@
 				158D98ED19C7C9660068AFC5 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				158D98E919C7C9660068AFC5 /* Resource.bundle in Resources */,
 				1560132519CA79D700BF7E12 /* image.plist in Resources */,
+				15EBEE4819F65B13006DF044 /* book@2x.jpg in Resources */,
 				158D98EF19C7C9660068AFC5 /* WeiboSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1089,6 +1110,7 @@
 				155A5BFC19D53835007864C8 /* SceneExecuteViewController.m in Sources */,
 				158D991619C7CBC50068AFC5 /* DB.m in Sources */,
 				1560132019CA6E9500BF7E12 /* SocketView.m in Sources */,
+				15EBEE4319F648F8006DF044 /* BookViewController.m in Sources */,
 				156012BB19C804AC00BF7E12 /* ConfigurationViewController.m in Sources */,
 				15AC863D19CFC6C900D154EB /* CycleViewController.m in Sources */,
 			);

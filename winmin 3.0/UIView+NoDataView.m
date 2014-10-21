@@ -26,7 +26,7 @@
   lblMessage.textAlignment = NSTextAlignmentCenter;
   lblMessage.backgroundColor = [UIColor clearColor];
   lblMessage.text = message;
-  lblMessage.textColor = [UIColor colorWithHexString:@"#F0EFEF"];
+  lblMessage.textColor = [UIColor colorWithHexString:@"#999999"];
   [view addSubview:lblMessage];
   return view;
 }

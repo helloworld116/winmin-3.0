@@ -8,7 +8,7 @@
 
 #import "SwitchDataCeneter.h"
 @interface SwitchDataCeneter ()
-@property(nonatomic, assign) UIBackgroundTaskIdentifier backgroundUpdateTask;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundUpdateTask;
 @end
 
 @implementation SwitchDataCeneter
@@ -161,7 +161,11 @@
       aSwitch.networkStatus = SWITCH_OFFLINE;
     }
   }
-  return [self.switchsDict allValues];
+  //  return [self.switchsDict allValues];
+  NSSortDescriptor *sortDescriptor =
+      [[NSSortDescriptor alloc] initWithKey:@"networkStatus" ascending:YES];
+  return [[self.switchsDict allValues]
+      sortedArrayUsingDescriptors:@[ sortDescriptor ]];
 }
 
 - (NSArray *)switchs {
@@ -205,9 +209,6 @@
   dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE,
                  ^{ [self.switchsDict removeObjectForKey:aSwtich.mac]; });
   [[DBUtil sharedInstance] deleteSwitch:aSwtich.mac];
-  [[NSNotificationCenter defaultCenter] postNotificationName:kSwitchUpdate
-                                                      object:self
-                                                    userInfo:nil];
   return YES;
 }
 @end

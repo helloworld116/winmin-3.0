@@ -50,6 +50,9 @@
   [self.view addSubview:btnCancelOrOk];
 
   CGFloat tableViewHeight = self.sceneDetails.count * kSceneExcCellHeight;
+  if (tableViewHeight > SCREEN_HEIGHT * 0.5) {
+    tableViewHeight = SCREEN_HEIGHT * 0.5;
+  }
   UITableView *tableView = [[UITableView alloc]
       initWithFrame:CGRectMake(0, SCREEN_HEIGHT -
                                       CGRectGetHeight(btnCancelOrOk.frame) -
@@ -193,6 +196,9 @@
 - (void)removeWindow {
   [kSharedAppliction.userWindow resignKeyWindow];
   kSharedAppliction.userWindow = nil;
+  [[NSNotificationCenter defaultCenter]
+      postNotificationName:kSceneFinishedWindowViewRemoveNotification
+                    object:nil];
 }
 
 #pragma mark - 场景执行通知
@@ -201,12 +207,18 @@
   int row = [userInfo[@"row"] intValue];
   BOOL resultType = [userInfo[@"resultType"] boolValue];
   NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-  [self.tableView scrollToRowAtIndexPath:indexPath
-                        atScrollPosition:UITableViewScrollPositionBottom
-                                animated:YES];
   SceneExcCell *cell =
       (SceneExcCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-  dispatch_async(MAIN_QUEUE, ^{ [cell updatePage:resultType]; });
+  dispatch_async(MAIN_QUEUE, ^{
+      if (indexPath.row < self.sceneDetails.count - 1) {
+        NSIndexPath *scollIndexPath =
+            [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:0];
+        [self.tableView scrollToRowAtIndexPath:scollIndexPath
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:YES];
+      }
+      [cell updatePage:resultType];
+  });
 }
 
 - (void)sceneExecuteFinished:(NSNotification *)notification {

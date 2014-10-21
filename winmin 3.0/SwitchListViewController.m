@@ -18,7 +18,9 @@
 @property (nonatomic, strong) NSArray *switchs;
 @property (nonatomic, strong) NSIndexPath *longPressIndexPath;
 @property (nonatomic, strong) UIView *noDataView;
-
+@property (nonatomic, strong) NSTimer *timerUpdateList;
+@property (nonatomic, assign)
+    float delayInterval; //设备状态请求成功后，延时多长时间刷新页面上的设备状态
 @property (strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
 @property (assign, nonatomic) BOOL reloading;
 @end
@@ -46,6 +48,7 @@
 
 - (void)setup {
   [self setupStyle];
+  self.delayInterval = 2.f;
   self.noDataView =
       [[UIView alloc] initWithSize:self.view.frame.size
                            imgName:@"noswitch"
@@ -112,11 +115,14 @@
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   [self.model startScanState];
+  // model层修改数据，指定时间后，页面统一修改
+  [self startUpdateList];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   [self.model stopScanState];
+  [self stopUpdateList];
 }
 
 #pragma mark - begin iOS8下cell分割线处理
@@ -154,6 +160,23 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)startUpdateList {
+  self.timerUpdateList = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
+                                                 target:self.tableView
+                                               selector:@selector(reloadData)
+                                               userInfo:nil
+                                                repeats:YES];
+  [self.timerUpdateList
+      setFireDate:[NSDate dateWithTimeIntervalSinceNow:self.delayInterval]];
+  [[NSRunLoop currentRunLoop] addTimer:self.timerUpdateList
+                               forMode:NSRunLoopCommonModes];
+}
+
+- (void)stopUpdateList {
+  [self.timerUpdateList invalidate];
+  self.timerUpdateList = nil;
+}
+
 #pragma mark - 通知
 - (void)updateSwitchList:(NSNotification *)notification {
   self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
@@ -174,9 +197,11 @@
     [self.model stopScanState];
     [[SwitchDataCeneter sharedInstance] updateAllSwitchStautsToOffLine];
     [self.tableView reloadData];
+    [self stopUpdateList];
   } else {
     if (!self.model.isScanningState) {
       [self.model startScanState];
+      [self startUpdateList];
     }
   }
 }

@@ -34,6 +34,8 @@
 
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+#define STATUSBAR_HEIGHT 20
+#define NAVIGATIONBAR_HEIGHT 44
 #define kSharedAppliction                                                      \
   ((AppDelegate *)[UIApplication sharedApplication].delegate)
 
@@ -118,6 +120,8 @@
 #define kSceneAddOrUpdateNotification @"SceneAddOrUpdateNotification"
 #define kSceneExecuteResultNotification @"SceneExecuteResultNotification"
 #define kSceneExecuteFinishedNotification @"SceneExecuteFinishedNotification"
+#define kSceneFinishedWindowViewRemoveNotification                             \
+  @"SceneFinishedWindowViewRemoveNotification"
 
 //加密
 #define __ENCRYPT(str) [DESUtil encryptString:str]

@@ -40,8 +40,13 @@
 
 - (void)setup {
   [self setupStyle];
-  self.titles = @[ @"关于我们", @"安全警告", @"常见问题" ];
-  self.icons = @[ @"about_us", @"security", @"question", ];
+  self.titles =
+      @[ @"关于我们",
+         @"安全警告",
+         @"常见问题",
+         @"使用手册",
+         @"购买产品" ];
+  self.icons = @[ @"about_us", @"security", @"question", @"book", @"buy" ];
   [[NSNotificationCenter defaultCenter]
       addObserverForName:kLoginSuccess
                   object:nil
@@ -184,10 +189,22 @@
             instantiateViewControllerWithIdentifier:@"TestViewController"];
 
         break;
+      case 3:
+        nextController = [self.storyboard
+            instantiateViewControllerWithIdentifier:@"BookViewController"];
+        break;
+      case 4:
+        [[UIApplication sharedApplication]
+            openURL:[NSURL URLWithString:@"http://shop111398559.taobao.com"]];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        break;
       default:
         break;
     }
-    [self.navigationController pushViewController:nextController animated:YES];
+    if (nextController) {
+      [self.navigationController pushViewController:nextController
+                                           animated:YES];
+    }
   }
 }
 @end

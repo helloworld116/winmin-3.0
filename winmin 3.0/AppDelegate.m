@@ -141,9 +141,10 @@
                    tencentOAuthCls:[TencentOAuth class]];
   //
   //添加新浪微博应用 注册网址 http://open.weibo.com
-  [ShareSDK connectSinaWeiboWithAppKey:@"2257675579"
-                             appSecret:@"8ab29da6b4322c26409d38130470bf5f"
-                           redirectUri:@"http://www.pgyer.com/sdzg"];
+  [ShareSDK
+      connectSinaWeiboWithAppKey:@"611419555"
+                       appSecret:@"ca2db85365133fcc1e7f815acd22f038"
+                     redirectUri:@"http://api.weibo.com/oauth2/default.html"];
   //  [ShareSDK connectMail];
   //  [ShareSDK connectSMS];
   //  [ShareSDK connectCopy];

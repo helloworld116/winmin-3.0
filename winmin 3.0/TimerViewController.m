@@ -47,7 +47,7 @@
   [self setupStyle];
   self.noDataView =
       [[UIView alloc] initWithSize:self.view.frame.size
-                           imgName:@"noswitch"
+                           imgName:@"notimer"
                            message:@"您暂时还未添加任何定时计划"];
   self.noDataView.hidden = YES;
   [self.tableView addSubview:self.noDataView];

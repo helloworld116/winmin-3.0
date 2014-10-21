@@ -7,11 +7,7 @@
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "noscene@2x.png"
-    },
-    {
-      "idiom" : "universal",
-      "unassigned" : true
+      "filename" : "socket_bg_off@2x.png"
     }
   ],
   "info" : {
