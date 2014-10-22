@@ -11,26 +11,26 @@
 #import <NCISimpleChartView.h>
 #import <NCIZoomGraphView.h>
 @interface ElecView ()
-@property(nonatomic, strong) IBOutlet UIButton *btnRealTime;
-@property(nonatomic, strong) IBOutlet UIButton *btnOneDay;
-@property(nonatomic, strong) IBOutlet UIButton *btnOneWeek;
-@property(nonatomic, strong) IBOutlet UIButton *btnOneMonth;
-@property(nonatomic, strong) IBOutlet UIButton *btnThreeMonth;
-@property(nonatomic, strong) IBOutlet UIButton *btnSixMonth;
-@property(nonatomic, strong) IBOutlet UIButton *btnOneYear;
-@property(nonatomic, strong) IBOutlet UIView *containerView;
+@property (nonatomic, strong) IBOutlet UIButton *btnRealTime;
+@property (nonatomic, strong) IBOutlet UIButton *btnOneDay;
+@property (nonatomic, strong) IBOutlet UIButton *btnOneWeek;
+@property (nonatomic, strong) IBOutlet UIButton *btnOneMonth;
+@property (nonatomic, strong) IBOutlet UIButton *btnThreeMonth;
+@property (nonatomic, strong) IBOutlet UIButton *btnSixMonth;
+@property (nonatomic, strong) IBOutlet UIButton *btnOneYear;
+@property (nonatomic, strong) IBOutlet UIView *containerView;
 
-@property(nonatomic, strong) IBOutlet ElecRealTimeView *realTimeView;
-@property(nonatomic, strong) UIView *viewOneDay;
-@property(nonatomic, strong) UIView *viewOneWeek;
-@property(nonatomic, strong) UIView *viewOneMonth;
-@property(nonatomic, strong) UIView *viewThreeMonth;
-@property(nonatomic, strong) UIView *viewSixMonth;
-@property(nonatomic, strong) UIView *viewOneYear;
+@property (nonatomic, strong) IBOutlet ElecRealTimeView *realTimeView;
+@property (nonatomic, strong) UIView *viewOneDay;
+@property (nonatomic, strong) UIView *viewOneWeek;
+@property (nonatomic, strong) UIView *viewOneMonth;
+@property (nonatomic, strong) UIView *viewThreeMonth;
+@property (nonatomic, strong) UIView *viewSixMonth;
+@property (nonatomic, strong) UIView *viewOneYear;
 
-@property(nonatomic, strong) UIButton *btnLastSelected;
-@property(nonatomic, strong) UIView *viewShowing;  //当前展示的view
-@property(nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) UIButton *btnLastSelected;
+@property (nonatomic, strong) UIView *viewShowing; //当前展示的view
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 - (IBAction)showSelectedDate:(id)sender;
 @end
 
@@ -160,7 +160,7 @@
     andOptions:@{
           nciGraphRenderer : [NCIZoomGraphView class],
           nciIsSmooth : @[ @NO ],
-          nciIsFill : @[ @NO ],
+          nciIsFill : @[ @YES ],
           nciLineColors : @[ kThemeColor ],
           nciLineWidths : @[ @1 ],
           nciHasSelection : @NO,
@@ -202,7 +202,7 @@
       nciInvertedLabes : @NO,
       nciLabelsDistance : @50,
       //               nciUseDateFormatter : @YES
-      nciLabelRenderer : ^(double value) {NSTimeInterval interval = value;
+      nciLabelRenderer : ^(double value) { NSTimeInterval interval = value;
 NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
 return [self.dateFormatter stringFromDate:date];
 }

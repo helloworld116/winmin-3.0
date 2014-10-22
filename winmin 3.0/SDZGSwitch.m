@@ -120,7 +120,7 @@
 @end
 
 @implementation SDZGSocket
-+ (UIImage *)imgNameToImage:(NSString *)imgName {
++ (UIImage *)imgNameToImage:(NSString *)imgName status:(SocketStatus)status {
   UIImage *image;
   if (imgName.length < 10) {
     image = [UIImage imageNamed:imgName];
@@ -131,6 +131,9 @@
     if (!image) {
       image = [UIImage imageNamed:socket_default_image];
     } else {
+      if (status == SocketStatusOff) {
+        image = [UIImage grayImage:image];
+      }
       image = [UIImage circleImage:image withParam:0];
     }
   }

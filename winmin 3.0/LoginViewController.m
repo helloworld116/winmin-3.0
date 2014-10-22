@@ -9,15 +9,18 @@
 #import "LoginViewController.h"
 #import "UserInfo.h"
 
+static int const kCancelAuthoriztionCode = -103;
+static int const kQQNotInstalled = -6004;
+
 @interface LoginViewController ()<UITextFieldDelegate, ISSViewDelegate>
-@property(strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property(strong, nonatomic) IBOutlet UIView *view1;
-@property(strong, nonatomic) IBOutlet UIView *view2;
-@property(strong, nonatomic) IBOutlet UITextField *textFieldUsername;
-@property(strong, nonatomic) IBOutlet UITextField *textFieldPassword;
-@property(strong, nonatomic) IBOutlet UIButton *btnLogin;
-@property(strong, nonatomic) IBOutlet UIButton *btnWeibo;
-@property(strong, nonatomic) IBOutlet UIButton *btnQQ;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UIView *view1;
+@property (strong, nonatomic) IBOutlet UIView *view2;
+@property (strong, nonatomic) IBOutlet UITextField *textFieldUsername;
+@property (strong, nonatomic) IBOutlet UITextField *textFieldPassword;
+@property (strong, nonatomic) IBOutlet UIButton *btnLogin;
+@property (strong, nonatomic) IBOutlet UIButton *btnWeibo;
+@property (strong, nonatomic) IBOutlet UIButton *btnQQ;
 
 - (IBAction)toRegisterPage:(id)sender;
 - (IBAction)weiboLogin:(id)sender;
@@ -26,13 +29,11 @@
 - (IBAction)touchBackground:(id)sender;
 - (IBAction)forgetPassword:(id)sender;
 
-@property(strong, nonatomic) UITextField *activeField;
-@property(strong, nonatomic) NSString *username;
-@property(strong, nonatomic) NSString *password;
+@property (strong, nonatomic) UITextField *activeField;
+@property (strong, nonatomic) NSString *username;
+@property (strong, nonatomic) NSString *password;
 @end
-
 @implementation LoginViewController
-
 - (id)initWithNibName:(NSString *)nibNameOrNil
                bundle:(NSBundle *)nibBundleOrNil {
   self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -165,7 +166,15 @@
                          [uInfo loginRequest];
                          [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                        }
-                       debugLog(@"error is %@", error.errorDescription);
+                       debugLog(@"errorCode is %d and errorDescription is %@",
+                                [error errorCode], error.errorDescription);
+                       if (kCancelAuthoriztionCode == [error errorCode]) {
+                         [self.view
+                             makeToast:@"用"
+                             @"户取消授权，请使用账号登陆或重试"
+                              duration:1
+                              position:nil];
+                       }
                    }];
 }
 
@@ -185,7 +194,7 @@
                        }
                        debugLog(@"errorCode is %d and errorDescription is %@",
                                 [error errorCode], error.errorDescription);
-                       if ([error errorCode] == -6004) {
+                       if ([error errorCode] == kQQNotInstalled) {
                          UIAlertView *alertView = [[UIAlertView alloc]
                                  initWithTitle:@"温馨提示"
                                        message:@"您" @"当"
@@ -195,6 +204,13 @@
                              cancelButtonTitle:@"取消"
                              otherButtonTitles:nil];
                          [alertView show];
+                       } else if (kCancelAuthoriztionCode ==
+                                  [error errorCode]) {
+                         [self.view
+                             makeToast:@"用"
+                             @"户取消授权，请使用账号登陆或重试"
+                              duration:1
+                              position:nil];
                        }
                    }];
 }
@@ -310,10 +326,9 @@
             makeToast:reponse.errorMsg
              duration:1.f
              position:[NSValue
-                          valueWithCGPoint:CGPointMake(
-                                               self.view.frame.size.width / 2,
-                                               self.view.frame.size.height -
-                                                   40)]];
+                          valueWithCGPoint:
+                              CGPointMake(self.view.frame.size.width / 2,
+                                          self.view.frame.size.height - 40)]];
         break;
     }
   } else if (status == 0) {

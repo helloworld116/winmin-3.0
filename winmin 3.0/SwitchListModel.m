@@ -41,6 +41,11 @@
     self.request9.delegate = self;
   }
   [self.request9 sendMsg09:ActiveMode];
+
+  //  [self stopScanState];
+  //  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 *
+  //  NSEC_PER_SEC)),
+  //                 dispatch_get_main_queue(), ^{ [self startScanState]; });
 }
 
 //扫描设备
@@ -104,28 +109,30 @@
 }
 
 - (void)responseMsgA:(CC3xMessage *)message {
-  if (message.version == kHardwareVersion &&
-      message.state == kUdpResponseSuccessCode) {
-    debugLog(@"switchs is %@", [[SwitchDataCeneter sharedInstance] switchs]);
-    SDZGSwitch *aSwitch = [[[SwitchDataCeneter sharedInstance] switchsDict]
-        objectForKey:message.mac];
-    debugLog(@"switch is %@", aSwitch);
-    if (!aSwitch && message.lockStatus == LockStatusOff) {
-      //设备未加锁，并且不在本地列表中，发送请求，查询设备状态
-      debugLog(@"########## add to dict and send ");
-      aSwitch = [[SDZGSwitch alloc] init];
-      aSwitch.mac = message.mac;
-      aSwitch.ip = message.ip;
-      aSwitch.port = message.port;
-      aSwitch.networkStatus = SWITCH_NEW;
-      [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
-      dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(SWITCHPARSETOADD_SERIAL_QUEUE, ^{
+      if (message.version == kHardwareVersion &&
+          message.state == kUdpResponseSuccessCode) {
+        debugLog(@"switchs is %@",
+                 [[SwitchDataCeneter sharedInstance] switchs]);
+        SDZGSwitch *aSwitch = [[[SwitchDataCeneter sharedInstance] switchsDict]
+            objectForKey:message.mac];
+        debugLog(@"switch is %@", aSwitch);
+        if (!aSwitch && message.lockStatus == LockStatusOff) {
+          //设备未加锁，并且不在本地列表中，发送请求，查询设备状态
+          debugLog(@"########## add to dict and send ");
+          aSwitch = [[SDZGSwitch alloc] init];
+          aSwitch.mac = message.mac;
+          aSwitch.ip = message.ip;
+          aSwitch.port = message.port;
+          aSwitch.networkStatus = SWITCH_NEW;
+          [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
           [self.request9 sendMsg0B:aSwitch sendMode:ActiveMode];
-      });
-      [[NSNotificationCenter defaultCenter] postNotificationName:kNewSwitch
-                                                          object:self];
-    }
-  }
+          [[NSNotificationCenter defaultCenter] postNotificationName:kNewSwitch
+                                                              object:self];
+          [NSThread sleepForTimeInterval:10];
+        }
+      }
+  });
 }
 
 - (void)responseMsgCOrE:(CC3xMessage *)message {

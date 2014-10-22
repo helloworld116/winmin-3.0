@@ -733,7 +733,8 @@ static dispatch_queue_t delegateQueue;
   dispatch_async(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
-        if (aSwitch.networkStatus == SWITCH_LOCAL) {
+        if (aSwitch.networkStatus == SWITCH_LOCAL ||
+            aSwitch.networkStatus == SWITCH_NEW) {
           [self sendMsg0B:aSwitch sendMode:mode];
         } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
           [self sendMsg0D:aSwitch sendMode:mode];

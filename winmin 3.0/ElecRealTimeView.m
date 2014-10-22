@@ -14,13 +14,13 @@
 #define kBigRoundFillColor kThemeColor
 #define kTextColor kThemeColor
 #define str(value) [NSString stringWithFormat:@"%.2fw", value]
-#define kTopMargin 10  //上边距
-#define kLeftMargin 4  //左边距
-#define kCount 10      //显示点个数
+#define kTopMargin 10 //上边距
+#define kLeftMargin 4 //左边距
+#define kCount 8      //显示点个数
 
 @interface ElecRealTimeView ()
-@property(nonatomic, strong) dispatch_source_t timer;
-@property(nonatomic, strong) NSArray *points;
+@property (nonatomic, strong) dispatch_source_t timer;
+@property (nonatomic, strong) NSArray *points;
 @end
 @implementation ElecRealTimeView
 
@@ -93,7 +93,7 @@ static CGFloat scaleX;
   CGContextSetStrokeColorWithColor(context, kLineColor.CGColor);
   CGContextSetFillColorWithColor(context, kFillColor.CGColor);
   int maxValue = [[self.points valueForKeyPath:@"@max.self"] integerValue];
-  CGFloat height = rect.size.height - kTopMargin;  //离上边距
+  CGFloat height = rect.size.height - kTopMargin; //离上边距
   CGFloat scaleY = 1;
   if (maxValue != 0) {
     scaleY = height / maxValue;
@@ -139,7 +139,7 @@ static CGFloat scaleX;
     double point = [[self.points objectAtIndex:i] doubleValue];
     CGFloat x = scaleX * i + kLeftMargin,
             y = height - (point * scaleY) + kTopMargin / 2;
-    double bigRoundRadius = 2.0f;  //大圆半径
+    double bigRoundRadius = 2.0f; //大圆半径
     CGContextAddEllipseInRect(
         context, CGRectMake(x - bigRoundRadius, y - bigRoundRadius,
                             2 * bigRoundRadius, 2 * bigRoundRadius));

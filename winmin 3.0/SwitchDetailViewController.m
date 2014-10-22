@@ -16,7 +16,7 @@
 #import "ElecView.h"
 #import "HistoryElec.h"
 
-@interface SwitchDetailViewController () <
+@interface SwitchDetailViewController ()<
     SocketViewDelegate, SocketImgTemplateDelegate, ElecViewDelegate>
 @property (strong, nonatomic) IBOutlet SocketView *socketView1;
 @property (strong, nonatomic) IBOutlet SocketView *socketView2;
@@ -184,16 +184,19 @@ preparation before navigation
 - (void)socketView:(SocketView *)socketView
           socketId:(int)socketId
            imgName:(NSString *)imgName {
-  UIImage *img = [SDZGSocket imgNameToImage:imgName];
+  UIImage *img = [SDZGSocket imgNameToImage:imgName status:SocketStatusOn];
   switch (socketId) {
     case 1:
-      socketView.imgViewSocket1.image = img;
+      //      socketView.imgViewSocket1.image = img;
+      [socketView.btnSocket1 setImage:img forState:UIControlStateNormal];
       break;
     case 2:
-      socketView.imgViewSocket2.image = img;
+      //      socketView.imgViewSocket2.image = img;
+      [socketView.btnSocket2 setImage:img forState:UIControlStateNormal];
       break;
     case 3:
-      socketView.imgViewSocket3.image = img;
+      //      socketView.imgViewSocket3.image = img;
+      [socketView.btnSocket3 setImage:img forState:UIControlStateNormal];
       break;
     default:
       break;

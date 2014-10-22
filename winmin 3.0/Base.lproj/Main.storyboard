@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--Switch List View Controller - winmin-->
+        <!--winmin-->
         <scene sceneID="9ya-Iu-QMw">
             <objects>
                 <tableViewController storyboardIdentifier="SwitchListViewController" id="m7g-rb-hgO" customClass="SwitchListViewController" sceneMemberID="viewController">
@@ -63,7 +63,7 @@
             </objects>
             <point key="canvasLocation" x="1259" y="-505"/>
         </scene>
-        <!--Switch Detail View Controller - winmin智能-->
+        <!--winmin智能-->
         <scene sceneID="hOx-nm-Fky">
             <objects>
                 <viewController storyboardIdentifier="SwitchDetailViewController" hidesBottomBarWhenPushed="YES" id="Gzx-fO-pMH" customClass="SwitchDetailViewController" sceneMemberID="viewController">
@@ -81,14 +81,15 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JL5-Fc-0vL" customClass="SocketView">
                                         <rect key="frame" x="0.0" y="10" width="320" height="110"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="oV6-Bq-Koh" userLabel="背景图片">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg_off" highlightedImage="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="oV6-Bq-Koh" userLabel="背景图片">
                                                 <rect key="frame" x="7" y="50" width="306" height="52"/>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ee-Sf-ebI" userLabel="孔1按钮">
                                                 <rect key="frame" x="24" y="5" width="56" height="56"/>
-                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" backgroundImage="socket_bg_selected"/>
                                                 <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
                                                 <connections>
                                                     <action selector="touchSocket1:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="1fc-Mn-5FD"/>
@@ -96,9 +97,10 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BRZ-JH-M7g" userLabel="孔2按钮">
                                                 <rect key="frame" x="89" y="5" width="56" height="56"/>
-                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" backgroundImage="socket_bg_selected"/>
                                                 <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
                                                 <connections>
                                                     <action selector="touchSocket2:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="mLJ-ji-tha"/>
@@ -106,9 +108,10 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QQ7-Nw-1X6" userLabel="孔3按钮">
                                                 <rect key="frame" x="154" y="5" width="56" height="56"/>
-                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" backgroundImage="socket_bg_selected"/>
                                                 <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
                                                 <connections>
                                                     <action selector="touchSocket3:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="aZR-SZ-GaN"/>
@@ -124,15 +127,6 @@
                                                     <action selector="touchOnOrOff:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="GbY-gM-esv"/>
                                                 </connections>
                                             </button>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="d6B-1L-KE2" userLabel="孔1图片">
-                                                <rect key="frame" x="24" y="5" width="56" height="56"/>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="zyC-yh-BAY" userLabel="孔2图片">
-                                                <rect key="frame" x="89" y="5" width="56" height="56"/>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="S0W-bG-hZM" userLabel="孔3图片">
-                                                <rect key="frame" x="154" y="5" width="56" height="56"/>
-                                            </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hE1-u5-U5v" userLabel="定时按钮">
                                                 <rect key="frame" x="32" y="66" width="56" height="35"/>
                                                 <state key="normal" title="定时" image="timer">
@@ -158,22 +152,24 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="btnOnOrOff" destination="IJD-q0-izU" id="ltC-zR-7Bb"/>
-                                            <outlet property="imgViewSocket1" destination="d6B-1L-KE2" id="DYf-NB-Re0"/>
-                                            <outlet property="imgViewSocket2" destination="zyC-yh-BAY" id="PrU-y8-xAq"/>
-                                            <outlet property="imgViewSocket3" destination="S0W-bG-hZM" id="ISX-LC-Jpf"/>
+                                            <outlet property="btnSocket1" destination="1Ee-Sf-ebI" id="rfE-RG-fZ4"/>
+                                            <outlet property="btnSocket2" destination="BRZ-JH-M7g" id="BU6-rp-RwP"/>
+                                            <outlet property="btnSocket3" destination="QQ7-Nw-1X6" id="qwp-bI-7UA"/>
+                                            <outlet property="imgViewBg" destination="oV6-Bq-Koh" id="CF4-9y-NbY"/>
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZoC-de-892" customClass="SocketView">
                                         <rect key="frame" x="0.0" y="119" width="320" height="110"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="wBG-uJ-a9k" userLabel="背景图片">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg_off" highlightedImage="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="wBG-uJ-a9k" userLabel="背景图片">
                                                 <rect key="frame" x="7" y="50" width="306" height="52"/>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xeU-37-nZS" userLabel="孔1按钮">
                                                 <rect key="frame" x="24" y="5" width="56" height="56"/>
-                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" backgroundImage="socket_bg_selected"/>
                                                 <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
                                                 <connections>
                                                     <action selector="touchSocket1:" destination="ZoC-de-892" eventType="touchUpInside" id="2AU-tG-lCz"/>
@@ -181,9 +177,10 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qDA-4p-Xzt" userLabel="孔2按钮">
                                                 <rect key="frame" x="89" y="5" width="56" height="56"/>
-                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" backgroundImage="socket_bg_selected"/>
                                                 <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
                                                 <connections>
                                                     <action selector="touchSocket2:" destination="ZoC-de-892" eventType="touchUpInside" id="bnq-k9-CyB"/>
@@ -191,9 +188,10 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n5X-Kc-kM8" userLabel="孔3按钮">
                                                 <rect key="frame" x="154" y="5" width="56" height="56"/>
-                                                <state key="normal" backgroundImage="socket_bg_normal">
+                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <state key="selected" backgroundImage="socket_bg_selected"/>
                                                 <state key="highlighted" backgroundImage="socket_bg_hightlighted"/>
                                                 <connections>
                                                     <action selector="touchSocket3:" destination="ZoC-de-892" eventType="touchUpInside" id="S6j-Ke-Xvi"/>
@@ -209,15 +207,6 @@
                                                     <action selector="touchOnOrOff:" destination="ZoC-de-892" eventType="touchUpInside" id="e5r-8H-o8y"/>
                                                 </connections>
                                             </button>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="gtB-Ub-JWe" userLabel="孔1图片">
-                                                <rect key="frame" x="24" y="5" width="56" height="56"/>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="dKg-ag-3U2" userLabel="孔2图片">
-                                                <rect key="frame" x="89" y="5" width="56" height="56"/>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099" translatesAutoresizingMaskIntoConstraints="NO" id="gIx-mU-bns" userLabel="孔3图片">
-                                                <rect key="frame" x="154" y="5" width="56" height="56"/>
-                                            </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58q-ea-yYU" userLabel="定时按钮">
                                                 <rect key="frame" x="32" y="66" width="56" height="35"/>
                                                 <state key="normal" title="定时" image="timer">
@@ -243,9 +232,10 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="btnOnOrOff" destination="1fG-DM-5AU" id="tbb-hO-Zcf"/>
-                                            <outlet property="imgViewSocket1" destination="gtB-Ub-JWe" id="8i7-HZ-sdW"/>
-                                            <outlet property="imgViewSocket2" destination="dKg-ag-3U2" id="P4s-RY-dkv"/>
-                                            <outlet property="imgViewSocket3" destination="gIx-mU-bns" id="9My-9B-ZKP"/>
+                                            <outlet property="btnSocket1" destination="xeU-37-nZS" id="W14-xb-JRy"/>
+                                            <outlet property="btnSocket2" destination="qDA-4p-Xzt" id="3WM-S7-5cf"/>
+                                            <outlet property="btnSocket3" destination="n5X-Kc-kM8" id="77d-Ia-zEP"/>
+                                            <outlet property="imgViewBg" destination="wBG-uJ-a9k" id="T5c-y2-8aa"/>
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Kp-op-mYm" customClass="ElecView">
@@ -436,7 +426,7 @@
             </objects>
             <point key="canvasLocation" x="1673" y="-505"/>
         </scene>
-        <!--Navigation Controller - 控制-->
+        <!--控制-->
         <scene sceneID="T0s-WM-893">
             <objects>
                 <navigationController definesPresentationContext="YES" id="VZo-JA-V8u" sceneMemberID="viewController">
@@ -452,7 +442,7 @@
             </objects>
             <point key="canvasLocation" x="727" y="-506"/>
         </scene>
-        <!--Navigation Controller - 配置-->
+        <!--配置-->
         <scene sceneID="GhW-V2-UTn">
             <objects>
                 <navigationController definesPresentationContext="YES" id="7cf-7L-NqC" sceneMemberID="viewController">
@@ -468,7 +458,7 @@
             </objects>
             <point key="canvasLocation" x="723" y="205"/>
         </scene>
-        <!--Configuration View Controller - 网络配置-->
+        <!--网络配置-->
         <scene sceneID="7t1-30-4ZU">
             <objects>
                 <viewController storyboardIdentifier="ConfigurationViewController" id="k1j-DJ-erf" customClass="ConfigurationViewController" sceneMemberID="viewController">
@@ -1530,7 +1520,7 @@
             </objects>
             <point key="canvasLocation" x="2124" y="874"/>
         </scene>
-        <!--More View Controller - 更多-->
+        <!--更多-->
         <scene sceneID="L5e-we-TLS">
             <objects>
                 <tableViewController storyboardIdentifier="MoreViewController" id="eYn-Ia-87Q" customClass="MoreViewController" sceneMemberID="viewController">
@@ -1641,7 +1631,7 @@
             </objects>
             <point key="canvasLocation" x="1263" y="1634"/>
         </scene>
-        <!--Login View Controller - 登录-->
+        <!--登录-->
         <scene sceneID="OO0-0a-1X2">
             <objects>
                 <viewController storyboardIdentifier="LoginViewController" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="bg6-tq-ZSh" customClass="LoginViewController" sceneMemberID="viewController">
@@ -1653,23 +1643,23 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="but-n6-XTb" userLabel="scroll anchor view">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="but-n6-XTb" userLabel="scroll anchor view">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="456"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UqY-G9-OCO">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UqY-G9-OCO">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2sh-cT-lBg" userLabel="scroll content view" customClass="UIControl">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2sh-cT-lBg" userLabel="scroll content view" customClass="UIControl">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="456"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8o0-Gw-eEt">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8o0-Gw-eEt">
                                                 <rect key="frame" x="10" y="20" width="300" height="50"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="username" translatesAutoresizingMaskIntoConstraints="NO" id="5gi-Wn-bnV">
                                                         <rect key="frame" x="20" y="14" width="22" height="22"/>
                                                     </imageView>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入您的邮箱" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zwv-Cp-1vr">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入您的邮箱" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zwv-Cp-1vr">
                                                         <rect key="frame" x="55" y="0.0" width="245" height="50"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -1687,13 +1677,13 @@
                                                     <constraint firstItem="5gi-Wn-bnV" firstAttribute="leading" secondItem="8o0-Gw-eEt" secondAttribute="leading" constant="20" id="sdr-ZC-Cww"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="42L-t8-4Sm">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="42L-t8-4Sm">
                                                 <rect key="frame" x="10" y="85" width="300" height="50"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="password" translatesAutoresizingMaskIntoConstraints="NO" id="RWU-3D-Iec">
                                                         <rect key="frame" x="20" y="14" width="22" height="22"/>
                                                     </imageView>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入您的密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CB8-zv-Cp6">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入您的密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CB8-zv-Cp6">
                                                         <rect key="frame" x="55" y="0.0" width="245" height="50"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -1711,7 +1701,7 @@
                                                     <constraint firstItem="CB8-zv-Cp6" firstAttribute="leading" secondItem="RWU-3D-Iec" secondAttribute="trailing" constant="13" id="n9V-in-w1t"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e14-PH-eKo">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e14-PH-eKo">
                                                 <rect key="frame" x="8" y="150" width="304" height="45"/>
                                                 <color key="backgroundColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
@@ -1725,10 +1715,10 @@
                                                     <action selector="login:" destination="bg6-tq-ZSh" eventType="touchUpInside" id="2v4-L4-ycO"/>
                                                 </connections>
                                             </button>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fbu-Co-1JK">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fbu-Co-1JK">
                                                 <rect key="frame" x="0.0" y="260" width="320" height="130"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CrE-TS-7SS">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CrE-TS-7SS">
                                                         <rect key="frame" x="168" y="50" width="142" height="40"/>
                                                         <color key="backgroundColor" red="1" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
@@ -1741,7 +1731,7 @@
                                                             <action selector="weiboLogin:" destination="bg6-tq-ZSh" eventType="touchUpInside" id="Ptp-u9-BUe"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="suj-cL-VRP">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="suj-cL-VRP">
                                                         <rect key="frame" x="10" y="50" width="142" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="v4l-ll-GgE"/>
@@ -1753,23 +1743,23 @@
                                                             <action selector="qqLogin:" destination="bg6-tq-ZSh" eventType="touchUpInside" id="BZK-6n-vPF"/>
                                                         </connections>
                                                     </button>
-                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3NY-2r-uxk">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3NY-2r-uxk">
                                                         <rect key="frame" x="10" y="0.0" width="300" height="50"/>
                                                         <subviews>
-                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="使用其他快捷方式登录" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kHH-vK-7KF">
+                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用其他快捷方式登录" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kHH-vK-7KF">
                                                                 <rect key="frame" x="70" y="0.0" width="160" height="20"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KRv-dV-XwS">
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KRv-dV-XwS">
                                                                 <rect key="frame" x="10" y="10" width="50" height="1"/>
                                                                 <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="1" id="4gC-b2-KFR"/>
                                                                 </constraints>
                                                             </view>
-                                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P9y-ST-fgA">
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9y-ST-fgA">
                                                                 <rect key="frame" x="240" y="10" width="50" height="1"/>
                                                                 <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <constraints>
@@ -1805,7 +1795,7 @@
                                                     <constraint firstItem="suj-cL-VRP" firstAttribute="width" secondItem="CrE-TS-7SS" secondAttribute="width" id="z1X-k9-H27"/>
                                                 </constraints>
                                             </view>
-                                            <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ewp-WW-nM7">
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ewp-WW-nM7">
                                                 <rect key="frame" x="204" y="200" width="106" height="40"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZFR-1b-Ll0">
@@ -2211,19 +2201,22 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RRZ-Pm-dFs">
-                                <rect key="frame" x="10" y="10" width="300" height="300"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="42Q-K0-Y9C">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zfV-oo-3OQ">
-                                        <rect key="frame" x="0.0" y="250" width="300" height="50"/>
                                         <color key="backgroundColor" red="0.20000000000000001" green="0.59999999999999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P2m-d4-uNe">
+                                <rect key="frame" x="120" y="462" width="56" height="56"/>
+                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -2342,7 +2335,7 @@
             </objects>
             <point key="canvasLocation" x="2525" y="1634"/>
         </scene>
-        <!--Book View Controller - 使用手册-->
+        <!--使用手册-->
         <scene sceneID="s5W-L6-E4T">
             <objects>
                 <viewController storyboardIdentifier="BookViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="JHD-2B-v7t" customClass="BookViewController" sceneMemberID="viewController">
@@ -2354,16 +2347,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AnS-tN-MLM" userLabel="scoll anchor">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="568" id="x5e-SG-iZC"/>
+                                </constraints>
+                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mpD-lh-u5K">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tZB-RG-gcX">
-                                        <rect key="frame" x="0.0" y="0.0" width="2388" height="455"/>
-                                    </imageView>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mxo-sT-o5z" userLabel="scroll content view">
+                                        <rect key="frame" x="0.0" y="0.0" width="2388" height="568"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tZB-RG-gcX">
+                                                <rect key="frame" x="0.0" y="0.0" width="2388" height="568"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="568" id="5Ee-CC-aBl"/>
+                                            <constraint firstAttribute="width" constant="2388" id="VKE-zn-hv8"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8pb-t8-yix" firstAttribute="top" secondItem="AnS-tN-MLM" secondAttribute="bottom" id="EtV-br-D1S"/>
+                            <constraint firstItem="AnS-tN-MLM" firstAttribute="leading" secondItem="O7C-hw-1Yz" secondAttribute="leading" id="V7E-XN-ONB"/>
+                            <constraint firstItem="AnS-tN-MLM" firstAttribute="top" secondItem="O7C-hw-1Yz" secondAttribute="top" id="W7r-9C-474"/>
+                            <constraint firstAttribute="trailing" secondItem="AnS-tN-MLM" secondAttribute="trailing" id="vAC-RR-JXY"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="使用手册" id="Itd-y0-HXr"/>
@@ -2483,7 +2499,7 @@
             </objects>
             <point key="canvasLocation" x="2897" y="1635"/>
         </scene>
-        <!--Navigation Controller - 更多-->
+        <!--更多-->
         <scene sceneID="wdB-jy-2GP">
             <objects>
                 <navigationController definesPresentationContext="YES" id="FAI-iE-oHZ" sceneMemberID="viewController">
@@ -2500,7 +2516,7 @@
             </objects>
             <point key="canvasLocation" x="729" y="1634"/>
         </scene>
-        <!--Navigation Controller - 场景-->
+        <!--场景-->
         <scene sceneID="5r4-Gh-pCT">
             <objects>
                 <navigationController definesPresentationContext="YES" id="rqU-RF-6Ks" sceneMemberID="viewController">
@@ -3197,7 +3213,7 @@
         <image name="cj_edit_bg" width="84" height="84"/>
         <image name="delay" width="20" height="20"/>
         <image name="delay_split" width="14" height="19"/>
-        <image name="enter" width="50" height="51"/>
+        <image name="enter" width="19" height="51"/>
         <image name="exc_ok" width="27" height="27"/>
         <image name="gb" width="38" height="38"/>
         <image name="gd" width="30" height="30"/>
@@ -3220,6 +3236,8 @@
         <image name="socket_bg" width="306" height="51"/>
         <image name="socket_bg_hightlighted" width="56" height="56"/>
         <image name="socket_bg_normal" width="56" height="56"/>
+        <image name="socket_bg_off" width="306" height="51"/>
+        <image name="socket_bg_selected" width="56" height="56"/>
         <image name="socket_onoff_highligthed" width="45" height="45"/>
         <image name="socket_onoff_normal" width="45" height="45"/>
         <image name="tabbar_selected" width="80" height="49"/>

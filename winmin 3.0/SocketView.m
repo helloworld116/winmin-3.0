@@ -68,17 +68,31 @@
 }
 
 - (void)setSocketInfo:(SDZGSocket *)socket {
-  self.imgViewSocket1.image = [SDZGSocket imgNameToImage:socket.imageNames[0]];
-  self.imgViewSocket2.image = [SDZGSocket imgNameToImage:socket.imageNames[1]];
-  self.imgViewSocket3.image = [SDZGSocket imgNameToImage:socket.imageNames[2]];
   [self changeSocketState:socket];
 }
 
 - (void)changeSocketState:(SDZGSocket *)socket {
   if (socket.socketStatus == SocketStatusOn) {
     self.btnOnOrOff.selected = YES;
+    self.imgViewBg.highlighted = YES;
+    self.btnSocket1.selected = YES;
+    self.btnSocket2.selected = YES;
+    self.btnSocket3.selected = YES;
   } else {
     self.btnOnOrOff.selected = NO;
+    self.imgViewBg.highlighted = NO;
+    self.btnSocket1.selected = NO;
+    self.btnSocket2.selected = NO;
+    self.btnSocket3.selected = NO;
   }
+  [self.btnSocket1 setImage:[SDZGSocket imgNameToImage:socket.imageNames[0]
+                                                status:socket.socketStatus]
+                   forState:UIControlStateNormal];
+  [self.btnSocket2 setImage:[SDZGSocket imgNameToImage:socket.imageNames[1]
+                                                status:socket.socketStatus]
+                   forState:UIControlStateNormal];
+  [self.btnSocket3 setImage:[SDZGSocket imgNameToImage:socket.imageNames[2]
+                                                status:socket.socketStatus]
+                   forState:UIControlStateNormal];
 }
 @end

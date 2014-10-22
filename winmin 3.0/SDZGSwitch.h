@@ -58,7 +58,7 @@ password;                                                        //设置的设�
     SocketStatus socketStatus; //开关状态，on为开，off为关
 @property (nonatomic, strong) NSArray *imageNames;
 
-+ (UIImage *)imgNameToImage:(NSString *)imgName;
++ (UIImage *)imgNameToImage:(NSString *)imgName status:(SocketStatus)status;
 @end
 
 @interface SDZGTimerTask : NSObject

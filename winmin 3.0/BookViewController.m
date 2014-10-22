@@ -28,29 +28,33 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  UIImage *image = [UIImage
-      imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"book@2x"
-                                                              ofType:@"jpg"]];
-  self.imgWidth = image.size.width;
-  //  CGRect imgViewFrame = self.imgView.frame;
-  //  imgViewFrame.size = image.size;
-  //  self.imgView.frame = imgViewFrame;
-  self.imgView.image = image;
-  //  self.scollView.contentSize = image.size;
+
+  dispatch_async(GLOBAL_QUEUE, ^{
+      UIImage *image =
+          [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]
+                                               pathForResource:@"book"
+                                                        ofType:@"jpg"]];
+
+      //      UIImage *image = [UIImage imageNamed:@"bookinfo"];
+      self.imgWidth = image.size.width;
+      dispatch_async(MAIN_QUEUE, ^{
+          self.imgView.image = image;
+          self.scollView.frame =
+              CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - STATUSBAR_HEIGHT -
+                                                 NAVIGATIONBAR_HEIGHT);
+          self.scollView.contentSize =
+              CGSizeMake(self.imgWidth, SCREEN_HEIGHT - STATUSBAR_HEIGHT -
+                                            NAVIGATIONBAR_HEIGHT);
+          self.imgView.frame =
+              CGRectMake(0, 0, self.imgWidth, SCREEN_HEIGHT - STATUSBAR_HEIGHT -
+                                                  NAVIGATIONBAR_HEIGHT);
+      });
+  });
 }
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
-}
-
-- (void)viewDidLayoutSubviews {
-  debugLog(@"img width is %f", self.imgWidth);
-  self.scollView.contentSize = CGSizeMake(
-      self.imgWidth, SCREEN_HEIGHT - STATUSBAR_HEIGHT - NAVIGATIONBAR_HEIGHT);
-  self.imgView.frame =
-      CGRectMake(0, 0, self.imgWidth,
-                 SCREEN_HEIGHT - STATUSBAR_HEIGHT - NAVIGATIONBAR_HEIGHT);
 }
 
 /*

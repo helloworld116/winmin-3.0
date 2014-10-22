@@ -75,6 +75,11 @@
   [self setupStyle];
   self.textWIFI.delegate = self;
   self.textPassword.delegate = self;
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(netChangedNotification:)
+             name:kNetChangedNotification
+           object:nil];
 }
 
 - (void)viewDidLoad {
@@ -128,6 +133,10 @@
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (IBAction)showOrHiddenPassword:(id)sender {
@@ -200,6 +209,15 @@
   UIEdgeInsets contentInsets = UIEdgeInsetsZero;
   self.scrollView.contentInset = contentInsets;
   self.scrollView.scrollIndicatorInsets = contentInsets;
+}
+
+#pragma mark - 网络改变通知
+- (void)netChangedNotification:(NSNotification *)notification {
+  NetworkStatus status = kSharedAppliction.networkStatus;
+  if (status == NotReachable) {
+    //网络不可用时修改所有设备状态为离线并停止扫描
+  } else {
+  }
 }
 
 #pragma mark - MJConfigLoadingDelegate

@@ -13,16 +13,16 @@
 #define kUnselectColor [UIColor colorWithHexString:@"#F0EFEF"]
 
 @interface SceneSocketView : UIView
-@property(strong, nonatomic) IBOutlet UIImageView *imgViewSocket1;
-@property(strong, nonatomic) IBOutlet UIImageView *imgViewSocket2;
-@property(strong, nonatomic) IBOutlet UIImageView *imgViewSocket3;
-@property(strong, nonatomic) IBOutlet UIView *bgView;
-@property(strong, nonatomic) IBOutlet UILabel *lblStatus;
-@property(strong, nonatomic) IBOutlet UIButton *btnOnOff;
-@property(strong, nonatomic) IBOutlet UIButton *btnSelected;
+@property (strong, nonatomic) IBOutlet UIImageView *imgViewSocket1;
+@property (strong, nonatomic) IBOutlet UIImageView *imgViewSocket2;
+@property (strong, nonatomic) IBOutlet UIImageView *imgViewSocket3;
+@property (strong, nonatomic) IBOutlet UIView *bgView;
+@property (strong, nonatomic) IBOutlet UILabel *lblStatus;
+@property (strong, nonatomic) IBOutlet UIButton *btnOnOff;
+@property (strong, nonatomic) IBOutlet UIButton *btnSelected;
 
-@property(assign, nonatomic) int groupId;
-@property(strong, nonatomic) NSString *mac;
+@property (assign, nonatomic) int groupId;
+@property (strong, nonatomic) NSString *mac;
 - (IBAction)onOrOff:(id)sender;
 - (IBAction)selectedOrNO:(id)sender;
 @end
@@ -100,9 +100,12 @@
                          ? [NSString stringWithFormat:@"%@_", socket3ImageName]
                          : socket3ImageName;
 
-  self.imgViewSocket1.image = [SDZGSocket imgNameToImage:socket1ImageName];
-  self.imgViewSocket2.image = [SDZGSocket imgNameToImage:socket2ImageName];
-  self.imgViewSocket3.image = [SDZGSocket imgNameToImage:socket3ImageName];
+  self.imgViewSocket1.image =
+      [SDZGSocket imgNameToImage:socket1ImageName status:socket.socketStatus];
+  self.imgViewSocket2.image =
+      [SDZGSocket imgNameToImage:socket2ImageName status:socket.socketStatus];
+  self.imgViewSocket3.image =
+      [SDZGSocket imgNameToImage:socket3ImageName status:socket.socketStatus];
   if (sceneDetails && sceneDetails.count) {
     for (SceneDetail *sceneDetail in sceneDetails) {
       if ([sceneDetail.mac isEqualToString:self.mac] &&
@@ -116,10 +119,10 @@
 @end
 
 @interface SceneEditCell ()
-@property(strong, nonatomic) IBOutlet SceneSocketView *sceneSocketView1;
-@property(strong, nonatomic) IBOutlet SceneSocketView *sceneSocketView2;
-@property(strong, nonatomic) IBOutlet UITextField *textFieldSwitchName;
-@property(strong, nonatomic) IBOutlet UIView *topLineView;
+@property (strong, nonatomic) IBOutlet SceneSocketView *sceneSocketView1;
+@property (strong, nonatomic) IBOutlet SceneSocketView *sceneSocketView2;
+@property (strong, nonatomic) IBOutlet UITextField *textFieldSwitchName;
+@property (strong, nonatomic) IBOutlet UIView *topLineView;
 @end
 
 @implementation SceneEditCell
