@@ -30,12 +30,12 @@
   // Do any additional setup after loading the view.
 
   dispatch_async(GLOBAL_QUEUE, ^{
-      UIImage *image =
-          [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]
-                                               pathForResource:@"book"
-                                                        ofType:@"jpg"]];
+      NSData *data =
+          [NSData dataWithContentsOfFile:[[NSBundle mainBundle]
+                                             pathForResource:@"book@2x"
+                                                      ofType:@"jpg"]];
+      UIImage *image = [UIImage imageWithData:data];
 
-      //      UIImage *image = [UIImage imageNamed:@"bookinfo"];
       self.imgWidth = image.size.width;
       dispatch_async(MAIN_QUEUE, ^{
           self.imgView.image = image;
@@ -43,11 +43,11 @@
               CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - STATUSBAR_HEIGHT -
                                                  NAVIGATIONBAR_HEIGHT);
           self.scollView.contentSize =
-              CGSizeMake(self.imgWidth, SCREEN_HEIGHT - STATUSBAR_HEIGHT -
-                                            NAVIGATIONBAR_HEIGHT);
-          self.imgView.frame =
-              CGRectMake(0, 0, self.imgWidth, SCREEN_HEIGHT - STATUSBAR_HEIGHT -
-                                                  NAVIGATIONBAR_HEIGHT);
+              CGSizeMake(self.imgWidth / 2, SCREEN_HEIGHT - STATUSBAR_HEIGHT -
+                                                NAVIGATIONBAR_HEIGHT);
+          self.imgView.frame = CGRectMake(0, 0, self.imgWidth / 2,
+                                          SCREEN_HEIGHT - STATUSBAR_HEIGHT -
+                                              NAVIGATIONBAR_HEIGHT);
       });
   });
 }

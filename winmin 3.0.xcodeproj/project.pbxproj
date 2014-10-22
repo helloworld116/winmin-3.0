@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		06276B622ABA4D69A45BB762 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B2B7BB80C1420797A2EE26 /* libPods.a */; };
 		15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 15476D4B19E68B6B00EC6BD1 /* NetUtil.m */; };
+		1551F6EC19F7BA9900A24447 /* book@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6EB19F7BA9900A24447 /* book@2x.jpg */; };
 		155A5BF019D3D7B3007864C8 /* SceneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BEF19D3D7B3007864C8 /* SceneCell.m */; };
 		155A5BF319D3E260007864C8 /* SceneTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BF219D3E260007864C8 /* SceneTemplateViewController.m */; };
 		155A5BF619D3E718007864C8 /* SceneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BF519D3E718007864C8 /* SceneDetailViewController.m */; };
@@ -111,8 +112,6 @@
 		15BBD6F819DA857A0002D973 /* ElecRealTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F719DA857A0002D973 /* ElecRealTimeView.m */; };
 		15BBD6FB19DA89540002D973 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6FA19DA89540002D973 /* TestViewController.m */; };
 		15EBEE4319F648F8006DF044 /* BookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15EBEE4219F648F8006DF044 /* BookViewController.m */; };
-		15EBEE4719F65B13006DF044 /* book-568@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15EBEE4519F65B13006DF044 /* book-568@2x.jpg */; };
-		15EBEE4819F65B13006DF044 /* book@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15EBEE4619F65B13006DF044 /* book@2x.jpg */; };
 		15F31C1E19D3C7C70095E5BD /* SceneListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F31C1D19D3C7C70095E5BD /* SceneListViewController.m */; };
 		15F3A46B19EB717E001CD296 /* SecurityWarnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A46A19EB717E001CD296 /* SecurityWarnViewController.m */; };
 		15F3A46E19EB718A001CD296 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F3A46D19EB718A001CD296 /* AboutUsViewController.m */; };
@@ -138,6 +137,7 @@
 /* Begin PBXFileReference section */
 		15476D4A19E68B6B00EC6BD1 /* NetUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetUtil.h; sourceTree = "<group>"; };
 		15476D4B19E68B6B00EC6BD1 /* NetUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetUtil.m; sourceTree = "<group>"; };
+		1551F6EB19F7BA9900A24447 /* book@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "book@2x.jpg"; sourceTree = "<group>"; };
 		155A5BEE19D3D7B3007864C8 /* SceneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneCell.h; sourceTree = "<group>"; };
 		155A5BEF19D3D7B3007864C8 /* SceneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneCell.m; sourceTree = "<group>"; };
 		155A5BF119D3E260007864C8 /* SceneTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneTemplateViewController.h; sourceTree = "<group>"; };
@@ -308,8 +308,6 @@
 		15BBD6FA19DA89540002D973 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		15EBEE4119F648F8006DF044 /* BookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookViewController.h; sourceTree = "<group>"; };
 		15EBEE4219F648F8006DF044 /* BookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookViewController.m; sourceTree = "<group>"; };
-		15EBEE4519F65B13006DF044 /* book-568@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "book-568@2x.jpg"; sourceTree = "<group>"; };
-		15EBEE4619F65B13006DF044 /* book@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "book@2x.jpg"; sourceTree = "<group>"; };
 		15F31C1C19D3C7C70095E5BD /* SceneListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneListViewController.h; sourceTree = "<group>"; };
 		15F31C1D19D3C7C70095E5BD /* SceneListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneListViewController.m; sourceTree = "<group>"; };
 		15F3A46919EB717E001CD296 /* SecurityWarnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityWarnViewController.h; sourceTree = "<group>"; };
@@ -859,8 +857,7 @@
 		15EBEE4419F65B03006DF044 /* 图片 */ = {
 			isa = PBXGroup;
 			children = (
-				15EBEE4519F65B13006DF044 /* book-568@2x.jpg */,
-				15EBEE4619F65B13006DF044 /* book@2x.jpg */,
+				1551F6EB19F7BA9900A24447 /* book@2x.jpg */,
 			);
 			name = "图片";
 			sourceTree = "<group>";
@@ -985,8 +982,8 @@
 			files = (
 				15B3B92C19F511760058D91F /* ConfigLoadingViewController.xib in Resources */,
 				158D989619C6F39C0068AFC5 /* Images.xcassets in Resources */,
+				1551F6EC19F7BA9900A24447 /* book@2x.jpg in Resources */,
 				15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */,
-				15EBEE4719F65B13006DF044 /* book-568@2x.jpg in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
 				155A5C0119D569BE007864C8 /* SceneExcCell.xib in Resources */,
 				158D98E819C7C9660068AFC5 /* ShareSDKLocalizable.strings in Resources */,
@@ -998,7 +995,6 @@
 				158D98ED19C7C9660068AFC5 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				158D98E919C7C9660068AFC5 /* Resource.bundle in Resources */,
 				1560132519CA79D700BF7E12 /* image.plist in Resources */,
-				15EBEE4819F65B13006DF044 /* book@2x.jpg in Resources */,
 				158D98EF19C7C9660068AFC5 /* WeiboSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

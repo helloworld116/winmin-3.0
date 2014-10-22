@@ -2350,41 +2350,48 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AnS-tN-MLM" userLabel="scoll anchor">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="568" id="x5e-SG-iZC"/>
-                                </constraints>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mpD-lh-u5K">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mpD-lh-u5K">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mxo-sT-o5z" userLabel="scroll content view">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mxo-sT-o5z" userLabel="scroll content view">
                                         <rect key="frame" x="0.0" y="0.0" width="2388" height="568"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tZB-RG-gcX">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZxH-QI-acq">
                                                 <rect key="frame" x="0.0" y="0.0" width="2388" height="568"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="568" id="5Ee-CC-aBl"/>
                                             <constraint firstAttribute="width" constant="2388" id="VKE-zn-hv8"/>
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="mxo-sT-o5z" firstAttribute="leading" secondItem="mpD-lh-u5K" secondAttribute="leading" id="7sY-gH-hah"/>
+                                    <constraint firstAttribute="bottom" secondItem="mxo-sT-o5z" secondAttribute="bottom" id="OLd-Az-kXU"/>
+                                    <constraint firstItem="mxo-sT-o5z" firstAttribute="top" secondItem="mpD-lh-u5K" secondAttribute="top" id="R2r-pf-mE7"/>
+                                    <constraint firstAttribute="trailing" secondItem="mxo-sT-o5z" secondAttribute="trailing" constant="-2068" id="en4-ha-zZJ"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="mpD-lh-u5K" firstAttribute="top" secondItem="O7C-hw-1Yz" secondAttribute="top" id="2F7-hM-Quq"/>
                             <constraint firstItem="8pb-t8-yix" firstAttribute="top" secondItem="AnS-tN-MLM" secondAttribute="bottom" id="EtV-br-D1S"/>
+                            <constraint firstItem="mpD-lh-u5K" firstAttribute="leading" secondItem="O7C-hw-1Yz" secondAttribute="leading" id="Fah-k6-yGp"/>
                             <constraint firstItem="AnS-tN-MLM" firstAttribute="leading" secondItem="O7C-hw-1Yz" secondAttribute="leading" id="V7E-XN-ONB"/>
                             <constraint firstItem="AnS-tN-MLM" firstAttribute="top" secondItem="O7C-hw-1Yz" secondAttribute="top" id="W7r-9C-474"/>
+                            <constraint firstItem="8pb-t8-yix" firstAttribute="top" secondItem="mpD-lh-u5K" secondAttribute="bottom" id="WE5-D6-mhx"/>
+                            <constraint firstItem="AnS-tN-MLM" firstAttribute="height" secondItem="mxo-sT-o5z" secondAttribute="height" id="icH-cL-tB0"/>
+                            <constraint firstAttribute="trailing" secondItem="mpD-lh-u5K" secondAttribute="trailing" id="mZW-2j-QwM"/>
                             <constraint firstAttribute="trailing" secondItem="AnS-tN-MLM" secondAttribute="trailing" id="vAC-RR-JXY"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="使用手册" id="Itd-y0-HXr"/>
                     <connections>
-                        <outlet property="imgView" destination="tZB-RG-gcX" id="kkt-iL-NBr"/>
+                        <outlet property="imgView" destination="ZxH-QI-acq" id="rU8-N9-rcc"/>
                         <outlet property="scollView" destination="mpD-lh-u5K" id="lvP-nI-cEt"/>
                     </connections>
                 </viewController>
