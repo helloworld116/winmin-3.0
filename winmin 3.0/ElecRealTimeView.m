@@ -33,7 +33,7 @@ static CGFloat scaleX;
 
 - (void)start {
   __weak id weakSelf = self;
-  static double delayInSeconds = 2;
+  static double delayInSeconds = 5;
   self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,
                                       dispatch_get_main_queue());
   dispatch_source_set_timer(_timer, dispatch_walltime(NULL, 0),

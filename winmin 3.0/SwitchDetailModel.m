@@ -8,7 +8,7 @@
 
 #import "SwitchDetailModel.h"
 #import "HistoryElec.h"
-#define kElecRefreshInterval 2
+#define kElecRefreshInterval 5
 
 @interface SwitchDetailModel ()<UdpRequestDelegate>
 @property (strong, nonatomic) NSTimer *timer;
