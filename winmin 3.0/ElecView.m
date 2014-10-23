@@ -58,8 +58,6 @@
   [self.btnThreeMonth setBackgroundImage:img forState:UIControlStateSelected];
   [self.btnSixMonth setBackgroundImage:img forState:UIControlStateSelected];
   [self.btnOneYear setBackgroundImage:img forState:UIControlStateSelected];
-
-  [self.realTimeView start];
 }
 
 - (IBAction)showSelectedDate:(id)sender {
@@ -244,5 +242,13 @@ switch (dateType) {
 
 - (void)showRealTimeData:(NSMutableArray *)powers {
   self.realTimeView.powers = powers;
+}
+
+- (void)startRealTimeDraw {
+  [self.realTimeView start];
+}
+
+- (void)stopRealTimeDraw {
+  [self.realTimeView stop];
 }
 @end

@@ -10,6 +10,10 @@
 		06276B622ABA4D69A45BB762 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B2B7BB80C1420797A2EE26 /* libPods.a */; };
 		15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 15476D4B19E68B6B00EC6BD1 /* NetUtil.m */; };
 		1551F6EC19F7BA9900A24447 /* book@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6EB19F7BA9900A24447 /* book@2x.jpg */; };
+		1551F6EF19F8951200A24447 /* FAQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1551F6EE19F8951200A24447 /* FAQViewController.m */; };
+		1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6F019F8AC9300A24447 /* bookinfo@2x.png */; };
+		1551F6F319F90AF500A24447 /* faq.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6F219F90AF400A24447 /* faq.plist */; };
+		1551F6F619F9120B00A24447 /* FaqCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1551F6F519F9120B00A24447 /* FaqCell.m */; };
 		155A5BF019D3D7B3007864C8 /* SceneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BEF19D3D7B3007864C8 /* SceneCell.m */; };
 		155A5BF319D3E260007864C8 /* SceneTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BF219D3E260007864C8 /* SceneTemplateViewController.m */; };
 		155A5BF619D3E718007864C8 /* SceneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BF519D3E718007864C8 /* SceneDetailViewController.m */; };
@@ -138,6 +142,12 @@
 		15476D4A19E68B6B00EC6BD1 /* NetUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetUtil.h; sourceTree = "<group>"; };
 		15476D4B19E68B6B00EC6BD1 /* NetUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetUtil.m; sourceTree = "<group>"; };
 		1551F6EB19F7BA9900A24447 /* book@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "book@2x.jpg"; sourceTree = "<group>"; };
+		1551F6ED19F8951200A24447 /* FAQViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQViewController.h; sourceTree = "<group>"; };
+		1551F6EE19F8951200A24447 /* FAQViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQViewController.m; sourceTree = "<group>"; };
+		1551F6F019F8AC9300A24447 /* bookinfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookinfo@2x.png"; sourceTree = "<group>"; };
+		1551F6F219F90AF400A24447 /* faq.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = faq.plist; sourceTree = "<group>"; };
+		1551F6F419F9120B00A24447 /* FaqCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaqCell.h; sourceTree = "<group>"; };
+		1551F6F519F9120B00A24447 /* FaqCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaqCell.m; sourceTree = "<group>"; };
 		155A5BEE19D3D7B3007864C8 /* SceneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneCell.h; sourceTree = "<group>"; };
 		155A5BEF19D3D7B3007864C8 /* SceneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneCell.m; sourceTree = "<group>"; };
 		155A5BF119D3E260007864C8 /* SceneTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneTemplateViewController.h; sourceTree = "<group>"; };
@@ -458,6 +468,8 @@
 				15F3A48119EBCCE6001CD296 /* QuestionViewController.m */,
 				15EBEE4119F648F8006DF044 /* BookViewController.h */,
 				15EBEE4219F648F8006DF044 /* BookViewController.m */,
+				1551F6ED19F8951200A24447 /* FAQViewController.h */,
+				1551F6EE19F8951200A24447 /* FAQViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -471,6 +483,8 @@
 				1560131019C956C700BF7E12 /* MoreCellTypeFirst.m */,
 				15F3A48619EE521D001CD296 /* MoreCellTypeThird.h */,
 				15F3A48719EE521D001CD296 /* MoreCellTypeThird.m */,
+				1551F6F419F9120B00A24447 /* FaqCell.h */,
+				1551F6F519F9120B00A24447 /* FaqCell.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -618,6 +632,7 @@
 				158D988819C6F39C0068AFC5 /* winmin 3.0-Prefix.pch */,
 				1560130719C93A0B00BF7E12 /* 积累 */,
 				1560132419CA79D700BF7E12 /* image.plist */,
+				1551F6F219F90AF400A24447 /* faq.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -857,6 +872,7 @@
 		15EBEE4419F65B03006DF044 /* 图片 */ = {
 			isa = PBXGroup;
 			children = (
+				1551F6F019F8AC9300A24447 /* bookinfo@2x.png */,
 				1551F6EB19F7BA9900A24447 /* book@2x.jpg */,
 			);
 			name = "图片";
@@ -950,6 +966,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = itouchco.com;
 				TargetAttributes = {
+					158D987619C6F39C0068AFC5 = {
+						DevelopmentTeam = SDSBY6DGDQ;
+					};
 					158D989A19C6F39D0068AFC5 = {
 						TestTargetID = 158D987619C6F39C0068AFC5;
 					};
@@ -983,6 +1002,7 @@
 				15B3B92C19F511760058D91F /* ConfigLoadingViewController.xib in Resources */,
 				158D989619C6F39C0068AFC5 /* Images.xcassets in Resources */,
 				1551F6EC19F7BA9900A24447 /* book@2x.jpg in Resources */,
+				1551F6F319F90AF500A24447 /* faq.plist in Resources */,
 				15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
 				155A5C0119D569BE007864C8 /* SceneExcCell.xib in Resources */,
@@ -990,6 +1010,7 @@
 				158D988E19C6F39C0068AFC5 /* Main.storyboard in Resources */,
 				15AC865219D10A4E00D154EB /* DelaySettingViewController.xib in Resources */,
 				1560130819C93A0B00BF7E12 /* 积累 in Resources */,
+				1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */,
 				158D98F419C7C9660068AFC5 /* ShareSDKFlatShareViewUI.bundle in Resources */,
 				158D991A19C7DE950068AFC5 /* Localizable.strings in Resources */,
 				158D98ED19C7C9660068AFC5 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
@@ -1069,6 +1090,7 @@
 				15AC864119CFC71400D154EB /* TimerCell.m in Sources */,
 				158D992919C7E1390068AFC5 /* ViewUtil.m in Sources */,
 				155A5BF019D3D7B3007864C8 /* SceneCell.m in Sources */,
+				1551F6EF19F8951200A24447 /* FAQViewController.m in Sources */,
 				15AC864419CFC7B100D154EB /* TimerModel.m in Sources */,
 				158D992F19C7E2380068AFC5 /* HistoryElec.m in Sources */,
 				158D992E19C7E2380068AFC5 /* SwitchDataCeneter.m in Sources */,
@@ -1106,6 +1128,7 @@
 				155A5BFC19D53835007864C8 /* SceneExecuteViewController.m in Sources */,
 				158D991619C7CBC50068AFC5 /* DB.m in Sources */,
 				1560132019CA6E9500BF7E12 /* SocketView.m in Sources */,
+				1551F6F619F9120B00A24447 /* FaqCell.m in Sources */,
 				15EBEE4319F648F8006DF044 /* BookViewController.m in Sources */,
 				156012BB19C804AC00BF7E12 /* ConfigurationViewController.m in Sources */,
 				15AC863D19CFC6C900D154EB /* CycleViewController.m in Sources */,

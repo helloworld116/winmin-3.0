@@ -30,10 +30,15 @@
   // Do any additional setup after loading the view.
 
   dispatch_async(GLOBAL_QUEUE, ^{
+      //      NSData *data =
+      //          [NSData dataWithContentsOfFile:[[NSBundle mainBundle]
+      //                                             pathForResource:@"book@2x"
+      //                                                      ofType:@"jpg"]];
       NSData *data =
           [NSData dataWithContentsOfFile:[[NSBundle mainBundle]
-                                             pathForResource:@"book@2x"
-                                                      ofType:@"jpg"]];
+                                             pathForResource:@"bookinfo@2x"
+                                                      ofType:@"png"]];
+
       UIImage *image = [UIImage imageWithData:data];
 
       self.imgWidth = image.size.width;

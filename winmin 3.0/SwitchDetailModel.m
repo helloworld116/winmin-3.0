@@ -22,6 +22,12 @@
 @property (nonatomic, strong) HistoryElec *historyElec;
 @property (nonatomic, strong) HistoryElecParam *param;
 @property (nonatomic, assign) HistoryElecDateType dateType;
+
+//防止网络延迟多个请求同时或延迟响应时改变开关状态，值为1表示第一次接收，正常处理，其他情况下抛弃响应
+@property (atomic, assign) int responseData12Or14GroupId1Count;
+@property (atomic, assign) int responseData12Or14GroupId2Count;
+
+@property (nonatomic, strong) NSMutableArray *requests;
 @end
 
 @implementation SwitchDetailModel
@@ -29,6 +35,7 @@
 - (id)initWithSwitch:(SDZGSwitch *)aSwitch {
   if (self = [super init]) {
     self.aSwitch = aSwitch;
+    self.requests = [@[] mutableCopy];
   }
   return self;
 }
@@ -64,9 +71,9 @@
                                          selector:@selector(sendMsg33Or35)
                                          userInfo:nil
                                           repeats:YES];
+  [self.timerElec fire];
   [[NSRunLoop currentRunLoop] addTimer:self.timerElec
                                forMode:NSDefaultRunLoopMode];
-  [self.timerElec fire];
 }
 
 - (void)stopRealTimeElec {
@@ -102,11 +109,17 @@
     self.request11Or13 = [UdpRequest manager];
     self.request11Or13.delegate = self;
   }
+  if (groupId == 1) {
+    self.responseData12Or14GroupId1Count = 0;
+  } else {
+    self.responseData12Or14GroupId2Count = 0;
+  }
   [self.request11Or13 sendMsg11Or13:aSwitch
                       socketGroupId:groupId
                            sendMode:ActiveMode];
 }
 
+typedef void (^RequestBlock)(void);
 //实时电量
 - (void)sendMsg33Or35 {
   if (!self.request33Or35) {
@@ -114,6 +127,18 @@
     self.request33Or35.delegate = self;
   }
   [self.request33Or35 sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
+  //  debugLog(@"self is %@", self);
+  //  __weak SwitchDetailModel *weakSelf = self;
+  //  RequestBlock requestBlock = ^{
+  //      UdpRequest *request = [UdpRequest manager];
+  //      SwitchDetailModel *strongSelf = weakSelf;
+  //      request.delegate = strongSelf;
+  //      debugLog(@"request is %@ and self is %@", request, strongSelf);
+  //      [request sendMsg33Or35:strongSelf.aSwitch sendMode:ActiveMode];
+  //  };
+  //  [self.requests addObject:[requestBlock copy]];
+  //  requestBlock();
+  //  debugLog(@"request is %@", self.requests);
 }
 
 //历史电量
@@ -155,7 +180,7 @@
 }
 
 - (void)responseMsgCOrE:(CC3xMessage *)message {
-  if (message.state == 0) {
+  if (message.state == kUdpResponseSuccessCode) {
     SDZGSwitch *aSwitch = [SDZGSwitch parseMessageCOrEToSwitch:message];
     if (aSwitch) {
       debugLog(@"############## recivied msg info");
@@ -172,20 +197,42 @@
 }
 
 - (void)responseMsg12Or14:(CC3xMessage *)message {
-  if (message.state == 0) {
-    SDZGSocket *socket =
-        [self.aSwitch.sockets objectAtIndex:message.socketGroupId - 1];
-    socket.socketStatus = !socket.socketStatus;
-    [self.aSwitch.sockets replaceObjectAtIndex:message.socketGroupId - 1
-                                    withObject:socket];
-    NSDictionary *userInfo = @{
-      @"switch" : self.aSwitch,
-      @"socketGroupId" : @(message.socketGroupId)
-    };
-    [[NSNotificationCenter defaultCenter]
-        postNotificationName:kSwitchOnOffStateChange
-                      object:self
-                    userInfo:userInfo];
+  if (message.state == kUdpResponseSuccessCode) {
+    if (message.socketGroupId == 1) {
+      self.responseData12Or14GroupId1Count++;
+      if (self.responseData12Or14GroupId1Count == 1) {
+        SDZGSocket *socket =
+            [self.aSwitch.sockets objectAtIndex:message.socketGroupId - 1];
+        socket.socketStatus = !socket.socketStatus;
+        [self.aSwitch.sockets replaceObjectAtIndex:message.socketGroupId - 1
+                                        withObject:socket];
+        NSDictionary *userInfo = @{
+          @"switch" : self.aSwitch,
+          @"socketGroupId" : @(message.socketGroupId)
+        };
+        [[NSNotificationCenter defaultCenter]
+            postNotificationName:kSwitchOnOffStateChange
+                          object:self
+                        userInfo:userInfo];
+      }
+    } else {
+      self.responseData12Or14GroupId2Count++;
+      if (self.responseData12Or14GroupId2Count == 1) {
+        SDZGSocket *socket =
+            [self.aSwitch.sockets objectAtIndex:message.socketGroupId - 1];
+        socket.socketStatus = !socket.socketStatus;
+        [self.aSwitch.sockets replaceObjectAtIndex:message.socketGroupId - 1
+                                        withObject:socket];
+        NSDictionary *userInfo = @{
+          @"switch" : self.aSwitch,
+          @"socketGroupId" : @(message.socketGroupId)
+        };
+        [[NSNotificationCenter defaultCenter]
+            postNotificationName:kSwitchOnOffStateChange
+                          object:self
+                        userInfo:userInfo];
+      }
+    }
   }
 }
 
@@ -199,7 +246,7 @@
 }
 
 - (void)responseMsg64:(CC3xMessage *)message {
-  if (message.state == 0) {
+  if (message.state == kUdpResponseSuccessCode) {
     HistoryElecData *data =
         [self.historyElec parseResponse:message.historyElecs param:self.param];
     //    debugLog(@"times is %@", data.times);

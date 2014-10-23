@@ -186,8 +186,7 @@
         break;
       case 2:
         nextController = [self.storyboard
-            instantiateViewControllerWithIdentifier:@"TestViewController"];
-
+            instantiateViewControllerWithIdentifier:@"FAQViewController"];
         break;
       case 3:
         nextController = [self.storyboard

@@ -15,10 +15,14 @@
 @end
 
 @interface ElecView : UIView
-@property(nonatomic, assign) id<ElecViewDelegate> delegate;
+@property (nonatomic, assign) id<ElecViewDelegate> delegate;
 
 - (void)showChart:(HistoryElecData *)data
          dateType:(HistoryElecDateType)dateType;
 
 - (void)showRealTimeData:(NSMutableArray *)powers;
+
+- (void)startRealTimeDraw;
+
+- (void)stopRealTimeDraw;
 @end

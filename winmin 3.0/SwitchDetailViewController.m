@@ -107,6 +107,7 @@
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   [self.model stopRealTimeElec];
+  [self.elecView stopRealTimeDraw];
   [self.model stopScanSwitchState];
 }
 
@@ -282,8 +283,10 @@ preparation before navigation
         [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
     if (showingRealTimeElecView) {
       [self.model startRealTimeElec];
+      [self.elecView startRealTimeDraw];
     } else {
       [self.model stopRealTimeElec];
+      [self.elecView stopRealTimeDraw];
     }
   }
 }

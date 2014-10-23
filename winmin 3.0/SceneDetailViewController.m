@@ -32,13 +32,13 @@
 @interface SceneDetailViewController ()<
     UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate,
     SceneTemplateDelegate>
-@property(strong, nonatomic) IBOutlet UIImageView *imgViewScene;
-@property(strong, nonatomic) IBOutlet UITextField *textFieldSceneName;
-@property(strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UIButton *btnSceneImage;
+@property (strong, nonatomic) IBOutlet UITextField *textFieldSceneName;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
-@property(strong, nonatomic) NSArray *switchs;
-@property(strong, nonatomic) NSString *sceneImageName;
-@property(assign, nonatomic) BOOL showTemplateController;
+@property (strong, nonatomic) NSArray *switchs;
+@property (strong, nonatomic) NSString *sceneImageName;
+@property (assign, nonatomic) BOOL showTemplateController;
 - (IBAction)showTemplate:(id)sender;
 @end
 
@@ -77,7 +77,7 @@
   self.textFieldSceneName.delegate = self;
   self.textFieldSceneName.attributedPlaceholder = [[NSAttributedString alloc]
       initWithString:@"请输入场景名称"
-          attributes:@{NSForegroundColorAttributeName : kThemeColor}];
+          attributes:@{ NSForegroundColorAttributeName : kThemeColor }];
   self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
 
   //修改时添加场景数据到数据库临时表中
@@ -90,7 +90,8 @@
       imgName = self.scene.imageName;
     }
     self.sceneImageName = [imgName substringToIndex:imgName.length - 1];
-    self.imgViewScene.image = [Scene imgNameToImage:imgName];
+    [self.btnSceneImage setImage:[Scene imgNameToImage:imgName]
+                        forState:UIControlStateNormal];
     self.textFieldSceneName.text = self.scene.name;
   } else {
     self.row = -1;
@@ -159,6 +160,9 @@
       scene = [[Scene alloc] init];
     }
     scene.name = sceneName;
+    if (!self.sceneImageName) {
+      self.sceneImageName = @"sdef_";
+    }
     scene.imageName = self.sceneImageName;
     scene.detailList = details;
     [[DBUtil sharedInstance] saveScene:scene];
@@ -204,18 +208,8 @@
       sceneName) {
     self.textFieldSceneName.text = sceneName;
   }
-  if (imgName.length > 10) {
-    CGRect imgViewFrame = self.imgViewScene.frame;
-    imgViewFrame.origin.x -= 12;
-    imgViewFrame.origin.y -= 12;
-    imgViewFrame.size.width += 24;
-    imgViewFrame.size.height += 24;
-    self.imgViewScene.frame = imgViewFrame;
-  }
-
-  //  self.imgViewScene.frame = CGRectMake(10, 10, 40, 40);
-
-  self.imgViewScene.image = [Scene imgNameToImage:imgName];
+  [self.btnSceneImage setImage:[Scene imgNameToImage:imgName]
+                      forState:UIControlStateNormal];
   if (imgName.length < 10) {
     imgName = [imgName substringToIndex:imgName.length - 1];
   }

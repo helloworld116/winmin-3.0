@@ -9,11 +9,11 @@
 #import "TimerModel.h"
 
 @interface TimerModel ()<UdpRequestDelegate>
-@property(nonatomic, strong) UdpRequest *request;
-@property(nonatomic, strong) NSMutableArray *timers;
-@property(nonatomic, strong) SDZGSwitch *aSwitch;
-@property(nonatomic, assign) int groupId;
-@property(nonatomic, assign) int type;
+@property (nonatomic, strong) UdpRequest *request;
+@property (nonatomic, strong) NSMutableArray *timers;
+@property (nonatomic, strong) SDZGSwitch *aSwitch;
+@property (nonatomic, assign) int groupId;
+@property (nonatomic, assign) int type;
 @end
 
 @implementation TimerModel
@@ -83,7 +83,7 @@
 }
 
 - (void)responseMsg1EOr20:(CC3xMessage *)message {
-  if (message.state == 0) {
+  if (message.state == kUdpResponseSuccessCode) {
     //    dispatch_async(dispatch_get_main_queue(), ^{
     //        [self.tableView beginUpdates];
     //        [self.tableView deleteRowsAtIndexPaths:@[ self.editIndexPath ]

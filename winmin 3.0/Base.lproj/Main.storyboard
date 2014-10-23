@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -116,6 +116,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJD-q0-izU" userLabel="开关按钮">
                                                 <rect key="frame" x="258" y="54" width="45" height="45"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <state key="normal" title="关" backgroundImage="socket_onoff_normal">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -193,6 +194,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1fG-DM-5AU" userLabel="开关按钮">
                                                 <rect key="frame" x="258" y="54" width="45" height="45"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <state key="normal" title="关" backgroundImage="socket_onoff_normal">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -1182,21 +1184,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Ym-Cc-9A5">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="95"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cj_edit_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Q7D-nW-U23">
-                                        <rect key="frame" x="20" y="6" width="84" height="84"/>
-                                    </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入场景名称" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wlC-5q-G3p" customClass="SceneTextField">
                                         <rect key="frame" x="120" y="26" width="190" height="44"/>
                                         <color key="textColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="scene_def" translatesAutoresizingMaskIntoConstraints="NO" id="kyS-TW-L8c">
-                                        <rect key="frame" x="32" y="18" width="60" height="60"/>
-                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iR8-yL-jc4">
                                         <rect key="frame" x="20" y="6" width="84" height="84"/>
-                                        <state key="normal">
+                                        <state key="normal" image="sdef__" backgroundImage="cj_edit_bg">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1386,7 +1382,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="imgViewScene" destination="kyS-TW-L8c" id="6ws-ak-Pt6"/>
+                        <outlet property="btnSceneImage" destination="iR8-yL-jc4" id="vwD-cY-w81"/>
                         <outlet property="tableView" destination="XTA-tV-ws3" id="SPF-XE-LrE"/>
                         <outlet property="textFieldSceneName" destination="wlC-5q-G3p" id="go0-xJ-hSU"/>
                     </connections>
@@ -2393,6 +2389,72 @@
             </objects>
             <point key="canvasLocation" x="3286" y="1642"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="krP-xl-Q0y">
+            <objects>
+                <tableViewController storyboardIdentifier="FAQViewController" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="8Up-rP-MBC" customClass="FAQViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="zGP-Kf-Oq3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FAQCell" rowHeight="150" id="fGg-pm-ITf">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fGg-pm-ITf" id="dxN-wX-JCr">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ias-gk-LHK">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bt2-Xs-hLz">
+                                                    <rect key="frame" x="0.0" y="24" width="44" height="34"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="faq" translatesAutoresizingMaskIntoConstraints="NO" id="vjp-Iq-z1B">
+                                                            <rect key="frame" x="0.0" y="0.0" width="44" height="34"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Q11" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pu8-YC-Q62">
+                                                            <rect key="frame" x="2" y="5" width="37" height="24"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="别人会不会找到我的设备" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pE4-lF-jr6">
+                                                    <rect key="frame" x="45" y="24" width="187" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YLO-vv-Cia">
+                                            <rect key="frame" x="0.0" y="58" width="320" height="84"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Whs-rR-kaG" userLabel="颜色条">
+                                                    <rect key="frame" x="0.0" y="0.0" width="3" height="100"/>
+                                                    <color key="backgroundColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="8Up-rP-MBC" id="h8s-1y-8s9"/>
+                            <outlet property="delegate" destination="8Up-rP-MBC" id="DrI-o4-Wfb"/>
+                        </connections>
+                    </tableView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RI9-Rw-0bD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3647" y="1634"/>
+        </scene>
         <!--Security Warn View Controller-->
         <scene sceneID="UTR-Y4-a9g">
             <objects>
@@ -2636,6 +2698,15 @@
                                                             </state>
                                                             <connections>
                                                                 <action selector="showActionSheet:" destination="3sa-6E-EbI" eventType="touchUpInside" id="weY-pf-EE1"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dov-6K-4lE">
+                                                            <rect key="frame" x="196" y="3" width="44" height="44"/>
+                                                            <state key="normal">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="showActionSheet:" destination="3sa-6E-EbI" eventType="touchUpInside" id="k4i-ch-soo"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -3216,6 +3287,7 @@
         <image name="delay_split" width="14" height="19"/>
         <image name="enter" width="19" height="51"/>
         <image name="exc_ok" width="27" height="27"/>
+        <image name="faq" width="44" height="34"/>
         <image name="gb" width="38" height="38"/>
         <image name="gd" width="30" height="30"/>
         <image name="gx" width="22" height="22"/>
@@ -3233,7 +3305,7 @@
         <image name="pz" width="30" height="30"/>
         <image name="qq" width="19" height="20"/>
         <image name="scene_bj" width="320" height="480"/>
-        <image name="scene_def" width="34" height="34"/>
+        <image name="sdef__" width="34" height="34"/>
         <image name="socket_bg" width="306" height="51"/>
         <image name="socket_bg_normal" width="56" height="56"/>
         <image name="socket_bg_off" width="306" height="51"/>
