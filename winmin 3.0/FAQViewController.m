@@ -7,6 +7,8 @@
 //
 
 #import "FAQViewController.h"
+#import "FaqCell.h"
+// static const CGFloat kContentWidth = 265.f;
 
 @interface FAQViewController ()
 @property (nonatomic, strong) NSArray *faqs;
@@ -47,31 +49,39 @@
     heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   CGFloat height = 0;
   CGRect rect = [self.faqs[indexPath.row][@"q"]
-      boundingRectWithSize:CGSizeMake(265, CGFLOAT_MAX)
+      boundingRectWithSize:CGSizeMake(kContentWidth, CGFLOAT_MAX)
                    options:NSStringDrawingUsesLineFragmentOrigin
                 attributes:self.attributes
                    context:nil];
-  //  debugLog(@"",)
-  self.titleHeight = rect.size.height + 20;
-  debugLog(@"titleHeight is %f", self.titleHeight);
-  height += rect.size.height + 20;
+  self.titleHeight = ceil(rect.size.height) + 5;
+  height += self.titleHeight;
   rect = [self.faqs[indexPath.row][@"a"]
-      boundingRectWithSize:CGSizeMake(265, CGFLOAT_MAX)
+      boundingRectWithSize:CGSizeMake(kContentWidth, CGFLOAT_MAX)
                    options:NSStringDrawingUsesLineFragmentOrigin
                 attributes:self.attributes
                    context:nil];
-  self.contentHeight = rect.size.height + 20;
-  debugLog(@"contentHeight is %f", self.contentHeight);
-  height += rect.size.height + 20;
+  self.contentHeight = ceil(rect.size.height) + 10;
+  height += self.contentHeight;
+  debugLog(@"hegiht is %d", indexPath.row);
+  debugLog(@"indexPath row is %d height is %f", indexPath.row, height);
   return height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *cellId = @"FAQCell";
-  UITableViewCell *cell =
-      [tableView dequeueReusableCellWithIdentifier:cellId
-                                      forIndexPath:indexPath];
+  static NSString *cellId = @"FaqCell";
+  //  FaqCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId
+  //                                                  forIndexPath:indexPath];
+  //  FaqCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+  FaqCell *cell =
+      [[[NSBundle mainBundle] loadNibNamed:cellId owner:nil options:nil]
+          objectAtIndex:0];
+  NSDictionary *questionAndAnswer = self.faqs[indexPath.row];
+  [cell setQuestion:questionAndAnswer[@"q"]
+      questionHeight:self.titleHeight
+              answer:questionAndAnswer[@"a"]
+        answerHeight:self.contentHeight
+           indexPath:indexPath];
   return cell;
 }
 
