@@ -12,7 +12,7 @@
 /**
  *  指示当前是否正在扫描设备状态
  */
-@property(nonatomic, assign, readonly) BOOL isScanningState;
+@property (nonatomic, assign, readonly) BOOL isScanningState;
 /**
  *  开始扫描设备状态
  */
@@ -40,4 +40,11 @@
  *  @param aSwitch
  */
 - (void)deleteSwitch:(SDZGSwitch *)aSwitch;
+
+/**
+ *  配置时根据mac地址添加指定设备
+ *
+ *  @param mac
+ */
+- (void)addSwitchWithMac:(NSString *)mac;
 @end

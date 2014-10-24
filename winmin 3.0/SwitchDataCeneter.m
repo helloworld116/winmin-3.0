@@ -18,6 +18,7 @@
     // TODO: 从本地文件加载
     self.switchs = [[DBUtil sharedInstance] getSwitchs];
     _switchsDict = [[NSMutableDictionary alloc] init];
+    _switchTmpDict = [[NSMutableDictionary alloc] init];
     //这里一定不能使用self.switchs,因为覆写了switchs的get方法
     for (SDZGSwitch *aSwitch in _switchs) {
       if (aSwitch.mac) {
@@ -210,5 +211,24 @@
                  ^{ [self.switchsDict removeObjectForKey:aSwtich.mac]; });
   [[DBUtil sharedInstance] deleteSwitch:aSwtich.mac];
   return YES;
+}
+
+#pragma mark - 临时空间
+- (void)addSwitchToTmp:(SDZGSwitch *)aSwitch {
+  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
+      [self.switchTmpDict setObject:aSwitch forKey:aSwitch.mac];
+  });
+}
+
+- (void)removeSwitchFromTmp:(SDZGSwitch *)aSwitch {
+  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE,
+                 ^{ [self.switchTmpDict removeObjectForKey:aSwitch.mac]; });
+}
+
+- (SDZGSwitch *)getSwitchFromTmpByMac:(NSString *)mac {
+  __block SDZGSwitch *aSwitch;
+  dispatch_sync(SWITCHDATACENTER_SERIAL_QUEUE,
+                ^{ aSwitch = [self.switchTmpDict objectForKey:mac]; });
+  return aSwitch;
 }
 @end

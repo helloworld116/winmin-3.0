@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--winmin-->
+        <!--控制-->
         <scene sceneID="9ya-Iu-QMw">
             <objects>
                 <tableViewController storyboardIdentifier="SwitchListViewController" id="m7g-rb-hgO" customClass="SwitchListViewController" sceneMemberID="viewController">
@@ -57,7 +57,7 @@
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <navigationItem key="navigationItem" title="winmin" id="11N-PV-plA"/>
+                    <navigationItem key="navigationItem" title="控制" id="11N-PV-plA"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f3q-Ng-U3o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -454,7 +454,7 @@
             </objects>
             <point key="canvasLocation" x="723" y="205"/>
         </scene>
-        <!--网络配置-->
+        <!--配置-->
         <scene sceneID="7t1-30-4ZU">
             <objects>
                 <viewController storyboardIdentifier="ConfigurationViewController" id="k1j-DJ-erf" customClass="ConfigurationViewController" sceneMemberID="viewController">
@@ -546,7 +546,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="网络配置" id="tPK-7U-BgE"/>
+                    <navigationItem key="navigationItem" title="配置" id="tPK-7U-BgE"/>
                     <connections>
                         <outlet property="btnConfig" destination="86Z-q3-JP2" id="GmW-H3-oX3"/>
                         <outlet property="imgViewShowPassword" destination="YN3-gW-QAX" id="5CA-Js-voh"/>
@@ -2407,6 +2407,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RI9-Rw-0bD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3647" y="1634"/>
+        </scene>
+        <!--Protocol View Controller-->
+        <scene sceneID="EKQ-4O-Mqx">
+            <objects>
+                <viewController storyboardIdentifier="ProtocolViewController" id="nJM-V4-u1F" customClass="ProtocolViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iUc-1L-Q2i"/>
+                        <viewControllerLayoutGuide type="bottom" id="1h8-8A-XAF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dik-LM-8q6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dhx-DW-c3q">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Dhx-DW-c3q" firstAttribute="leading" secondItem="dik-LM-8q6" secondAttribute="leading" id="03V-vA-WFX"/>
+                            <constraint firstItem="Dhx-DW-c3q" firstAttribute="top" secondItem="dik-LM-8q6" secondAttribute="top" id="VoM-Dy-MMa"/>
+                            <constraint firstAttribute="trailing" secondItem="Dhx-DW-c3q" secondAttribute="trailing" id="eMq-VA-Aje"/>
+                            <constraint firstItem="1h8-8A-XAF" firstAttribute="top" secondItem="Dhx-DW-c3q" secondAttribute="bottom" id="gUx-f9-OL2"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <connections>
+                        <outlet property="webView" destination="Dhx-DW-c3q" id="jpk-A0-h6M"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TE3-et-GpS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4058" y="1634"/>
         </scene>
         <!--Security Warn View Controller-->
         <scene sceneID="UTR-Y4-a9g">

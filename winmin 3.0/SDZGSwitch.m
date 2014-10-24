@@ -10,77 +10,67 @@
 
 @implementation SDZGSwitch
 + (SDZGSwitch *)parseMessageCOrEToSwitch:(CC3xMessage *)message {
-  debugLog(@"thread is %@ and message id is %x", [NSThread currentThread],
-           message.msgId);
+  NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
   BOOL needToDBImmediately; //新扫描到的设备立即添加到数据库
   SDZGSwitch *aSwitch =
-      [[SwitchDataCeneter sharedInstance].switchsDict objectForKey:message.mac];
+      [[SwitchDataCeneter sharedInstance] getSwitchFromTmpByMac:message.mac];
   if (aSwitch) {
-    NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+    //表示新增的
+    needToDBImmediately = YES;
+    aSwitch.sockets = [@[] mutableCopy];
+    SDZGSocket *socket1 = [[SDZGSocket alloc] init];
+    socket1.groupId = 1;
+    socket1.socketStatus = ((message.onStatus & 1 << 0) == 1 << 0);
+    socket1.imageNames =
+        @[ socket_default_image, socket_default_image, socket_default_image ];
+    [aSwitch.sockets addObject:socket1];
+
+    SDZGSocket *socket2 = [[SDZGSocket alloc] init];
+    socket2.groupId = 2;
+    socket2.socketStatus = ((message.onStatus & 1 << 1) == 1 << 1);
+    socket2.imageNames =
+        @[ socket_default_image, socket_default_image, socket_default_image ];
+    [aSwitch.sockets addObject:socket2];
+    aSwitch.imageName = switch_default_image;
+  } else {
+    needToDBImmediately = NO;
+    aSwitch = [[SwitchDataCeneter sharedInstance].switchsDict
+        objectForKey:message.mac];
     NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
-    if (diff > REFRESH_DEV_TIME / 4) {
-      if (aSwitch.networkStatus != SWITCH_NEW) {
-        if (message.msgId == 0xc) {
-          aSwitch.networkStatus = SWITCH_LOCAL;
-        } else if (message.msgId == 0xe) {
-          if (aSwitch.networkStatus == SWITCH_LOCAL &&
-              diff < 2 * REFRESH_DEV_TIME) {
-            return nil;
-          }
-          aSwitch.networkStatus = SWITCH_REMOTE;
-        } else {
-          aSwitch.networkStatus = SWITCH_OFFLINE;
-        }
-      }
-    } else {
-      return nil;
-    }
-
-    if (aSwitch.networkStatus == SWITCH_NEW) {
-      needToDBImmediately = YES;
-      aSwitch.sockets = [@[] mutableCopy];
-      SDZGSocket *socket1 = [[SDZGSocket alloc] init];
-      socket1.groupId = 1;
-      socket1.socketStatus = ((message.onStatus & 1 << 0) == 1 << 0);
-      socket1.imageNames = @[
-        socket_default_image,
-        socket_default_image,
-        socket_default_image
-      ];
-      [aSwitch.sockets addObject:socket1];
-
-      SDZGSocket *socket2 = [[SDZGSocket alloc] init];
-      socket2.groupId = 2;
-      socket2.socketStatus = ((message.onStatus & 1 << 1) == 1 << 1);
-      socket2.imageNames = @[
-        socket_default_image,
-        socket_default_image,
-        socket_default_image
-      ];
-      [aSwitch.sockets addObject:socket2];
-      aSwitch.imageName = switch_default_image;
-    } else {
-      needToDBImmediately = NO;
+    //内网外网都返回时，时间间隔大于刷新时间一半就更新设备，否则不更新设备，认为是外网响应
+    if (diff > REFRESH_DEV_TIME / 2) {
       NSMutableArray *sockets = aSwitch.sockets;
       for (int i = 0; i < sockets.count; i++) {
         SDZGSocket *socket = sockets[i];
         socket.socketStatus = ((message.onStatus & 1 << i) == 1 << i);
       }
+      if (aSwitch.networkStatus != SWITCH_NEW) {
+        if (message.msgId == 0xc) {
+          aSwitch.networkStatus = SWITCH_LOCAL;
+        } else if (message.msgId == 0xe) {
+          if (diff > 2 * REFRESH_DEV_TIME) {
+            aSwitch.networkStatus = SWITCH_REMOTE;
+          }
+        }
+      } else {
+        // TODO:
+      }
+    } else {
+      return nil;
     }
-    aSwitch.mac = message.mac;
-    aSwitch.ip = message.ip;
-    aSwitch.port = message.port;
-    aSwitch.name = message.deviceName;
-    aSwitch.version = message.version;
-    aSwitch.lockStatus = message.lockStatus;
-    aSwitch.lastUpdateInterval = current;
-    if (needToDBImmediately) {
-      [[DBUtil sharedInstance] saveSwitch:aSwitch];
-    }
-    return aSwitch;
-  } else {
-    return nil;
   }
+  aSwitch.mac = message.mac;
+  aSwitch.ip = message.ip;
+  aSwitch.port = message.port;
+  aSwitch.name = message.deviceName;
+  aSwitch.version = message.version;
+  aSwitch.lockStatus = message.lockStatus;
+  aSwitch.lastUpdateInterval = current;
+  if (needToDBImmediately) {
+    [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
+    [[DBUtil sharedInstance] saveSwitch:aSwitch];
+  }
+  return aSwitch;
 }
 
 + (UIImage *)imgNameToImage:(NSString *)imgName {

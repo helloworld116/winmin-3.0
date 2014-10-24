@@ -72,11 +72,11 @@
          selector:@selector(netChangedNotification:)
              name:kNetChangedNotification
            object:nil];
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(doneLoadingTableViewData)
-             name:kNewSwitch
-           object:self.model];
+  //  [[NSNotificationCenter defaultCenter]
+  //      addObserver:self
+  //         selector:@selector(doneLoadingTableViewData)
+  //             name:kNewSwitch
+  //           object:self.model];
 
   [[NSNotificationCenter defaultCenter]
       addObserverForName:kConfigNewSwitch
@@ -89,7 +89,7 @@
                   if (aSwitch) {
                     aSwitch.networkStatus = SWITCH_NEW;
                   } else {
-                    [self.model refreshSwitchList];
+                    [self.model addSwitchWithMac:mac];
                   }
               }];
 

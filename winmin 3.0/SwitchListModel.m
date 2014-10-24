@@ -12,6 +12,7 @@
 @property (nonatomic, strong) UdpRequest *request;
 @property (nonatomic, strong) UdpRequest *request9;
 @property (nonatomic, strong) UdpRequest *request39Or3B;
+@property (nonatomic, strong) NSString *mac; //扫描指定设备时使用
 @end
 
 @implementation SwitchListModel
@@ -42,10 +43,13 @@
   }
   [self.request9 sendMsg09:ActiveMode];
 
-  //  [self stopScanState];
-  //  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 *
-  //  NSEC_PER_SEC)),
-  //                 dispatch_get_main_queue(), ^{ [self startScanState]; });
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{ [self sendMsg0BOr0D]; });
+}
+
+- (void)addSwitchWithMac:(NSString *)mac {
+  self.mac = mac;
+  [self refreshSwitchList];
 }
 
 //扫描设备
@@ -109,39 +113,44 @@
 }
 
 - (void)responseMsgA:(CC3xMessage *)message {
-  dispatch_sync(SWITCHPARSETOADD_SERIAL_QUEUE, ^{
-      if (message.version == kHardwareVersion &&
-          message.state == kUdpResponseSuccessCode) {
-        debugLog(@"switchs is %@",
-                 [[SwitchDataCeneter sharedInstance] switchs]);
-        SDZGSwitch *aSwitch = [[[SwitchDataCeneter sharedInstance] switchsDict]
-            objectForKey:message.mac];
-        debugLog(@"switch is %@", aSwitch);
-        if (!aSwitch && message.lockStatus == LockStatusOff) {
-          //设备未加锁，并且不在本地列表中，发送请求，查询设备状态
-          debugLog(@"########## add to dict and send ");
-          aSwitch = [[SDZGSwitch alloc] init];
-          aSwitch.mac = message.mac;
-          aSwitch.ip = message.ip;
-          aSwitch.port = message.port;
-          aSwitch.networkStatus = SWITCH_NEW;
-          [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
-          [self.request9 sendMsg0B:aSwitch sendMode:ActiveMode];
-          [[NSNotificationCenter defaultCenter] postNotificationName:kNewSwitch
-                                                              object:self];
-          [NSThread sleepForTimeInterval:10];
-        }
-      }
-  });
+  //添加指定mac地址的设备，配置时使用
+  if (self.mac) {
+    if (![self.mac isEqualToString:message.mac]) {
+      return;
+    }
+  }
+  if (message.version == kHardwareVersion &&
+      message.state == kUdpResponseSuccessCode) {
+    SDZGSwitch *aSwitch = [[[SwitchDataCeneter sharedInstance] switchsDict]
+        objectForKey:message.mac];
+    if (!aSwitch && message.lockStatus == LockStatusOff) {
+      //设备未加锁，并且不在本地列表中，发送请求，查询设备状态
+      aSwitch = [[SDZGSwitch alloc] init];
+      aSwitch.mac = message.mac;
+      aSwitch.ip = message.ip;
+      aSwitch.port = message.port;
+      aSwitch.networkStatus = SWITCH_NEW;
+      [[SwitchDataCeneter sharedInstance] addSwitchToTmp:aSwitch];
+      [self.request9 sendMsg0B:aSwitch sendMode:ActiveMode];
+    }
+  }
+  //删除指定mac，避免下拉刷新时使用该mac
+  if (self.mac) {
+    self.mac = nil;
+  }
 }
 
 - (void)responseMsgCOrE:(CC3xMessage *)message {
+  SDZGSwitch *aSwitchInTmp =
+      [[SwitchDataCeneter sharedInstance] getSwitchFromTmpByMac:message.mac];
+
   SDZGSwitch *aSwitch = [[[SwitchDataCeneter sharedInstance] switchsDict]
       objectForKey:message.mac];
-  if (aSwitch && message.version == kHardwareVersion &&
+  if ((aSwitchInTmp || aSwitch) && message.version == kHardwareVersion &&
       message.state == kUdpResponseSuccessCode) {
-    aSwitch = [SDZGSwitch parseMessageCOrEToSwitch:message];
-    if (aSwitch.networkStatus == SWITCH_NEW) {
+    [SDZGSwitch parseMessageCOrEToSwitch:message];
+    if (aSwitchInTmp) {
+      [[SwitchDataCeneter sharedInstance] removeSwitchFromTmp:aSwitchInTmp];
       [[NSNotificationCenter defaultCenter] postNotificationName:kSwitchUpdate
                                                           object:self
                                                         userInfo:nil];

@@ -416,8 +416,8 @@ typedef struct {
   msgHeader header;
   unsigned char socketGroupId;
   char password[6];
-  unsigned short delay; // max= 1440分钟
-  char on;              // 0x1表示开，0x0表示关
+  unsigned int delay; // max= 1440分钟
+  char on;            // 0x1表示开，0x0表示关
   unsigned short crc;
 } p2dMsg4D;
 
@@ -436,7 +436,7 @@ typedef struct {
   unsigned char mac[6];
   unsigned char socketGroupId;
   char password[6];
-  unsigned short delay;
+  unsigned int delay;
   char on; // 0x1表示开，0x0表示关
   unsigned short crc;
 } p2sMsg4F;
@@ -462,7 +462,7 @@ typedef struct {
   msgHeader header;
   unsigned char mac[6];
   unsigned char socketGroupId;
-  unsigned short delay;
+  unsigned int delay;
   unsigned char on; // 0x1表示开，0x0表示关
   unsigned short crc;
 } d2pMsg54;
@@ -480,7 +480,7 @@ typedef struct {
   msgHeader header;
   unsigned char mac[6];
   unsigned char socketGroupId;
-  unsigned short delay;
+  unsigned int delay;
   unsigned char on; // 0x1表示开，0x0表示关
   unsigned short crc;
 } s2pmsg56;
@@ -1004,7 +1004,7 @@ typedef struct {
   msg.header.msgId = 0x4D;
   msg.header.msgDir = 0xAD;
   msg.header.msgLength = ntohs(sizeof(msg));
-  msg.delay = ntohs(delay);
+  msg.delay = htonl(delay * 60);
   msg.socketGroupId = socketGroupId;
   msg.on = on;
   NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
@@ -1027,7 +1027,7 @@ typedef struct {
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
-  msg.delay = ntohs(delay);
+  msg.delay = htonl(delay * 60);
   msg.socketGroupId = socketGroupId;
   msg.on = on;
   NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
@@ -1167,7 +1167,7 @@ typedef struct {
   message = [[CC3xMessage alloc] init];
   message.msgId = msg.header.msgId;
   message.msgDir = msg.header.msgDir;
-  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
 
@@ -1187,7 +1187,7 @@ typedef struct {
   message = [[CC3xMessage alloc] init];
   message.msgId = msg.header.msgId;
   message.msgDir = msg.header.msgDir;
-  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
   message.state = msg.state;
@@ -1202,7 +1202,7 @@ typedef struct {
   message = [[CC3xMessage alloc] init];
   message.msgId = msg.header.msgId;
   message.msgDir = msg.header.msgDir;
-  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
 
@@ -1227,7 +1227,7 @@ typedef struct {
   message.msgId = msg.header.msgId;
   message.msgDir = msg.header.msgDir;
   message.state = msg.state;
-  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
   message.ip = [NSString stringWithFormat:@"%d.%d.%d.%d", msg.ip[0], msg.ip[1],
@@ -1252,7 +1252,7 @@ typedef struct {
   message = [[CC3xMessage alloc] init];
   message.msgId = msg.header.msgId;
   message.msgDir = msg.header.msgDir;
-  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
   message.socketGroupId = msg.socketGroupId;
@@ -1276,7 +1276,7 @@ typedef struct {
   message.msgId = msg.header.msgId;
   message.msgDir = msg.header.msgDir;
   message.msgLength = msg.header.msgLength;
-  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
 
@@ -1336,7 +1336,7 @@ typedef struct {
   message.msgId = msg.header.msgId;
   message.msgDir = msg.header.msgDir;
   message.msgLength = msg.header.msgLength;
-  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
   message.state = msg.state;
@@ -1356,7 +1356,7 @@ typedef struct {
   message = [[CC3xMessage alloc] init];
   message.msgId = msg.header.msgId;
   message.msgDir = msg.header.msgDir;
-  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
   message.state = msg.state;
@@ -1372,13 +1372,12 @@ typedef struct {
   message.msgId = msg.header.msgId;
   message.msgDir = msg.header.msgDir;
   message.msgLength = msg.header.msgLength;
-  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
   message.socketGroupId = msg.socketGroupId;
   //高低字节互换了
-  message.delay =
-      msg.delay / 256; //这个地方不知道什么原因导致左移两位，放大了256倍
+  message.delay = ntohl(msg.delay);
   message.onStatus = msg.on;
   message.crc = msg.crc;
   return message;
@@ -1409,7 +1408,7 @@ typedef struct {
   message.msgId = msg.header.msgId;
   message.msgDir = msg.header.msgDir;
   message.msgLength = msg.header.msgLength;
-  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
   message.deviceName = [[NSString alloc] initWithBytes:msg.deviceName
@@ -1438,7 +1437,7 @@ typedef struct {
   message.msgId = msg.header.msgId;
   message.msgDir = msg.header.msgDir;
   message.msgLength = msg.header.msgLength;
-  message.mac = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
   message.state = msg.state;

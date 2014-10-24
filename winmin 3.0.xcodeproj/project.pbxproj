@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		06276B622ABA4D69A45BB762 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B2B7BB80C1420797A2EE26 /* libPods.a */; };
+		150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6DD19F9E276005134B7 /* FaqCell.xib */; };
+		150FC6E319FA39DB005134B7 /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150FC6E219FA39DB005134B7 /* ProtocolViewController.m */; };
+		150FC6E519FA419B005134B7 /* protocol.htm in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6E419FA419B005134B7 /* protocol.htm */; };
 		15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 15476D4B19E68B6B00EC6BD1 /* NetUtil.m */; };
-		1551F6EC19F7BA9900A24447 /* book@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6EB19F7BA9900A24447 /* book@2x.jpg */; };
 		1551F6EF19F8951200A24447 /* FAQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1551F6EE19F8951200A24447 /* FAQViewController.m */; };
 		1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6F019F8AC9300A24447 /* bookinfo@2x.png */; };
 		1551F6F319F90AF500A24447 /* faq.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6F219F90AF400A24447 /* faq.plist */; };
@@ -26,7 +28,6 @@
 		156012FE19C8464000BF7E12 /* SwitchListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156012FD19C8464000BF7E12 /* SwitchListViewController.m */; };
 		1560130119C846EE00BF7E12 /* SwitchListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560130019C846EE00BF7E12 /* SwitchListCell.m */; };
 		1560130419C91EF800BF7E12 /* SwitchListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560130319C91EF800BF7E12 /* SwitchListModel.m */; };
-		1560130819C93A0B00BF7E12 /* 积累 in Resources */ = {isa = PBXBuildFile; fileRef = 1560130719C93A0B00BF7E12 /* 积累 */; };
 		1560130B19C9542C00BF7E12 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560130A19C9542C00BF7E12 /* MoreViewController.m */; };
 		1560130E19C956A600BF7E12 /* MoreCellTypeSecond.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560130D19C956A600BF7E12 /* MoreCellTypeSecond.m */; };
 		1560131119C956C700BF7E12 /* MoreCellTypeFirst.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560131019C956C700BF7E12 /* MoreCellTypeFirst.m */; };
@@ -139,6 +140,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		150FC6DD19F9E276005134B7 /* FaqCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FaqCell.xib; sourceTree = "<group>"; };
+		150FC6E119FA39DB005134B7 /* ProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolViewController.h; sourceTree = "<group>"; };
+		150FC6E219FA39DB005134B7 /* ProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolViewController.m; sourceTree = "<group>"; };
+		150FC6E419FA419B005134B7 /* protocol.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = protocol.htm; sourceTree = "<group>"; };
 		15476D4A19E68B6B00EC6BD1 /* NetUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetUtil.h; sourceTree = "<group>"; };
 		15476D4B19E68B6B00EC6BD1 /* NetUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetUtil.m; sourceTree = "<group>"; };
 		1551F6EB19F7BA9900A24447 /* book@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "book@2x.jpg"; sourceTree = "<group>"; };
@@ -485,6 +490,7 @@
 				15F3A48719EE521D001CD296 /* MoreCellTypeThird.m */,
 				1551F6F419F9120B00A24447 /* FaqCell.h */,
 				1551F6F519F9120B00A24447 /* FaqCell.m */,
+				150FC6DD19F9E276005134B7 /* FaqCell.xib */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -625,6 +631,7 @@
 		158D988119C6F39C0068AFC5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				150FC6E419FA419B005134B7 /* protocol.htm */,
 				158D991919C7DE950068AFC5 /* Localizable.strings */,
 				158D988219C6F39C0068AFC5 /* winmin 3.0-Info.plist */,
 				158D988319C6F39C0068AFC5 /* InfoPlist.strings */,
@@ -895,6 +902,8 @@
 				15F3A47219EB80E4001CD296 /* LoginViewController.m */,
 				15F3A47319EB80E4001CD296 /* RegisterViewController.h */,
 				15F3A47419EB80E4001CD296 /* RegisterViewController.m */,
+				150FC6E119FA39DB005134B7 /* ProtocolViewController.h */,
+				150FC6E219FA39DB005134B7 /* ProtocolViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -1001,15 +1010,15 @@
 			files = (
 				15B3B92C19F511760058D91F /* ConfigLoadingViewController.xib in Resources */,
 				158D989619C6F39C0068AFC5 /* Images.xcassets in Resources */,
-				1551F6EC19F7BA9900A24447 /* book@2x.jpg in Resources */,
 				1551F6F319F90AF500A24447 /* faq.plist in Resources */,
 				15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
+				150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */,
 				155A5C0119D569BE007864C8 /* SceneExcCell.xib in Resources */,
 				158D98E819C7C9660068AFC5 /* ShareSDKLocalizable.strings in Resources */,
+				150FC6E519FA419B005134B7 /* protocol.htm in Resources */,
 				158D988E19C6F39C0068AFC5 /* Main.storyboard in Resources */,
 				15AC865219D10A4E00D154EB /* DelaySettingViewController.xib in Resources */,
-				1560130819C93A0B00BF7E12 /* 积累 in Resources */,
 				1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */,
 				158D98F419C7C9660068AFC5 /* ShareSDKFlatShareViewUI.bundle in Resources */,
 				158D991A19C7DE950068AFC5 /* Localizable.strings in Resources */,
@@ -1121,6 +1130,7 @@
 				158D991F19C7DF7A0068AFC5 /* CRC.c in Sources */,
 				15F3A48219EBCCE6001CD296 /* QuestionViewController.m in Sources */,
 				15F3A47E19EB8123001CD296 /* UserInfo.m in Sources */,
+				150FC6E319FA39DB005134B7 /* ProtocolViewController.m in Sources */,
 				15BBD6F519DA7CBC0002D973 /* ElecView.m in Sources */,
 				15F3A47F19EB8123001CD296 /* ServerResponse.m in Sources */,
 				15AC863E19CFC6C900D154EB /* TimerViewController.m in Sources */,

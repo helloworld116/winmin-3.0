@@ -12,11 +12,11 @@
 #import "DelaySettingViewController.h"
 
 @interface DelayViewController ()<DelaySettingControllerDelegate>
-@property(nonatomic, strong) IBOutlet DelayTimeCountDownView *countDownView;
-@property(nonatomic, strong) IBOutlet UIButton *settingBtn;
+@property (nonatomic, strong) IBOutlet DelayTimeCountDownView *countDownView;
+@property (nonatomic, strong) IBOutlet UIButton *settingBtn;
 - (IBAction)showSetting:(id)sender;
 
-@property(nonatomic, strong) DelayModel *model;
+@property (nonatomic, strong) DelayModel *model;
 @end
 
 @implementation DelayViewController
@@ -65,9 +65,7 @@
 }
 
 - (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kDelayQueryNotification
-                                                object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*
@@ -106,7 +104,7 @@ preparation before navigation
 - (void)delayNotif:(NSNotification *)notification {
   if (notification.object == self.model) {
     int delay = [[notification.userInfo objectForKey:@"delay"] intValue];
-    dispatch_async(MAIN_QUEUE, ^{ [self.countDownView countDown:delay * 60]; });
+    dispatch_async(MAIN_QUEUE, ^{ [self.countDownView countDown:delay]; });
   }
 }
 @end

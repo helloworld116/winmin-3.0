@@ -25,7 +25,7 @@
 @end
 
 @interface SwitchInfoCell : UITableViewCell
-@property(nonatomic, strong) IBOutlet UIView *outerView;
+@property (nonatomic, strong) IBOutlet UIView *outerView;
 @end
 
 @implementation SwitchInfoCell
@@ -40,17 +40,17 @@
 @interface SwitchInfoViewController ()<
     UIActionSheetDelegate, UITextFieldDelegate, UINavigationControllerDelegate,
     UIImagePickerControllerDelegate>
-@property(nonatomic, strong) IBOutlet UIImageView *imgViewSwitch;
-@property(nonatomic, strong) IBOutlet UITextField *textFieldName;
-@property(nonatomic, strong) IBOutlet UISwitch *_switch;
-@property(nonatomic, strong)
-    NSString *switchName;  //保存修改前的名称，对比不一致才提交请求
-@property(nonatomic, assign) LockStatus lockStatus;
+@property (nonatomic, strong) IBOutlet UIImageView *imgViewSwitch;
+@property (nonatomic, strong) IBOutlet UITextField *textFieldName;
+@property (nonatomic, strong) IBOutlet UISwitch *_switch;
+@property (nonatomic, strong)
+    NSString *switchName; //保存修改前的名称，对比不一致才提交请求
+@property (nonatomic, assign) LockStatus lockStatus;
 - (IBAction)showActionSheet:(id)sender;
 - (IBAction)switchValueChanged:(id)sender;
 
-@property(nonatomic, strong) NSString *imgName;  //保存在本地的图片名称
-@property(nonatomic, strong) SwitchInfoModel *model;
+@property (nonatomic, strong) NSString *imgName; //保存在本地的图片名称
+@property (nonatomic, strong) SwitchInfoModel *model;
 @end
 
 @implementation SwitchInfoViewController
@@ -171,7 +171,13 @@ preparation before navigation
   [[SwitchDataCeneter sharedInstance] updateSwitchName:self.switchName
                                            socketNames:nil
                                                    mac:self.aSwitch.mac];
-  dispatch_async(MAIN_QUEUE, ^{ self.navigationItem.title = self.switchName; });
+  dispatch_async(MAIN_QUEUE, ^{
+      self.navigationItem.title = self.switchName;
+      int count = [[self.navigationController viewControllers] count];
+      UIViewController *popViewController =
+          [[self.navigationController viewControllers] objectAtIndex:count - 2];
+      popViewController.navigationItem.title = self.switchName;
+  });
 }
 
 - (void)switchOnOffChanged:(NSNotification *)notification {

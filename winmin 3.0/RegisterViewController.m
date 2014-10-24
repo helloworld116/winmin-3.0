@@ -11,27 +11,27 @@
 #import "TextUtil.h"
 
 @interface RegisterViewController ()<UITextFieldDelegate>
-@property(strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property(strong, nonatomic) IBOutlet UITextField *textEmail;
-@property(strong, nonatomic) IBOutlet UITextField *textFieldPassword;
-@property(strong, nonatomic) IBOutlet UITextField *textFieldPassword2;
-@property(strong, nonatomic) IBOutlet UITextField *textFieldNickName;
-@property(strong, nonatomic) IBOutlet UIView *view1;
-@property(strong, nonatomic) IBOutlet UIView *view2;
-@property(strong, nonatomic) IBOutlet UIView *view3;
-@property(strong, nonatomic) IBOutlet UIView *view4;
-@property(strong, nonatomic) IBOutlet UIButton *btnRegister;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UITextField *textEmail;
+@property (strong, nonatomic) IBOutlet UITextField *textFieldPassword;
+@property (strong, nonatomic) IBOutlet UITextField *textFieldPassword2;
+@property (strong, nonatomic) IBOutlet UITextField *textFieldNickName;
+@property (strong, nonatomic) IBOutlet UIView *view1;
+@property (strong, nonatomic) IBOutlet UIView *view2;
+@property (strong, nonatomic) IBOutlet UIView *view3;
+@property (strong, nonatomic) IBOutlet UIView *view4;
+@property (strong, nonatomic) IBOutlet UIButton *btnRegister;
 - (IBAction)toUserProtocolPage:(id)sender;
 - (IBAction)agreenProtocol:(id)sender;
 - (IBAction) register:(id)sender;
 
 - (IBAction)touchBackground:(id)sender;
 
-@property(strong, nonatomic) UITextField *activeField;
-@property(assign, nonatomic) BOOL isAgreenProtocol;
-@property(strong, nonatomic) NSString *email;
-@property(strong, nonatomic) NSString *nickName;
-@property(strong, nonatomic) NSString *password;
+@property (strong, nonatomic) UITextField *activeField;
+@property (assign, nonatomic) BOOL isAgreenProtocol;
+@property (strong, nonatomic) NSString *email;
+@property (strong, nonatomic) NSString *nickName;
+@property (strong, nonatomic) NSString *password;
 @end
 
 @implementation RegisterViewController
@@ -76,6 +76,9 @@
   self.textFieldNickName.delegate = self;
 
   self.isAgreenProtocol = YES;
+  UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+  backButtonItem.title = @"返回";
+  self.navigationItem.backBarButtonItem = backButtonItem;
 }
 
 - (void)viewDidLoad {
@@ -139,7 +142,11 @@ preparation before navigation
 
 #pragma mark - 导航栏按钮处理
 - (IBAction)toUserProtocolPage:(id)sender {
+  UIViewController *nextController = [self.storyboard
+      instantiateViewControllerWithIdentifier:@"ProtocolViewController"];
+  [self.navigationController pushViewController:nextController animated:YES];
 }
+
 - (IBAction)agreenProtocol:(id)sender {
   UIButton *btn = (UIButton *)sender;
   btn.selected = !btn.selected;
@@ -203,9 +210,9 @@ preparation before navigation
       makeToast:message
        duration:1.f
        position:[NSValue
-                    valueWithCGPoint:CGPointMake(
-                                         self.view.frame.size.width / 2,
-                                         self.view.frame.size.height - 40)]];
+                    valueWithCGPoint:CGPointMake(self.view.frame.size.width / 2,
+                                                 self.view.frame.size.height -
+                                                     40)]];
 }
 
 - (IBAction)touchBackground:(id)sender {
@@ -288,10 +295,9 @@ preparation before navigation
             makeToast:reponse.errorMsg
              duration:1.f
              position:[NSValue
-                          valueWithCGPoint:CGPointMake(
-                                               self.view.frame.size.width / 2,
-                                               self.view.frame.size.height -
-                                                   40)]];
+                          valueWithCGPoint:
+                              CGPointMake(self.view.frame.size.width / 2,
+                                          self.view.frame.size.height - 40)]];
         break;
     }
   } else if (status == 0) {

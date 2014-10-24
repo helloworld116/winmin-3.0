@@ -42,27 +42,27 @@
 #define LogAsync NO
 #define LogContext 65535
 
-#define LogObjc(flg, frmt, ...) \
+#define LogObjc(flg, frmt, ...)                                                \
   LOG_OBJC_MAYBE(LogAsync, logLevel, flg, LogContext, frmt, ##__VA_ARGS__)
-#define LogC(flg, frmt, ...) \
+#define LogC(flg, frmt, ...)                                                   \
   LOG_C_MAYBE(LogAsync, logLevel, flg, LogContext, frmt, ##__VA_ARGS__)
 
-#define LogError(frmt, ...) \
+#define LogError(frmt, ...)                                                    \
   LogObjc(LOG_FLAG_ERROR, (@"%@: " frmt), THIS_FILE, ##__VA_ARGS__)
-#define LogWarn(frmt, ...) \
+#define LogWarn(frmt, ...)                                                     \
   LogObjc(LOG_FLAG_WARN, (@"%@: " frmt), THIS_FILE, ##__VA_ARGS__)
-#define LogInfo(frmt, ...) \
+#define LogInfo(frmt, ...)                                                     \
   LogObjc(LOG_FLAG_INFO, (@"%@: " frmt), THIS_FILE, ##__VA_ARGS__)
-#define LogVerbose(frmt, ...) \
+#define LogVerbose(frmt, ...)                                                  \
   LogObjc(LOG_FLAG_VERBOSE, (@"%@: " frmt), THIS_FILE, ##__VA_ARGS__)
 
-#define LogCError(frmt, ...) \
+#define LogCError(frmt, ...)                                                   \
   LogC(LOG_FLAG_ERROR, (@"%@: " frmt), THIS_FILE, ##__VA_ARGS__)
-#define LogCWarn(frmt, ...) \
+#define LogCWarn(frmt, ...)                                                    \
   LogC(LOG_FLAG_WARN, (@"%@: " frmt), THIS_FILE, ##__VA_ARGS__)
-#define LogCInfo(frmt, ...) \
+#define LogCInfo(frmt, ...)                                                    \
   LogC(LOG_FLAG_INFO, (@"%@: " frmt), THIS_FILE, ##__VA_ARGS__)
-#define LogCVerbose(frmt, ...) \
+#define LogCVerbose(frmt, ...)                                                 \
   LogC(LOG_FLAG_VERBOSE, (@"%@: " frmt), THIS_FILE, ##__VA_ARGS__)
 
 #define LogTrace() LogObjc(LOG_FLAG_VERBOSE, @"%@: %@", THIS_FILE, THIS_METHOD)
@@ -75,27 +75,27 @@ static const int logLevel = LOG_LEVEL_VERBOSE;
 
 // Logging Disabled
 
-#define LogError(frmt, ...) \
+#define LogError(frmt, ...)                                                    \
   {}
-#define LogWarn(frmt, ...) \
+#define LogWarn(frmt, ...)                                                     \
   {}
-#define LogInfo(frmt, ...) \
+#define LogInfo(frmt, ...)                                                     \
   {}
-#define LogVerbose(frmt, ...) \
-  {}
-
-#define LogCError(frmt, ...) \
-  {}
-#define LogCWarn(frmt, ...) \
-  {}
-#define LogCInfo(frmt, ...) \
-  {}
-#define LogCVerbose(frmt, ...) \
+#define LogVerbose(frmt, ...)                                                  \
   {}
 
-#define LogTrace() \
+#define LogCError(frmt, ...)                                                   \
   {}
-#define LogCTrace(frmt, ...) \
+#define LogCWarn(frmt, ...)                                                    \
+  {}
+#define LogCInfo(frmt, ...)                                                    \
+  {}
+#define LogCVerbose(frmt, ...)                                                 \
+  {}
+
+#define LogTrace()                                                             \
+  {}
+#define LogCTrace(frmt, ...)                                                   \
   {}
 
 #endif
@@ -117,11 +117,11 @@ static const int logLevel = LOG_LEVEL_VERBOSE;
 /**
  * Just to type less code.
 **/
-#define AutoreleasedBlock(block) \
-  ^{                             \
-    @autoreleasepool {           \
-      block();                   \
-    }                            \
+#define AutoreleasedBlock(block)                                               \
+  ^{                                                                           \
+    @autoreleasepool {                                                         \
+      block();                                                                 \
+    }                                                                          \
   }
 
 @class GCDAsyncUdpSendPacket;
@@ -133,40 +133,40 @@ NSString *const GCDAsyncUdpSocketQueueName = @"GCDAsyncUdpSocket";
 NSString *const GCDAsyncUdpSocketThreadName = @"GCDAsyncUdpSocket-CFStream";
 
 enum GCDAsyncUdpSocketFlags {
-  kDidCreateSockets = 1 << 0,   // If set, the sockets have been created.
-  kDidBind = 1 << 1,            // If set, bind has been called.
-  kConnecting = 1 << 2,         // If set, a connection attempt is in progress.
-  kDidConnect = 1 << 3,         // If set, socket is connected.
-  kReceiveOnce = 1 << 4,        // If set, one-at-a-time receive is enabled
-  kReceiveContinuous = 1 << 5,  // If set, continuous receive is enabled
+  kDidCreateSockets = 1 << 0,  // If set, the sockets have been created.
+  kDidBind = 1 << 1,           // If set, bind has been called.
+  kConnecting = 1 << 2,        // If set, a connection attempt is in progress.
+  kDidConnect = 1 << 3,        // If set, socket is connected.
+  kReceiveOnce = 1 << 4,       // If set, one-at-a-time receive is enabled
+  kReceiveContinuous = 1 << 5, // If set, continuous receive is enabled
   kIPv4Deactivated =
-      1 << 6,  // If set, socket4 was closed due to bind or connect on IPv6.
+      1 << 6, // If set, socket4 was closed due to bind or connect on IPv6.
   kIPv6Deactivated =
-      1 << 7,  // If set, socket6 was closed due to bind or connect on IPv4.
-  kSend4SourceSuspended = 1 << 8,      // If set, send4Source is suspended.
-  kSend6SourceSuspended = 1 << 9,      // If set, send6Source is suspended.
-  kReceive4SourceSuspended = 1 << 10,  // If set, receive4Source is suspended.
-  kReceive6SourceSuspended = 1 << 11,  // If set, receive6Source is suspended.
-  kSock4CanAcceptBytes = 1 << 12,  // If set, we know socket4 can accept bytes.
-                                   // If unset, it's unknown.
-  kSock6CanAcceptBytes = 1 << 13,  // If set, we know socket6 can accept bytes.
-                                   // If unset, it's unknown.
-  kForbidSendReceive = 1 << 14,    // If set, no new send or receive operations
-                                   // are allowed to be queued.
+      1 << 7, // If set, socket6 was closed due to bind or connect on IPv4.
+  kSend4SourceSuspended = 1 << 8,     // If set, send4Source is suspended.
+  kSend6SourceSuspended = 1 << 9,     // If set, send6Source is suspended.
+  kReceive4SourceSuspended = 1 << 10, // If set, receive4Source is suspended.
+  kReceive6SourceSuspended = 1 << 11, // If set, receive6Source is suspended.
+  kSock4CanAcceptBytes = 1 << 12, // If set, we know socket4 can accept bytes.
+                                  // If unset, it's unknown.
+  kSock6CanAcceptBytes = 1 << 13, // If set, we know socket6 can accept bytes.
+                                  // If unset, it's unknown.
+  kForbidSendReceive = 1 << 14,   // If set, no new send or receive operations
+                                  // are allowed to be queued.
   kCloseAfterSends =
-      1 << 15,          // If set, close as soon as no more sends are queued.
-  kFlipFlop = 1 << 16,  // Used to alternate between IPv4 and IPv6 sockets.
+      1 << 15,         // If set, close as soon as no more sends are queued.
+  kFlipFlop = 1 << 16, // Used to alternate between IPv4 and IPv6 sockets.
 #if TARGET_OS_IPHONE
   kAddedStreamListener =
-      1 << 17,  // If set, CFStreams have been added to listener thread
+      1 << 17, // If set, CFStreams have been added to listener thread
 #endif
 };
 
 enum GCDAsyncUdpSocketConfig {
-  kIPv4Disabled = 1 << 0,  // If set, IPv4 is disabled
-  kIPv6Disabled = 1 << 1,  // If set, IPv6 is disabled
-  kPreferIPv4 = 1 << 2,    // If set, IPv4 is preferred over IPv6
-  kPreferIPv6 = 1 << 3,    // If set, IPv6 is preferred over IPv4
+  kIPv4Disabled = 1 << 0, // If set, IPv4 is disabled
+  kIPv6Disabled = 1 << 1, // If set, IPv6 is disabled
+  kPreferIPv4 = 1 << 2,   // If set, IPv4 is preferred over IPv6
+  kPreferIPv6 = 1 << 3,   // If set, IPv6 is preferred over IPv4
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,7 +293,7 @@ enum GCDAsyncUdpSocketConfig {
 *send/write.
 **/
 @interface GCDAsyncUdpSendPacket : NSObject {
- @public
+@public
   NSData *buffer;
   NSTimeInterval timeout;
   long tag;
@@ -332,7 +332,7 @@ enum GCDAsyncUdpSocketConfig {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @interface GCDAsyncUdpSpecialPacket : NSObject {
- @public
+@public
   //	uint8_t type;
 
   BOOL resolveInProgress;
@@ -476,12 +476,14 @@ enum GCDAsyncUdpSocketConfig {
 
   delegate = nil;
 #if !OS_OBJECT_USE_OBJC
-  if (delegateQueue) dispatch_release(delegateQueue);
+  if (delegateQueue)
+    dispatch_release(delegateQueue);
 #endif
   delegateQueue = NULL;
 
 #if !OS_OBJECT_USE_OBJC
-  if (socketQueue) dispatch_release(socketQueue);
+  if (socketQueue)
+    dispatch_release(socketQueue);
 #endif
   socketQueue = NULL;
 
@@ -542,8 +544,10 @@ enum GCDAsyncUdpSocketConfig {
   dispatch_block_t block = ^{
 
 #if !OS_OBJECT_USE_OBJC
-      if (delegateQueue) dispatch_release(delegateQueue);
-      if (newDelegateQueue) dispatch_retain(newDelegateQueue);
+      if (delegateQueue)
+        dispatch_release(delegateQueue);
+      if (newDelegateQueue)
+        dispatch_retain(newDelegateQueue);
 #endif
 
       delegateQueue = newDelegateQueue;
@@ -570,8 +574,10 @@ enum GCDAsyncUdpSocketConfig {
 - (void)getDelegate:(id *)delegatePtr
       delegateQueue:(dispatch_queue_t *)delegateQueuePtr {
   if (dispatch_get_specific(IsOnSocketQueueOrTargetQueueKey)) {
-    if (delegatePtr) *delegatePtr = delegate;
-    if (delegateQueuePtr) *delegateQueuePtr = delegateQueue;
+    if (delegatePtr)
+      *delegatePtr = delegate;
+    if (delegateQueuePtr)
+      *delegateQueuePtr = delegateQueue;
   } else {
     __block id dPtr = NULL;
     __block dispatch_queue_t dqPtr = NULL;
@@ -581,8 +587,10 @@ enum GCDAsyncUdpSocketConfig {
         dqPtr = delegateQueue;
     });
 
-    if (delegatePtr) *delegatePtr = dPtr;
-    if (delegateQueuePtr) *delegateQueuePtr = dqPtr;
+    if (delegatePtr)
+      *delegatePtr = dPtr;
+    if (delegateQueuePtr)
+      *delegateQueuePtr = dqPtr;
   }
 }
 
@@ -594,8 +602,10 @@ enum GCDAsyncUdpSocketConfig {
       delegate = newDelegate;
 		
 		#if !OS_OBJECT_USE_OBJC
-      if (delegateQueue) dispatch_release(delegateQueue);
-      if (newDelegateQueue) dispatch_retain(newDelegateQueue);
+      if (delegateQueue)
+        dispatch_release(delegateQueue);
+      if (newDelegateQueue)
+        dispatch_retain(newDelegateQueue);
 		#endif
 
       delegateQueue = newDelegateQueue;
@@ -869,7 +879,7 @@ enum GCDAsyncUdpSocketConfig {
   if (delegateQueue &&
       [delegate respondsToSelector:@selector(udpSocket:didConnectToAddress:)]) {
     id theDelegate = delegate;
-    NSData *address = [anAddress copy];  // In case param is NSMutableData
+    NSData *address = [anAddress copy]; // In case param is NSMutableData
 
     dispatch_async(delegateQueue, ^{
         @autoreleasepool {
@@ -1070,7 +1080,7 @@ enum GCDAsyncUdpSocketConfig {
   NSAssert(dispatch_get_specific(IsOnSocketQueueOrTargetQueueKey),
            @"Must be dispatched on socketQueue");
 
-  if (delegate == nil)  // Must have delegate set
+  if (delegate == nil) // Must have delegate set
   {
     if (errPtr) {
       NSString *msg =
@@ -1080,7 +1090,7 @@ enum GCDAsyncUdpSocketConfig {
     return NO;
   }
 
-  if (delegateQueue == NULL)  // Must have delegate queue set
+  if (delegateQueue == NULL) // Must have delegate queue set
   {
     if (errPtr) {
       NSString *msg = @"Attempting to use socket without a delegate queue. Set "
@@ -1255,8 +1265,10 @@ enum GCDAsyncUdpSocketConfig {
         @"IPv4 has been disabled and DNS lookup found no IPv6 address(es).";
     resultError = [self otherError:msg];
 
-    if (addressPtr) *addressPtr = resultAddress;
-    if (errorPtr) *errorPtr = resultError;
+    if (addressPtr)
+      *addressPtr = resultAddress;
+    if (errorPtr)
+      *errorPtr = resultError;
 
     return resultAF;
   }
@@ -1266,8 +1278,10 @@ enum GCDAsyncUdpSocketConfig {
         @"IPv6 has been disabled and DNS lookup found no IPv4 address(es).";
     resultError = [self otherError:msg];
 
-    if (addressPtr) *addressPtr = resultAddress;
-    if (errorPtr) *errorPtr = resultError;
+    if (addressPtr)
+      *addressPtr = resultAddress;
+    if (errorPtr)
+      *errorPtr = resultError;
 
     return resultAF;
   }
@@ -1280,8 +1294,10 @@ enum GCDAsyncUdpSocketConfig {
         @"lookup found no IPv6 address(es).";
     resultError = [self otherError:msg];
 
-    if (addressPtr) *addressPtr = resultAddress;
-    if (errorPtr) *errorPtr = resultError;
+    if (addressPtr)
+      *addressPtr = resultAddress;
+    if (errorPtr)
+      *errorPtr = resultError;
 
     return resultAF;
   }
@@ -1291,8 +1307,10 @@ enum GCDAsyncUdpSocketConfig {
         @"lookup found no IPv4 address(es).";
     resultError = [self otherError:msg];
 
-    if (addressPtr) *addressPtr = resultAddress;
-    if (errorPtr) *errorPtr = resultError;
+    if (addressPtr)
+      *addressPtr = resultAddress;
+    if (errorPtr)
+      *errorPtr = resultError;
 
     return resultAF;
   }
@@ -1315,7 +1333,7 @@ enum GCDAsyncUdpSocketConfig {
         else
           ipv4WasFirstInList = YES;
       }
-    } else  // af == AF_INET6
+    } else // af == AF_INET6
     {
       if (address6 == nil) {
         address6 = address;
@@ -1347,8 +1365,10 @@ enum GCDAsyncUdpSocketConfig {
     resultAddress = address6;
   }
 
-  if (addressPtr) *addressPtr = resultAddress;
-  if (errorPtr) *errorPtr = resultError;
+  if (addressPtr)
+    *addressPtr = resultAddress;
+  if (errorPtr)
+    *errorPtr = resultError;
 
   return resultAF;
 }
@@ -1485,8 +1505,10 @@ enum GCDAsyncUdpSocketConfig {
     }
   }
 
-  if (interfaceAddr4Ptr) *interfaceAddr4Ptr = addr4;
-  if (interfaceAddr6Ptr) *interfaceAddr6Ptr = addr6;
+  if (interfaceAddr4Ptr)
+    *interfaceAddr4Ptr = addr4;
+  if (interfaceAddr6Ptr)
+    *interfaceAddr6Ptr = addr6;
 }
 
 /**
@@ -1510,7 +1532,7 @@ enum GCDAsyncUdpSocketConfig {
     hints.ai_family = PF_UNSPEC;
     hints.ai_socktype = SOCK_DGRAM;
     hints.ai_protocol = IPPROTO_UDP;
-    hints.ai_flags = AI_NUMERICHOST;  // No name resolution should be attempted
+    hints.ai_flags = AI_NUMERICHOST; // No name resolution should be attempted
 
     if (getaddrinfo([numericHost UTF8String], [portStr UTF8String], &hints,
                     &res0) == 0) {
@@ -1529,8 +1551,10 @@ enum GCDAsyncUdpSocketConfig {
     }
   }
 
-  if (addr4Ptr) *addr4Ptr = addr4;
-  if (addr6Ptr) *addr6Ptr = addr6;
+  if (addr4Ptr)
+    *addr4Ptr = addr4;
+  if (addr6Ptr)
+    *addr6Ptr = addr6;
 }
 
 - (BOOL)isConnectedToAddress4:(NSData *)someAddr4 {
@@ -1588,8 +1612,10 @@ enum GCDAsyncUdpSocketConfig {
 }
 
 - (unsigned int)indexOfInterfaceAddr4:(NSData *)interfaceAddr4 {
-  if (interfaceAddr4 == nil) return 0;
-  if ([interfaceAddr4 length] != sizeof(struct sockaddr_in)) return 0;
+  if (interfaceAddr4 == nil)
+    return 0;
+  if ([interfaceAddr4 length] != sizeof(struct sockaddr_in))
+    return 0;
 
   int result = 0;
   struct sockaddr_in *ifaceAddr = (struct sockaddr_in *)[interfaceAddr4 bytes];
@@ -1622,8 +1648,10 @@ enum GCDAsyncUdpSocketConfig {
 }
 
 - (unsigned int)indexOfInterfaceAddr6:(NSData *)interfaceAddr6 {
-  if (interfaceAddr6 == nil) return 0;
-  if ([interfaceAddr6 length] != sizeof(struct sockaddr_in6)) return 0;
+  if (interfaceAddr6 == nil)
+    return 0;
+  if ([interfaceAddr6 length] != sizeof(struct sockaddr_in6))
+    return 0;
 
   int result = 0;
   struct sockaddr_in6 *ifaceAddr =
@@ -1964,8 +1992,10 @@ enum GCDAsyncUdpSocketConfig {
 
   // Setup send and receive sources
 
-  if (useIPv4) [self setupSendAndReceiveSourcesForSocket4];
-  if (useIPv6) [self setupSendAndReceiveSourcesForSocket6];
+  if (useIPv4)
+    [self setupSendAndReceiveSourcesForSocket4];
+  if (useIPv6)
+    [self setupSendAndReceiveSourcesForSocket6];
 
   flags |= kDidCreateSockets;
   return YES;
@@ -2176,9 +2206,12 @@ enum GCDAsyncUdpSocketConfig {
     }
   }
 
-  if (dataPtr) *dataPtr = data;
-  if (hostPtr) *hostPtr = host;
-  if (portPtr) *portPtr = port;
+  if (dataPtr)
+    *dataPtr = data;
+  if (hostPtr)
+    *hostPtr = host;
+  if (portPtr)
+    *portPtr = port;
 
   return (data != nil);
 }
@@ -2597,7 +2630,7 @@ enum GCDAsyncUdpSocketConfig {
   BOOL isIPv4Disabled = (config & kIPv4Disabled) ? YES : NO;
   BOOL isIPv6Disabled = (config & kIPv6Disabled) ? YES : NO;
 
-  if (isIPv4Disabled && isIPv6Disabled)  // Must have IPv4 or IPv6 enabled
+  if (isIPv4Disabled && isIPv6Disabled) // Must have IPv4 or IPv6 enabled
   {
     if (errPtr) {
       NSString *msg = @"Both IPv4 and IPv6 have been disabled. Must enable at "
@@ -2712,8 +2745,10 @@ enum GCDAsyncUdpSocketConfig {
 
         flags |= kDidBind;
 
-        if (!useIPv4) flags |= kIPv4Deactivated;
-        if (!useIPv6) flags |= kIPv6Deactivated;
+        if (!useIPv4)
+          flags |= kIPv4Deactivated;
+        if (!useIPv6)
+          flags |= kIPv6Deactivated;
 
         result = YES;
       }
@@ -2724,9 +2759,11 @@ enum GCDAsyncUdpSocketConfig {
   else
     dispatch_sync(socketQueue, block);
 
-  if (err) LogError(@"Error binding to port/interface: %@", err);
+  if (err)
+    LogError(@"Error binding to port/interface: %@", err);
 
-  if (errPtr) *errPtr = err;
+  if (errPtr)
+    *errPtr = err;
 
   return result;
 }
@@ -2827,8 +2864,10 @@ enum GCDAsyncUdpSocketConfig {
 
         flags |= kDidBind;
 
-        if (!useIPv4) flags |= kIPv4Deactivated;
-        if (!useIPv6) flags |= kIPv6Deactivated;
+        if (!useIPv4)
+          flags |= kIPv4Deactivated;
+        if (!useIPv6)
+          flags |= kIPv6Deactivated;
 
         result = YES;
       }
@@ -2839,9 +2878,11 @@ enum GCDAsyncUdpSocketConfig {
   else
     dispatch_sync(socketQueue, block);
 
-  if (err) LogError(@"Error binding to address: %@", err);
+  if (err)
+    LogError(@"Error binding to address: %@", err);
 
-  if (errPtr) *errPtr = err;
+  if (errPtr)
+    *errPtr = err;
 
   return result;
 }
@@ -2871,7 +2912,7 @@ enum GCDAsyncUdpSocketConfig {
   BOOL isIPv4Disabled = (config & kIPv4Disabled) ? YES : NO;
   BOOL isIPv6Disabled = (config & kIPv6Disabled) ? YES : NO;
 
-  if (isIPv4Disabled && isIPv6Disabled)  // Must have IPv4 or IPv6 enabled
+  if (isIPv4Disabled && isIPv6Disabled) // Must have IPv4 or IPv6 enabled
   {
     if (errPtr) {
       NSString *msg = @"Both IPv4 and IPv6 have been disabled. Must enable at "
@@ -2960,9 +3001,11 @@ enum GCDAsyncUdpSocketConfig {
   else
     dispatch_sync(socketQueue, block);
 
-  if (err) LogError(@"Error connecting to host/port: %@", err);
+  if (err)
+    LogError(@"Error connecting to host/port: %@", err);
 
-  if (errPtr) *errPtr = err;
+  if (errPtr)
+    *errPtr = err;
 
   return result;
 }
@@ -3023,9 +3066,11 @@ enum GCDAsyncUdpSocketConfig {
   else
     dispatch_sync(socketQueue, block);
 
-  if (err) LogError(@"Error connecting to address: %@", err);
+  if (err)
+    LogError(@"Error connecting to address: %@", err);
 
-  if (errPtr) *errPtr = err;
+  if (errPtr)
+    *errPtr = err;
 
   return result;
 }
@@ -3289,7 +3334,8 @@ enum GCDAsyncUdpSocketConfig {
   else
     dispatch_sync(socketQueue, block);
 
-  if (errPtr) *errPtr = err;
+  if (errPtr)
+    *errPtr = err;
 
   return result;
 }
@@ -3339,7 +3385,8 @@ enum GCDAsyncUdpSocketConfig {
   else
     dispatch_sync(socketQueue, block);
 
-  if (errPtr) *errPtr = err;
+  if (errPtr)
+    *errPtr = err;
 
   return result;
 }
@@ -3379,7 +3426,7 @@ enum GCDAsyncUdpSocketConfig {
      withTimeout:(NSTimeInterval)timeout
              tag:(long)tag {
   LogTrace();
-  NSLog(@"gcd send to host %@  port %d and data is %@", host, port, data);
+  //  NSLog(@"gcd send to host %@  port %d and data is %@", host, port, data);
   if ([data length] == 0) {
     LogWarn(@"Ignoring attempt to send nil/empty data.");
     return;
@@ -3467,7 +3514,8 @@ enum GCDAsyncUdpSocketConfig {
   dispatch_block_t block = ^{
 
 #if !OS_OBJECT_USE_OBJC
-      if (sendFilterQueue) dispatch_release(sendFilterQueue);
+      if (sendFilterQueue)
+        dispatch_release(sendFilterQueue);
 #endif
 
       sendFilterBlock = newFilterBlock;
@@ -3505,8 +3553,8 @@ enum GCDAsyncUdpSocketConfig {
       if ([currentSend isKindOfClass:[GCDAsyncUdpSpecialPacket class]]) {
         [self maybeConnect];
 
-        return;  // The maybeConnect method, if it connects, will invoke this
-                 // method again
+        return; // The maybeConnect method, if it connects, will invoke this
+                // method again
       } else if (currentSend->resolveError) {
         // Notify delegate
         [self notifyDidNotSendDataWithTag:currentSend->tag
@@ -3674,7 +3722,7 @@ enum GCDAsyncUdpSocketConfig {
         [self maybeDequeueSend];
       }
     }
-  } else  // if (!sendFilterBlock || !sendFilterQueue)
+  } else // if (!sendFilterBlock || !sendFilterQueue)
   {
     // Scenario 3 of 3 - No sendFilter. Just go straight into sending.
 
@@ -3774,7 +3822,7 @@ enum GCDAsyncUdpSocketConfig {
     }
   } else if (socketError) {
     [self closeWithError:socketError];
-  } else  // done
+  } else // done
   {
     [self notifyDidSendDataWithTag:currentSend->tag];
     [self endCurrentSend];
@@ -3857,8 +3905,8 @@ enum GCDAsyncUdpSocketConfig {
           return_from_block;
         }
 
-        flags |= kReceiveOnce;         // Enable
-        flags &= ~kReceiveContinuous;  // Disable
+        flags |= kReceiveOnce;        // Enable
+        flags &= ~kReceiveContinuous; // Disable
 
         dispatch_async(socketQueue, ^{
             @autoreleasepool {
@@ -3875,9 +3923,11 @@ enum GCDAsyncUdpSocketConfig {
   else
     dispatch_sync(socketQueue, block);
 
-  if (err) LogError(@"Error in beginReceiving: %@", err);
+  if (err)
+    LogError(@"Error in beginReceiving: %@", err);
 
-  if (errPtr) *errPtr = err;
+  if (errPtr)
+    *errPtr = err;
 
   return result;
 }
@@ -3900,8 +3950,8 @@ enum GCDAsyncUdpSocketConfig {
           return_from_block;
         }
 
-        flags |= kReceiveContinuous;  // Enable
-        flags &= ~kReceiveOnce;       // Disable
+        flags |= kReceiveContinuous; // Enable
+        flags &= ~kReceiveOnce;      // Disable
 
         dispatch_async(socketQueue, ^{
             @autoreleasepool {
@@ -3918,9 +3968,11 @@ enum GCDAsyncUdpSocketConfig {
   else
     dispatch_sync(socketQueue, block);
 
-  if (err) LogError(@"Error in beginReceiving: %@", err);
+  if (err)
+    LogError(@"Error in beginReceiving: %@", err);
 
-  if (errPtr) *errPtr = err;
+  if (errPtr)
+    *errPtr = err;
 
   return result;
 }
@@ -3930,8 +3982,8 @@ enum GCDAsyncUdpSocketConfig {
 
   dispatch_block_t block = ^{
 
-      flags &= ~kReceiveOnce;        // Disable
-      flags &= ~kReceiveContinuous;  // Disable
+      flags &= ~kReceiveOnce;       // Disable
+      flags &= ~kReceiveContinuous; // Disable
 
       if (socket4FDBytesAvailable > 0) {
         [self suspendReceive4Source];
@@ -3973,7 +4025,8 @@ enum GCDAsyncUdpSocketConfig {
   dispatch_block_t block = ^{
 
 #if !OS_OBJECT_USE_OBJC
-      if (receiveFilterQueue) dispatch_release(receiveFilterQueue);
+      if (receiveFilterQueue)
+        dispatch_release(receiveFilterQueue);
 #endif
 
       receiveFilterBlock = newFilterBlock;
@@ -4048,7 +4101,7 @@ enum GCDAsyncUdpSocketConfig {
         doReceive4 = (flags & kFlipFlop) ? YES : NO;
 
         flags ^=
-            kFlipFlop;  // flags = flags xor kFlipFlop; (toggle flip flop bit)
+            kFlipFlop; // flags = flags xor kFlipFlop; (toggle flip flop bit)
       } else {
         // Bytes available on socket4, but not socket6
         doReceive4 = YES;
@@ -4146,8 +4199,10 @@ enum GCDAsyncUdpSocketConfig {
       socketError = [self errnoErrorWithReason:@"Error in recvfrom() function"];
   } else {
     if (flags & kDidConnect) {
-      if (addr4 && ![self isConnectedToAddress4:addr4]) ignored = YES;
-      if (addr6 && ![self isConnectedToAddress6:addr6]) ignored = YES;
+      if (addr4 && ![self isConnectedToAddress4:addr4])
+        ignored = YES;
+      if (addr6 && ![self isConnectedToAddress6:addr6])
+        ignored = YES;
     }
 
     NSData *addr = (addr4 != nil) ? addr4 : addr6;
@@ -4196,7 +4251,7 @@ enum GCDAsyncUdpSocketConfig {
                 });
               }
           });
-        } else  // if (!receiveFilterAsync)
+        } else // if (!receiveFilterAsync)
         {
           dispatch_sync(receiveFilterQueue, ^{
               @autoreleasepool {
@@ -4214,7 +4269,7 @@ enum GCDAsyncUdpSocketConfig {
             ignored = YES;
           }
         }
-      } else  // if (!receiveFilterBlock || !receiveFilterQueue)
+      } else // if (!receiveFilterBlock || !receiveFilterQueue)
       {
         [self notifyDidReceiveData:data fromAddress:addr withFilterContext:nil];
         notifiedDelegate = YES;
@@ -4268,7 +4323,8 @@ enum GCDAsyncUdpSocketConfig {
   NSAssert(dispatch_get_specific(IsOnSocketQueueOrTargetQueueKey),
            @"Must be dispatched on socketQueue");
 
-  if (currentSend) [self endCurrentSend];
+  if (currentSend)
+    [self endCurrentSend];
 
   [sendQueue removeAllObjects];
 
@@ -4589,7 +4645,8 @@ Failed:
     writeStream6 = NULL;
   }
 
-  if (errPtr) *errPtr = err;
+  if (errPtr)
+    *errPtr = err;
 
   return NO;
 }
@@ -4670,7 +4727,8 @@ Failed:
     CFWriteStreamSetClient(writeStream6, kCFStreamEventNone, NULL, NULL);
   }
 
-  if (errPtr) *errPtr = err;
+  if (errPtr)
+    *errPtr = err;
   return NO;
 }
 
@@ -4728,7 +4786,8 @@ Failed:
   return YES;
 
 Failed:
-  if (errPtr) *errPtr = err;
+  if (errPtr)
+    *errPtr = err;
   return NO;
 }
 
@@ -5058,9 +5117,12 @@ Failed:
       if ([address length] >= sizeof(struct sockaddr_in)) {
         const struct sockaddr_in *addr4 = (const struct sockaddr_in *)addrX;
 
-        if (hostPtr) *hostPtr = [self hostFromSockaddr4:addr4];
-        if (portPtr) *portPtr = [self portFromSockaddr4:addr4];
-        if (afPtr) *afPtr = AF_INET;
+        if (hostPtr)
+          *hostPtr = [self hostFromSockaddr4:addr4];
+        if (portPtr)
+          *portPtr = [self portFromSockaddr4:addr4];
+        if (afPtr)
+          *afPtr = AF_INET;
 
         return YES;
       }
@@ -5068,18 +5130,24 @@ Failed:
       if ([address length] >= sizeof(struct sockaddr_in6)) {
         const struct sockaddr_in6 *addr6 = (const struct sockaddr_in6 *)addrX;
 
-        if (hostPtr) *hostPtr = [self hostFromSockaddr6:addr6];
-        if (portPtr) *portPtr = [self portFromSockaddr6:addr6];
-        if (afPtr) *afPtr = AF_INET6;
+        if (hostPtr)
+          *hostPtr = [self hostFromSockaddr6:addr6];
+        if (portPtr)
+          *portPtr = [self portFromSockaddr6:addr6];
+        if (afPtr)
+          *afPtr = AF_INET6;
 
         return YES;
       }
     }
   }
 
-  if (hostPtr) *hostPtr = nil;
-  if (portPtr) *portPtr = 0;
-  if (afPtr) *afPtr = AF_UNSPEC;
+  if (hostPtr)
+    *hostPtr = nil;
+  if (portPtr)
+    *portPtr = 0;
+  if (afPtr)
+    *afPtr = AF_UNSPEC;
 
   return NO;
 }

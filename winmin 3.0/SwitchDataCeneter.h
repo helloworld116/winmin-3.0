@@ -12,9 +12,11 @@
 #define kOneSwitchUpdate @"OneSwitchUpdateNotification"
 
 @interface SwitchDataCeneter : NSObject
-@property(strong, atomic, readonly) NSMutableDictionary *switchsDict;
-@property(strong, nonatomic) NSArray *switchs;
-@property(strong, nonatomic) NSIndexPath *selectedIndexPath;
+//临时保存扫描到的设备
+@property (strong, nonatomic, readonly) NSMutableDictionary *switchTmpDict;
+@property (strong, atomic, readonly) NSMutableDictionary *switchsDict;
+@property (strong, nonatomic) NSArray *switchs;
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 + (instancetype)sharedInstance;
 
 - (NSArray *)switchsWithChangeStatus;
@@ -139,4 +141,9 @@
  *  @return
  */
 - (BOOL)isAllSwitchOffLine;
+
+#pragma mark - 临时空间
+- (void)addSwitchToTmp:(SDZGSwitch *)aSwitch;
+- (void)removeSwitchFromTmp:(SDZGSwitch *)aSwitch;
+- (SDZGSwitch *)getSwitchFromTmpByMac:(NSString *)mac;
 @end

@@ -10,7 +10,7 @@
 #import "HistoryElec.h"
 #define kElecRefreshInterval 5
 
-@interface SwitchDetailModel () <UdpRequestDelegate>
+@interface SwitchDetailModel ()<UdpRequestDelegate>
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *timerElec;
 @property (nonatomic, strong) UdpRequest *request11Or13;
@@ -122,11 +122,11 @@
 typedef void (^RequestBlock)(void);
 //实时电量
 - (void)sendMsg33Or35 {
-  //  if (!self.request33Or35) {
-  //    self.request33Or35 = [UdpRequest manager];
-  //    self.request33Or35.delegate = self;
-  //  }
-  //  [self.request33Or35 sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
+  if (!self.request33Or35) {
+    self.request33Or35 = [UdpRequest manager];
+    self.request33Or35.delegate = self;
+  }
+  [self.request33Or35 sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
   //  debugLog(@"self is %@", self);
   //  __weak SwitchDetailModel *weakSelf = self;
   //  RequestBlock requestBlock = ^{
@@ -140,15 +140,15 @@ typedef void (^RequestBlock)(void);
   //  requestBlock();
   //  debugLog(@"request is %@", self.requests);
 
-  __weak SwitchDetailModel *weakSelf = self;
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
-  RequestBlock requestBlock = ^{
-      SwitchDetailModel *strongSelf = weakSelf;
-      [request sendMsg33Or35:strongSelf.aSwitch sendMode:ActiveMode];
-  };
-  requestBlock();
-  debugLog(@"block is %@", requestBlock);
+  //  __weak SwitchDetailModel *weakSelf = self;
+  //  UdpRequest *request = [UdpRequest manager];
+  //  request.delegate = self;
+  //  RequestBlock requestBlock = ^{
+  //      SwitchDetailModel *strongSelf = weakSelf;
+  //      [request sendMsg33Or35:strongSelf.aSwitch sendMode:ActiveMode];
+  //  };
+  //  requestBlock();
+  //  debugLog(@"block is %@", requestBlock);
 }
 
 //历史电量

@@ -21,7 +21,7 @@
 
 - (void)setup {
   self.navigationItem.title = @"常见问题";
-  self.attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:18] };
+  self.attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:16] };
   NSString *path =
       [[NSBundle mainBundle] pathForResource:@"faq" ofType:@"plist"];
   NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
@@ -48,31 +48,42 @@
 - (CGFloat)tableView:(UITableView *)tableView
     heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   CGFloat height = 0;
-  CGRect rect = [self.faqs[indexPath.row][@"q"]
-      boundingRectWithSize:CGSizeMake(kContentWidth, CGFLOAT_MAX)
-                   options:NSStringDrawingUsesLineFragmentOrigin
-                attributes:self.attributes
-                   context:nil];
-  self.titleHeight = ceil(rect.size.height) + 5;
+  //  CGRect rect = [self.faqs[indexPath.row][@"q"]
+  //      boundingRectWithSize:CGSizeMake(kContentWidth, CGFLOAT_MAX)
+  //                   options:NSStringDrawingUsesLineFragmentOrigin
+  //                attributes:self.attributes
+  //                   context:nil];
+  //  self.titleHeight = ceil(rect.size.height) + 5;
+
+  self.titleHeight = 55;
   height += self.titleHeight;
-  rect = [self.faqs[indexPath.row][@"a"]
+  CGRect rect = [self.faqs[indexPath.row][@"a"]
       boundingRectWithSize:CGSizeMake(kContentWidth, CGFLOAT_MAX)
                    options:NSStringDrawingUsesLineFragmentOrigin
                 attributes:self.attributes
                    context:nil];
   self.contentHeight = ceil(rect.size.height) + 10;
   height += self.contentHeight;
-  debugLog(@"hegiht is %d", indexPath.row);
-  debugLog(@"indexPath row is %d height is %f", indexPath.row, height);
   return height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  //  CGRect rect = [self.faqs[indexPath.row][@"q"]
+  //      boundingRectWithSize:CGSizeMake(kContentWidth, CGFLOAT_MAX)
+  //                   options:NSStringDrawingUsesLineFragmentOrigin
+  //                attributes:self.attributes
+  //                   context:nil];
+  //  CGFloat questionHeight = ceil(rect.size.height) + 5;
+  //
+  //  rect = [self.faqs[indexPath.row][@"a"]
+  //      boundingRectWithSize:CGSizeMake(kContentWidth, CGFLOAT_MAX)
+  //                   options:NSStringDrawingUsesLineFragmentOrigin
+  //                attributes:self.attributes
+  //                   context:nil];
+  //  CGFloat answerHeight = ceil(rect.size.height) + 10;
+
   static NSString *cellId = @"FaqCell";
-  //  FaqCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId
-  //                                                  forIndexPath:indexPath];
-  //  FaqCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   FaqCell *cell =
       [[[NSBundle mainBundle] loadNibNamed:cellId owner:nil options:nil]
           objectAtIndex:0];

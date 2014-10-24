@@ -14,6 +14,7 @@
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
 @property (nonatomic, assign) int groupId;
 @property (nonatomic, assign) int type;
+@property (atomic, assign) int responseData1EOr20Count;
 @end
 
 @implementation TimerModel
@@ -47,6 +48,7 @@
 }
 
 - (void)sendMsg1DOr1F {
+  self.responseData1EOr20Count = 0;
   [self.request sendMsg1DOr1F:self.aSwitch
                 socketGroupId:self.groupId
                      timeList:self.timers
@@ -84,48 +86,36 @@
 
 - (void)responseMsg1EOr20:(CC3xMessage *)message {
   if (message.state == kUdpResponseSuccessCode) {
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    //        [self.tableView beginUpdates];
-    //        [self.tableView deleteRowsAtIndexPaths:@[ self.editIndexPath ]
-    //                              withRowAnimation:UITableViewRowAnimationLeft];
-    //        [self.tableView endUpdates];
-    //    });
-    //    [[SwitchDataCeneter sharedInstance] updateTimerList:self.timers
-    //                                                    mac:self.aSwitch.mac
-    //                                               socketId:self.socketId];
-
-    //    NSDictionary *userInfo = @{ @"type" : @(self.index) };
-    //    [[NSNotificationCenter defaultCenter]
-    //        postNotificationName:kAddOrEditTimerNotification
-    //                      object:self
-    //                    userInfo:userInfo];
-    switch (self.type) {
-      case 1:
-        [[NSNotificationCenter defaultCenter]
-            postNotificationName:kTimerAddNotification
-                          object:nil
-                        userInfo:nil];
-        break;
-      case 2:
-        [[NSNotificationCenter defaultCenter]
-            postNotificationName:kTimerUpdateNotification
-                          object:nil
-                        userInfo:nil];
-        break;
-      case 3:
-        [[NSNotificationCenter defaultCenter]
-            postNotificationName:kTimerDeleteNotification
-                          object:nil
-                        userInfo:nil];
-        break;
-      case 4:
-        [[NSNotificationCenter defaultCenter]
-            postNotificationName:kTimerEffectiveChangedNotifcation
-                          object:nil
-                        userInfo:nil];
-        break;
-      default:
-        break;
+    self.responseData1EOr20Count++;
+    if (self.responseData1EOr20Count == 1) {
+      switch (self.type) {
+        case 1:
+          [[NSNotificationCenter defaultCenter]
+              postNotificationName:kTimerAddNotification
+                            object:nil
+                          userInfo:nil];
+          break;
+        case 2:
+          [[NSNotificationCenter defaultCenter]
+              postNotificationName:kTimerUpdateNotification
+                            object:nil
+                          userInfo:nil];
+          break;
+        case 3:
+          [[NSNotificationCenter defaultCenter]
+              postNotificationName:kTimerDeleteNotification
+                            object:nil
+                          userInfo:nil];
+          break;
+        case 4:
+          [[NSNotificationCenter defaultCenter]
+              postNotificationName:kTimerEffectiveChangedNotifcation
+                            object:nil
+                          userInfo:nil];
+          break;
+        default:
+          break;
+      }
     }
   }
 }
