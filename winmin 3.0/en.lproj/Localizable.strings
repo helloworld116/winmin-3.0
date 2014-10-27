@@ -1,0 +1,71 @@
+/* 
+  Localizable.strings
+  SmartSwitch
+
+  Created by sdzg on 14-8-14.
+  Copyright (c) 2014年 itouchco.com. All rights reserved.
+*/
+"Pull down to refresh..."="Pull down to refresh...";
+"Release to refresh..."="Release to refresh...";
+"Loading..."="Loading...";
+"Last Updated"="Last Updated";
+"Skip"="Skip";
+"Smart Switch"="Smart Switch";
+"Socket1"="Socket Ⅰ";
+"Socket2"="Socket II";
+
+/**
+ *  页面通用
+ */
+"Back"="Back";
+"Save"="Save";
+"Cancel"="Cancel";
+"Sure"="Sure";
+"Delete"="Delete";
+"Setting"="Setting";
+"Take a picture"="Take a picture";
+"Choose from album"="Choose from album";
+
+/**
+ *  控制
+ */
+"You have not configure any device!"="You have not configure any device!";
+"Device offline, Please check your network"="Device offline, Please check your network";
+"Which operation do you want?"="Which operation do you want?";
+"Flash"="Flash";
+"Timer Task"="Timer Task";
+"Repeat"="Repeat";
+"Operating One Time"="Operating One Time";
+"Mon"="Mon";
+"Tues"="Tues";
+"Wed"="Wed";
+"Thurs"="Thurs";
+"Fri"="Fri";
+"Sat"="Sat";
+"Sun"="Sun";
+"Everyday"="Everday";
+"ON"="ON";
+"OFF"="OFF";
+"Delay Task"="Delay Task";
+
+/**
+ *  配置
+ */
+"Config Success"="Config Success";
+"Config Timeout"="Config Timeout";
+"Close"="Close";
+
+/**
+ *  场景
+ */
+"Scene"="Scene";
+"You have not add any scene!"="You have not add any scene!";
+
+/**
+ *  更多
+ */
+"About Us"="About Us";
+"Safety Warning"="Safety Warning";
+"FAQ"="FAQ";
+"User Manual"="User Manual";
+"Purchase Products"="Purchase Products";

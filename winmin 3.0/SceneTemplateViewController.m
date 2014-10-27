@@ -59,9 +59,11 @@
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                  initWithTitle:@"自定义场景"
                       delegate:self
-             cancelButtonTitle:@"取消"
+             cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
         destructiveButtonTitle:nil
-             otherButtonTitles:@"拍照", @"从手机相册中选择", nil];
+             otherButtonTitles:NSLocalizedString(@"Take a picture", nil),
+                               NSLocalizedString(@"Choose from album", nil),
+                               nil];
     [actionSheet showInView:self.view];
   }
 }

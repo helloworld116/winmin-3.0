@@ -87,7 +87,6 @@
 		158D991519C7CBC50068AFC5 /* UdpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D990F19C7CBC50068AFC5 /* UdpRequest.m */; };
 		158D991619C7CBC50068AFC5 /* DB.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D991219C7CBC50068AFC5 /* DB.m */; };
 		158D991719C7CBC50068AFC5 /* DESUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D991419C7CBC50068AFC5 /* DESUtil.m */; };
-		158D991A19C7DE950068AFC5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 158D991919C7DE950068AFC5 /* Localizable.strings */; };
 		158D991F19C7DF7A0068AFC5 /* CRC.c in Sources */ = {isa = PBXBuildFile; fileRef = 158D991E19C7DF7A0068AFC5 /* CRC.c */; };
 		158D992219C7DF830068AFC5 /* CC3xMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D992119C7DF830068AFC5 /* CC3xMessage.m */; };
 		158D992619C7E0FF0068AFC5 /* SDZGSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D992519C7E0FF0068AFC5 /* SDZGSwitch.m */; };
@@ -106,12 +105,13 @@
 		15AC864A19D02F7300D154EB /* SwitchInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864919D02F7300D154EB /* SwitchInfoModel.m */; };
 		15AC864D19D10A2100D154EB /* DelayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864C19D10A2100D154EB /* DelayViewController.m */; };
 		15AC865119D10A4E00D154EB /* DelaySettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC864F19D10A4E00D154EB /* DelaySettingViewController.m */; };
-		15AC865219D10A4E00D154EB /* DelaySettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15AC865019D10A4E00D154EB /* DelaySettingViewController.xib */; };
 		15AC865519D1555600D154EB /* DelayTimeCountDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865419D1555600D154EB /* DelayTimeCountDownView.m */; };
 		15AC865819D158D700D154EB /* DelayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865719D158D700D154EB /* DelayModel.m */; };
 		15AC865B19D2C56400D154EB /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865A19D2C56400D154EB /* DatePickerViewController.m */; };
-		15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15AC865C19D2C6C800D154EB /* DatePickerViewController.xib */; };
 		15B3B92C19F511760058D91F /* ConfigLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15B3B92E19F511760058D91F /* ConfigLoadingViewController.xib */; };
+		15BA47A519FDEA49008ADB9D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 15BA47A719FDEA49008ADB9D /* Localizable.strings */; };
+		15BA47B219FE00CB008ADB9D /* DelaySettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15BA47B419FE00CB008ADB9D /* DelaySettingViewController.xib */; };
+		15BA47B919FE153E008ADB9D /* DatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15BA47BB19FE153E008ADB9D /* DatePickerViewController.xib */; };
 		15BBD6F219D92AC30002D973 /* SceneExecuteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F119D92AC30002D973 /* SceneExecuteModel.m */; };
 		15BBD6F519DA7CBC0002D973 /* ElecView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F419DA7CBC0002D973 /* ElecView.m */; };
 		15BBD6F819DA857A0002D973 /* ElecRealTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F719DA857A0002D973 /* ElecRealTimeView.m */; };
@@ -262,7 +262,6 @@
 		158D991219C7CBC50068AFC5 /* DB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DB.m; sourceTree = "<group>"; };
 		158D991319C7CBC50068AFC5 /* DESUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DESUtil.h; sourceTree = "<group>"; };
 		158D991419C7CBC50068AFC5 /* DESUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DESUtil.m; sourceTree = "<group>"; };
-		158D991919C7DE950068AFC5 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		158D991B19C7DEB20068AFC5 /* PassValueDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassValueDelegate.h; sourceTree = "<group>"; };
 		158D991D19C7DF7A0068AFC5 /* CRC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRC.h; sourceTree = "<group>"; };
 		158D991E19C7DF7A0068AFC5 /* CRC.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CRC.c; sourceTree = "<group>"; };
@@ -300,19 +299,25 @@
 		15AC864C19D10A2100D154EB /* DelayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelayViewController.m; sourceTree = "<group>"; };
 		15AC864E19D10A4E00D154EB /* DelaySettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelaySettingViewController.h; sourceTree = "<group>"; };
 		15AC864F19D10A4E00D154EB /* DelaySettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelaySettingViewController.m; sourceTree = "<group>"; };
-		15AC865019D10A4E00D154EB /* DelaySettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DelaySettingViewController.xib; sourceTree = "<group>"; };
 		15AC865319D1555600D154EB /* DelayTimeCountDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayTimeCountDownView.h; sourceTree = "<group>"; };
 		15AC865419D1555600D154EB /* DelayTimeCountDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelayTimeCountDownView.m; sourceTree = "<group>"; };
 		15AC865619D158D700D154EB /* DelayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayModel.h; sourceTree = "<group>"; };
 		15AC865719D158D700D154EB /* DelayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelayModel.m; sourceTree = "<group>"; };
 		15AC865919D2C56400D154EB /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
 		15AC865A19D2C56400D154EB /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
-		15AC865C19D2C6C800D154EB /* DatePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerViewController.xib; sourceTree = "<group>"; };
 		15B3B92919F510F50058D91F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		15B3B92B19F511000058D91F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		15B3B92D19F511760058D91F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ConfigLoadingViewController.xib; sourceTree = "<group>"; };
 		15B3B93019F5117C0058D91F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ConfigLoadingViewController.strings; sourceTree = "<group>"; };
 		15B3B93219F5117F0058D91F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ConfigLoadingViewController.strings"; sourceTree = "<group>"; };
+		15BA47A819FDEA54008ADB9D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		15BA47A919FDEA55008ADB9D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		15BA47B319FE00CB008ADB9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DelaySettingViewController.xib; sourceTree = "<group>"; };
+		15BA47B619FE00D1008ADB9D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/DelaySettingViewController.strings; sourceTree = "<group>"; };
+		15BA47B819FE00D4008ADB9D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/DelaySettingViewController.strings"; sourceTree = "<group>"; };
+		15BA47BA19FE153E008ADB9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DatePickerViewController.xib; sourceTree = "<group>"; };
+		15BA47BD19FE1543008ADB9D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/DatePickerViewController.strings; sourceTree = "<group>"; };
+		15BA47BF19FE1546008ADB9D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/DatePickerViewController.strings"; sourceTree = "<group>"; };
 		15BBD6F019D92AC30002D973 /* SceneExecuteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneExecuteModel.h; sourceTree = "<group>"; };
 		15BBD6F119D92AC30002D973 /* SceneExecuteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneExecuteModel.m; sourceTree = "<group>"; };
 		15BBD6F319DA7CBC0002D973 /* ElecView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElecView.h; sourceTree = "<group>"; };
@@ -558,10 +563,10 @@
 				15AC864C19D10A2100D154EB /* DelayViewController.m */,
 				15AC864E19D10A4E00D154EB /* DelaySettingViewController.h */,
 				15AC864F19D10A4E00D154EB /* DelaySettingViewController.m */,
-				15AC865019D10A4E00D154EB /* DelaySettingViewController.xib */,
+				15BA47B419FE00CB008ADB9D /* DelaySettingViewController.xib */,
 				15AC865919D2C56400D154EB /* DatePickerViewController.h */,
 				15AC865A19D2C56400D154EB /* DatePickerViewController.m */,
-				15AC865C19D2C6C800D154EB /* DatePickerViewController.xib */,
+				15BA47BB19FE153E008ADB9D /* DatePickerViewController.xib */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -632,7 +637,7 @@
 			isa = PBXGroup;
 			children = (
 				150FC6E419FA419B005134B7 /* protocol.htm */,
-				158D991919C7DE950068AFC5 /* Localizable.strings */,
+				15BA47A719FDEA49008ADB9D /* Localizable.strings */,
 				158D988219C6F39C0068AFC5 /* winmin 3.0-Info.plist */,
 				158D988319C6F39C0068AFC5 /* InfoPlist.strings */,
 				158D988619C6F39C0068AFC5 /* main.m */,
@@ -1009,19 +1014,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				15B3B92C19F511760058D91F /* ConfigLoadingViewController.xib in Resources */,
+				15BA47B219FE00CB008ADB9D /* DelaySettingViewController.xib in Resources */,
 				158D989619C6F39C0068AFC5 /* Images.xcassets in Resources */,
 				1551F6F319F90AF500A24447 /* faq.plist in Resources */,
-				15AC865D19D2C6C800D154EB /* DatePickerViewController.xib in Resources */,
+				15BA47B919FE153E008ADB9D /* DatePickerViewController.xib in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
 				150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */,
 				155A5C0119D569BE007864C8 /* SceneExcCell.xib in Resources */,
 				158D98E819C7C9660068AFC5 /* ShareSDKLocalizable.strings in Resources */,
 				150FC6E519FA419B005134B7 /* protocol.htm in Resources */,
 				158D988E19C6F39C0068AFC5 /* Main.storyboard in Resources */,
-				15AC865219D10A4E00D154EB /* DelaySettingViewController.xib in Resources */,
 				1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */,
 				158D98F419C7C9660068AFC5 /* ShareSDKFlatShareViewUI.bundle in Resources */,
-				158D991A19C7DE950068AFC5 /* Localizable.strings in Resources */,
+				15BA47A519FDEA49008ADB9D /* Localizable.strings in Resources */,
 				158D98ED19C7C9660068AFC5 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				158D98E919C7C9660068AFC5 /* Resource.bundle in Resources */,
 				1560132519CA79D700BF7E12 /* image.plist in Resources */,
@@ -1207,6 +1212,35 @@
 				15B3B93219F5117F0058D91F /* zh-Hans */,
 			);
 			name = ConfigLoadingViewController.xib;
+			sourceTree = "<group>";
+		};
+		15BA47A719FDEA49008ADB9D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				15BA47A819FDEA54008ADB9D /* en */,
+				15BA47A919FDEA55008ADB9D /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		15BA47B419FE00CB008ADB9D /* DelaySettingViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				15BA47B319FE00CB008ADB9D /* Base */,
+				15BA47B619FE00D1008ADB9D /* en */,
+				15BA47B819FE00D4008ADB9D /* zh-Hans */,
+			);
+			name = DelaySettingViewController.xib;
+			sourceTree = "<group>";
+		};
+		15BA47BB19FE153E008ADB9D /* DatePickerViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				15BA47BA19FE153E008ADB9D /* Base */,
+				15BA47BD19FE1543008ADB9D /* en */,
+				15BA47BF19FE1546008ADB9D /* zh-Hans */,
+			);
+			name = DatePickerViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

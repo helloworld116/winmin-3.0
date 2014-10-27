@@ -77,7 +77,7 @@
 
   self.isAgreenProtocol = YES;
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-  backButtonItem.title = @"返回";
+  backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
 }
 

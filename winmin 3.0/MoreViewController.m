@@ -34,18 +34,19 @@
   self.tableView.tableFooterView = view;
 
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-  backButtonItem.title = @"返回";
+  backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
 }
 
 - (void)setup {
   [self setupStyle];
-  self.titles =
-      @[ @"关于我们",
-         @"安全警告",
-         @"常见问题",
-         @"使用手册",
-         @"购买产品" ];
+  self.titles = @[
+    NSLocalizedString(@"About Us", nil),
+    NSLocalizedString(@"Safety Warning", nil),
+    NSLocalizedString(@"FAQ", nil),
+    NSLocalizedString(@"User Manual", nil),
+    NSLocalizedString(@"Purchase Products", nil)
+  ];
   self.icons = @[ @"about_us", @"security", @"question", @"book", @"buy" ];
   [[NSNotificationCenter defaultCenter]
       addObserverForName:kLoginSuccess

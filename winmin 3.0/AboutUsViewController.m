@@ -32,7 +32,7 @@
 
 - (void)setup {
   [self setupStyle];
-  self.navigationItem.title = @"关于我们";
+  self.navigationItem.title = NSLocalizedString(@"About Us", nil);
 }
 
 - (void)viewDidLoad {

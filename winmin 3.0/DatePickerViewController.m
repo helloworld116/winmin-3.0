@@ -9,13 +9,13 @@
 #import "DatePickerViewController.h"
 
 @interface DatePickerViewController ()
-@property(strong, nonatomic) IBOutlet UIButton *btnOK;
-@property(strong, nonatomic) IBOutlet UIButton *btnCancel;
-@property(strong, nonatomic) IBOutlet UIDatePicker *datePicker;
-@property(strong, nonatomic) NSDateFormatter *dateFormatter;
+@property (strong, nonatomic) IBOutlet UIButton *btnOK;
+@property (strong, nonatomic) IBOutlet UIButton *btnCancel;
+@property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
-@property(strong, nonatomic) NSString *dateString;
-@property(assign, nonatomic) int seconds;
+@property (strong, nonatomic) NSString *dateString;
+@property (assign, nonatomic) int seconds;
 
 - (IBAction)ok:(id)sender;
 - (IBAction)cancel:(id)sender;

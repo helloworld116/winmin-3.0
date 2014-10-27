@@ -1,0 +1,83 @@
+/* 
+  Localizable.strings
+  SmartSwitch
+
+  Created by sdzg on 14-8-14.
+  Copyright (c) 2014年 itouchco.com. All rights reserved.
+*/
+"Pull down to refresh..."="下拉刷新...";
+"Release to refresh..."="放开后刷新...";
+"Loading..."="刷新中...";
+"Last Updated"="最后更新于";
+"Skip"="跳过";
+"Smart Switch"="winmin智能";
+"Socket1"="插孔Ⅰ";
+"Socket2"="插孔Ⅱ";
+
+/**
+ *  页面通用
+ */
+"Back"="返回";
+"Save"="保存";
+"Cancel"="取消";
+"Sure"="确定";
+"Delete"="删除";
+"Setting"="设置";
+"Take a picture"="拍照";
+"Choose from album"="从手机相册中选择";
+
+/**
+ *  控制
+ */
+"You have not configure any device!"="您暂时还未添加任何设备";
+"Device offline, Please check your network"="设备已离线,请检查手机或设备网络情况";
+"Which operation do you want?"="请选择操作";
+"Flash"="闪烁";
+"Timer Task"="定时任务";
+"Repeat"="重复";
+"Operating One Time"="执行一次";
+"Mon"="周一";
+"Tues"="周二";
+"Wed"="周三";
+"Thurs"="周四";
+"Fri"="周五";
+"Sat"="周六";
+"Sun"="周日";
+"Everyday"="每天";
+"ON"="开";
+"OFF"="关";
+""="暂时还未添加任何定时计划";
+""="确定删除该定时记录";
+""="添加成功";
+""="修改成功";
+"Delay Task"="延时任务";
+
+/**
+ *  配置
+ */
+"Config Success"="配置成功";
+"Config Timeout"="配置超时";
+"Close"="关  闭";
+/**
+ *  场景
+ */
+"Scene"="场景";
+"You have not add any scene!"="您暂时还未添加任何场景!";
+""="场景执行中...";
+""="场景执行完成";
+""="执行成功";
+""="执行失败";
+
+/**
+ *  更多
+ */
+"About Us"="关于我们";
+"Safety Warning"="安全警告";
+"FAQ"="常见问题";
+"User Manual"="使用手册";
+"Purchase Products"="购买产品";
+""="邮箱格式不正确";
+""="邮箱不能为空";
+""="密码不能为空";
+""="两次输入的密码不一致";
+""="昵称不能为空";

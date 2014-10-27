@@ -40,7 +40,7 @@
 
 - (void)setup {
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-  backButtonItem.title = @"返回";
+  backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
   self.navigationItem.title = self.aSwitch.name;
   self.socketView1.sockeViewDelegate = self;

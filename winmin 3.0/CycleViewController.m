@@ -7,21 +7,21 @@
 //
 
 #import "CycleViewController.h"
-#define kCycleDict    \
-  @{                  \
-    @"0" : @"周一", \
-    @"1" : @"周二", \
-    @"2" : @"周三", \
-    @"3" : @"周四", \
-    @"4" : @"周五", \
-    @"5" : @"周六", \
-    @"6" : @"周日"  \
+#define kCycleDict                                                             \
+  @{                                                                           \
+    @"0" : NSLocalizedString(@"Mon", nil),                                     \
+    @"1" : NSLocalizedString(@"Tues", nil),                                    \
+    @"2" : NSLocalizedString(@"Wed", nil),                                     \
+    @"3" : NSLocalizedString(@"Thurs", nil),                                   \
+    @"4" : NSLocalizedString(@"Fri", nil),                                     \
+    @"5" : NSLocalizedString(@"Sat", nil),                                     \
+    @"6" : NSLocalizedString(@"Sun", nil)                                      \
   }
 
 @interface CycleCell : UITableViewCell
-@property(strong, nonatomic) IBOutlet UIView *viewOfCellContent;
-@property(strong, nonatomic) IBOutlet UILabel *lblDate;
-@property(strong, nonatomic) IBOutlet UIButton *btnSelected;
+@property (strong, nonatomic) IBOutlet UIView *viewOfCellContent;
+@property (strong, nonatomic) IBOutlet UILabel *lblDate;
+@property (strong, nonatomic) IBOutlet UIButton *btnSelected;
 @end
 @implementation CycleCell
 - (void)awakeFromNib {
@@ -35,7 +35,7 @@
 @end
 
 @interface CycleViewController ()
-@property(nonatomic, strong) NSMutableDictionary *data;
+@property (nonatomic, strong) NSMutableDictionary *data;
 
 @end
 @implementation CycleViewController
@@ -78,9 +78,9 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  self.navigationItem.title = @"周期选择";
+  self.navigationItem.title = NSLocalizedString(@"Repeat", nil);
   self.navigationItem.rightBarButtonItem =
-      [[UIBarButtonItem alloc] initWithTitle:@"保存"
+      [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", nil)
                                        style:UIBarButtonItemStylePlain
                                       target:self
                                       action:@selector(save:)];
@@ -136,7 +136,7 @@
       break;
 
     case 1:
-      cell.lblDate.text = @"每天";
+      cell.lblDate.text = NSLocalizedString(@"Everyday", nil);
       cell.btnSelected.selected = [[[self.data objectForKey:@"section1"]
           objectAtIndex:indexPath.row] boolValue];
 

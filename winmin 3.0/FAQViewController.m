@@ -20,7 +20,7 @@
 @implementation FAQViewController
 
 - (void)setup {
-  self.navigationItem.title = @"常见问题";
+  self.navigationItem.title = NSLocalizedString(@"FAQ", nil);
   self.attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:16] };
   NSString *path =
       [[NSBundle mainBundle] pathForResource:@"faq" ofType:@"plist"];

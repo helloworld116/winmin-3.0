@@ -62,9 +62,9 @@
   view.backgroundColor = [UIColor clearColor];
   self.tableView.tableFooterView = view;
 
-  self.navigationItem.title = @"场景";
+  self.navigationItem.title = NSLocalizedString(@"Scene", nil);
   self.navigationItem.rightBarButtonItem =
-      [[UIBarButtonItem alloc] initWithTitle:@"保存"
+      [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", nil)
                                        style:UIBarButtonItemStylePlain
                                       target:self
                                       action:@selector(save:)];

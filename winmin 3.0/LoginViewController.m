@@ -70,7 +70,7 @@ static int const kQQNotInstalled = -6004;
 
   self.btnWeibo.layer.cornerRadius = 3.f;
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-  backButtonItem.title = @"返回";
+  backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
 }
 

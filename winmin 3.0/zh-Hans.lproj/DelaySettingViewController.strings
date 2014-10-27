@@ -1,0 +1,33 @@
+
+/* Class = "IBUILabel"; text = "操作："; ObjectID = "3w7-rp-Htr"; */
+"3w7-rp-Htr.text" = "操作：";
+
+/* Class = "IBUILabel"; text = "5分钟"; ObjectID = "4JW-ri-n97"; */
+"4JW-ri-n97.text" = "5分钟";
+
+/* Class = "IBUILabel"; text = "10分钟"; ObjectID = "HZi-Qh-FpF"; */
+"HZi-Qh-FpF.text" = "10分钟";
+
+/* Class = "IBUIButton"; normalTitle = "确  定"; ObjectID = "INg-9m-gkv"; */
+"INg-9m-gkv.normalTitle" = "确  定";
+
+/* Class = "IBUILabel"; text = "90分钟"; ObjectID = "gnw-aZ-e7r"; */
+"gnw-aZ-e7r.text" = "90分钟";
+
+/* Class = "IBUILabel"; text = "120分钟"; ObjectID = "i7k-aP-9Fm"; */
+"i7k-aP-9Fm.text" = "120分钟";
+
+/* Class = "IBUILabel"; text = "设  置"; ObjectID = "odG-en-vzg"; */
+"odG-en-vzg.text" = "设  置";
+
+/* Class = "IBUILabel"; text = "其他"; ObjectID = "rND-fl-Fg5"; */
+"rND-fl-Fg5.text" = "其他";
+
+/* Class = "IBUILabel"; text = "30分钟"; ObjectID = "s12-uc-A7x"; */
+"s12-uc-A7x.text" = "30分钟";
+
+/* Class = "IBUILabel"; text = "60分钟"; ObjectID = "vpo-2c-JAO"; */
+"vpo-2c-JAO.text" = "60分钟";
+
+/* Class = "IBUITextField"; text = "10"; ObjectID = "yVh-ul-IDF"; */
+"yVh-ul-IDF.text" = "10";

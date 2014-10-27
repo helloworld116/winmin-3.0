@@ -42,17 +42,18 @@
   self.tableView.tableFooterView = view;
 
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-  backButtonItem.title = @"返回";
+  backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
 }
 
 - (void)setup {
   [self setupStyle];
   self.delayInterval = 2.f;
-  self.noDataView =
-      [[UIView alloc] initWithSize:self.view.frame.size
-                           imgName:@"noswitch"
-                           message:@"您暂时还未添加任何设备"];
+  self.noDataView = [[UIView alloc]
+      initWithSize:self.view.frame.size
+           imgName:@"noswitch"
+           message:NSLocalizedString(@"You have not configure any device!",
+                                     nil)];
   self.noDataView.hidden = YES;
   [self.view addSubview:self.noDataView];
 
@@ -238,8 +239,9 @@
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
   if (aSwitch.networkStatus == SWITCH_OFFLINE) {
-    [self.view makeToast:@"设" @"备" @"已" @"离"
-               @"线,请检查手机或设备网络情况"];
+    [self.view
+        makeToast:NSLocalizedString(
+                      @"Device offline, Please check your network", nil)];
     return;
   }
   if (aSwitch.networkStatus == SWITCH_NEW) {
@@ -277,12 +279,14 @@
     //               otherButtonTitles:@"加锁", @"闪烁", @"删除", nil];
     //      [actionSheet showInView:self.view];
     //    }
-    UIActionSheet *actionSheet =
-        [[UIActionSheet alloc] initWithTitle:@"请选择操作"
-                                    delegate:self
-                           cancelButtonTitle:@"取消"
-                      destructiveButtonTitle:nil
-                           otherButtonTitles:@"闪烁", @"删除", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                 initWithTitle:NSLocalizedString(
+                                   @"Which operation do you want?", nil)
+                      delegate:self
+             cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+        destructiveButtonTitle:nil
+             otherButtonTitles:NSLocalizedString(@"Flash", nil),
+                               NSLocalizedString(@"Delete", nil), nil];
     //    [actionSheet showInView:self.view];
     [actionSheet showFromTabBar:self.tabBarController.tabBar];
   }
@@ -304,8 +308,8 @@
                     @"除设备将删除该设备关联下的所有"
                     @"场景，是否继续删除该设备？"
                    delegate:self
-          cancelButtonTitle:@"取消"
-          otherButtonTitles:@"确定", nil];
+          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+          otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
       [alertView show];
       break;
     }

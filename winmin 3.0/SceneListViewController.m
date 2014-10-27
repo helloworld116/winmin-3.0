@@ -30,18 +30,18 @@
 }
 
 - (void)setup {
-  self.navigationItem.title = @"场景";
+  self.navigationItem.title = NSLocalizedString(@"Scene", nil);
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-  backButtonItem.title = @"返回";
+  backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
       initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                            target:self
                            action:@selector(addScene:)];
-  self.noDataView =
-      [[UIView alloc] initWithSize:self.view.frame.size
-                           imgName:@"noscene"
-                           message:@"您暂时还未添加任何场景"];
+  self.noDataView = [[UIView alloc]
+      initWithSize:self.view.frame.size
+           imgName:@"noscene"
+           message:NSLocalizedString(@"You have not add any scene!", nil)];
   self.noDataView.hidden = YES;
   [self.view addSubview:self.noDataView];
   [[NSNotificationCenter defaultCenter]

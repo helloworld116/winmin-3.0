@@ -13,7 +13,7 @@
 #import "DatePickerViewController.h"
 
 @interface TimerEditCell : UITableViewCell
-@property(strong, nonatomic) IBOutlet UIView *viewOfCellContent;
+@property (strong, nonatomic) IBOutlet UIView *viewOfCellContent;
 @end
 @implementation TimerEditCell
 - (void)awakeFromNib {
@@ -26,20 +26,20 @@
 
 @interface TimerEditViewController ()<PassValueDelegate,
                                       DatePickerControllerDelegate>
-@property(strong, nonatomic) IBOutlet UILabel *lblTime;
-@property(strong, nonatomic) IBOutlet UILabel *lblRepeatDesc;
-@property(strong, nonatomic) IBOutlet UIButton *btnOnOff;
+@property (strong, nonatomic) IBOutlet UILabel *lblTime;
+@property (strong, nonatomic) IBOutlet UILabel *lblRepeatDesc;
+@property (strong, nonatomic) IBOutlet UIButton *btnOnOff;
 - (IBAction)onOffChanged:(id)sender;
 - (IBAction)showDatePicker:(id)sender;
 - (IBAction)changeWeek:(id)sender;
 
 //@property(nonatomic, strong) SDZGSwitch *aSwtich;
 //@property(nonatomic, assign) int socketGroupId;
-@property(nonatomic, strong) NSMutableArray *timers;  //所有的定时任务
-@property(nonatomic, strong) SDZGTimerTask *timer;  //正在编辑的定时任务
-@property(nonatomic, assign)
-    int index;  //正在编辑的timer在数组中位置，方便后续编辑操作时replace
-@property(strong, nonatomic) TimerModel *model;
+@property (nonatomic, strong) NSMutableArray *timers; //所有的定时任务
+@property (nonatomic, strong) SDZGTimerTask *timer; //正在编辑的定时任务
+@property (nonatomic, assign)
+    int index; //正在编辑的timer在数组中位置，方便后续编辑操作时replace
+@property (strong, nonatomic) TimerModel *model;
 @end
 
 @implementation TimerEditViewController
@@ -76,10 +76,10 @@
   if (!self.timer) {
     // timer不存在，则表明正在进行添加操作
     self.timer = [[SDZGTimerTask alloc] init];
-    self.timer.timerActionType = TimerActionTypeOn;  //默认开
-    self.timer.isEffective = YES;                    //默认生效
+    self.timer.timerActionType = TimerActionTypeOn; //默认开
+    self.timer.isEffective = YES;                   //默认生效
     NSDate *tenMinituesLater =
-        [NSDate dateWithTimeIntervalSinceNow:10 * 60];  //默认10分钟后
+        [NSDate dateWithTimeIntervalSinceNow:10 * 60]; //默认10分钟后
     int hour = [tenMinituesLater hour];
     int min = [tenMinituesLater minute];
     //获取当前时间离本周一0点开始的秒数
@@ -93,12 +93,12 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.navigationItem.title = @"定时任务";
+  self.navigationItem.title = NSLocalizedString(@"Timer Task", nil);
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-  backButtonItem.title = @"返回";
+  backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
   self.navigationItem.rightBarButtonItem =
-      [[UIBarButtonItem alloc] initWithTitle:@"保存"
+      [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", nil)
                                        style:UIBarButtonItemStylePlain
                                       target:self
                                       action:@selector(save:)];

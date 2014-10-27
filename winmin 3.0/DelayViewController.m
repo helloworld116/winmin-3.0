@@ -39,7 +39,7 @@
 
 - (void)setup {
   [self setupStyle];
-  self.navigationItem.title = @"延时任务";
+  self.navigationItem.title = NSLocalizedString(@"Delay Task", nil);
   self.model = [[DelayModel alloc] initWithSwitch:self.aSwitch
                                     socketGroupId:self.socketGroupId];
   [[NSNotificationCenter defaultCenter] addObserver:self

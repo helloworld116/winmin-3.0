@@ -102,7 +102,7 @@
 "H3Q-7x-DEg.placeholder" = "输入一个常用邮箱";
 
 /* Class = "IBUILabel"; text = "如使用电流超过10A或电器功率大于2200W，有可能会导致线路短路，严重时可能会引起火灾。"; ObjectID = "IFM-Rv-qQu"; */
-"IFM-Rv-qQu.text" = "如使用电流超过10A或电器功率大于2200W，有可能会导致线路短路，严重时可能会引起火灾。";
+"IFM-Rv-qQu.text" = "如使用电流超过10A或电器功率大于2500W，有可能会导致线路短路，严重时可能会引起火灾。";
 
 /* Class = "IBUIButton"; normalTitle = "关"; ObjectID = "IJD-q0-izU"; */
 "IJD-q0-izU.normalTitle" = "关";
@@ -162,7 +162,7 @@
 "Pjt-xV-W6u.text" = "自定义";
 
 /* Class = "IBUILabel"; text = "功率最大为2200W"; ObjectID = "Pro-HW-cy1"; */
-"Pro-HW-cy1.text" = "功率最大为2200W";
+"Pro-HW-cy1.text" = "功率最大为2500W";
 
 /* Class = "IBUIBarButtonItem"; title = "注册"; ObjectID = "QME-BN-UAP"; */
 "QME-BN-UAP.title" = "注册";

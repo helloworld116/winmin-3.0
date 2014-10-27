@@ -9,8 +9,8 @@
 #import "SecurityWarnViewController.h"
 
 @interface SecurityWarnViewController ()
-@property(nonatomic, strong) IBOutlet UIView *bgA;
-@property(nonatomic, strong) IBOutlet UIView *bgW;
+@property (nonatomic, strong) IBOutlet UIView *bgA;
+@property (nonatomic, strong) IBOutlet UIView *bgW;
 @end
 
 @implementation SecurityWarnViewController
@@ -31,7 +31,7 @@
 
 - (void)setup {
   [self setupStyle];
-  self.navigationItem.title = @"安全警告";
+  self.navigationItem.title = NSLocalizedString(@"Safety Warning", nil);
 }
 
 - (void)viewDidLoad {

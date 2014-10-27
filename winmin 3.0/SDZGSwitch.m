@@ -153,48 +153,48 @@
 - (NSString *)actionWeekString {
   NSMutableString *weekStr = [NSMutableString string];
   if (self.week == 127) {
-    [weekStr appendString:@"每天"];
+    [weekStr appendString:NSLocalizedString(@"Everyday", nil)];
   } else if (self.week == 0) {
-    [weekStr appendString:@"执行一次"];
+    [weekStr appendString:NSLocalizedString(@"Operating One Time", nil)];
   } else {
     if ([self isDayOn:MONDAY]) {
-      [weekStr appendString:@"周一"];
+      [weekStr appendString:NSLocalizedString(@"Mon", nil)];
     }
     if ([self isDayOn:TUESDAY]) {
       if ([weekStr length]) {
         [weekStr appendString:@"、"];
       }
-      [weekStr appendString:@"周二"];
+      [weekStr appendString:NSLocalizedString(@"Tues", nil)];
     }
     if ([self isDayOn:WENSDAY]) {
       if ([weekStr length]) {
         [weekStr appendString:@"、"];
       }
-      [weekStr appendString:@"周三"];
+      [weekStr appendString:NSLocalizedString(@"Wed", nil)];
     }
     if ([self isDayOn:THURSDAY]) {
       if ([weekStr length]) {
         [weekStr appendString:@"、"];
       }
-      [weekStr appendString:@"周四"];
+      [weekStr appendString:NSLocalizedString(@"Thurs", nil)];
     }
     if ([self isDayOn:FRIDAY]) {
       if ([weekStr length]) {
         [weekStr appendString:@"、"];
       }
-      [weekStr appendString:@"周五"];
+      [weekStr appendString:NSLocalizedString(@"Fri", nil)];
     }
     if ([self isDayOn:SATURDAY]) {
       if ([weekStr length]) {
         [weekStr appendString:@"、"];
       }
-      [weekStr appendString:@"周六"];
+      [weekStr appendString:NSLocalizedString(@"Sat", nil)];
     }
     if ([self isDayOn:SUNDAY]) {
       if ([weekStr length]) {
         [weekStr appendString:@"、"];
       }
-      [weekStr appendString:@"周日"];
+      [weekStr appendString:NSLocalizedString(@"Sun", nil)];
     }
   }
   return weekStr;
@@ -207,9 +207,9 @@
 
 - (NSString *)actionTypeString {
   if (TimerActionTypeOn == self.timerActionType) {
-    return @"开启";
+    return NSLocalizedString(@"ON", nil);
   } else {
-    return @"关闭";
+    return NSLocalizedString(@"OFF", nil);
   }
 }
 

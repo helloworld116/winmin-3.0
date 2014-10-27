@@ -76,7 +76,8 @@
 
 - (IBAction)cancel:(id)sender {
   BOOL success = NO;
-  if ([self.lblTitle.text isEqualToString:@"配置成功"]) {
+  if ([self.lblTitle.text
+          isEqualToString:NSLocalizedString(@"Config Success", nil)]) {
     [[NSNotificationCenter defaultCenter] postNotificationName:kConfigNewSwitch
                                                         object:self
                                                       userInfo:@{
@@ -107,8 +108,9 @@
                          self.view.frame = selfFrame;
                          self.loadingView.hidden = YES;
                          self.timeoutView.hidden = NO;
-                         self.lblTitle.text = @"配置超时";
-                         [self.btn setTitle:@"关  闭"
+                         self.lblTitle.text =
+                             NSLocalizedString(@"Config Timeout", nnil);
+                         [self.btn setTitle:NSLocalizedString(@"Close", nil)
                                    forState:UIControlStateNormal];
                      }];
   }
@@ -183,9 +185,11 @@
                              animations:^{
                                  self.successView.hidden = NO;
                                  self.loadingView.hidden = YES;
-                                 self.lblTitle.text = @"配置成功";
-                                 [self.btn setTitle:@"关  闭"
-                                           forState:UIControlStateNormal];
+                                 self.lblTitle.text =
+                                     NSLocalizedString(@"Config Success", nil);
+                                 [self.btn
+                                     setTitle:NSLocalizedString(@"Close", nil)
+                                     forState:UIControlStateNormal];
                              }];
         });
       }

@@ -1,0 +1,9 @@
+
+/* Class = "IBUIButton"; normalTitle = "确  定"; ObjectID = "8zB-7a-Za2"; */
+"8zB-7a-Za2.normalTitle" = "确  定";
+
+/* Class = "IBUIButton"; normalTitle = "取  消"; ObjectID = "Aeg-8o-AjJ"; */
+"Aeg-8o-AjJ.normalTitle" = "取  消";
+
+/* Class = "IBUILabel"; text = "时间选择"; ObjectID = "Qvw-Uh-0XC"; */
+"Qvw-Uh-0XC.text" = "时间选择";

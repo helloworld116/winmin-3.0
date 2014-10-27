@@ -107,9 +107,9 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.navigationItem.title = @"定时任务";
+  self.navigationItem.title = NSLocalizedString(@"Timer Task", nil);
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-  backButtonItem.title = @"返回";
+  backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
       initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
@@ -221,12 +221,12 @@
   NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
   if (indexPath && gestureRecognizer.state == UIGestureRecognizerStateBegan) {
     self.editIndexPath = indexPath;
-    UIActionSheet *actionSheet =
-        [[UIActionSheet alloc] initWithTitle:@"确定删除该定时记录"
-                                    delegate:self
-                           cancelButtonTitle:@"取消"
-                      destructiveButtonTitle:nil
-                           otherButtonTitles:@"删除", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                 initWithTitle:@"确定删除该定时记录"
+                      delegate:self
+             cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+        destructiveButtonTitle:nil
+             otherButtonTitles:NSLocalizedString(@"Delete", nil), nil];
     [actionSheet showInView:self.view];
   }
 }

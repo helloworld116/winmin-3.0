@@ -28,7 +28,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-
+  self.navigationItem.title = NSLocalizedString(@"User Manual", nil);
   dispatch_async(GLOBAL_QUEUE, ^{
       //      NSData *data =
       //          [NSData dataWithContentsOfFile:[[NSBundle mainBundle]
