@@ -10,6 +10,7 @@
 		06276B622ABA4D69A45BB762 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B2B7BB80C1420797A2EE26 /* libPods.a */; };
 		150BE85519FF8CA600A358CF /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE85419FF8CA600A358CF /* ForgetPwdViewController.m */; };
 		150BE85819FF91FE00A358CF /* ResetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE85719FF91FE00A358CF /* ResetPwdViewController.m */; };
+		150BE86119FFA7B700A358CF /* FindPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE86019FFA7B700A358CF /* FindPassword.m */; };
 		150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6DD19F9E276005134B7 /* FaqCell.xib */; };
 		150FC6E319FA39DB005134B7 /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150FC6E219FA39DB005134B7 /* ProtocolViewController.m */; };
 		150FC6E519FA419B005134B7 /* protocol.htm in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6E419FA419B005134B7 /* protocol.htm */; };
@@ -146,6 +147,10 @@
 		150BE85419FF8CA600A358CF /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
 		150BE85619FF91FE00A358CF /* ResetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPwdViewController.h; sourceTree = "<group>"; };
 		150BE85719FF91FE00A358CF /* ResetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPwdViewController.m; sourceTree = "<group>"; };
+		150BE85C19FFA2B900A358CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		150BE85E19FFA33300A358CF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		150BE85F19FFA7B700A358CF /* FindPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPassword.h; sourceTree = "<group>"; };
+		150BE86019FFA7B700A358CF /* FindPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPassword.m; sourceTree = "<group>"; };
 		150FC6DD19F9E276005134B7 /* FaqCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FaqCell.xib; sourceTree = "<group>"; };
 		150FC6E119FA39DB005134B7 /* ProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolViewController.h; sourceTree = "<group>"; };
 		150FC6E219FA39DB005134B7 /* ProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolViewController.m; sourceTree = "<group>"; };
@@ -311,8 +316,6 @@
 		15AC865719D158D700D154EB /* DelayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelayModel.m; sourceTree = "<group>"; };
 		15AC865919D2C56400D154EB /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
 		15AC865A19D2C56400D154EB /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
-		15B3B92919F510F50058D91F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
-		15B3B92B19F511000058D91F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		15B3B92D19F511760058D91F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ConfigLoadingViewController.xib; sourceTree = "<group>"; };
 		15B3B93019F5117C0058D91F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ConfigLoadingViewController.strings; sourceTree = "<group>"; };
 		15B3B93219F5117F0058D91F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ConfigLoadingViewController.strings"; sourceTree = "<group>"; };
@@ -937,6 +940,8 @@
 				15F3A47B19EB8123001CD296 /* UserInfo.m */,
 				15F3A47C19EB8123001CD296 /* ServerResponse.h */,
 				15F3A47D19EB8123001CD296 /* ServerResponse.m */,
+				150BE85F19FFA7B700A358CF /* FindPassword.h */,
+				150BE86019FFA7B700A358CF /* FindPassword.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -1093,6 +1098,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15F3A47619EB80E4001CD296 /* RegisterViewController.m in Sources */,
+				150BE86119FFA7B700A358CF /* FindPassword.m in Sources */,
 				158D993619C7E2530068AFC5 /* SceneDetail.m in Sources */,
 				158D988B19C6F39C0068AFC5 /* AppDelegate.m in Sources */,
 				155A5BF919D3F306007864C8 /* SceneEditCell.m in Sources */,
@@ -1193,8 +1199,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				158D988D19C6F39C0068AFC5 /* Base */,
-				15B3B92919F510F50058D91F /* en */,
-				15B3B92B19F511000058D91F /* zh-Hans */,
+				150BE85C19FFA2B900A358CF /* en */,
+				150BE85E19FFA33300A358CF /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1335,6 +1341,7 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShareSDK/Connection",
@@ -1368,6 +1375,7 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShareSDK/Connection",

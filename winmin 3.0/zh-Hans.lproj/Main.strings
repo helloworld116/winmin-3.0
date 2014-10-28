@@ -1,5 +1,5 @@
 
-/* Class = "IBUINavigationItem"; title = "winmin"; ObjectID = "11N-PV-plA"; */
+/* Class = "IBUINavigationItem"; title = "控制"; ObjectID = "11N-PV-plA"; */
 "11N-PV-plA.title" = "控制";
 
 /* Class = "IBUILabel"; text = "电流最大为10A"; ObjectID = "15y-7T-be0"; */
@@ -44,6 +44,9 @@
 /* Class = "IBUITabBarItem"; title = "控制"; ObjectID = "5L5-oc-qBr"; */
 "5L5-oc-qBr.title" = "控制";
 
+/* Class = "IBUIButton"; normalTitle = "发  送"; ObjectID = "5UU-ov-Xbu"; */
+"5UU-ov-Xbu.normalTitle" = "发  送";
+
 /* Class = "IBUILabel"; text = "洗衣机"; ObjectID = "6EI-iE-6FZ"; */
 "6EI-iE-6FZ.text" = "洗衣机";
 
@@ -70,6 +73,12 @@
 
 /* Class = "IBUILabel"; text = "密码"; ObjectID = "AOx-zM-hV1"; */
 "AOx-zM-hV1.text" = "密码";
+
+/* Class = "IBUILabel"; text = "忘记密码？"; ObjectID = "Abb-D0-dMa"; */
+"Abb-D0-dMa.text" = "忘记密码？";
+
+/* Class = "IBUITextField"; placeholder = "请输入新密码"; ObjectID = "BWD-9w-wKs"; */
+"BWD-9w-wKs.placeholder" = "请输入新密码";
 
 /* Class = "IBUIButton"; normalTitle = "更新版本"; ObjectID = "C6G-Rb-OtN"; */
 "C6G-Rb-OtN.normalTitle" = "更新版本";
@@ -101,7 +110,7 @@
 /* Class = "IBUITextField"; placeholder = "输入一个常用邮箱"; ObjectID = "H3Q-7x-DEg"; */
 "H3Q-7x-DEg.placeholder" = "输入一个常用邮箱";
 
-/* Class = "IBUILabel"; text = "如使用电流超过10A或电器功率大于2200W，有可能会导致线路短路，严重时可能会引起火灾。"; ObjectID = "IFM-Rv-qQu"; */
+/* Class = "IBUILabel"; text = "如使用电流超过10A或电器功率大于2500W，有可能会导致线路短路，严重时可能会引起火灾。"; ObjectID = "IFM-Rv-qQu"; */
 "IFM-Rv-qQu.text" = "如使用电流超过10A或电器功率大于2500W，有可能会导致线路短路，严重时可能会引起火灾。";
 
 /* Class = "IBUIButton"; normalTitle = "关"; ObjectID = "IJD-q0-izU"; */
@@ -112,6 +121,9 @@
 
 /* Class = "IBUIButton"; normalTitle = "6月"; ObjectID = "Iha-vB-vGu"; */
 "Iha-vB-vGu.normalTitle" = "6月";
+
+/* Class = "IBUINavigationItem"; title = "使用手册"; ObjectID = "Itd-y0-HXr"; */
+"Itd-y0-HXr.title" = "使用手册";
 
 /* Class = "IBUILabel"; text = "客厅"; ObjectID = "IxK-Ri-O9N"; */
 "IxK-Ri-O9N.text" = "客厅";
@@ -133,6 +145,9 @@
 
 /* Class = "IBUIButton"; normalTitle = "延时"; ObjectID = "Lq6-md-TsT"; */
 "Lq6-md-TsT.normalTitle" = "延时";
+
+/* Class = "IBUITextField"; placeholder = "输入您的邮箱"; ObjectID = "MTh-6X-OCh"; */
+"MTh-6X-OCh.placeholder" = "输入您的邮箱";
 
 /* Class = "IBUILabel"; text = "WINMIN-T1目前支持"; ObjectID = "N7g-qA-847"; */
 "N7g-qA-847.text" = "WINMIN-T1目前支持";
@@ -161,7 +176,7 @@
 /* Class = "IBUILabel"; text = "自定义"; ObjectID = "Pjt-xV-W6u"; */
 "Pjt-xV-W6u.text" = "自定义";
 
-/* Class = "IBUILabel"; text = "功率最大为2200W"; ObjectID = "Pro-HW-cy1"; */
+/* Class = "IBUILabel"; text = "功率最大为2500W"; ObjectID = "Pro-HW-cy1"; */
 "Pro-HW-cy1.text" = "功率最大为2500W";
 
 /* Class = "IBUIBarButtonItem"; title = "注册"; ObjectID = "QME-BN-UAP"; */
@@ -209,8 +224,8 @@
 /* Class = "IBUILabel"; text = "重复"; ObjectID = "YVx-mn-jPB"; */
 "YVx-mn-jPB.text" = "重复";
 
-/* Class = "IBUILabel"; text = "忘记密码？"; ObjectID = "Abb-D0-dMa"; */
-"Abb-D0-dMa.text" = "忘记密码？";
+/* Class = "IBUITextField"; placeholder = "再次输入新密码"; ObjectID = "Z0C-Cn-5Rk"; */
+"Z0C-Cn-5Rk.placeholder" = "再次输入新密码";
 
 /* Class = "IBUILabel"; text = "玄关"; ObjectID = "ZWd-RO-Yf5"; */
 "ZWd-RO-Yf5.text" = "玄关";
@@ -230,6 +245,9 @@
 /* Class = "IBUILabel"; text = "0"; ObjectID = "chz-HN-ZjG"; */
 "chz-HN-ZjG.text" = "0";
 
+/* Class = "IBUITextField"; placeholder = "请输入注册邮箱"; ObjectID = "cmd-U7-7sq"; */
+"cmd-U7-7sq.placeholder" = "请输入注册邮箱";
+
 /* Class = "IBUINavigationItem"; title = "更多"; ObjectID = "csK-dr-Jlo"; */
 "csK-dr-Jlo.title" = "更多";
 
@@ -247,6 +265,9 @@
 
 /* Class = "IBUILabel"; text = "电冰箱"; ObjectID = "hNK-y0-Gxk"; */
 "hNK-y0-Gxk.text" = "电冰箱";
+
+/* Class = "IBUIButton"; normalTitle = "了解更多关于winmin的信息"; ObjectID = "hzL-9g-9hM"; */
+"hzL-9g-9hM.normalTitle" = "了解更多关于winmin的信息";
 
 /* Class = "IBUILabel"; text = "智能客厅"; ObjectID = "ivH-A0-sPi"; */
 "ivH-A0-sPi.text" = "智能客厅";
@@ -268,6 +289,9 @@
 
 /* Class = "IBUILabel"; text = "头像"; ObjectID = "m4M-fF-xh2"; */
 "m4M-fF-xh2.text" = "头像";
+
+/* Class = "IBUITextField"; placeholder = "请输入验证码"; ObjectID = "mcA-ld-VC9"; */
+"mcA-ld-VC9.placeholder" = "请输入验证码";
 
 /* Class = "IBUILabel"; text = "待执行"; ObjectID = "mf8-zP-IUY"; */
 "mf8-zP-IUY.text" = "待执行";
@@ -308,7 +332,10 @@
 /* Class = "IBUITextField"; placeholder = "请输入名称"; ObjectID = "sxl-6l-vIt"; */
 "sxl-6l-vIt.placeholder" = "请输入名称";
 
-/* Class = "IBUINavigationItem"; title = "网络配置"; ObjectID = "tPK-7U-BgE"; */
+/* Class = "IBUIButton"; normalTitle = "保  存"; ObjectID = "tKU-Xh-WBc"; */
+"tKU-Xh-WBc.normalTitle" = "保  存";
+
+/* Class = "IBUINavigationItem"; title = "配置"; ObjectID = "tPK-7U-BgE"; */
 "tPK-7U-BgE.title" = "配置";
 
 /* Class = "IBUITextField"; text = "智能插座"; ObjectID = "u99-SP-hPe"; */

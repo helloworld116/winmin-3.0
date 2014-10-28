@@ -123,6 +123,10 @@
 #define kSceneFinishedWindowViewRemoveNotification                             \
   @"SceneFinishedWindowViewRemoveNotification"
 
+#define kSendEmailResponse @"SendEmailResponse"
+#define kResetPasswordResponse @"ResetPasswordResponse"
+#define kNewPasswordLogin @"NewPasswordLogin"
+
 //加密
 #define __ENCRYPT(str) [DESUtil encryptString:str]
 #define __DECRYPT(str) [DESUtil decryptString:str]

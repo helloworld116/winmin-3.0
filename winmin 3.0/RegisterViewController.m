@@ -10,7 +10,7 @@
 #import "UserInfo.h"
 #import "TextUtil.h"
 
-@interface RegisterViewController ()<UITextFieldDelegate>
+@interface RegisterViewController () <UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UITextField *textEmail;
 @property (strong, nonatomic) IBOutlet UITextField *textFieldPassword;
@@ -179,27 +179,27 @@ preparation before navigation
     if ([TextUtil isEmailAddress:email]) {
       self.email = email;
     } else {
-      [self showMessage:@"邮箱格式不正确"];
+      [self showMessage:NSLocalizedString(@"email format is incorrect", nil)];
       return NO;
     }
   } else {
-    [self showMessage:@"邮箱不能为空"];
+    [self showMessage:NSLocalizedString(@"email can not be empty", nil)];
     return NO;
   }
   if (!password.length) {
-    [self showMessage:@"密码不能为空"];
+    [self showMessage:NSLocalizedString(@"password can not be empty", nil)];
     return NO;
   }
   if ([password isEqualToString:password2]) {
     self.password = password;
   } else {
-    [self showMessage:@"两次输入的密码不一致"];
+    [self showMessage:NSLocalizedString(@"two passwords do not match", nil)];
     return NO;
   }
   if (nickName.length) {
     self.nickName = nickName;
   } else {
-    [self showMessage:@"昵称不能为空"];
+    [self showMessage:NSLocalizedString(@"nickname can not be empty", nil)];
     return NO;
   }
   return YES;

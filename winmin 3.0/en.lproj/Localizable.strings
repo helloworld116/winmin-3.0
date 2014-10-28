@@ -33,7 +33,7 @@
 "Device offline, Please check your network"="Device offline, Please check your network";
 "Which operation do you want?"="Which operation do you want?";
 "Flash"="Flash";
-"Tips"="Tips";
+"Tips"="Warning";
 "TipsInfo"="Remove the device will delete all the scenes associated with the device under whether to continue to remove the device?";
 "Timer Task"="Timer Task";
 "Repeat"="Repeat";
@@ -80,6 +80,16 @@
 "User Login"="Login";
 "User Register"="Register";
 "Login"="Login";
+"Username or password can not be empty"="Username or password can not be empty";
+"The user cancels the authorization, use the account login or retry"="The user cancels the authorization, use the account login or retry";
+"You are currently QQ or QQSpace is not installed, please install"="You are currently QQ or QQSpace is not installed, please install";
+"new  password login"="Password reset successfully, use the new password system";
 "Register"="Register";
 "Find Password"="Find Password";
 "Reset Password"="Reset Password";
+"email format is incorrect"="email format is incorrect";
+"email can not be empty"="email can not be empty";
+"password can not be empty"="password can not be empty";
+"two passwords do not match"="two passwords do not match";
+"nickname can not be empty"="nickname can not be empty";
+"verfication code can not be empty"="verfication code can not be empty";

@@ -12,7 +12,7 @@
 static int const kCancelAuthoriztionCode = -103;
 static int const kQQNotInstalled = -6004;
 
-@interface LoginViewController ()<UITextFieldDelegate, ISSViewDelegate>
+@interface LoginViewController () <UITextFieldDelegate, ISSViewDelegate>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIView *view1;
 @property (strong, nonatomic) IBOutlet UIView *view2;
@@ -81,6 +81,18 @@ static int const kQQNotInstalled = -6004;
   [self setupStyle];
   self.textFieldUsername.delegate = self;
   self.textFieldPassword.delegate = self;
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(loginResponse:)
+                                               name:kLoginResponse
+                                             object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserverForName:kNewPasswordLogin
+                  object:nil
+                   queue:nil
+              usingBlock:^(NSNotification *note) {
+                  [self showMessage:NSLocalizedString(@"new  password login",
+                                                      nil)];
+              }];
 }
 
 - (void)viewDidLoad {
@@ -104,11 +116,6 @@ static int const kQQNotInstalled = -6004;
          selector:@selector(keyboardWillBeHidden:)
              name:UIKeyboardWillHideNotification
            object:nil];
-
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(loginResponse:)
-                                               name:kLoginResponse
-                                             object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -121,14 +128,15 @@ static int const kQQNotInstalled = -6004;
       removeObserver:self
                 name:UIKeyboardWillHideNotification
               object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kLoginResponse
-                                                object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - UIStatusBarStyle
@@ -169,11 +177,13 @@ static int const kQQNotInstalled = -6004;
                        debugLog(@"errorCode is %d and errorDescription is %@",
                                 [error errorCode], error.errorDescription);
                        if (kCancelAuthoriztionCode == [error errorCode]) {
-                         [self.view
-                             makeToast:@"用"
-                             @"户取消授权，请使用账号登陆或重试"
-                              duration:1
-                              position:nil];
+                         [self.view makeToast:NSLocalizedString(
+                                                  @"The user cancels the "
+                                                  @"authorization, use the "
+                                                  @"account login or retry",
+                                                  nil)
+                                     duration:1
+                                     position:nil];
                        }
                    }];
 }
@@ -196,21 +206,27 @@ static int const kQQNotInstalled = -6004;
                                 [error errorCode], error.errorDescription);
                        if ([error errorCode] == kQQNotInstalled) {
                          UIAlertView *alertView = [[UIAlertView alloc]
-                                 initWithTitle:@"温馨提示"
-                                       message:@"您" @"当"
-                                       @"前未安装QQ或QQ空间，请"
-                                       @"先安" @"装"
+                                 initWithTitle:NSLocalizedString(@"Tips", nil)
+                                       message:NSLocalizedString(
+                                                   @"You are currently QQ or "
+                                                   @"QQSpace is not "
+                                                   @"installed, please "
+                                                   @"install",
+                                                   nil)
                                       delegate:nil
-                             cancelButtonTitle:@"取消"
+                             cancelButtonTitle:NSLocalizedString(@"Canecel",
+                                                                 nil)
                              otherButtonTitles:nil];
                          [alertView show];
                        } else if (kCancelAuthoriztionCode ==
                                   [error errorCode]) {
-                         [self.view
-                             makeToast:@"用"
-                             @"户取消授权，请使用账号登陆或重试"
-                              duration:1
-                              position:nil];
+                         [self.view makeToast:NSLocalizedString(
+                                                  @"The user cancels the "
+                                                  @"authorization, use the "
+                                                  @"account login or retry",
+                                                  nil)
+                                     duration:1
+                                     position:nil];
                        }
                    }];
 }
@@ -247,15 +263,20 @@ static int const kQQNotInstalled = -6004;
     self.password = password;
     return YES;
   } else {
-    [self.view
-        makeToast:@"用户名或密码不能为空"
-         duration:1.f
-         position:[NSValue
-                      valueWithCGPoint:CGPointMake(
-                                           self.view.frame.size.width / 2,
-                                           self.view.frame.size.height - 40)]];
+    [self showMessage:NSLocalizedString(
+                          @"Username or password can not be empty", nil)];
     return NO;
   }
+}
+
+- (void)showMessage:(NSString *)msg {
+  [self.view
+      makeToast:msg
+       duration:1.f
+       position:[NSValue
+                    valueWithCGPoint:CGPointMake(self.view.frame.size.width / 2,
+                                                 self.view.frame.size.height -
+                                                     40)]];
 }
 
 - (IBAction)touchBackground:(id)sender {

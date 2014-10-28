@@ -2493,7 +2493,7 @@
                                         <rect key="frame" x="55" y="0.0" width="245" height="50"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="send" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -2650,7 +2650,7 @@
                                                         <rect key="frame" x="55" y="0.0" width="245" height="50"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="alphabet" returnKeyType="next" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="alphabet" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
