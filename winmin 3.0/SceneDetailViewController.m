@@ -76,7 +76,7 @@
   self.tableView.dataSource = self;
   self.textFieldSceneName.delegate = self;
   self.textFieldSceneName.attributedPlaceholder = [[NSAttributedString alloc]
-      initWithString:@"请输入场景名称"
+      initWithString:NSLocalizedString(@"Please enter the scene name", nil)
           attributes:@{ NSForegroundColorAttributeName : kThemeColor }];
   self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
 
@@ -149,7 +149,8 @@
   NSArray *details = [[DBUtil sharedInstance] allSceneDetailsTmp];
   NSString *sceneName = self.textFieldSceneName.text;
   if (sceneName.length == 0) {
-    [self.view makeToast:@"请输入场景名称"];
+    [self.view
+        makeToast:NSLocalizedString(@"Please enter the scene name", nil)];
     return;
   }
   if (details && details.count) {

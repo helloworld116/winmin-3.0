@@ -84,7 +84,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  self.navigationItem.title = @"用户注册";
+  self.navigationItem.title = NSLocalizedString(@"User Register", nil);
   [self setup];
 }
 

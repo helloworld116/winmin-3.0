@@ -120,7 +120,7 @@ preparation before navigation
 - (IBAction)showActionSheet:(id)sender {
   [self.textFieldName resignFirstResponder];
   UIActionSheet *actionSheet = [[UIActionSheet alloc]
-               initWithTitle:@"自定义电器"
+               initWithTitle:NSLocalizedString(@"How to set the Icon?", nil)
                     delegate:self
            cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
       destructiveButtonTitle:nil

@@ -45,10 +45,11 @@
 
 - (void)setup {
   [self setupStyle];
-  self.noDataView =
-      [[UIView alloc] initWithSize:self.view.frame.size
-                           imgName:@"notimer"
-                           message:@"您暂时还未添加任何定时计划"];
+  self.noDataView = [[UIView alloc]
+      initWithSize:self.view.frame.size
+           imgName:@"notimer"
+           message:NSLocalizedString(@"You have not yet added any time task",
+                                     nil)];
   self.noDataView.hidden = YES;
   [self.tableView addSubview:self.noDataView];
   self.model = [[TimerModel alloc] initWithSwitch:self.aSwitch
@@ -222,7 +223,9 @@
   if (indexPath && gestureRecognizer.state == UIGestureRecognizerStateBegan) {
     self.editIndexPath = indexPath;
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                 initWithTitle:@"确定删除该定时记录"
+                 initWithTitle:NSLocalizedString(
+                                   @"Are you sure to delete the timer task",
+                                   nil)
                       delegate:self
              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
         destructiveButtonTitle:nil
@@ -249,7 +252,7 @@
   NSString *message;
   switch (type) {
     case kAddTimer:
-      message = @"添加成功";
+      message = NSLocalizedString(@"Added successfully", nil);
       indexPath =
           [NSIndexPath indexPathForRow:self.timers.count - 1 inSection:0];
       [self.tableView beginUpdates];
@@ -259,7 +262,7 @@
       [self updateViewWithReloadData:NO];
       break;
     default:
-      message = @"修改成功";
+      message = NSLocalizedString(@"Modified successfully", nil);
       indexPath = [NSIndexPath indexPathForRow:type inSection:0];
       [self.tableView reloadRowsAtIndexPaths:@[ indexPath ]
                             withRowAnimation:UITableViewRowAnimationAutomatic];

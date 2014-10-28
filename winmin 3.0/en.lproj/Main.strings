@@ -21,10 +21,10 @@
 "2X4-wR-Mzm.text" = "执行一次执行一次执行";
 
 /* Class = "IBUIButton"; normalTitle = "1年"; ObjectID = "35W-mQ-9Ou"; */
-"35W-mQ-9Ou.normalTitle" = "1年";
+"35W-mQ-9Ou.normalTitle" = "1Y";
 
 /* Class = "IBUIButton"; normalTitle = "注  册"; ObjectID = "3h7-X4-gem"; */
-"3h7-X4-gem.normalTitle" = "注  册";
+"3h7-X4-gem.normalTitle" = "Register";
 
 /* Class = "IBUITextField"; placeholder = "请先连接至WIFI网络"; ObjectID = "3mc-Qe-dOd"; */
 "3mc-Qe-dOd.placeholder" = "Please connect WiFi";
@@ -60,7 +60,7 @@
 "8Ag-IM-fzm.text" = "You are not logged in";
 
 /* Class = "IBUIButton"; normalTitle = "1天"; ObjectID = "8CF-tY-69s"; */
-"8CF-tY-69s.normalTitle" = "One Day";
+"8CF-tY-69s.normalTitle" = "1D";
 
 /* Class = "IBUIButton"; normalTitle = "开始体验"; ObjectID = "8L0-h8-Ve4"; */
 "8L0-h8-Ve4.normalTitle" = "Start to experience";
@@ -72,7 +72,7 @@
 "AOx-zM-hV1.text" = "Password";
 
 /* Class = "IBUIButton"; normalTitle = "更新版本"; ObjectID = "C6G-Rb-OtN"; */
-"C6G-Rb-OtN.normalTitle" = "更新版本";
+"C6G-Rb-OtN.normalTitle" = "Check for Updates";
 
 /* Class = "IBUITextField"; placeholder = "输入您的密码"; ObjectID = "CB8-zv-Cp6"; */
 "CB8-zv-Cp6.placeholder" = "Please enter your password";
@@ -81,10 +81,10 @@
 "CrE-TS-7SS.normalTitle" = "  Weibo";
 
 /* Class = "IBUITextField"; placeholder = "请再输入一次"; ObjectID = "D6F-Mv-9UT"; */
-"D6F-Mv-9UT.placeholder" = "请再输入一次";
+"D6F-Mv-9UT.placeholder" = "Re-enter the password to confirm";
 
 /* Class = "IBUIButton"; normalTitle = "3月"; ObjectID = "F35-e2-b6b"; */
-"F35-e2-b6b.normalTitle" = "3月";
+"F35-e2-b6b.normalTitle" = "3M";
 
 /* Class = "IBUILabel"; text = "当前版本"; ObjectID = "FIP-G5-CqJ"; */
 "FIP-G5-CqJ.text" = "Current version";
@@ -93,13 +93,13 @@
 "Fua-3k-jcH.text" = "ON";
 
 /* Class = "IBUILabel"; text = "确认密码"; ObjectID = "GlH-h6-AVG"; */
-"GlH-h6-AVG.text" = "确认密码";
+"GlH-h6-AVG.text" = "Confirm Password";
 
 /* Class = "IBUIButton"; normalTitle = "确  定"; ObjectID = "Gqh-Nt-oHp"; */
 "Gqh-Nt-oHp.normalTitle" = "确  定";
 
 /* Class = "IBUITextField"; placeholder = "输入一个常用邮箱"; ObjectID = "H3Q-7x-DEg"; */
-"H3Q-7x-DEg.placeholder" = "输入一个常用邮箱";
+"H3Q-7x-DEg.placeholder" = "Please enter your email";
 
 /* Class = "IBUILabel"; text = "如使用电流超过10A或电器功率大于2200W，有可能会导致线路短路，严重时可能会引起火灾。"; ObjectID = "IFM-Rv-qQu"; */
 "IFM-Rv-qQu.text" = "If the current is more than 10A or the power is greater than 2500W, may lead to short circuit or other fault. Even may cause fires!";
@@ -111,7 +111,7 @@
 "IJD-q0-izU.selectedTitle" = "ON";
 
 /* Class = "IBUIButton"; normalTitle = "6月"; ObjectID = "Iha-vB-vGu"; */
-"Iha-vB-vGu.normalTitle" = "6月";
+"Iha-vB-vGu.normalTitle" = "6M";
 
 /* Class = "IBUILabel"; text = "客厅"; ObjectID = "IxK-Ri-O9N"; */
 "IxK-Ri-O9N.text" = "客厅";
@@ -144,7 +144,7 @@
 "NMH-iV-t2c.text" = "周一";
 
 /* Class = "IBUITextField"; placeholder = "您显示的名称"; ObjectID = "NVM-Fr-0nO"; */
-"NVM-Fr-0nO.placeholder" = "您显示的名称";
+"NVM-Fr-0nO.placeholder" = "Pick a name you want";
 
 /* Class = "IBUILabel"; text = "V 2.2"; ObjectID = "Ns1-2o-WlU"; */
 "Ns1-2o-WlU.text" = "V 2.2";
@@ -153,10 +153,10 @@
 "OPB-dw-LIn.text" = "儿童房";
 
 /* Class = "IBUITextField"; placeholder = "输入6-20个数字或字母"; ObjectID = "Oa1-X7-MGw"; */
-"Oa1-X7-MGw.placeholder" = "输入6-20个数字或字母";
+"Oa1-X7-MGw.placeholder" = "Enter 6 to 20 Numbers or letters";
 
 /* Class = "IBUIButton"; normalTitle = "退出"; ObjectID = "PcL-EO-u4K"; */
-"PcL-EO-u4K.normalTitle" = "退出";
+"PcL-EO-u4K.normalTitle" = "Log out";
 
 /* Class = "IBUILabel"; text = "自定义"; ObjectID = "Pjt-xV-W6u"; */
 "Pjt-xV-W6u.text" = "Custom";
@@ -195,7 +195,7 @@
 "XAF-Ez-sQi.text" = "ON";
 
 /* Class = "IBUIButton"; normalTitle = "1周"; ObjectID = "XXX-2J-eId"; */
-"XXX-2J-eId.normalTitle" = "One Week";
+"XXX-2J-eId.normalTitle" = "1W";
 
 /* Class = "IBUINavigationItem"; title = "登录"; ObjectID = "Xpa-pU-DQ6"; */
 "Xpa-pU-DQ6.title" = "Log in";
@@ -209,8 +209,8 @@
 /* Class = "IBUILabel"; text = "重复"; ObjectID = "YVx-mn-jPB"; */
 "YVx-mn-jPB.text" = "Repeat";
 
-/* Class = "IBUIButton"; normalTitle = "忘记密码？"; ObjectID = "ZFR-1b-Ll0"; */
-"ZFR-1b-Ll0.normalTitle" = "Forget Password?";
+/* Class = "IBUILabel"; text = "忘记密码？"; ObjectID = "Abb-D0-dMa"; */
+"Abb-D0-dMa.text" = "Forget Password?";
 
 /* Class = "IBUILabel"; text = "玄关"; ObjectID = "ZWd-RO-Yf5"; */
 "ZWd-RO-Yf5.text" = "玄关";
@@ -234,7 +234,7 @@
 "csK-dr-Jlo.title" = "More";
 
 /* Class = "IBUIButton"; normalTitle = "登  录"; ObjectID = "e14-PH-eKo"; */
-"e14-PH-eKo.normalTitle" = "登  录";
+"e14-PH-eKo.normalTitle" = "Login";
 
 /* Class = "IBUILabel"; text = "名称"; ObjectID = "fhC-Kb-pNF"; */
 "fhC-Kb-pNF.text" = "Name";
@@ -330,7 +330,7 @@
 "ysL-wJ-XLm.text" = "0";
 
 /* Class = "IBUIButton"; normalTitle = "1月"; ObjectID = "ywm-SG-V6s"; */
-"ywm-SG-V6s.normalTitle" = "One Month";
+"ywm-SG-V6s.normalTitle" = "1M";
 
 /* Class = "IBUILabel"; text = "自定义"; ObjectID = "zdv-Xg-vRN"; */
 "zdv-Xg-vRN.text" = "Custom";
@@ -340,3 +340,6 @@
 
 /* Class = "IBUITextField"; placeholder = "输入您的邮箱"; ObjectID = "zwv-Cp-1vr"; */
 "zwv-Cp-1vr.placeholder" = "Please enter registered email";
+
+/* Class = "IBUIButton"; normalTitle = "了解更多关于winmin的信息"; ObjectID = "hzL-9g-9hM"; */
+"hzL-9g-9hM.normalTitle" = "Learn more about Winmin";

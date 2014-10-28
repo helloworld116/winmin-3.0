@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		06276B622ABA4D69A45BB762 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B2B7BB80C1420797A2EE26 /* libPods.a */; };
+		150BE85519FF8CA600A358CF /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE85419FF8CA600A358CF /* ForgetPwdViewController.m */; };
+		150BE85819FF91FE00A358CF /* ResetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE85719FF91FE00A358CF /* ResetPwdViewController.m */; };
 		150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6DD19F9E276005134B7 /* FaqCell.xib */; };
 		150FC6E319FA39DB005134B7 /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150FC6E219FA39DB005134B7 /* ProtocolViewController.m */; };
 		150FC6E519FA419B005134B7 /* protocol.htm in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6E419FA419B005134B7 /* protocol.htm */; };
@@ -140,6 +142,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		150BE85319FF8CA600A358CF /* ForgetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgetPwdViewController.h; sourceTree = "<group>"; };
+		150BE85419FF8CA600A358CF /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
+		150BE85619FF91FE00A358CF /* ResetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPwdViewController.h; sourceTree = "<group>"; };
+		150BE85719FF91FE00A358CF /* ResetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPwdViewController.m; sourceTree = "<group>"; };
 		150FC6DD19F9E276005134B7 /* FaqCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FaqCell.xib; sourceTree = "<group>"; };
 		150FC6E119FA39DB005134B7 /* ProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolViewController.h; sourceTree = "<group>"; };
 		150FC6E219FA39DB005134B7 /* ProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolViewController.m; sourceTree = "<group>"; };
@@ -909,6 +915,10 @@
 				15F3A47419EB80E4001CD296 /* RegisterViewController.m */,
 				150FC6E119FA39DB005134B7 /* ProtocolViewController.h */,
 				150FC6E219FA39DB005134B7 /* ProtocolViewController.m */,
+				150BE85319FF8CA600A358CF /* ForgetPwdViewController.h */,
+				150BE85419FF8CA600A358CF /* ForgetPwdViewController.m */,
+				150BE85619FF91FE00A358CF /* ResetPwdViewController.h */,
+				150BE85719FF91FE00A358CF /* ResetPwdViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -1103,6 +1113,7 @@
 				155A5BF319D3E260007864C8 /* SceneTemplateViewController.m in Sources */,
 				15AC864119CFC71400D154EB /* TimerCell.m in Sources */,
 				158D992919C7E1390068AFC5 /* ViewUtil.m in Sources */,
+				150BE85519FF8CA600A358CF /* ForgetPwdViewController.m in Sources */,
 				155A5BF019D3D7B3007864C8 /* SceneCell.m in Sources */,
 				1551F6EF19F8951200A24447 /* FAQViewController.m in Sources */,
 				15AC864419CFC7B100D154EB /* TimerModel.m in Sources */,
@@ -1116,6 +1127,7 @@
 				1560130E19C956A600BF7E12 /* MoreCellTypeSecond.m in Sources */,
 				15AC864719CFFE7000D154EB /* UIView+NoDataView.m in Sources */,
 				158D993719C7E2530068AFC5 /* Scene.m in Sources */,
+				150BE85819FF91FE00A358CF /* ResetPwdViewController.m in Sources */,
 				15F3A47519EB80E4001CD296 /* LoginViewController.m in Sources */,
 				15F3A48819EE521D001CD296 /* MoreCellTypeThird.m in Sources */,
 				15F3A46E19EB718A001CD296 /* AboutUsViewController.m in Sources */,

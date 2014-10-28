@@ -119,7 +119,7 @@ preparation before navigation
   } else {
     //自定义
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                 initWithTitle:@"自定义电器"
+                 initWithTitle:NSLocalizedString(@"How to set the Icon?", nil)
                       delegate:self
              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
         destructiveButtonTitle:nil

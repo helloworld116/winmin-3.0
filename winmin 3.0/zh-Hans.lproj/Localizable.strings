@@ -33,6 +33,8 @@
 "Device offline, Please check your network"="设备已离线,请检查手机或设备网络情况";
 "Which operation do you want?"="请选择操作";
 "Flash"="闪烁";
+"Tips"="温馨提示";
+"TipsInfo"="删除设备将删除该设备关联下的所有场景，是否继续删除该设备？";
 "Timer Task"="定时任务";
 "Repeat"="重复";
 "Operating One Time"="执行一次";
@@ -51,7 +53,11 @@
 ""="添加成功";
 ""="修改成功";
 "Delay Task"="延时任务";
-
+"How to set the Icon?"="如何设置图标？";
+"You have not yet added any time task"="您暂时还未添加任何定时任务";
+"Are you sure to delete the timer task"="您确定要删除该定时任务";
+"Added successfully"="添加成功";
+"Modified successfully"="修改成功";
 /**
  *  配置
  */
@@ -63,10 +69,12 @@
  */
 "Scene"="场景";
 "You have not add any scene!"="您暂时还未添加任何场景!";
-""="场景执行中...";
-""="场景执行完成";
-""="执行成功";
-""="执行失败";
+"Please enter the scene name"="请输入场景名称";
+"Please add one operation"="请添加一条操作";
+"is executing"="场景执行中...";
+"execute finished"="场景执行完成";
+"execute success"="执行成功";
+"execute failure"="执行失败";
 
 /**
  *  更多
@@ -76,6 +84,12 @@
 "FAQ"="常见问题";
 "User Manual"="使用手册";
 "Purchase Products"="购买产品";
+"User Login"="用户登录";
+"User Register"="用户注册";
+"Login"="登录";
+"Register"="注册";
+"Find Password"="找回密码";
+"Reset Password"="重置密码";
 ""="邮箱格式不正确";
 ""="邮箱不能为空";
 ""="密码不能为空";

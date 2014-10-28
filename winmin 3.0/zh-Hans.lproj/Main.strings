@@ -209,8 +209,8 @@
 /* Class = "IBUILabel"; text = "重复"; ObjectID = "YVx-mn-jPB"; */
 "YVx-mn-jPB.text" = "重复";
 
-/* Class = "IBUIButton"; normalTitle = "忘记密码？"; ObjectID = "ZFR-1b-Ll0"; */
-"ZFR-1b-Ll0.normalTitle" = "忘记密码？";
+/* Class = "IBUILabel"; text = "忘记密码？"; ObjectID = "Abb-D0-dMa"; */
+"Abb-D0-dMa.text" = "忘记密码？";
 
 /* Class = "IBUILabel"; text = "玄关"; ObjectID = "ZWd-RO-Yf5"; */
 "ZWd-RO-Yf5.text" = "玄关";

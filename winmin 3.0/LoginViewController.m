@@ -86,7 +86,7 @@ static int const kQQNotInstalled = -6004;
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  self.navigationItem.title = @"用户登陆";
+  self.navigationItem.title = NSLocalizedString(@"User Login", nil);
 
   [self setup];
 }
@@ -230,6 +230,9 @@ static int const kQQNotInstalled = -6004;
 }
 
 - (IBAction)forgetPassword:(id)sender {
+  UIViewController *nextController = [self.storyboard
+      instantiateViewControllerWithIdentifier:@"ForgetPwdViewController"];
+  [self.navigationController pushViewController:nextController animated:YES];
 }
 
 - (BOOL)check {

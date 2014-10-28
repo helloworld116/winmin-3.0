@@ -33,6 +33,8 @@
 "Device offline, Please check your network"="Device offline, Please check your network";
 "Which operation do you want?"="Which operation do you want?";
 "Flash"="Flash";
+"Tips"="Tips";
+"TipsInfo"="Remove the device will delete all the scenes associated with the device under whether to continue to remove the device?";
 "Timer Task"="Timer Task";
 "Repeat"="Repeat";
 "Operating One Time"="Operating One Time";
@@ -47,6 +49,11 @@
 "ON"="ON";
 "OFF"="OFF";
 "Delay Task"="Delay Task";
+"How to set the Icon?"="How to set the Icon?";
+"You have not yet added any time task"="You have not yet added any time task";
+"Are you sure to delete the timer task"="Are you sure to delete the timer task";
+"Added successfully"="Added successfully";
+"Modified successfully"="Modified successfully";
 
 /**
  *  配置
@@ -60,7 +67,8 @@
  */
 "Scene"="Scene";
 "You have not add any scene!"="You have not add any scene!";
-
+"Please enter the scene name"="Please enter the scene name";
+"Please add one operation"="Please add one operation";
 /**
  *  更多
  */
@@ -69,3 +77,9 @@
 "FAQ"="FAQ";
 "User Manual"="User Manual";
 "Purchase Products"="Purchase Products";
+"User Login"="Login";
+"User Register"="Register";
+"Login"="Login";
+"Register"="Register";
+"Find Password"="Find Password";
+"Reset Password"="Reset Password";

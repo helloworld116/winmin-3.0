@@ -303,10 +303,8 @@
       break;
     case 1: {
       UIAlertView *alertView = [[UIAlertView alloc]
-              initWithTitle:@"温馨提示"
-                    message:@"删"
-                    @"除设备将删除该设备关联下的所有"
-                    @"场景，是否继续删除该设备？"
+              initWithTitle:NSLocalizedString(@"Tips", nil)
+                    message:NSLocalizedString(@"TipsInfo", nil)
                    delegate:self
           cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
           otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];

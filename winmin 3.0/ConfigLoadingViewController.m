@@ -100,9 +100,11 @@
     //停止发送
     [self stopAction];
     CGRect selfFrame = self.view.frame;
-    selfFrame.origin.y -= 35.f;
-    selfFrame.size =
-        CGSizeMake(selfFrame.size.width, selfFrame.size.height + 70);
+    CGFloat beginHeight = self.loadingView.frame.size.height;
+    CGFloat endHeight = self.timeoutView.frame.size.height;
+    selfFrame.origin.y -= (endHeight - beginHeight) / 2;
+    selfFrame.size = CGSizeMake(
+        selfFrame.size.width, selfFrame.size.height + endHeight - beginHeight);
     [UIView animateWithDuration:0.3f
                      animations:^{
                          self.view.frame = selfFrame;
