@@ -10,24 +10,32 @@
 #import "ConfigLoadingViewController.h"
 
 @interface ConfigurationTextField : UITextField
-
+@property (nonatomic, assign) CGFloat inset;
 @end
 
 @implementation ConfigurationTextField
-//控制文本所在的的位置，左右缩 10
-- (CGRect)textRectForBounds:(CGRect)bounds {
-  return CGRectInset(bounds, 50, 0);
-}
-
-//控制编辑文本时所在的位置，左右缩 10
-- (CGRect)editingRectForBounds:(CGRect)bounds {
-  return CGRectInset(bounds, 50, 0);
-}
+//- (void)awakeFromNib {
+//  if ([kSharedAppliction.currnetLanguage isEqualToString:@"en"]) {
+//    self.inset = 80.f;
+//  } else {
+//    self.inset = 50.f;
+//  }
+//}
+//
+////控制文本所在的的位置，左右缩 10
+//- (CGRect)textRectForBounds:(CGRect)bounds {
+//  return CGRectInset(bounds, 80, 0);
+//}
+//
+////控制编辑文本时所在的位置，左右缩 10
+//- (CGRect)editingRectForBounds:(CGRect)bounds {
+//  return CGRectInset(bounds, 80, 0);
+//}
 
 @end
 
-@interface ConfigurationViewController ()<UITextFieldDelegate,
-                                          MJConfigLoadingDelegate>
+@interface ConfigurationViewController () <UITextFieldDelegate,
+                                           MJConfigLoadingDelegate>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIView *viewWIFI;
 @property (strong, nonatomic) IBOutlet UIView *viewPassword;

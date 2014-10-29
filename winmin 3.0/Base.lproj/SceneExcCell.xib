@@ -53,6 +53,44 @@
                 <outlet property="lblSeq" destination="l7M-n8-6Bc" id="D1f-t5-ueF"/>
             </connections>
         </tableViewCell>
+        <view contentMode="scaleToFill" id="SsO-P2-qgS">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R7j-op-s79">
+                    <rect key="frame" x="62" y="0.0" width="196" height="56"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="智能客厅" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="57O-r9-wTN">
+                            <rect key="frame" x="0.0" y="16" width="80" height="24"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="场景执行中..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ym-7k-8dz">
+                            <rect key="frame" x="90" y="17" width="106" height="22"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="57O-r9-wTN" firstAttribute="top" secondItem="R7j-op-s79" secondAttribute="top" constant="16" id="GmD-uH-u0j"/>
+                        <constraint firstAttribute="trailing" secondItem="1Ym-7k-8dz" secondAttribute="trailing" id="Zh6-KR-kry"/>
+                        <constraint firstItem="1Ym-7k-8dz" firstAttribute="leading" secondItem="57O-r9-wTN" secondAttribute="trailing" constant="10" id="cco-z2-Bfe"/>
+                        <constraint firstItem="57O-r9-wTN" firstAttribute="leading" secondItem="R7j-op-s79" secondAttribute="leading" id="gVq-EZ-4Og"/>
+                        <constraint firstItem="1Ym-7k-8dz" firstAttribute="top" secondItem="R7j-op-s79" secondAttribute="top" constant="17" id="nR3-Kv-3bx"/>
+                        <constraint firstAttribute="height" constant="56" id="xpF-3X-u1t"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="R7j-op-s79" firstAttribute="top" secondItem="SsO-P2-qgS" secondAttribute="top" id="bdo-me-Izp"/>
+                <constraint firstAttribute="centerX" secondItem="R7j-op-s79" secondAttribute="centerX" id="s7S-PR-8Js"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
     </objects>
     <resources>
         <image name="exc_ok" width="27" height="27"/>

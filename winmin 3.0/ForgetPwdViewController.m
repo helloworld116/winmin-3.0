@@ -12,6 +12,7 @@
 #import "TextUtil.h"
 
 @interface ForgetPwdViewController () <UITextFieldDelegate>
+@property (nonatomic, strong) IBOutlet UIView *viewBg;
 @property (nonatomic, strong) IBOutlet UITextField *textEmail;
 @property (nonatomic, strong) IBOutlet UIButton *btn;
 @property (nonatomic, strong) FindPassword *findPassword;
@@ -23,7 +24,10 @@
 @implementation ForgetPwdViewController
 
 - (void)setupStyle {
-  self.textEmail.layer.cornerRadius = 5.f;
+  self.viewBg.layer.borderColor =
+      [UIColor colorWithHexString:@"#c3c3c3"].CGColor;
+  self.viewBg.layer.borderWidth = .5f;
+  self.viewBg.layer.cornerRadius = 5.f;
   self.btn.layer.cornerRadius = 5.f;
 }
 

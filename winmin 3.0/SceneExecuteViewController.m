@@ -13,8 +13,8 @@
 #import "SceneExecuteModel.h"
 #define kSceneExcCellHeight 45.f
 
-@interface SceneExecuteViewController ()<UITableViewDelegate,
-                                         UITableViewDataSource>
+@interface SceneExecuteViewController () <UITableViewDelegate,
+                                          UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *lblStatus;
 @property (nonatomic, strong) UIButton *btnCancelOrOk;
@@ -41,7 +41,8 @@
   UIButton *btnCancelOrOk = [UIButton buttonWithType:UIButtonTypeSystem];
   btnCancelOrOk.backgroundColor = [UIColor whiteColor];
   btnCancelOrOk.frame = CGRectMake(0, SCREEN_HEIGHT - 45, SCREEN_WIDTH, 45);
-  [btnCancelOrOk setTitle:@"取  消" forState:UIControlStateNormal];
+  [btnCancelOrOk setTitle:NSLocalizedString(@"Cancel", nil)
+                 forState:UIControlStateNormal];
   [btnCancelOrOk setTitleColor:kThemeColor forState:UIControlStateNormal];
   [btnCancelOrOk addTarget:self
                     action:@selector(cancelOrOk:)
@@ -82,7 +83,7 @@
   lblTitle.text = self.scene.name;
   [titleView addSubview:lblTitle];
 
-  NSString *status = @"场景执行中...";
+  NSString *status = NSLocalizedString(@"is executing", nil);
   CGSize statusSize = [status sizeWithFont:[UIFont systemFontOfSize:18]];
   UILabel *lblStatus = [[UILabel alloc]
       initWithFrame:CGRectMake(CGRectGetMaxX(lblTitle.frame) + 15, 17,
@@ -222,7 +223,9 @@
 }
 
 - (void)sceneExecuteFinished:(NSNotification *)notification {
-  dispatch_async(MAIN_QUEUE, ^{ self.lblStatus.text = @"场景执行完成"; });
+  dispatch_async(MAIN_QUEUE, ^{
+      self.lblStatus.text = NSLocalizedString(@"execute finished", nil);
+  });
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
                  MAIN_QUEUE, ^{ [self removeWindow]; });
 }

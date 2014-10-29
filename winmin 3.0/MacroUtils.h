@@ -78,12 +78,12 @@
 #define switch_default_image_offline @"100_"
 #define kSceneTemplateDict                                                     \
   @{                                                                           \
-    @"101" : @"客厅",                                                        \
-    @"102" : @"厨房",                                                        \
-    @"103" : @"卧室",                                                        \
-    @"104" : @"书房",                                                        \
-    @"105" : @"儿童房",                                                     \
-    @"106" : @"玄关"                                                         \
+    @"101" : NSLocalizedString(@"Living room", nil),                           \
+    @"102" : NSLocalizedString(@"Kitchen", nil),                               \
+    @"103" : NSLocalizedString(@"Bedroom", nil),                               \
+    @"104" : NSLocalizedString(@"Studyroom", nil),                             \
+    @"105" : NSLocalizedString(@"Kids room", nil),                             \
+    @"106" : NSLocalizedString(@"Vestibule", nil),                             \
   }
 
 //在家测试

@@ -10,8 +10,9 @@
 
 @interface AppDelegate : UIResponder<UIApplicationDelegate>
 
-@property(strong, nonatomic) UIWindow *window;
-@property(strong, nonatomic) UIWindow *userWindow;
-@property(nonatomic, assign) NetworkStatus networkStatus;
-@property(nonatomic, strong) SwitchDataCeneter *switchDataCeneter;
+@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UIWindow *userWindow;
+@property (nonatomic, assign) NetworkStatus networkStatus;
+@property (nonatomic, strong) SwitchDataCeneter *switchDataCeneter;
+@property (nonatomic, strong) NSString *currnetLanguage;
 @end

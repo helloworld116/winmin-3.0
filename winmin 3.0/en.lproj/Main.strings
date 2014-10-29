@@ -15,7 +15,7 @@
 "1fG-DM-5AU.selectedTitle" = "ON";
 
 /* Class = "IBUILabel"; text = "台灯"; ObjectID = "2FA-rY-6U0"; */
-"2FA-rY-6U0.text" = "台灯";
+"2FA-rY-6U0.text" = "Table Lamp";
 
 /* Class = "IBUILabel"; text = "执行一次执行一次执行"; ObjectID = "2X4-wR-Mzm"; */
 "2X4-wR-Mzm.text" = "执行一次执行一次执行";
@@ -44,11 +44,11 @@
 /* Class = "IBUITabBarItem"; title = "Control"; ObjectID = "5L5-oc-qBr"; */
 "5L5-oc-qBr.title" = "Control";
 
-/* Class = "IBUIButton"; normalTitle = "发  送"; ObjectID = "5UU-ov-Xbu"; */
+/* Class = "IBUIButton"; normalTitle = "Send"; ObjectID = "5UU-ov-Xbu"; */
 "5UU-ov-Xbu.normalTitle" = "Send";
 
 /* Class = "IBUILabel"; text = "洗衣机"; ObjectID = "6EI-iE-6FZ"; */
-"6EI-iE-6FZ.text" = "洗衣机";
+"6EI-iE-6FZ.text" = "Washing Machine";
 
 /* Class = "IBUILabel"; text = "Repeat"; ObjectID = "6az-NZ-2Gc"; */
 "6az-NZ-2Gc.text" = "Repeat";
@@ -77,13 +77,13 @@
 /* Class = "IBUILabel"; text = "Forget Password?"; ObjectID = "Abb-D0-dMa"; */
 "Abb-D0-dMa.text" = "Forget Password?";
 
-/* Class = "IBUITextField"; placeholder = "请输入新密码"; ObjectID = "BWD-9w-wKs"; */
+/* Class = "IBUITextField"; placeholder = "Enter your new password"; ObjectID = "BWD-9w-wKs"; */
 "BWD-9w-wKs.placeholder" = "Enter your new password";
 
 /* Class = "IBUIButton"; normalTitle = "Check for Updates"; ObjectID = "C6G-Rb-OtN"; */
 "C6G-Rb-OtN.normalTitle" = "Check for Updates";
 
-/* Class = "IBUITextField"; placeholder = "Please enter your password"; ObjectID = "CB8-zv-Cp6"; */
+/* Class = "IBUITextField"; placeholder = "Enter your password"; ObjectID = "CB8-zv-Cp6"; */
 "CB8-zv-Cp6.placeholder" = "Enter your password";
 
 /* Class = "IBUIButton"; normalTitle = "  Weibo"; ObjectID = "CrE-TS-7SS"; */
@@ -91,6 +91,9 @@
 
 /* Class = "IBUITextField"; placeholder = "Re-enter the password to confirm"; ObjectID = "D6F-Mv-9UT"; */
 "D6F-Mv-9UT.placeholder" = "Re-enter the password to confirm";
+
+/* Class = "IBUILabel"; text = "欢迎您，"; ObjectID = "EKW-Kf-iec"; */
+"EKW-Kf-iec.text" = "Welcome，";
 
 /* Class = "IBUIButton"; normalTitle = "3M"; ObjectID = "F35-e2-b6b"; */
 "F35-e2-b6b.normalTitle" = "3M";
@@ -107,7 +110,7 @@
 /* Class = "IBUIButton"; normalTitle = "确  定"; ObjectID = "Gqh-Nt-oHp"; */
 "Gqh-Nt-oHp.normalTitle" = "确  定";
 
-/* Class = "IBUITextField"; placeholder = "Please enter your email"; ObjectID = "H3Q-7x-DEg"; */
+/* Class = "IBUITextField"; placeholder = "Enter your email"; ObjectID = "H3Q-7x-DEg"; */
 "H3Q-7x-DEg.placeholder" = "Enter your email";
 
 /* Class = "IBUILabel"; text = "If the current is more than 10A or the power is greater than 2500W, may lead to short circuit or other fault. Even may cause fires!"; ObjectID = "IFM-Rv-qQu"; */
@@ -126,7 +129,7 @@
 "Itd-y0-HXr.title" = "使用手册";
 
 /* Class = "IBUILabel"; text = "客厅"; ObjectID = "IxK-Ri-O9N"; */
-"IxK-Ri-O9N.text" = "客厅";
+"IxK-Ri-O9N.text" = "Living room";
 
 /* Class = "IBUILabel"; text = "SHENZHEN ITOUCH CO., LTD"; ObjectID = "JYm-wY-fak"; */
 "JYm-wY-fak.text" = "SHENZHEN ITOUCH CO., LTD";
@@ -141,7 +144,7 @@
 "Kv8-vZ-VK9.title" = "winmin智能";
 
 /* Class = "IBUILabel"; text = "电视"; ObjectID = "LBU-0D-b5U"; */
-"LBU-0D-b5U.text" = "电视";
+"LBU-0D-b5U.text" = "TV";
 
 /* Class = "IBUIButton"; normalTitle = "Delay"; ObjectID = "Lq6-md-TsT"; */
 "Lq6-md-TsT.normalTitle" = "Delay";
@@ -153,7 +156,7 @@
 "N7g-qA-847.text" = "WINMIN-T1 Currently supports";
 
 /* Class = "IBUILabel"; text = "电熨斗"; ObjectID = "N8Q-pk-Xax"; */
-"N8Q-pk-Xax.text" = "电熨斗";
+"N8Q-pk-Xax.text" = "Electric Iron";
 
 /* Class = "IBUILabel"; text = "周一"; ObjectID = "NMH-iV-t2c"; */
 "NMH-iV-t2c.text" = "周一";
@@ -165,7 +168,7 @@
 "Ns1-2o-WlU.text" = "V 2.2";
 
 /* Class = "IBUILabel"; text = "儿童房"; ObjectID = "OPB-dw-LIn"; */
-"OPB-dw-LIn.text" = "儿童房";
+"OPB-dw-LIn.text" = "Kids room";
 
 /* Class = "IBUITextField"; placeholder = "Enter 6 to 20 Numbers or letters"; ObjectID = "Oa1-X7-MGw"; */
 "Oa1-X7-MGw.placeholder" = "Enter 6 to 20 Numbers or letters";
@@ -189,16 +192,16 @@
 "RjX-na-O6R.text" = "0";
 
 /* Class = "IBUILabel"; text = "风扇"; ObjectID = "S6W-RL-lzc"; */
-"S6W-RL-lzc.text" = "风扇";
+"S6W-RL-lzc.text" = "Fan";
 
 /* Class = "IBUILabel"; text = "厨房"; ObjectID = "SIE-lH-Ecd"; */
-"SIE-lH-Ecd.text" = "厨房";
+"SIE-lH-Ecd.text" = "Kitchen";
 
 /* Class = "IBUILabel"; text = "热水壶"; ObjectID = "SjW-WE-xI0"; */
-"SjW-WE-xI0.text" = "热水壶";
+"SjW-WE-xI0.text" = "Thermos";
 
 /* Class = "IBUILabel"; text = "书房"; ObjectID = "SlZ-hT-QdK"; */
-"SlZ-hT-QdK.text" = "书房";
+"SlZ-hT-QdK.text" = "Studyroom";
 
 /* Class = "IBUITabBarItem"; title = "More"; ObjectID = "Tpf-P8-2f7"; */
 "Tpf-P8-2f7.title" = "More";
@@ -224,17 +227,17 @@
 /* Class = "IBUILabel"; text = "Repeat"; ObjectID = "YVx-mn-jPB"; */
 "YVx-mn-jPB.text" = "Repeat";
 
-/* Class = "IBUITextField"; placeholder = "再次输入新密码"; ObjectID = "Z0C-Cn-5Rk"; */
+/* Class = "IBUITextField"; placeholder = "Enter the new password again"; ObjectID = "Z0C-Cn-5Rk"; */
 "Z0C-Cn-5Rk.placeholder" = "Enter the new password again";
 
 /* Class = "IBUILabel"; text = "玄关"; ObjectID = "ZWd-RO-Yf5"; */
-"ZWd-RO-Yf5.text" = "玄关";
+"ZWd-RO-Yf5.text" = "Vestibule";
 
 /* Class = "IBUILabel"; text = "Time"; ObjectID = "ZeX-Za-f8f"; */
 "ZeX-Za-f8f.text" = "Time";
 
 /* Class = "IBUILabel"; text = "微波炉"; ObjectID = "a3r-sY-NVK"; */
-"a3r-sY-NVK.text" = "微波炉";
+"a3r-sY-NVK.text" = "Microwave Oven";
 
 /* Class = "IBUILabel"; text = "0"; ObjectID = "aXt-UZ-i7m"; */
 "aXt-UZ-i7m.text" = "0";
@@ -245,7 +248,7 @@
 /* Class = "IBUILabel"; text = "0"; ObjectID = "chz-HN-ZjG"; */
 "chz-HN-ZjG.text" = "0";
 
-/* Class = "IBUITextField"; placeholder = "请输入注册邮箱"; ObjectID = "cmd-U7-7sq"; */
+/* Class = "IBUITextField"; placeholder = "Enter your registration email"; ObjectID = "cmd-U7-7sq"; */
 "cmd-U7-7sq.placeholder" = "Enter your registration email";
 
 /* Class = "IBUINavigationItem"; title = "More"; ObjectID = "csK-dr-Jlo"; */
@@ -258,13 +261,13 @@
 "fhC-Kb-pNF.text" = "Name";
 
 /* Class = "IBUILabel"; text = "吸尘器"; ObjectID = "gcP-Yq-jjo"; */
-"gcP-Yq-jjo.text" = "吸尘器";
+"gcP-Yq-jjo.text" = "Cleaner";
 
 /* Class = "IBUIButton"; normalTitle = "Timer"; ObjectID = "hE1-u5-U5v"; */
 "hE1-u5-U5v.normalTitle" = "Timer";
 
 /* Class = "IBUILabel"; text = "电冰箱"; ObjectID = "hNK-y0-Gxk"; */
-"hNK-y0-Gxk.text" = "电冰箱";
+"hNK-y0-Gxk.text" = "Refrigerator";
 
 /* Class = "IBUIButton"; normalTitle = "Learn more about Winmin"; ObjectID = "hzL-9g-9hM"; */
 "hzL-9g-9hM.normalTitle" = "Learn more about Winmin";
@@ -282,7 +285,7 @@
 "kHH-vK-7KF.text" = "Use other to log in";
 
 /* Class = "IBUILabel"; text = "卧室"; ObjectID = "lNT-zg-tlK"; */
-"lNT-zg-tlK.text" = "卧室";
+"lNT-zg-tlK.text" = "Bedroom";
 
 /* Class = "IBUIButton"; normalTitle = "Setting"; ObjectID = "lZJ-jQ-4md"; */
 "lZJ-jQ-4md.normalTitle" = "Setting";
@@ -290,7 +293,7 @@
 /* Class = "IBUILabel"; text = "Icon"; ObjectID = "m4M-fF-xh2"; */
 "m4M-fF-xh2.text" = "Icon";
 
-/* Class = "IBUITextField"; placeholder = "请输入验证码"; ObjectID = "mcA-ld-VC9"; */
+/* Class = "IBUITextField"; placeholder = "Enter the verification code"; ObjectID = "mcA-ld-VC9"; */
 "mcA-ld-VC9.placeholder" = "Enter the verification code";
 
 /* Class = "IBUILabel"; text = "待执行"; ObjectID = "mf8-zP-IUY"; */
@@ -309,7 +312,7 @@
 "phl-th-Yxe.text" = "Label";
 
 /* Class = "IBUILabel"; text = "书房"; ObjectID = "qHN-bq-q3e"; */
-"qHN-bq-q3e.text" = "书房";
+"qHN-bq-q3e.text" = "Study";
 
 /* Class = "IBUILabel"; text = "Label"; ObjectID = "qrY-2e-E8Q"; */
 "qrY-2e-E8Q.text" = "Label";
@@ -321,7 +324,7 @@
 "rnq-eA-7vj.title" = "Scene";
 
 /* Class = "IBUILabel"; text = "咖啡机"; ObjectID = "rvn-qT-as5"; */
-"rvn-qT-as5.text" = "咖啡机";
+"rvn-qT-as5.text" = "Coffeemaker";
 
 /* Class = "IBUIButton"; normalTitle = "  QQ"; ObjectID = "suj-cL-VRP"; */
 "suj-cL-VRP.normalTitle" = "  QQ";
@@ -332,7 +335,7 @@
 /* Class = "IBUITextField"; placeholder = "请输入名称"; ObjectID = "sxl-6l-vIt"; */
 "sxl-6l-vIt.placeholder" = "请输入名称";
 
-/* Class = "IBUIButton"; normalTitle = "保  存"; ObjectID = "tKU-Xh-WBc"; */
+/* Class = "IBUIButton"; normalTitle = "Save"; ObjectID = "tKU-Xh-WBc"; */
 "tKU-Xh-WBc.normalTitle" = "Save";
 
 /* Class = "IBUINavigationItem"; title = "Config"; ObjectID = "tPK-7U-BgE"; */
@@ -344,14 +347,14 @@
 /* Class = "IBUILabel"; text = "Password"; ObjectID = "uaT-S8-9q1"; */
 "uaT-S8-9q1.text" = "Password";
 
-/* Class = "IBUITextField"; placeholder = "Please enter the name"; ObjectID = "wlC-5q-G3p"; */
+/* Class = "IBUITextField"; placeholder = "Enter the name"; ObjectID = "wlC-5q-G3p"; */
 "wlC-5q-G3p.placeholder" = "Enter the name";
 
 /* Class = "IBUILabel"; text = "ON"; ObjectID = "xLu-LL-E93"; */
 "xLu-LL-E93.text" = "ON";
 
 /* Class = "IBUIButton"; normalTitle = "阅读并同意《晟大用户手册》"; ObjectID = "xt5-rL-4r7"; */
-"xt5-rL-4r7.normalTitle" = "阅读并同意《晟大用户手册》";
+"xt5-rL-4r7.normalTitle" = "Read and Agree《晟大用户手册》";
 
 /* Class = "IBUILabel"; text = "0"; ObjectID = "ysL-wJ-XLm"; */
 "ysL-wJ-XLm.text" = "0";
@@ -362,8 +365,8 @@
 /* Class = "IBUILabel"; text = "Custom"; ObjectID = "zdv-Xg-vRN"; */
 "zdv-Xg-vRN.text" = "Custom";
 
-/* Class = "IBUITextField"; placeholder = "Please enter the password"; ObjectID = "zjc-x0-h6N"; */
+/* Class = "IBUITextField"; placeholder = "Enter the password"; ObjectID = "zjc-x0-h6N"; */
 "zjc-x0-h6N.placeholder" = "Enter the password";
 
-/* Class = "IBUITextField"; placeholder = "Please enter registered email"; ObjectID = "zwv-Cp-1vr"; */
+/* Class = "IBUITextField"; placeholder = "Enter registered email"; ObjectID = "zwv-Cp-1vr"; */
 "zwv-Cp-1vr.placeholder" = "Enter registered email";

@@ -19,6 +19,7 @@
  */
 "Back"="返回";
 "Save"="保存";
+"Edit"="编辑";
 "Cancel"="取消";
 "Sure"="确定";
 "Delete"="删除";
@@ -69,12 +70,19 @@
  */
 "Scene"="场景";
 "You have not add any scene!"="您暂时还未添加任何场景!";
+"How do you want to perform operations on the scene"="您希望对这个场景执行怎样的操作";
 "Please enter the scene name"="请输入场景名称";
 "Please add one operation"="请添加一条操作";
 "is executing"="场景执行中...";
 "execute finished"="场景执行完成";
 "execute success"="执行成功";
 "execute failure"="执行失败";
+"Living room"="客厅";
+"Kitchen"="厨房";
+"Bedroom"="卧室";
+"Studyroom"="书房";
+"Kids room"="儿童房";
+"Vestibule"="玄关";
 
 /**
  *  更多
@@ -87,6 +95,8 @@
 "User Login"="用户登录";
 "User Register"="用户注册";
 "Login"="登录";
+"Login successful"="登录成功";
+"Log out message"="确定注销登录？";
 "Username or password can not be empty"="用户名或密码不能为空";
 "The user cancels the authorization, use the account login or retry"="用户取消授权，请使用账号登陆或重试";
 "You are currently QQ or QQSpace is not installed, please install"="您当前未安装QQ或QQ空间，请先安装";

@@ -59,6 +59,7 @@
                       [self.tableView
                             reloadSections:indexSet
                           withRowAnimation:UITableViewRowAnimationNone];
+                      [self.view makeToast:@"Login successful"];
                   });
               }];
   [[NSNotificationCenter defaultCenter]

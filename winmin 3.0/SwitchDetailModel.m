@@ -10,7 +10,7 @@
 #import "HistoryElec.h"
 #define kElecRefreshInterval 5
 
-@interface SwitchDetailModel ()<UdpRequestDelegate>
+@interface SwitchDetailModel () <UdpRequestDelegate>
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *timerElec;
 @property (nonatomic, strong) UdpRequest *request11Or13;
@@ -248,7 +248,9 @@ typedef void (^RequestBlock)(void);
 
 - (void)responseMsg34Or36:(CC3xMessage *)message {
   debugLog(@"power is %f", message.power);
-  NSDictionary *userInfo = @{ @"power" : @(message.power) };
+  float diff = message.power - 3.4f;
+  float power = diff > 0 ? diff : 0.f;
+  NSDictionary *userInfo = @{ @"power" : @(power) };
   [[NSNotificationCenter defaultCenter]
       postNotificationName:kRealTimeElecNotification
                     object:self

@@ -128,6 +128,7 @@
     return NO;
   } else if (textField == self.textPassword2) {
     [self.textPassword2 resignFirstResponder];
+    [self save:nil];
     return YES;
   }
   return YES;

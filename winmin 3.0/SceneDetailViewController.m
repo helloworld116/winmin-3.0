@@ -29,7 +29,7 @@
 
 @end
 
-@interface SceneDetailViewController ()<
+@interface SceneDetailViewController () <
     UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate,
     SceneTemplateDelegate>
 @property (strong, nonatomic) IBOutlet UIButton *btnSceneImage;
@@ -176,7 +176,7 @@
                       @"scene" : scene
                     }];
   } else {
-    [self.view makeToast:@"请添加一条操作"];
+    [self.view makeToast:NSLocalizedString(@"Please add one operation", nil)];
   }
 }
 

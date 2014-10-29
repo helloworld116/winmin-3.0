@@ -9,9 +9,9 @@
 #import "SceneTemplateViewController.h"
 #import "SceneDetailViewController.h"
 
-@interface SceneTemplateViewController ()<UIActionSheetDelegate,
-                                          UINavigationControllerDelegate,
-                                          UIImagePickerControllerDelegate>
+@interface SceneTemplateViewController () <UIActionSheetDelegate,
+                                           UINavigationControllerDelegate,
+                                           UIImagePickerControllerDelegate>
 - (IBAction)close:(id)sender;
 - (IBAction)touchImg:(id)sender;
 @end
@@ -57,7 +57,7 @@
   } else {
     //自定义
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                 initWithTitle:@"自定义场景"
+                 initWithTitle:NSLocalizedString(@"How to set the Icon?", nil)
                       delegate:self
              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
         destructiveButtonTitle:nil

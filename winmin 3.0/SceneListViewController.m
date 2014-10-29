@@ -11,7 +11,7 @@
 #import "SceneExecuteViewController.h"
 #import "SceneCell.h"
 
-@interface SceneListViewController ()<UIActionSheetDelegate>
+@interface SceneListViewController () <UIActionSheetDelegate>
 @property (nonatomic, strong) NSIndexPath *operationIndexPath;
 @property (nonatomic, strong) NSMutableArray *scenes;
 
@@ -178,11 +178,15 @@ preparation before navigation
   if (indexPath && gestureRecognizer.state == UIGestureRecognizerStateBegan) {
     self.operationIndexPath = indexPath;
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                 initWithTitle:@"您希望对这个场景执行怎样的操作"
+                 initWithTitle:
+                     NSLocalizedString(
+                         @"How do you want to perform operations on the scene",
+                         nil)
                       delegate:self
-             cancelButtonTitle:@"取消"
+             cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
         destructiveButtonTitle:nil
-             otherButtonTitles:@"编辑", @"删除", nil];
+             otherButtonTitles:NSLocalizedString(@"Edit", nil),
+                               NSLocalizedString(@"Delete", nil), nil];
     [actionSheet showFromTabBar:self.tabBarController.tabBar];
   }
 }
@@ -243,14 +247,14 @@ preparation before navigation
         NSIndexPath *indexPath =
             [NSIndexPath indexPathForRow:self.scenes.count - 1 inSection:0];
         [self.collectionView insertItemsAtIndexPaths:@[ indexPath ]];
-    } completion:^(BOOL finished) {}];
+    } completion:^(BOOL finished){}];
   } else {
     //修改
     [self.collectionView performBatchUpdates:^{
         [self.scenes replaceObjectAtIndex:row withObject:scene];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
         [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
-    } completion:^(BOOL finished) {}];
+    } completion:^(BOOL finished){}];
   }
 }
 @end

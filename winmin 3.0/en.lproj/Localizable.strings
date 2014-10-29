@@ -20,6 +20,7 @@
 "Back"="Back";
 "Save"="Save";
 "Cancel"="Cancel";
+"Edit"="Edit";
 "Sure"="Sure";
 "Delete"="Delete";
 "Setting"="Setting";
@@ -67,8 +68,20 @@
  */
 "Scene"="Scene";
 "You have not add any scene!"="You have not add any scene!";
+"How do you want to perform operations on the scene"="How do you want to perform operations on the scene";
 "Please enter the scene name"="Please enter the scene name";
 "Please add one operation"="Please add one operation";
+"execute success"="success";
+"execute failure"="failure";
+"is executing"="is executing";
+"execute finished"="execute finished";
+"Living room"="Living room";
+"Kitchen"="Kitchen";
+"Bedroom"="Bedroom";
+"Studyroom"="Studyroom";
+"Kids room"="Kids room";
+"Vestibule"="Vestibule";
+
 /**
  *  更多
  */
@@ -80,6 +93,8 @@
 "User Login"="Login";
 "User Register"="Register";
 "Login"="Login";
+"Login successful"="Login successful";
+"Log out message"="Are you sure to log out?";
 "Username or password can not be empty"="Username or password can not be empty";
 "The user cancels the authorization, use the account login or retry"="The user cancels the authorization, use the account login or retry";
 "You are currently QQ or QQSpace is not installed, please install"="You are currently QQ or QQSpace is not installed, please install";

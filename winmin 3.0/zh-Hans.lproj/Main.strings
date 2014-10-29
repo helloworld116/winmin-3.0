@@ -171,7 +171,7 @@
 "Oa1-X7-MGw.placeholder" = "输入6-20个数字或字母";
 
 /* Class = "IBUIButton"; normalTitle = "退出"; ObjectID = "PcL-EO-u4K"; */
-"PcL-EO-u4K.normalTitle" = "退出";
+"PcL-EO-u4K.normalTitle" = "注销";
 
 /* Class = "IBUILabel"; text = "自定义"; ObjectID = "Pjt-xV-W6u"; */
 "Pjt-xV-W6u.text" = "自定义";
@@ -351,7 +351,7 @@
 "xLu-LL-E93.text" = "开";
 
 /* Class = "IBUIButton"; normalTitle = "阅读并同意《晟大用户手册》"; ObjectID = "xt5-rL-4r7"; */
-"xt5-rL-4r7.normalTitle" = "阅读并同意《晟大用户手册》";
+"xt5-rL-4r7.normalTitle" = "阅读并同意《晟大用户使用协议》";
 
 /* Class = "IBUILabel"; text = "0"; ObjectID = "ysL-wJ-XLm"; */
 "ysL-wJ-XLm.text" = "0";

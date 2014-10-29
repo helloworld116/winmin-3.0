@@ -8,6 +8,10 @@
 
 #import "MoreCellTypeThird.h"
 
+@interface MoreCellTypeThird () <UIAlertViewDelegate>
+
+@end
+
 @implementation MoreCellTypeThird
 
 - (id)initWithStyle:(UITableViewCellStyle)style
@@ -47,8 +51,20 @@
 }
 
 - (IBAction)loginOut:(id)sender {
-  debugLog(@"退出");
-  [[NSNotificationCenter defaultCenter] postNotificationName:kLoginOut
-                                                      object:self];
+  UIAlertView *alertView = [[UIAlertView alloc]
+          initWithTitle:nil
+                message:NSLocalizedString(@"Log out message", nil)
+               delegate:self
+      cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+      otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
+  [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView
+    clickedButtonAtIndex:(NSInteger)buttonIndex {
+  if (buttonIndex == 1) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLoginOut
+                                                        object:self];
+  }
 }
 @end

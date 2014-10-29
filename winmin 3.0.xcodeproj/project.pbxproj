@@ -11,6 +11,7 @@
 		150BE85519FF8CA600A358CF /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE85419FF8CA600A358CF /* ForgetPwdViewController.m */; };
 		150BE85819FF91FE00A358CF /* ResetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE85719FF91FE00A358CF /* ResetPwdViewController.m */; };
 		150BE86119FFA7B700A358CF /* FindPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE86019FFA7B700A358CF /* FindPassword.m */; };
+		150BE8641A00F35D00A358CF /* SceneExcCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150BE8661A00F35D00A358CF /* SceneExcCell.xib */; };
 		150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6DD19F9E276005134B7 /* FaqCell.xib */; };
 		150FC6E319FA39DB005134B7 /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150FC6E219FA39DB005134B7 /* ProtocolViewController.m */; };
 		150FC6E519FA419B005134B7 /* protocol.htm in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6E419FA419B005134B7 /* protocol.htm */; };
@@ -25,7 +26,6 @@
 		155A5BF919D3F306007864C8 /* SceneEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BF819D3F306007864C8 /* SceneEditCell.m */; };
 		155A5BFC19D53835007864C8 /* SceneExecuteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BFB19D53835007864C8 /* SceneExecuteViewController.m */; };
 		155A5BFF19D54206007864C8 /* SceneExcCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 155A5BFE19D54206007864C8 /* SceneExcCell.m */; };
-		155A5C0119D569BE007864C8 /* SceneExcCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 155A5C0019D569BD007864C8 /* SceneExcCell.xib */; };
 		156012BB19C804AC00BF7E12 /* ConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156012BA19C804AC00BF7E12 /* ConfigurationViewController.m */; };
 		156012BE19C8129300BF7E12 /* ConfigLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156012BD19C8129300BF7E12 /* ConfigLoadingViewController.m */; };
 		156012FE19C8464000BF7E12 /* SwitchListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156012FD19C8464000BF7E12 /* SwitchListViewController.m */; };
@@ -147,17 +147,19 @@
 		150BE85419FF8CA600A358CF /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
 		150BE85619FF91FE00A358CF /* ResetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPwdViewController.h; sourceTree = "<group>"; };
 		150BE85719FF91FE00A358CF /* ResetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPwdViewController.m; sourceTree = "<group>"; };
-		150BE85C19FFA2B900A358CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		150BE85E19FFA33300A358CF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		150BE85F19FFA7B700A358CF /* FindPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPassword.h; sourceTree = "<group>"; };
 		150BE86019FFA7B700A358CF /* FindPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPassword.m; sourceTree = "<group>"; };
+		150BE8631A00B89700A358CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		150BE8651A00F35D00A358CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SceneExcCell.xib; sourceTree = "<group>"; };
+		150BE8681A00F36300A358CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SceneExcCell.strings; sourceTree = "<group>"; };
+		150BE86A1A00F36500A358CF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SceneExcCell.strings"; sourceTree = "<group>"; };
 		150FC6DD19F9E276005134B7 /* FaqCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FaqCell.xib; sourceTree = "<group>"; };
 		150FC6E119FA39DB005134B7 /* ProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolViewController.h; sourceTree = "<group>"; };
 		150FC6E219FA39DB005134B7 /* ProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolViewController.m; sourceTree = "<group>"; };
 		150FC6E419FA419B005134B7 /* protocol.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = protocol.htm; sourceTree = "<group>"; };
 		15476D4A19E68B6B00EC6BD1 /* NetUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetUtil.h; sourceTree = "<group>"; };
 		15476D4B19E68B6B00EC6BD1 /* NetUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetUtil.m; sourceTree = "<group>"; };
-		1551F6EB19F7BA9900A24447 /* book@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "book@2x.jpg"; sourceTree = "<group>"; };
 		1551F6ED19F8951200A24447 /* FAQViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQViewController.h; sourceTree = "<group>"; };
 		1551F6EE19F8951200A24447 /* FAQViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQViewController.m; sourceTree = "<group>"; };
 		1551F6F019F8AC9300A24447 /* bookinfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookinfo@2x.png"; sourceTree = "<group>"; };
@@ -176,7 +178,6 @@
 		155A5BFB19D53835007864C8 /* SceneExecuteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneExecuteViewController.m; sourceTree = "<group>"; };
 		155A5BFD19D54206007864C8 /* SceneExcCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneExcCell.h; sourceTree = "<group>"; };
 		155A5BFE19D54206007864C8 /* SceneExcCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneExcCell.m; sourceTree = "<group>"; };
-		155A5C0019D569BD007864C8 /* SceneExcCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SceneExcCell.xib; sourceTree = "<group>"; };
 		156012B919C804AC00BF7E12 /* ConfigurationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationViewController.h; sourceTree = "<group>"; };
 		156012BA19C804AC00BF7E12 /* ConfigurationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationViewController.m; sourceTree = "<group>"; };
 		156012BC19C8129300BF7E12 /* ConfigLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigLoadingViewController.h; sourceTree = "<group>"; };
@@ -207,7 +208,7 @@
 		1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchDetailModel.m; sourceTree = "<group>"; };
 		15736B8E19F2482F00D6A45D /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		15736B8F19F2482F00D6A45D /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
-		158D987719C6F39C0068AFC5 /* 微云智能.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微云智能.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		158D987719C6F39C0068AFC5 /* 微云智控.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微云智控.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		158D987A19C6F39C0068AFC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		158D987E19C6F39C0068AFC5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -447,7 +448,7 @@
 				155A5BF819D3F306007864C8 /* SceneEditCell.m */,
 				155A5BFD19D54206007864C8 /* SceneExcCell.h */,
 				155A5BFE19D54206007864C8 /* SceneExcCell.m */,
-				155A5C0019D569BD007864C8 /* SceneExcCell.xib */,
+				150BE8661A00F35D00A358CF /* SceneExcCell.xib */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -595,7 +596,7 @@
 		158D987819C6F39C0068AFC5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				158D987719C6F39C0068AFC5 /* 微云智能.app */,
+				158D987719C6F39C0068AFC5 /* 微云智控.app */,
 				158D989B19C6F39D0068AFC5 /* winmin 3.0Tests.xctest */,
 			);
 			name = Products;
@@ -894,7 +895,6 @@
 			isa = PBXGroup;
 			children = (
 				1551F6F019F8AC9300A24447 /* bookinfo@2x.png */,
-				1551F6EB19F7BA9900A24447 /* book@2x.jpg */,
 			);
 			name = "图片";
 			sourceTree = "<group>";
@@ -965,7 +965,7 @@
 			);
 			name = "winmin 3.0";
 			productName = "winmin 3.0";
-			productReference = 158D987719C6F39C0068AFC5 /* 微云智能.app */;
+			productReference = 158D987719C6F39C0068AFC5 /* 微云智控.app */;
 			productType = "com.apple.product-type.application";
 		};
 		158D989A19C6F39D0068AFC5 /* winmin 3.0Tests */ = {
@@ -1035,7 +1035,7 @@
 				15BA47B919FE153E008ADB9D /* DatePickerViewController.xib in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
 				150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */,
-				155A5C0119D569BE007864C8 /* SceneExcCell.xib in Resources */,
+				150BE8641A00F35D00A358CF /* SceneExcCell.xib in Resources */,
 				158D98E819C7C9660068AFC5 /* ShareSDKLocalizable.strings in Resources */,
 				150FC6E519FA419B005134B7 /* protocol.htm in Resources */,
 				158D988E19C6F39C0068AFC5 /* Main.storyboard in Resources */,
@@ -1187,6 +1187,16 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		150BE8661A00F35D00A358CF /* SceneExcCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				150BE8651A00F35D00A358CF /* Base */,
+				150BE8681A00F36300A358CF /* en */,
+				150BE86A1A00F36500A358CF /* zh-Hans */,
+			);
+			name = SceneExcCell.xib;
+			sourceTree = "<group>";
+		};
 		158D988319C6F39C0068AFC5 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1199,8 +1209,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				158D988D19C6F39C0068AFC5 /* Base */,
-				150BE85C19FFA2B900A358CF /* en */,
 				150BE85E19FFA33300A358CF /* zh-Hans */,
+				150BE8631A00B89700A358CF /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1362,7 +1372,7 @@
 					"$(PROJECT_DIR)/ShareSDK/Extend/YiXinSDK",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = "微云智能";
+				PRODUCT_NAME = "微云智控";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1396,7 +1406,7 @@
 					"$(PROJECT_DIR)/ShareSDK/Extend/YiXinSDK",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = "微云智能";
+				PRODUCT_NAME = "微云智控";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

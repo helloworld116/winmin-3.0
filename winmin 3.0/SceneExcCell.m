@@ -9,10 +9,10 @@
 #import "SceneExcCell.h"
 #import "SceneDetail.h"
 @interface SceneExcCell ()
-@property(nonatomic, strong) IBOutlet UILabel *lblSeq;
-@property(nonatomic, strong) IBOutlet UILabel *lblDesc;
-@property(nonatomic, strong) IBOutlet UILabel *lblExcResult;
-@property(nonatomic, strong) IBOutlet UIImageView *imgViewResult;
+@property (nonatomic, strong) IBOutlet UILabel *lblSeq;
+@property (nonatomic, strong) IBOutlet UILabel *lblDesc;
+@property (nonatomic, strong) IBOutlet UILabel *lblExcResult;
+@property (nonatomic, strong) IBOutlet UIImageView *imgViewResult;
 @end
 
 @implementation SceneExcCell
@@ -45,10 +45,10 @@
   NSString *result;
   NSString *imgName;
   if (success) {
-    result = @"执行成功";
+    result = NSLocalizedString(@"execute success", nil);
     imgName = @"exc_ok";
   } else {
-    result = @"执行失败";
+    result = NSLocalizedString(@"execute failure", nil);
     imgName = @"exc_failure";
   }
   self.lblExcResult.text = result;

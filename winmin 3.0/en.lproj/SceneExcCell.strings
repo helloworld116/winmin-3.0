@@ -1,0 +1,9 @@
+
+/* Class = "IBUILabel"; text = "智能插排开"; ObjectID = "OrH-jH-s64"; */
+"OrH-jH-s64.text" = "智能插排开";
+
+/* Class = "IBUILabel"; text = "待执行"; ObjectID = "Xx7-qk-FEN"; */
+"Xx7-qk-FEN.text" = "Pending";
+
+/* Class = "IBUILabel"; text = "1"; ObjectID = "l7M-n8-6Bc"; */
+"l7M-n8-6Bc.text" = "1";

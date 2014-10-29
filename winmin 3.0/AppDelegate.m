@@ -25,7 +25,7 @@
   self.netUtil = [NetUtil sharedInstance];
   [self.netUtil addNetWorkChangeNotification];
   [self setStyle];
-
+  self.currnetLanguage = [self getPreferredLanguage];
   NSString* appVersion =
       [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
   NSString* currentVersion =
@@ -110,12 +110,10 @@
       setStatusBarStyle:UIStatusBarStyleLightContent];
   [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
   [[UINavigationBar appearance] setBarTintColor:kThemeColor];
-  [[UINavigationBar appearance]
-      setTitleTextAttributes:@{
-                               NSFontAttributeName :
-                                   [UIFont systemFontOfSize:22],
-                               UITextAttributeTextColor : [UIColor whiteColor]
-                             }];
+  [[UINavigationBar appearance] setTitleTextAttributes:@{
+    NSFontAttributeName : [UIFont systemFontOfSize:22],
+    UITextAttributeTextColor : [UIColor whiteColor]
+  }];
 
   [[UITabBar appearance]
       setBarTintColor:[UIColor colorWithHexString:@"#F0EFEF"]];
@@ -149,4 +147,12 @@
   //  [ShareSDK connectCopy];
 }
 
+/**  *得到本机现在用的语言  * en:英文  zh-Hans:简体中文   zh-Hant:繁体中文
+ * ja:日本  ......  */
+- (NSString*)getPreferredLanguage {
+  NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
+  NSArray* languages = [defs objectForKey:@"AppleLanguages"];
+  NSString* preferredLang = [languages objectAtIndex:0];
+  return preferredLang;
+}
 @end
