@@ -24,16 +24,16 @@
 "35W-mQ-9Ou.normalTitle" = "1Y";
 
 /* Class = "IBUIButton"; normalTitle = "Register"; ObjectID = "3h7-X4-gem"; */
-"3h7-X4-gem.normalTitle" = "Register";
+"3h7-X4-gem.normalTitle" = "Sign in";
 
 /* Class = "IBUITextField"; placeholder = "Please connect WiFi"; ObjectID = "3mc-Qe-dOd"; */
 "3mc-Qe-dOd.placeholder" = "Please connect WiFi";
 
 /* Class = "IBUILabel"; text = "Username"; ObjectID = "44V-yN-TFk"; */
-"44V-yN-TFk.text" = "Username";
+"44V-yN-TFk.text" = "Email";
 
 /* Class = "IBUIButton"; normalTitle = "Login"; ObjectID = "457-MZ-49E"; */
-"457-MZ-49E.normalTitle" = "Login";
+"457-MZ-49E.normalTitle" = "Log in";
 
 /* Class = "IBUILabel"; text = "About Us"; ObjectID = "4ij-vw-Zq2"; */
 "4ij-vw-Zq2.text" = "About Us";
@@ -54,10 +54,10 @@
 "6az-NZ-2Gc.text" = "Repeat";
 
 /* Class = "IBUIButton"; normalTitle = "实时"; ObjectID = "7wr-d1-WBN"; */
-"7wr-d1-WBN.normalTitle" = "实时";
+"7wr-d1-WBN.normalTitle" = "RT";
 
 /* Class = "IBUIButton"; normalTitle = "Start Configure"; ObjectID = "86Z-q3-JP2"; */
-"86Z-q3-JP2.normalTitle" = "Start Configure";
+"86Z-q3-JP2.normalTitle" = "Start Config";
 
 /* Class = "IBUILabel"; text = "You are not logged in"; ObjectID = "8Ag-IM-fzm"; */
 "8Ag-IM-fzm.text" = "You are not logged in";
@@ -183,7 +183,7 @@
 "Pro-HW-cy1.text" = "The maximum power is 2500W";
 
 /* Class = "IBUIBarButtonItem"; title = "Register"; ObjectID = "QME-BN-UAP"; */
-"QME-BN-UAP.title" = "Register";
+"QME-BN-UAP.title" = "Sign in";
 
 /* Class = "IBUILabel"; text = "1"; ObjectID = "R2H-uP-le7"; */
 "R2H-uP-le7.text" = "1";
@@ -255,7 +255,7 @@
 "csK-dr-Jlo.title" = "More";
 
 /* Class = "IBUIButton"; normalTitle = "Login"; ObjectID = "e14-PH-eKo"; */
-"e14-PH-eKo.normalTitle" = "Login";
+"e14-PH-eKo.normalTitle" = "Log in";
 
 /* Class = "IBUILabel"; text = "Name"; ObjectID = "fhC-Kb-pNF"; */
 "fhC-Kb-pNF.text" = "Name";
