@@ -296,12 +296,6 @@
 /* Class = "IBUITextField"; placeholder = "Enter the verification code"; ObjectID = "mcA-ld-VC9"; */
 "mcA-ld-VC9.placeholder" = "Enter the verification code";
 
-/* Class = "IBUILabel"; text = "待执行"; ObjectID = "mf8-zP-IUY"; */
-"mf8-zP-IUY.text" = "待执行";
-
-/* Class = "IBUILabel"; text = "场景执行中..."; ObjectID = "mrG-as-PJ0"; */
-"mrG-as-PJ0.text" = "场景执行中...";
-
 /* Class = "IBUIButton"; normalTitle = "Delay"; ObjectID = "mzk-Ah-mge"; */
 "mzk-Ah-mge.normalTitle" = "Delay";
 
@@ -353,8 +347,11 @@
 /* Class = "IBUILabel"; text = "ON"; ObjectID = "xLu-LL-E93"; */
 "xLu-LL-E93.text" = "ON";
 
-/* Class = "IBUIButton"; normalTitle = "阅读并同意《晟大用户手册》"; ObjectID = "xt5-rL-4r7"; */
-"xt5-rL-4r7.normalTitle" = "Read and Agree《晟大用户手册》";
+/* Class = "IBUILabel"; text = "《晟大用户使用协议》"; ObjectID = "fio-V9-RaB"; */
+"fio-V9-RaB.text" = "《晟大用户使用协议》";
+
+/* Class = "IBUILabel"; text = "阅读并同意"; ObjectID = "VA3-fp-BGU"; */
+"VA3-fp-BGU.text" = "Read and Agree";
 
 /* Class = "IBUILabel"; text = "0"; ObjectID = "ysL-wJ-XLm"; */
 "ysL-wJ-XLm.text" = "0";

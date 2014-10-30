@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>faqs</key>
+	<key>zh-Hans</key>
 	<array>
 		<dict>
 			<key>q</key>
@@ -83,6 +83,87 @@
 			<string>我可以对每个插孔进行单独控制吗？</string>
 			<key>a</key>
 			<string>不能，该设备为六孔插排，分为两组I、II，每组包含3个插孔，您可以对每组进行单独控制。</string>
+		</dict>
+	</array>
+	<key>en</key>
+	<array>
+		<dict>
+			<key>q</key>
+			<string>How to configuring?</string>
+			<key>a</key>
+			<string>First,confirm that your mobile phone connect to the wifi.Then reset the device by pressing rest button until light flashing rapidly at about 5-6times per sec.Thirdly,put in the password and click configure and the light will turn into slow flash.Last,if the light is always on,means the configuring succeed.If configuring fail,repeat the above steps to reconfigure.</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>How to delete device?</string>
+			<key>a</key>
+			<string>Press on the device at the device list to delete the device.</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>The device status shows &quot;Remote&quot;,&quot;Online&quot;,&quot;Offline&quot; and &quot;New&quot;. what does that mean?</string>
+			<key>a</key>
+			<string>&quot;Remote&quot;means the device and your mobile phone is not in the same LAN。&quot;Online&quot;means the device and your phone is in the same LAN.&quot;Offline&quot;means the device has configured,but it does not connect to electricity.&quot;New&quot;means the device is new added。</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>What is lock device? Where can I lock the device?</string>
+			<key>a</key>
+			<string>After the device lock,the terminals who did not add the device  will not be able to search the device.So it is safe for you to manage your device.Enter the device control page,click&quot;…&quot;icon,and enter to the device info page where you can lock your device.</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>How many timer task can I set up?</string>
+			<key>a</key>
+			<string>At most 20</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>Can I control the device remotely?</string>
+			<key>a</key>
+			<string>Yes,if only the device is online and your mobile phone can connect to Internet,then you can control your device all around th world.</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>What is Time-delay?</string>
+			<key>a</key>
+			<string>Time-delay is delay sometime to turn on or turn off the device.</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>How to edit the device information?</string>
+			<key>a</key>
+			<string>Enter the device control page,click&quot;…&quot;icon,then you can change the device&apos;s name and picture.</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>How to control the device&apos;s switch?</string>
+			<key>a</key>
+			<string>Click&quot;Control&quot;icon，then click the device to the control page.Click&quot;ON&quot;or&quot;OFF&quot;to control the switch.</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>What is &quot;scene&quot;?</string>
+			<key>a</key>
+			<string>&quot;Scene&quot; function can be setting a series of commands in a scene mode,Such as air conditioning, television, set-top box, lighting inside your bedroom。You can select multiple devices, multiple switch command in one scenario，then when you click the scene icon,the switch command you set up can be executed.</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>What dose long press and short press on the scene icon? </string>
+			<key>a</key>
+			<string>Long press on the scene icon can edit or delete the scene.Short press can execute the command you set up.</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>How to protect my device and prevent others find it?</string>
+			<key>a</key>
+			<string>Only connect to your home wifi,and then find your device. You can lock your device at &quot;Device Info&quot; page.</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>Can I control each socket seperately?</string>
+			<key>a</key>
+			<string>No,you can&apos;t.The device which has 6 sockets is divided into two groups has，each group has 3 sockets，and you can control each group seperately。</string>
 		</dict>
 	</array>
 </dict>

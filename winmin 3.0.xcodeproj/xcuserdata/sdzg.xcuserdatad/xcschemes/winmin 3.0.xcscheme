@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "158D987619C6F39C0068AFC5"
-               BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x80fd;.app"
+               BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x63a7;.app"
                BlueprintName = "winmin 3.0"
                ReferencedContainer = "container:winmin 3.0.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "158D987619C6F39C0068AFC5"
-            BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x80fd;.app"
+            BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x63a7;.app"
             BlueprintName = "winmin 3.0"
             ReferencedContainer = "container:winmin 3.0.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "158D987619C6F39C0068AFC5"
-            BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x80fd;.app"
+            BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x63a7;.app"
             BlueprintName = "winmin 3.0"
             ReferencedContainer = "container:winmin 3.0.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "158D987619C6F39C0068AFC5"
-            BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x80fd;.app"
+            BuildableName = "&#x5fae;&#x4e91;&#x667a;&#x63a7;.app"
             BlueprintName = "winmin 3.0"
             ReferencedContainer = "container:winmin 3.0.xcodeproj">
          </BuildableReference>

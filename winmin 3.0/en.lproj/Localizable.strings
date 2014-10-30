@@ -13,6 +13,8 @@
 "Smart Switch"="Smart Switch";
 "Socket1"="Socket Ⅰ";
 "Socket2"="Socket II";
+"Open"="Open";
+"Close"="Close";
 
 /**
  *  页面通用
@@ -90,16 +92,16 @@
 "FAQ"="FAQ";
 "User Manual"="User Manual";
 "Purchase Products"="Purchase Products";
-"User Login"="Login";
-"User Register"="Register";
-"Login"="Login";
+"User Login"="Log in";
+"User Register"="Sign up";
+"Login"="Log in";
 "Login successful"="Login successful";
 "Log out message"="Are you sure to log out?";
 "Username or password can not be empty"="Username or password can not be empty";
 "The user cancels the authorization, use the account login or retry"="The user cancels the authorization, use the account login or retry";
 "You are currently QQ or QQSpace is not installed, please install"="You are currently QQ or QQSpace is not installed, please install";
 "new  password login"="Password reset successfully, use the new password system";
-"Register"="Register";
+"Register"="Sign up";
 "Find Password"="Find Password";
 "Reset Password"="Reset Password";
 "email format is incorrect"="email format is incorrect";

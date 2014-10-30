@@ -40,15 +40,15 @@ static double interval = 0.5;
 - (NSString *)description {
   NSString *operation;
   if (self.onOrOff) {
-    operation = @"打开";
+    operation = NSLocalizedString(@"Open", nil);
   } else {
-    operation = @"关闭";
+    operation = NSLocalizedString(@"Close", nil);
   }
   NSString *socketName;
   if (self.groupId == 1) {
-    socketName = @"插孔I";
+    socketName = NSLocalizedString(@"Socket1", nil);
   } else {
-    socketName = @"插孔II";
+    socketName = NSLocalizedString(@"Socket2", nil);
   }
   return [NSString
       stringWithFormat:@"%@ %@ %@", operation, self.aSwitch.name, socketName];

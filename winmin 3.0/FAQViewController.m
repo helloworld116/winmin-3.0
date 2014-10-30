@@ -25,7 +25,7 @@
   NSString *path =
       [[NSBundle mainBundle] pathForResource:@"faq" ofType:@"plist"];
   NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-  self.faqs = dict[@"faqs"];
+  self.faqs = dict[kSharedAppliction.currnetLanguage];
 }
 
 - (void)viewDidLoad {

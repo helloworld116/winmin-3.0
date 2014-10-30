@@ -11,4 +11,5 @@
 @interface NetUtil : NSObject
 + (instancetype)sharedInstance;
 - (void)addNetWorkChangeNotification;
+- (NSString *)getIPWithHostName:(const NSString *)hostName;
 @end

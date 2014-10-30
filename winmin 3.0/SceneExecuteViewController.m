@@ -8,6 +8,7 @@
 
 #import "SceneExecuteViewController.h"
 #import "SceneExcCell.h"
+#import "SceneExcTitleView.h"
 #import "Scene.h"
 #import "SceneDetail.h"
 #import "SceneExecuteModel.h"
@@ -66,33 +67,45 @@
   self.tableView = tableView;
   [self.view addSubview:tableView];
 
-  UIView *titleView = [[UIView alloc]
-      initWithFrame:CGRectMake(0, SCREEN_HEIGHT -
-                                      CGRectGetHeight(btnCancelOrOk.frame) -
-                                      tableViewHeight - 56,
-                               SCREEN_WIDTH, 56)];
-  titleView.backgroundColor = kThemeColor;
-
-  CGSize sceneNameSize =
-      [self.scene.name sizeWithFont:[UIFont systemFontOfSize:20]];
-  UILabel *lblTitle =
-      [[UILabel alloc] initWithFrame:CGRectMake(80, 16, sceneNameSize.width,
-                                                sceneNameSize.height)];
-  lblTitle.font = [UIFont systemFontOfSize:20];
-  lblTitle.textColor = [UIColor whiteColor];
-  lblTitle.text = self.scene.name;
-  [titleView addSubview:lblTitle];
-
-  NSString *status = NSLocalizedString(@"is executing", nil);
-  CGSize statusSize = [status sizeWithFont:[UIFont systemFontOfSize:18]];
-  UILabel *lblStatus = [[UILabel alloc]
-      initWithFrame:CGRectMake(CGRectGetMaxX(lblTitle.frame) + 15, 17,
-                               statusSize.width + 10, statusSize.height)];
-  lblStatus.textColor = [UIColor whiteColor];
-  lblStatus.font = [UIFont systemFontOfSize:18];
-  lblStatus.text = status;
-  self.lblStatus = lblStatus;
-  [titleView addSubview:lblStatus];
+  //  UIView *titleView = [[UIView alloc]
+  //      initWithFrame:CGRectMake(0, SCREEN_HEIGHT -
+  //                                      CGRectGetHeight(btnCancelOrOk.frame) -
+  //                                      tableViewHeight - 56,
+  //                               SCREEN_WIDTH, 56)];
+  //  titleView.backgroundColor = kThemeColor;
+  //
+  //  CGSize sceneNameSize =
+  //      [self.scene.name sizeWithFont:[UIFont systemFontOfSize:20]];
+  //  UILabel *lblTitle =
+  //      [[UILabel alloc] initWithFrame:CGRectMake(80, 16, sceneNameSize.width,
+  //                                                sceneNameSize.height)];
+  //  lblTitle.font = [UIFont systemFontOfSize:20];
+  //  lblTitle.textColor = [UIColor whiteColor];
+  //  lblTitle.text = self.scene.name;
+  //  [titleView addSubview:lblTitle];
+  //
+  //  NSString *status = NSLocalizedString(@"is executing", nil);
+  //  CGSize statusSize = [status sizeWithFont:[UIFont systemFontOfSize:18]];
+  //  UILabel *lblStatus = [[UILabel alloc]
+  //      initWithFrame:CGRectMake(CGRectGetMaxX(lblTitle.frame) + 15, 17,
+  //                               statusSize.width + 10, statusSize.height)];
+  //  lblStatus.textColor = [UIColor whiteColor];
+  //  lblStatus.font = [UIFont systemFontOfSize:18];
+  //  lblStatus.text = status;
+  //  self.lblStatus = lblStatus;
+  //  [titleView addSubview:lblStatus];
+  //  [self.view addSubview:titleView];
+  SceneExcTitleView *titleView =
+      [[[NSBundle mainBundle] loadNibNamed:@"SceneExcTitleView"
+                                     owner:self
+                                   options:nil] objectAtIndex:0];
+  titleView.frame =
+      CGRectMake(0, SCREEN_HEIGHT - CGRectGetHeight(btnCancelOrOk.frame) -
+                        tableViewHeight - 56,
+                 SCREEN_WIDTH, 56);
+  titleView.lblName.text = self.scene.name;
+  self.lblStatus = titleView.lblStatus;
+  self.lblStatus.text = NSLocalizedString(@"is executing", nil);
   [self.view addSubview:titleView];
 
   UIView *shadowView = [[UIView alloc]

@@ -10,7 +10,7 @@
 #import "Reachability.h"
 
 @interface NetUtil ()
-@property(nonatomic, strong) Reachability *hostReach;
+@property (nonatomic, strong) Reachability *hostReach;
 @end
 
 @implementation NetUtil
@@ -55,6 +55,28 @@
   [[NSNotificationCenter defaultCenter]
       postNotificationName:kNetChangedNotification
                     object:self];
+}
+
+- (NSString *)getIPWithHostName:(const NSString *)hostName {
+  const char *hostN = [hostName UTF8String];
+  struct hostent *phot;
+  @try {
+    phot = gethostbyname(hostN);
+  }
+  @catch (NSException *exception) {
+    return nil;
+  }
+  if (phot != NULL) {
+    struct in_addr ip_addr;
+    memcpy(&ip_addr, phot->h_addr_list[0], 4);
+    char ip[20] = { 0 };
+    inet_ntop(AF_INET, &ip_addr, ip, sizeof(ip));
+
+    NSString *strIPAddress = [NSString stringWithUTF8String:ip];
+    return strIPAddress;
+  } else {
+    return nil;
+  }
 }
 
 @end

@@ -31,8 +31,11 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" fixedFrame="YES" text="如何进行一键配置？" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaP-pR-Br7">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="如何进行一键配置？" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaP-pR-Br7">
                                 <rect key="frame" x="50" y="16" width="262" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="39" id="8ER-yN-8GM"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -40,7 +43,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="zaP-pR-Br7" firstAttribute="leading" secondItem="Oeb-K1-cGj" secondAttribute="leading" constant="50" id="1Hg-uS-nNd"/>
+                            <constraint firstAttribute="bottom" secondItem="zaP-pR-Br7" secondAttribute="bottom" id="UaQ-di-CHO"/>
                             <constraint firstAttribute="height" constant="55" id="Ug9-pW-EiO"/>
+                            <constraint firstAttribute="trailing" secondItem="zaP-pR-Br7" secondAttribute="trailing" constant="8" id="bTL-1l-gTs"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tSj-Cw-APH">

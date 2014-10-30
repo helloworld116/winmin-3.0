@@ -12,8 +12,8 @@
 #import "SceneDetail.h"
 
 @interface DBUtil ()
-@property(nonatomic, strong) FMDatabase *db;
-@property(nonatomic, strong) FMDatabaseQueue *queue;
+@property (nonatomic, strong) FMDatabase *db;
+@property (nonatomic, strong) FMDatabaseQueue *queue;
 @end
 
 @implementation DBUtil
@@ -267,9 +267,8 @@
       aSwitch.imageName = [switchResult stringForColumn:@"imagename"];
       aSwitch.password = [switchResult stringForColumn:@"password"];
       aSwitch.port = [switchResult intForColumn:@"port"];
-      //      aSwitch.networkStatus = [switchResult
-      //      intForColumn:@"networkstatus"];
-      aSwitch.networkStatus = SWITCH_OFFLINE;
+      aSwitch.networkStatus = [switchResult intForColumn:@"networkstatus"];
+      //      aSwitch.networkStatus = SWITCH_OFFLINE;
       aSwitch.lockStatus = [switchResult intForColumn:@"lockstatus"];
       aSwitch.version = [switchResult intForColumn:@"version"];
       aSwitch.tag = [switchResult intForColumn:@"tag"];
@@ -418,7 +417,7 @@
       NSString *sql = @"insert into scene(name,imagename) values (?,?)";
       [self.db executeUpdate:sql, scene.name, scene.imageName];
       sceneId = (int)[self.db lastInsertRowId];
-      scene.indentifier = sceneId;  //添加后设置标识符便于后续删除
+      scene.indentifier = sceneId; //添加后设置标识符便于后续删除
     }
     for (SceneDetail *detail in scene.detailList) {
       NSString *sql =

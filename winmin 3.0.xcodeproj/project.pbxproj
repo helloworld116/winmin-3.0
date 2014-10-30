@@ -12,9 +12,12 @@
 		150BE85819FF91FE00A358CF /* ResetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE85719FF91FE00A358CF /* ResetPwdViewController.m */; };
 		150BE86119FFA7B700A358CF /* FindPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE86019FFA7B700A358CF /* FindPassword.m */; };
 		150BE8641A00F35D00A358CF /* SceneExcCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150BE8661A00F35D00A358CF /* SceneExcCell.xib */; };
+		150BE86D1A01D47700A358CF /* SceneExcTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE86C1A01D47700A358CF /* SceneExcTitleView.m */; };
+		150BE86F1A01D49700A358CF /* SceneExcTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150BE86E1A01D49700A358CF /* SceneExcTitleView.xib */; };
 		150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6DD19F9E276005134B7 /* FaqCell.xib */; };
 		150FC6E319FA39DB005134B7 /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150FC6E219FA39DB005134B7 /* ProtocolViewController.m */; };
 		150FC6E519FA419B005134B7 /* protocol.htm in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6E419FA419B005134B7 /* protocol.htm */; };
+		151B4AAA1A0226DF00C77467 /* winmin 3.0-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 151B4AA91A0226DF00C77467 /* winmin 3.0-Info.plist */; };
 		15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 15476D4B19E68B6B00EC6BD1 /* NetUtil.m */; };
 		1551F6EF19F8951200A24447 /* FAQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1551F6EE19F8951200A24447 /* FAQViewController.m */; };
 		1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6F019F8AC9300A24447 /* bookinfo@2x.png */; };
@@ -147,17 +150,22 @@
 		150BE85419FF8CA600A358CF /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
 		150BE85619FF91FE00A358CF /* ResetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPwdViewController.h; sourceTree = "<group>"; };
 		150BE85719FF91FE00A358CF /* ResetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPwdViewController.m; sourceTree = "<group>"; };
-		150BE85E19FFA33300A358CF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		150BE85F19FFA7B700A358CF /* FindPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPassword.h; sourceTree = "<group>"; };
 		150BE86019FFA7B700A358CF /* FindPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPassword.m; sourceTree = "<group>"; };
-		150BE8631A00B89700A358CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		150BE8651A00F35D00A358CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SceneExcCell.xib; sourceTree = "<group>"; };
 		150BE8681A00F36300A358CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SceneExcCell.strings; sourceTree = "<group>"; };
 		150BE86A1A00F36500A358CF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SceneExcCell.strings"; sourceTree = "<group>"; };
+		150BE86B1A01D47700A358CF /* SceneExcTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneExcTitleView.h; sourceTree = "<group>"; };
+		150BE86C1A01D47700A358CF /* SceneExcTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneExcTitleView.m; sourceTree = "<group>"; };
+		150BE86E1A01D49700A358CF /* SceneExcTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SceneExcTitleView.xib; sourceTree = "<group>"; };
+		150BE8751A02183F00A358CF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		150BE8771A02189C00A358CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		150FC6DD19F9E276005134B7 /* FaqCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FaqCell.xib; sourceTree = "<group>"; };
 		150FC6E119FA39DB005134B7 /* ProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolViewController.h; sourceTree = "<group>"; };
 		150FC6E219FA39DB005134B7 /* ProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolViewController.m; sourceTree = "<group>"; };
 		150FC6E419FA419B005134B7 /* protocol.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = protocol.htm; sourceTree = "<group>"; };
+		151B4AA91A0226DF00C77467 /* winmin 3.0-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "winmin 3.0-Info.plist"; sourceTree = "<group>"; };
+		151B4AAB1A0226FC00C77467 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		15476D4A19E68B6B00EC6BD1 /* NetUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetUtil.h; sourceTree = "<group>"; };
 		15476D4B19E68B6B00EC6BD1 /* NetUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetUtil.m; sourceTree = "<group>"; };
 		1551F6ED19F8951200A24447 /* FAQViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQViewController.h; sourceTree = "<group>"; };
@@ -212,7 +220,6 @@
 		158D987A19C6F39C0068AFC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		158D987E19C6F39C0068AFC5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		158D988219C6F39C0068AFC5 /* winmin 3.0-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "winmin 3.0-Info.plist"; sourceTree = "<group>"; };
 		158D988419C6F39C0068AFC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		158D988619C6F39C0068AFC5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		158D988819C6F39C0068AFC5 /* winmin 3.0-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "winmin 3.0-Prefix.pch"; sourceTree = "<group>"; };
@@ -449,6 +456,9 @@
 				155A5BFD19D54206007864C8 /* SceneExcCell.h */,
 				155A5BFE19D54206007864C8 /* SceneExcCell.m */,
 				150BE8661A00F35D00A358CF /* SceneExcCell.xib */,
+				150BE86B1A01D47700A358CF /* SceneExcTitleView.h */,
+				150BE86C1A01D47700A358CF /* SceneExcTitleView.m */,
+				150BE86E1A01D49700A358CF /* SceneExcTitleView.xib */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -646,9 +656,9 @@
 		158D988119C6F39C0068AFC5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				151B4AA91A0226DF00C77467 /* winmin 3.0-Info.plist */,
 				150FC6E419FA419B005134B7 /* protocol.htm */,
 				15BA47A719FDEA49008ADB9D /* Localizable.strings */,
-				158D988219C6F39C0068AFC5 /* winmin 3.0-Info.plist */,
 				158D988319C6F39C0068AFC5 /* InfoPlist.strings */,
 				158D988619C6F39C0068AFC5 /* main.m */,
 				158D988819C6F39C0068AFC5 /* winmin 3.0-Prefix.pch */,
@@ -1031,12 +1041,14 @@
 				15B3B92C19F511760058D91F /* ConfigLoadingViewController.xib in Resources */,
 				15BA47B219FE00CB008ADB9D /* DelaySettingViewController.xib in Resources */,
 				158D989619C6F39C0068AFC5 /* Images.xcassets in Resources */,
+				151B4AAA1A0226DF00C77467 /* winmin 3.0-Info.plist in Resources */,
 				1551F6F319F90AF500A24447 /* faq.plist in Resources */,
 				15BA47B919FE153E008ADB9D /* DatePickerViewController.xib in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
 				150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */,
 				150BE8641A00F35D00A358CF /* SceneExcCell.xib in Resources */,
 				158D98E819C7C9660068AFC5 /* ShareSDKLocalizable.strings in Resources */,
+				150BE86F1A01D49700A358CF /* SceneExcTitleView.xib in Resources */,
 				150FC6E519FA419B005134B7 /* protocol.htm in Resources */,
 				158D988E19C6F39C0068AFC5 /* Main.storyboard in Resources */,
 				1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */,
@@ -1147,6 +1159,7 @@
 				15AC863C19CFC6C900D154EB /* TimerEditViewController.m in Sources */,
 				1560132819CBDCA700BF7E12 /* SwitchDetailModel.m in Sources */,
 				15AC865119D10A4E00D154EB /* DelaySettingViewController.m in Sources */,
+				150BE86D1A01D47700A358CF /* SceneExcTitleView.m in Sources */,
 				156012BE19C8129300BF7E12 /* ConfigLoadingViewController.m in Sources */,
 				158D991719C7CBC50068AFC5 /* DESUtil.m in Sources */,
 				1560132319CA795100BF7E12 /* SocketImgTemplateViewController.m in Sources */,
@@ -1201,6 +1214,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				158D988419C6F39C0068AFC5 /* en */,
+				151B4AAB1A0226FC00C77467 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1209,8 +1223,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				158D988D19C6F39C0068AFC5 /* Base */,
-				150BE85E19FFA33300A358CF /* zh-Hans */,
-				150BE8631A00B89700A358CF /* en */,
+				150BE8751A02183F00A358CF /* zh-Hans */,
+				150BE8771A02189C00A358CF /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

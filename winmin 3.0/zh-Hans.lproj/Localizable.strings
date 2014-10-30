@@ -11,8 +11,10 @@
 "Last Updated"="最后更新于";
 "Skip"="跳过";
 "Smart Switch"="winmin智能";
-"Socket1"="插孔Ⅰ";
-"Socket2"="插孔Ⅱ";
+"Socket1"="插孔I";
+"Socket2"="插孔II";
+"Open"="打开";
+"Close"="关闭";
 
 /**
  *  页面通用
