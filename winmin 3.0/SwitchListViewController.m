@@ -11,7 +11,7 @@
 #import "SwitchListCell.h"
 #import "SwitchListModel.h"
 
-@interface SwitchListViewController ()<
+@interface SwitchListViewController () <
     UIActionSheetDelegate, UIAlertViewDelegate, EGORefreshTableHeaderDelegate>
 @property (nonatomic, strong) SwitchListModel *model;
 @property (nonatomic, strong) SDZGSwitch *operationSwitch; //当前操作的switch
@@ -57,7 +57,7 @@
   self.noDataView.hidden = YES;
   [self.view addSubview:self.noDataView];
 
-  self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
+  self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
   if (!self.switchs || self.switchs.count == 0) {
     self.noDataView.hidden = NO;
   } else {
@@ -162,11 +162,12 @@
 }
 
 - (void)startUpdateList {
-  self.timerUpdateList = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
-                                                 target:self.tableView
-                                               selector:@selector(reloadData)
-                                               userInfo:nil
-                                                repeats:YES];
+  self.timerUpdateList =
+      [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
+                              target:self
+                            selector:@selector(reloadTableView)
+                            userInfo:nil
+                             repeats:YES];
   [self.timerUpdateList
       setFireDate:[NSDate dateWithTimeIntervalSinceNow:self.delayInterval]];
   [[NSRunLoop currentRunLoop] addTimer:self.timerUpdateList
@@ -205,6 +206,11 @@
       [self startUpdateList];
     }
   }
+}
+
+- (void)reloadTableView {
+  self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
+  [self.tableView reloadData];
 }
 
 #pragma mark - UITableViewDataSource

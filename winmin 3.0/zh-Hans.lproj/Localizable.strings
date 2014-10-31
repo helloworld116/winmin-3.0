@@ -39,6 +39,7 @@
 "Tips"="温馨提示";
 "TipsInfo"="删除设备将删除该设备关联下的所有场景，是否继续删除该设备？";
 "Timer Task"="定时任务";
+"maximum count is 20"="最多只能添加20条";
 "Repeat"="重复";
 "Operating One Time"="执行一次";
 "Mon"="周一";
@@ -56,11 +57,26 @@
 ""="添加成功";
 ""="修改成功";
 "Delay Task"="延时任务";
+"at most 1440 minutes"="最多设置1440分钟";
 "How to set the Icon?"="如何设置图标？";
 "You have not yet added any time task"="您暂时还未添加任何定时任务";
 "Are you sure to delete the timer task"="您确定要删除该定时任务";
 "Added successfully"="添加成功";
 "Modified successfully"="修改成功";
+
+/**
+ *  控制列表设备状态图片
+ */
+"zx_lock"="zx_lock";
+"yc_lock"="yc_lock";
+"lx_lock"="lx_lock";
+"new_lock"="new_lock";
+"zx"="zx";
+"yc"="yc";
+"lx"="lx";
+"new"="new";
+
+
 /**
  *  配置
  */

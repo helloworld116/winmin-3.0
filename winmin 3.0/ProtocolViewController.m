@@ -9,7 +9,7 @@
 #import "ProtocolViewController.h"
 
 @interface ProtocolViewController ()
-@property (nonatomic, strong) IBOutlet UIWebView *webView;
+@property (nonatomic, weak) IBOutlet UIWebView *webView;
 @end
 
 @implementation ProtocolViewController
@@ -38,5 +38,4 @@ preparation before navigation
     // Pass the selected object to the new view controller.
 }
 */
-
 @end

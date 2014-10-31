@@ -135,7 +135,7 @@ enum {
 @property (nonatomic, assign) unsigned int currentTime;
 @property (nonatomic, assign) char timerTaskNumber;
 @property (nonatomic, strong) NSArray *timerTaskList;
-@property (nonatomic, assign) short delay;
+@property (nonatomic, assign) int delay;
 
 @property (nonatomic, assign) NSInteger update;
 @property (nonatomic, assign) NSString *updateUrl;

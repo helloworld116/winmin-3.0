@@ -143,7 +143,7 @@
 //#else
 //#define SERVER_IP @"183.63.35.203"
 //#endif
-#define SERVER_IP @"183.63.35.203"
+#define SERVER_IP @"120.24.75.50"
 static float const kHardwareVersion = 2.0;
 static int const kUdpResponseSuccessCode = 0;
 static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";

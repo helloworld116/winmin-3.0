@@ -109,6 +109,8 @@
         [[NSUserDefaults standardUserDefaults] objectForKey:self.ssid];
     if (password) {
       self.textPassword.text = password;
+    } else {
+      self.textPassword.text = @"";
     }
   }
   self.textPassword.secureTextEntry = YES;

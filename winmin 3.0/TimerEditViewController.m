@@ -11,6 +11,7 @@
 #import <NSDate+Calendar.h>
 #import "SwitchDataCeneter.h"
 #import "DatePickerViewController.h"
+static const int maxCount = 20;
 
 @interface TimerEditCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIView *viewOfCellContent;
@@ -24,8 +25,8 @@
 }
 @end
 
-@interface TimerEditViewController ()<PassValueDelegate,
-                                      DatePickerControllerDelegate>
+@interface TimerEditViewController () <PassValueDelegate,
+                                       DatePickerControllerDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *lblTime;
 @property (strong, nonatomic) IBOutlet UILabel *lblRepeatDesc;
 @property (strong, nonatomic) IBOutlet UIButton *btnOnOff;
@@ -145,7 +146,11 @@
     type = 2;
     [self.timers replaceObjectAtIndex:self.index withObject:self.timer];
   }
-  [self.model updateTimers:self.timers type:type];
+  if (self.timers.count > maxCount) {
+    [self.view makeToast:NSLocalizedString(@"maximum count is 20", nil)];
+  } else {
+    [self.model updateTimers:self.timers type:type];
+  }
 }
 
 #pragma mark -

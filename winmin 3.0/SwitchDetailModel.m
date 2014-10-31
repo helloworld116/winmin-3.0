@@ -47,13 +47,13 @@
 
 - (void)startScanSwitchState {
   _isScanning = YES;
-  //加上0.1是避免和实时电量查询请求同时发出，降低同时发出的几率
-  self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME + 0.1
+  self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
                                        target:self
                                      selector:@selector(sendMsg0BOr0D)
                                      userInfo:nil
                                       repeats:YES];
-  [self.timer fire];
+  //加上0.1是避免和实时电量查询请求同时发出，降低同时发出的几率
+  [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
   [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 

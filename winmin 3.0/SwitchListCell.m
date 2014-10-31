@@ -35,23 +35,23 @@
   NSString *imageName;
   if (aSwitch.lockStatus == LockStatusOn) {
     if (aSwitch.networkStatus == SWITCH_LOCAL) {
-      imageName = @"zx_lock";
+      imageName = NSLocalizedString(@"zx_lock", nil);
     } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
-      imageName = @"yc_lock";
+      imageName = NSLocalizedString(@"yc_lock", nil);
     } else if (aSwitch.networkStatus == SWITCH_OFFLINE) {
-      imageName = @"lx_lock";
+      imageName = NSLocalizedString(@"lx_lock", nil);
     } else if (aSwitch.networkStatus == SWITCH_NEW) {
-      imageName = @"new_lock";
+      imageName = NSLocalizedString(@"new_lock", nil);
     }
   } else {
     if (aSwitch.networkStatus == SWITCH_LOCAL) {
-      imageName = @"zx";
+      imageName = NSLocalizedString(@"zx", nil);
     } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
-      imageName = @"yc";
+      imageName = NSLocalizedString(@"yc", nil);
     } else if (aSwitch.networkStatus == SWITCH_OFFLINE) {
-      imageName = @"lx";
+      imageName = NSLocalizedString(@"lx", nil);
     } else if (aSwitch.networkStatus == SWITCH_NEW) {
-      imageName = @"new";
+      imageName = NSLocalizedString(@"new", nil);
     }
   }
   self.imgViewOfState.image = [UIImage imageNamed:imageName];

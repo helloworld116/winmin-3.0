@@ -23,8 +23,8 @@
   // Override point for customization after application launch.
   self.networkStatus = ReachableViaWiFi; //这里必不可少,必须在view展现前执行
   self.netUtil = [NetUtil sharedInstance];
-  debugLog(@"ip is %@",
-           [self.netUtil getIPWithHostName:@"server.itouchco.com"]);
+  //  debugLog(@"ip is %@",
+  //           [self.netUtil getIPWithHostName:@"server.itouchco.com"]);
   [self.netUtil addNetWorkChangeNotification];
   [self setStyle];
   self.currnetLanguage = [self getPreferredLanguage];

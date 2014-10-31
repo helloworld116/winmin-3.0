@@ -39,6 +39,7 @@
 "Tips"="Warning";
 "TipsInfo"="Remove the device will delete all the scenes associated with the device under whether to continue to remove the device?";
 "Timer Task"="Timer Task";
+"maximum count is 20"="maximum count is 20";
 "Repeat"="Repeat";
 "Operating One Time"="Operating One Time";
 "Mon"="Mon";
@@ -52,11 +53,21 @@
 "ON"="ON";
 "OFF"="OFF";
 "Delay Task"="Delay Task";
+"at most 1440 minutes"="at most 1440 minutes";
 "How to set the Icon?"="How to set the Icon?";
 "You have not yet added any time task"="You have not yet added any time task";
 "Are you sure to delete the timer task"="Are you sure to delete the timer task";
 "Added successfully"="Added successfully";
 "Modified successfully"="Modified successfully";
+
+"zx_lock"="zx_lock_en";
+"yc_lock"="yc_lock_en";
+"lx_lock"="lx_lock_en";
+"new_lock"="new_lock";
+"zx"="zx_en";
+"yc"="yc_en";
+"lx"="lx_en";
+"new"="new";
 
 /**
  *  配置

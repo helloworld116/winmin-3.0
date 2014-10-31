@@ -8,25 +8,25 @@
 
 #import "DelaySettingViewController.h"
 
-@interface DelaySettingViewController ()<UITextFieldDelegate>
-@property(strong, nonatomic) IBOutlet UITextField *textField;
-@property(strong, nonatomic) IBOutlet UIButton *btnInput;
-@property(strong, nonatomic) IBOutlet UIButton *btnMinitues5;
-@property(strong, nonatomic) IBOutlet UIButton *btnMinitues10;
-@property(strong, nonatomic) IBOutlet UIButton *btnMinitues30;
-@property(strong, nonatomic) IBOutlet UIButton *btnMinitues60;
-@property(strong, nonatomic) IBOutlet UIButton *btnMinitues90;
-@property(strong, nonatomic) IBOutlet UIButton *btnMinitues120;
-@property(strong, nonatomic) IBOutlet UIButton *btnOnOff;
-@property(strong, nonatomic) IBOutlet UIButton *btnSave;
+@interface DelaySettingViewController () <UITextFieldDelegate>
+@property (strong, nonatomic) IBOutlet UITextField *textField;
+@property (strong, nonatomic) IBOutlet UIButton *btnInput;
+@property (strong, nonatomic) IBOutlet UIButton *btnMinitues5;
+@property (strong, nonatomic) IBOutlet UIButton *btnMinitues10;
+@property (strong, nonatomic) IBOutlet UIButton *btnMinitues30;
+@property (strong, nonatomic) IBOutlet UIButton *btnMinitues60;
+@property (strong, nonatomic) IBOutlet UIButton *btnMinitues90;
+@property (strong, nonatomic) IBOutlet UIButton *btnMinitues120;
+@property (strong, nonatomic) IBOutlet UIButton *btnOnOff;
+@property (strong, nonatomic) IBOutlet UIButton *btnSave;
 - (IBAction)choiceAction:(id)sender;
 - (IBAction)onOffAction:(id)sender;
 - (IBAction)save:(id)sender;
 
-@property(nonatomic, assign) BOOL actionState;     //开关状态
-@property(nonatomic, assign) int actionMinitues;   //延迟时间
-@property(nonatomic, strong) UIButton *btnOfLast;  //最后操作的按钮
-@property(nonatomic, strong) UIButton *btnDone;    //键盘左下角的按钮
+@property (nonatomic, assign) BOOL actionState;    //开关状态
+@property (nonatomic, assign) int actionMinitues;  //延迟时间
+@property (nonatomic, strong) UIButton *btnOfLast; //最后操作的按钮
+@property (nonatomic, strong) UIButton *btnDone;   //键盘左下角的按钮
 @end
 
 @implementation DelaySettingViewController
@@ -167,8 +167,12 @@
   self.actionState = self.btnOnOff.selected;
 }
 - (IBAction)save:(id)sender {
-  [self.model setDelayWithMinitues:self.actionMinitues
-                           onOrOff:self.actionState];
+  if (self.actionMinitues > 1440) {
+    [self.view makeToast:NSLocalizedString(@"at most 1440 minutes", nil)];
+  } else {
+    [self.model setDelayWithMinitues:self.actionMinitues
+                             onOrOff:self.actionState];
+  }
 }
 
 #pragma mark - UITextField协议
@@ -199,7 +203,7 @@
   UIWindow *tempWindow =
       [[[UIApplication sharedApplication] windows] objectAtIndex:1];
   if (self.btnDone.superview == nil) {
-    [tempWindow addSubview:self.btnDone];  // 注意这里直接加到window上
+    [tempWindow addSubview:self.btnDone]; // 注意这里直接加到window上
   }
 
   CGRect selfFrame = self.view.frame;

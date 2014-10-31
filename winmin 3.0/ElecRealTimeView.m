@@ -36,9 +36,10 @@ static CGFloat scaleX;
   static double delayInSeconds = 5;
   self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,
                                       dispatch_get_main_queue());
-  dispatch_source_set_timer(_timer, dispatch_walltime(NULL, 0),
-                            (unsigned)(delayInSeconds * NSEC_PER_SEC),
-                            1 * NSEC_PER_SEC);
+  dispatch_time_t delayTime =
+      dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC);
+  dispatch_source_set_timer(_timer, delayTime,
+                            (unsigned)(delayInSeconds * NSEC_PER_SEC), 0);
   dispatch_source_set_event_handler(_timer, ^{ [weakSelf updateView]; });
   dispatch_resume(_timer);
 }
@@ -196,9 +197,9 @@ static CGFloat scaleX;
   if (isEqualOrGreaterToiOS7) {
     [str drawAtPoint:point
         withAttributes:@{
-                         NSFontAttributeName : [UIFont systemFontOfSize:8],
-                         NSForegroundColorAttributeName : kTextColor
-                       }];
+          NSFontAttributeName : [UIFont systemFontOfSize:8],
+          NSForegroundColorAttributeName : kTextColor
+        }];
 
   } else {
     [str drawAtPoint:point withFont:[UIFont systemFontOfSize:8]];

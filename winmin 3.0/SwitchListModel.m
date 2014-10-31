@@ -7,7 +7,7 @@
 //
 
 #import "SwitchListModel.h"
-@interface SwitchListModel ()<UdpRequestDelegate>
+@interface SwitchListModel () <UdpRequestDelegate>
 @property (strong, nonatomic) NSTimer *timer;
 @property (nonatomic, strong) UdpRequest *request;
 @property (nonatomic, strong) UdpRequest *request9;
@@ -63,8 +63,7 @@
       [self.request sendMsg0B:ActiveMode];
       //设置0.5秒，保证内网的响应优先级
       [NSThread sleepForTimeInterval:0.5];
-      NSArray *switchs =
-          [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
+      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
       for (SDZGSwitch *aSwitch in switchs) {
         [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
         [NSThread sleepForTimeInterval:0.2f];
