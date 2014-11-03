@@ -1211,7 +1211,7 @@ typedef struct {
   message.port = msg.port;
 
   message.deviceName = [[NSString alloc] initWithBytes:msg.deviceName
-                                                length:sizeof(msg.deviceName)
+                                                length:strlen(msg.deviceName)
                                               encoding:NSUTF8StringEncoding];
   message.version = msg.FWVersion;
   message.lockStatus = msg.isLocked;

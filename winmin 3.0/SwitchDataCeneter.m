@@ -163,10 +163,12 @@
     }
   }
   //  return [self.switchsDict allValues];
-  NSSortDescriptor *sortDescriptor =
+  NSSortDescriptor *netDescriptor =
       [[NSSortDescriptor alloc] initWithKey:@"networkStatus" ascending:YES];
+  NSSortDescriptor *macDescriptor =
+      [[NSSortDescriptor alloc] initWithKey:@"mac" ascending:YES];
   return [[self.switchsDict allValues]
-      sortedArrayUsingDescriptors:@[ sortDescriptor ]];
+      sortedArrayUsingDescriptors:@[ netDescriptor, macDescriptor ]];
 }
 
 - (NSArray *)switchs {

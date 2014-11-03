@@ -85,14 +85,23 @@
                    queue:nil
               usingBlock:^(NSNotification *note) {
                   NSString *mac = note.userInfo[@"mac"];
+                  NSTimeInterval current =
+                      [[NSDate date] timeIntervalSince1970];
+                  for (SDZGSwitch *aSwitch in self.switchs) {
+                    aSwitch.lastUpdateInterval = current;
+                  }
                   SDZGSwitch *aSwitch =
                       [SwitchDataCeneter sharedInstance].switchsDict[mac];
+                  NSArray *switchs = [[SwitchDataCeneter
+                          sharedInstance] switchsWithChangeStatus];
                   if (aSwitch) {
                     aSwitch.networkStatus = SWITCH_NEW;
+                    self.switchs = switchs;
+                    dispatch_async(MAIN_QUEUE,
+                                   ^{ [self.tableView reloadData]; });
                   } else {
                     [self.model addSwitchWithMac:mac];
                   }
-                  dispatch_async(MAIN_QUEUE, ^{ [self.tableView reloadData]; });
               }];
 
   //下拉刷新
