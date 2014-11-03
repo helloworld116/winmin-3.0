@@ -96,6 +96,7 @@
 #define kShake @"Shake"
 #define kShowMac @"ShowMac"
 //通知
+#define kNoResponseNotification @"NoResponseNotification"
 #define kConfigNewSwitch @"ConfigNewSwitch"
 #define kNetChangedNotification @"NetChangedNotification"
 #define kSceneDataChanged @"SceneDataChanged"

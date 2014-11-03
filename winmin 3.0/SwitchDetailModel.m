@@ -189,6 +189,18 @@ typedef void (^RequestBlock)(void);
   }
 }
 
+- (void)noResponseMsgtag:(long)tag socketGroupId:(int)socketGroupId {
+  debugLog(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
+  NSDictionary *userInfo = @{
+    @"tag" : @(tag),
+    @"socketGroupId" : @(socketGroupId)
+  };
+  [[NSNotificationCenter defaultCenter]
+      postNotificationName:kNoResponseNotification
+                    object:self
+                  userInfo:userInfo];
+}
+
 - (void)responseMsgCOrE:(CC3xMessage *)message {
   if (message.state == kUdpResponseSuccessCode) {
     SDZGSwitch *aSwitch = [SDZGSwitch parseMessageCOrEToSwitch:message];

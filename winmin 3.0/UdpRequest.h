@@ -26,9 +26,9 @@
  *  UDP请求后未响应的处理
  *
  *  @param tag        UDP请求的tag
- *  @param triedCount 未响应后已经尝试的次数
+ *  @param socketGroupId socket所属id
  */
-- (void)noResponseMsgtag:(long)tag triedCount:(int)triedCount;
+- (void)noResponseMsgtag:(long)tag socketGroupId:(int)socketGroupId;
 
 #pragma mark - 请求没有发送的处理
 /**

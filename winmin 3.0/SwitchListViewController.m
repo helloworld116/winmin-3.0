@@ -92,6 +92,7 @@
                   } else {
                     [self.model addSwitchWithMac:mac];
                   }
+                  dispatch_async(MAIN_QUEUE, ^{ [self.tableView reloadData]; });
               }];
 
   //下拉刷新

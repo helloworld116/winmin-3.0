@@ -8,6 +8,26 @@
 
 #import "SocketView.h"
 
+@implementation ArcImgView
+
+- (void)drawRect:(CGRect)rect {
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  CGContextSetRGBStrokeColor(context, 1, 0, 0, 1); //改变画笔颜色
+  CGContextMoveToPoint(context, rect.origin.x + rect.size.width / 2,
+                       rect.origin.y); //开始坐标p1
+  // CGContextAddArcToPoint(CGContextRef c, CGFloat x1, CGFloat y1,CGFloat x2,
+  // CGFloat y2, CGFloat radius)
+  // x1,y1跟p1形成一条线的坐标p2，x2,y2结束坐标跟p3形成一条线的p3,radius半径,注意,
+  // 需要算好半径的长度,
+  CGContextAddArcToPoint(context, rect.origin.x + rect.size.width / 2 + 17.3f,
+                         rect.origin.y + (rect.size.width / 2 - 17.3),
+                         rect.origin.x + rect.size.width,
+                         rect.origin.y + rect.size.width / 2,
+                         rect.size.width / 2);
+  CGContextStrokePath(context); //绘画路径
+}
+@end
+
 @implementation SocketView
 
 - (id)initWithFrame:(CGRect)frame {
@@ -64,6 +84,7 @@
       [self.sockeViewDelegate
           respondsToSelector:@selector(touchOnOrOffWithSelf:)]) {
     [self.sockeViewDelegate touchOnOrOffWithSelf:self];
+    [self addRotateAnimation];
   }
 }
 
@@ -94,5 +115,24 @@
   [self.btnSocket3 setImage:[SDZGSocket imgNameToImage:socket.imageNames[2]
                                                 status:socket.socketStatus]
                    forState:UIControlStateNormal];
+}
+
+- (void)addRotateAnimation {
+  CABasicAnimation *rotationAnimation;
+  rotationAnimation =
+      [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+  rotationAnimation.toValue = [NSNumber numberWithFloat:M_PI * 2.0];
+  rotationAnimation.duration = 1.f;
+  rotationAnimation.cumulative = YES;
+  rotationAnimation.repeatCount =
+      HUGE_VALF; // huge巨大的 value float 浮点数形式
+  [self.arcView.layer addAnimation:rotationAnimation
+                            forKey:@"rotationAnimation"];
+  self.arcView.hidden = NO;
+}
+
+- (void)removeRotateAnimation {
+  [self.arcView.layer removeAnimationForKey:@"rotationAnimation"];
+  self.arcView.hidden = YES;
 }
 @end

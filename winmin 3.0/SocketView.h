@@ -16,6 +16,9 @@
 - (void)touchDelayWithSelf:(SocketView *)_self;
 @end
 
+@interface ArcImgView : UIView
+@end
+
 @interface SocketView : UIView
 @property (assign, nonatomic) int groupId; //标识插孔所属分组的id
 @property (assign, nonatomic) id<SocketViewDelegate> sockeViewDelegate;
@@ -24,6 +27,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnSocket3;
 @property (strong, nonatomic) IBOutlet UIButton *btnOnOrOff;
 @property (strong, nonatomic) IBOutlet UIImageView *imgViewBg;
+@property (strong, nonatomic) IBOutlet ArcImgView *arcView;
 - (IBAction)touchSocket1:(id)sender;
 - (IBAction)touchSocket2:(id)sender;
 - (IBAction)touchSocket3:(id)sender;
@@ -33,4 +37,5 @@
 
 - (void)setSocketInfo:(SDZGSocket *)socket;
 - (void)changeSocketState:(SDZGSocket *)socket;
+- (void)removeRotateAnimation;
 @end

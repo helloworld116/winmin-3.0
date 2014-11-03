@@ -9,7 +9,7 @@
 #define kNotReachable @"网络不可用"
 #define kNotViaWiFi @"不在WIFI网络条件"
 
-@interface UdpRequest ()<GCDAsyncUdpSocketDelegate>
+@interface UdpRequest () <GCDAsyncUdpSocketDelegate>
 @property (nonatomic, assign) int msgSendCount;
 @property (nonatomic, strong) NSData *responseData;
 #pragma mark -
@@ -1087,6 +1087,13 @@ static dispatch_queue_t delegateQueue;
             [self sendMsg11WithSwitch:self.aSwitch
                         socketGroupId:self.socketGroupId
                              sendMode:PassiveMode];
+          } else {
+            if ([self.delegate
+                    respondsToSelector:@selector(noResponseMsgtag:
+                                                    socketGroupId:)]) {
+              [self.delegate noResponseMsgtag:tag
+                                socketGroupId:self.socketGroupId];
+            }
           }
         }
         break;
@@ -1097,6 +1104,13 @@ static dispatch_queue_t delegateQueue;
             [self sendMsg13WithSwitch:self.aSwitch
                         socketGroupId:self.socketGroupId
                              sendMode:PassiveMode];
+          } else {
+            if ([self.delegate
+                    respondsToSelector:@selector(noResponseMsgtag:
+                                                    socketGroupId:)]) {
+              [self.delegate noResponseMsgtag:tag
+                                socketGroupId:self.socketGroupId];
+            }
           }
         }
         break;

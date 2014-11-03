@@ -1234,7 +1234,7 @@ typedef struct {
                                           msg.ip[2], msg.ip[3]];
   message.port = msg.port;
   NSString *deviceName = [[NSString alloc] initWithBytes:msg.deviceName
-                                                  length:sizeof(msg.deviceName)
+                                                  length:strlen(msg.deviceName)
                                                 encoding:NSUTF8StringEncoding];
   message.deviceName = deviceName;
   message.version = msg.FWVersion;

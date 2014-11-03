@@ -143,12 +143,17 @@
                                                     <action selector="touchDelay:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="VMz-gn-LEC"/>
                                                 </connections>
                                             </button>
+                                            <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3BE-H6-eDB" customClass="ArcImgView">
+                                                <rect key="frame" x="258" y="54" width="45" height="45"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="110" id="fuT-vC-kyB"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="arcView" destination="3BE-H6-eDB" id="meK-Qj-y8R"/>
                                             <outlet property="btnOnOrOff" destination="IJD-q0-izU" id="k1v-t3-kuT"/>
                                             <outlet property="btnSocket1" destination="1Ee-Sf-ebI" id="rfE-RG-fZ4"/>
                                             <outlet property="btnSocket2" destination="BRZ-JH-M7g" id="BU6-rp-RwP"/>
@@ -221,12 +226,17 @@
                                                     <action selector="touchDelay:" destination="ZoC-de-892" eventType="touchUpInside" id="VPc-ln-yli"/>
                                                 </connections>
                                             </button>
+                                            <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ge-rL-uiK" customClass="ArcImgView">
+                                                <rect key="frame" x="258" y="54" width="45" height="45"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="110" id="TNR-42-2u9"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="arcView" destination="3ge-rL-uiK" id="GO9-Po-w2R"/>
                                             <outlet property="btnOnOrOff" destination="1fG-DM-5AU" id="tbb-hO-Zcf"/>
                                             <outlet property="btnSocket1" destination="xeU-37-nZS" id="W14-xb-JRy"/>
                                             <outlet property="btnSocket2" destination="qDA-4p-Xzt" id="3WM-S7-5cf"/>
@@ -338,7 +348,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TLY-rz-uaK" userLabel="Line">
-                                                <rect key="frame" x="-7" y="-75" width="100" height="51"/>
+                                                <rect key="frame" x="25" y="56" width="29" height="3"/>
                                                 <color key="backgroundColor" red="0.76470588235294112" green="0.76470588235294112" blue="0.76470588235294112" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-Bd-crA">
@@ -3304,7 +3314,7 @@
                                 </connections>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lZJ-jQ-4md">
-                                <rect key="frame" x="15" y="304" width="290" height="50"/>
+                                <rect key="frame" x="8" y="304" width="304" height="50"/>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="gUB-hf-QRG"/>
@@ -3322,10 +3332,10 @@
                         <color key="backgroundColor" red="0.94117647059999998" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="Xuu-CP-5E2" secondAttribute="centerY" constant="50" id="Dvp-iI-Sa6"/>
-                            <constraint firstAttribute="trailing" secondItem="lZJ-jQ-4md" secondAttribute="trailing" constant="15" id="JQo-xA-gJ2"/>
+                            <constraint firstAttribute="trailing" secondItem="lZJ-jQ-4md" secondAttribute="trailing" constant="8" id="JQo-xA-gJ2"/>
                             <constraint firstItem="Xuu-CP-5E2" firstAttribute="leading" secondItem="RBD-i6-xWL" secondAttribute="leading" id="dAv-fC-xbn"/>
                             <constraint firstAttribute="trailing" secondItem="Xuu-CP-5E2" secondAttribute="trailing" id="fej-Uy-qQv"/>
-                            <constraint firstItem="lZJ-jQ-4md" firstAttribute="leading" secondItem="RBD-i6-xWL" secondAttribute="leading" constant="15" id="fyw-Hq-MN7"/>
+                            <constraint firstItem="lZJ-jQ-4md" firstAttribute="leading" secondItem="RBD-i6-xWL" secondAttribute="leading" constant="8" id="fyw-Hq-MN7"/>
                             <constraint firstItem="lZJ-jQ-4md" firstAttribute="top" secondItem="Xuu-CP-5E2" secondAttribute="bottom" constant="30" id="rSv-qj-aJN"/>
                         </constraints>
                     </view>

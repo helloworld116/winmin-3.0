@@ -16,7 +16,7 @@
 #import "ElecView.h"
 #import "HistoryElec.h"
 
-@interface SwitchDetailViewController ()<
+@interface SwitchDetailViewController () <
     SocketViewDelegate, SocketImgTemplateDelegate, ElecViewDelegate>
 @property (strong, nonatomic) IBOutlet SocketView *socketView1;
 @property (strong, nonatomic) IBOutlet SocketView *socketView2;
@@ -89,6 +89,10 @@
          selector:@selector(switchStateChanged:)
              name:kOneSwitchUpdate
            object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(noResponse:)
+                                               name:kNoResponseNotification
+                                             object:self.model];
   [self addObserver:self
          forKeyPath:@"showingRealTimeElecView"
             options:NSKeyValueObservingOptionNew
@@ -238,8 +242,10 @@ preparation before navigation
   dispatch_async(MAIN_QUEUE, ^{
       if (socketGroupId == 1) {
         [self.socketView1 changeSocketState:socket];
+        [self.socketView1 removeRotateAnimation];
       } else if (socketGroupId == 2) {
         [self.socketView2 changeSocketState:socket];
+        [self.socketView2 removeRotateAnimation];
       }
   });
 }
@@ -271,6 +277,28 @@ preparation before navigation
       [self.socketView2 changeSocketState:socket2];
   });
   debugLog(@"############## 修改界面");
+}
+
+- (void)noResponse:(NSNotification *)notif {
+  dispatch_async(MAIN_QUEUE, ^{
+      NSDictionary *userInfo = notif.userInfo;
+      long tag = [userInfo[@"tag"] longValue];
+      int socketGroupId = [userInfo[@"socketGroupId"] intValue];
+      switch (tag) {
+        case P2D_CONTROL_REQ_11:
+        case P2S_CONTROL_REQ_13:
+          [self.view makeToast:@"网络延迟"];
+          if (socketGroupId == 1) {
+            [self.socketView1 removeRotateAnimation];
+          } else {
+            [self.socketView2 removeRotateAnimation];
+          }
+          break;
+
+        default:
+          break;
+      }
+  });
 }
 
 #pragma mark - 观察显示view变化
