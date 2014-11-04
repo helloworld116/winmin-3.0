@@ -8,9 +8,9 @@
 
 #import "SwitchInfoModel.h"
 
-@interface SwitchInfoModel ()<UdpRequestDelegate>
-@property(nonatomic, strong) SDZGSwitch *aSwitch;
-@property(nonatomic, strong) UdpRequest *request;
+@interface SwitchInfoModel () <UdpRequestDelegate>
+@property (nonatomic, strong) SDZGSwitch *aSwitch;
+@property (nonatomic, strong) UdpRequest *request;
 @end
 
 @implementation SwitchInfoModel
@@ -58,6 +58,19 @@
       break;
   }
 }
+
+- (void)noResponseMsgtag:(long)tag socketGroupId:(int)socketGroupId {
+  debugLog(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
+  NSDictionary *userInfo = @{
+    @"tag" : @(tag),
+    @"socketGroupId" : @(socketGroupId)
+  };
+  [[NSNotificationCenter defaultCenter]
+      postNotificationName:kNoResponseNotification
+                    object:self
+                  userInfo:userInfo];
+}
+
 - (void)responseMsg40Or42:(CC3xMessage *)message {
   //  message.socketGroupId;  // 0代表插座名字，1-n表示插孔n的名字
   //  message.state;

@@ -72,6 +72,11 @@
                                            selector:@selector(delaySetSuccess:)
                                                name:kDelaySettingNotification
                                              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(noResponseNotification:)
+             name:kNoResponseNotification
+           object:self.model];
 }
 
 - (void)viewDidLoad {
@@ -87,17 +92,7 @@
 
 - (void)dealloc {
   [self.textField resignFirstResponder];
-  [[NSNotificationCenter defaultCenter]
-      removeObserver:self
-                name:UIKeyboardDidShowNotification
-              object:nil];
-  [[NSNotificationCenter defaultCenter]
-      removeObserver:self
-                name:UIKeyboardWillHideNotification
-              object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kDelaySettingNotification
-                                                object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (IBAction)choiceAction:(id)sender {
@@ -172,6 +167,7 @@
   } else {
     [self.model setDelayWithMinitues:self.actionMinitues
                              onOrOff:self.actionState];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
   }
 }
 
@@ -227,11 +223,18 @@
 }
 
 - (void)delaySetSuccess:(NSNotification *)notification {
+  dispatch_async(MAIN_QUEUE,
+                 ^{ [MBProgressHUD hideHUDForView:self.view animated:YES]; });
   if (self.delegate &&
       [self.delegate
           respondsToSelector:@selector(closePopViewController:passMinitues:)]) {
     [self.delegate closePopViewController:self
                              passMinitues:self.actionMinitues];
   }
+}
+
+- (void)noResponseNotification:(NSNotification *)notif {
+  dispatch_async(MAIN_QUEUE,
+                 ^{ [MBProgressHUD hideHUDForView:self.view animated:YES]; });
 }
 @end

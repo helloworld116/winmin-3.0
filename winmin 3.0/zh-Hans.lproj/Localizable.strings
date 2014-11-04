@@ -10,7 +10,7 @@
 "Loading..."="刷新中...";
 "Last Updated"="最后更新于";
 "Skip"="跳过";
-"Smart Switch"="winmin智能";
+"Smart Switch"="智能插座";
 "Socket1"="插孔I";
 "Socket2"="插孔II";
 "Open"="打开";
@@ -28,6 +28,7 @@
 "Setting"="设置";
 "Take a picture"="拍照";
 "Choose from album"="从手机相册中选择";
+"No UDP Response Msg"="网络延迟，请检查设备网络连接";
 
 /**
  *  控制

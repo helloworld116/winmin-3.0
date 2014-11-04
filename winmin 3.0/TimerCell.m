@@ -9,12 +9,12 @@
 #import "TimerCell.h"
 
 @interface TimerCell ()
-@property(strong, nonatomic) IBOutlet UIView *viewTimeBackground;
-@property(strong, nonatomic) IBOutlet UILabel *lblTimeInfo;
-@property(strong, nonatomic) IBOutlet UILabel *lblAction;
-@property(strong, nonatomic) IBOutlet UILabel *lblRepeate;
-@property(strong, nonatomic) IBOutlet UILabel *lblExecuteCout;
-@property(strong, nonatomic) IBOutlet UISwitch *_switch;
+@property (strong, nonatomic) IBOutlet UIView *viewTimeBackground;
+@property (strong, nonatomic) IBOutlet UILabel *lblTimeInfo;
+@property (strong, nonatomic) IBOutlet UILabel *lblAction;
+@property (strong, nonatomic) IBOutlet UILabel *lblRepeate;
+@property (strong, nonatomic) IBOutlet UILabel *lblExecuteCout;
+@property (strong, nonatomic) IBOutlet UISwitch *_switch;
 
 - (IBAction)switchValueChanged:(id)sender;
 @end
@@ -69,5 +69,9 @@
       postNotificationName:kTimerEffectiveChanged
                     object:self
                   userInfo:userInfo];
+}
+
+- (void)switchStateBackup {
+  self._switch.on = !self._switch.on;
 }
 @end

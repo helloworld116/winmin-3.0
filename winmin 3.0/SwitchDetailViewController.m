@@ -287,7 +287,7 @@ preparation before navigation
       switch (tag) {
         case P2D_CONTROL_REQ_11:
         case P2S_CONTROL_REQ_13:
-          [self.view makeToast:@"网络延迟"];
+          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
           if (socketGroupId == 1) {
             [self.socketView1 removeRotateAnimation];
           } else {

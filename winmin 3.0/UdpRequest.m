@@ -1088,12 +1088,7 @@ static dispatch_queue_t delegateQueue;
                         socketGroupId:self.socketGroupId
                              sendMode:PassiveMode];
           } else {
-            if ([self.delegate
-                    respondsToSelector:@selector(noResponseMsgtag:
-                                                    socketGroupId:)]) {
-              [self.delegate noResponseMsgtag:tag
-                                socketGroupId:self.socketGroupId];
-            }
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1105,12 +1100,7 @@ static dispatch_queue_t delegateQueue;
                         socketGroupId:self.socketGroupId
                              sendMode:PassiveMode];
           } else {
-            if ([self.delegate
-                    respondsToSelector:@selector(noResponseMsgtag:
-                                                    socketGroupId:)]) {
-              [self.delegate noResponseMsgtag:tag
-                                socketGroupId:self.socketGroupId];
-            }
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1121,6 +1111,8 @@ static dispatch_queue_t delegateQueue;
             [self sendMsg17Or19:self.aSwitch
                   socketGroupId:self.socketGroupId
                        sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1131,6 +1123,8 @@ static dispatch_queue_t delegateQueue;
             [self sendMsg19WithSwitch:self.aSwitch
                         socketGroupId:self.socketGroupId
                              sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1142,6 +1136,8 @@ static dispatch_queue_t delegateQueue;
                         socketGroupId:self.socketGroupId
                              timeList:self.timeList
                              sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1153,6 +1149,8 @@ static dispatch_queue_t delegateQueue;
                         socketGroupId:self.socketGroupId
                              timeList:self.timeList
                              sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1179,6 +1177,8 @@ static dispatch_queue_t delegateQueue;
           if (self.msgSendCount < kTryCount) {
             debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
             [self sendMsg39WithSwitch:self.aSwitch on:NO sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1189,6 +1189,8 @@ static dispatch_queue_t delegateQueue;
             [self sendMsg3BWithSwitch:self.aSwitch
                                    on:self.on
                              sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1200,6 +1202,8 @@ static dispatch_queue_t delegateQueue;
                            type:self.type
                            name:self.name
                        sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1211,6 +1215,8 @@ static dispatch_queue_t delegateQueue;
                                  type:self.type
                                  name:self.name
                              sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1219,6 +1225,8 @@ static dispatch_queue_t delegateQueue;
           if (self.msgSendCount < kTryCount) {
             debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
             [self sendMsg47Or49:self.aSwitch sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1227,6 +1235,8 @@ static dispatch_queue_t delegateQueue;
           if (self.msgSendCount < kTryCount) {
             debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
             [self sendMsg49WithSwitch:self.aSwitch sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1239,6 +1249,8 @@ static dispatch_queue_t delegateQueue;
                             delayTime:self.delayTime
                              switchOn:self.on
                              sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1251,6 +1263,8 @@ static dispatch_queue_t delegateQueue;
                             delayTime:self.delayTime
                              switchOn:self.on
                              sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1261,6 +1275,8 @@ static dispatch_queue_t delegateQueue;
             [self sendMsg53WithSwitch:self.aSwitch
                         socketGroupId:self.socketGroupId
                              sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1271,6 +1287,8 @@ static dispatch_queue_t delegateQueue;
             [self sendMsg55WithSwitch:self.aSwitch
                         socketGroupId:self.socketGroupId
                              sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1279,6 +1297,8 @@ static dispatch_queue_t delegateQueue;
           if (self.msgSendCount < kTryCount) {
             debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
             [self sendMsg59:self.aSwitch sendMode:PassiveMode];
+          } else {
+            [self noResponseTag:tag socketGroupId:self.socketGroupId];
           }
         }
         break;
@@ -1340,6 +1360,13 @@ static dispatch_queue_t delegateQueue;
         }
         break;
     }
+  }
+}
+
+- (void)noResponseTag:(long)tag socketGroupId:(int)socketGroupId {
+  if ([self.delegate
+          respondsToSelector:@selector(noResponseMsgtag:socketGroupId:)]) {
+    [self.delegate noResponseMsgtag:tag socketGroupId:self.socketGroupId];
   }
 }
 

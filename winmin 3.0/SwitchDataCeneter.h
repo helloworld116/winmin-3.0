@@ -112,7 +112,7 @@
 /**
  *  退出前保存到数据库
  */
-- (void)saveSwitchsToDB;
+- (void)syncSwitchs;
 
 /**
  *  保存图片信息

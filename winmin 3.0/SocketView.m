@@ -12,7 +12,11 @@
 
 - (void)drawRect:(CGRect)rect {
   CGContextRef context = UIGraphicsGetCurrentContext();
-  CGContextSetRGBStrokeColor(context, 1, 0, 0, 1); //改变画笔颜色
+
+  //  CGContextSetRGBStrokeColor(context, 1, 0, 0, 1); //改变画笔颜色
+  CGContextSetStrokeColorWithColor(
+      context, [UIColor colorWithHexString:@"#ff9900"].CGColor);
+
   CGContextMoveToPoint(context, rect.origin.x + rect.size.width / 2,
                        rect.origin.y); //开始坐标p1
   // CGContextAddArcToPoint(CGContextRef c, CGFloat x1, CGFloat y1,CGFloat x2,

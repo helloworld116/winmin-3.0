@@ -11,7 +11,7 @@
 #import "DelayModel.h"
 #import "DelaySettingViewController.h"
 
-@interface DelayViewController ()<DelaySettingControllerDelegate>
+@interface DelayViewController () <DelaySettingControllerDelegate>
 @property (nonatomic, strong) IBOutlet DelayTimeCountDownView *countDownView;
 @property (nonatomic, strong) IBOutlet UIButton *settingBtn;
 - (IBAction)showSetting:(id)sender;
@@ -46,6 +46,11 @@
                                            selector:@selector(delayNotif:)
                                                name:kDelayQueryNotification
                                              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(noResponseNotification:)
+             name:kNoResponseNotification
+           object:self.model];
 }
 
 - (void)viewDidLoad {
@@ -106,5 +111,22 @@ preparation before navigation
     int delay = [[notification.userInfo objectForKey:@"delay"] intValue];
     dispatch_async(MAIN_QUEUE, ^{ [self.countDownView countDown:delay]; });
   }
+}
+
+- (void)noResponseNotification:(NSNotification *)notif {
+  dispatch_async(MAIN_QUEUE, ^{
+      NSDictionary *userInfo = notif.userInfo;
+      long tag = [userInfo[@"tag"] longValue];
+      switch (tag) {
+        case P2D_SET_DELAY_REQ_4D:
+        case P2S_SET_DELAY_REQ_4F:
+          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+          break;
+        case P2D_GET_DELAY_REQ_53:
+        case P2S_GET_DELAY_REQ_55:
+          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+          break;
+      }
+  });
 }
 @end

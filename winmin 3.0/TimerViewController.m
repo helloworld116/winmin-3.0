@@ -13,8 +13,8 @@
 #import "TimerModel.h"
 #define kAddTimer -1
 
-@interface TimerViewController ()<UIActionSheetDelegate,
-                                  EGORefreshTableHeaderDelegate>
+@interface TimerViewController () <UIActionSheetDelegate,
+                                   EGORefreshTableHeaderDelegate>
 @property (nonatomic, strong) NSMutableArray *timers;
 @property (nonatomic, strong)
     NSIndexPath *editIndexPath; //正在编辑或删除的indexPath
@@ -25,6 +25,8 @@
 
 @property (strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
 @property (assign, nonatomic) BOOL reloading;
+@property (assign, nonatomic)
+    BOOL isModifyEffective; //当前执行的操作是否为修改定时任务生效
 @end
 
 @implementation TimerViewController
@@ -92,6 +94,12 @@
          selector:@selector(timerEffectiveChangedNotifcation:)
              name:kTimerEffectiveChangedNotifcation
            object:nil];
+  //无响应通知
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(noResponseNotification:)
+             name:kNoResponseNotification
+           object:self.model];
 
   //下拉刷新
   self.refreshHeaderView = [[EGORefreshTableHeaderView alloc]
@@ -241,6 +249,7 @@
     NSMutableArray *timers = [NSMutableArray arrayWithArray:self.timers];
     [timers removeObjectAtIndex:self.editIndexPath.row];
     [self.model updateTimers:timers type:3];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
   }
 }
 
@@ -293,6 +302,7 @@
 - (void)timerDeleteNotification:(NSNotification *)notification {
   [self.timers removeObjectAtIndex:self.editIndexPath.row];
   dispatch_async(MAIN_QUEUE, ^{
+      [MBProgressHUD hideHUDForView:self.view animated:YES];
       [self.tableView beginUpdates];
       [self.tableView deleteRowsAtIndexPaths:@[ self.editIndexPath ]
                             withRowAnimation:UITableViewRowAnimationLeft];
@@ -314,11 +324,38 @@
   self.timer.isEffective = effective;
   [timers replaceObjectAtIndex:indexPath.row withObject:self.timer];
   [self.model updateTimers:timers type:4];
+  self.isModifyEffective = YES;
+  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 - (void)timerEffectiveChangedNotifcation:(NSNotification *)notification {
   [self.timers replaceObjectAtIndex:self.editIndexPath.row
                          withObject:self.timer];
+  dispatch_async(MAIN_QUEUE,
+                 ^{ [MBProgressHUD hideHUDForView:self.view animated:YES]; });
+}
+
+- (void)noResponseNotification:(NSNotification *)notif {
+  dispatch_async(MAIN_QUEUE, ^{
+      [MBProgressHUD hideHUDForView:self.view animated:YES];
+      NSDictionary *userInfo = notif.userInfo;
+      long tag = [userInfo[@"tag"] longValue];
+      switch (tag) {
+        case P2D_GET_TIMER_REQ_17:
+        case P2S_GET_TIMER_REQ_19:
+          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+          break;
+        case P2D_SET_TIMER_REQ_1D:
+        case P2S_SET_TIMER_REQ_1F:
+          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+          if (self.isModifyEffective) {
+            TimerCell *cell = (TimerCell *)
+                [self.tableView cellForRowAtIndexPath:self.editIndexPath];
+            [cell switchStateBackup];
+          }
+          break;
+      }
+  });
 }
 
 - (void)updateMemorySwitch {

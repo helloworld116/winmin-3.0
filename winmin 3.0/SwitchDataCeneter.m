@@ -187,7 +187,7 @@
   return result;
 }
 
-- (void)saveSwitchsToDB {
+- (void)syncSwitchs {
   dispatch_async(GLOBAL_QUEUE, ^{
       [self beginBackgroundUpdateTask];
       [[DBUtil sharedInstance] saveSwitchs:[self switchs]];

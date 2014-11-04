@@ -194,7 +194,6 @@ static int const kQQNotInstalled = -6004;
               authOptions:nil
                    result:^(BOOL result, id<ISSPlatformUser> userInfo,
                             id<ICMErrorInfo> error) {
-
                        if (result) {
                          UserInfo *uInfo = [[UserInfo alloc]
                              initWithQQUid:[userInfo uid]

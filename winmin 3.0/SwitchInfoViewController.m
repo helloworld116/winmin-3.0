@@ -37,7 +37,7 @@
 }
 @end
 
-@interface SwitchInfoViewController ()<
+@interface SwitchInfoViewController () <
     UIActionSheetDelegate, UITextFieldDelegate, UINavigationControllerDelegate,
     UIImagePickerControllerDelegate>
 @property (nonatomic, strong) IBOutlet UIImageView *imgViewSwitch;
@@ -89,6 +89,11 @@
          selector:@selector(switchNameChanged:)
              name:kSwitchNameChange
            object:self.model];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(noResponseNotification:)
+             name:kNoResponseNotification
+           object:self.model];
 }
 
 - (void)viewDidLoad {
@@ -138,6 +143,7 @@ preparation before navigation
     self.lockStatus = LockStatusOff;
   }
   [self.model changeSwitchLockStatus];
+  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 #pragma mark - UITextField协议
@@ -151,6 +157,7 @@ preparation before navigation
   if (switchName.length && ![self.switchName isEqualToString:switchName]) {
     self.switchName = switchName;
     [self.model setSwitchName:switchName];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
   }
 }
 
@@ -174,6 +181,7 @@ preparation before navigation
                                            socketNames:nil
                                                    mac:self.aSwitch.mac];
   dispatch_async(MAIN_QUEUE, ^{
+      [MBProgressHUD hideHUDForView:self.view animated:YES];
       self.navigationItem.title = self.switchName;
       int count = [[self.navigationController viewControllers] count];
       UIViewController *popViewController =
@@ -185,6 +193,30 @@ preparation before navigation
 - (void)switchOnOffChanged:(NSNotification *)notification {
   [[SwitchDataCeneter sharedInstance] updateSwitchLockStaus:self.lockStatus
                                                         mac:self.aSwitch.mac];
+  dispatch_async(MAIN_QUEUE,
+                 ^{ [MBProgressHUD hideHUDForView:self.view animated:YES]; });
+}
+
+- (void)noResponseNotification:(NSNotification *)notif {
+  dispatch_async(MAIN_QUEUE, ^{
+      [MBProgressHUD hideHUDForView:self.view animated:YES];
+      NSDictionary *userInfo = notif.userInfo;
+      long tag = [userInfo[@"tag"] longValue];
+      switch (tag) {
+        case P2D_DEV_LOCK_REQ_47:
+        case P2S_DEV_LOCK_REQ_49:
+          //锁定状态还原
+          self._switch.on = !self._switch.on;
+          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+          break;
+        case P2D_SET_NAME_REQ_3F:
+        case P2S_SET_NAME_REQ_41:
+          //名字还原
+          self.textFieldName.text = self.aSwitch.name;
+          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+          break;
+      }
+  });
 }
 
 #pragma mark - 选择图片

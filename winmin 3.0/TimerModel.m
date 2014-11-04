@@ -8,7 +8,7 @@
 
 #import "TimerModel.h"
 
-@interface TimerModel ()<UdpRequestDelegate>
+@interface TimerModel () <UdpRequestDelegate>
 @property (nonatomic, strong) UdpRequest *request;
 @property (nonatomic, strong) NSMutableArray *timers;
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
@@ -71,6 +71,18 @@
     default:
       break;
   }
+}
+
+- (void)noResponseMsgtag:(long)tag socketGroupId:(int)socketGroupId {
+  debugLog(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
+  NSDictionary *userInfo = @{
+    @"tag" : @(tag),
+    @"socketGroupId" : @(socketGroupId)
+  };
+  [[NSNotificationCenter defaultCenter]
+      postNotificationName:kNoResponseNotification
+                    object:self
+                  userInfo:userInfo];
 }
 
 - (void)responseMsg18Or1A:(CC3xMessage *)message {

@@ -7,10 +7,10 @@
 //
 
 #import "DelayModel.h"
-@interface DelayModel ()<UdpRequestDelegate>
-@property(nonatomic, strong) SDZGSwitch *aSwitch;
-@property(nonatomic, strong) UdpRequest *request;
-@property(nonatomic, assign) int groupId;
+@interface DelayModel () <UdpRequestDelegate>
+@property (nonatomic, strong) SDZGSwitch *aSwitch;
+@property (nonatomic, strong) UdpRequest *request;
+@property (nonatomic, assign) int groupId;
 @end
 
 @implementation DelayModel
@@ -66,6 +66,18 @@
     default:
       break;
   }
+}
+
+- (void)noResponseMsgtag:(long)tag socketGroupId:(int)socketGroupId {
+  debugLog(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
+  NSDictionary *userInfo = @{
+    @"tag" : @(tag),
+    @"socketGroupId" : @(socketGroupId)
+  };
+  [[NSNotificationCenter defaultCenter]
+      postNotificationName:kNoResponseNotification
+                    object:self
+                  userInfo:userInfo];
 }
 
 - (void)responseMsg4EOr50:(CC3xMessage *)message {

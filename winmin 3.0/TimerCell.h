@@ -11,4 +11,5 @@
 
 @interface TimerCell : UITableViewCell
 - (void)setCellInfo:(SDZGTimerTask *)task;
+- (void)switchStateBackup;
 @end
