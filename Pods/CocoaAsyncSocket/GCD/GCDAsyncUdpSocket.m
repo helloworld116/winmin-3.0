@@ -3426,7 +3426,7 @@ enum GCDAsyncUdpSocketConfig {
      withTimeout:(NSTimeInterval)timeout
              tag:(long)tag {
   LogTrace();
-  //  NSLog(@"gcd send to host %@  port %d and data is %@", host, port, data);
+  NSLog(@"gcd send to host %@  port %d and data is %@", host, port, data);
   if ([data length] == 0) {
     LogWarn(@"Ignoring attempt to send nil/empty data.");
     return;

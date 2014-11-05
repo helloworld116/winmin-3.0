@@ -9,7 +9,7 @@
 #import "ConfigLoadingViewController.h"
 #import <DDProgressView.h>
 
-@interface ConfigLoadingViewController ()<UdpRequestDelegate>
+@interface ConfigLoadingViewController () <UdpRequestDelegate>
 @property (strong, nonatomic) IBOutlet UIView *loadingView;
 @property (strong, nonatomic) IBOutlet UIView *successView;
 @property (strong, nonatomic) IBOutlet UIView *timeoutView;
@@ -112,8 +112,9 @@
                          self.timeoutView.hidden = NO;
                          self.lblTitle.text =
                              NSLocalizedString(@"Config Timeout", nnil);
-                         [self.btn setTitle:NSLocalizedString(@"Close", nil)
-                                   forState:UIControlStateNormal];
+                         [self.btn
+                             setTitle:NSLocalizedString(@"Config Close", nil)
+                             forState:UIControlStateNormal];
                      }];
   }
 }
@@ -189,9 +190,9 @@
                                  self.loadingView.hidden = YES;
                                  self.lblTitle.text =
                                      NSLocalizedString(@"Config Success", nil);
-                                 [self.btn
-                                     setTitle:NSLocalizedString(@"Close", nil)
-                                     forState:UIControlStateNormal];
+                                 [self.btn setTitle:NSLocalizedString(
+                                                        @"Config Close", nil)
+                                           forState:UIControlStateNormal];
                              }];
         });
       }

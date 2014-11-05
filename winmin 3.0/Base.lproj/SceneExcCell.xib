@@ -15,12 +15,12 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l7M-n8-6Bc">
-                        <rect key="frame" x="15" y="11" width="10" height="21"/>
+                        <rect key="frame" x="5" y="11" width="10" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="智能插排开" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OrH-jH-s64">
-                        <rect key="frame" x="40" y="11" width="85" height="21"/>
+                        <rect key="frame" x="20" y="11" width="85" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -40,8 +40,8 @@
                     <constraint firstItem="Xx7-qk-FEN" firstAttribute="top" secondItem="QvK-iD-o0T" secondAttribute="top" constant="11" id="NAe-6w-A31"/>
                     <constraint firstItem="WXR-Cd-GrO" firstAttribute="top" secondItem="QvK-iD-o0T" secondAttribute="top" constant="8" id="UQQ-on-IEH"/>
                     <constraint firstItem="WXR-Cd-GrO" firstAttribute="leading" secondItem="Xx7-qk-FEN" secondAttribute="trailing" constant="5" id="dmJ-7p-bJG"/>
-                    <constraint firstItem="l7M-n8-6Bc" firstAttribute="leading" secondItem="QvK-iD-o0T" secondAttribute="leading" constant="15" id="eIX-Fm-36E"/>
-                    <constraint firstItem="OrH-jH-s64" firstAttribute="leading" secondItem="l7M-n8-6Bc" secondAttribute="trailing" constant="15" id="hf8-oj-tYe"/>
+                    <constraint firstItem="l7M-n8-6Bc" firstAttribute="leading" secondItem="QvK-iD-o0T" secondAttribute="leading" constant="5" id="eIX-Fm-36E"/>
+                    <constraint firstItem="OrH-jH-s64" firstAttribute="leading" secondItem="l7M-n8-6Bc" secondAttribute="trailing" constant="5" id="hf8-oj-tYe"/>
                     <constraint firstItem="OrH-jH-s64" firstAttribute="top" secondItem="QvK-iD-o0T" secondAttribute="top" constant="11" id="xr5-bX-RXz"/>
                 </constraints>
             </tableViewCellContentView>

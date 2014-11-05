@@ -48,7 +48,7 @@
 
 - (void)setup {
   [self setupStyle];
-  self.delayInterval = 2.f;
+  self.delayInterval = 1.f;
   self.noDataView = [[UIView alloc]
       initWithSize:self.view.frame.size
            imgName:@"noswitch"

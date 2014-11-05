@@ -83,7 +83,7 @@
  */
 "Config Success"="配置成功";
 "Config Timeout"="配置超时";
-"Close"="关  闭";
+"Config Close"="关  闭";
 /**
  *  场景
  */

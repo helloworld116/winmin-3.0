@@ -630,7 +630,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x5;
   msg.header.msgDir = 0xAD;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
 
   char *ipadd = "";
   struct hostent *h = gethostbyname([SERVER_IP UTF8String]);
@@ -663,7 +663,7 @@ typedef struct {
   memcpy(&msg.socketName[1], socket2, sizeof(socketInfo));
   free(socket1);
   free(socket2);
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -674,7 +674,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msgHeader));
   msg.header.msgId = 0x9;
   msg.header.msgDir = 0xAD;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -685,7 +685,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0xB;
   msg.header.msgDir = 0xAD;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -696,7 +696,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0xD;
   msg.header.msgDir = 0xA5;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(msg.mac, macBytes, sizeof(msg.mac));
 
@@ -714,7 +714,7 @@ typedef struct {
   msg.header.msgDir = 0xAD;
   msg.socketGroupId = socketGroupId;
   msg.on = on;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -732,7 +732,7 @@ typedef struct {
   free(macBytes);
   msg.on = on;
   msg.socketGroupId = socketGroupId;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -743,7 +743,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x17;
   msg.header.msgDir = 0xAD;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.socketGroupId = socketGroupId;
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
@@ -753,7 +753,7 @@ typedef struct {
 + (NSData *)getP2SMsg19:(NSString *)mac socketGroupId:(int)socketGroupId {
   p2sMsg19 msg;
   memset(&msg, 0, sizeof(msg));
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.header.msgId = 0x19;
   msg.header.msgDir = 0xA5;
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
@@ -850,7 +850,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x25;
   msg.header.msgDir = 0xAD;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -864,7 +864,7 @@ typedef struct {
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -875,7 +875,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x33;
   msg.header.msgDir = 0xAD;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -889,7 +889,7 @@ typedef struct {
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -901,7 +901,7 @@ typedef struct {
   msg.header.msgId = 0x39;
   msg.header.msgDir = 0xAD;
   msg.on = on;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -916,7 +916,7 @@ typedef struct {
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   msg.on = on;
   free(macBytes);
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -934,7 +934,7 @@ typedef struct {
   msg.type = type;
   NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
   memcpy(&msg.password, [passwordData bytes], [password length]);
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -956,7 +956,7 @@ typedef struct {
   NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
   memcpy(&msg.password, [passwordData bytes], [password length]);
   msg.type = type;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -970,7 +970,7 @@ typedef struct {
   msg.lock = isLock;
   NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
   memcpy(&msg.password, [passwordData bytes], [password length]);
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -989,7 +989,7 @@ typedef struct {
   msg.lock = isLock;
   NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
   memcpy(&msg.password, [passwordData bytes], [password length]);
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -1003,7 +1003,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x4D;
   msg.header.msgDir = 0xAD;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.delay = htonl(delay * 60);
   msg.socketGroupId = socketGroupId;
   msg.on = on;
@@ -1023,7 +1023,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x4F;
   msg.header.msgDir = 0xA5;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
@@ -1042,7 +1042,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x53;
   msg.header.msgDir = 0xAD;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.socketGroupId = socketGroupId;
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
@@ -1054,7 +1054,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x55;
   msg.header.msgDir = 0xA5;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
@@ -1069,7 +1069,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x59;
   msg.header.msgDir = 0xA5;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
@@ -1097,7 +1097,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x5D;
   msg.header.msgDir = 0xAD;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -1108,7 +1108,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x5F;
   msg.header.msgDir = 0xA5;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
@@ -1124,7 +1124,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x63;
   msg.header.msgDir = 0xA5;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
@@ -1140,7 +1140,7 @@ typedef struct {
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x65;
   msg.header.msgDir = 0xA5;
-  msg.header.msgLength = ntohs(sizeof(msg));
+  msg.header.msgLength = htons(sizeof(msg));
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
@@ -1173,7 +1173,7 @@ typedef struct {
 
   message.ip = [NSString stringWithFormat:@"%d.%d.%d.%d", msg.ip[0], msg.ip[1],
                                           msg.ip[2], msg.ip[3]];
-  message.port = msg.port;
+  message.port = ntohs(msg.port);
   message.crc = msg.crc;
 
   return message;
@@ -1208,7 +1208,7 @@ typedef struct {
 
   message.ip = [NSString stringWithFormat:@"%d.%d.%d.%d", msg.ip[0], msg.ip[1],
                                           msg.ip[2], msg.ip[3]];
-  message.port = msg.port;
+  message.port = ntohs(msg.port);
 
   message.deviceName = [[NSString alloc] initWithBytes:msg.deviceName
                                                 length:strlen(msg.deviceName)
@@ -1232,7 +1232,9 @@ typedef struct {
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
   message.ip = [NSString stringWithFormat:@"%d.%d.%d.%d", msg.ip[0], msg.ip[1],
                                           msg.ip[2], msg.ip[3]];
-  message.port = msg.port;
+  message.port = ntohs(msg.port);
+  //  debugLog(@"#########port is %d", msg.port);
+  //  debugLog(@"*********port is %d", message.port);
   NSString *deviceName = [[NSString alloc] initWithBytes:msg.deviceName
                                                   length:strlen(msg.deviceName)
                                                 encoding:NSUTF8StringEncoding];
