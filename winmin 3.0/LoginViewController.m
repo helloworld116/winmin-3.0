@@ -213,8 +213,7 @@ static int const kQQNotInstalled = -6004;
                                                    @"install",
                                                    nil)
                                       delegate:nil
-                             cancelButtonTitle:NSLocalizedString(@"Canecel",
-                                                                 nil)
+                             cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                              otherButtonTitles:nil];
                          [alertView show];
                        } else if (kCancelAuthoriztionCode ==
