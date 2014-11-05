@@ -158,10 +158,13 @@
   if (email && password) {
     [userDefaults setObject:email forKey:@"email"];
     [userDefaults setObject:password forKey:@"password"];
+    [userDefaults setObject:@"email" forKey:@"loginType"];
   } else if (qqUid) {
     [userDefaults setObject:qqUid forKey:@"qqUid"];
+    [userDefaults setObject:@"qq" forKey:@"loginType"];
   } else if (sinaUid) {
     [userDefaults setObject:sinaUid forKey:@"sinaUid"];
+    [userDefaults setObject:@"email" forKey:@"loginType"];
   }
   [userDefaults setObject:nickname forKey:@"nickname"];
   [userDefaults synchronize];
