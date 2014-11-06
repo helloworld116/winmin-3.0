@@ -57,7 +57,13 @@
   self.noDataView.hidden = YES;
   [self.view addSubview:self.noDataView];
 
-  self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
+  NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+  NSSortDescriptor *netDescriptor =
+      [[NSSortDescriptor alloc] initWithKey:@"networkStatus" ascending:YES];
+  NSSortDescriptor *macDescriptor =
+      [[NSSortDescriptor alloc] initWithKey:@"mac" ascending:YES];
+  [switchs sortedArrayUsingDescriptors:@[ netDescriptor, macDescriptor ]];
+  self.switchs = switchs;
   if (!self.switchs || self.switchs.count == 0) {
     self.noDataView.hidden = NO;
   } else {

@@ -8,9 +8,14 @@
 
 #import "AboutUsViewController.h"
 
+static NSString *kAPPURL = @"http://itunes.apple.com/lookup?id=935562573";
+
 @interface AboutUsViewController ()
 @property (nonatomic, strong) IBOutlet UILabel *lblVersion;
 @property (nonatomic, strong) IBOutlet UIButton *btn;
+
+@property (nonatomic, strong) NSString *trackViewURL;
+@property (nonatomic, strong) NSString *appVersion;
 - (IBAction)checkVersion:(id)sender;
 - (IBAction)moreInfo:(id)sender;
 @end
@@ -39,9 +44,9 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   [self setup];
-  NSString *appVersion = [[NSBundle mainBundle]
+  self.appVersion = [[NSBundle mainBundle]
       objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-  self.lblVersion.text = [@"V" stringByAppendingString:appVersion];
+  self.lblVersion.text = [@"V" stringByAppendingString:self.appVersion];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,9 +66,64 @@ preparation before navigation
 }
 */
 - (IBAction)checkVersion:(id)sender {
-  [self.view makeToast:@"已是最新版本"];
+  //  [self.view makeToast:@"已是最新版本"];
+  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  dispatch_async(GLOBAL_QUEUE, ^{ [self onCheckVersion:self.appVersion]; });
 }
 
 - (IBAction)moreInfo:(id)sender {
+}
+
+- (void)onCheckVersion:(NSString *)currentVersion {
+  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+  [request setURL:[NSURL URLWithString:kAPPURL]];
+  [request setHTTPMethod:@"POST"];
+  NSHTTPURLResponse *urlResponse = nil;
+  NSError *error = nil;
+  NSData *recervedData = [NSURLConnection sendSynchronousRequest:request
+                                               returningResponse:&urlResponse
+                                                           error:&error];
+  NSString *results = [[NSString alloc] initWithBytes:[recervedData bytes]
+                                               length:[recervedData length]
+                                             encoding:NSUTF8StringEncoding];
+  NSDictionary *dic = __JSON(results);
+  NSArray *infoArray = [dic objectForKey:@"results"];
+  if ([infoArray count]) {
+    NSDictionary *releaseInfo = [infoArray objectAtIndex:0];
+    NSString *lastVersion = [releaseInfo objectForKey:@"version"];
+    if (![lastVersion isEqualToString:currentVersion]) {
+      self.trackViewURL = [releaseInfo objectForKey:@"trackViewUrl"];
+      dispatch_async(MAIN_QUEUE, ^{
+          [MBProgressHUD hideHUDForView:self.view animated:YES];
+          UIAlertView *alert = [[UIAlertView alloc]
+                  initWithTitle:nil
+                        message:NSLocalizedString(@"Answer Update", nil)
+                       delegate:self
+              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+              otherButtonTitles:NSLocalizedString(@"Go Update", nil), nil];
+          [alert show];
+      });
+    } else {
+      dispatch_async(MAIN_QUEUE, ^{
+          [MBProgressHUD hideHUDForView:self.view animated:YES];
+          [self.view makeToast:@"已是最新版本"];
+      });
+    }
+  }
+}
+
+#pragma mark UIAlertView Delegate
+- (void)alertView:(UIAlertView *)alertView
+    clickedButtonAtIndex:(NSInteger)buttonIndex {
+  switch (buttonIndex) {
+    case 0:
+      break;
+    case 1:
+      [[UIApplication sharedApplication]
+          openURL:[NSURL URLWithString:self.trackViewURL]];
+      break;
+    default:
+      break;
+  }
 }
 @end

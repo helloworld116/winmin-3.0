@@ -119,6 +119,9 @@
 "email format is incorrect"="email format is incorrect";
 "email can not be empty"="email can not be empty";
 "password can not be empty"="password can not be empty";
+"password at least six"="password at least six characters";
 "two passwords do not match"="two passwords do not match";
 "nickname can not be empty"="nickname can not be empty";
 "verfication code can not be empty"="verfication code can not be empty";
+"Answer Update"="There is a new version of the update, whether access to updated?";
+"Go Update"="Go Update";

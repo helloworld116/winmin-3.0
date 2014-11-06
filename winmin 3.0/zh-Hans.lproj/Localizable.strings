@@ -126,6 +126,9 @@
 "email format is incorrect"="邮箱格式不正确";
 "email can not be empty"="邮箱不能为空";
 "password can not be empty"="密码不能为空";
+"password at least six"="密码最少需6个字符";
 "two passwords do not match"="两次输入的密码不一致";
 "nickname can not be empty"="昵称不能为空";
 "verfication code can not be empty"="验证码不能为空";
+"Answer Update"="有新的版本更新，是否前往更新？";
+"Go Update"="前往更新";

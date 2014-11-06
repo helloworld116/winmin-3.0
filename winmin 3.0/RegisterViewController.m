@@ -189,6 +189,9 @@ preparation before navigation
   if (!password.length) {
     [self showMessage:NSLocalizedString(@"password can not be empty", nil)];
     return NO;
+  } else if (password.length < 6) {
+    [self showMessage:NSLocalizedString(@"password at least six", nil)];
+    return NO;
   }
   if ([password isEqualToString:password2]) {
     self.password = password;
