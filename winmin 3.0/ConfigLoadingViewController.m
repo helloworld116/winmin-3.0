@@ -168,7 +168,9 @@
 }
 
 #pragma mark - UdpRequestDelegate
-- (void)responseMsg:(CC3xMessage *)message address:(NSData *)address {
+- (void)udpRequest:(UdpRequest *)request
+     didReceiveMsg:(CC3xMessage *)message
+           address:(NSData *)address {
   switch (message.msgId) {
     case 0x2:
       debugLog(@"mac is %@ ip is %@ and port is %d", message.mac, message.ip,

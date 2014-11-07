@@ -9,13 +9,21 @@
 #import "SwitchListModel.h"
 @interface SwitchListModel () <UdpRequestDelegate>
 @property (strong, nonatomic) NSTimer *timer;
-@property (nonatomic, strong) UdpRequest *request;
-@property (nonatomic, strong) UdpRequest *request9;
-@property (nonatomic, strong) UdpRequest *request39Or3B;
 @property (nonatomic, strong) NSString *mac; //扫描指定设备时使用
+
+@property (strong, nonatomic) UdpRequest *request;
 @end
 
 @implementation SwitchListModel
+
+- (id)init {
+  self = [super init];
+  if (self) {
+    self.request = [UdpRequest manager];
+    self.request.delegate = self;
+  }
+  return self;
+}
 
 - (void)startScanState {
   _isScanningState = YES;
@@ -37,11 +45,9 @@
 }
 
 - (void)refreshSwitchList {
-  if (!self.request9) {
-    self.request9 = [UdpRequest manager];
-    self.request9.delegate = self;
-  }
-  [self.request9 sendMsg09:ActiveMode];
+  UdpRequest *request = [UdpRequest manager];
+  request.delegate = self;
+  [request sendMsg09:ActiveMode];
 
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
                  dispatch_get_main_queue(), ^{ [self sendMsg0BOr0D]; });
@@ -54,29 +60,38 @@
 
 //扫描设备
 - (void)sendMsg0BOr0D {
-  //先局域网内扫描，0.5秒后请求外网，更新设备状态
-  dispatch_async(GLOBAL_QUEUE, ^{
-      if (!self.request) {
-        self.request = [UdpRequest manager];
-        self.request.delegate = self;
-      }
-      [self.request sendMsg0B:ActiveMode];
-      //设置0.5秒，保证内网的响应优先级
-      [NSThread sleepForTimeInterval:0.5];
+  //  //先局域网内扫描，0.5秒后请求外网，更新设备状态
+  //  dispatch_async(GLOBAL_QUEUE, ^{
+  //      //      UdpRequest *request = [UdpRequest manager];
+  //      //      request.delegate = self;
+  //      //      [request sendMsg0B:ActiveMode];
+  //      //      //设置0.5秒，保证内网的响应优先级
+  //      //      [NSThread sleepForTimeInterval:0.5];
+  //      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+  //      for (SDZGSwitch *aSwitch in switchs) {
+  //        debugLog(@"switch mac is %@", aSwitch.mac);
+  //        UdpRequest *request2 = [UdpRequest manager];
+  //        request2.delegate = self;
+  //        [request2 sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
+  //        //        [NSThread sleepForTimeInterval:0.2f];
+  //      }
+  //  });
+  dispatch_sync(GLOBAL_QUEUE, ^{
       NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
       for (SDZGSwitch *aSwitch in switchs) {
-        [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
-        [NSThread sleepForTimeInterval:0.2f];
+        debugLog(@"switch mac is %@", aSwitch.mac);
+        dispatch_sync(GLOBAL_QUEUE, ^{
+            [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
+        });
       }
   });
 }
 
 - (void)blinkSwitch:(SDZGSwitch *)aSwitch {
-  if (!self.request39Or3B) {
-    self.request39Or3B = [UdpRequest manager];
-    self.request39Or3B.delegate = self;
-  }
-  [self.request39Or3B sendMsg39Or3B:aSwitch on:YES sendMode:ActiveMode];
+
+  UdpRequest *request = [UdpRequest manager];
+  request.delegate = self;
+  [request sendMsg39Or3B:aSwitch on:YES sendMode:ActiveMode];
 }
 
 - (void)deleteSwitch:(SDZGSwitch *)aSwitch {
@@ -90,7 +105,9 @@
 }
 
 #pragma mark - UdpRequestDelegate
-- (void)responseMsg:(CC3xMessage *)message address:(NSData *)address {
+- (void)udpRequest:(UdpRequest *)request
+     didReceiveMsg:(CC3xMessage *)message
+           address:(NSData *)address {
   switch (message.msgId) {
     //添加设备
     case 0xa:
@@ -130,7 +147,10 @@
       aSwitch.port = message.port;
       aSwitch.networkStatus = SWITCH_NEW;
       [[SwitchDataCeneter sharedInstance] addSwitchToTmp:aSwitch];
-      [self.request9 sendMsg0B:aSwitch sendMode:ActiveMode];
+
+      UdpRequest *request = [UdpRequest manager];
+      request.delegate = self;
+      [request sendMsg0B:aSwitch sendMode:ActiveMode];
     }
   }
   //删除指定mac，避免下拉刷新时使用该mac

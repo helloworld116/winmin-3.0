@@ -13,11 +13,8 @@
 @interface SwitchDetailModel () <UdpRequestDelegate>
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *timerElec;
-@property (nonatomic, strong) UdpRequest *request11Or13;
-@property (nonatomic, strong) UdpRequest *request0BOr0D;
-@property (nonatomic, strong) UdpRequest *request33Or35;
-@property (nonatomic, strong) UdpRequest *request63;
 
+@property (nonatomic, strong) UdpRequest *request;
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
 @property (nonatomic, strong) HistoryElec *historyElec;
 @property (nonatomic, strong) HistoryElecParam *param;
@@ -96,76 +93,55 @@
 
 //状态
 - (void)sendMsg0BOr0D {
-  if (!self.request0BOr0D) {
-    self.request0BOr0D = [UdpRequest manager];
-    self.request0BOr0D.delegate = self;
-  }
-  [self.request0BOr0D sendMsg0BOr0D:self.aSwitch sendMode:ActiveMode];
+  UdpRequest *request = [UdpRequest manager];
+  request.delegate = self;
+  [request sendMsg0BOr0D:self.aSwitch sendMode:ActiveMode];
 }
 
 //控制开关
 - (void)sendMsg11Or13:(SDZGSwitch *)aSwitch groupId:(int)groupId {
-  if (!self.request11Or13) {
-    self.request11Or13 = [UdpRequest manager];
-    self.request11Or13.delegate = self;
-  }
+  UdpRequest *request = [UdpRequest manager];
+  request.delegate = self;
   if (groupId == 1) {
     self.responseData12Or14GroupId1Count = 0;
   } else {
     self.responseData12Or14GroupId2Count = 0;
   }
-  [self.request11Or13 sendMsg11Or13:aSwitch
-                      socketGroupId:groupId
-                           sendMode:ActiveMode];
+  [request sendMsg11Or13:aSwitch socketGroupId:groupId sendMode:ActiveMode];
 }
 
-typedef void (^RequestBlock)(void);
 //实时电量
 - (void)sendMsg33Or35 {
-  if (!self.request33Or35) {
-    self.request33Or35 = [UdpRequest manager];
-    self.request33Or35.delegate = self;
-  }
-  [self.request33Or35 sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
-  //  debugLog(@"self is %@", self);
-  //  __weak SwitchDetailModel *weakSelf = self;
-  //  RequestBlock requestBlock = ^{
-  //      UdpRequest *request = [UdpRequest manager];
-  //      SwitchDetailModel *strongSelf = weakSelf;
-  //      request.delegate = strongSelf;
-  //      debugLog(@"request is %@ and self is %@", request, strongSelf);
-  //      [request sendMsg33Or35:strongSelf.aSwitch sendMode:ActiveMode];
-  //  };
-  //  [self.requests addObject:[requestBlock copy]];
-  //  requestBlock();
-  //  debugLog(@"request is %@", self.requests);
-
-  //  __weak SwitchDetailModel *weakSelf = self;
-  //  UdpRequest *request = [UdpRequest manager];
-  //  request.delegate = self;
-  //  RequestBlock requestBlock = ^{
-  //      SwitchDetailModel *strongSelf = weakSelf;
-  //      [request sendMsg33Or35:strongSelf.aSwitch sendMode:ActiveMode];
-  //  };
-  //  requestBlock();
-  //  debugLog(@"block is %@", requestBlock);
+  UdpRequest *request = [UdpRequest manager];
+  request.delegate = self;
+  [request sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
 }
 
 //历史电量
 - (void)senMsg63:(HistoryElecParam *)param {
-  if (!self.request63) {
-    self.request63 = [UdpRequest manager];
-    self.request63.delegate = self;
+  //  UdpRequest *request = [UdpRequest manager];
+  //  request.delegate = self;
+  //  [request sendMsg63:self.aSwitch
+  //           beginTime:param.beginTime
+  //             endTime:param.endTime
+  //            interval:param.interval
+  //            sendMode:ActiveMode];
+  if (!self.request) {
+    self.request = [UdpRequest manager];
+    self.request.delegate = self;
   }
-  [self.request63 sendMsg63:self.aSwitch
-                  beginTime:param.beginTime
-                    endTime:param.endTime
-                   interval:param.interval
-                   sendMode:ActiveMode];
+  [self.request sendMsg63:self.aSwitch
+                beginTime:param.beginTime
+                  endTime:param.endTime
+                 interval:param.interval
+                 sendMode:ActiveMode];
 }
 
 #pragma mark - UdpRequestDelegate
-- (void)responseMsg:(CC3xMessage *)message address:(NSData *)address {
+- (void)udpRequest:(UdpRequest *)request
+     didReceiveMsg:(CC3xMessage *)message
+           address:(NSData *)address {
+  debugLog(@"response request is %@", request);
   switch (message.msgId) {
     //开关状态查询
     case 0xc:
