@@ -66,11 +66,12 @@
   aSwitch.version = message.version;
   aSwitch.lockStatus = message.lockStatus;
   aSwitch.lastUpdateInterval = current;
-  if (needToDBImmediately) {
+  if (needToDBImmediately && aSwitch.sockets.count == 2) {
     [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
     [[DBUtil sharedInstance] saveSwitch:aSwitch];
+    return aSwitch;
   }
-  return aSwitch;
+  return nil;
 }
 
 + (UIImage *)imgNameToImage:(NSString *)imgName {
