@@ -10,6 +10,7 @@
 
 @interface SwitchInfoModel () <UdpRequestDelegate>
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
+@property (nonatomic, strong) UdpRequest *request;
 @end
 
 @implementation SwitchInfoModel
@@ -17,6 +18,8 @@
   self = [super init];
   if (self) {
     self.aSwitch = aSwitch;
+    self.request = [UdpRequest manager];
+    self.request.delegate = self;
   }
   return self;
 }
@@ -30,15 +33,14 @@
 }
 
 - (void)sendMsg3FOr41WithName:(NSString *)name {
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
-  [request sendMsg3FOr41:self.aSwitch type:0 name:name sendMode:ActiveMode];
+  [self.request sendMsg3FOr41:self.aSwitch
+                         type:0
+                         name:name
+                     sendMode:ActiveMode];
 }
 
 - (void)sendMsg47Or49 {
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
-  [request sendMsg47Or49:self.aSwitch sendMode:ActiveMode];
+  [self.request sendMsg47Or49:self.aSwitch sendMode:ActiveMode];
 }
 
 #pragma mark - UdpRequest代理

@@ -14,6 +14,7 @@
 @property (nonatomic, assign) int groupId;
 @property (nonatomic, assign) int type;
 @property (atomic, assign) int responseData1EOr20Count;
+@property (nonatomic, strong) UdpRequest *request;
 @end
 
 @implementation TimerModel
@@ -23,6 +24,8 @@
     self.aSwitch = aSwitch;
     self.groupId = groupId;
     self.timers = [@[] mutableCopy];
+    self.request = [UdpRequest manager];
+    self.request.delegate = self;
   }
   return self;
 }
@@ -39,21 +42,17 @@
 
 #pragma mark - 定时列表查询请求
 - (void)sendMsg17Or19 {
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
-  [request sendMsg17Or19:self.aSwitch
-           socketGroupId:self.groupId
-                sendMode:ActiveMode];
+  [self.request sendMsg17Or19:self.aSwitch
+                socketGroupId:self.groupId
+                     sendMode:ActiveMode];
 }
 
 - (void)sendMsg1DOr1F {
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
   self.responseData1EOr20Count = 0;
-  [request sendMsg1DOr1F:self.aSwitch
-           socketGroupId:self.groupId
-                timeList:self.timers
-                sendMode:ActiveMode];
+  [self.request sendMsg1DOr1F:self.aSwitch
+                socketGroupId:self.groupId
+                     timeList:self.timers
+                     sendMode:ActiveMode];
 }
 
 #pragma mark - UdpRequest代理

@@ -10,6 +10,7 @@
 @interface DelayModel () <UdpRequestDelegate>
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
 @property (nonatomic, assign) int groupId;
+@property (nonatomic, strong) UdpRequest *request;
 @end
 
 @implementation DelayModel
@@ -18,6 +19,8 @@
   if (self) {
     self.aSwitch = aSwitch;
     self.groupId = groupId;
+    self.request = [UdpRequest manager];
+    self.request.delegate = self;
   }
   return self;
 }
@@ -33,21 +36,17 @@
 }
 
 - (void)sendMsg53Or55 {
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
-  [request sendMsg53Or55:self.aSwitch
-           socketGroupId:self.groupId
-                sendMode:ActiveMode];
+  [self.request sendMsg53Or55:self.aSwitch
+                socketGroupId:self.groupId
+                     sendMode:ActiveMode];
 }
 
 - (void)sendMsg4DOr4FWithMinitues:(int)minitues onOrOff:(BOOL)onOrOff {
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
-  [request sendMsg4DOr4F:self.aSwitch
-           socketGroupId:self.groupId
-               delayTime:minitues
-                switchOn:onOrOff
-                sendMode:ActiveMode];
+  [self.request sendMsg4DOr4F:self.aSwitch
+                socketGroupId:self.groupId
+                    delayTime:minitues
+                     switchOn:onOrOff
+                     sendMode:ActiveMode];
 }
 
 #pragma mark - UdpRequest代理

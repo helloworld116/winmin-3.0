@@ -14,7 +14,9 @@
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *timerElec;
 
-@property (nonatomic, strong) UdpRequest *request;
+@property (nonatomic, strong) UdpRequest *request1; //查询状态和实时电量
+@property (nonatomic, strong) UdpRequest *request2; //控制插孔I和历史电量查询
+@property (nonatomic, strong) UdpRequest *request3; //控制插孔I
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
 @property (nonatomic, strong) HistoryElec *historyElec;
 @property (nonatomic, strong) HistoryElecParam *param;
@@ -23,8 +25,6 @@
 //防止网络延迟多个请求同时或延迟响应时改变开关状态，值为1表示第一次接收，正常处理，其他情况下抛弃响应
 @property (atomic, assign) int responseData12Or14GroupId1Count;
 @property (atomic, assign) int responseData12Or14GroupId2Count;
-
-@property (nonatomic, strong) NSMutableArray *requests;
 @end
 
 @implementation SwitchDetailModel
@@ -32,7 +32,8 @@
 - (id)initWithSwitch:(SDZGSwitch *)aSwitch {
   if (self = [super init]) {
     self.aSwitch = aSwitch;
-    self.requests = [@[] mutableCopy];
+    self.request1 = [UdpRequest manager];
+    self.request1.delegate = self;
   }
   return self;
 }
@@ -93,48 +94,46 @@
 
 //状态
 - (void)sendMsg0BOr0D {
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
-  [request sendMsg0BOr0D:self.aSwitch sendMode:ActiveMode];
+  [self.request1 sendMsg0BOr0D:self.aSwitch sendMode:ActiveMode];
 }
 
 //控制开关
 - (void)sendMsg11Or13:(SDZGSwitch *)aSwitch groupId:(int)groupId {
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
+  UdpRequest *request;
   if (groupId == 1) {
     self.responseData12Or14GroupId1Count = 0;
+    if (!self.request2) {
+      self.request2 = [UdpRequest manager];
+      self.request2.delegate = self;
+    }
+    request = self.request2;
   } else {
     self.responseData12Or14GroupId2Count = 0;
+    if (!self.request3) {
+      self.request3 = [UdpRequest manager];
+      self.request3.delegate = self;
+    }
+    request = self.request3;
   }
   [request sendMsg11Or13:aSwitch socketGroupId:groupId sendMode:ActiveMode];
 }
 
 //实时电量
 - (void)sendMsg33Or35 {
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
-  [request sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
+  [self.request1 sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
 }
 
 //历史电量
 - (void)senMsg63:(HistoryElecParam *)param {
-  //  UdpRequest *request = [UdpRequest manager];
-  //  request.delegate = self;
-  //  [request sendMsg63:self.aSwitch
-  //           beginTime:param.beginTime
-  //             endTime:param.endTime
-  //            interval:param.interval
-  //            sendMode:ActiveMode];
-  if (!self.request) {
-    self.request = [UdpRequest manager];
-    self.request.delegate = self;
+  if (!self.request2) {
+    self.request2 = [UdpRequest manager];
+    self.request2.delegate = self;
   }
-  [self.request sendMsg63:self.aSwitch
-                beginTime:param.beginTime
-                  endTime:param.endTime
-                 interval:param.interval
-                 sendMode:ActiveMode];
+  [self.request2 sendMsg63:self.aSwitch
+                 beginTime:param.beginTime
+                   endTime:param.endTime
+                  interval:param.interval
+                  sendMode:ActiveMode];
 }
 
 #pragma mark - UdpRequestDelegate

@@ -60,38 +60,23 @@
 
 //扫描设备
 - (void)sendMsg0BOr0D {
-  //  //先局域网内扫描，0.5秒后请求外网，更新设备状态
-  //  dispatch_async(GLOBAL_QUEUE, ^{
-  //      //      UdpRequest *request = [UdpRequest manager];
-  //      //      request.delegate = self;
-  //      //      [request sendMsg0B:ActiveMode];
-  //      //      //设置0.5秒，保证内网的响应优先级
-  //      //      [NSThread sleepForTimeInterval:0.5];
-  //      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
-  //      for (SDZGSwitch *aSwitch in switchs) {
-  //        debugLog(@"switch mac is %@", aSwitch.mac);
-  //        UdpRequest *request2 = [UdpRequest manager];
-  //        request2.delegate = self;
-  //        [request2 sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
-  //        //        [NSThread sleepForTimeInterval:0.2f];
-  //      }
-  //  });
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  //先局域网内扫描，0.5秒后请求外网，更新设备状态
+  dispatch_async(GLOBAL_QUEUE, ^{
+      //      UdpRequest *request = [UdpRequest manager];
+      //      request.delegate = self;
+      //      [request sendMsg0B:ActiveMode];
+      //      //设置0.5秒，保证内网的响应优先级
+      //      [NSThread sleepForTimeInterval:0.5];
       NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
       for (SDZGSwitch *aSwitch in switchs) {
         debugLog(@"switch mac is %@", aSwitch.mac);
-        dispatch_sync(GLOBAL_QUEUE, ^{
-            [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
-        });
+        [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
       }
   });
 }
 
 - (void)blinkSwitch:(SDZGSwitch *)aSwitch {
-
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
-  [request sendMsg39Or3B:aSwitch on:YES sendMode:ActiveMode];
+  [self.request sendMsg39Or3B:aSwitch on:YES sendMode:ActiveMode];
 }
 
 - (void)deleteSwitch:(SDZGSwitch *)aSwitch {
@@ -147,10 +132,7 @@
       aSwitch.port = message.port;
       aSwitch.networkStatus = SWITCH_NEW;
       [[SwitchDataCeneter sharedInstance] addSwitchToTmp:aSwitch];
-
-      UdpRequest *request = [UdpRequest manager];
-      request.delegate = self;
-      [request sendMsg0B:aSwitch sendMode:ActiveMode];
+      [self.request sendMsg0B:aSwitch sendMode:ActiveMode];
     }
   }
   //删除指定mac，避免下拉刷新时使用该mac

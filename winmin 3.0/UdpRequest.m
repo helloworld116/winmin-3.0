@@ -133,7 +133,7 @@ static dispatch_queue_t delegateQueue;
     case P2D_GET_DELAY_REQ_53:
     case P2D_GET_NAME_REQ_5D:
     case P2D_SET_PASSWD_REQ_69: {
-      dispatch_async(udp_send_serial_queue(), ^{
+      dispatch_sync(udp_send_serial_queue(), ^{
           [self.udpSocket sendData:self.msg
                             toHost:self.host
                               port:self.port
@@ -160,13 +160,14 @@ static dispatch_queue_t delegateQueue;
     case P2S_GET_POWER_LOG_REQ_63:
     case P2S_GET_CITY_REQ_65:
     case P2S_GET_CITY_WEATHER_REQ_67: {
-      dispatch_async(udp_send_concurrent_queue(), ^{
+      dispatch_sync(udp_send_concurrent_queue(), ^{
           [self.udpSocket sendData:self.msg
                             toHost:self.host
                               port:self.port
                        withTimeout:kPublicUDPTimeOut
                                tag:self.tag];
       });
+
     } break;
   }
 }
@@ -251,20 +252,19 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg0D:(NSString *)mac sendMode:(SENDMODE)mode tag:(long)tag {
-  dispatch_async(GLOBAL_QUEUE, ^{
-      if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
-      } else {
-        self.msg = [CC3xMessageUtil getP2SMsg0D:mac];
-        self.mac = mac;
-        self.host = SERVER_IP;
-        self.port = SERVER_PORT;
-        self.tag = tag;
-        [self sendDataToHost];
-      }
-  });
+  //  dispatch_async(GLOBAL_QUEUE, ^{});
+  if (kSharedAppliction.networkStatus == NotReachable) {
+    if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
+      [self.delegate errorMsg:kNotReachable];
+    }
+  } else {
+    self.msg = [CC3xMessageUtil getP2SMsg0D:mac];
+    self.mac = mac;
+    self.host = SERVER_IP;
+    self.port = SERVER_PORT;
+    self.tag = tag;
+    [self sendDataToHost];
+  }
 }
 
 - (void)sendMsg0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
