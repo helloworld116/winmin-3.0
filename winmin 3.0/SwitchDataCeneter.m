@@ -7,6 +7,17 @@
 //
 
 #import "SwitchDataCeneter.h"
+
+static dispatch_queue_t switch_datacenter_serial_queue() {
+  static dispatch_queue_t sdzg_switch_datacenter_serial_queue;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+      sdzg_switch_datacenter_serial_queue = dispatch_queue_create(
+          "switchdatacenter.com.itouchco.www", DISPATCH_QUEUE_SERIAL);
+  });
+  return sdzg_switch_datacenter_serial_queue;
+}
+
 @interface SwitchDataCeneter ()
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundUpdateTask;
 @end
@@ -38,7 +49,7 @@
 
 - (void)updateAllSwitchStautsToOffLine {
   NSArray *switchs = [self.switchsDict allValues];
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
+  dispatch_async(switch_datacenter_serial_queue(), ^{
       for (SDZGSwitch *aSwitch in switchs) {
         aSwitch.networkStatus = SWITCH_OFFLINE;
       }
@@ -48,7 +59,7 @@
 - (void)updateSocketStaus:(SocketStatus)socketStaus
             socketGroupId:(int)socketGroupId
                       mac:(NSString *)mac {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
+  dispatch_async(switch_datacenter_serial_queue(), ^{
       SDZGSwitch *aSwitch = [self.switchsDict objectForKey:mac];
       SDZGSocket *socket = [aSwitch.sockets objectAtIndex:socketGroupId - 1];
       socket.socketStatus = socketStaus;
@@ -56,7 +67,7 @@
 }
 
 - (void)updateSwitchLockStaus:(LockStatus)lockStatus mac:(NSString *)mac {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
+  dispatch_async(switch_datacenter_serial_queue(), ^{
       //一定存在
       SDZGSwitch *aSwitch = [self.switchsDict objectForKey:mac];
       aSwitch.lockStatus = lockStatus;
@@ -64,12 +75,12 @@
 }
 
 - (void)addSwitch:(SDZGSwitch *)aSwitch {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE,
+  dispatch_async(switch_datacenter_serial_queue(),
                  ^{ [self.switchsDict setObject:aSwitch forKey:aSwitch.mac]; });
 }
 
 - (void)updateSwitch:(SDZGSwitch *)aSwitch {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
+  dispatch_async(switch_datacenter_serial_queue(), ^{
       if ([[self.switchsDict allKeys] containsObject:aSwitch.mac]) {
         SDZGSwitch *oldSwitch = [self.switchsDict objectForKey:aSwitch.mac];
         oldSwitch.ip = aSwitch.ip;
@@ -96,7 +107,7 @@
 - (void)updateTimerList:(NSArray *)timerList
                     mac:(NSString *)mac
           socketGroupId:(int)socketGroupId {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
+  dispatch_async(switch_datacenter_serial_queue(), ^{
       SDZGSwitch *aSwitch = [self.switchsDict objectForKey:mac];
       SDZGSocket *socket = [aSwitch.sockets objectAtIndex:socketGroupId - 1];
       socket.timerList = [timerList mutableCopy];
@@ -105,7 +116,7 @@
 }
 
 - (void)updateSwitchImageName:(NSString *)imgName mac:(NSString *)mac {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
+  dispatch_async(switch_datacenter_serial_queue(), ^{
       SDZGSwitch *aSwitch = [self.switchsDict objectForKey:mac];
       aSwitch.imageName = imgName;
       [self.switchsDict setObject:aSwitch forKey:mac];
@@ -116,7 +127,7 @@
             delayAction:(DelayAction)delayAction
                     mac:(NSString *)mac
           socketGroupId:(int)socketGroupId {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
+  dispatch_async(switch_datacenter_serial_queue(), ^{
       SDZGSwitch *aSwitch = [self.switchsDict objectForKey:mac];
       SDZGSocket *socket = [aSwitch.sockets objectAtIndex:socketGroupId - 1];
       socket.delayTime = delayTime;
@@ -128,7 +139,7 @@
 - (void)updateSwitchName:(NSString *)switchName
              socketNames:(NSArray *)socketNames
                      mac:(NSString *)mac {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
+  dispatch_async(switch_datacenter_serial_queue(), ^{
       SDZGSwitch *aSwitch = [self.switchsDict objectForKey:mac];
       aSwitch.name = switchName;
       NSArray *sockets = aSwitch.sockets;
@@ -144,7 +155,7 @@
                   groupId:(int)groupId
                  socketId:(int)socketId
               whichSwitch:(SDZGSwitch *)whichSwitch {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
+  dispatch_async(switch_datacenter_serial_queue(), ^{
       SDZGSwitch *aSwitch = [self.switchsDict objectForKey:whichSwitch.mac];
       SDZGSocket *socket = [aSwitch.sockets objectAtIndex:groupId - 1];
       NSMutableArray *imageNames =
@@ -209,7 +220,7 @@
 }
 
 - (BOOL)removeSwitch:(SDZGSwitch *)aSwtich {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE,
+  dispatch_async(switch_datacenter_serial_queue(),
                  ^{ [self.switchsDict removeObjectForKey:aSwtich.mac]; });
   [[DBUtil sharedInstance] deleteSwitch:aSwtich.mac];
   return YES;
@@ -217,19 +228,19 @@
 
 #pragma mark - 临时空间
 - (void)addSwitchToTmp:(SDZGSwitch *)aSwitch {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE, ^{
+  dispatch_async(switch_datacenter_serial_queue(), ^{
       [self.switchTmpDict setObject:aSwitch forKey:aSwitch.mac];
   });
 }
 
 - (void)removeSwitchFromTmp:(SDZGSwitch *)aSwitch {
-  dispatch_async(SWITCHDATACENTER_SERIAL_QUEUE,
+  dispatch_async(switch_datacenter_serial_queue(),
                  ^{ [self.switchTmpDict removeObjectForKey:aSwitch.mac]; });
 }
 
 - (SDZGSwitch *)getSwitchFromTmpByMac:(NSString *)mac {
   __block SDZGSwitch *aSwitch;
-  dispatch_sync(SWITCHDATACENTER_SERIAL_QUEUE,
+  dispatch_sync(switch_datacenter_serial_queue(),
                 ^{ aSwitch = [self.switchTmpDict objectForKey:mac]; });
   return aSwitch;
 }

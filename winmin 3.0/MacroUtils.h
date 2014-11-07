@@ -41,13 +41,16 @@
 
 #define kCheckNetworkWebsite @"www.baidu.com"
 
-// UDP过期时间,单位秒
-#define kUDPTimeOut -1
 #define kCheckPrivateResponseInterval                                          \
   0.8 //发送UDP内网请求后，检查是否有响应数据的间隔，单位为秒
 #define kCheckPublicResponseInterval                                           \
   1.2 //发送UDP外网请求后，检查是否有响应数据的间隔，单位为秒
 #define kTryCount 3 //请求失败后自动尝试次数
+
+// UDP内网过期时间,单位秒
+#define kPrivateUDPTimeOut kCheckPrivateResponseInterval
+// UDP外网过期时间,单位秒
+#define kPublicUDPTimeOut kCheckPublicResponseInterval
 
 //日志
 #ifdef DEBUG
@@ -162,14 +165,6 @@ static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
 
 #define BROADCAST_ADDRESS @"255.255.255.255"
 
-#define SOCKET_SERIAL_QUEUE                                                    \
-  dispatch_queue_create("socket.com.itouchco.www", DISPATCH_QUEUE_SERIAL)
-#define SWITCHDATACENTER_SERIAL_QUEUE                                          \
-  dispatch_queue_create("switchdatacenter.com.itouchco.www",                   \
-                        DISPATCH_QUEUE_SERIAL)
-#define SWITCHPARSETOADD_SERIAL_QUEUE                                          \
-  dispatch_queue_create("switchparsetoadd.com.itouchco.www",                   \
-                        DISPATCH_QUEUE_SERIAL)
 #define GLOBAL_QUEUE                                                           \
   dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 #define MAIN_QUEUE dispatch_get_main_queue()
