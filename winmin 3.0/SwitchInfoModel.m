@@ -10,7 +10,6 @@
 
 @interface SwitchInfoModel () <UdpRequestDelegate>
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
-@property (nonatomic, strong) UdpRequest *request;
 @end
 
 @implementation SwitchInfoModel
@@ -18,8 +17,6 @@
   self = [super init];
   if (self) {
     self.aSwitch = aSwitch;
-    self.request = [UdpRequest manager];
-    self.request.delegate = self;
   }
   return self;
 }
@@ -33,18 +30,22 @@
 }
 
 - (void)sendMsg3FOr41WithName:(NSString *)name {
-  [self.request sendMsg3FOr41:self.aSwitch
-                         type:0
-                         name:name
-                     sendMode:ActiveMode];
+  UdpRequest *request = [UdpRequest manager];
+  request.delegate = self;
+  [request sendMsg3FOr41:self.aSwitch type:0 name:name sendMode:ActiveMode];
 }
 
 - (void)sendMsg47Or49 {
-  [self.request sendMsg47Or49:self.aSwitch sendMode:ActiveMode];
+  UdpRequest *request = [UdpRequest manager];
+  request.delegate = self;
+  [request sendMsg47Or49:self.aSwitch sendMode:ActiveMode];
 }
 
 #pragma mark - UdpRequest代理
-- (void)responseMsg:(CC3xMessage *)message address:(NSData *)address {
+- (void)udpRequest:(UdpRequest *)request
+     didReceiveMsg:(CC3xMessage *)message
+           address:(NSData *)address {
+  debugLog(@"response request is %@", request);
   switch (message.msgId) {
     case 0x40:
     case 0x42:
@@ -58,6 +59,21 @@
       break;
   }
 }
+
+//- (void)responseMsg:(CC3xMessage *)message address:(NSData *)address {
+//  switch (message.msgId) {
+//    case 0x40:
+//    case 0x42:
+//      [self responseMsg40Or42:message];
+//      break;
+//    case 0x48:
+//    case 0x4A:
+//      [self responseMsg48Or4A:message];
+//      break;
+//    default:
+//      break;
+//  }
+//}
 
 - (void)noResponseMsgtag:(long)tag socketGroupId:(int)socketGroupId {
   debugLog(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);

@@ -80,6 +80,8 @@ static dispatch_queue_t delegateQueue;
 
 - (void)dealloc {
   [self.udpSocket close];
+
+  debugLog(@"<<<<<<<<<<<<<socket close>>>>>>>>>>>>>>");
 }
 
 - (void)setupUdpSocket:(GCDAsyncUdpSocket *)socket port:(uint16_t)aPort {
@@ -1511,8 +1513,9 @@ static dispatch_queue_t delegateQueue;
   debugLog(@"receiveData is %@", [CC3xMessageUtil hexString:data]);
   if (data) {
     CC3xMessage *msg = (CC3xMessage *)filterContext;
-    if ([self.delegate respondsToSelector:@selector(responseMsg:address:)]) {
-      [self.delegate responseMsg:msg address:address];
+    if ([self.delegate
+            respondsToSelector:@selector(udpRequest:didReceiveMsg:address:)]) {
+      [self.delegate udpRequest:self didReceiveMsg:msg address:address];
     }
     self.responseData = data;
   }

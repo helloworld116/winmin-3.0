@@ -9,7 +9,6 @@
 #import "DelayModel.h"
 @interface DelayModel () <UdpRequestDelegate>
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
-@property (nonatomic, strong) UdpRequest *request;
 @property (nonatomic, assign) int groupId;
 @end
 
@@ -19,8 +18,6 @@
   if (self) {
     self.aSwitch = aSwitch;
     self.groupId = groupId;
-    self.request = [UdpRequest manager];
-    self.request.delegate = self;
   }
   return self;
 }
@@ -36,21 +33,27 @@
 }
 
 - (void)sendMsg53Or55 {
-  [self.request sendMsg53Or55:self.aSwitch
-                socketGroupId:self.groupId
-                     sendMode:ActiveMode];
+  UdpRequest *request = [UdpRequest manager];
+  request.delegate = self;
+  [request sendMsg53Or55:self.aSwitch
+           socketGroupId:self.groupId
+                sendMode:ActiveMode];
 }
 
 - (void)sendMsg4DOr4FWithMinitues:(int)minitues onOrOff:(BOOL)onOrOff {
-  [self.request sendMsg4DOr4F:self.aSwitch
-                socketGroupId:self.groupId
-                    delayTime:minitues
-                     switchOn:onOrOff
-                     sendMode:ActiveMode];
+  UdpRequest *request = [UdpRequest manager];
+  request.delegate = self;
+  [request sendMsg4DOr4F:self.aSwitch
+           socketGroupId:self.groupId
+               delayTime:minitues
+                switchOn:onOrOff
+                sendMode:ActiveMode];
 }
 
 #pragma mark - UdpRequest代理
-- (void)responseMsg:(CC3xMessage *)message address:(NSData *)address {
+- (void)udpRequest:(UdpRequest *)request
+     didReceiveMsg:(CC3xMessage *)message
+           address:(NSData *)address {
   switch (message.msgId) {
     //设置延时
     case 0x4e:

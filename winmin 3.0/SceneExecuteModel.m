@@ -9,13 +9,13 @@
 #import "SceneExecuteModel.h"
 #import "SceneDetail.h"
 
-@interface SceneExecuteModel ()<UdpRequestDelegate>
-@property(nonatomic, strong) NSOperationQueue *queue;
-@property(nonatomic, strong) UdpRequest *request;
-@property(nonatomic, assign) BOOL receivedData;
-@property(nonatomic, strong) NSTimer *timer;
-@property(nonatomic, assign) int timerExcCount;  //定时器执行次数
-@property(nonatomic, assign) int taskCount;  //任务个数，队列中的数据个数
+@interface SceneExecuteModel () <UdpRequestDelegate>
+@property (nonatomic, strong) NSOperationQueue *queue;
+@property (nonatomic, strong) UdpRequest *request;
+@property (nonatomic, assign) BOOL receivedData;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, assign) int timerExcCount; //定时器执行次数
+@property (nonatomic, assign) int taskCount; //任务个数，队列中的数据个数
 @end
 
 @implementation SceneExecuteModel
@@ -77,7 +77,9 @@
 }
 
 #pragma mark - UdpRequestDelegate
-- (void)responseMsg:(CC3xMessage *)message address:(NSData *)address {
+- (void)udpRequest:(UdpRequest *)request
+     didReceiveMsg:(CC3xMessage *)message
+           address:(NSData *)address {
   switch (message.msgId) {
     //开关控制
     case 0x12:
@@ -94,7 +96,7 @@
 }
 
 - (void)isReceivedData {
-  BOOL resulstType;  // NO表示未收到响应，执行失败;YES表示收到响应，执行成功
+  BOOL resulstType; // NO表示未收到响应，执行失败;YES表示收到响应，执行成功
   self.timerExcCount++;
   if (self.receivedData) {
     debugLog(@"收到数据");

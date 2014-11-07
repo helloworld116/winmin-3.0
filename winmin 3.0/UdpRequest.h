@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+@class UdpRequest;
 
 @protocol UdpRequestDelegate<NSObject>
 
@@ -18,8 +19,9 @@
  *  @param message 响应报文经过包装后的对象
  *  @param address 路由器的地址
  */
-- (void)responseMsg:(CC3xMessage *)message address:(NSData *)address;
-
+- (void)udpRequest:(UdpRequest *)request
+     didReceiveMsg:(CC3xMessage *)message
+           address:(NSData *)address;
 @optional
 #pragma mark - 请求没响应后的处理
 /**

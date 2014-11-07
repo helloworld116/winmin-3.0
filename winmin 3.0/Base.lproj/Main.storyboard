@@ -126,7 +126,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hE1-u5-U5v" userLabel="定时按钮">
-                                                <rect key="frame" x="20" y="66" width="70" height="35"/>
+                                                <rect key="frame" x="50" y="66" width="70" height="35"/>
                                                 <state key="normal" title="定时" image="timer">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -135,7 +135,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lq6-md-TsT" userLabel="延时按钮">
-                                                <rect key="frame" x="115" y="66" width="70" height="35"/>
+                                                <rect key="frame" x="130" y="66" width="70" height="35"/>
                                                 <state key="normal" title="延时" image="delay">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -147,6 +147,9 @@
                                                 <rect key="frame" x="258" y="54" width="45" height="45"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="ymo-Df-NX3">
+                                                <rect key="frame" x="20" y="64" width="15" height="23"/>
+                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -209,7 +212,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58q-ea-yYU" userLabel="定时按钮">
-                                                <rect key="frame" x="20" y="66" width="70" height="35"/>
+                                                <rect key="frame" x="50" y="66" width="70" height="35"/>
                                                 <state key="normal" title="定时" image="timer">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -218,7 +221,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzk-Ah-mge" userLabel="延时按钮">
-                                                <rect key="frame" x="115" y="66" width="70" height="35"/>
+                                                <rect key="frame" x="130" y="66" width="70" height="35"/>
                                                 <state key="normal" title="延时" image="delay">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -230,6 +233,9 @@
                                                 <rect key="frame" x="258" y="54" width="45" height="45"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="bpw-nF-9Ph">
+                                                <rect key="frame" x="20" y="64" width="15" height="23"/>
+                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -347,9 +353,12 @@
                                                     <constraint firstAttribute="height" constant="40" id="GS6-de-cgv"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TLY-rz-uaK" userLabel="Line">
-                                                <rect key="frame" x="25" y="56" width="29" height="3"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TLY-rz-uaK" userLabel="Line">
+                                                <rect key="frame" x="0.0" y="40" width="300" height="1"/>
                                                 <color key="backgroundColor" red="0.76470588235294112" green="0.76470588235294112" blue="0.76470588235294112" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="s0N-ae-mDR"/>
+                                                </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-Bd-crA">
                                                 <rect key="frame" x="0.0" y="41" width="300" height="283"/>
@@ -370,11 +379,14 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstItem="TLY-rz-uaK" firstAttribute="top" secondItem="MqG-zb-Sia" secondAttribute="bottom" id="32e-Hi-tBf"/>
+                                            <constraint firstAttribute="trailing" secondItem="TLY-rz-uaK" secondAttribute="trailing" id="5n5-W3-nQk"/>
                                             <constraint firstAttribute="trailing" secondItem="MqG-zb-Sia" secondAttribute="trailing" id="7xh-2t-aK6"/>
                                             <constraint firstItem="MqG-zb-Sia" firstAttribute="leading" secondItem="9Kp-op-mYm" secondAttribute="leading" id="8Mi-Ep-fqH"/>
                                             <constraint firstItem="MqG-zb-Sia" firstAttribute="top" secondItem="9Kp-op-mYm" secondAttribute="top" id="CrM-to-GtD"/>
                                             <constraint firstItem="vcZ-Bd-crA" firstAttribute="top" secondItem="MqG-zb-Sia" secondAttribute="bottom" constant="1" id="G5H-dK-quG"/>
                                             <constraint firstAttribute="trailing" secondItem="vcZ-Bd-crA" secondAttribute="trailing" id="ZVC-Os-hoN"/>
+                                            <constraint firstItem="TLY-rz-uaK" firstAttribute="leading" secondItem="9Kp-op-mYm" secondAttribute="leading" id="fcx-Qy-kDR"/>
                                             <constraint firstAttribute="bottom" secondItem="vcZ-Bd-crA" secondAttribute="bottom" id="osC-4K-Qt8"/>
                                             <constraint firstItem="vcZ-Bd-crA" firstAttribute="leading" secondItem="9Kp-op-mYm" secondAttribute="leading" id="yMB-EU-OWl"/>
                                         </constraints>
@@ -3575,6 +3587,7 @@
         <image name="009" width="60" height="60"/>
         <image name="010" width="56" height="56"/>
         <image name="099" width="56" height="56"/>
+        <image name="1" width="15" height="23"/>
         <image name="100" width="42" height="42"/>
         <image name="101" width="60" height="60"/>
         <image name="101_" width="60" height="60"/>
@@ -3583,6 +3596,7 @@
         <image name="104" width="60" height="60"/>
         <image name="105" width="60" height="60"/>
         <image name="106" width="60" height="60"/>
+        <image name="2" width="15" height="23"/>
         <image name="about_us" width="22" height="22"/>
         <image name="aboutus_icon" width="99" height="99"/>
         <image name="cj" width="30" height="30"/>

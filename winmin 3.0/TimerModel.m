@@ -9,7 +9,6 @@
 #import "TimerModel.h"
 
 @interface TimerModel () <UdpRequestDelegate>
-@property (nonatomic, strong) UdpRequest *request;
 @property (nonatomic, strong) NSMutableArray *timers;
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
 @property (nonatomic, assign) int groupId;
@@ -23,8 +22,6 @@
   if (self) {
     self.aSwitch = aSwitch;
     self.groupId = groupId;
-    self.request = [UdpRequest manager];
-    self.request.delegate = self;
     self.timers = [@[] mutableCopy];
   }
   return self;
@@ -42,21 +39,27 @@
 
 #pragma mark - 定时列表查询请求
 - (void)sendMsg17Or19 {
-  [self.request sendMsg17Or19:self.aSwitch
-                socketGroupId:self.groupId
-                     sendMode:ActiveMode];
+  UdpRequest *request = [UdpRequest manager];
+  request.delegate = self;
+  [request sendMsg17Or19:self.aSwitch
+           socketGroupId:self.groupId
+                sendMode:ActiveMode];
 }
 
 - (void)sendMsg1DOr1F {
+  UdpRequest *request = [UdpRequest manager];
+  request.delegate = self;
   self.responseData1EOr20Count = 0;
-  [self.request sendMsg1DOr1F:self.aSwitch
-                socketGroupId:self.groupId
-                     timeList:self.timers
-                     sendMode:ActiveMode];
+  [request sendMsg1DOr1F:self.aSwitch
+           socketGroupId:self.groupId
+                timeList:self.timers
+                sendMode:ActiveMode];
 }
 
 #pragma mark - UdpRequest代理
-- (void)responseMsg:(CC3xMessage *)message address:(NSData *)address {
+- (void)udpRequest:(UdpRequest *)request
+     didReceiveMsg:(CC3xMessage *)message
+           address:(NSData *)address {
   switch (message.msgId) {
     //查询定时
     case 0x18:
