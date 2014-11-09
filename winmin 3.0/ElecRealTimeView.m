@@ -37,7 +37,7 @@ static CGFloat scaleX;
   self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,
                                       dispatch_get_main_queue());
   dispatch_time_t delayTime =
-      dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC);
+      dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
   dispatch_source_set_timer(_timer, delayTime,
                             (unsigned)(delayInSeconds * NSEC_PER_SEC), 0);
   dispatch_source_set_event_handler(_timer, ^{ [weakSelf updateView]; });
@@ -45,7 +45,8 @@ static CGFloat scaleX;
 }
 
 - (void)stop {
-  dispatch_source_cancel(self.timer);
+  if (self.timer)
+    dispatch_source_cancel(self.timer);
 }
 
 //- (void)updateView {
@@ -75,7 +76,9 @@ static CGFloat scaleX;
 }
 
 - (void)dealloc {
-  dispatch_source_cancel(self.timer);
+  if (self.timer) {
+    dispatch_source_cancel(self.timer);
+  }
 }
 
 // Only override drawRect: if you perform custom drawing.

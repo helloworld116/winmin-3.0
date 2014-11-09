@@ -256,7 +256,7 @@
 
 - (NSArray *)getSwitchs {
   NSMutableArray *switchs = [@[] mutableCopy];
-  NSString *switchSql = @"select * from switch";
+  NSString *switchSql = @"select * from switch order by networkstatus,mac";
   if ([self.db open]) {
     FMResultSet *switchResult = [self.db executeQuery:switchSql];
     while (switchResult.next) {

@@ -45,10 +45,7 @@
 }
 
 - (void)refreshSwitchList {
-  UdpRequest *request = [UdpRequest manager];
-  request.delegate = self;
-  [request sendMsg09:ActiveMode];
-
+  [self.request sendMsg09:ActiveMode];
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
                  dispatch_get_main_queue(), ^{ [self sendMsg0BOr0D]; });
 }
@@ -62,11 +59,9 @@
 - (void)sendMsg0BOr0D {
   //先局域网内扫描，0.5秒后请求外网，更新设备状态
   dispatch_async(GLOBAL_QUEUE, ^{
-      //      UdpRequest *request = [UdpRequest manager];
-      //      request.delegate = self;
-      //      [request sendMsg0B:ActiveMode];
-      //      //设置0.5秒，保证内网的响应优先级
-      //      [NSThread sleepForTimeInterval:0.5];
+      [self.request sendMsg0B:ActiveMode];
+      //设置0.5秒，保证内网的响应优先级
+      [NSThread sleepForTimeInterval:0.5];
       NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
       for (SDZGSwitch *aSwitch in switchs) {
         debugLog(@"switch mac is %@", aSwitch.mac);

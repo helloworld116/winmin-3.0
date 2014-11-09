@@ -183,7 +183,8 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
 }
 
 - (NSArray *)switchs {
-  return [self.switchsDict allValues];
+  //  return [self.switchsDict allValues];
+  return _switchs;
 }
 
 - (BOOL)isAllSwitchOffLine {

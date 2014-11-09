@@ -50,8 +50,7 @@
                                      selector:@selector(sendMsg0BOr0D)
                                      userInfo:nil
                                       repeats:YES];
-  //加上0.1是避免和实时电量查询请求同时发出，降低同时发出的几率
-  [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+  [self.timer fire];
   [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
@@ -115,6 +114,7 @@
     }
     request = self.request3;
   }
+  debugLog(@"send requeset is %@ groupId is %d", request, groupId);
   [request sendMsg11Or13:aSwitch socketGroupId:groupId sendMode:ActiveMode];
 }
 
@@ -194,6 +194,7 @@
 }
 
 - (void)responseMsg12Or14:(CC3xMessage *)message {
+  debugLog(@"%s socketGroupId is %d", __func__, message.socketGroupId);
   if (message.state == kUdpResponseSuccessCode) {
     if (message.socketGroupId == 1) {
       self.responseData12Or14GroupId1Count++;

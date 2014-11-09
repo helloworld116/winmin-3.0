@@ -160,14 +160,11 @@ static dispatch_queue_t delegateQueue;
     case P2S_GET_POWER_LOG_REQ_63:
     case P2S_GET_CITY_REQ_65:
     case P2S_GET_CITY_WEATHER_REQ_67: {
-      dispatch_sync(udp_send_concurrent_queue(), ^{
-          [self.udpSocket sendData:self.msg
-                            toHost:self.host
-                              port:self.port
-                       withTimeout:kPublicUDPTimeOut
-                               tag:self.tag];
-      });
-
+      [self.udpSocket sendData:self.msg
+                        toHost:self.host
+                          port:self.port
+                   withTimeout:kPublicUDPTimeOut
+                           tag:self.tag];
     } break;
   }
 }
@@ -180,20 +177,22 @@ static dispatch_queue_t delegateQueue;
   //        //不在内网的情况下的处理
   //      }
   //  });
-  if (mode == ActiveMode) {
-    self.msgSendCount = 0;
-  } else if (mode == PassiveMode) {
-    self.msgSendCount++;
-  }
-  self.msg = [CC3xMessageUtil getP2dMsg05];
-  self.host = ip;
-  self.port = port;
-  self.tag = P2D_SERVER_INFO_05;
-  [self sendDataToHost];
+  dispatch_sync(GLOBAL_QUEUE, ^{
+      if (mode == ActiveMode) {
+        self.msgSendCount = 0;
+      } else if (mode == PassiveMode) {
+        self.msgSendCount++;
+      }
+      self.msg = [CC3xMessageUtil getP2dMsg05];
+      self.host = ip;
+      self.port = port;
+      self.tag = P2D_SERVER_INFO_05;
+      [self sendDataToHost];
+  });
 }
 
 - (void)sendMsg09:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         if (mode == ActiveMode) {
           self.msgSendCount = 0;
@@ -225,16 +224,18 @@ static dispatch_queue_t delegateQueue;
   //        }
   //      }
   //  });
-  if (mode == ActiveMode) {
-    self.msgSendCount = 0;
-  } else if (mode == PassiveMode) {
-    self.msgSendCount++;
-  }
-  self.msg = [CC3xMessageUtil getP2dMsg0B];
-  self.host = BROADCAST_ADDRESS;
-  self.port = DEVICE_PORT;
-  self.tag = P2D_STATE_INQUIRY_0B;
-  [self sendDataToHost];
+  dispatch_sync(GLOBAL_QUEUE, ^{
+      if (mode == ActiveMode) {
+        self.msgSendCount = 0;
+      } else if (mode == PassiveMode) {
+        self.msgSendCount++;
+      }
+      self.msg = [CC3xMessageUtil getP2dMsg0B];
+      self.host = BROADCAST_ADDRESS;
+      self.port = DEVICE_PORT;
+      self.tag = P2D_STATE_INQUIRY_0B;
+      [self sendDataToHost];
+  });
 }
 
 - (void)sendMsg0B:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
@@ -252,19 +253,20 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg0D:(NSString *)mac sendMode:(SENDMODE)mode tag:(long)tag {
-  //  dispatch_async(GLOBAL_QUEUE, ^{});
-  if (kSharedAppliction.networkStatus == NotReachable) {
-    if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-      [self.delegate errorMsg:kNotReachable];
-    }
-  } else {
-    self.msg = [CC3xMessageUtil getP2SMsg0D:mac];
-    self.mac = mac;
-    self.host = SERVER_IP;
-    self.port = SERVER_PORT;
-    self.tag = tag;
-    [self sendDataToHost];
-  }
+  dispatch_sync(GLOBAL_QUEUE, ^{
+      if (kSharedAppliction.networkStatus == NotReachable) {
+        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
+          [self.delegate errorMsg:kNotReachable];
+        }
+      } else {
+        self.msg = [CC3xMessageUtil getP2SMsg0D:mac];
+        self.mac = mac;
+        self.host = SERVER_IP;
+        self.port = SERVER_PORT;
+        self.tag = tag;
+        [self sendDataToHost];
+      }
+  });
 }
 
 - (void)sendMsg0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
@@ -640,7 +642,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg59:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (mode == ActiveMode) {
         self.msgSendCount = 0;
       } else if (mode == PassiveMode) {
@@ -688,7 +690,7 @@ static dispatch_queue_t delegateQueue;
           endTime:(int)endTime
          interval:(int)interval
          sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
         if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
           [self.delegate errorMsg:kNotReachable];
@@ -717,7 +719,7 @@ static dispatch_queue_t delegateQueue;
 
 // type 0 为获取设备当地的城市 1为获取换手机当地的城市
 - (void)sendMsg65:(NSString *)mac type:(int)type sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
         if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
           [self.delegate errorMsg:kNotReachable];
@@ -743,7 +745,7 @@ static dispatch_queue_t delegateQueue;
              type:(int)type
          cityName:(NSString *)cityName
          sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
         if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
           [self.delegate errorMsg:kNotReachable];
@@ -770,7 +772,7 @@ static dispatch_queue_t delegateQueue;
 - (void)sendMsg69:(NSString *)oldPassword
       newPassword:(NSString *)newPassword
          sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
         if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
           [self.delegate errorMsg:kNotReachable];
@@ -795,7 +797,7 @@ static dispatch_queue_t delegateQueue;
 
 #pragma mark - 处理内外网请求
 - (void)sendMsg0BOr0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL ||
@@ -819,33 +821,35 @@ static dispatch_queue_t delegateQueue;
              sendMode:(SENDMODE)mode {
   //  debugLog(@"networkStatus is %d", kSharedAppliction.networkStatus);
   //  debugLog(@"switch net is %d", aSwitch.networkStatus);
-  if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
-    //根据不同的网络环境，发送 本地/远程 消息
-    if (aSwitch.networkStatus == SWITCH_LOCAL ||
-        aSwitch.networkStatus == SWITCH_NEW) {
-      [self sendMsg11WithSwitch:aSwitch
-                  socketGroupId:socketGroupId
-                       sendMode:mode];
-    } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
-      [self sendMsg13WithSwitch:aSwitch
-                  socketGroupId:socketGroupId
-                       sendMode:mode];
-    }
-  } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
-    [self sendMsg13WithSwitch:aSwitch
-                socketGroupId:socketGroupId
-                     sendMode:mode];
-  } else if (kSharedAppliction.networkStatus == NotReachable) {
-    if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-      [self.delegate errorMsg:kNotReachable];
-    }
-  }
+  dispatch_sync(GLOBAL_QUEUE, ^{
+      if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
+        //根据不同的网络环境，发送 本地/远程 消息
+        if (aSwitch.networkStatus == SWITCH_LOCAL ||
+            aSwitch.networkStatus == SWITCH_NEW) {
+          [self sendMsg11WithSwitch:aSwitch
+                      socketGroupId:socketGroupId
+                           sendMode:mode];
+        } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
+          [self sendMsg13WithSwitch:aSwitch
+                      socketGroupId:socketGroupId
+                           sendMode:mode];
+        }
+      } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
+        [self sendMsg13WithSwitch:aSwitch
+                    socketGroupId:socketGroupId
+                         sendMode:mode];
+      } else if (kSharedAppliction.networkStatus == NotReachable) {
+        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
+          [self.delegate errorMsg:kNotReachable];
+        }
+      }
+  });
 }
 
 - (void)sendMsg17Or19:(SDZGSwitch *)aSwitch
         socketGroupId:(int)socketGroupId
              sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -873,7 +877,7 @@ static dispatch_queue_t delegateQueue;
         socketGroupId:(int)socketGroupId
              timeList:(NSArray *)timeList
              sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -901,7 +905,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg33Or35:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -922,7 +926,7 @@ static dispatch_queue_t delegateQueue;
 - (void)sendMsg39Or3B:(SDZGSwitch *)aSwitch
                    on:(BOOL)on
              sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL ||
@@ -945,7 +949,7 @@ static dispatch_queue_t delegateQueue;
                  type:(int)type
                  name:(NSString *)name
              sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -964,7 +968,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg47Or49:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -987,7 +991,7 @@ static dispatch_queue_t delegateQueue;
             delayTime:(NSInteger)delayTime
              switchOn:(BOOL)on
              sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1020,7 +1024,7 @@ static dispatch_queue_t delegateQueue;
 - (void)sendMsg53Or55:(SDZGSwitch *)aSwitch
         socketGroupId:(int)socketGroupId
              sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1045,7 +1049,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg5DOr5F:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1113,316 +1117,321 @@ static dispatch_queue_t delegateQueue;
   if (delay) {
     dispatch_time_t delayInNanoSeconds =
         dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
-    dispatch_after(delayInNanoSeconds, GLOBAL_QUEUE,
+    dispatch_after(delayInNanoSeconds, MAIN_QUEUE,
                    ^{ [self checkWithTag:tag]; });
   }
 }
 
 - (void)checkWithTag:(long)tag {
-  if (kSharedAppliction.networkStatus != NotReachable) {
-    switch (tag) {
-      case P2D_SERVER_INFO_05:
-        if (!self.responseData) {
-          if (kSharedAppliction.networkStatus == ReachableViaWiFi &&
-              self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg05:self.host port:self.port mode:PassiveMode];
-          }
-        }
-        break;
-      case P2D_SCAN_DEV_09:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg09:PassiveMode];
-          }
-        }
-        break;
-      case P2D_STATE_INQUIRY_0B:
-        break;
-      case P2S_STATE_INQUIRY_0D:
-        break;
-      case P2D_CONTROL_REQ_11:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg11WithSwitch:self.aSwitch
-                        socketGroupId:self.socketGroupId
-                             sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2S_CONTROL_REQ_13:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg13WithSwitch:self.aSwitch
-                        socketGroupId:self.socketGroupId
-                             sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2D_GET_TIMER_REQ_17:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg17Or19:self.aSwitch
-                  socketGroupId:self.socketGroupId
+  dispatch_sync(GLOBAL_QUEUE, ^{
+      if (kSharedAppliction.networkStatus != NotReachable) {
+        switch (tag) {
+          case P2D_SERVER_INFO_05:
+            if (!self.responseData) {
+              if (kSharedAppliction.networkStatus == ReachableViaWiFi &&
+                  self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg05:self.host port:self.port mode:PassiveMode];
+              }
+            }
+            break;
+          case P2D_SCAN_DEV_09:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg09:PassiveMode];
+              }
+            }
+            break;
+          case P2D_STATE_INQUIRY_0B:
+            break;
+          case P2S_STATE_INQUIRY_0D:
+            break;
+          case P2D_CONTROL_REQ_11:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                debugLog(@"重新发送 request is %@", self);
+                [self sendMsg11WithSwitch:self.aSwitch
+                            socketGroupId:self.socketGroupId
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2S_CONTROL_REQ_13:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg13WithSwitch:self.aSwitch
+                            socketGroupId:self.socketGroupId
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2D_GET_TIMER_REQ_17:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg17Or19:self.aSwitch
+                      socketGroupId:self.socketGroupId
+                           sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2S_GET_TIMER_REQ_19:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg19WithSwitch:self.aSwitch
+                            socketGroupId:self.socketGroupId
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2D_SET_TIMER_REQ_1D:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg1DWithSwitch:self.aSwitch
+                            socketGroupId:self.socketGroupId
+                                 timeList:self.timeList
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2S_SET_TIMER_REQ_1F:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg1FWithSwitch:self.aSwitch
+                            socketGroupId:self.socketGroupId
+                                 timeList:self.timeList
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2D_GET_PROPERTY_REQ_25:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+              }
+            }
+            break;
+          case P2S_GET_PROPERTY_REQ_27:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+              }
+            }
+            break;
+          case P2D_GET_POWER_INFO_REQ_33:
+            break;
+          case P2S_GET_POWER_INFO_REQ_35:
+            break;
+          case P2D_LOCATE_REQ_39:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg39WithSwitch:self.aSwitch
+                                       on:NO
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2S_LOCATE_REQ_3B:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg3BWithSwitch:self.aSwitch
+                                       on:self.on
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2D_SET_NAME_REQ_3F:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg3FOr41:self.aSwitch
+                               type:self.type
+                               name:self.name
+                           sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2S_SET_NAME_REQ_41:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg41WithSwitch:self.aSwitch
+                                     type:self.type
+                                     name:self.name
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2D_DEV_LOCK_REQ_47:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg47Or49:self.aSwitch sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2S_DEV_LOCK_REQ_49:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg49WithSwitch:self.aSwitch sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2D_SET_DELAY_REQ_4D:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg4DWithSwitch:self.aSwitch
+                            socketGroupId:self.socketGroupId
+                                delayTime:self.delayTime
+                                 switchOn:self.on
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2S_SET_DELAY_REQ_4F:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg4FWithSwitch:self.aSwitch
+                            socketGroupId:self.socketGroupId
+                                delayTime:self.delayTime
+                                 switchOn:self.on
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2D_GET_DELAY_REQ_53:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg53WithSwitch:self.aSwitch
+                            socketGroupId:self.socketGroupId
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2S_GET_DELAY_REQ_55:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg55WithSwitch:self.aSwitch
+                            socketGroupId:self.socketGroupId
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2S_PHONE_INIT_REQ_59:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg59:self.aSwitch sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2D_GET_NAME_REQ_5D:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg5DWithSwitch:self.aSwitch sendMode:PassiveMode];
+              }
+            }
+            break;
+          case P2S_GET_NAME_REQ_5F:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg5FWithSwitch:self.aSwitch sendMode:PassiveMode];
+              }
+            }
+            break;
+          case P2S_GET_POWER_LOG_REQ_63:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg63:self.aSwitch
+                      beginTime:self.beginTime
+                        endTime:self.endTime
+                       interval:self.interval
                        sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2S_GET_TIMER_REQ_19:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg19WithSwitch:self.aSwitch
-                        socketGroupId:self.socketGroupId
-                             sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2D_SET_TIMER_REQ_1D:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg1DWithSwitch:self.aSwitch
-                        socketGroupId:self.socketGroupId
-                             timeList:self.timeList
-                             sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2S_SET_TIMER_REQ_1F:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg1FWithSwitch:self.aSwitch
-                        socketGroupId:self.socketGroupId
-                             timeList:self.timeList
-                             sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2D_GET_PROPERTY_REQ_25:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-          }
-        }
-        break;
-      case P2S_GET_PROPERTY_REQ_27:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-          }
-        }
-        break;
-      case P2D_GET_POWER_INFO_REQ_33:
-        break;
-      case P2S_GET_POWER_INFO_REQ_35:
-        break;
-      case P2D_LOCATE_REQ_39:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg39WithSwitch:self.aSwitch on:NO sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2S_LOCATE_REQ_3B:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg3BWithSwitch:self.aSwitch
-                                   on:self.on
-                             sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2D_SET_NAME_REQ_3F:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg3FOr41:self.aSwitch
+              }
+            }
+            break;
+          case P2S_GET_CITY_REQ_65:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg65:self.mac type:self.type sendMode:PassiveMode];
+              }
+            }
+            break;
+          case P2S_GET_CITY_WEATHER_REQ_67:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg67:self.mac
                            type:self.type
-                           name:self.name
+                       cityName:self.cityName
                        sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
+              }
+            }
+            break;
+          case P2D_SET_PASSWD_REQ_69:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg69:self.oldPassword
+                    newPassword:self.password
+                       sendMode:PassiveMode];
+              }
+            }
+            break;
         }
-        break;
-      case P2S_SET_NAME_REQ_41:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg41WithSwitch:self.aSwitch
-                                 type:self.type
-                                 name:self.name
-                             sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2D_DEV_LOCK_REQ_47:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg47Or49:self.aSwitch sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2S_DEV_LOCK_REQ_49:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg49WithSwitch:self.aSwitch sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2D_SET_DELAY_REQ_4D:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg4DWithSwitch:self.aSwitch
-                        socketGroupId:self.socketGroupId
-                            delayTime:self.delayTime
-                             switchOn:self.on
-                             sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2S_SET_DELAY_REQ_4F:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg4FWithSwitch:self.aSwitch
-                        socketGroupId:self.socketGroupId
-                            delayTime:self.delayTime
-                             switchOn:self.on
-                             sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2D_GET_DELAY_REQ_53:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg53WithSwitch:self.aSwitch
-                        socketGroupId:self.socketGroupId
-                             sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2S_GET_DELAY_REQ_55:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg55WithSwitch:self.aSwitch
-                        socketGroupId:self.socketGroupId
-                             sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2S_PHONE_INIT_REQ_59:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg59:self.aSwitch sendMode:PassiveMode];
-          } else {
-            [self noResponseTag:tag socketGroupId:self.socketGroupId];
-          }
-        }
-        break;
-      case P2D_GET_NAME_REQ_5D:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg5DWithSwitch:self.aSwitch sendMode:PassiveMode];
-          }
-        }
-        break;
-      case P2S_GET_NAME_REQ_5F:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg5FWithSwitch:self.aSwitch sendMode:PassiveMode];
-          }
-        }
-        break;
-      case P2S_GET_POWER_LOG_REQ_63:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg63:self.aSwitch
-                  beginTime:self.beginTime
-                    endTime:self.endTime
-                   interval:self.interval
-                   sendMode:PassiveMode];
-          }
-        }
-        break;
-      case P2S_GET_CITY_REQ_65:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg65:self.mac type:self.type sendMode:PassiveMode];
-          }
-        }
-        break;
-      case P2S_GET_CITY_WEATHER_REQ_67:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg67:self.mac
-                       type:self.type
-                   cityName:self.cityName
-                   sendMode:PassiveMode];
-          }
-        }
-        break;
-      case P2D_SET_PASSWD_REQ_69:
-        if (!self.responseData) {
-          if (self.msgSendCount < kTryCount) {
-            debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-            [self sendMsg69:self.oldPassword
-                newPassword:self.password
-                   sendMode:PassiveMode];
-          }
-        }
-        break;
-    }
-  }
+      }
+  });
 }
 
 - (void)noResponseTag:(long)tag socketGroupId:(int)socketGroupId {
