@@ -19,15 +19,16 @@ static dispatch_queue_t udp_send_serial_queue() {
   return sdzg_udp_send_serial_queue;
 }
 
-static dispatch_queue_t udp_send_concurrent_queue() {
-  static dispatch_queue_t sdzg_udp_send_concurrent_queue;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-      sdzg_udp_send_concurrent_queue = dispatch_queue_create(
-          "concureent.socketsend.com.itouchco.www", DISPATCH_QUEUE_CONCURRENT);
-  });
-  return sdzg_udp_send_concurrent_queue;
-}
+// static dispatch_queue_t udp_send_concurrent_queue() {
+//  static dispatch_queue_t sdzg_udp_send_concurrent_queue;
+//  static dispatch_once_t onceToken;
+//  dispatch_once(&onceToken, ^{
+//      sdzg_udp_send_concurrent_queue = dispatch_queue_create(
+//          "concureent.socketsend.com.itouchco.www",
+//          DISPATCH_QUEUE_CONCURRENT);
+//  });
+//  return sdzg_udp_send_concurrent_queue;
+//}
 
 @interface UdpRequest () <GCDAsyncUdpSocketDelegate>
 @property (nonatomic, assign) int msgSendCount;
@@ -1460,11 +1461,13 @@ static dispatch_queue_t delegateQueue;
   * By design, UDP is a connectionless protocol, and connecting is not needed.
   * However, you may optionally choose to connect to a particular host for
   * reasons
-  * outlined in the documentation for the various connect methods listed above.
+  * outlined in the documentation for the various connect methods listed
+  *above.
   *
   * This method is called if one of the connect methods are invoked, and the
   * connection fails.
-  * This may happen, for example, if a domain name is given for the host and the
+  * This may happen, for example, if a domain name is given for the host and
+  *the
   * domain name is unable to be resolved.
   */
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didNotConnect:(NSError *)error {

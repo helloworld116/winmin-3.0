@@ -62,6 +62,7 @@
                                SCREEN_WIDTH, tableViewHeight)
               style:UITableViewStylePlain];
   tableView.bounces = NO;
+  tableView.showsVerticalScrollIndicator = NO;
   tableView.dataSource = self;
   tableView.delegate = self;
   self.tableView = tableView;

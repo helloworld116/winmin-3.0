@@ -12,10 +12,247 @@
 #import <NCIZoomGraphView.h>
 #import "HistoryElec.h"
 
+typedef void (^successResponse)(void);
+typedef void (^failureResponse)(void);
+
+#pragma mark - MyOperation
+/**
+ Canonical, Concurrent Subclass of NSOperation
+ */
+
+#pragma mark - TestOperation
+@interface TestOperation : NSOperation {
+  BOOL executing;
+  BOOL finished;
+}
+@property (nonatomic, assign) BOOL isResponseSuccess;
+@property (nonatomic, assign) int outValue;
+- (id)initWithSuccess:(successResponse)success
+              failure:(failureResponse)failure
+             outValue:(int)outValue;
+@end
+
+@implementation TestOperation
+
+- (id)initWithSuccess:(successResponse)success
+              failure:(failureResponse)failure
+             outValue:(int)outValue {
+  self = [super init];
+  if (self) {
+    executing = NO;
+    finished = NO;
+    self.outValue = outValue;
+    [self setCompletionBlockWithSuccess:success failure:failure];
+  }
+  return self;
+}
+
+- (void)setCompletionBlockWithSuccess:(successResponse)success
+                              failure:(failureResponse)failure {
+  __weak typeof(self) weakSelf = self;
+  self.completionBlock = ^{
+      if (weakSelf.isResponseSuccess) {
+        if (success) {
+          success();
+        }
+      } else {
+        if (failure) {
+          failure();
+        }
+      }
+  };
+}
+
+- (void)start {
+  // Always check for cancellation before launching the task.
+  if ([self isCancelled]) {
+    // Must move the operation to the finished state if it is canceled.
+    [self willChangeValueForKey:@"isFinished"];
+    finished = YES;
+    [self didChangeValueForKey:@"isFinished"];
+    return;
+  }
+  // If the operation is not canceled, begin executing the task.
+  [self willChangeValueForKey:@"isExecuting"];
+  executing = YES;
+  [self main];
+  [self didChangeValueForKey:@"isExecuting"];
+}
+
+- (void)main {
+  @autoreleasepool {
+    if (![self isCancelled]) {
+      [self simulationUdpRequest];
+      while (!self.isResponseSuccess) {
+        // Do some work and set isDone to YES when finished
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate distantFuture]];
+      }
+      debugLog(@"out while");
+    }
+    [self completeOperation];
+  }
+}
+
+- (void)completeOperation {
+  [self willChangeValueForKey:@"isFinished"];
+  [self willChangeValueForKey:@"isExecuting"];
+  executing = NO;
+  finished = YES;
+  [self didChangeValueForKey:@"isExecuting"];
+  [self didChangeValueForKey:@"isFinished"];
+}
+
+- (void)cancel {
+  [super cancel];
+  //取消网络请求
+}
+
+//- (BOOL)isConcurrent {
+//  return YES;
+//}
+//
+//- (BOOL)isExecuting {
+//  return executing;
+//}
+//- (BOOL)isFinished {
+//  return finished;
+//}
+- (void)simulationUdpRequest {
+  dispatch_async(GLOBAL_QUEUE, ^{
+      for (int i = 0; i <= 500; i++) {
+        debugLog(@"i is %d j is %d", self.outValue, i);
+        if (i == 500) {
+          self.isResponseSuccess = YES;
+          self.completionBlock();
+          debugLog(@"response data recived");
+          [NSThread sleepForTimeInterval:1];
+        }
+      }
+  });
+  debugLog(@"request send");
+}
+
+@end
+
+//
+//
+//
+//
+//
+//
+#pragma mark - MyOperation
+//// MyOperation.h
+// typedef void (^MyOperationAction)(void);
+//@interface MyOperation : NSOperation
+//- (id)initWithAction:(MyOperationAction)action
+//             success:(successResponse)success
+//             failure:(failureResponse)failure;
+//@end
+//// MyOperation.m
+//
+// typedef NS_ENUM(NSInteger, MyOperationState) {
+//  MyOperationReadyState = 1,
+//  MyOperationExecutingState,
+//  MyOperationFinishedState
+//};
+//@interface MyOperation () {
+//  MyOperationAction _action;
+//  MyOperationState _state;
+//}
+//@property (nonatomic, copy) MyOperationAction action;
+//@property (nonatomic, assign) MyOperationState state;
+//@property (nonatomic, readonly, getter=isCancelled) BOOL cancel;
+//@end
+//
+//@implementation MyOperation
+//
+//#pragma mark - Override
+//- (BOOL)isConcurrent {
+//  return YES;
+//}
+//
+//- (BOOL)isExecuting {
+//  return self.state == MyOperationExecutingState;
+//}
+//
+//- (BOOL)isFinished {
+//  return self.state == MyOperationFinishedState;
+//}
+//
+//- (BOOL)isReady {
+//  return self.state == MyOperationReadyState;
+//}
+//
+//- (void)cancel {
+//  [self willChangeValueForKey:@"isCancelled"];
+//  _cancel = YES;
+//  [self didChangeValueForKey:@"isCancelled"];
+//}
+//
+//+ (void)keepThreadAlive {
+//  do {
+//    @autoreleasepool {
+//      [[NSRunLoop currentRunLoop] run];
+//    }
+//  } while (YES);
+//}
+//
+//+ (NSThread *)threadForMyOperation {
+//  static NSThread *_threadInstance = nil;
+//  static dispatch_once_t onceToken;
+//  dispatch_once(&onceToken, ^{
+//      _threadInstance =
+//          [[NSThread alloc] initWithTarget:self
+//                                  selector:@selector(keepThreadAlive)
+//                                    object:nil];
+//      _threadInstance.name = @"MyOperation.Thread";
+//      [_threadInstance start];
+//  });
+//  return _threadInstance;
+//}
+//
+//- (void)start {
+//  if ([self isReady]) {
+//
+//    [self willChangeValueForKey:@"isExecuting"];
+//    [self willChangeValueForKey:@"isReady"];
+//    _state = MyOperationExecutingState;
+//    [self didChangeValueForKey:@"isReady"];
+//    [self didChangeValueForKey:@"isExecuting"];
+//
+//    [self performSelector:@selector(operationDidStart)
+//                 onThread:[[self class] threadForMyOperation]
+//               withObject:nil
+//            waitUntilDone:NO];
+//  }
+//}
+//
+//- (void)operationDidStart {
+//  if (self.isCancelled) {
+//    [self willChangeValueForKey:@"isFinished"];
+//    [self willChangeValueForKey:@"isCancelled"];
+//    _state = MyOperationFinishedState;
+//    [self didChangeValueForKey:@"isCancelled"];
+//    [self didChangeValueForKey:@"isFinished"];
+//  } else {
+//    NSLog(@"Operation is running %@ thread", [NSThread currentThread]);
+//    self.action();
+//    [self willChangeValueForKey:@"isFinished"];
+//    [self willChangeValueForKey:@"isExecuting"];
+//    _state = MyOperationFinishedState;
+//    [self didChangeValueForKey:@"isExecuting"];
+//    [self didChangeValueForKey:@"isFinished"];
+//  }
+//}
+//@end
+
 @interface TestViewController ()
 //@property(nonatomic, strong) IBOutlet ElecRealTimeView *realTimeView;
-@property(nonatomic, strong) NCISimpleChartView *chartView;
-@property(nonatomic, strong) IBOutlet UIView *containerView;
+@property (nonatomic, strong) NCISimpleChartView *chartView;
+@property (nonatomic, strong) IBOutlet UIView *containerView;
+
+@property (nonatomic, strong) NSOperationQueue *queue;
 @end
 
 @implementation TestViewController
@@ -32,154 +269,34 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-
-  //  [self custom];
-  //  [self demo];
-
-  self.containerView.layer.masksToBounds = YES;
-  self.containerView.layer.cornerRadius = 10;
+  [self startQueue];
 }
 
-- (void)custom {
-    NCISimpleChartView *chart = [[NCISimpleChartView alloc]
-                                 initWithFrame:CGRectMake(10, 10, 300, 120)
-                                 andOptions:@{
-                                              nciGraphRenderer : [NCIZoomGraphView class],
-                                              nciIsSmooth : @[ @NO ],
-                                              nciIsFill : @[ @YES ],
-                                              nciLineColors : @[ [UIColor orangeColor] ],
-                                              nciLineWidths : @[ @1 ],
-                                              nciHasSelection : @NO,
-                                              nciShowPoints : @NO,
-                                              nciGridVertical : @{
-                                                      nciLineColor : [UIColor purpleColor],
-                                                      nciLineDashes : @[],
-                                                      nciLineWidth : @1
-                                                      },
-                                              nciGridHorizontal : @{
-                                                      nciLineColor : [UIColor clearColor],
-                                                      nciLineDashes : @[ ],
-                                                      nciLineWidth : @1
-                                                      },
-                                              nciGridColor : [[UIColor magentaColor] colorWithAlphaComponent:0.1],
-                                              nciGridLeftMargin : @0,
-                                              nciGridRightMargin : @20,
-                                              nciGridTopMargin : @0,
-                                              nciGridBottomMargin : @0,
-                                              nciUseDateFormatter :
-                                                  @YES,
-                                              nciYAxis : @{
-                                                      nciLineColor : [UIColor clearColor],
-                                                      nciLineDashes : @[],
-                                                      nciAxisShift : @260,
-                                                      nciLineWidth : @1,
-                                                      //                   nciLabelsFont : [UIFont systemFontOfSize:12],
-                                                      nciLabelsColor : [UIColor blackColor],
-                                                      nciLabelsDistance : @50,
-                                                      nciLabelRenderer : ^(double value) {
-        return [[NSAttributedString alloc]
-                initWithString:[NSString stringWithFormat:@"%.1f$", value]];
-}
-}
-, nciXAxis : @{
-               nciLineColor : [UIColor clearColor],
-               nciLineWidth : @2,
-               nciAxisShift : @120,
-               nciLineDashes : @[],
-               nciInvertedLabes : @NO,
-               nciLabelsDistance : @50,
-               nciUseDateFormatter : @YES
-             }
-}];
-[self.view addSubview:chart];
+- (void)startQueue {
+  self.queue = [[NSOperationQueue alloc] init];
+  self.queue.maxConcurrentOperationCount = 1;
 
-int numOfPoints = 90;
-for (int ind = 0; ind < numOfPoints; ind++) {
-  [chart addPoint:ind val:@[ @(arc4random() % 5) ]];
-}
-}
+  dispatch_async(GLOBAL_QUEUE, ^{
+      for (int i = 0; i < 5; i++) {
+        //        TestOperation *op = [[TestOperation alloc] initWithSuccess:^{
+        //            debugLog(@"i is %d", i);
+        //            //        [self.queue.operations[0] cancel];
+        //        } failure:^{
+        //
+        //        } outValue:i];
+        //        //        debugLog(@"1 start %d", i);
+        //        //        [op start];
+        //        //        debugLog(@"2 start %d", i);
+        //        //        [NSThread sleepForTimeInterval:1];
+        //        MyOperation *op = [[MyOperation alloc]
+        //            initWithCount:100
+        //               completion:^(id result) { debugLog(@"result is %@",
+        //               result); }];
+        //        [self.queue addOperation:op];
+      }
+  });
 
-- (void)demo {
-    NCISimpleChartView *simpleChart = [[NCISimpleChartView alloc]
-                                       initWithFrame:CGRectMake(10, 220, 300, 200)
-                                       andOptions: @{
-                                                     nciGraphRenderer : [NCIZoomGraphView class],
-                                                     nciIsFill: @[@(NO), @(NO)],
-                                                     nciIsSmooth: @[@(NO), @(YES)],
-                                                     nciLineColors: @[[UIColor orangeColor], [NSNull null]],
-                                                     nciLineWidths: @[@2, [NSNull null]],
-                                                     nciHasSelection: @NO,
-                                                     
-nciSelPointSizes :
-    @[ @10, [NSNull null] ],
-
-    //                                               nciTapGridAction: ^(double
-    //                                               argument, double value,
-    //                                               float xInGrid, float
-    //                                               yInGrid){
-    //
-    //    },
-    nciShowPoints :
-    @YES,
-    nciUseDateFormatter :
-    @YES,  // nciXLabelRenderer
-    nciXAxis :
-    @{
-      nciLineColor : [UIColor redColor],
-      nciLineDashes : @[],
-      nciLineWidth : @2,
-      nciLabelsFont : [UIFont fontWithName:@"MarkerFelt-Thin" size:12],
-      nciLabelsColor : [UIColor blueColor],
-      nciLabelsDistance : @120,
-      nciUseDateFormatter : @YES
-    },
-    nciYAxis :
-    @{
-      nciLineColor : [UIColor blackColor],
-      nciLineDashes : @[],
-      nciLineWidth : @1,
-      nciLabelsFont : [UIFont fontWithName:@"MarkerFelt-Thin" size:12],
-      nciLabelsColor : [UIColor brownColor],
-      nciLabelsDistance : @30,
-      nciLabelRenderer : ^(double value) {NSLog(@"demo value is %.1f", value);
-return [[NSAttributedString alloc]
-    initWithString:[NSString stringWithFormat:@"%.1f$", value]
-        attributes:@{
-          NSForegroundColorAttributeName : [UIColor brownColor],
-          NSFontAttributeName : [UIFont fontWithName:@"MarkerFelt-Thin" size:12]
-        }];
-}
-}
-, nciGridVertical : @{
-                      nciLineColor : [UIColor purpleColor],
-                      nciLineDashes : @[],
-                      nciLineWidth : @1
-                    },
-                    nciGridColor :
-                    [[UIColor magentaColor] colorWithAlphaComponent:0.1],
-                    nciGridLeftMargin : @50,
-                                        nciGridTopMargin : @50,
-                                                           nciGridBottomMargin :
-                                                           @40
-}];
-
-simpleChart.backgroundColor =
-    [[UIColor yellowColor] colorWithAlphaComponent:0.2];
-
-int numOfPoints = 10;
-double dataPeriod = 60 * 60 * 24 * 30;
-double step = dataPeriod / (numOfPoints - 1);
-for (int ind = 0; ind < numOfPoints; ind++) {
-  // to use default date formatter for Y axis, provide arguments as
-  // timeIntervalSince1970
-  // and set nciXLabelRenderer option to YES
-  [simpleChart
-      addPoint:[[NSDate dateWithTimeIntervalSinceNow:
-                            -dataPeriod + step * ind] timeIntervalSince1970]
-           val:@[ @(arc4random() % 5), @(arc4random() % 5) ]];
-}
-
-[self.view addSubview:simpleChart];
+  //  [self.queue waitUntilAllOperationsAreFinished];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -44,6 +44,8 @@
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
   backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
+
+  self.tableView.showsVerticalScrollIndicator = NO;
 }
 
 - (void)setup {
