@@ -55,4 +55,9 @@
   self.imgViewResult.image = [UIImage imageNamed:imgName];
   self.imgViewResult.hidden = NO;
 }
+
+- (void)beginExecute {
+  self.lblExcResult.text = NSLocalizedString(@"executing", nil);
+  ;
+}
 @end

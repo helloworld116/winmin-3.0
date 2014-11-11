@@ -119,6 +119,12 @@
   [self.view addSubview:shadowView];
 
   self.model = [[SceneExecuteModel alloc] init];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(sceneExecuteBegin:)
+             name:kSceneExecuteBeginNotification
+           object:self.model];
   [[NSNotificationCenter defaultCenter]
       addObserver:self
          selector:@selector(sceneExecuteResult:)
@@ -217,6 +223,24 @@
 }
 
 #pragma mark - 场景执行通知
+- (void)sceneExecuteBegin:(NSNotification *)notification {
+  NSDictionary *userInfo = notification.userInfo;
+  int row = [userInfo[@"row"] intValue];
+  NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+  SceneExcCell *cell =
+      (SceneExcCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+  dispatch_async(MAIN_QUEUE, ^{
+      if (indexPath.row < self.sceneDetails.count - 1) {
+        NSIndexPath *scollIndexPath =
+            [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:0];
+        [self.tableView scrollToRowAtIndexPath:scollIndexPath
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:YES];
+      }
+      [cell beginExecute];
+  });
+}
+
 - (void)sceneExecuteResult:(NSNotification *)notification {
   NSDictionary *userInfo = notification.userInfo;
   int row = [userInfo[@"row"] intValue];
@@ -239,6 +263,8 @@
 - (void)sceneExecuteFinished:(NSNotification *)notification {
   dispatch_async(MAIN_QUEUE, ^{
       self.lblStatus.text = NSLocalizedString(@"execute finished", nil);
+      [self.btnCancelOrOk setTitle:NSLocalizedString(@"Sure", nil)
+                          forState:UIControlStateNormal];
   });
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
                  MAIN_QUEUE, ^{ [self removeWindow]; });

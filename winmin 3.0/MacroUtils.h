@@ -42,13 +42,13 @@
 #define kCheckNetworkWebsite @"www.baidu.com"
 
 #define kCheckPrivateResponseInterval                                          \
-  0.8 //发送UDP内网请求后，检查是否有响应数据的间隔，单位为秒
+  1.0 //发送UDP内网请求后，检查是否有响应数据的间隔，单位为秒
 #define kCheckPublicResponseInterval                                           \
-  1.2 //发送UDP外网请求后，检查是否有响应数据的间隔，单位为秒
+  2.0 //发送UDP外网请求后，检查是否有响应数据的间隔，单位为秒
 #define kTryCount 3 //请求失败后自动尝试次数
 
 // UDP内网过期时间,单位秒
-#define kPrivateUDPTimeOut kCheckPrivateResponseInterval
+#define kPrivateUDPTimeOut 0.001
 // UDP外网过期时间,单位秒
 #define kPublicUDPTimeOut kCheckPublicResponseInterval
 
@@ -122,6 +122,7 @@
 #define kTimerEffectiveChangedNotifcation @"TimerEffectiveChangedNotifcation"
 
 #define kSceneAddOrUpdateNotification @"SceneAddOrUpdateNotification"
+#define kSceneExecuteBeginNotification @"SceneExecuteBeginNotification"
 #define kSceneExecuteResultNotification @"SceneExecuteResultNotification"
 #define kSceneExecuteFinishedNotification @"SceneExecuteFinishedNotification"
 #define kSceneFinishedWindowViewRemoveNotification                             \

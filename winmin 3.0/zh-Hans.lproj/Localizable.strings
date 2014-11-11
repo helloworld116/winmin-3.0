@@ -94,6 +94,7 @@
 "Please add one operation"="请添加一条操作";
 "is executing"="场景执行中...";
 "execute finished"="场景执行完成";
+"executing"="执行中";
 "execute success"="执行成功";
 "execute failure"="执行失败";
 "Living room"="客厅";

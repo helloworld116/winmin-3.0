@@ -183,8 +183,9 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
 }
 
 - (NSArray *)switchs {
-  //  return [self.switchsDict allValues];
-  return _switchs;
+  // TODO: 修复新扫描到的设备场景添加中找不到
+  return [self.switchsDict allValues];
+  //  return _switchs;
 }
 
 - (BOOL)isAllSwitchOffLine {

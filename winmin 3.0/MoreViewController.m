@@ -196,12 +196,11 @@
             instantiateViewControllerWithIdentifier:@"BookViewController"];
         break;
       case 4:
-        //        [[UIApplication sharedApplication]
-        //            openURL:[NSURL
-        //            URLWithString:@"http://shop111398559.taobao.com"]];
-        //        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        nextController = [self.storyboard
-            instantiateViewControllerWithIdentifier:@"TestViewController"];
+        [[UIApplication sharedApplication]
+            openURL:[NSURL URLWithString:@"http://shop111398559.taobao.com"]];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        //        nextController = [self.storyboard
+        //            instantiateViewControllerWithIdentifier:@"TestViewController"];
 
         break;
       default:

@@ -693,9 +693,7 @@ static dispatch_queue_t delegateQueue;
          sendMode:(SENDMODE)mode {
   dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2S_GET_POWER_LOG_REQ_63 socketGroupId:0];
       } else {
         if (mode == ActiveMode) {
           self.msgSendCount = 0;
@@ -722,9 +720,7 @@ static dispatch_queue_t delegateQueue;
 - (void)sendMsg65:(NSString *)mac type:(int)type sendMode:(SENDMODE)mode {
   dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2S_GET_CITY_REQ_65 socketGroupId:0];
       } else {
         if (mode == ActiveMode) {
           self.msgSendCount = 0;
@@ -748,9 +744,7 @@ static dispatch_queue_t delegateQueue;
          sendMode:(SENDMODE)mode {
   dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2S_GET_CITY_WEATHER_REQ_67 socketGroupId:0];
       } else {
         if (mode == ActiveMode) {
           self.msgSendCount = 0;
@@ -775,9 +769,7 @@ static dispatch_queue_t delegateQueue;
          sendMode:(SENDMODE)mode {
   dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2D_SET_PASSWD_REQ_69 socketGroupId:0];
       } else {
         if (mode == ActiveMode) {
           self.msgSendCount = 0;
@@ -834,15 +826,15 @@ static dispatch_queue_t delegateQueue;
           [self sendMsg13WithSwitch:aSwitch
                       socketGroupId:socketGroupId
                            sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_CONTROL_REQ_11 socketGroupId:socketGroupId];
         }
       } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
         [self sendMsg13WithSwitch:aSwitch
                     socketGroupId:socketGroupId
                          sendMode:mode];
       } else if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2D_CONTROL_REQ_11 socketGroupId:socketGroupId];
       }
   });
 }
@@ -861,15 +853,15 @@ static dispatch_queue_t delegateQueue;
           [self sendMsg19WithSwitch:aSwitch
                       socketGroupId:socketGroupId
                            sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_GET_TIMER_REQ_17 socketGroupId:socketGroupId];
         }
       } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
         [self sendMsg19WithSwitch:aSwitch
                     socketGroupId:socketGroupId
                          sendMode:mode];
       } else if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2D_GET_TIMER_REQ_17 socketGroupId:socketGroupId];
       }
   });
 }
@@ -891,6 +883,8 @@ static dispatch_queue_t delegateQueue;
                       socketGroupId:socketGroupId
                            timeList:timeList
                            sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_SET_TIMER_REQ_1D socketGroupId:socketGroupId];
         }
       } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
         [self sendMsg1FWithSwitch:aSwitch
@@ -898,9 +892,7 @@ static dispatch_queue_t delegateQueue;
                          timeList:timeList
                          sendMode:mode];
       } else if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2D_SET_TIMER_REQ_1D socketGroupId:socketGroupId];
       }
   });
 }
@@ -913,13 +905,13 @@ static dispatch_queue_t delegateQueue;
           [self sendMsg33WithSwitch:aSwitch sendMode:mode];
         } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
           [self sendMsg35WithSwitch:aSwitch sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_GET_POWER_INFO_REQ_33 socketGroupId:0];
         }
       } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
         [self sendMsg35WithSwitch:aSwitch sendMode:mode];
       } else if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2D_GET_POWER_INFO_REQ_33 socketGroupId:0];
       }
   });
 }
@@ -935,13 +927,13 @@ static dispatch_queue_t delegateQueue;
           [self sendMsg39WithSwitch:aSwitch on:on sendMode:mode];
         } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
           [self sendMsg3BWithSwitch:aSwitch on:on sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_LOCATE_REQ_39 socketGroupId:0];
         }
       } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
         [self sendMsg3BWithSwitch:aSwitch on:on sendMode:mode];
       } else if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2D_LOCATE_REQ_39 socketGroupId:0];
       }
   });
 }
@@ -957,13 +949,13 @@ static dispatch_queue_t delegateQueue;
           [self sendMsg3FWithSwitch:aSwitch type:type name:name sendMode:mode];
         } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
           [self sendMsg41WithSwitch:aSwitch type:type name:name sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_SET_NAME_REQ_3F socketGroupId:0];
         }
       } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
         [self sendMsg41WithSwitch:aSwitch type:type name:name sendMode:mode];
       } else if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2D_SET_NAME_REQ_3F socketGroupId:0];
       }
   });
 }
@@ -976,13 +968,13 @@ static dispatch_queue_t delegateQueue;
           [self sendMsg47WithSwitch:aSwitch sendMode:mode];
         } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
           [self sendMsg49WithSwitch:aSwitch sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_DEV_LOCK_REQ_47 socketGroupId:0];
         }
       } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
         [self sendMsg49WithSwitch:aSwitch sendMode:mode];
       } else if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2D_DEV_LOCK_REQ_47 socketGroupId:0];
       }
   });
 }
@@ -1007,6 +999,8 @@ static dispatch_queue_t delegateQueue;
                           delayTime:delayTime
                            switchOn:on
                            sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_SET_DELAY_REQ_4D socketGroupId:socketGroupId];
         }
       } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
         [self sendMsg4FWithSwitch:aSwitch
@@ -1015,9 +1009,7 @@ static dispatch_queue_t delegateQueue;
                          switchOn:on
                          sendMode:mode];
       } else if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2D_SET_DELAY_REQ_4D socketGroupId:socketGroupId];
       }
   });
 }
@@ -1036,15 +1028,15 @@ static dispatch_queue_t delegateQueue;
           [self sendMsg55WithSwitch:aSwitch
                       socketGroupId:socketGroupId
                            sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_GET_DELAY_REQ_53 socketGroupId:socketGroupId];
         }
       } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
         [self sendMsg55WithSwitch:aSwitch
                     socketGroupId:socketGroupId
                          sendMode:mode];
       } else if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2D_GET_DELAY_REQ_53 socketGroupId:socketGroupId];
       }
   });
 }
@@ -1057,13 +1049,13 @@ static dispatch_queue_t delegateQueue;
           [self sendMsg5DWithSwitch:aSwitch sendMode:mode];
         } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
           [self sendMsg5FWithSwitch:aSwitch sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_GET_NAME_REQ_5D socketGroupId:0];
         }
       } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
         [self sendMsg5FWithSwitch:aSwitch sendMode:mode];
       } else if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
+        [self noResponseTag:P2D_GET_NAME_REQ_5D socketGroupId:0];
       }
   });
 }
@@ -1502,7 +1494,7 @@ static dispatch_queue_t delegateQueue;
     didNotSendDataWithTag:(long)tag
                dueToError:(NSError *)error {
   //  int triedCount = 0;
-  //  debugLog(@"didNotSendDataWithTag :%ld", tag);
+  debugLog(@"didNotSendDataWithTag :%ld", tag);
   //  if ([self.delegate
   //  respondsToSelector:@selector(noSendMsgtag:triedCount:)]) {
   //    [self.delegate noSendMsgtag:tag triedCount:triedCount];

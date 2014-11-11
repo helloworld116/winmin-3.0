@@ -952,7 +952,7 @@ typedef struct {
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
   NSData *nameData = [name dataUsingEncoding:NSUTF8StringEncoding];
-  memcpy(&msg.name, [nameData bytes], [name length]);
+  memcpy(&msg.name, [nameData bytes], [nameData length]);
   NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
   memcpy(&msg.password, [passwordData bytes], [password length]);
   msg.type = type;
