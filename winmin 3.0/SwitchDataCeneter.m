@@ -26,7 +26,6 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
 - (id)init {
   self = [super init];
   if (self) {
-    // TODO: 从本地文件加载
     self.switchs = [[DBUtil sharedInstance] getSwitchs];
     _switchsDict = [[NSMutableDictionary alloc] init];
     _switchTmpDict = [[NSMutableDictionary alloc] init];

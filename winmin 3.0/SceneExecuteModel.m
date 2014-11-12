@@ -56,10 +56,14 @@ static dispatch_queue_t scene_recive_serial_queue() {
   if (self.taskCount) {
     __weak typeof(self) weakSelf = self;
     self.response = ^(NSMutableArray *details) {
-        [weakSelf executeFirstOperationInSceneDetails:details];
+        if (details.count) {
+          [weakSelf executeFirstOperationInSceneDetails:details];
+        }
     };
     self.noResponse = ^(NSMutableArray *details) {
-        [weakSelf executeFirstOperationInSceneDetails:details];
+        if (details.count) {
+          [weakSelf executeFirstOperationInSceneDetails:details];
+        }
     };
 
     self.remainingSceneDetails = [sceneDetails mutableCopy];
@@ -70,7 +74,7 @@ static dispatch_queue_t scene_recive_serial_queue() {
 
 - (void)executeFirstOperationInSceneDetails:(NSMutableArray *)sceneDetails {
   //  __block NSMutableArray *block_sceneDetails = sceneDetails;
-  dispatch_async(GLOBAL_QUEUE, ^{
+  dispatch_async(scene_recive_serial_queue(), ^{
       SceneDetail *sceneDetail = [sceneDetails firstObject];
       if (sceneDetail) {
         SDZGSwitch *aSwitch = sceneDetail.aSwitch;
@@ -78,20 +82,27 @@ static dispatch_queue_t scene_recive_serial_queue() {
         socket.socketStatus = !sceneDetail.onOrOff;
 
         NSOperation *op = [NSBlockOperation blockOperationWithBlock:^{
+            SENDMODE mode;
             self.executeSuccess = NO;
-            self.sendMsgCount++;
-            self.socketGroupId = sceneDetail.groupId;
-            self.mac = aSwitch.mac;
+            if (!(self.socketGroupId == sceneDetail.groupId &&
+                  self.mac == aSwitch.mac)) {
+              self.socketGroupId = sceneDetail.groupId;
+              self.mac = aSwitch.mac;
+              self.sendMsgCount++;
+              NSDictionary *userInfo = @{ @"row" : @(self.sendMsgCount - 1) };
+              [[NSNotificationCenter defaultCenter]
+                  postNotificationName:kSceneExecuteBeginNotification
+                                object:self
+                              userInfo:userInfo];
+              [NSThread sleepForTimeInterval:0.5f];
+              mode = ActiveMode;
+            } else {
+              mode = PassiveMode;
+            }
             debugLog(@"sendMsgCount is %d", self.sendMsgCount);
-            NSDictionary *userInfo = @{ @"row" : @(self.sendMsgCount - 1) };
-            [[NSNotificationCenter defaultCenter]
-                postNotificationName:kSceneExecuteBeginNotification
-                              object:self
-                            userInfo:userInfo];
-            [NSThread sleepForTimeInterval:0.5f];
             [self.request sendMsg11Or13:aSwitch
                           socketGroupId:sceneDetail.groupId
-                               sendMode:ActiveMode];
+                               sendMode:mode];
         }];
         [op start];
       }
@@ -141,6 +152,10 @@ static dispatch_queue_t scene_recive_serial_queue() {
       [self sendNotification];
       self.noResponse(self.remainingSceneDetails);
     }
+  } else {
+    // TODO:udp包超时后回应，导致前一条请求的响应当做了后一条请求的响应
+    //    [self sendNotification];
+    self.noResponse(self.remainingSceneDetails);
   }
 }
 

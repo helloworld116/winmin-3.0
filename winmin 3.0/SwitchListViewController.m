@@ -104,6 +104,7 @@
                           sharedInstance] switchsWithChangeStatus];
                   if (aSwitch) {
                     aSwitch.networkStatus = SWITCH_NEW;
+                    aSwitch.name = NSLocalizedString(@"Smart Switch", nil);
                     self.switchs = switchs;
                     dispatch_async(MAIN_QUEUE,
                                    ^{ [self.tableView reloadData]; });

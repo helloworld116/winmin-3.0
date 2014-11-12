@@ -13,7 +13,7 @@
 #define kBigRoundStrokeColor kThemeColor
 #define kBigRoundFillColor kThemeColor
 #define kTextColor kThemeColor
-#define str(value) [NSString stringWithFormat:@"%.2fw", value]
+#define str(value) [NSString stringWithFormat:@"%.1fw", value]
 #define kTopMargin 10 //上边距
 #define kLeftMargin 4 //左边距
 #define kCount 8      //显示点个数
@@ -33,13 +33,12 @@ static CGFloat scaleX;
 
 - (void)start {
   __weak id weakSelf = self;
-  static double delayInSeconds = 5;
   self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,
                                       dispatch_get_main_queue());
   dispatch_time_t delayTime =
       dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
   dispatch_source_set_timer(_timer, delayTime,
-                            (unsigned)(delayInSeconds * NSEC_PER_SEC), 0);
+                            (unsigned)(kElecRefreshInterval * NSEC_PER_SEC), 0);
   dispatch_source_set_event_handler(_timer, ^{ [weakSelf updateView]; });
   dispatch_resume(_timer);
 }
@@ -84,20 +83,6 @@ static CGFloat scaleX;
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
-  if (self.points.count == 0) {
-    return;
-  }
-
-  // Drawing code
-  CGContextRef context = UIGraphicsGetCurrentContext();
-
-  //创建句柄
-  CGMutablePathRef pathRef = CGPathCreateMutable();
-  CGContextSetLineCap(context, kCGLineCapRound);
-  CGContextSetLineJoin(context, kCGLineJoinRound);
-  CGContextSetLineWidth(context, 1);
-  CGContextSetStrokeColorWithColor(context, kLineColor.CGColor);
-  CGContextSetFillColorWithColor(context, kFillColor.CGColor);
   int maxValue = [[self.points valueForKeyPath:@"@max.self"] integerValue];
   CGFloat height = rect.size.height - kTopMargin; //离上边距
   CGFloat scaleY = 1;
@@ -108,7 +93,33 @@ static CGFloat scaleX;
     }
   }
 
+  // Drawing code
+  CGContextRef context = UIGraphicsGetCurrentContext();
+
+  //创建句柄
+  //绘制分割线
+  CGMutablePathRef pathRef = CGPathCreateMutable();
+  CGContextSetLineWidth(context, 0.5f);
+  CGContextSetStrokeColorWithColor(context, kThemeColor.CGColor);
+  for (int i = 0; i < kCount; i++) {
+    CGPathMoveToPoint(pathRef, NULL, kLeftMargin + i * scaleX, 0);
+    CGPathAddLineToPoint(pathRef, NULL, kLeftMargin + i * scaleX,
+                         rect.size.height);
+  }
+  CGContextAddPath(context, pathRef);
+  CGContextDrawPath(context, kCGPathStroke);
+  CGPathRelease(pathRef);
+  if (self.points.count == 0) {
+    return;
+  }
+
   //画线
+  pathRef = CGPathCreateMutable();
+  CGContextSetLineCap(context, kCGLineCapRound);
+  CGContextSetLineJoin(context, kCGLineJoinRound);
+  CGContextSetLineWidth(context, 1);
+  CGContextSetStrokeColorWithColor(context, kLineColor.CGColor);
+  CGContextSetFillColorWithColor(context, kFillColor.CGColor);
   for (int i = 0; i < self.points.count; i++) {
     double point = [[self.points objectAtIndex:i] doubleValue];
     CGFloat x = scaleX * i + kLeftMargin,
@@ -178,18 +189,32 @@ static CGFloat scaleX;
     double point = [[self.points objectAtIndex:i] doubleValue];
     CGFloat textOffset;
     if (i == 0) {
-      textOffset = 0.f;
-    } else if (i == self.points.count - 1) {
-      textOffset = -16.f;
+      textOffset = 1.f;
     } else {
       textOffset = -8.f;
     }
+    if (self.points.count >= kCount && i == self.points.count - 1) {
+      textOffset = -16.f;
+    }
     CGFloat y = height - (point * scaleY);
-    if (y < kTopMargin) {
+    if (point <= 10) {
+      //值小于10，文字显示在上方
+      if (y < kTopMargin) {
+        y += kTopMargin;
+      } else {
+        y -= kTopMargin;
+      }
+    } else if (point > height / scaleY - kTopMargin) {
       y += kTopMargin;
     } else {
-      y -= kTopMargin;
+      //根据位置显示在上方或下方
+      if (i % 2 == 0) {
+        y -= kTopMargin;
+      } else {
+        y += kTopMargin;
+      }
     }
+
     CGPoint cPoint = CGPointMake(scaleX * i + textOffset, y);
     [self drawAtPoint:cPoint withStr:str(point)];
   }

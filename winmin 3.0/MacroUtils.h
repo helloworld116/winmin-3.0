@@ -164,6 +164,9 @@ static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
 
 #define REFRESH_DEV_TIME 10
 
+static float const kElecRefreshInterval = 3.f;
+static float const kElecDiff = 3.4f;
+
 #define BROADCAST_ADDRESS @"255.255.255.255"
 
 #define GLOBAL_QUEUE                                                           \

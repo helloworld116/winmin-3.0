@@ -8,7 +8,6 @@
 
 #import "SwitchDetailModel.h"
 #import "HistoryElec.h"
-#define kElecRefreshInterval 5
 
 @interface SwitchDetailModel () <UdpRequestDelegate>
 @property (strong, nonatomic) NSTimer *timer;
@@ -236,7 +235,7 @@
 
 - (void)responseMsg34Or36:(CC3xMessage *)message {
   debugLog(@"power is %f", message.power);
-  float diff = message.power - 3.4f;
+  float diff = message.power - kElecDiff;
   float power = diff > 0 ? diff : 0.f;
   NSDictionary *userInfo = @{ @"power" : @(power) };
   [[NSNotificationCenter defaultCenter]

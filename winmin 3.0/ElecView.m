@@ -140,10 +140,6 @@
   } else {
     [self.realTimeView stop];
   }
-}
-
-- (void)showChart:(HistoryElecData *)data
-         dateType:(HistoryElecDateType)dateType {
   if (!self.dateFormatter) {
     self.dateFormatter = [[NSDateFormatter alloc] init];
   }
@@ -152,6 +148,10 @@
   } else {
     [self.dateFormatter setDateFormat:@"MM-dd"];
   }
+}
+
+- (void)showChart:(HistoryElecData *)data
+         dateType:(HistoryElecDateType)dateType {
   CGRect frame = self.containerView.bounds;
   frame.size.width -= 20;
     NCISimpleChartView *chart = [[NCISimpleChartView alloc] initWithFrame:frame
@@ -198,9 +198,9 @@
       nciAxisShift : @(frame.size.height - 20),
       nciLineDashes : @[],
       nciInvertedLabes : @NO,
-      nciLabelsDistance : @50,
+      nciLabelsDistance : @40,
       //               nciUseDateFormatter : @YES
-      nciLabelRenderer : ^(double value) { NSTimeInterval interval = value;
+      nciLabelRenderer : ^(double value){ NSTimeInterval interval = value;
 NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
 return [self.dateFormatter stringFromDate:date];
 }

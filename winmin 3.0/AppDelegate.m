@@ -120,6 +120,8 @@
   [[UITabBar appearance]
       setBarTintColor:[UIColor colorWithHexString:@"#F0EFEF"]];
   [[UITabBar appearance] setSelectedImageTintColor:[UIColor whiteColor]];
+  //修复在iOS7.0下选中图片设置无效的bug
+  [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
 }
 
 - (void)setData {
@@ -129,13 +131,13 @@
 - (void)registPlatform {
   [ShareSDK registerApp:@"3603417cd788"];
   //添加QQ应用  注册网址  http://mobile.qq.com/api/
-  [ShareSDK connectQQWithQZoneAppKey:@"1102403177"
+  [ShareSDK connectQQWithQZoneAppKey:@"1103439550"
                    qqApiInterfaceCls:[QQApiInterface class]
                      tencentOAuthCls:[TencentOAuth class]];
 
   //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
-  [ShareSDK connectQZoneWithAppKey:@"1102403177"
-                         appSecret:@"ciTN5giKaXVTUD7s"
+  [ShareSDK connectQZoneWithAppKey:@"1103439550"
+                         appSecret:@"PMgcuxrYBiQT69oa"
                  qqApiInterfaceCls:[QQApiInterface class]
                    tencentOAuthCls:[TencentOAuth class]];
   //

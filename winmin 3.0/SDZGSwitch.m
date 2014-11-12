@@ -32,11 +32,21 @@
         @[ socket_default_image, socket_default_image, socket_default_image ];
     [aSwitch.sockets addObject:socket2];
     aSwitch.imageName = switch_default_image;
+    aSwitch.mac = message.mac;
+    aSwitch.ip = message.ip;
+    aSwitch.port = message.port;
+    aSwitch.name = message.deviceName;
+    debugLog(@"device name is %@", message.deviceName);
+    aSwitch.version = message.version;
+    aSwitch.lockStatus = message.lockStatus;
+    aSwitch.lastUpdateInterval = current;
   } else {
     needToDBImmediately = NO;
     aSwitch = [[SwitchDataCeneter sharedInstance].switchsDict
         objectForKey:message.mac];
     NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
+    debugLog(@"switch mac is %@ and thread is %@ diff is %f", aSwitch.mac,
+             [NSThread currentThread], diff);
     //内网外网都返回时，时间间隔大于刷新时间一半就更新设备，否则不更新设备，认为是外网响应
     if (diff > REFRESH_DEV_TIME / 2) {
       NSMutableArray *sockets = aSwitch.sockets;
@@ -47,25 +57,31 @@
       if (aSwitch.networkStatus != SWITCH_NEW) {
         if (message.msgId == 0xc) {
           aSwitch.networkStatus = SWITCH_LOCAL;
+          aSwitch.lastUpdateInterval = current;
         } else if (message.msgId == 0xe) {
-          if (diff > 2 * REFRESH_DEV_TIME) {
+          if (aSwitch.networkStatus == SWITCH_LOCAL) {
+            if (diff > 2 * REFRESH_DEV_TIME) {
+              aSwitch.networkStatus = SWITCH_REMOTE;
+              aSwitch.lastUpdateInterval = current;
+            }
+          } else {
             aSwitch.networkStatus = SWITCH_REMOTE;
+            aSwitch.lastUpdateInterval = current;
           }
         }
       } else {
-        // TODO:
+        aSwitch.lastUpdateInterval = current;
       }
+      aSwitch.mac = message.mac;
+      aSwitch.ip = message.ip;
+      aSwitch.port = message.port;
+      aSwitch.name = message.deviceName;
+      aSwitch.version = message.version;
+      aSwitch.lockStatus = message.lockStatus;
     } else {
       return nil;
     }
   }
-  aSwitch.mac = message.mac;
-  aSwitch.ip = message.ip;
-  aSwitch.port = message.port;
-  aSwitch.name = message.deviceName;
-  aSwitch.version = message.version;
-  aSwitch.lockStatus = message.lockStatus;
-  aSwitch.lastUpdateInterval = current;
   if (needToDBImmediately && aSwitch.sockets.count == 2) {
     [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
     [[DBUtil sharedInstance] saveSwitch:aSwitch];
