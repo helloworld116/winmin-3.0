@@ -85,9 +85,8 @@
   if (needToDBImmediately && aSwitch.sockets.count == 2) {
     [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
     [[DBUtil sharedInstance] saveSwitch:aSwitch];
-    return aSwitch;
   }
-  return nil;
+  return aSwitch;
 }
 
 + (UIImage *)imgNameToImage:(NSString *)imgName {

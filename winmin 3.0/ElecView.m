@@ -188,7 +188,7 @@
                   nciLabelsDistance : @((int)(frame.size.height/6)),
                   nciLabelRenderer : ^(double value) {
     return [[NSAttributedString alloc]
-    initWithString:[NSString stringWithFormat:@"%.1fw", value]];
+    initWithString:[NSString stringWithFormat:@"%.1fW", value]];
 }
 }
 , nciXAxis :

@@ -156,13 +156,15 @@ static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
 // static NSString *const BaseURLString =
 // @"http://183.63.35.203:18080/ais/api/";
 
+static NSString *const AboutUsURLString = @"http://www.itouchco.com/";
+
 #define SERVER_PORT 20002
 
 #define APP_PORT 43690
 
 #define DEVICE_PORT 56797
 
-#define REFRESH_DEV_TIME 10
+#define REFRESH_DEV_TIME 5
 
 static float const kElecRefreshInterval = 3.f;
 static float const kElecDiff = 3.4f;

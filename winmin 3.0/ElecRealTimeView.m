@@ -13,7 +13,7 @@
 #define kBigRoundStrokeColor kThemeColor
 #define kBigRoundFillColor kThemeColor
 #define kTextColor kThemeColor
-#define str(value) [NSString stringWithFormat:@"%.1fw", value]
+#define str(value) [NSString stringWithFormat:@"%.1fW", value]
 #define kTopMargin 10 //上边距
 #define kLeftMargin 4 //左边距
 #define kCount 8      //显示点个数

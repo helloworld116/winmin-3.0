@@ -25,6 +25,10 @@
   return self;
 }
 
+- (void)dealloc {
+  self.request.delegate = nil;
+}
+
 - (void)startScanState {
   _isScanningState = YES;
   self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
@@ -51,8 +55,19 @@
 }
 
 - (void)addSwitchWithMac:(NSString *)mac {
-  self.mac = mac;
-  [self refreshSwitchList];
+  SDZGSwitch *aSwitch = [SwitchDataCeneter sharedInstance].switchsDict[mac];
+  if (aSwitch) {
+    aSwitch.networkStatus = SWITCH_NEW;
+    aSwitch.name = NSLocalizedString(@"Smart Switch", nil);
+    NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+    NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+    for (SDZGSwitch *aSwitch in switchs) {
+      aSwitch.lastUpdateInterval = current;
+    }
+  } else {
+    self.mac = mac;
+    [self refreshSwitchList];
+  }
 }
 
 //扫描设备

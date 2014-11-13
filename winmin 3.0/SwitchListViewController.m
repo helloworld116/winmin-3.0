@@ -23,6 +23,7 @@
     float delayInterval; //设备状态请求成功后，延时多长时间刷新页面上的设备状态
 @property (strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
 @property (assign, nonatomic) BOOL reloading;
+@property (nonatomic, strong) NSString *mac; //刚配置好的设备mac
 @end
 
 @implementation SwitchListViewController
@@ -93,24 +94,26 @@
                    queue:nil
               usingBlock:^(NSNotification *note) {
                   NSString *mac = note.userInfo[@"mac"];
-                  NSTimeInterval current =
-                      [[NSDate date] timeIntervalSince1970];
-                  for (SDZGSwitch *aSwitch in self.switchs) {
-                    aSwitch.lastUpdateInterval = current;
-                  }
-                  SDZGSwitch *aSwitch =
-                      [SwitchDataCeneter sharedInstance].switchsDict[mac];
-                  NSArray *switchs = [[SwitchDataCeneter
-                          sharedInstance] switchsWithChangeStatus];
-                  if (aSwitch) {
-                    aSwitch.networkStatus = SWITCH_NEW;
-                    aSwitch.name = NSLocalizedString(@"Smart Switch", nil);
-                    self.switchs = switchs;
-                    dispatch_async(MAIN_QUEUE,
-                                   ^{ [self.tableView reloadData]; });
-                  } else {
-                    [self.model addSwitchWithMac:mac];
-                  }
+                  [self.model addSwitchWithMac:mac];
+                  dispatch_async(MAIN_QUEUE, ^{ [self.tableView reloadData]; });
+                  //                  self.mac = mac;
+                  //                  SDZGSwitch *aSwitch =
+                  //                      [SwitchDataCeneter
+                  //                      sharedInstance].switchsDict[mac];
+                  //                  NSArray *switchs = [[SwitchDataCeneter
+                  //                          sharedInstance]
+                  //                          switchsWithChangeStatus];
+                  //                  if (aSwitch) {
+                  //                    aSwitch.networkStatus = SWITCH_NEW;
+                  //                    aSwitch.name = NSLocalizedString(@"Smart
+                  //                    Switch", nil);
+                  //                    self.switchs = switchs;
+                  //                    dispatch_async(MAIN_QUEUE,
+                  //                                   ^{ [self.tableView
+                  //                                   reloadData]; });
+                  //                  } else {
+                  //
+                  //                  }
               }];
 
   //下拉刷新
@@ -134,6 +137,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+  NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+  for (SDZGSwitch *aSwitch in switchs) {
+    aSwitch.lastUpdateInterval = current;
+  }
   [self.model startScanState];
   // model层修改数据，指定时间后，页面统一修改
   [self startUpdateList];
@@ -264,7 +272,7 @@
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
   if (aSwitch.networkStatus == SWITCH_OFFLINE) {
-    [self.view
+    [self.tableView
         makeToast:NSLocalizedString(
                       @"Device offline, Please check your network", nil)];
     return;

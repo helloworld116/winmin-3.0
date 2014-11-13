@@ -134,7 +134,7 @@ static dispatch_queue_t delegateQueue;
     case P2D_GET_DELAY_REQ_53:
     case P2D_GET_NAME_REQ_5D:
     case P2D_SET_PASSWD_REQ_69: {
-      dispatch_sync(udp_send_serial_queue(), ^{
+      dispatch_async(udp_send_serial_queue(), ^{
           [self.udpSocket sendData:self.msg
                             toHost:self.host
                               port:self.port

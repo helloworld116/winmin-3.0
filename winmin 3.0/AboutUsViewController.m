@@ -8,7 +8,7 @@
 
 #import "AboutUsViewController.h"
 
-static NSString *kAPPURL = @"http://itunes.apple.com/lookup?id=935562573";
+static NSString *const kAPPURL = @"http://itunes.apple.com/lookup?id=935562573";
 
 @interface AboutUsViewController ()
 @property (nonatomic, strong) IBOutlet UILabel *lblVersion;
@@ -72,6 +72,8 @@ preparation before navigation
 }
 
 - (IBAction)moreInfo:(id)sender {
+  [[UIApplication sharedApplication]
+      openURL:[NSURL URLWithString:AboutUsURLString]];
 }
 
 - (void)onCheckVersion:(NSString *)currentVersion {

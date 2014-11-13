@@ -25,6 +25,10 @@
   return self;
 }
 
+- (void)dealloc {
+  self.request.delegate = nil;
+}
+
 - (void)queryDelay {
   dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg53Or55]; });
 }

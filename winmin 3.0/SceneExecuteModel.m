@@ -49,6 +49,7 @@ static dispatch_queue_t scene_recive_serial_queue() {
 
 - (void)dealloc {
   //  [self.queue removeObserver:self forKeyPath:@"operations"];
+  self.request.delegate = nil;
 }
 
 - (void)executeSceneDetails:(NSArray *)sceneDetails {

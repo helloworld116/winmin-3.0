@@ -37,6 +37,12 @@
   return self;
 }
 
+- (void)dealloc {
+  self.request1.delegate = nil;
+  self.request2.delegate = nil;
+  self.request3.delegate = nil;
+}
+
 - (void)openOrCloseWithGroupId:(int)groupId {
   dispatch_async(GLOBAL_QUEUE,
                  ^{ [self sendMsg11Or13:self.aSwitch groupId:groupId]; });

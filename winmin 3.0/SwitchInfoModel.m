@@ -24,6 +24,10 @@
   return self;
 }
 
+- (void)dealloc {
+  self.request.delegate = nil;
+}
+
 - (void)changeSwitchLockStatus {
   dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg47Or49]; });
 }

@@ -30,6 +30,10 @@
   return self;
 }
 
+- (void)dealloc {
+  self.request.delegate = nil;
+}
+
 - (void)queryTimers {
   dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg17Or19]; });
 }

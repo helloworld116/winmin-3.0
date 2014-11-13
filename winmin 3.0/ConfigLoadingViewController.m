@@ -68,6 +68,9 @@
   // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+}
+
 - (void)success {
   self.request = nil;
   [self.timer invalidate];
@@ -142,6 +145,7 @@
 }
 
 - (void)sendAction {
+  [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
   @try {
     debugLog(@"begin");
     [self.config transmitSettings];
@@ -155,6 +159,10 @@
 }
 
 - (void)stopAction {
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{
+      [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+  });
   debugLog(@"%s begin", __PRETTY_FUNCTION__);
   @try {
     [self.config stopTransmitting];
