@@ -101,18 +101,44 @@
 
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
+  [self viewAppearOrEnterForeground];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  [self viewDisappearOrEnterBackground];
+}
+
+- (void)viewDisappearOrEnterBackground {
+  [self.model stopRealTimeElec];
+  [self.elecView stopRealTimeDraw];
+  [self.model stopScanSwitchState];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(applicationWillEnterForegroundNotification:)
+             name:UIApplicationWillEnterForegroundNotification
+           object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(applicationDidEnterBackgroundNotification:)
+             name:UIApplicationDidEnterBackgroundNotification
+           object:nil];
+}
+
+- (void)viewAppearOrEnterForeground {
   [self.model startScanSwitchState];
   //从详情、定时和延时页面返回时如果选中的是实时则开启刷新
   if (self.showingRealTimeElecView) {
     self.showingRealTimeElecView = YES;
   }
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
-  [self.model stopRealTimeElec];
-  [self.elecView stopRealTimeDraw];
-  [self.model stopScanSwitchState];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIApplicationWillEnterForegroundNotification
+              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIApplicationDidEnterBackgroundNotification
+              object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -299,6 +325,14 @@ preparation before navigation
           break;
       }
   });
+}
+
+- (void)applicationWillEnterForegroundNotification:(NSNotification *)notif {
+  [self viewAppearOrEnterForeground];
+}
+
+- (void)applicationDidEnterBackgroundNotification:(NSNotification *)notif {
+  [self viewDisappearOrEnterBackground];
 }
 
 #pragma mark - 观察显示view变化

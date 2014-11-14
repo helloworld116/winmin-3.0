@@ -84,12 +84,18 @@ static CGFloat scaleX;
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
   int maxValue = [[self.points valueForKeyPath:@"@max.self"] integerValue];
+  int minValue = [[self.points valueForKeyPath:@"@min.self"] integerValue];
+  int diff = maxValue - minValue;
   CGFloat height = rect.size.height - kTopMargin; //离上边距
   CGFloat scaleY = 1;
-  if (maxValue != 0) {
-    scaleY = height / maxValue;
-    if (height > maxValue) {
-      scaleY *= 0.6;
+  if (diff <= height / 2) {
+    scaleY *= 0.5;
+  } else {
+    if (maxValue != 0) {
+      scaleY = height / maxValue;
+      if (height > maxValue) {
+        scaleY *= 0.6;
+      }
     }
   }
 

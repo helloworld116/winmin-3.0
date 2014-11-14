@@ -137,6 +137,28 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  [self viewAppearOrEnterForeground];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  [self viewDisappearOrEnterBackground];
+}
+
+- (void)viewDisappearOrEnterBackground {
+  [self.model stopScanState];
+  [self stopUpdateList];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIApplicationWillEnterForegroundNotification
+              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIApplicationDidEnterBackgroundNotification
+              object:nil];
+}
+
+- (void)viewAppearOrEnterForeground {
   NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
   NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
   for (SDZGSwitch *aSwitch in switchs) {
@@ -145,12 +167,16 @@
   [self.model startScanState];
   // model层修改数据，指定时间后，页面统一修改
   [self startUpdateList];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
-  [self.model stopScanState];
-  [self stopUpdateList];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(applicationWillEnterForegroundNotification:)
+             name:UIApplicationWillEnterForegroundNotification
+           object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(applicationDidEnterBackgroundNotification:)
+             name:UIApplicationDidEnterBackgroundNotification
+           object:nil];
 }
 
 #pragma mark - begin iOS8下cell分割线处理
@@ -238,6 +264,14 @@
 - (void)reloadTableView {
   self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
   [self.tableView reloadData];
+}
+
+- (void)applicationWillEnterForegroundNotification:(NSNotification *)notif {
+  [self viewAppearOrEnterForeground];
+}
+
+- (void)applicationDidEnterBackgroundNotification:(NSNotification *)notif {
+  [self viewDisappearOrEnterBackground];
 }
 
 #pragma mark - UITableViewDataSource
