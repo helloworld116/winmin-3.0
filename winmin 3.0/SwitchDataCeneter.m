@@ -7,6 +7,7 @@
 //
 
 #import "SwitchDataCeneter.h"
+#import "SwitchSyncService.h"
 
 static dispatch_queue_t switch_datacenter_serial_queue() {
   static dispatch_queue_t sdzg_switch_datacenter_serial_queue;
@@ -19,6 +20,7 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
 }
 
 @interface SwitchDataCeneter ()
+@property (nonatomic, strong) SwitchSyncService *switchSyncService;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundUpdateTask;
 @end
 
@@ -203,6 +205,10 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   dispatch_async(GLOBAL_QUEUE, ^{
       [self beginBackgroundUpdateTask];
       [[DBUtil sharedInstance] saveSwitchs:[self switchs]];
+      if (!self.switchSyncService) {
+        self.switchSyncService = [[SwitchSyncService alloc] init];
+      }
+      [self.switchSyncService uploadSwitchs:[self switchs]];
       [self endBackgroundUpdateTask];
   });
 }

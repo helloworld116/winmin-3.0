@@ -245,7 +245,7 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2dMsg0B];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg0B]];
   self.aSwitch = aSwitch;
   self.host = aSwitch.ip;
   self.port = DEVICE_PORT;
@@ -260,7 +260,7 @@ static dispatch_queue_t delegateQueue;
           [self.delegate errorMsg:kNotReachable];
         }
       } else {
-        self.msg = [CC3xMessageUtil getP2SMsg0D:mac];
+        self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg0D:mac]];
         self.mac = mac;
         self.host = SERVER_IP;
         self.port = SERVER_PORT;
@@ -271,7 +271,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  self.msg = [CC3xMessageUtil getP2SMsg0D:aSwitch.mac];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg0D:aSwitch.mac]];
   self.aSwitch = aSwitch;
   self.host = SERVER_IP;
   self.port = SERVER_PORT;
@@ -1521,7 +1521,7 @@ static dispatch_queue_t delegateQueue;
             respondsToSelector:@selector(udpRequest:didReceiveMsg:address:)]) {
       [self.delegate udpRequest:self didReceiveMsg:msg address:address];
     }
-    self.responseData = data;
+    self.responseData = [NSData dataWithData:data];
   }
 }
 

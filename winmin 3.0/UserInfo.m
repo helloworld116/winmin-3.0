@@ -164,7 +164,7 @@
     [userDefaults setObject:@"qq" forKey:@"loginType"];
   } else if (sinaUid) {
     [userDefaults setObject:sinaUid forKey:@"sinaUid"];
-    [userDefaults setObject:@"email" forKey:@"loginType"];
+    [userDefaults setObject:@"sina" forKey:@"loginType"];
   }
   [userDefaults setObject:nickname forKey:@"nickname"];
   [userDefaults synchronize];

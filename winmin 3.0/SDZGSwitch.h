@@ -7,26 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
-typedef NS_OPTIONS(NSUInteger, SwitchStatus) {
+typedef NS_OPTIONS(NSUInteger, SwitchStatus){
   SWITCH_NEW, SWITCH_LOCAL, SWITCH_REMOTE, SWITCH_OFFLINE,
 };
 
-typedef NS_OPTIONS(NSUInteger, DelayAction) {
+typedef NS_OPTIONS(NSUInteger, DelayAction){
   DelayActionOff = 0, DelayActionOn,
 };
-typedef NS_OPTIONS(NSUInteger, SocketStatus) {
+typedef NS_OPTIONS(NSUInteger, SocketStatus){
   SocketStatusOff = 0, SocketStatusOn,
 };
-typedef NS_OPTIONS(NSUInteger, TimerActionType) {
+typedef NS_OPTIONS(NSUInteger, TimerActionType){
   TimerActionTypeOff = 0, TimerActionTypeOn,
 };
-typedef NS_OPTIONS(NSUInteger, LockStatus) {
+typedef NS_OPTIONS(NSUInteger, LockStatus){
   LockStatusOff = 0, LockStatusOn,
 };
-typedef NS_OPTIONS(NSUInteger, DAYTYPE) { MONDAY = 1 << 0,  TUESDAY = 1 << 1,
-                                          WENSDAY = 1 << 2, THURSDAY = 1 << 3,
-                                          FRIDAY = 1 << 4,  SATURDAY = 1 << 5,
-                                          SUNDAY = 1 << 6 };
+typedef NS_OPTIONS(NSUInteger, DAYTYPE){ MONDAY = 1 << 0,  TUESDAY = 1 << 1,
+                                         WENSDAY = 1 << 2, THURSDAY = 1 << 3,
+                                         FRIDAY = 1 << 4,  SATURDAY = 1 << 5,
+                                         SUNDAY = 1 << 6 };
 
 @interface SDZGSwitch : NSObject
 @property (nonatomic, strong) NSString *name;
@@ -37,10 +37,10 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE) { MONDAY = 1 << 0,  TUESDAY = 1 << 1,
 @property (nonatomic, assign) LockStatus lockStatus;
 @property (nonatomic, strong) NSMutableArray *sockets; //插孔
 @property (nonatomic, assign) char version;
-@property (nonatomic, assign) long tag; //记录udp请求发送时的tag
+@property (nonatomic, assign) long tag; // 0表示设备未同步，1表示设备已同步
 @property (nonatomic, strong) NSString *imageName;
 @property (nonatomic, strong) NSString *
-password;                                                        //设置的设备密码，添加修改设备相关信息需要使用，未设置的情况下默认为空
+    password;                                                    //设置的设备密码，添加修改设备相关信息需要使用，未设置的情况下默认为空
 @property (nonatomic, assign) NSTimeInterval lastUpdateInterval; //最近修改时间
 + (SDZGSwitch *)parseMessageCOrEToSwitch:(CC3xMessage *)message;
 + (UIImage *)imgNameToImage:(NSString *)imgName;
