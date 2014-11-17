@@ -93,6 +93,11 @@
                                            selector:@selector(noResponse:)
                                                name:kNoResponseNotification
                                              object:self.model];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(netChangedNotification:)
+             name:kNetChangedNotification
+           object:nil];
   [self addObserver:self
          forKeyPath:@"showingRealTimeElecView"
             options:NSKeyValueObservingOptionNew
@@ -325,6 +330,22 @@ preparation before navigation
           break;
       }
   });
+}
+
+- (void)netChangedNotification:(NSNotification *)notification {
+  NetworkStatus status = kSharedAppliction.networkStatus;
+  if (status == NotReachable) {
+    //网络不可用时
+  } else {
+    if (status == ReachableViaWWAN) {
+      [self.view makeToast:NSLocalizedString(@"WWAN Message", nil)
+                  duration:5.f
+                  position:[NSValue valueWithCGPoint:
+                                        CGPointMake(
+                                            self.view.frame.size.width / 2,
+                                            self.view.frame.size.height - 40)]];
+    }
+  }
 }
 
 - (void)applicationWillEnterForegroundNotification:(NSNotification *)notif {

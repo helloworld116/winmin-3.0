@@ -29,6 +29,7 @@
 "Take a picture"="Take a picture";
 "Choose from album"="Choose from album";
 "No UDP Response Msg"="Network latency, check the device network connection";
+"WWAN Message"="";
 
 /**
  *  控制

@@ -39,7 +39,11 @@ enum {
   P2S_GET_POWER_LOG_REQ_63 = 1027,
   P2S_GET_CITY_REQ_65 = 1028,
   P2S_GET_CITY_WEATHER_REQ_67 = 1029,
-  P2D_SET_PASSWD_REQ_69 = 1030
+  P2D_SET_PASSWD_REQ_69 = 1030,
+  P2D_SET_POWERACTION_REQ_6B = 1031,
+  P2S_SET_POWERACTION_REQ_6E = 1032,
+  P2D_GET_POWERACTION_REQ_72 = 1033,
+  P2S_GET_POWERACTION_REQ_74 = 1034
 };
 
 @class CC3xMessage;
@@ -150,4 +154,9 @@ enum {
 @property (nonatomic, assign) unsigned char airTag;   //空气质量代号
 @property (nonatomic, strong) NSString *airDesc;      //空气质量说明
 @property (nonatomic, assign) unsigned short crc;
+
+@property (nonatomic, assign) short alertUnder;
+@property (nonatomic, assign) short alertGreater;
+@property (nonatomic, assign) short turnOffUnder;
+@property (nonatomic, assign) short turnOffGreater;
 @end

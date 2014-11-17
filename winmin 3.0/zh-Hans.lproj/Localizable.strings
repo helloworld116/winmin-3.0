@@ -29,6 +29,7 @@
 "Take a picture"="拍照";
 "Choose from album"="从手机相册中选择";
 "No UDP Response Msg"="网络延迟，请检查设备网络连接";
+"WWAN Message"="您正在使用移动网络，运营商可能会收取其他费用，具体取决于您的网络订阅情况";
 
 /**
  *  控制

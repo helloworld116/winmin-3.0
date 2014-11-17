@@ -254,6 +254,14 @@
     [self.tableView reloadData];
     [self stopUpdateList];
   } else {
+    if (status == ReachableViaWWAN) {
+      [self.view makeToast:NSLocalizedString(@"WWAN Message", nil)
+                  duration:5.f
+                  position:[NSValue valueWithCGPoint:
+                                        CGPointMake(
+                                            self.view.frame.size.width / 2,
+                                            self.view.frame.size.height - 40)]];
+    }
     if (!self.model.isScanningState) {
       [self.model startScanState];
       [self startUpdateList];

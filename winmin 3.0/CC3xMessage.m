@@ -621,6 +621,78 @@ typedef struct {
   unsigned short crc;
 } d2pMSg6A;
 
+// P2D_SET_POWERACTION_REQ 0X6B
+typedef struct {
+  msgHeader header;
+  unsigned short alertUnder;
+  unsigned short alertGreater;
+  unsigned short turnOffUnder;
+  unsigned short turnOffGreater;
+  unsigned short crc;
+} p2dMSg6B;
+
+// D2P_SET_POWERACTION_RESP	0X6C
+typedef struct {
+  msgHeader header;
+  unsigned char mac[6];
+  char state; // 0表示成功
+  unsigned short crc;
+} d2pMsg6C;
+
+// P2S_SET_POWERACTION_REQ  0X6E
+typedef struct {
+  msgHeader header;
+  unsigned char mac[6];
+  unsigned short alertUnder;
+  unsigned short alertGreater;
+  unsigned short turnOffUnder;
+  unsigned short turnOffGreater;
+  unsigned short crc;
+} p2sMsg6E;
+
+// S2P_SET_DELAY_RESP  0X6F
+typedef struct {
+  msgHeader header;
+  unsigned char mac[6];
+  char state; // 0表示成功
+  unsigned short crc;
+} s2pMsg6F;
+
+// P2D_GET_POWERACTION_REQ 0X72
+typedef struct {
+  msgHeader header;
+  unsigned short crc;
+} p2dMsg72;
+
+// D2P_GET_POWERACTION_RESP	0X73
+typedef struct {
+  msgHeader header;
+  unsigned char mac[6];
+  unsigned short alertUnder;
+  unsigned short alertGreater;
+  unsigned short turnOffUnder;
+  unsigned short turnOffGreater;
+  unsigned short crc;
+} d2pMsg73;
+
+// P2S_GET_POWERACTION_REQ 0X74
+typedef struct {
+  msgHeader header;
+  unsigned char mac[6];
+  unsigned short crc;
+} p2sMsg74;
+
+// S2P_GET_POWERACTION_RESP	0X75
+typedef struct {
+  msgHeader header;
+  unsigned char mac[6];
+  unsigned short alertUnder;
+  unsigned short alertGreater;
+  unsigned short turnOffUnder;
+  unsigned short turnOffGreater;
+  unsigned short crc;
+} s2pMsg75;
+
 #pragma pack()
 #pragma mark - method implementation 将信息转换为Data ，用于发送
 
@@ -1158,6 +1230,68 @@ typedef struct {
             newPassword:(NSString *)newPassword {
   return nil;
 }
+
++ (NSData *)getP2DMsg6B:(short)alertUnder
+           alertGreater:(short)alertGreater
+           turnOffUnder:(short)turnOffUnder
+         turnOffGreater:(short)turnOffGreater {
+  p2dMSg6B msg;
+  memset(&msg, 0, sizeof(msg));
+  msg.header.msgId = 0x6B;
+  msg.header.msgDir = 0xAD;
+  msg.header.msgLength = htons(sizeof(msg));
+  msg.alertUnder = htons(alertUnder);
+  msg.alertGreater = htons(alertGreater);
+  msg.turnOffUnder = htons(turnOffUnder);
+  msg.turnOffGreater = htons(turnOffGreater);
+  msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
+  return B2D(msg);
+}
+
++ (NSData *)getP2DMsg6B:(NSString *)mac
+             alertUnder:(short)alertUnder
+           alertGreater:(short)alertGreater
+           turnOffUnder:(short)turnOffUnder
+         turnOffGreater:(short)turnOffGreater {
+  p2sMsg6E msg;
+  memset(&msg, 0, sizeof(msg));
+  msg.header.msgId = 0x6E;
+  msg.header.msgDir = 0xA5;
+  msg.header.msgLength = htons(sizeof(msg));
+  Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
+  memcpy(&msg.mac, macBytes, sizeof(msg.mac));
+  free(macBytes);
+  msg.alertUnder = htons(alertUnder);
+  msg.alertGreater = htons(alertGreater);
+  msg.turnOffUnder = htons(turnOffUnder);
+  msg.turnOffGreater = htons(turnOffGreater);
+  msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
+  return B2D(msg);
+}
+
++ (NSData *)getP2DMsg72 {
+  p2dMsg72 msg;
+  memset(&msg, 0, sizeof(msg));
+  msg.header.msgId = 0x72;
+  msg.header.msgDir = 0xAD;
+  msg.header.msgLength = htons(sizeof(msg));
+  msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
+  return B2D(msg);
+}
+
++ (NSData *)getP2DMsg74:(NSString *)mac {
+  p2sMsg74 msg;
+  memset(&msg, 0, sizeof(msg));
+  msg.header.msgId = 0x74;
+  msg.header.msgDir = 0xA5;
+  msg.header.msgLength = htons(sizeof(msg));
+  Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
+  memcpy(&msg.mac, macBytes, sizeof(msg.mac));
+  free(macBytes);
+  msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
+  return B2D(msg);
+}
+
 #pragma mark - response message 解析收到的data数据，转为其他数据类型
 
 + (CC3xMessage *)parseD2P02:(NSData *)aData {
@@ -1468,6 +1602,25 @@ typedef struct {
   return message;
 }
 
++ (CC3xMessage *)parseD2P73:(NSData *)aData {
+  CC3xMessage *message = nil;
+  d2pMsg73 msg;
+  [aData getBytes:&msg length:sizeof(msg)];
+  message = [[CC3xMessage alloc] init];
+  message.msgId = msg.header.msgId;
+  message.msgDir = msg.header.msgDir;
+  message.msgLength = msg.header.msgLength;
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                                           msg.mac[0], msg.mac[1], msg.mac[2],
+                                           msg.mac[3], msg.mac[4], msg.mac[5]];
+  message.alertUnder = ntohs(msg.alertUnder);
+  message.alertGreater = ntohs(msg.alertGreater);
+  message.turnOffUnder = ntohs(msg.turnOffUnder);
+  message.turnOffGreater = ntohs(msg.turnOffGreater);
+  message.crc = ntohs(msg.crc);
+  return message;
+}
+
 + (CC3xMessage *)parseMessage:(NSData *)data {
   CC3xMessage *result = nil;
   msgHeader header;
@@ -1507,6 +1660,8 @@ typedef struct {
     case 0x3c:
     case 0x48:
     case 0x4a:
+    case 0x6c:
+    case 0x6f:
       result = [CC3xMessageUtil parseD2P3A:data];
       break;
     case 0x54:
@@ -1529,6 +1684,9 @@ typedef struct {
     case 0x64:
       result = [CC3xMessageUtil parseS2P64:data];
       break;
+    case 0x73:
+    case 0x75:
+      result = [CC3xMessageUtil parseD2P73:data];
     default:
       break;
   }
