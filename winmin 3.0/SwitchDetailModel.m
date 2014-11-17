@@ -75,7 +75,7 @@
                                           repeats:YES];
   [self.timerElec fire];
   [[NSRunLoop currentRunLoop] addTimer:self.timerElec
-                               forMode:NSDefaultRunLoopMode];
+                               forMode:NSRunLoopCommonModes];
 }
 
 - (void)stopRealTimeElec {

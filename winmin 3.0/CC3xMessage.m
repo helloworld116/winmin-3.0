@@ -1325,7 +1325,7 @@ typedef struct {
   if (msg.pulse == 0) {
     message.power = 0;
   } else {
-    message.power = 53035.5f / ntohs(msg.pulse);
+    message.power = 57335.7f / ntohs(msg.pulse);
   }
   return message;
 }

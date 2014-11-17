@@ -86,7 +86,6 @@
           ServerResponse *response =
               [[ServerResponse alloc] initWithResponseString:responseStr];
           debugLog(@"response is %@", responseStr);
-
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error){
 
@@ -94,9 +93,32 @@
 }
 
 - (void)downloadSwitchs:(int)benginId {
+  [self download:benginId];
 }
 
 - (void)download:(int)benginId {
+  NSString *downloadUrl =
+      [NSString stringWithFormat:@"%@device/list", BaseURLString];
+  AFHTTPRequestOperationManager *manager =
+      [AFHTTPRequestOperationManager manager];
+  manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+  manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+  NSMutableDictionary *parameters = [@{} mutableCopy];
+  [parameters setObject:@(benginId) forKey:@"id"];
+  [manager POST:downloadUrl
+      parameters:parameters
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          NSString *string =
+              [[NSString alloc] initWithData:responseObject
+                                    encoding:NSUTF8StringEncoding];
+          NSString *responseStr = __DECRYPT(string);
+          ServerResponse *response =
+              [[ServerResponse alloc] initWithResponseString:responseStr];
+          debugLog(@"response is %@", responseStr);
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error){
+
+      }];
 }
 
 - (void)autoLogin {
