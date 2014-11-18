@@ -338,12 +338,17 @@ preparation before navigation
     //网络不可用时
   } else {
     if (status == ReachableViaWWAN) {
-      [self.view makeToast:NSLocalizedString(@"WWAN Message", nil)
-                  duration:5.f
-                  position:[NSValue valueWithCGPoint:
-                                        CGPointMake(
-                                            self.view.frame.size.width / 2,
-                                            self.view.frame.size.height - 40)]];
+      BOOL warn = [[[NSUserDefaults standardUserDefaults]
+          objectForKey:wwanWarn] boolValue];
+      if (warn) {
+        [self.view
+            makeToast:NSLocalizedString(@"WWAN Message", nil)
+             duration:5.f
+             position:[NSValue
+                          valueWithCGPoint:
+                              CGPointMake(self.view.frame.size.width / 2,
+                                          self.view.frame.size.height - 40)]];
+      }
     }
   }
 }

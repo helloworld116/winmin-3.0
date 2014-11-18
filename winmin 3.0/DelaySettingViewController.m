@@ -187,7 +187,8 @@
   if (self.btnDone == nil) {
     self.btnDone = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnDone.frame = CGRectMake(0, SCREEN_HEIGHT - height, width, height);
-    [self.btnDone setTitle:@"完成" forState:UIControlStateNormal];
+    [self.btnDone setTitle:NSLocalizedString(@"Keyboard return", nil)
+                  forState:UIControlStateNormal];
     [self.btnDone setTitleColor:[UIColor blackColor]
                        forState:UIControlStateNormal];
     [self.btnDone addTarget:self

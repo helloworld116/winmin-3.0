@@ -639,7 +639,7 @@ typedef struct {
   unsigned short crc;
 } d2pMsg6C;
 
-// P2S_SET_POWERACTION_REQ  0X6E
+// P2S_SET_POWERACTION_REQ  0X6D
 typedef struct {
   msgHeader header;
   unsigned char mac[6];
@@ -648,50 +648,52 @@ typedef struct {
   unsigned short turnOffUnder;
   unsigned short turnOffGreater;
   unsigned short crc;
-} p2sMsg6E;
+} p2sMsg6D;
 
-// S2P_SET_DELAY_RESP  0X6F
+// S2P_SET_DELAY_RESP  0X6E
 typedef struct {
   msgHeader header;
   unsigned char mac[6];
   char state; // 0表示成功
   unsigned short crc;
-} s2pMsg6F;
+} s2pMsg6E;
 
-// P2D_GET_POWERACTION_REQ 0X72
+// P2D_GET_POWERACTION_REQ 0X71
 typedef struct {
   msgHeader header;
   unsigned short crc;
-} p2dMsg72;
+} p2dMsg71;
 
-// D2P_GET_POWERACTION_RESP	0X73
+// D2P_GET_POWERACTION_RESP	0X72
 typedef struct {
   msgHeader header;
   unsigned char mac[6];
+  char state;
   unsigned short alertUnder;
   unsigned short alertGreater;
   unsigned short turnOffUnder;
   unsigned short turnOffGreater;
   unsigned short crc;
-} d2pMsg73;
+} d2pMsg72;
 
-// P2S_GET_POWERACTION_REQ 0X74
+// P2S_GET_POWERACTION_REQ 0X73
 typedef struct {
   msgHeader header;
   unsigned char mac[6];
   unsigned short crc;
-} p2sMsg74;
+} p2sMsg73;
 
-// S2P_GET_POWERACTION_RESP	0X75
+// S2P_GET_POWERACTION_RESP	0X74
 typedef struct {
   msgHeader header;
   unsigned char mac[6];
+  char state;
   unsigned short alertUnder;
   unsigned short alertGreater;
   unsigned short turnOffUnder;
   unsigned short turnOffGreater;
   unsigned short crc;
-} s2pMsg75;
+} s2pMsg74;
 
 #pragma pack()
 #pragma mark - method implementation 将信息转换为Data ，用于发送
@@ -1232,57 +1234,113 @@ typedef struct {
 }
 
 + (NSData *)getP2DMsg6B:(short)alertUnder
+           isAlertUnder:(BOOL)isAlertUnder
            alertGreater:(short)alertGreater
+         isAlertGreater:(BOOL)isAlertGreater
            turnOffUnder:(short)turnOffUnder
-         turnOffGreater:(short)turnOffGreater {
+         isTurnOffUnder:(BOOL)isTurnOffUnder
+         turnOffGreater:(short)turnOffGreater
+       isTurnOffGreater:(BOOL)isTurnOffGreater {
   p2dMSg6B msg;
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x6B;
   msg.header.msgDir = 0xAD;
   msg.header.msgLength = htons(sizeof(msg));
-  msg.alertUnder = htons(alertUnder);
-  msg.alertGreater = htons(alertGreater);
-  msg.turnOffUnder = htons(turnOffUnder);
-  msg.turnOffGreater = htons(turnOffGreater);
+  float alertUnderValue;
+  if (isAlertUnder) {
+    alertUnderValue = alertUnder | (1 << 15);
+  } else {
+    alertUnderValue = alertUnder | (0 << 15);
+  }
+  msg.alertUnder = htons(alertUnderValue);
+  float alertGreaterValue;
+  if (isAlertGreater) {
+    alertGreaterValue = alertGreater | (1 << 15);
+  } else {
+    alertGreaterValue = alertGreater | (0 << 15);
+  }
+  msg.alertGreater = htons(alertGreaterValue);
+  float turnOffUnderValue;
+  if (isTurnOffUnder) {
+    turnOffUnderValue = turnOffUnder | (1 << 15);
+  } else {
+    turnOffUnderValue = turnOffUnder | (0 << 15);
+  }
+  msg.turnOffUnder = htons(turnOffUnderValue);
+  float turnOffGreaterValue;
+  if (isTurnOffGreater) {
+    turnOffGreaterValue = turnOffGreater | (1 << 15);
+  } else {
+    turnOffGreaterValue = turnOffGreater | (0 << 15);
+  }
+  msg.turnOffGreater = htons(turnOffGreaterValue);
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
 
-+ (NSData *)getP2DMsg6B:(NSString *)mac
++ (NSData *)getP2SMsg6D:(NSString *)mac
              alertUnder:(short)alertUnder
+           isAlertUnder:(BOOL)isAlertUnder
            alertGreater:(short)alertGreater
+         isAlertGreater:(BOOL)isAlertGreater
            turnOffUnder:(short)turnOffUnder
-         turnOffGreater:(short)turnOffGreater {
-  p2sMsg6E msg;
+         isTurnOffUnder:(BOOL)isTurnOffUnder
+         turnOffGreater:(short)turnOffGreater
+       isTurnOffGreater:(BOOL)isTurnOffGreater {
+  p2sMsg6D msg;
   memset(&msg, 0, sizeof(msg));
-  msg.header.msgId = 0x6E;
+  msg.header.msgId = 0x6D;
   msg.header.msgDir = 0xA5;
   msg.header.msgLength = htons(sizeof(msg));
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
-  msg.alertUnder = htons(alertUnder);
-  msg.alertGreater = htons(alertGreater);
-  msg.turnOffUnder = htons(turnOffUnder);
-  msg.turnOffGreater = htons(turnOffGreater);
+  float alertUnderValue;
+  if (isAlertUnder) {
+    alertUnderValue = alertUnder | (1 << 15);
+  } else {
+    alertUnderValue = alertUnder | (0 << 15);
+  }
+  msg.alertUnder = htons(alertUnderValue);
+  float alertGreaterValue;
+  if (isAlertGreater) {
+    alertGreaterValue = alertGreater | (1 << 15);
+  } else {
+    alertGreaterValue = alertGreater | (0 << 15);
+  }
+  msg.alertGreater = htons(alertGreaterValue);
+  float turnOffUnderValue;
+  if (isTurnOffUnder) {
+    turnOffUnderValue = turnOffUnder | (1 << 15);
+  } else {
+    turnOffUnderValue = turnOffUnder | (0 << 15);
+  }
+  msg.turnOffUnder = htons(turnOffUnderValue);
+  float turnOffGreaterValue;
+  if (isTurnOffGreater) {
+    turnOffGreaterValue = turnOffGreater | (1 << 15);
+  } else {
+    turnOffGreaterValue = turnOffGreater | (0 << 15);
+  }
+  msg.turnOffGreater = htons(turnOffGreaterValue);
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
 
-+ (NSData *)getP2DMsg72 {
-  p2dMsg72 msg;
++ (NSData *)getP2DMsg71 {
+  p2dMsg71 msg;
   memset(&msg, 0, sizeof(msg));
-  msg.header.msgId = 0x72;
+  msg.header.msgId = 0x71;
   msg.header.msgDir = 0xAD;
   msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
 
-+ (NSData *)getP2DMsg74:(NSString *)mac {
-  p2sMsg74 msg;
++ (NSData *)getP2SMsg73:(NSString *)mac {
+  p2sMsg73 msg;
   memset(&msg, 0, sizeof(msg));
-  msg.header.msgId = 0x74;
+  msg.header.msgId = 0x73;
   msg.header.msgDir = 0xA5;
   msg.header.msgLength = htons(sizeof(msg));
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
@@ -1602,9 +1660,9 @@ typedef struct {
   return message;
 }
 
-+ (CC3xMessage *)parseD2P73:(NSData *)aData {
++ (CC3xMessage *)parseD2P72:(NSData *)aData {
   CC3xMessage *message = nil;
-  d2pMsg73 msg;
+  d2pMsg72 msg;
   [aData getBytes:&msg length:sizeof(msg)];
   message = [[CC3xMessage alloc] init];
   message.msgId = msg.header.msgId;
@@ -1613,10 +1671,15 @@ typedef struct {
   message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
-  message.alertUnder = ntohs(msg.alertUnder);
-  message.alertGreater = ntohs(msg.alertGreater);
-  message.turnOffUnder = ntohs(msg.turnOffUnder);
-  message.turnOffGreater = ntohs(msg.turnOffGreater);
+  message.state = msg.state;
+  message.isAlertUnderOn = (msg.alertUnder >> 15) & 1;
+  message.alertUnder = ntohs(msg.alertUnder & 0x7fff);
+  message.isAlertGreaterOn = (msg.alertGreater >> 15) & 1;
+  message.alertGreater = ntohs(msg.alertGreater & 0x7fff);
+  message.isTurnOffUnderOn = (msg.turnOffUnder >> 15) & 1;
+  message.turnOffUnder = ntohs(msg.turnOffUnder & 0x7fff);
+  message.isTurnOffGreaterOn = (msg.turnOffGreater >> 15) & 1;
+  message.turnOffGreater = ntohs(msg.turnOffGreater & 0x7fff);
   message.crc = ntohs(msg.crc);
   return message;
 }
@@ -1684,9 +1747,9 @@ typedef struct {
     case 0x64:
       result = [CC3xMessageUtil parseS2P64:data];
       break;
+    case 0x72:
     case 0x73:
-    case 0x75:
-      result = [CC3xMessageUtil parseD2P73:data];
+      result = [CC3xMessageUtil parseD2P72:data];
     default:
       break;
   }

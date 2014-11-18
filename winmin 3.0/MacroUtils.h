@@ -96,8 +96,9 @@
 //是否当前版本第一次打开
 #define kWelcomePageShowed @"WelcomePageShowed"
 #define kCurrentVersion @"CurrentVersion"
-#define kShake @"Shake"
-#define kShowMac @"ShowMac"
+extern NSString *const keyShake;
+extern NSString *const showMac;
+extern NSString *const wwanWarn;
 //通知
 #define kNoResponseNotification @"NoResponseNotification"
 #define kConfigNewSwitch @"ConfigNewSwitch"

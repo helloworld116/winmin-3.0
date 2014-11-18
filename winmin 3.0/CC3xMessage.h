@@ -41,9 +41,9 @@ enum {
   P2S_GET_CITY_WEATHER_REQ_67 = 1029,
   P2D_SET_PASSWD_REQ_69 = 1030,
   P2D_SET_POWERACTION_REQ_6B = 1031,
-  P2S_SET_POWERACTION_REQ_6E = 1032,
-  P2D_GET_POWERACTION_REQ_72 = 1033,
-  P2S_GET_POWERACTION_REQ_74 = 1034
+  P2S_SET_POWERACTION_REQ_6D = 1032,
+  P2D_GET_POWERACTION_REQ_71 = 1033,
+  P2S_GET_POWERACTION_REQ_73 = 1034
 };
 
 @class CC3xMessage;
@@ -117,6 +117,25 @@ enum {
                cityName:(NSString *)cityName;
 + (NSData *)getP2DMsg69:(NSString *)oldPassword
             newPassword:(NSString *)newPassword;
++ (NSData *)getP2DMsg6B:(short)alertUnder
+           isAlertUnder:(BOOL)isAlertUnder
+           alertGreater:(short)alertGreater
+         isAlertGreater:(BOOL)isAlertGreater
+           turnOffUnder:(short)turnOffUnder
+         isTurnOffUnder:(BOOL)isTurnOffUnder
+         turnOffGreater:(short)turnOffGreater
+       isTurnOffGreater:(BOOL)isTurnOffGreater;
++ (NSData *)getP2SMsg6D:(NSString *)mac
+             alertUnder:(short)alertUnder
+           isAlertUnder:(BOOL)isAlertUnder
+           alertGreater:(short)alertGreater
+         isAlertGreater:(BOOL)isAlertGreater
+           turnOffUnder:(short)turnOffUnder
+         isTurnOffUnder:(BOOL)isTurnOffUnder
+         turnOffGreater:(short)turnOffGreater
+       isTurnOffGreater:(BOOL)isTurnOffGreater;
++ (NSData *)getP2DMsg71;
++ (NSData *)getP2SMsg73:(NSString *)mac;
 @end
 
 @interface CC3xMessage : NSObject
@@ -159,4 +178,8 @@ enum {
 @property (nonatomic, assign) short alertGreater;
 @property (nonatomic, assign) short turnOffUnder;
 @property (nonatomic, assign) short turnOffGreater;
+@property (nonatomic, assign) BOOL isAlertUnderOn;
+@property (nonatomic, assign) BOOL isAlertGreaterOn;
+@property (nonatomic, assign) BOOL isTurnOffUnderOn;
+@property (nonatomic, assign) BOOL isTurnOffGreaterOn;
 @end

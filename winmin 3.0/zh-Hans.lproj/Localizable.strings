@@ -65,6 +65,7 @@
 "Are you sure to delete the timer task"="您确定要删除该定时任务";
 "Added successfully"="添加成功";
 "Modified successfully"="修改成功";
+"Keyboard return"="完成";
 
 /**
  *  控制列表设备状态图片
@@ -134,3 +135,7 @@
 "verfication code can not be empty"="验证码不能为空";
 "Answer Update"="有新的版本更新，是否前往更新？";
 "Go Update"="前往更新";
+"User Setting"="用户设置";
+"KeyShake"="按键震动";
+"ShowMac"="显示MAC地址";
+"WWANWarn"="移动网络下提醒";

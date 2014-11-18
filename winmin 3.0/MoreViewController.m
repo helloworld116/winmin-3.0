@@ -45,9 +45,17 @@
     NSLocalizedString(@"Safety Warning", nil),
     NSLocalizedString(@"FAQ", nil),
     NSLocalizedString(@"User Manual", nil),
-    NSLocalizedString(@"Purchase Products", nil)
+    NSLocalizedString(@"Purchase Products", nil),
+    NSLocalizedString(@"User Setting", nil)
   ];
-  self.icons = @[ @"about_us", @"security", @"question", @"book", @"buy" ];
+  self.icons = @[
+    @"about_us",
+    @"security",
+    @"question",
+    @"book",
+    @"buy",
+    @"user_setting"
+  ];
   [[NSNotificationCenter defaultCenter]
       addObserverForName:kLoginSuccess
                   object:nil
@@ -203,6 +211,10 @@
         //            instantiateViewControllerWithIdentifier:@"TestViewController"];
 
         break;
+      case 5:
+        nextController =
+            [self.storyboard instantiateViewControllerWithIdentifier:
+                                 @"UserSettingViewController"];
       default:
         break;
     }

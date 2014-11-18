@@ -42,15 +42,33 @@
     UIImagePickerControllerDelegate>
 @property (nonatomic, strong) IBOutlet UIImageView *imgViewSwitch;
 @property (nonatomic, strong) IBOutlet UITextField *textFieldName;
-@property (nonatomic, strong) IBOutlet UISwitch *_switch;
+@property (nonatomic, strong) IBOutlet UITextField *textFieldAlertUnder;
+@property (nonatomic, strong) IBOutlet UITextField *textFieldAlertGreater;
+@property (nonatomic, strong) IBOutlet UITextField *textFieldOffUnder;
+@property (nonatomic, strong) IBOutlet UITextField *textFieldOffGreater;
+@property (nonatomic, strong) IBOutlet UISwitch *_switchLock;
+@property (nonatomic, strong) IBOutlet UISwitch *_switchAlertUnder;
+@property (nonatomic, strong) IBOutlet UISwitch *_switchAlertGreater;
+@property (nonatomic, strong) IBOutlet UISwitch *_switchOffUnder;
+@property (nonatomic, strong) IBOutlet UISwitch *_switchOffGreater;
+@property (nonatomic, strong) UITextField *currentEditField;
 @property (nonatomic, strong)
     NSString *switchName; //保存修改前的名称，对比不一致才提交请求
 @property (nonatomic, assign) LockStatus lockStatus;
+@property (nonatomic, assign) BOOL isAlertUnder;
+@property (nonatomic, assign) BOOL isAlertGreater;
+@property (nonatomic, assign) BOOL isOffUnder;
+@property (nonatomic, assign) BOOL isOffGreater;
+@property (nonatomic, strong) NSString *alertUnderValue;
+@property (nonatomic, strong) NSString *alertGreaterValue;
+@property (nonatomic, strong) NSString *offUnderValue;
+@property (nonatomic, strong) NSString *offGreaterValue;
 - (IBAction)showActionSheet:(id)sender;
 - (IBAction)switchValueChanged:(id)sender;
 
 @property (nonatomic, strong) NSString *imgName; //保存在本地的图片名称
 @property (nonatomic, strong) SwitchInfoModel *model;
+@property (nonatomic, strong) UIButton *btnDone; //键盘左下角的按钮
 @end
 
 @implementation SwitchInfoViewController
@@ -65,18 +83,29 @@
 
 - (void)setup {
   self.navigationItem.title = self.aSwitch.name;
+  self.navigationItem.rightBarButtonItem =
+      [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", nil)
+                                       style:UIBarButtonItemStylePlain
+                                      target:self
+                                      action:@selector(save:)];
+
   UIView *tableHeaderView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 10)];
   tableHeaderView.backgroundColor = [UIColor clearColor];
   self.tableView.tableHeaderView = tableHeaderView;
   self.textFieldName.delegate = self;
+  self.textFieldAlertUnder.delegate = self;
+  self.textFieldAlertGreater.delegate = self;
+  self.textFieldOffUnder.delegate = self;
+  self.textFieldOffGreater.delegate = self;
+
   self.textFieldName.text = self.aSwitch.name;
   self.switchName = self.aSwitch.name;
   self.imgViewSwitch.image = [SDZGSwitch imgNameToImage:self.aSwitch.imageName];
   if (self.aSwitch.lockStatus == LockStatusOn) {
-    self._switch.on = YES;
+    self._switchLock.on = YES;
   } else {
-    self._switch.on = NO;
+    self._switchLock.on = NO;
   }
   self.model = [[SwitchInfoModel alloc] initWithSwitch:self.aSwitch];
   [[NSNotificationCenter defaultCenter]
@@ -94,6 +123,17 @@
          selector:@selector(noResponseNotification:)
              name:kNoResponseNotification
            object:self.model];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(keyboardDidShow:)
+             name:UIKeyboardDidShowNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(keyboardWillBeHidden:)
+             name:UIKeyboardWillHideNotification
+           object:nil];
 }
 
 - (void)viewDidLoad {
@@ -111,6 +151,12 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)save:(id)sender {
+  //  [self.model setSwitchName:self.switchName];
+  //  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  //  [self.model changeSwitchLockStatus];
+  //  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
 /*
 #pragma mark - Navigation
 
@@ -136,28 +182,41 @@ preparation before navigation
 }
 
 - (IBAction)switchValueChanged:(id)sender {
+  UISwitch *_switch = (UISwitch *)sender;
   [self.textFieldName resignFirstResponder];
-  if (self._switch.on) {
-    self.lockStatus = LockStatusOn;
-  } else {
-    self.lockStatus = LockStatusOff;
+  if (_switch == self._switchLock) {
+    if (self._switchLock.on) {
+      self.lockStatus = LockStatusOn;
+    } else {
+      self.lockStatus = LockStatusOff;
+    }
+  } else if (_switch == self._switchAlertUnder) {
+    self.isAlertUnder = _switch.on;
+  } else if (_switch == self._switchAlertGreater) {
+    self.isAlertGreater = _switch.on;
+  } else if (_switch == self._switchOffUnder) {
+    self.isOffUnder = _switch.on;
+  } else if (_switch == self._switchOffGreater) {
+    self.isOffGreater = _switch.on;
   }
-  [self.model changeSwitchLockStatus];
-  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 #pragma mark - UITextField协议
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+  self.currentEditField = textField;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
   [textField resignFirstResponder];
   return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-  NSString *switchName = textField.text;
-  if (switchName.length && ![self.switchName isEqualToString:switchName]) {
-    self.switchName = switchName;
-    [self.model setSwitchName:switchName];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  if (textField == self.textFieldName) {
+    NSString *switchName = textField.text;
+    if (switchName.length && ![self.switchName isEqualToString:switchName]) {
+      self.switchName = switchName;
+    }
   }
 }
 
@@ -206,7 +265,7 @@ preparation before navigation
         case P2D_DEV_LOCK_REQ_47:
         case P2S_DEV_LOCK_REQ_49:
           //锁定状态还原
-          self._switch.on = !self._switch.on;
+          self._switchLock.on = !self._switchLock.on;
           [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
           break;
         case P2D_SET_NAME_REQ_3F:
@@ -217,6 +276,65 @@ preparation before navigation
           break;
       }
   });
+}
+
+#pragma mark - 键盘通知
+- (void)keyboardDidShow:(NSNotification *)notification {
+  if (self.currentEditField == self.textFieldOffUnder ||
+      self.currentEditField == self.textFieldOffGreater ||
+      self.currentEditField == self.textFieldAlertUnder ||
+      self.currentEditField == self.textFieldAlertGreater) {
+    NSDictionary *info = [notification userInfo];
+    CGSize kbSize =
+        [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    CGFloat width = kbSize.width / 3;
+    CGFloat height = kbSize.height / 4;
+    if (self.btnDone == nil) {
+      self.btnDone = [UIButton buttonWithType:UIButtonTypeCustom];
+      self.btnDone.frame = CGRectMake(0, SCREEN_HEIGHT - height, width, height);
+      [self.btnDone setTitle:NSLocalizedString(@"Keyboard return", nil)
+                    forState:UIControlStateNormal];
+      [self.btnDone setTitleColor:[UIColor blackColor]
+                         forState:UIControlStateNormal];
+      [self.btnDone addTarget:self
+                       action:@selector(finishAction:)
+             forControlEvents:UIControlEventTouchUpInside];
+    }
+
+    // locate keyboard view
+    UIWindow *tempWindow =
+        [[[UIApplication sharedApplication] windows] objectAtIndex:1];
+    if (self.btnDone.superview == nil) {
+      [tempWindow addSubview:self.btnDone]; // 注意这里直接加到window上
+    }
+
+    CGRect selfFrame = self.view.frame;
+    selfFrame.origin.y -= 90;
+    [UIView animateWithDuration:0.3
+                     animations:^{ self.view.frame = selfFrame; }];
+  }
+}
+
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
+  if (self.currentEditField == self.textFieldOffUnder ||
+      self.currentEditField == self.textFieldOffGreater ||
+      self.currentEditField == self.textFieldAlertUnder ||
+      self.currentEditField == self.textFieldAlertGreater) {
+    CGRect selfFrame = self.view.frame;
+    selfFrame.origin.y += 90;
+    [UIView animateWithDuration:0.3
+                     animations:^{ self.view.frame = selfFrame; }];
+    if (self.btnDone.superview) {
+      [self.btnDone removeFromSuperview];
+      self.btnDone = nil;
+    }
+  }
+}
+
+- (void)finishAction:(id)sender {
+  //  [self.textField resignFirstResponder];
+  //  self.actionMinitues = [self.textField.text intValue];
+  [self.currentEditField resignFirstResponder];
 }
 
 #pragma mark - 选择图片

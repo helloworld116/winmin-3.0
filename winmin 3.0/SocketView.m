@@ -7,6 +7,7 @@
 //
 
 #import "SocketView.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @implementation ArcImgView
 
@@ -88,6 +89,11 @@
       [self.sockeViewDelegate
           respondsToSelector:@selector(touchOnOrOffWithSelf:)]) {
     [self.sockeViewDelegate touchOnOrOffWithSelf:self];
+    BOOL shake = [
+        [[NSUserDefaults standardUserDefaults] valueForKey:keyShake] boolValue];
+    if (shake) {
+      AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    }
     [self addRotateAnimation];
   }
 }

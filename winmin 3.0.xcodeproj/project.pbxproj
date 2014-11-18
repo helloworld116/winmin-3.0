@@ -18,6 +18,7 @@
 		150FC6E319FA39DB005134B7 /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150FC6E219FA39DB005134B7 /* ProtocolViewController.m */; };
 		150FC6E519FA419B005134B7 /* protocol.htm in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6E419FA419B005134B7 /* protocol.htm */; };
 		151B4AAA1A0226DF00C77467 /* winmin 3.0-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 151B4AA91A0226DF00C77467 /* winmin 3.0-Info.plist */; };
+		151E7BC51A1AD5AD002BE94F /* UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 151E7BC41A1AD5AD002BE94F /* UserSettingViewController.m */; };
 		15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 15476D4B19E68B6B00EC6BD1 /* NetUtil.m */; };
 		1551F6EF19F8951200A24447 /* FAQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1551F6EE19F8951200A24447 /* FAQViewController.m */; };
 		1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6F019F8AC9300A24447 /* bookinfo@2x.png */; };
@@ -167,6 +168,8 @@
 		150FC6E419FA419B005134B7 /* protocol.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = protocol.htm; sourceTree = "<group>"; };
 		151B4AA91A0226DF00C77467 /* winmin 3.0-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "winmin 3.0-Info.plist"; sourceTree = "<group>"; };
 		151B4AAB1A0226FC00C77467 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		151E7BC31A1AD5AD002BE94F /* UserSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettingViewController.h; sourceTree = "<group>"; };
+		151E7BC41A1AD5AD002BE94F /* UserSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSettingViewController.m; sourceTree = "<group>"; };
 		15476D4A19E68B6B00EC6BD1 /* NetUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetUtil.h; sourceTree = "<group>"; };
 		15476D4B19E68B6B00EC6BD1 /* NetUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetUtil.m; sourceTree = "<group>"; };
 		1551F6ED19F8951200A24447 /* FAQViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQViewController.h; sourceTree = "<group>"; };
@@ -503,6 +506,8 @@
 				15EBEE4219F648F8006DF044 /* BookViewController.m */,
 				1551F6ED19F8951200A24447 /* FAQViewController.h */,
 				1551F6EE19F8951200A24447 /* FAQViewController.m */,
+				151E7BC31A1AD5AD002BE94F /* UserSettingViewController.h */,
+				151E7BC41A1AD5AD002BE94F /* UserSettingViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -1146,6 +1151,7 @@
 				1560131A19C96BE200BF7E12 /* SwitchDetailViewController.m in Sources */,
 				15F3A46B19EB717E001CD296 /* SecurityWarnViewController.m in Sources */,
 				1560130B19C9542C00BF7E12 /* MoreViewController.m in Sources */,
+				151E7BC51A1AD5AD002BE94F /* UserSettingViewController.m in Sources */,
 				158D992619C7E0FF0068AFC5 /* SDZGSwitch.m in Sources */,
 				1560130E19C956A600BF7E12 /* MoreCellTypeSecond.m in Sources */,
 				15AC864719CFFE7000D154EB /* UIView+NoDataView.m in Sources */,

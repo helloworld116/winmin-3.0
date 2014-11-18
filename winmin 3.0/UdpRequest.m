@@ -53,6 +53,14 @@ static dispatch_queue_t udp_send_serial_queue() {
 @property (nonatomic, strong) NSString *cityName;
 @property (nonatomic, strong) NSString *oldPassword;
 @property (nonatomic, strong) NSString *password;
+@property (nonatomic, assign) short alertUnder;
+@property (nonatomic, assign) BOOL isAlertUnder;
+@property (nonatomic, assign) short alertGreater;
+@property (nonatomic, assign) BOOL isAlertGreater;
+@property (nonatomic, assign) short turnOffUnder;
+@property (nonatomic, assign) BOOL isTurnOffUnder;
+@property (nonatomic, assign) short turnOffGreater;
+@property (nonatomic, assign) BOOL isTurnOffGreater;
 @end
 @implementation UdpRequest
 
@@ -788,6 +796,112 @@ static dispatch_queue_t delegateQueue;
   });
 }
 
+- (void)sendMsg6BWithSwitch:(SDZGSwitch *)aSwitch
+                 alertUnder:(short)alertUnder
+               isAlertUnder:(BOOL)isAlertUnder
+               alertGreater:(short)alertGreater
+             isAlertGreater:(BOOL)isAlertGreater
+               turnOffUnder:(short)turnOffUnder
+             isTurnOffUnder:(BOOL)isTurnOffUnder
+             turnOffGreater:(short)turnOffGreater
+           isTurnOffGreater:(BOOL)isTurnOffGreater
+                   sendMode:(SENDMODE)mode {
+  if (mode == ActiveMode) {
+    self.msgSendCount = 0;
+  } else if (mode == PassiveMode) {
+    self.msgSendCount++;
+  }
+  self.aSwitch = aSwitch;
+  self.alertUnder = alertUnder;
+  self.isAlertUnder = isAlertUnder;
+  self.alertGreater = alertGreater;
+  self.isAlertGreater = isAlertGreater;
+  self.turnOffUnder = turnOffUnder;
+  self.isTurnOffUnder = isTurnOffUnder;
+  self.turnOffGreater = turnOffGreater;
+  self.isTurnOffGreater = isTurnOffGreater;
+  self.msg = [CC3xMessageUtil getP2DMsg6B:alertUnder
+                             isAlertUnder:isAlertUnder
+                             alertGreater:alertGreater
+                           isAlertGreater:isAlertGreater
+                             turnOffUnder:turnOffUnder
+                           isTurnOffUnder:isTurnOffUnder
+                           turnOffGreater:turnOffGreater
+                         isTurnOffGreater:isTurnOffGreater];
+  self.host = aSwitch.ip;
+  self.port = DEVICE_PORT;
+  self.tag = P2D_SET_POWERACTION_REQ_6B;
+  [self sendDataToHost];
+}
+
+- (void)sendMsg6DWithSwitch:(SDZGSwitch *)aSwitch
+                 alertUnder:(short)alertUnder
+               isAlertUnder:(BOOL)isAlertUnder
+               alertGreater:(short)alertGreater
+             isAlertGreater:(BOOL)isAlertGreater
+               turnOffUnder:(short)turnOffUnder
+             isTurnOffUnder:(BOOL)isTurnOffUnder
+             turnOffGreater:(short)turnOffGreater
+           isTurnOffGreater:(BOOL)isTurnOffGreater
+                   sendMode:(SENDMODE)mode {
+  if (mode == ActiveMode) {
+    self.msgSendCount = 0;
+  } else if (mode == PassiveMode) {
+    self.msgSendCount++;
+  }
+  self.aSwitch = aSwitch;
+  self.alertUnder = alertUnder;
+  self.isAlertUnder = isAlertUnder;
+  self.alertGreater = alertGreater;
+  self.isAlertGreater = isAlertGreater;
+  self.turnOffUnder = turnOffUnder;
+  self.isTurnOffUnder = isTurnOffUnder;
+  self.turnOffGreater = turnOffGreater;
+  self.isTurnOffGreater = isTurnOffGreater;
+  self.msg = [CC3xMessageUtil getP2SMsg6D:aSwitch.mac
+                               alertUnder:alertUnder
+                             isAlertUnder:isAlertUnder
+                             alertGreater:alertGreater
+                           isAlertGreater:isAlertGreater
+                             turnOffUnder:turnOffUnder
+                           isTurnOffUnder:isTurnOffUnder
+                           turnOffGreater:turnOffGreater
+                         isTurnOffGreater:isTurnOffGreater];
+  self.host = SERVER_IP;
+  self.port = SERVER_PORT;
+  self.tag = P2S_SET_POWERACTION_REQ_6D;
+  [self sendDataToHost];
+}
+
+- (void)sendMsg71WithSwitch:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
+  if (mode == ActiveMode) {
+    self.msgSendCount = 0;
+  } else if (mode == PassiveMode) {
+    self.msgSendCount++;
+  }
+  self.aSwitch = aSwitch;
+  self.msg = [CC3xMessageUtil getP2DMsg71];
+  self.host = aSwitch.ip;
+  self.port = DEVICE_PORT;
+  self.tag = P2D_GET_POWERACTION_REQ_71;
+  [self sendDataToHost];
+}
+
+- (void)sendMsg73WithSwitch:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
+  if (mode == ActiveMode) {
+    self.msgSendCount = 0;
+  } else if (mode == PassiveMode) {
+    self.msgSendCount++;
+  }
+  self.aSwitch = aSwitch;
+  self.mac = aSwitch.mac;
+  self.msg = [CC3xMessageUtil getP2SMsg73:aSwitch.mac];
+  self.host = SERVER_IP;
+  self.port = SERVER_PORT;
+  self.tag = P2S_GET_POWERACTION_REQ_73;
+  [self sendDataToHost];
+}
+
 #pragma mark - 处理内外网请求
 - (void)sendMsg0BOr0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
   dispatch_sync(GLOBAL_QUEUE, ^{
@@ -1060,6 +1174,80 @@ static dispatch_queue_t delegateQueue;
   });
 }
 
+- (void)sendMsg6BOr6D:(SDZGSwitch *)aSwitch
+           alertUnder:(short)alertUnder
+         isAlertUnder:(BOOL)isAlertUnder
+         alertGreater:(short)alertGreater
+       isAlertGreater:(BOOL)isAlertGreater
+         turnOffUnder:(short)turnOffUnder
+       isTurnOffUnder:(BOOL)isTurnOffUnder
+       turnOffGreater:(short)turnOffGreater
+     isTurnOffGreater:(BOOL)isTurnOffGreater
+             sendMode:(SENDMODE)mode {
+  dispatch_sync(GLOBAL_QUEUE, ^{
+      if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
+        //根据不同的网络环境，发送 本地/远程 消息
+        if (aSwitch.networkStatus == SWITCH_LOCAL) {
+          [self sendMsg6BWithSwitch:aSwitch
+                         alertUnder:alertUnder
+                       isAlertUnder:isAlertUnder
+                       alertGreater:alertGreater
+                     isAlertGreater:isAlertGreater
+                       turnOffUnder:turnOffUnder
+                     isTurnOffUnder:isTurnOffUnder
+                     turnOffGreater:turnOffGreater
+                   isTurnOffGreater:isTurnOffGreater
+                           sendMode:mode];
+        } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
+          [self sendMsg6DWithSwitch:aSwitch
+                         alertUnder:alertUnder
+                       isAlertUnder:isAlertUnder
+                       alertGreater:alertGreater
+                     isAlertGreater:isAlertGreater
+                       turnOffUnder:turnOffUnder
+                     isTurnOffUnder:isTurnOffUnder
+                     turnOffGreater:turnOffGreater
+                   isTurnOffGreater:isTurnOffGreater
+                           sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_SET_POWERACTION_REQ_6B socketGroupId:0];
+        }
+      } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
+        [self sendMsg6DWithSwitch:aSwitch
+                       alertUnder:alertUnder
+                     isAlertUnder:isAlertUnder
+                     alertGreater:alertGreater
+                   isAlertGreater:isAlertGreater
+                     turnOffUnder:turnOffUnder
+                   isTurnOffUnder:isTurnOffUnder
+                   turnOffGreater:turnOffGreater
+                 isTurnOffGreater:isTurnOffGreater
+                         sendMode:mode];
+      } else if (kSharedAppliction.networkStatus == NotReachable) {
+        [self noResponseTag:P2D_SET_POWERACTION_REQ_6B socketGroupId:0];
+      }
+  });
+}
+
+- (void)sendMsg71Or73:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
+  dispatch_sync(GLOBAL_QUEUE, ^{
+      if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
+        //根据不同的网络环境，发送 本地/远程 消息
+        if (aSwitch.networkStatus == SWITCH_LOCAL) {
+          [self sendMsg71WithSwitch:aSwitch sendMode:mode];
+        } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
+          [self sendMsg73WithSwitch:aSwitch sendMode:mode];
+        } else {
+          [self noResponseTag:P2D_GET_POWERACTION_REQ_71 socketGroupId:0];
+        }
+      } else if (kSharedAppliction.networkStatus == ReachableViaWWAN) {
+        [self sendMsg73WithSwitch:aSwitch sendMode:mode];
+      } else if (kSharedAppliction.networkStatus == NotReachable) {
+        [self noResponseTag:P2D_GET_POWERACTION_REQ_71 socketGroupId:0];
+      }
+  });
+}
+
 #pragma mark - 线程检查器，检查指定时间内是否有数据返回
 - (void)checkResponseDataAfterSettingIntervalWithTag:(long)tag {
   float delay;
@@ -1077,6 +1265,8 @@ static dispatch_queue_t delegateQueue;
     case P2D_GET_DELAY_REQ_53:
     case P2D_GET_NAME_REQ_5D:
     case P2D_SET_PASSWD_REQ_69:
+    case P2D_SET_POWERACTION_REQ_6B:
+    case P2D_GET_POWERACTION_REQ_71:
       delay = kCheckPrivateResponseInterval;
       break;
 
@@ -1094,6 +1284,8 @@ static dispatch_queue_t delegateQueue;
     case P2S_GET_POWER_LOG_REQ_63:
     case P2S_GET_CITY_REQ_65:
     case P2S_GET_CITY_WEATHER_REQ_67:
+    case P2S_SET_POWERACTION_REQ_6D:
+    case P2S_GET_POWERACTION_REQ_73:
       delay = kCheckPublicResponseInterval;
       break;
     //定时调用情况下丢包不处理
@@ -1419,6 +1611,66 @@ static dispatch_queue_t delegateQueue;
                 [self sendMsg69:self.oldPassword
                     newPassword:self.password
                        sendMode:PassiveMode];
+              }
+            }
+            break;
+          case P2D_SET_POWERACTION_REQ_6B:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg6BWithSwitch:self.aSwitch
+                               alertUnder:self.alertUnder
+                             isAlertUnder:self.isAlertUnder
+                             alertGreater:self.alertGreater
+                           isAlertGreater:self.isAlertGreater
+                             turnOffUnder:self.turnOffUnder
+                           isTurnOffUnder:self.isTurnOffUnder
+                           turnOffGreater:self.turnOffGreater
+                         isTurnOffGreater:self.isTurnOffGreater
+                                 sendMode:PassiveMode];
+
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2S_SET_POWERACTION_REQ_6D:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg6DWithSwitch:self.aSwitch
+                               alertUnder:self.alertUnder
+                             isAlertUnder:self.isAlertUnder
+                             alertGreater:self.alertGreater
+                           isAlertGreater:self.isAlertGreater
+                             turnOffUnder:self.turnOffUnder
+                           isTurnOffUnder:self.isTurnOffUnder
+                           turnOffGreater:self.turnOffGreater
+                         isTurnOffGreater:self.isTurnOffGreater
+                                 sendMode:PassiveMode];
+
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2D_GET_POWERACTION_REQ_71:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg71WithSwitch:self.aSwitch sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+          case P2S_GET_POWERACTION_REQ_73:
+            if (!self.responseData) {
+              if (self.msgSendCount < kTryCount) {
+                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg73WithSwitch:self.aSwitch sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
               }
             }
             break;

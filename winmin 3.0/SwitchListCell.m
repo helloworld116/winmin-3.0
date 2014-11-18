@@ -31,7 +31,13 @@
 
 - (void)setCellInfo:(SDZGSwitch *)aSwitch {
   self.lblName.text = aSwitch.name;
-  self.lblMac.text = aSwitch.mac;
+  BOOL sMac =
+      [[[NSUserDefaults standardUserDefaults] objectForKey:showMac] boolValue];
+  if (sMac) {
+    self.lblMac.text = aSwitch.mac;
+  } else {
+    self.lblMac.text = @"";
+  }
   NSString *imageName;
   if (aSwitch.lockStatus == LockStatusOn) {
     if (aSwitch.networkStatus == SWITCH_LOCAL) {

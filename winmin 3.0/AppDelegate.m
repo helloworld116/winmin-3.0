@@ -40,6 +40,7 @@
     self.window.rootViewController = vc;
   }
   [self setData];
+  [self setDefaultUserSettingValue];
   [self registPlatform];
   return YES;
 }
@@ -158,5 +159,22 @@
   NSArray* languages = [defs objectForKey:@"AppleLanguages"];
   NSString* preferredLang = [languages objectAtIndex:0];
   return preferredLang;
+}
+
+- (void)setDefaultUserSettingValue {
+  NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+  id showmac = [userDefaults objectForKey:showMac];
+  id shake = [userDefaults objectForKey:keyShake];
+  id warn = [userDefaults objectForKey:wwanWarn];
+  if (showmac == nil) {
+    [userDefaults setObject:@(YES) forKey:showMac];
+  }
+  if (shake == nil) {
+    [userDefaults setObject:@(NO) forKey:keyShake];
+  }
+  if (warn == nil) {
+    [userDefaults setObject:@(YES) forKey:wwanWarn];
+  }
+  [userDefaults synchronize];
 }
 @end

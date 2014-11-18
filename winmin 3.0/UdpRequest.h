@@ -265,4 +265,17 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
 - (void)sendMsg69:(NSString *)oldPassword
       newPassword:(NSString *)newPassword
          sendMode:(SENDMODE)mode;
+
+- (void)sendMsg6BOr6D:(SDZGSwitch *)aSwitch
+           alertUnder:(short)alertUnder
+         isAlertUnder:(BOOL)isAlertUnder
+         alertGreater:(short)alertGreater
+       isAlertGreater:(BOOL)isAlertGreater
+         turnOffUnder:(short)turnOffUnder
+       isTurnOffUnder:(BOOL)isTurnOffUnder
+       turnOffGreater:(short)turnOffGreater
+     isTurnOffGreater:(BOOL)isTurnOffGreater
+             sendMode:(SENDMODE)mode;
+
+- (void)sendMsg71Or73:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode;
 @end
