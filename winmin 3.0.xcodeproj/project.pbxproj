@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		06276B622ABA4D69A45BB762 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B2B7BB80C1420797A2EE26 /* libPods.a */; };
+		150955961A1C6B9500822B82 /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 150955951A1C6B9400822B82 /* libPushSDK.a */; };
+		150955981A1C6BFE00822B82 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150955971A1C6BFE00822B82 /* CFNetwork.framework */; };
+		1509559A1A1C6C1F00822B82 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150955991A1C6C1F00822B82 /* CoreFoundation.framework */; };
+		1509559C1A1C6C3900822B82 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1509559B1A1C6C3900822B82 /* SystemConfiguration.framework */; };
+		1509559E1A1C6C5100822B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1509559D1A1C6C5100822B82 /* Security.framework */; };
+		150955A01A1C6C5D00822B82 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1509559F1A1C6C5D00822B82 /* libz.dylib */; };
+		150955A21A1C6D4800822B82 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 150955A11A1C6D4800822B82 /* PushConfig.plist */; };
 		150BE85519FF8CA600A358CF /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE85419FF8CA600A358CF /* ForgetPwdViewController.m */; };
 		150BE85819FF91FE00A358CF /* ResetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE85719FF91FE00A358CF /* ResetPwdViewController.m */; };
 		150BE86119FFA7B700A358CF /* FindPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE86019FFA7B700A358CF /* FindPassword.m */; };
@@ -148,6 +155,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		150955941A1C6B9400822B82 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APService.h; path = jpush/APService.h; sourceTree = "<group>"; };
+		150955951A1C6B9400822B82 /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPushSDK.a; path = jpush/libPushSDK.a; sourceTree = "<group>"; };
+		150955971A1C6BFE00822B82 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		150955991A1C6C1F00822B82 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		1509559B1A1C6C3900822B82 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		1509559D1A1C6C5100822B82 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		1509559F1A1C6C5D00822B82 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		150955A11A1C6D4800822B82 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		150BE85319FF8CA600A358CF /* ForgetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgetPwdViewController.h; sourceTree = "<group>"; };
 		150BE85419FF8CA600A358CF /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
 		150BE85619FF91FE00A358CF /* ResetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPwdViewController.h; sourceTree = "<group>"; };
@@ -380,10 +395,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				150955A01A1C6C5D00822B82 /* libz.dylib in Frameworks */,
+				1509559E1A1C6C5100822B82 /* Security.framework in Frameworks */,
+				158D987D19C6F39C0068AFC5 /* CoreGraphics.framework in Frameworks */,
+				1509559C1A1C6C3900822B82 /* SystemConfiguration.framework in Frameworks */,
+				1509559A1A1C6C1F00822B82 /* CoreFoundation.framework in Frameworks */,
+				150955981A1C6BFE00822B82 /* CFNetwork.framework in Frameworks */,
 				158D990C19C7CB1F0068AFC5 /* MessageUI.framework in Frameworks */,
 				158D990A19C7CAFC0068AFC5 /* libsqlite3.dylib in Frameworks */,
 				158D990819C7CAE30068AFC5 /* libxml2.dylib in Frameworks */,
 				158D990619C7CAD10068AFC5 /* libstdc++.dylib in Frameworks */,
+				150955961A1C6B9500822B82 /* libPushSDK.a in Frameworks */,
 				158D990419C7CABA0068AFC5 /* libz.1.2.5.dylib in Frameworks */,
 				158D990219C7CAB20068AFC5 /* libicucore.dylib in Frameworks */,
 				158D990019C7CAA00068AFC5 /* AVFoundation.framework in Frameworks */,
@@ -391,7 +413,6 @@
 				158D98E019C7C9660068AFC5 /* QQConnection.framework in Frameworks */,
 				158D98F519C7C9660068AFC5 /* ShareSDKFlatShareViewUI.framework in Frameworks */,
 				158D98EC19C7C9660068AFC5 /* TencentOpenAPI.framework in Frameworks */,
-				158D987D19C6F39C0068AFC5 /* CoreGraphics.framework in Frameworks */,
 				158D98E519C7C9660068AFC5 /* WeChatConnection.framework in Frameworks */,
 				158D98F619C7C9660068AFC5 /* ShareSDKShareActionSheet.framework in Frameworks */,
 				158D98EE19C7C9660068AFC5 /* libSinaWeiboSDK.a in Frameworks */,
@@ -428,6 +449,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		150955901A1C6AC800822B82 /* jpush */ = {
+			isa = PBXGroup;
+			children = (
+				150955941A1C6B9400822B82 /* APService.h */,
+				150955951A1C6B9400822B82 /* libPushSDK.a */,
+			);
+			name = jpush;
+			sourceTree = "<group>";
+		};
 		15476D4D19E7817A00EC6BD1 /* 欢迎 */ = {
 			isa = PBXGroup;
 			children = (
@@ -625,6 +655,11 @@
 		158D987919C6F39C0068AFC5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1509559F1A1C6C5D00822B82 /* libz.dylib */,
+				1509559D1A1C6C5100822B82 /* Security.framework */,
+				1509559B1A1C6C3900822B82 /* SystemConfiguration.framework */,
+				150955991A1C6C1F00822B82 /* CoreFoundation.framework */,
+				150955971A1C6BFE00822B82 /* CFNetwork.framework */,
 				158D990B19C7CB1F0068AFC5 /* MessageUI.framework */,
 				158D990919C7CAFC0068AFC5 /* libsqlite3.dylib */,
 				158D990719C7CAE30068AFC5 /* libxml2.dylib */,
@@ -675,6 +710,7 @@
 				1560130719C93A0B00BF7E12 /* 积累 */,
 				1560132419CA79D700BF7E12 /* image.plist */,
 				1551F6F219F90AF400A24447 /* faq.plist */,
+				150955A11A1C6D4800822B82 /* PushConfig.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -700,6 +736,7 @@
 		158D98B219C7C9490068AFC5 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				150955901A1C6AC800822B82 /* jpush */,
 				158D98F719C7C9E80068AFC5 /* ti */,
 				158D98B319C7C9660068AFC5 /* ShareSDK */,
 			);
@@ -1017,6 +1054,11 @@
 				TargetAttributes = {
 					158D987619C6F39C0068AFC5 = {
 						DevelopmentTeam = SDSBY6DGDQ;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					158D989A19C6F39D0068AFC5 = {
 						TestTargetID = 158D987619C6F39C0068AFC5;
@@ -1064,6 +1106,7 @@
 				1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */,
 				158D98F419C7C9660068AFC5 /* ShareSDKFlatShareViewUI.bundle in Resources */,
 				15BA47A519FDEA49008ADB9D /* Localizable.strings in Resources */,
+				150955A21A1C6D4800822B82 /* PushConfig.plist in Resources */,
 				158D98ED19C7C9660068AFC5 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				158D98E919C7C9660068AFC5 /* Resource.bundle in Resources */,
 				1560132519CA79D700BF7E12 /* image.plist in Resources */,
@@ -1377,7 +1420,8 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.itouchco.switchcontrol";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: com.itouchco.switchcontrol";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShareSDK/Connection",
@@ -1397,8 +1441,10 @@
 					"$(PROJECT_DIR)/ShareSDK/Extend/WeChatSDK",
 					"$(PROJECT_DIR)/ShareSDK/Extend/YiXinSDK",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/jpush",
 				);
 				PRODUCT_NAME = "微云智控";
+				PROVISIONING_PROFILE = "8eb32d76-f343-4e6e-8bac-3d83c1441858";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1411,7 +1457,8 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.itouchco.switchcontrol";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: com.itouchco.switchcontrol";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShareSDK/Connection",
@@ -1431,8 +1478,10 @@
 					"$(PROJECT_DIR)/ShareSDK/Extend/WeChatSDK",
 					"$(PROJECT_DIR)/ShareSDK/Extend/YiXinSDK",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/jpush",
 				);
 				PRODUCT_NAME = "微云智控";
+				PROVISIONING_PROFILE = "8eb32d76-f343-4e6e-8bac-3d83c1441858";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

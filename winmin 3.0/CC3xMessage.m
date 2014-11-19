@@ -1672,14 +1672,18 @@ typedef struct {
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
   message.state = msg.state;
-  message.isAlertUnderOn = (msg.alertUnder >> 15) & 1;
-  message.alertUnder = ntohs(msg.alertUnder & 0x7fff);
-  message.isAlertGreaterOn = (msg.alertGreater >> 15) & 1;
-  message.alertGreater = ntohs(msg.alertGreater & 0x7fff);
-  message.isTurnOffUnderOn = (msg.turnOffUnder >> 15) & 1;
-  message.turnOffUnder = ntohs(msg.turnOffUnder & 0x7fff);
-  message.isTurnOffGreaterOn = (msg.turnOffGreater >> 15) & 1;
-  message.turnOffGreater = ntohs(msg.turnOffGreater & 0x7fff);
+  short _alertUnder = ntohs(msg.alertUnder);
+  message.isAlertUnderOn = (_alertUnder >> 15) & 1;
+  message.alertUnder = _alertUnder & 0x7fff;
+  short _alertGreater = ntohs(msg.alertGreater);
+  message.isAlertGreaterOn = (_alertGreater >> 15) & 1;
+  message.alertGreater = _alertGreater & 0x7fff;
+  short _turnOffUnder = ntohs(msg.turnOffUnder);
+  message.isTurnOffUnderOn = (_turnOffUnder >> 15) & 1;
+  message.turnOffUnder = _turnOffUnder & 0x7fff;
+  short _turnOffGreater = ntohs(msg.turnOffGreater);
+  message.isTurnOffGreaterOn = (_turnOffGreater >> 15) & 1;
+  message.turnOffGreater = _turnOffGreater & 0x7fff;
   message.crc = ntohs(msg.crc);
   return message;
 }
@@ -1724,7 +1728,7 @@ typedef struct {
     case 0x48:
     case 0x4a:
     case 0x6c:
-    case 0x6f:
+    case 0x6e:
       result = [CC3xMessageUtil parseD2P3A:data];
       break;
     case 0x54:
@@ -1748,7 +1752,7 @@ typedef struct {
       result = [CC3xMessageUtil parseS2P64:data];
       break;
     case 0x72:
-    case 0x73:
+    case 0x74:
       result = [CC3xMessageUtil parseD2P72:data];
     default:
       break;

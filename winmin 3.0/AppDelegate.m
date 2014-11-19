@@ -12,6 +12,7 @@
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "WeiboApi.h"
+#import "APService.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong) NetUtil* netUtil;
@@ -42,6 +43,7 @@
   [self setData];
   [self setDefaultUserSettingValue];
   [self registPlatform];
+  [self registJPush:launchOptions];
   return YES;
 }
 
@@ -107,6 +109,30 @@
                       wxDelegate:self];
 }
 
+- (void)application:(UIApplication*)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
+
+  // Required
+  [APService registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication*)application
+    didReceiveRemoteNotification:(NSDictionary*)userInfo {
+
+  // Required
+  [APService handleRemoteNotification:userInfo];
+}
+
+- (void)application:(UIApplication*)application
+    didReceiveRemoteNotification:(NSDictionary*)userInfo
+          fetchCompletionHandler:
+              (void (^)(UIBackgroundFetchResult))completionHandler {
+
+  // IOS 7 Support Required
+  [APService handleRemoteNotification:userInfo];
+  completionHandler(UIBackgroundFetchResultNewData);
+}
+
 - (void)setStyle {
   [[UIApplication sharedApplication] setStatusBarHidden:NO];
   [[UIApplication sharedApplication]
@@ -150,6 +176,34 @@
   //  [ShareSDK connectMail];
   //  [ShareSDK connectSMS];
   //  [ShareSDK connectCopy];
+}
+
+- (void)registJPush:(NSDictionary*)launchOptions {
+// Required
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
+  if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+    //可以添加自定义categories
+    [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                   UIUserNotificationTypeSound |
+                                                   UIUserNotificationTypeAlert)
+                                       categories:nil];
+  } else {
+    // categories 必须为nil
+    [APService
+        registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                            UIRemoteNotificationTypeSound |
+                                            UIRemoteNotificationTypeAlert)
+                                categories:nil];
+  }
+#else
+  // categories 必须为nil
+  [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                 UIRemoteNotificationTypeSound |
+                                                 UIRemoteNotificationTypeAlert)
+                                     categories:nil];
+#endif
+  // Required
+  [APService setupWithOption:launchOptions];
 }
 
 /**  *得到本机现在用的语言  * en:英文  zh-Hans:简体中文   zh-Hant:繁体中文

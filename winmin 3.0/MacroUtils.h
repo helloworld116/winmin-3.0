@@ -145,11 +145,11 @@ extern NSString *const wwanWarn;
                    error:nil]
 
 //#ifdef DEBUG
-//#define SERVER_IP @"192.168.0.89"
+#define SERVER_IP @"192.168.0.89"
 //#else
 //#define SERVER_IP @"183.63.35.203"
 //#endif
-#define SERVER_IP @"120.24.75.50"
+//#define SERVER_IP @"120.24.75.50"
 //#define SERVER_IP @"183.63.35.203"
 static float const kHardwareVersion = 2.0;
 static int const kUdpResponseSuccessCode = 0;
@@ -160,6 +160,7 @@ static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
 static NSString *const AboutUsURLString = @"http://www.itouchco.com/";
 
 #define SERVER_PORT 20002
+
 
 #define APP_PORT 43690
 

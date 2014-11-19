@@ -141,7 +141,9 @@ static dispatch_queue_t delegateQueue;
     case P2D_SET_DELAY_REQ_4D:
     case P2D_GET_DELAY_REQ_53:
     case P2D_GET_NAME_REQ_5D:
-    case P2D_SET_PASSWD_REQ_69: {
+    case P2D_SET_PASSWD_REQ_69:
+    case P2D_SET_POWERACTION_REQ_6B:
+    case P2D_GET_POWERACTION_REQ_71: {
       dispatch_async(udp_send_serial_queue(), ^{
           [self.udpSocket sendData:self.msg
                             toHost:self.host
@@ -168,7 +170,9 @@ static dispatch_queue_t delegateQueue;
     case P2S_GET_NAME_REQ_5F:
     case P2S_GET_POWER_LOG_REQ_63:
     case P2S_GET_CITY_REQ_65:
-    case P2S_GET_CITY_WEATHER_REQ_67: {
+    case P2S_GET_CITY_WEATHER_REQ_67:
+    case P2S_SET_POWERACTION_REQ_6D:
+    case P2S_GET_POWERACTION_REQ_73: {
       [self.udpSocket sendData:self.msg
                         toHost:self.host
                           port:self.port
@@ -1725,7 +1729,7 @@ static dispatch_queue_t delegateQueue;
  *  @param tag
  */
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag {
-  //  debugLog(@"didSendDataWithTag :%ld", tag);
+  debugLog(@"didSendDataWithTag :%ld", tag);
   // 需要执行的操作：
   // 1、清空响应数据
   // 2、指定时间后检查数据是否为空，为空说明未响应，触发请求重发

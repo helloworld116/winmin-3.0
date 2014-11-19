@@ -8,6 +8,7 @@
 
 #import "SwitchInfoViewController.h"
 #import "SwitchInfoModel.h"
+#import "ApService.h"
 @interface InfoTextField : UITextField
 
 @end
@@ -59,16 +60,22 @@
 @property (nonatomic, assign) BOOL isAlertGreater;
 @property (nonatomic, assign) BOOL isOffUnder;
 @property (nonatomic, assign) BOOL isOffGreater;
-@property (nonatomic, strong) NSString *alertUnderValue;
-@property (nonatomic, strong) NSString *alertGreaterValue;
-@property (nonatomic, strong) NSString *offUnderValue;
-@property (nonatomic, strong) NSString *offGreaterValue;
+@property (nonatomic, assign) short alertUnderValue;
+@property (nonatomic, assign) short alertGreaterValue;
+@property (nonatomic, assign) short offUnderValue;
+@property (nonatomic, assign) short offGreaterValue;
 - (IBAction)showActionSheet:(id)sender;
 - (IBAction)switchValueChanged:(id)sender;
 
 @property (nonatomic, strong) NSString *imgName; //保存在本地的图片名称
 @property (nonatomic, strong) SwitchInfoModel *model;
 @property (nonatomic, strong) UIButton *btnDone; //键盘左下角的按钮
+
+@property (nonatomic, assign) BOOL isUpdateName;
+@property (nonatomic, assign) BOOL isUpdateLock;
+@property (nonatomic, assign) BOOL isUpdatePowerInfo;
+@property (nonatomic, strong)
+    NSString *jPushTagMac; //用做推送的mac，去除中间的冒号
 @end
 
 @implementation SwitchInfoViewController
@@ -108,6 +115,9 @@
     self._switchLock.on = NO;
   }
   self.model = [[SwitchInfoModel alloc] initWithSwitch:self.aSwitch];
+  self.jPushTagMac =
+      [self.aSwitch.mac stringByReplacingOccurrencesOfString:@":"
+                                                  withString:@""];
   [[NSNotificationCenter defaultCenter]
       addObserver:self
          selector:@selector(switchOnOffChanged:)
@@ -125,10 +135,19 @@
            object:self.model];
   [[NSNotificationCenter defaultCenter]
       addObserver:self
+         selector:@selector(getElecPowerInfoSuccessNotification:)
+             name:kGetElecPowerInfoSuccess
+           object:self.model];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(setElecPowerInfoSuccessNotification:)
+             name:kSetElecPowerInfoSuccess
+           object:self.model];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
          selector:@selector(keyboardDidShow:)
              name:UIKeyboardDidShowNotification
            object:nil];
-
   [[NSNotificationCenter defaultCenter]
       addObserver:self
          selector:@selector(keyboardWillBeHidden:)
@@ -140,6 +159,8 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   [self setup];
+
+  [self.model getElecPowerInfo];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -152,10 +173,26 @@
 }
 
 - (void)save:(id)sender {
-  //  [self.model setSwitchName:self.switchName];
-  //  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-  //  [self.model changeSwitchLockStatus];
-  //  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  self.isUpdateName = NO;
+  self.isUpdateLock = NO;
+  self.isUpdatePowerInfo = NO;
+  //  [self.imgName stringByReplacingOccurrencesOfString:@":" withString:@""];
+
+  self.isAlertUnder = self._switchAlertUnder.on;
+  self.isAlertGreater = self._switchAlertGreater.on;
+  self.isOffUnder = self._switchOffUnder.on;
+  self.isOffGreater = self._switchOffGreater.on;
+  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  [self.model setElecInfoWithAlertUnder:self.alertUnderValue
+                           isAlertUnder:self.isAlertUnder
+                           alertGreater:self.alertGreaterValue
+                         isAlertGreater:self.isAlertGreater
+                           turnOffUnder:self.offUnderValue
+                         isTurnOffUnder:self.isOffUnder
+                         turnOffGreater:self.offGreaterValue
+                       isTurnOffGreater:self.isOffGreater];
+  [self.model changeSwitchLockStatus];
+  [self.model setSwitchName:self.switchName];
 }
 /*
 #pragma mark - Navigation
@@ -191,14 +228,36 @@ preparation before navigation
       self.lockStatus = LockStatusOff;
     }
   } else if (_switch == self._switchAlertUnder) {
-    self.isAlertUnder = _switch.on;
+    [self setJPushTag];
   } else if (_switch == self._switchAlertGreater) {
-    self.isAlertGreater = _switch.on;
-  } else if (_switch == self._switchOffUnder) {
-    self.isOffUnder = _switch.on;
-  } else if (_switch == self._switchOffGreater) {
-    self.isOffGreater = _switch.on;
+    [self setJPushTag];
+    //  } else if (_switch == self._switchOffUnder) {
+    //    self.isOffUnder = _switch.on;
+    //  } else if (_switch == self._switchOffGreater) {
+    //    self.isOffGreater = _switch.on;
   }
+}
+
+#pragma mark -
+- (void)setJPushTag {
+  //  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  //  NSSet *jPushTag = [userDefaults objectForKey:@"jPushTag"];
+  NSSet *jPushTag;
+  if (!jPushTag) {
+    if (self._switchAlertGreater.on || self._switchAlertUnder.on) {
+      jPushTag = [NSSet setWithObject:self.jPushTagMac];
+    }
+  } else {
+    NSMutableSet *mutableSet = [NSMutableSet setWithSet:jPushTag];
+    if (self._switchAlertGreater.on || self._switchAlertUnder.on) {
+      [mutableSet addObject:self.jPushTagMac];
+    } else {
+      [mutableSet removeObject:self.jPushTagMac];
+    }
+    jPushTag = [NSSet setWithSet:mutableSet];
+  }
+  //  [userDefaults setObject:jPushTag forKey:@"jPushTag"];
+  [APService setTags:jPushTag callbackSelector:nil object:nil];
 }
 
 #pragma mark - UITextField协议
@@ -217,6 +276,14 @@ preparation before navigation
     if (switchName.length && ![self.switchName isEqualToString:switchName]) {
       self.switchName = switchName;
     }
+  } else if (textField == self.textFieldAlertUnder) {
+    self.alertUnderValue = [textField.text floatValue];
+  } else if (textField == self.textFieldAlertGreater) {
+    self.alertGreaterValue = [textField.text floatValue];
+  } else if (textField == self.textFieldOffUnder) {
+    self.offUnderValue = [textField.text floatValue];
+  } else if (textField == self.textFieldOffGreater) {
+    self.offGreaterValue = [textField.text floatValue];
   }
 }
 
@@ -234,26 +301,65 @@ preparation before navigation
 //}
 
 #pragma mark - 通知
+- (void)getElecPowerInfoSuccessNotification:(NSNotification *)notification {
+  CC3xMessage *message = notification.userInfo[@"message"];
+  self.alertUnderValue = message.alertUnder;
+  self.alertGreaterValue = message.alertGreater;
+  self.offUnderValue = message.turnOffUnder;
+  self.offGreaterValue = message.turnOffGreater;
+  dispatch_async(MAIN_QUEUE, ^{
+      self.textFieldAlertUnder.text =
+          [NSString stringWithFormat:@"%d", message.alertUnder];
+      self.textFieldAlertGreater.text =
+          [NSString stringWithFormat:@"%d", message.alertGreater];
+      self.textFieldOffUnder.text =
+          [NSString stringWithFormat:@"%d", message.turnOffUnder];
+      self.textFieldOffGreater.text =
+          [NSString stringWithFormat:@"%d", message.turnOffGreater];
+      self._switchAlertUnder.on = message.isAlertUnderOn;
+      self._switchAlertGreater.on = message.isAlertGreaterOn;
+      self._switchOffUnder.on = message.isTurnOffUnderOn;
+      self._switchOffGreater.on = message.isTurnOffGreaterOn;
+  });
+}
+
+- (void)setElecPowerInfoSuccessNotification:(NSNotification *)notification {
+  self.isUpdatePowerInfo = YES;
+  dispatch_async(MAIN_QUEUE, ^{
+      if (self.isUpdateName && self.isUpdateLock && self.isUpdatePowerInfo) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+      }
+  });
+}
+
 - (void)switchNameChanged:(NSNotification *)notification {
+  self.isUpdateName = YES;
   debugLog(@"########switch name changed");
   [[SwitchDataCeneter sharedInstance] updateSwitchName:self.switchName
                                            socketNames:nil
                                                    mac:self.aSwitch.mac];
   dispatch_async(MAIN_QUEUE, ^{
-      [MBProgressHUD hideHUDForView:self.view animated:YES];
+      if (self.isUpdateName && self.isUpdateLock && self.isUpdatePowerInfo) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+      }
       self.navigationItem.title = self.switchName;
       int count = [[self.navigationController viewControllers] count];
       UIViewController *popViewController =
           [[self.navigationController viewControllers] objectAtIndex:count - 2];
       popViewController.navigationItem.title = self.switchName;
+
   });
 }
 
 - (void)switchOnOffChanged:(NSNotification *)notification {
+  self.isUpdateLock = YES;
   [[SwitchDataCeneter sharedInstance] updateSwitchLockStaus:self.lockStatus
                                                         mac:self.aSwitch.mac];
-  dispatch_async(MAIN_QUEUE,
-                 ^{ [MBProgressHUD hideHUDForView:self.view animated:YES]; });
+  dispatch_async(MAIN_QUEUE, ^{
+      if (self.isUpdateName && self.isUpdateLock && self.isUpdatePowerInfo) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+      }
+  });
 }
 
 - (void)noResponseNotification:(NSNotification *)notif {

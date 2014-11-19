@@ -3199,8 +3199,8 @@
                                                                 <action selector="switchValueChanged:" destination="3sa-6E-EbI" eventType="valueChanged" id="wtI-Nu-oOG"/>
                                                             </connections>
                                                         </switch>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1000" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0iC-pN-VZO">
-                                                            <rect key="frame" x="87" y="6" width="60" height="39"/>
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0iC-pN-VZO">
+                                                            <rect key="frame" x="82" y="1" width="60" height="49"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="60" id="FNX-FJ-vt2"/>
                                                             </constraints>
@@ -3208,7 +3208,7 @@
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         </textField>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="W 提醒" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffZ-Cl-mbe">
-                                                            <rect key="frame" x="152" y="15" width="58" height="22"/>
+                                                            <rect key="frame" x="142" y="15" width="58" height="22"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" red="0.52549019610000003" green="0.52549019610000003" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -3216,12 +3216,12 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstItem="0iC-pN-VZO" firstAttribute="top" secondItem="JSb-7r-cVJ" secondAttribute="top" constant="6" id="BGJ-Cd-ynY"/>
+                                                        <constraint firstItem="0iC-pN-VZO" firstAttribute="top" secondItem="JSb-7r-cVJ" secondAttribute="top" constant="1" id="BGJ-Cd-ynY"/>
                                                         <constraint firstItem="B6a-bY-4Hp" firstAttribute="top" secondItem="JSb-7r-cVJ" secondAttribute="top" constant="15" id="G51-gf-j0h"/>
-                                                        <constraint firstItem="ffZ-Cl-mbe" firstAttribute="leading" secondItem="0iC-pN-VZO" secondAttribute="trailing" constant="5" id="Jsa-0u-N25"/>
-                                                        <constraint firstAttribute="bottom" secondItem="0iC-pN-VZO" secondAttribute="bottom" constant="6" id="WL0-B1-fYa"/>
+                                                        <constraint firstItem="ffZ-Cl-mbe" firstAttribute="leading" secondItem="0iC-pN-VZO" secondAttribute="trailing" id="Jsa-0u-N25"/>
+                                                        <constraint firstAttribute="bottom" secondItem="0iC-pN-VZO" secondAttribute="bottom" constant="1" id="WL0-B1-fYa"/>
                                                         <constraint firstItem="B6a-bY-4Hp" firstAttribute="leading" secondItem="JSb-7r-cVJ" secondAttribute="leading" constant="10" id="gw3-hr-ohx"/>
-                                                        <constraint firstItem="0iC-pN-VZO" firstAttribute="leading" secondItem="B6a-bY-4Hp" secondAttribute="trailing" constant="5" id="lHa-8S-1Ck"/>
+                                                        <constraint firstItem="0iC-pN-VZO" firstAttribute="leading" secondItem="B6a-bY-4Hp" secondAttribute="trailing" id="lHa-8S-1Ck"/>
                                                         <constraint firstItem="ffZ-Cl-mbe" firstAttribute="top" secondItem="JSb-7r-cVJ" secondAttribute="top" constant="15" id="yYl-lj-xKA"/>
                                                     </constraints>
                                                 </view>
@@ -3262,8 +3262,8 @@
                                                                 <action selector="switchValueChanged:" destination="3sa-6E-EbI" eventType="valueChanged" id="0rU-CE-bjm"/>
                                                             </connections>
                                                         </switch>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1000" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GFa-by-jSv">
-                                                            <rect key="frame" x="87" y="6" width="60" height="39"/>
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GFa-by-jSv">
+                                                            <rect key="frame" x="82" y="1" width="60" height="49"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="60" id="Sj0-ZA-TFi"/>
                                                             </constraints>
@@ -3271,7 +3271,7 @@
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         </textField>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="W 提醒" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yX-al-9Pb">
-                                                            <rect key="frame" x="152" y="15" width="58" height="22"/>
+                                                            <rect key="frame" x="142" y="15" width="58" height="22"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" red="0.52549019610000003" green="0.52549019610000003" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -3279,13 +3279,13 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstItem="GFa-by-jSv" firstAttribute="leading" secondItem="Vyo-TQ-7RM" secondAttribute="trailing" constant="5" id="7OZ-qZ-RKo"/>
+                                                        <constraint firstItem="GFa-by-jSv" firstAttribute="leading" secondItem="Vyo-TQ-7RM" secondAttribute="trailing" id="7OZ-qZ-RKo"/>
                                                         <constraint firstItem="Vyo-TQ-7RM" firstAttribute="top" secondItem="MzA-Dy-oe4" secondAttribute="top" constant="15" id="9ip-KC-Tq7"/>
                                                         <constraint firstItem="Vyo-TQ-7RM" firstAttribute="leading" secondItem="MzA-Dy-oe4" secondAttribute="leading" constant="10" id="WsX-cz-rKo"/>
-                                                        <constraint firstItem="GFa-by-jSv" firstAttribute="top" secondItem="MzA-Dy-oe4" secondAttribute="top" constant="6" id="cwJ-k3-Wwl"/>
+                                                        <constraint firstItem="GFa-by-jSv" firstAttribute="top" secondItem="MzA-Dy-oe4" secondAttribute="top" constant="1" id="cwJ-k3-Wwl"/>
                                                         <constraint firstItem="8yX-al-9Pb" firstAttribute="top" secondItem="MzA-Dy-oe4" secondAttribute="top" constant="15" id="r6U-qP-zhN"/>
-                                                        <constraint firstItem="8yX-al-9Pb" firstAttribute="leading" secondItem="GFa-by-jSv" secondAttribute="trailing" constant="5" id="vyI-CZ-Yfw"/>
-                                                        <constraint firstAttribute="bottom" secondItem="GFa-by-jSv" secondAttribute="bottom" constant="6" id="zGp-Io-mRZ"/>
+                                                        <constraint firstItem="8yX-al-9Pb" firstAttribute="leading" secondItem="GFa-by-jSv" secondAttribute="trailing" id="vyI-CZ-Yfw"/>
+                                                        <constraint firstAttribute="bottom" secondItem="GFa-by-jSv" secondAttribute="bottom" constant="1" id="zGp-Io-mRZ"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -3325,8 +3325,8 @@
                                                                 <action selector="switchValueChanged:" destination="3sa-6E-EbI" eventType="valueChanged" id="WY0-zf-fVH"/>
                                                             </connections>
                                                         </switch>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1000" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0sV-Z7-WSJ">
-                                                            <rect key="frame" x="87" y="6" width="60" height="39"/>
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0sV-Z7-WSJ">
+                                                            <rect key="frame" x="82" y="1" width="60" height="49"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="60" id="dCz-nn-dYC"/>
                                                             </constraints>
@@ -3334,7 +3334,7 @@
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         </textField>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="W 关闭" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIu-aH-Phe">
-                                                            <rect key="frame" x="152" y="15" width="58" height="22"/>
+                                                            <rect key="frame" x="142" y="15" width="58" height="22"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" red="0.52549019610000003" green="0.52549019610000003" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -3342,12 +3342,12 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstItem="0sV-Z7-WSJ" firstAttribute="leading" secondItem="vyo-Hs-rhK" secondAttribute="trailing" constant="5" id="29U-zR-TdH"/>
+                                                        <constraint firstItem="0sV-Z7-WSJ" firstAttribute="leading" secondItem="vyo-Hs-rhK" secondAttribute="trailing" id="29U-zR-TdH"/>
                                                         <constraint firstItem="vyo-Hs-rhK" firstAttribute="leading" secondItem="6do-XH-ZoV" secondAttribute="leading" constant="10" id="2Bh-GC-3th"/>
-                                                        <constraint firstItem="0sV-Z7-WSJ" firstAttribute="top" secondItem="6do-XH-ZoV" secondAttribute="top" constant="6" id="7xm-R8-EcM"/>
+                                                        <constraint firstItem="0sV-Z7-WSJ" firstAttribute="top" secondItem="6do-XH-ZoV" secondAttribute="top" constant="1" id="7xm-R8-EcM"/>
                                                         <constraint firstItem="eIu-aH-Phe" firstAttribute="top" secondItem="6do-XH-ZoV" secondAttribute="top" constant="15" id="QRg-Pq-5cp"/>
-                                                        <constraint firstItem="eIu-aH-Phe" firstAttribute="leading" secondItem="0sV-Z7-WSJ" secondAttribute="trailing" constant="5" id="iqB-SY-LJo"/>
-                                                        <constraint firstAttribute="bottom" secondItem="0sV-Z7-WSJ" secondAttribute="bottom" constant="6" id="kPV-dy-H34"/>
+                                                        <constraint firstItem="eIu-aH-Phe" firstAttribute="leading" secondItem="0sV-Z7-WSJ" secondAttribute="trailing" id="iqB-SY-LJo"/>
+                                                        <constraint firstAttribute="bottom" secondItem="0sV-Z7-WSJ" secondAttribute="bottom" constant="1" id="kPV-dy-H34"/>
                                                         <constraint firstItem="vyo-Hs-rhK" firstAttribute="top" secondItem="6do-XH-ZoV" secondAttribute="top" constant="15" id="wgv-U5-RkH"/>
                                                     </constraints>
                                                 </view>
@@ -3388,8 +3388,8 @@
                                                                 <action selector="switchValueChanged:" destination="3sa-6E-EbI" eventType="valueChanged" id="L7n-RZ-VBK"/>
                                                             </connections>
                                                         </switch>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1000" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Y7Q-iJ-no2">
-                                                            <rect key="frame" x="87" y="6" width="60" height="39"/>
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Y7Q-iJ-no2">
+                                                            <rect key="frame" x="82" y="1" width="60" height="49"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="60" id="hej-fh-prf"/>
                                                             </constraints>
@@ -3397,7 +3397,7 @@
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         </textField>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="W 关闭" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4z-G0-2od">
-                                                            <rect key="frame" x="152" y="15" width="58" height="22"/>
+                                                            <rect key="frame" x="142" y="15" width="58" height="22"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" red="0.52549019610000003" green="0.52549019610000003" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -3408,10 +3408,10 @@
                                                         <constraint firstItem="aDZ-Y9-Q13" firstAttribute="top" secondItem="nds-8x-wVc" secondAttribute="top" constant="15" id="Btx-cY-6dB"/>
                                                         <constraint firstItem="U4z-G0-2od" firstAttribute="top" secondItem="nds-8x-wVc" secondAttribute="top" constant="15" id="NxZ-Wl-vib"/>
                                                         <constraint firstItem="aDZ-Y9-Q13" firstAttribute="leading" secondItem="nds-8x-wVc" secondAttribute="leading" constant="10" id="UqQ-tc-3yF"/>
-                                                        <constraint firstItem="Y7Q-iJ-no2" firstAttribute="leading" secondItem="aDZ-Y9-Q13" secondAttribute="trailing" constant="5" id="ZfH-dc-Eh6"/>
-                                                        <constraint firstAttribute="bottom" secondItem="Y7Q-iJ-no2" secondAttribute="bottom" constant="6" id="ecs-lg-vg3"/>
-                                                        <constraint firstItem="U4z-G0-2od" firstAttribute="leading" secondItem="Y7Q-iJ-no2" secondAttribute="trailing" constant="5" id="i19-zg-YZz"/>
-                                                        <constraint firstItem="Y7Q-iJ-no2" firstAttribute="top" secondItem="nds-8x-wVc" secondAttribute="top" constant="6" id="nPh-hr-DyT"/>
+                                                        <constraint firstItem="Y7Q-iJ-no2" firstAttribute="leading" secondItem="aDZ-Y9-Q13" secondAttribute="trailing" id="ZfH-dc-Eh6"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Y7Q-iJ-no2" secondAttribute="bottom" constant="1" id="ecs-lg-vg3"/>
+                                                        <constraint firstItem="U4z-G0-2od" firstAttribute="leading" secondItem="Y7Q-iJ-no2" secondAttribute="trailing" id="i19-zg-YZz"/>
+                                                        <constraint firstItem="Y7Q-iJ-no2" firstAttribute="top" secondItem="nds-8x-wVc" secondAttribute="top" constant="1" id="nPh-hr-DyT"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>

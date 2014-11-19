@@ -205,10 +205,10 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   dispatch_async(GLOBAL_QUEUE, ^{
       [self beginBackgroundUpdateTask];
       [[DBUtil sharedInstance] saveSwitchs:[self switchs]];
-      if (!self.switchSyncService) {
-        self.switchSyncService = [[SwitchSyncService alloc] init];
-      }
-      [self.switchSyncService uploadSwitchs:[self switchs]];
+      //      if (!self.switchSyncService) {
+      //        self.switchSyncService = [[SwitchSyncService alloc] init];
+      //      }
+      //      [self.switchSyncService uploadSwitchs:[self switchs]];
       [self endBackgroundUpdateTask];
   });
 }

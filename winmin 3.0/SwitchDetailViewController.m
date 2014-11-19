@@ -107,17 +107,19 @@
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   [self viewAppearOrEnterForeground];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIApplicationWillEnterForegroundNotification
+              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIApplicationDidEnterBackgroundNotification
+              object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   [self viewDisappearOrEnterBackground];
-}
-
-- (void)viewDisappearOrEnterBackground {
-  [self.model stopRealTimeElec];
-  [self.elecView stopRealTimeDraw];
-  [self.model stopScanSwitchState];
   [[NSNotificationCenter defaultCenter]
       addObserver:self
          selector:@selector(applicationWillEnterForegroundNotification:)
@@ -130,20 +132,18 @@
            object:nil];
 }
 
+- (void)viewDisappearOrEnterBackground {
+  [self.model stopRealTimeElec];
+  [self.elecView stopRealTimeDraw];
+  [self.model stopScanSwitchState];
+}
+
 - (void)viewAppearOrEnterForeground {
   [self.model startScanSwitchState];
   //从详情、定时和延时页面返回时如果选中的是实时则开启刷新
   if (self.showingRealTimeElecView) {
     self.showingRealTimeElecView = YES;
   }
-  [[NSNotificationCenter defaultCenter]
-      removeObserver:self
-                name:UIApplicationWillEnterForegroundNotification
-              object:nil];
-  [[NSNotificationCenter defaultCenter]
-      removeObserver:self
-                name:UIApplicationDidEnterBackgroundNotification
-              object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
