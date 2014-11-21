@@ -78,6 +78,9 @@
   // state;
   // here you can undo many of the changes
   // made on entering the background.
+  [APService resetBadge];
+  [APService setBadge:0];
+  //  [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication*)application {
@@ -127,10 +130,38 @@
     didReceiveRemoteNotification:(NSDictionary*)userInfo
           fetchCompletionHandler:
               (void (^)(UIBackgroundFetchResult))completionHandler {
+  if (application.applicationState == UIApplicationStateActive) {
+    //    //
+    //    转换成一个本地通知，显示到通知栏，你也可以直接显示出一个alertView，只是那样稍显aggressive：）
+    //    UILocalNotification* localNotification = [[UILocalNotification alloc]
+    //    init];
+    //    localNotification.userInfo = userInfo;
+    //    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    //    localNotification.alertBody =
+    //        [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+    //    localNotification.fireDate = [NSDate date];
+    //    [[UIApplication sharedApplication]
+    //        scheduleLocalNotification:localNotification];
+    [APService setLocalNotification:[NSDate dateWithTimeIntervalSinceNow:1]
+                          alertBody:[[userInfo objectForKey:@"aps"]
+                                        objectForKey:@"alert"]
+                              badge:-1
+                        alertAction:nil
+                      identifierKey:@"identifierKey"
+                           userInfo:nil
+                          soundName:nil];
+  } else {
+    // IOS 7 Support Required
+    [APService handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+  }
+}
 
-  // IOS 7 Support Required
-  [APService handleRemoteNotification:userInfo];
-  completionHandler(UIBackgroundFetchResultNewData);
+- (void)application:(UIApplication*)application
+    didReceiveLocalNotification:(UILocalNotification*)notification {
+  //  [APService showLocalNotificationAtFront:notification
+  //                            identifierKey:@"identifierKey"];
+  [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
 
 - (void)setStyle {
@@ -204,6 +235,20 @@
 #endif
   // Required
   [APService setupWithOption:launchOptions];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(didReceivejPushMessage:)
+             name:kJPFNetworkDidReceiveMessageNotification
+           object:nil];
+}
+
+- (void)didReceivejPushMessage:(NSNotification*)notification {
+  //  NSDictionary* userInfo = [notification userInfo];
+  //  NSString* content = [userInfo valueForKey:@"content"];
+  //  NSString* extras = [userInfo valueForKey:@"extras"];
+  //  NSString* customizeField1 =
+  //      [extras valueForKey:@"customizeField1"]; //自定义参数，key是自己定义的
 }
 
 /**  *得到本机现在用的语言  * en:英文  zh-Hans:简体中文   zh-Hant:繁体中文

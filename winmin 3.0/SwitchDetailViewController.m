@@ -108,19 +108,6 @@
   [super viewDidAppear:animated];
   [self viewAppearOrEnterForeground];
   [[NSNotificationCenter defaultCenter]
-      removeObserver:self
-                name:UIApplicationWillEnterForegroundNotification
-              object:nil];
-  [[NSNotificationCenter defaultCenter]
-      removeObserver:self
-                name:UIApplicationDidEnterBackgroundNotification
-              object:nil];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
-  [self viewDisappearOrEnterBackground];
-  [[NSNotificationCenter defaultCenter]
       addObserver:self
          selector:@selector(applicationWillEnterForegroundNotification:)
              name:UIApplicationWillEnterForegroundNotification
@@ -130,6 +117,19 @@
          selector:@selector(applicationDidEnterBackgroundNotification:)
              name:UIApplicationDidEnterBackgroundNotification
            object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  [self viewDisappearOrEnterBackground];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIApplicationWillEnterForegroundNotification
+              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIApplicationDidEnterBackgroundNotification
+              object:nil];
 }
 
 - (void)viewDisappearOrEnterBackground {

@@ -1481,7 +1481,7 @@
 					"$(PROJECT_DIR)/jpush",
 				);
 				PRODUCT_NAME = "微云智控";
-				PROVISIONING_PROFILE = "8eb32d76-f343-4e6e-8bac-3d83c1441858";
+				PROVISIONING_PROFILE = "52e1fd4e-952d-46fe-a6af-4d8d24b487d0";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

@@ -74,6 +74,7 @@
 @property (nonatomic, assign) BOOL isUpdateName;
 @property (nonatomic, assign) BOOL isUpdateLock;
 @property (nonatomic, assign) BOOL isUpdatePowerInfo;
+@property (nonatomic, assign) BOOL isImgUpdate;
 @property (nonatomic, strong)
     NSString *jPushTagMac; //用做推送的mac，去除中间的冒号
 @end
@@ -176,13 +177,13 @@
   self.isUpdateName = NO;
   self.isUpdateLock = NO;
   self.isUpdatePowerInfo = NO;
-  //  [self.imgName stringByReplacingOccurrencesOfString:@":" withString:@""];
 
   self.isAlertUnder = self._switchAlertUnder.on;
   self.isAlertGreater = self._switchAlertGreater.on;
   self.isOffUnder = self._switchOffUnder.on;
   self.isOffGreater = self._switchOffGreater.on;
   [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  [self saveImageInfoToDB];
   [self.model setElecInfoWithAlertUnder:self.alertUnderValue
                            isAlertUnder:self.isAlertUnder
                            alertGreater:self.alertGreaterValue
@@ -227,10 +228,10 @@ preparation before navigation
     } else {
       self.lockStatus = LockStatusOff;
     }
-  } else if (_switch == self._switchAlertUnder) {
-    [self setJPushTag];
-  } else if (_switch == self._switchAlertGreater) {
-    [self setJPushTag];
+    //  } else if (_switch == self._switchAlertUnder) {
+    //    [self setJPushTag];
+    //  } else if (_switch == self._switchAlertGreater) {
+    //    [self setJPushTag];
     //  } else if (_switch == self._switchOffUnder) {
     //    self.isOffUnder = _switch.on;
     //  } else if (_switch == self._switchOffGreater) {
@@ -240,24 +241,34 @@ preparation before navigation
 
 #pragma mark -
 - (void)setJPushTag {
-  //  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  //  NSSet *jPushTag = [userDefaults objectForKey:@"jPushTag"];
-  NSSet *jPushTag;
-  if (!jPushTag) {
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  NSArray *jPushTagArray = [userDefaults objectForKey:@"jPushTagArray"];
+  NSMutableSet *jPushTag = [NSMutableSet setWithArray:jPushTagArray];
+  if (jPushTag.count == 0) {
     if (self._switchAlertGreater.on || self._switchAlertUnder.on) {
-      jPushTag = [NSSet setWithObject:self.jPushTagMac];
+      [jPushTag addObject:self.jPushTagMac];
     }
   } else {
-    NSMutableSet *mutableSet = [NSMutableSet setWithSet:jPushTag];
     if (self._switchAlertGreater.on || self._switchAlertUnder.on) {
-      [mutableSet addObject:self.jPushTagMac];
+      [jPushTag addObject:self.jPushTagMac];
     } else {
-      [mutableSet removeObject:self.jPushTagMac];
+      [jPushTag removeObject:self.jPushTagMac];
     }
-    jPushTag = [NSSet setWithSet:mutableSet];
   }
-  //  [userDefaults setObject:jPushTag forKey:@"jPushTag"];
-  [APService setTags:jPushTag callbackSelector:nil object:nil];
+  if (jPushTag.count == 0) {
+    jPushTag = [NSMutableSet set];
+  }
+  jPushTagArray = [jPushTag allObjects];
+  [userDefaults setObject:jPushTagArray forKey:@"jPushTagArray"];
+  [APService setTags:jPushTag
+      callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                object:self];
+}
+
+- (void)tagsAliasCallback:(int)iResCode
+                     tags:(NSSet *)tags
+                    alias:(NSString *)alias {
+  debugLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags, alias);
 }
 
 #pragma mark - UITextField协议
@@ -325,11 +336,7 @@ preparation before navigation
 
 - (void)setElecPowerInfoSuccessNotification:(NSNotification *)notification {
   self.isUpdatePowerInfo = YES;
-  dispatch_async(MAIN_QUEUE, ^{
-      if (self.isUpdateName && self.isUpdateLock && self.isUpdatePowerInfo) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-      }
-  });
+  dispatch_async(MAIN_QUEUE, ^{ [self allResuestSuccess]; });
 }
 
 - (void)switchNameChanged:(NSNotification *)notification {
@@ -339,9 +346,7 @@ preparation before navigation
                                            socketNames:nil
                                                    mac:self.aSwitch.mac];
   dispatch_async(MAIN_QUEUE, ^{
-      if (self.isUpdateName && self.isUpdateLock && self.isUpdatePowerInfo) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-      }
+      [self allResuestSuccess];
       self.navigationItem.title = self.switchName;
       int count = [[self.navigationController viewControllers] count];
       UIViewController *popViewController =
@@ -355,11 +360,14 @@ preparation before navigation
   self.isUpdateLock = YES;
   [[SwitchDataCeneter sharedInstance] updateSwitchLockStaus:self.lockStatus
                                                         mac:self.aSwitch.mac];
-  dispatch_async(MAIN_QUEUE, ^{
-      if (self.isUpdateName && self.isUpdateLock && self.isUpdatePowerInfo) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-      }
-  });
+  dispatch_async(MAIN_QUEUE, ^{ [self allResuestSuccess]; });
+}
+
+- (void)allResuestSuccess {
+  if (self.isUpdateName && self.isUpdateLock && self.isUpdatePowerInfo) {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self setJPushTag];
+  }
 }
 
 - (void)noResponseNotification:(NSNotification *)notif {
@@ -462,12 +470,13 @@ preparation before navigation
   }
 }
 
-- (BOOL)saveImage:(NSString *)imgName {
-  BOOL result =
-      [[DBUtil sharedInstance] updateSwitch:self.aSwitch imageName:imgName];
-  [[SwitchDataCeneter sharedInstance] updateSwitchImageName:imgName
-                                                        mac:self.aSwitch.mac];
-  return result;
+- (BOOL)saveImageInfoToDB {
+  if (self.isImgUpdate) {
+    [[DBUtil sharedInstance] updateSwitch:self.aSwitch imageName:self.imgName];
+    [[SwitchDataCeneter sharedInstance] updateSwitchImageName:self.imgName
+                                                          mac:self.aSwitch.mac];
+  }
+  return YES;
 }
 
 #pragma mark---获取图片
@@ -527,17 +536,16 @@ preparation before navigation
       [NSString stringWithFormat:@"%f", [[NSDate date] timeIntervalSince1970]];
   NSString *name = [[[str componentsSeparatedByString:@"."] objectAtIndex:0]
       stringByAppendingString:@".png"];
-  [self saveImage:theImage withName:name];
+  [self saveImageFileToDisk:theImage withName:name];
   [self dismissViewControllerAnimated:YES completion:nil];
   self.imgName = name;
   self.imgViewSwitch.image = [SDZGSwitch imgNameToImage:name];
-  if (![self saveImage:name]) {
-    // TOOD:提示修改失败
-  }
+  self.isImgUpdate = YES;
 }
 
 #pragma mark 保存图片到document
-- (void)saveImage:(UIImage *)tempImage withName:(NSString *)imageName {
+- (void)saveImageFileToDisk:(UIImage *)tempImage
+                   withName:(NSString *)imageName {
   NSData *imageData = UIImagePNGRepresentation(tempImage);
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                        NSUserDomainMask, YES);
