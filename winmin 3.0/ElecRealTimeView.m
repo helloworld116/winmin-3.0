@@ -12,8 +12,8 @@
 #define kFillColor [UIColor colorWithWhite:1.0 alpha:0.2]
 #define kBigRoundStrokeColor kThemeColor
 #define kBigRoundFillColor kThemeColor
-#define kTextColor kThemeColor
-#define str(value) [NSString stringWithFormat:@"%.1fW", value]
+#define kTextColor [UIColor blackColor]
+#define str(value) [NSString stringWithFormat:@"%.0fW", value]
 #define kTopMargin 10 //上边距
 #define kLeftMargin 4 //左边距
 #define kCount 8      //显示点个数
@@ -50,7 +50,7 @@ static CGFloat scaleX;
 
 //- (void)updateView {
 //  //随机取0到2000的值
-//  int value = (arc4random() % 500);
+//  int value = (arc4random() % 2500);
 //  //  int value = 0;
 //  //  NSLog(@"next value is %d", value);
 //  [self.powers addObject:@(value)];
@@ -83,19 +83,25 @@ static CGFloat scaleX;
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
-  int maxValue = [[self.points valueForKeyPath:@"@max.self"] integerValue];
-  int minValue = [[self.points valueForKeyPath:@"@min.self"] integerValue];
-  int diff = maxValue - minValue;
+  float maxValue = [[self.points valueForKeyPath:@"@max.self"] floatValue];
+  //  int minValue = [[self.points valueForKeyPath:@"@min.self"] integerValue];
+  //  int diff = maxValue - minValue;
   CGFloat height = rect.size.height - kTopMargin; //离上边距
   CGFloat scaleY = 1;
-  if (diff <= height / 2) {
-    scaleY *= 0.5;
-  } else {
-    if (maxValue != 0) {
-      scaleY = height / maxValue;
-      if (height > maxValue) {
-        scaleY *= 0.6;
-      }
+  //  if (diff <= 10) {
+  //    scaleY *= 0.3;
+  //  } else {
+  //    if (maxValue != 0) {
+  //      scaleY = height / maxValue;
+  //      if (height > maxValue) {
+  //        scaleY *= 0.6;
+  //      }
+  //    }
+  //  }
+  if (maxValue != 0) {
+    scaleY = height / maxValue;
+    if (height > maxValue) {
+      scaleY *= 0.9f;
     }
   }
 
@@ -203,15 +209,21 @@ static CGFloat scaleX;
       textOffset = -16.f;
     }
     CGFloat y = height - (point * scaleY);
-    if (point <= 10) {
-      //值小于10，文字显示在上方
-      if (y < kTopMargin) {
-        y += kTopMargin;
-      } else {
-        y -= kTopMargin;
-      }
-    } else if (point > height / scaleY - kTopMargin) {
+    if (height - y < 2 * kTopMargin) {
+      y -= kTopMargin;
+    } else if (height - y >= height) {
       y += kTopMargin;
+      //    }
+      //
+      //    if (point <= 10) {
+      //      //值小于10，文字显示在上方
+      //      if (y < kTopMargin) {
+      //        y += kTopMargin;
+      //      } else {
+      //        y -= kTopMargin;
+      //      }
+      //    } else if (point > height * scaleY - kTopMargin) {
+      //      y += kTopMargin;
     } else {
       //根据位置显示在上方或下方
       if (i % 2 == 0) {
@@ -231,12 +243,12 @@ static CGFloat scaleX;
   if (isEqualOrGreaterToiOS7) {
     [str drawAtPoint:point
         withAttributes:@{
-          NSFontAttributeName : [UIFont systemFontOfSize:8],
+          NSFontAttributeName : [UIFont systemFontOfSize:12],
           NSForegroundColorAttributeName : kTextColor
         }];
 
   } else {
-    [str drawAtPoint:point withFont:[UIFont systemFontOfSize:8]];
+    [str drawAtPoint:point withFont:[UIFont systemFontOfSize:12]];
   }
 }
 

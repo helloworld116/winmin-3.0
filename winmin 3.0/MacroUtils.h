@@ -45,7 +45,7 @@
   1.0 //发送UDP内网请求后，检查是否有响应数据的间隔，单位为秒
 #define kCheckPublicResponseInterval                                           \
   2.0 //发送UDP外网请求后，检查是否有响应数据的间隔，单位为秒
-#define kTryCount 3 //请求失败后自动尝试次数
+#define kTryCount 2 //请求失败后自动尝试次数
 
 // UDP内网过期时间,单位秒
 #define kPrivateUDPTimeOut 0.001
@@ -99,6 +99,8 @@
 extern NSString *const keyShake;
 extern NSString *const showMac;
 extern NSString *const wwanWarn;
+extern NSString *const remoteNotification;
+extern NSString *const jPushTagArrayKey;
 //通知
 #define kNoResponseNotification @"NoResponseNotification"
 #define kConfigNewSwitch @"ConfigNewSwitch"
@@ -145,11 +147,11 @@ extern NSString *const wwanWarn;
                    error:nil]
 
 //#ifdef DEBUG
-#define SERVER_IP @"192.168.0.89"
+//#define SERVER_IP @"192.168.0.89"
 //#else
 //#define SERVER_IP @"183.63.35.203"
 //#endif
-//#define SERVER_IP @"120.24.75.50"
+#define SERVER_IP @"120.24.75.50"
 //#define SERVER_IP @"183.63.35.203"
 static float const kHardwareVersion = 2.0;
 static int const kUdpResponseSuccessCode = 0;
@@ -160,7 +162,6 @@ static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
 static NSString *const AboutUsURLString = @"http://www.itouchco.com/";
 
 #define SERVER_PORT 20002
-
 
 #define APP_PORT 43690
 

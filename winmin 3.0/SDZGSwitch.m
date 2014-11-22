@@ -7,9 +7,11 @@
 //
 
 #import "SDZGSwitch.h"
+#import "APServiceUtil.h"
 
 @implementation SDZGSwitch
 + (SDZGSwitch *)parseMessageCOrEToSwitch:(CC3xMessage *)message {
+  debugLog(@"%s", __func__);
   NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
   BOOL needToDBImmediately; //新扫描到的设备立即添加到数据库
   SDZGSwitch *aSwitch =
@@ -85,6 +87,23 @@
   if (needToDBImmediately && aSwitch.sockets.count == 2) {
     [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
     [[DBUtil sharedInstance] saveSwitch:aSwitch];
+    if (kSharedAppliction.reciveRemoteNotification) {
+      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+      NSMutableArray *jPushTagArray =
+          [[defaults objectForKey:jPushTagArrayKey] mutableCopy];
+      NSString *macWithout =
+          [aSwitch.mac stringByReplacingOccurrencesOfString:@":"
+                                                 withString:@""];
+      [jPushTagArray addObject:macWithout];
+      NSSet *set = [NSSet setWithArray:jPushTagArray];
+      [APServiceUtil openRemoteNotification:set
+                                finishBlock:^(BOOL result) {
+                                    if (result) {
+                                      [defaults setObject:jPushTagArray
+                                                   forKey:jPushTagArrayKey];
+                                    }
+                                }];
+    }
   }
   return aSwitch;
 }

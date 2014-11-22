@@ -13,6 +13,7 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "WeiboApi.h"
 #import "APService.h"
+#import <CRToast.h>
 
 @interface AppDelegate ()
 @property (nonatomic, strong) NetUtil* netUtil;
@@ -78,9 +79,9 @@
   // state;
   // here you can undo many of the changes
   // made on entering the background.
-  [APService resetBadge];
+  //  [APService resetBadge];
   [APService setBadge:0];
-  //  [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+  [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication*)application {
@@ -131,24 +132,13 @@
           fetchCompletionHandler:
               (void (^)(UIBackgroundFetchResult))completionHandler {
   if (application.applicationState == UIApplicationStateActive) {
-    //    //
-    //    转换成一个本地通知，显示到通知栏，你也可以直接显示出一个alertView，只是那样稍显aggressive：）
-    //    UILocalNotification* localNotification = [[UILocalNotification alloc]
-    //    init];
-    //    localNotification.userInfo = userInfo;
-    //    localNotification.soundName = UILocalNotificationDefaultSoundName;
-    //    localNotification.alertBody =
-    //        [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
-    //    localNotification.fireDate = [NSDate date];
-    //    [[UIApplication sharedApplication]
-    //        scheduleLocalNotification:localNotification];
     [APService setLocalNotification:[NSDate dateWithTimeIntervalSinceNow:1]
                           alertBody:[[userInfo objectForKey:@"aps"]
                                         objectForKey:@"alert"]
                               badge:-1
                         alertAction:nil
-                      identifierKey:@"identifierKey"
-                           userInfo:nil
+                      identifierKey:nil
+                           userInfo:userInfo
                           soundName:nil];
   } else {
     // IOS 7 Support Required
@@ -159,9 +149,21 @@
 
 - (void)application:(UIApplication*)application
     didReceiveLocalNotification:(UILocalNotification*)notification {
-  //  [APService showLocalNotificationAtFront:notification
-  //                            identifierKey:@"identifierKey"];
-  [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+  NSDictionary* userInfo = notification.userInfo;
+  NSDictionary* options = @{
+    kCRToastTextKey : [[userInfo objectForKey:@"aps"] objectForKey:@"alert"],
+    kCRToastTextAlignmentKey : @(NSTextAlignmentLeft),
+    kCRToastFontKey : [UIFont systemFontOfSize:16.f],
+    kCRToastTimeIntervalKey : @3,
+    kCRToastBackgroundColorKey : kThemeColor,
+    kCRToastAnimationInTypeKey : @(CRToastAnimationTypeLinear),
+    kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeLinear),
+    kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionTop),
+    kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionTop),
+    kCRToastNotificationTypeKey : @(CRToastTypeNavigationBar),
+    kCRToastImageKey : [UIImage imageNamed:@"notification_warning"]
+  };
+  [CRToastManager showNotificationWithOptions:options completionBlock:^{}];
 }
 
 - (void)setStyle {
@@ -265,15 +267,20 @@
   id showmac = [userDefaults objectForKey:showMac];
   id shake = [userDefaults objectForKey:keyShake];
   id warn = [userDefaults objectForKey:wwanWarn];
-  if (showmac == nil) {
+  id remoteNotifi = [userDefaults objectForKey:remoteNotification];
+  if (!showmac) {
     [userDefaults setObject:@(YES) forKey:showMac];
   }
-  if (shake == nil) {
+  if (!shake) {
     [userDefaults setObject:@(NO) forKey:keyShake];
   }
-  if (warn == nil) {
+  if (!warn) {
     [userDefaults setObject:@(YES) forKey:wwanWarn];
   }
+  if (!remoteNotifi) {
+    [userDefaults setObject:@(YES) forKey:remoteNotification];
+  }
   [userDefaults synchronize];
+  self.reciveRemoteNotification = [userDefaults boolForKey:remoteNotification];
 }
 @end

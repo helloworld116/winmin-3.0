@@ -30,6 +30,7 @@ PODS:
   - CocoaLumberjack/Core (2.0.0-beta)
   - CocoaLumberjack/Extensions (2.0.0-beta):
     - CocoaLumberjack/Core
+  - CRToast (0.0.7)
   - DDProgressView (0.1)
   - EAIntroView (2.6.3)
   - EGOTableViewPullRefresh (0.1.0)
@@ -55,6 +56,7 @@ DEPENDENCIES:
   - AFNetworking
   - CocoaAsyncSocket
   - CocoaLumberjack
+  - CRToast (~> 0.0.7)
   - DDProgressView
   - EAIntroView (~> 2.6.0)
   - EGOTableViewPullRefresh
@@ -78,6 +80,7 @@ SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
   CocoaLumberjack: aadc76d7bd6c839ca84b38ed50cbf89d7cf8c693
+  CRToast: f9f2c4b29776d68ba24c4d621cba59a83fea921b
   DDProgressView: 4619e79b2b1c8437ed451c0d439eec88bb99e243
   EAIntroView: 45924b81c153d1206ee24f4fa654e9d9dae79e93
   EGOTableViewPullRefresh: 04bb7d115f660c91a036ebade5e6678c7ef26c59

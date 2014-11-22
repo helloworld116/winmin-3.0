@@ -7,15 +7,20 @@
 //
 
 #import "UserSettingViewController.h"
+#import "APServiceUtil.h"
 NSString *const keyShake = @"KeyShake";
 NSString *const showMac = @"ShowMac";
 NSString *const wwanWarn = @"WWANWarn";
+NSString *const remoteNotification = @"remoteNotification";
+NSString *const jPushTagArrayKey = @"jPushTagArrayKey";
 
 @interface UserSettingCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIView *viewOfCellContent;
 @property (strong, nonatomic) IBOutlet UILabel *lblName;
 @property (strong, nonatomic) IBOutlet UISwitch *_switch;
 @property (strong, nonatomic) NSString *name;
+
+@property (strong, nonatomic) MBProgressHUD *hud;
 @end
 @implementation UserSettingCell
 - (void)awakeFromNib {
@@ -33,10 +38,64 @@ NSString *const wwanWarn = @"WWANWarn";
 }
 
 - (IBAction)switchValueChanged:(id)sender {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  [defaults setObject:@(self._switch.on) forKey:self.name];
-  [defaults synchronize];
+  if ([self.name isEqualToString:remoteNotification]) {
+    //    self.hud = [[MBProgressHUD alloc]
+    //    initWithWindow:kSharedAppliction.window];
+    //    [self.window addSubview:self.hud];
+    //    [self.hud show:YES];
+    if (self._switch.on) {
+      //执行打开
+      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+      NSMutableSet *tags = [NSMutableSet setWithCapacity:switchs.count];
+      for (SDZGSwitch *aSwitch in switchs) {
+        NSString *mac = [aSwitch.mac stringByReplacingOccurrencesOfString:@":"
+                                                               withString:@""];
+        [tags addObject:mac];
+      }
+      dispatch_async(GLOBAL_QUEUE, ^{
+          [APServiceUtil
+              openRemoteNotification:tags
+                         finishBlock:^(BOOL result) {
+                             if (result) {
+                               NSUserDefaults *defaults =
+                                   [NSUserDefaults standardUserDefaults];
+                               [defaults setObject:@(self._switch.on)
+                                            forKey:self.name];
+                               NSArray *jPushTagArray = [tags allObjects];
+                               [defaults setObject:jPushTagArray
+                                            forKey:jPushTagArrayKey];
+                               [defaults synchronize];
+                             } else {
+                               self._switch.on = !self._switch.on;
+                             }
+                         }];
+      });
+    } else {
+      //执行关闭
+      dispatch_async(GLOBAL_QUEUE, ^{
+          [APServiceUtil closeRemoteNotification:^(BOOL result) {
+              dispatch_async(MAIN_QUEUE, ^{
+                  if (result) {
+                    NSUserDefaults *defaults =
+                        [NSUserDefaults standardUserDefaults];
+                    [defaults setObject:[NSArray array]
+                                 forKey:jPushTagArrayKey];
+                    [defaults setObject:@(self._switch.on) forKey:self.name];
+                    [defaults synchronize];
+                  } else {
+                    self._switch.on = !self._switch.on;
+                  }
+              });
+          }];
+      });
+    }
+  } else {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@(self._switch.on) forKey:self.name];
+    [defaults synchronize];
+  }
 }
+
 @end
 
 @interface UserSettingViewController ()
@@ -56,7 +115,7 @@ NSString *const wwanWarn = @"WWANWarn";
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self setupStyle];
-  self.settings = @[ keyShake, showMac, wwanWarn ];
+  self.settings = @[ keyShake, showMac, wwanWarn, remoteNotification ];
 }
 
 - (void)didReceiveMemoryWarning {

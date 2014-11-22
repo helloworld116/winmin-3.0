@@ -51,6 +51,7 @@
 		1560132319CA795100BF7E12 /* SocketImgTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560132219CA795100BF7E12 /* SocketImgTemplateViewController.m */; };
 		1560132519CA79D700BF7E12 /* image.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1560132419CA79D700BF7E12 /* image.plist */; };
 		1560132819CBDCA700BF7E12 /* SwitchDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */; };
+		156692011A1EECC000E94C39 /* APServiceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 156692001A1EECC000E94C39 /* APServiceUtil.m */; };
 		15736B9019F2482F00D6A45D /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15736B8F19F2482F00D6A45D /* WelcomeViewController.m */; };
 		158D987B19C6F39C0068AFC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987A19C6F39C0068AFC5 /* Foundation.framework */; };
 		158D987D19C6F39C0068AFC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */; };
@@ -233,6 +234,8 @@
 		1560132419CA79D700BF7E12 /* image.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = image.plist; sourceTree = "<group>"; };
 		1560132619CBDCA700BF7E12 /* SwitchDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchDetailModel.h; sourceTree = "<group>"; };
 		1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchDetailModel.m; sourceTree = "<group>"; };
+		156691FF1A1EECC000E94C39 /* APServiceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APServiceUtil.h; sourceTree = "<group>"; };
+		156692001A1EECC000E94C39 /* APServiceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APServiceUtil.m; sourceTree = "<group>"; };
 		15736B8E19F2482F00D6A45D /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		15736B8F19F2482F00D6A45D /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		158D987719C6F39C0068AFC5 /* 微云智控.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微云智控.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -883,6 +886,8 @@
 				15AC864619CFFE7000D154EB /* UIView+NoDataView.m */,
 				15F3A48319EE0D6D001CD296 /* TextUtil.h */,
 				15F3A48419EE0D6D001CD296 /* TextUtil.m */,
+				156691FF1A1EECC000E94C39 /* APServiceUtil.h */,
+				156692001A1EECC000E94C39 /* APServiceUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -1172,6 +1177,7 @@
 				15AC865519D1555600D154EB /* DelayTimeCountDownView.m in Sources */,
 				1560130119C846EE00BF7E12 /* SwitchListCell.m in Sources */,
 				15F31C1E19D3C7C70095E5BD /* SceneListViewController.m in Sources */,
+				156692011A1EECC000E94C39 /* APServiceUtil.m in Sources */,
 				15AC864A19D02F7300D154EB /* SwitchInfoModel.m in Sources */,
 				15BBD6F819DA857A0002D973 /* ElecRealTimeView.m in Sources */,
 				1560131419C9600600BF7E12 /* UIImage+Color.m in Sources */,
@@ -1420,8 +1426,8 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.itouchco.switchcontrol";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: com.itouchco.switchcontrol";
+				CODE_SIGN_IDENTITY = "iOS Development: li lu (REFJ6GA9UH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iOS Development: li lu (REFJ6GA9UH)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShareSDK/Connection",
@@ -1457,8 +1463,8 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.itouchco.switchcontrol";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: com.itouchco.switchcontrol";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: SHENZHEN ITOUCH CO., LTD (SDSBY6DGDQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: SHENZHEN ITOUCH CO., LTD (SDSBY6DGDQ)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShareSDK/Connection",

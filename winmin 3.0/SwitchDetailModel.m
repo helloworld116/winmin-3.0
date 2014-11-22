@@ -171,14 +171,19 @@
 
 - (void)noResponseMsgtag:(long)tag socketGroupId:(int)socketGroupId {
   debugLog(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
-  NSDictionary *userInfo = @{
-    @"tag" : @(tag),
-    @"socketGroupId" : @(socketGroupId)
-  };
-  [[NSNotificationCenter defaultCenter]
-      postNotificationName:kNoResponseNotification
-                    object:self
-                  userInfo:userInfo];
+  switch (tag) {
+    case P2D_CONTROL_REQ_11:
+    case P2S_CONTROL_REQ_13: {
+      NSDictionary *userInfo = @{
+        @"tag" : @(tag),
+        @"socketGroupId" : @(socketGroupId)
+      };
+      [[NSNotificationCenter defaultCenter]
+          postNotificationName:kNoResponseNotification
+                        object:self
+                      userInfo:userInfo];
+    } break;
+  }
 }
 
 - (void)responseMsgCOrE:(CC3xMessage *)message {
@@ -241,7 +246,7 @@
 
 - (void)responseMsg34Or36:(CC3xMessage *)message {
   debugLog(@"power is %f", message.power);
-  float diff = message.power - kElecDiff;
+  float diff = ceil(message.power - kElecDiff);
   float power = diff > 0 ? diff : 0.f;
   NSDictionary *userInfo = @{ @"power" : @(power) };
   [[NSNotificationCenter defaultCenter]

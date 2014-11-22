@@ -7,6 +7,7 @@
 //
 
 #import "SwitchListModel.h"
+#import "APServiceUtil.h"
 @interface SwitchListModel () <UdpRequestDelegate>
 @property (strong, nonatomic) NSTimer *timer;
 @property (nonatomic, strong) NSString *mac; //扫描指定设备时使用
@@ -97,6 +98,22 @@
   [[NSNotificationCenter defaultCenter]
       postNotificationName:kSwitchDeleteSceneNotification
                     object:nil];
+  if (kSharedAppliction.reciveRemoteNotification) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *jPushTagArray =
+        [[defaults objectForKey:jPushTagArrayKey] mutableCopy];
+    NSString *macWithout =
+        [aSwitch.mac stringByReplacingOccurrencesOfString:@":" withString:@""];
+    [jPushTagArray removeObject:macWithout];
+    NSSet *set = [NSSet setWithArray:jPushTagArray];
+    [APServiceUtil openRemoteNotification:set
+                              finishBlock:^(BOOL result) {
+                                  if (result) {
+                                    [defaults setObject:jPushTagArray
+                                                 forKey:jPushTagArrayKey];
+                                  }
+                              }];
+  }
 }
 
 #pragma mark - UdpRequestDelegate

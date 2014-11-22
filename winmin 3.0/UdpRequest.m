@@ -89,7 +89,6 @@ static dispatch_queue_t delegateQueue;
 
 - (void)dealloc {
   [self.udpSocket close];
-
   debugLog(@"<<<<<<<<<<<<<socket close>>>>>>>>>>>>>>");
 }
 
@@ -150,7 +149,7 @@ static dispatch_queue_t delegateQueue;
                               port:self.port
                        withTimeout:kPrivateUDPTimeOut
                                tag:self.tag];
-          [NSThread sleepForTimeInterval:.08f];
+          [NSThread sleepForTimeInterval:.02f];
       });
     } break;
 
@@ -930,8 +929,6 @@ static dispatch_queue_t delegateQueue;
 - (void)sendMsg11Or13:(SDZGSwitch *)aSwitch
         socketGroupId:(int)socketGroupId
              sendMode:(SENDMODE)mode {
-  //  debugLog(@"networkStatus is %d", kSharedAppliction.networkStatus);
-  //  debugLog(@"switch net is %d", aSwitch.networkStatus);
   dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息

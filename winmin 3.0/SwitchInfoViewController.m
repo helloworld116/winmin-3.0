@@ -71,12 +71,10 @@
 @property (nonatomic, strong) SwitchInfoModel *model;
 @property (nonatomic, strong) UIButton *btnDone; //键盘左下角的按钮
 
-@property (nonatomic, assign) BOOL isUpdateName;
-@property (nonatomic, assign) BOOL isUpdateLock;
-@property (nonatomic, assign) BOOL isUpdatePowerInfo;
+@property (nonatomic, assign) BOOL isUpdateNameSuccess;
+@property (nonatomic, assign) BOOL isUpdateLockSuccess;
+@property (nonatomic, assign) BOOL isUpdatePowerInfoSuccess;
 @property (nonatomic, assign) BOOL isImgUpdate;
-@property (nonatomic, strong)
-    NSString *jPushTagMac; //用做推送的mac，去除中间的冒号
 @end
 
 @implementation SwitchInfoViewController
@@ -116,9 +114,6 @@
     self._switchLock.on = NO;
   }
   self.model = [[SwitchInfoModel alloc] initWithSwitch:self.aSwitch];
-  self.jPushTagMac =
-      [self.aSwitch.mac stringByReplacingOccurrencesOfString:@":"
-                                                  withString:@""];
   [[NSNotificationCenter defaultCenter]
       addObserver:self
          selector:@selector(switchOnOffChanged:)
@@ -174,9 +169,9 @@
 }
 
 - (void)save:(id)sender {
-  self.isUpdateName = NO;
-  self.isUpdateLock = NO;
-  self.isUpdatePowerInfo = NO;
+  self.isUpdateNameSuccess = NO;
+  self.isUpdateLockSuccess = NO;
+  self.isUpdatePowerInfoSuccess = NO;
 
   self.isAlertUnder = self._switchAlertUnder.on;
   self.isAlertGreater = self._switchAlertGreater.on;
@@ -237,38 +232,6 @@ preparation before navigation
     //  } else if (_switch == self._switchOffGreater) {
     //    self.isOffGreater = _switch.on;
   }
-}
-
-#pragma mark -
-- (void)setJPushTag {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  NSArray *jPushTagArray = [userDefaults objectForKey:@"jPushTagArray"];
-  NSMutableSet *jPushTag = [NSMutableSet setWithArray:jPushTagArray];
-  if (jPushTag.count == 0) {
-    if (self._switchAlertGreater.on || self._switchAlertUnder.on) {
-      [jPushTag addObject:self.jPushTagMac];
-    }
-  } else {
-    if (self._switchAlertGreater.on || self._switchAlertUnder.on) {
-      [jPushTag addObject:self.jPushTagMac];
-    } else {
-      [jPushTag removeObject:self.jPushTagMac];
-    }
-  }
-  if (jPushTag.count == 0) {
-    jPushTag = [NSMutableSet set];
-  }
-  jPushTagArray = [jPushTag allObjects];
-  [userDefaults setObject:jPushTagArray forKey:@"jPushTagArray"];
-  [APService setTags:jPushTag
-      callbackSelector:@selector(tagsAliasCallback:tags:alias:)
-                object:self];
-}
-
-- (void)tagsAliasCallback:(int)iResCode
-                     tags:(NSSet *)tags
-                    alias:(NSString *)alias {
-  debugLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags, alias);
 }
 
 #pragma mark - UITextField协议
@@ -335,12 +298,12 @@ preparation before navigation
 }
 
 - (void)setElecPowerInfoSuccessNotification:(NSNotification *)notification {
-  self.isUpdatePowerInfo = YES;
+  self.isUpdatePowerInfoSuccess = YES;
   dispatch_async(MAIN_QUEUE, ^{ [self allResuestSuccess]; });
 }
 
 - (void)switchNameChanged:(NSNotification *)notification {
-  self.isUpdateName = YES;
+  self.isUpdateNameSuccess = YES;
   debugLog(@"########switch name changed");
   [[SwitchDataCeneter sharedInstance] updateSwitchName:self.switchName
                                            socketNames:nil
@@ -357,16 +320,15 @@ preparation before navigation
 }
 
 - (void)switchOnOffChanged:(NSNotification *)notification {
-  self.isUpdateLock = YES;
+  self.isUpdateLockSuccess = YES;
   [[SwitchDataCeneter sharedInstance] updateSwitchLockStaus:self.lockStatus
                                                         mac:self.aSwitch.mac];
   dispatch_async(MAIN_QUEUE, ^{ [self allResuestSuccess]; });
 }
 
 - (void)allResuestSuccess {
-  if (self.isUpdateName && self.isUpdateLock && self.isUpdatePowerInfo) {
+  if (self.isUpdateNameSuccess && self.isUpdateLockSuccess && self.isUpdatePowerInfoSuccess) {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [self setJPushTag];
   }
 }
 

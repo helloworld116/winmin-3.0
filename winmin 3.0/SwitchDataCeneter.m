@@ -170,7 +170,7 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
   NSArray *switchs = [self.switchsDict allValues];
   for (SDZGSwitch *aSwitch in switchs) {
-    if (current - aSwitch.lastUpdateInterval > 2 * REFRESH_DEV_TIME) {
+    if (current - aSwitch.lastUpdateInterval > 1.2 * REFRESH_DEV_TIME) {
       aSwitch.networkStatus = SWITCH_OFFLINE;
     }
   }

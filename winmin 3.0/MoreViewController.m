@@ -42,19 +42,19 @@
   [self setupStyle];
   self.titles = @[
     NSLocalizedString(@"About Us", nil),
+    NSLocalizedString(@"User Setting", nil),
     NSLocalizedString(@"Safety Warning", nil),
     NSLocalizedString(@"FAQ", nil),
     NSLocalizedString(@"User Manual", nil),
-    NSLocalizedString(@"Purchase Products", nil),
-    NSLocalizedString(@"User Setting", nil)
+    NSLocalizedString(@"Purchase Products", nil)
   ];
   self.icons = @[
     @"about_us",
+    @"user_setting",
     @"security",
     @"question",
     @"book",
-    @"buy",
-    @"user_setting"
+    @"buy"
   ];
   [[NSNotificationCenter defaultCenter]
       addObserverForName:kLoginSuccess
@@ -193,17 +193,22 @@
       case 1:
         nextController =
             [self.storyboard instantiateViewControllerWithIdentifier:
-                                 @"SecurityWarnViewController"];
+                                 @"UserSettingViewController"];
         break;
       case 2:
-        nextController = [self.storyboard
-            instantiateViewControllerWithIdentifier:@"FAQViewController"];
+        nextController =
+            [self.storyboard instantiateViewControllerWithIdentifier:
+                                 @"SecurityWarnViewController"];
         break;
       case 3:
         nextController = [self.storyboard
-            instantiateViewControllerWithIdentifier:@"BookViewController"];
+            instantiateViewControllerWithIdentifier:@"FAQViewController"];
         break;
       case 4:
+        nextController = [self.storyboard
+            instantiateViewControllerWithIdentifier:@"BookViewController"];
+        break;
+      case 5:
         [[UIApplication sharedApplication]
             openURL:[NSURL URLWithString:@"http://shop111398559.taobao.com"]];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -211,10 +216,6 @@
         //            instantiateViewControllerWithIdentifier:@"TestViewController"];
 
         break;
-      case 5:
-        nextController =
-            [self.storyboard instantiateViewControllerWithIdentifier:
-                                 @"UserSettingViewController"];
       default:
         break;
     }

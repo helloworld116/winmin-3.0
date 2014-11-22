@@ -195,11 +195,11 @@
           if (sid) {
             NSString *sql = @"update switch set "
                 @"name=?,networkstatus=?,lockstatus=?,version=?,tag=?,"
-                @"imagename=?,password=?,port=? where mac=?";
+                @"imagename=?,password=?,ip=? where mac=?";
             [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
                               @(aSwitch.lockStatus), @(aSwitch.version), @(0),
-                              aSwitch.imageName, aSwitch.password,
-                              @(aSwitch.port), aSwitch.mac];
+                              aSwitch.imageName, aSwitch.password, aSwitch.ip,
+                              aSwitch.mac];
           } else {
             NSString *sql = @"insert into "
                 @"switch(name,networkstatus,mac,ip,port,lockstatus,version,tag,"

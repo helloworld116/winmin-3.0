@@ -15,6 +15,7 @@
 #import "DelayViewController.h"
 #import "ElecView.h"
 #import "HistoryElec.h"
+#import <CRToast.h>
 
 @interface SwitchDetailViewController () <
     SocketViewDelegate, SocketImgTemplateDelegate, ElecViewDelegate>
@@ -318,7 +319,14 @@ preparation before navigation
       switch (tag) {
         case P2D_CONTROL_REQ_11:
         case P2S_CONTROL_REQ_13:
-          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+          //          [self.view makeToast:NSLocalizedString(@"No UDP Response
+          //          Msg", nil)];
+          [CRToastManager
+              showNotificationWithMessage:NSLocalizedString(
+                                              @"No UDP Response Msg", nil)
+                          completionBlock:^{
+
+                          }];
           if (socketGroupId == 1) {
             [self.socketView1 removeRotateAnimation];
           } else {

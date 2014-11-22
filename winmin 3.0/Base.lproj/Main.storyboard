@@ -173,6 +173,15 @@
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="ymo-Df-NX3">
                                                 <rect key="frame" x="20" y="64" width="15" height="23"/>
                                             </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPv-iw-SX3">
+                                                <rect key="frame" x="204" y="54" width="55" height="45"/>
+                                                <state key="normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="touchOnOrOff:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="ZcW-Fj-h1v"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -259,6 +268,15 @@
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="bpw-nF-9Ph">
                                                 <rect key="frame" x="20" y="64" width="15" height="23"/>
                                             </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dsI-ff-Cgz">
+                                                <rect key="frame" x="204" y="54" width="55" height="45"/>
+                                                <state key="normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="touchOnOrOff:" destination="ZoC-de-892" eventType="touchUpInside" id="14e-SS-RFt"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -274,7 +292,7 @@
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Kp-op-mYm" customClass="ElecView">
-                                        <rect key="frame" x="10" y="234" width="300" height="324"/>
+                                        <rect key="frame" x="10" y="234" width="300" height="329"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MqG-zb-Sia">
                                                 <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
@@ -384,10 +402,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-Bd-crA">
-                                                <rect key="frame" x="0.0" y="41" width="300" height="283"/>
+                                                <rect key="frame" x="0.0" y="41" width="300" height="288"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H70-3X-xFu" customClass="ElecRealTimeView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="283"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="288"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </view>
                                                 </subviews>
@@ -429,7 +447,7 @@
                                 <color key="backgroundColor" red="0.94117647058823528" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="JL5-Fc-0vL" firstAttribute="top" secondItem="pQ8-cN-gbp" secondAttribute="top" constant="10" id="E02-vn-swP"/>
-                                    <constraint firstAttribute="bottom" secondItem="9Kp-op-mYm" secondAttribute="bottom" constant="10" id="JC9-LE-w59"/>
+                                    <constraint firstAttribute="bottom" secondItem="9Kp-op-mYm" secondAttribute="bottom" constant="5" id="JC9-LE-w59"/>
                                     <constraint firstItem="ZoC-de-892" firstAttribute="top" secondItem="pQ8-cN-gbp" secondAttribute="top" constant="119" id="Ks8-gT-ILz"/>
                                     <constraint firstItem="JL5-Fc-0vL" firstAttribute="leading" secondItem="pQ8-cN-gbp" secondAttribute="leading" id="TD9-H1-IRY"/>
                                     <constraint firstItem="9Kp-op-mYm" firstAttribute="top" secondItem="ZoC-de-892" secondAttribute="bottom" constant="5" id="Tid-xR-2oj"/>
