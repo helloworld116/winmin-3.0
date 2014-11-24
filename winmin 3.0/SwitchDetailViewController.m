@@ -306,12 +306,15 @@ preparation before navigation
   SDZGSocket *socket2 = sockets[1];
   dispatch_async(MAIN_QUEUE, ^{
       [self.socketView1 changeSocketState:socket1];
+      [self.socketView1 removeRotateAnimation];
       [self.socketView2 changeSocketState:socket2];
+      [self.socketView2 removeRotateAnimation];
   });
   debugLog(@"############## 修改界面");
 }
 
 - (void)noResponse:(NSNotification *)notif {
+  debugLog(@"%s", __func__);
   dispatch_async(MAIN_QUEUE, ^{
       NSDictionary *userInfo = notif.userInfo;
       long tag = [userInfo[@"tag"] longValue];

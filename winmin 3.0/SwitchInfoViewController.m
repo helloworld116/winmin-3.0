@@ -9,6 +9,8 @@
 #import "SwitchInfoViewController.h"
 #import "SwitchInfoModel.h"
 #import "ApService.h"
+#import <CRToast.h>
+static const int maxPower = 2500;
 @interface InfoTextField : UITextField
 
 @end
@@ -53,8 +55,7 @@
 @property (nonatomic, strong) IBOutlet UISwitch *_switchOffUnder;
 @property (nonatomic, strong) IBOutlet UISwitch *_switchOffGreater;
 @property (nonatomic, strong) UITextField *currentEditField;
-@property (nonatomic, strong)
-    NSString *switchName; //保存修改前的名称，对比不一致才提交请求
+
 @property (nonatomic, assign) LockStatus lockStatus;
 @property (nonatomic, assign) BOOL isAlertUnder;
 @property (nonatomic, assign) BOOL isAlertGreater;
@@ -74,7 +75,15 @@
 @property (nonatomic, assign) BOOL isUpdateNameSuccess;
 @property (nonatomic, assign) BOOL isUpdateLockSuccess;
 @property (nonatomic, assign) BOOL isUpdatePowerInfoSuccess;
+//标识是否进行了修改
 @property (nonatomic, assign) BOOL isImgUpdate;
+@property (nonatomic, assign) BOOL isNameUpdate;
+@property (nonatomic, assign) BOOL isLockUpdate;
+@property (nonatomic, assign) BOOL isPowerInfoUpdate;
+//保存原有信息
+@property (nonatomic, strong)
+    NSString *switchName; //保存修改前的名称，对比不一致才提交请求
+@property (nonatomic, assign) BOOL originalLock;
 @end
 
 @implementation SwitchInfoViewController
@@ -106,13 +115,14 @@
   self.textFieldOffGreater.delegate = self;
 
   self.textFieldName.text = self.aSwitch.name;
-  self.switchName = self.aSwitch.name;
   self.imgViewSwitch.image = [SDZGSwitch imgNameToImage:self.aSwitch.imageName];
   if (self.aSwitch.lockStatus == LockStatusOn) {
     self._switchLock.on = YES;
   } else {
     self._switchLock.on = NO;
   }
+  self.switchName = self.aSwitch.name;
+  self.originalLock = self.aSwitch.lockStatus;
   self.model = [[SwitchInfoModel alloc] initWithSwitch:self.aSwitch];
   [[NSNotificationCenter defaultCenter]
       addObserver:self
@@ -169,26 +179,38 @@
 }
 
 - (void)save:(id)sender {
-  self.isUpdateNameSuccess = NO;
-  self.isUpdateLockSuccess = NO;
-  self.isUpdatePowerInfoSuccess = NO;
+  if ([self check]) {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if (self.isImgUpdate) {
+      [self saveImageInfoToDB];
+    }
+    if (self.isNameUpdate) {
+      self.isUpdateNameSuccess = NO;
+      [self.model setSwitchName:self.switchName];
+    } else {
+      self.isUpdateNameSuccess = YES;
+    }
+    if (self.isLockUpdate) {
+      self.isUpdateLockSuccess = NO;
+      [self.model changeSwitchLockStatus];
+    } else {
+      self.isUpdateLockSuccess = YES;
+    }
 
-  self.isAlertUnder = self._switchAlertUnder.on;
-  self.isAlertGreater = self._switchAlertGreater.on;
-  self.isOffUnder = self._switchOffUnder.on;
-  self.isOffGreater = self._switchOffGreater.on;
-  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-  [self saveImageInfoToDB];
-  [self.model setElecInfoWithAlertUnder:self.alertUnderValue
-                           isAlertUnder:self.isAlertUnder
-                           alertGreater:self.alertGreaterValue
-                         isAlertGreater:self.isAlertGreater
-                           turnOffUnder:self.offUnderValue
-                         isTurnOffUnder:self.isOffUnder
-                         turnOffGreater:self.offGreaterValue
-                       isTurnOffGreater:self.isOffGreater];
-  [self.model changeSwitchLockStatus];
-  [self.model setSwitchName:self.switchName];
+    self.isUpdatePowerInfoSuccess = NO;
+    self.isAlertUnder = self._switchAlertUnder.on;
+    self.isAlertGreater = self._switchAlertGreater.on;
+    self.isOffUnder = self._switchOffUnder.on;
+    self.isOffGreater = self._switchOffGreater.on;
+    [self.model setElecInfoWithAlertUnder:self.alertUnderValue
+                             isAlertUnder:self.isAlertUnder
+                             alertGreater:self.alertGreaterValue
+                           isAlertGreater:self.isAlertGreater
+                             turnOffUnder:self.offUnderValue
+                           isTurnOffUnder:self.isOffUnder
+                           turnOffGreater:self.offGreaterValue
+                         isTurnOffGreater:self.isOffGreater];
+  }
 }
 /*
 #pragma mark - Navigation
@@ -201,6 +223,48 @@ preparation before navigation
     // Pass the selected object to the new view controller.
 }
 */
+
+- (BOOL)check {
+  NSCharacterSet *charSet = [NSCharacterSet whitespaceCharacterSet];
+  NSString *name =
+      [self.textFieldName.text stringByTrimmingCharactersInSet:charSet];
+  if ([name isEqualToString:@""]) {
+    [CRToastManager
+        showNotificationWithMessage:NSLocalizedString(@"Name can't empty", nil)
+                    completionBlock:^{
+
+                    }];
+    return NO;
+  }
+
+  float alertUnder = [[self.textFieldAlertUnder.text
+      stringByTrimmingCharactersInSet:charSet] floatValue];
+  float alertGreater = [[self.textFieldAlertGreater.text
+      stringByTrimmingCharactersInSet:charSet] floatValue];
+  float offUnder = [[self.textFieldOffUnder.text
+      stringByTrimmingCharactersInSet:charSet] floatValue];
+  float offGreater = [[self.textFieldOffGreater.text
+      stringByTrimmingCharactersInSet:charSet] floatValue];
+  if (alertUnder <= 0 || alertUnder > maxPower || alertGreater <= 0 ||
+      alertGreater > maxPower || offUnder <= 0 || offUnder > maxPower ||
+      offGreater <= 0 || offGreater > maxPower) {
+    [CRToastManager
+        showNotificationWithMessage:NSLocalizedString(
+                                        @"Power Set Message Error", nil)
+                    completionBlock:^{
+
+                    }];
+    return NO;
+  }
+  return YES;
+  //  if (alertGreater < 0 || alertGreater > maxPower) {
+  //  }
+  //  if (offUnder < 0 || offUnder > maxPower) {
+  //  }
+  //  if (offGreater < 0 || offGreater > maxPower) {
+  //  }
+}
+
 - (IBAction)showActionSheet:(id)sender {
   [self.textFieldName resignFirstResponder];
   UIActionSheet *actionSheet = [[UIActionSheet alloc]
@@ -215,22 +279,46 @@ preparation before navigation
 }
 
 - (IBAction)switchValueChanged:(id)sender {
-  UISwitch *_switch = (UISwitch *)sender;
   [self.textFieldName resignFirstResponder];
+  [self.textFieldAlertUnder resignFirstResponder];
+  [self.textFieldAlertGreater resignFirstResponder];
+  [self.textFieldOffUnder resignFirstResponder];
+  [self.textFieldOffGreater resignFirstResponder];
+
+  UISwitch *_switch = (UISwitch *)sender;
   if (_switch == self._switchLock) {
     if (self._switchLock.on) {
       self.lockStatus = LockStatusOn;
     } else {
       self.lockStatus = LockStatusOff;
     }
-    //  } else if (_switch == self._switchAlertUnder) {
-    //    [self setJPushTag];
-    //  } else if (_switch == self._switchAlertGreater) {
-    //    [self setJPushTag];
-    //  } else if (_switch == self._switchOffUnder) {
-    //    self.isOffUnder = _switch.on;
-    //  } else if (_switch == self._switchOffGreater) {
-    //    self.isOffGreater = _switch.on;
+    if (self._switchLock.on == self.lockStatus) {
+      self.isLockUpdate = YES;
+    } else {
+      self.isLockUpdate = NO;
+    }
+  } else if (_switch == self._switchAlertUnder) {
+    if (!_switch.on) {
+      self.textFieldAlertUnder.text = @"20";
+      self.alertUnderValue = 20;
+    }
+  } else if (_switch == self._switchAlertGreater) {
+    if (!_switch.on) {
+      self.textFieldAlertGreater.text =
+          [NSString stringWithFormat:@"%.0f", maxPower * 0.9];
+      self.alertGreaterValue = maxPower * 0.9;
+    }
+  } else if (_switch == self._switchOffUnder) {
+    if (!_switch.on) {
+      self.textFieldOffUnder.text = @"5";
+      self.offUnderValue = 5;
+    }
+  } else if (_switch == self._switchOffGreater) {
+    if (!_switch.on) {
+      self.textFieldOffGreater.text =
+          [NSString stringWithFormat:@"%.0f", maxPower * 0.99];
+      self.offGreaterValue = maxPower * 0.99;
+    }
   }
 }
 
@@ -249,6 +337,7 @@ preparation before navigation
     NSString *switchName = textField.text;
     if (switchName.length && ![self.switchName isEqualToString:switchName]) {
       self.switchName = switchName;
+      self.isNameUpdate = YES;
     }
   } else if (textField == self.textFieldAlertUnder) {
     self.alertUnderValue = [textField.text floatValue];
@@ -277,10 +366,26 @@ preparation before navigation
 #pragma mark - 通知
 - (void)getElecPowerInfoSuccessNotification:(NSNotification *)notification {
   CC3xMessage *message = notification.userInfo[@"message"];
+  if (message.alertUnder == 0) {
+    message.alertUnder = 20;
+  }
   self.alertUnderValue = message.alertUnder;
+  if (message.alertGreater == 0) {
+    message.alertGreater = maxPower * 0.9f;
+  }
   self.alertGreaterValue = message.alertGreater;
+  if (message.turnOffUnder == 0) {
+    message.turnOffUnder = 5;
+  }
   self.offUnderValue = message.turnOffUnder;
+  if (message.turnOffGreater == 0) {
+    message.turnOffGreater = maxPower * .99f;
+  }
   self.offGreaterValue = message.turnOffGreater;
+  self._switchAlertUnder.on = message.isAlertUnderOn;
+  self._switchAlertGreater.on = message.isAlertGreaterOn;
+  self._switchOffUnder.on = message.isTurnOffUnderOn;
+  self._switchOffGreater.on = message.isTurnOffGreaterOn;
   dispatch_async(MAIN_QUEUE, ^{
       self.textFieldAlertUnder.text =
           [NSString stringWithFormat:@"%d", message.alertUnder];
@@ -290,10 +395,6 @@ preparation before navigation
           [NSString stringWithFormat:@"%d", message.turnOffUnder];
       self.textFieldOffGreater.text =
           [NSString stringWithFormat:@"%d", message.turnOffGreater];
-      self._switchAlertUnder.on = message.isAlertUnderOn;
-      self._switchAlertGreater.on = message.isAlertGreaterOn;
-      self._switchOffUnder.on = message.isTurnOffUnderOn;
-      self._switchOffGreater.on = message.isTurnOffGreaterOn;
   });
 }
 
@@ -304,6 +405,7 @@ preparation before navigation
 
 - (void)switchNameChanged:(NSNotification *)notification {
   self.isUpdateNameSuccess = YES;
+  self.isNameUpdate = NO;
   debugLog(@"########switch name changed");
   [[SwitchDataCeneter sharedInstance] updateSwitchName:self.switchName
                                            socketNames:nil
@@ -321,13 +423,15 @@ preparation before navigation
 
 - (void)switchOnOffChanged:(NSNotification *)notification {
   self.isUpdateLockSuccess = YES;
+  self.isLockUpdate = NO;
   [[SwitchDataCeneter sharedInstance] updateSwitchLockStaus:self.lockStatus
                                                         mac:self.aSwitch.mac];
   dispatch_async(MAIN_QUEUE, ^{ [self allResuestSuccess]; });
 }
 
 - (void)allResuestSuccess {
-  if (self.isUpdateNameSuccess && self.isUpdateLockSuccess && self.isUpdatePowerInfoSuccess) {
+  if (self.isUpdateNameSuccess && self.isUpdateLockSuccess &&
+      self.isUpdatePowerInfoSuccess) {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
   }
 }
@@ -406,6 +510,32 @@ preparation before navigation
     }
   }
 }
+
+//#pragma mark - 键盘通知
+//- (void)keyboardDidShow:(NSNotification *)notification {
+//    NSDictionary *info = [notification userInfo];
+//    CGRect kbRect =
+//    [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+//    kbRect = [self.view convertRect:kbRect fromView:nil];
+//
+//    UIEdgeInsets contentInsets =
+//    UIEdgeInsetsMake(0.0, 0.0, kbRect.size.height, 0.0);
+//    self.scrollView.contentInset = contentInsets;
+//    self.scrollView.scrollIndicatorInsets = contentInsets;
+//
+//    CGRect aRect = self.view.frame;
+//    aRect.size.height -= kbRect.size.height;
+//    if (!CGRectContainsPoint(aRect, self.activeField.frame.origin)) {
+//        [self.scrollView scrollRectToVisible:self.activeField.frame
+//        animated:YES];
+//    }
+//}
+//
+//- (void)keyboardWillBeHidden:(NSNotification *)notification {
+//    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+//    self.scrollView.contentInset = contentInsets;
+//    self.scrollView.scrollIndicatorInsets = contentInsets;
+//}
 
 - (void)finishAction:(id)sender {
   //  [self.textField resignFirstResponder];

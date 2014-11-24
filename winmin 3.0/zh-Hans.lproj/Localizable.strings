@@ -66,6 +66,8 @@
 "Added successfully"="添加成功";
 "Modified successfully"="修改成功";
 "Keyboard return"="完成";
+"Power Set Message Error"="功率范围为0~2500";
+"Name can't empty"="名称不能为空";
 
 /**
  *  控制列表设备状态图片

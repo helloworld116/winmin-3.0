@@ -166,14 +166,6 @@
 - (void)viewDisappearOrEnterBackground {
   [self.model stopScanState];
   [self stopUpdateList];
-  //  [[NSNotificationCenter defaultCenter]
-  //      removeObserver:self
-  //                name:UIApplicationWillEnterForegroundNotification
-  //              object:nil];
-  //  [[NSNotificationCenter defaultCenter]
-  //      removeObserver:self
-  //                name:UIApplicationDidEnterBackgroundNotification
-  //              object:nil];
 }
 
 - (void)viewAppearOrEnterForeground {
@@ -185,16 +177,6 @@
   [self.model startScanState];
   // model层修改数据，指定时间后，页面统一修改
   [self startUpdateList];
-  //  [[NSNotificationCenter defaultCenter]
-  //      addObserver:self
-  //         selector:@selector(applicationWillEnterForegroundNotification:)
-  //             name:UIApplicationWillEnterForegroundNotification
-  //           object:nil];
-  //  [[NSNotificationCenter defaultCenter]
-  //      addObserver:self
-  //         selector:@selector(applicationDidEnterBackgroundNotification:)
-  //             name:UIApplicationDidEnterBackgroundNotification
-  //           object:nil];
 }
 
 #pragma mark - begin iOS8下cell分割线处理

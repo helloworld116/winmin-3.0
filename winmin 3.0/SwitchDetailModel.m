@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) UdpRequest *request1; //查询状态和实时电量
 @property (nonatomic, strong) UdpRequest *request2; //控制插孔I和历史电量查询
-@property (nonatomic, strong) UdpRequest *request3; //控制插孔I
+@property (nonatomic, strong) UdpRequest *request3; //控制插孔II
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
 @property (nonatomic, strong) HistoryElec *historyElec;
 @property (nonatomic, strong) HistoryElecParam *param;
@@ -49,38 +49,47 @@
 }
 
 - (void)startScanSwitchState {
-  _isScanning = YES;
-  self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
-                                       target:self
-                                     selector:@selector(sendMsg0BOr0D)
-                                     userInfo:nil
-                                      repeats:YES];
-  [self.timer fire];
-  [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+  dispatch_async(MAIN_QUEUE, ^{
+      _isScanning = YES;
+      self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
+                                           target:self
+                                         selector:@selector(sendMsg0BOr0D)
+                                         userInfo:nil
+                                          repeats:YES];
+      [self.timer fire];
+      [[NSRunLoop mainRunLoop] addTimer:self.timer
+                                forMode:NSDefaultRunLoopMode];
+  });
 }
 
 - (void)stopScanSwitchState {
-  _isScanning = NO;
-  if (self.timer) {
-    [self.timer invalidate];
-    self.timer = nil;
-  }
+  dispatch_async(MAIN_QUEUE, ^{
+      _isScanning = NO;
+      if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+      }
+  });
 }
 
 - (void)startRealTimeElec {
-  self.timerElec = [NSTimer timerWithTimeInterval:kElecRefreshInterval
-                                           target:self
-                                         selector:@selector(sendMsg33Or35)
-                                         userInfo:nil
-                                          repeats:YES];
-  [self.timerElec fire];
-  [[NSRunLoop currentRunLoop] addTimer:self.timerElec
-                               forMode:NSRunLoopCommonModes];
+  dispatch_async(MAIN_QUEUE, ^{
+      self.timerElec = [NSTimer timerWithTimeInterval:kElecRefreshInterval
+                                               target:self
+                                             selector:@selector(sendMsg33Or35)
+                                             userInfo:nil
+                                              repeats:YES];
+      [self.timerElec fire];
+      [[NSRunLoop mainRunLoop] addTimer:self.timerElec
+                                forMode:NSRunLoopCommonModes];
+  });
 }
 
 - (void)stopRealTimeElec {
-  [self.timerElec invalidate];
-  self.timerElec = nil;
+  dispatch_async(MAIN_QUEUE, ^{
+      [self.timerElec invalidate];
+      self.timerElec = nil;
+  });
 }
 
 - (void)historyElec:(HistoryElecDateType)dateType {
@@ -169,19 +178,23 @@
   }
 }
 
-- (void)noResponseMsgtag:(long)tag socketGroupId:(int)socketGroupId {
+- (void)udpRequest:(UdpRequest *)request
+    didNotReceiveMsgTag:(long)tag
+          socketGroupId:(int)socketGroupId {
   debugLog(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
   switch (tag) {
     case P2D_CONTROL_REQ_11:
     case P2S_CONTROL_REQ_13: {
-      NSDictionary *userInfo = @{
-        @"tag" : @(tag),
-        @"socketGroupId" : @(socketGroupId)
-      };
-      [[NSNotificationCenter defaultCenter]
-          postNotificationName:kNoResponseNotification
-                        object:self
-                      userInfo:userInfo];
+      if (self.request2 == request || self.request3 == request) {
+        NSDictionary *userInfo = @{
+          @"tag" : @(tag),
+          @"socketGroupId" : @(socketGroupId)
+        };
+        [[NSNotificationCenter defaultCenter]
+            postNotificationName:kNoResponseNotification
+                          object:self
+                        userInfo:userInfo];
+      }
     } break;
   }
 }
@@ -246,7 +259,7 @@
 
 - (void)responseMsg34Or36:(CC3xMessage *)message {
   debugLog(@"power is %f", message.power);
-  float diff = ceil(message.power - kElecDiff);
+  float diff = floorf(message.power - kElecDiff);
   float power = diff > 0 ? diff : 0.f;
   NSDictionary *userInfo = @{ @"power" : @(power) };
   [[NSNotificationCenter defaultCenter]

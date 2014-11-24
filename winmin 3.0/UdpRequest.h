@@ -30,7 +30,9 @@
  *  @param tag        UDP请求的tag
  *  @param socketGroupId socket所属id
  */
-- (void)noResponseMsgtag:(long)tag socketGroupId:(int)socketGroupId;
+- (void)udpRequest:(UdpRequest *)request
+    didNotReceiveMsgTag:(long)tag
+          socketGroupId:(int)socketGroupId;
 
 #pragma mark - 请求没有发送的处理
 /**

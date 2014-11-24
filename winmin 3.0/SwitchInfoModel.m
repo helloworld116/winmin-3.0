@@ -112,7 +112,9 @@ NSString *const kSetElecPowerInfoSuccess = @"SetElecPowerInfoSuccess";
   }
 }
 
-- (void)noResponseMsgtag:(long)tag socketGroupId:(int)socketGroupId {
+- (void)udpRequest:(UdpRequest *)request
+    didNotReceiveMsgTag:(long)tag
+          socketGroupId:(int)socketGroupId {
   debugLog(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
   NSDictionary *userInfo = @{
     @"tag" : @(tag),

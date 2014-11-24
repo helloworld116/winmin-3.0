@@ -125,7 +125,9 @@ static dispatch_queue_t scene_recive_serial_queue() {
   }
 }
 
-- (void)noResponseMsgtag:(long)tag socketGroupId:(int)socketGroupId {
+- (void)udpRequest:(UdpRequest *)request
+    didNotReceiveMsgTag:(long)tag
+          socketGroupId:(int)socketGroupId {
   if (!self.executeSuccess) {
     if (self.remainingSceneDetails.count > 0) {
       [self.remainingSceneDetails removeObjectAtIndex:0];

@@ -31,6 +31,7 @@ static dispatch_queue_t udp_send_serial_queue() {
 //}
 
 @interface UdpRequest () <GCDAsyncUdpSocketDelegate>
+@property (nonatomic, strong) NSTimer *timer; //检查是否有响应
 @property (nonatomic, assign) int msgSendCount;
 @property (nonatomic, strong) NSData *responseData;
 #pragma mark -
@@ -149,7 +150,7 @@ static dispatch_queue_t delegateQueue;
                               port:self.port
                        withTimeout:kPrivateUDPTimeOut
                                tag:self.tag];
-          [NSThread sleepForTimeInterval:.02f];
+          [NSThread sleepForTimeInterval:.08f];
       });
     } break;
 
@@ -1301,14 +1302,33 @@ static dispatch_queue_t delegateQueue;
       break;
   }
   if (delay) {
-    dispatch_time_t delayInNanoSeconds =
-        dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
-    dispatch_after(delayInNanoSeconds, MAIN_QUEUE,
-                   ^{ [self checkWithTag:tag]; });
+    //    debugLog(@"%f 后检查", delay);
+    //    dispatch_time_t delayInNanoSeconds =
+    //        dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
+    //    dispatch_after(delayInNanoSeconds, MAIN_QUEUE, ^{
+    //        debugLog(@"开始检查");
+    //        [self checkWithTag:tag];
+    //    });
+    //    self.timer =
+    //        [NSTimer scheduledTimerWithTimeInterval:0
+    //                                         target:self
+    //                                       selector:@selector(checkWithTag:)
+    //                                       userInfo:@(tag)
+    //                                        repeats:NO];
+    //    [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:delay]];
+
+    self.timer = [NSTimer timerWithTimeInterval:0
+                                         target:self
+                                       selector:@selector(checkWithTag:)
+                                       userInfo:@(tag)
+                                        repeats:NO];
+    [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:delay]];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
   }
 }
 
-- (void)checkWithTag:(long)tag {
+- (void)checkWithTag:(NSTimer *)timer {
+  long tag = [timer.userInfo longValue];
   dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus != NotReachable) {
         switch (tag) {
@@ -1336,8 +1356,8 @@ static dispatch_queue_t delegateQueue;
           case P2D_CONTROL_REQ_11:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-                debugLog(@"重新发送 request is %@", self);
+                debugLog(@"tag %ld 重新发送%d次 request is %@", tag,
+                         self.msgSendCount + 1, self);
                 [self sendMsg11WithSwitch:self.aSwitch
                             socketGroupId:self.socketGroupId
                                  sendMode:PassiveMode];
@@ -1681,9 +1701,12 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)noResponseTag:(long)tag socketGroupId:(int)socketGroupId {
-  if ([self.delegate
-          respondsToSelector:@selector(noResponseMsgtag:socketGroupId:)]) {
-    [self.delegate noResponseMsgtag:tag socketGroupId:self.socketGroupId];
+  if ([self.delegate respondsToSelector:@selector(udpRequest:
+                                            didNotReceiveMsgTag:
+                                                  socketGroupId:)]) {
+    [self.delegate udpRequest:self
+          didNotReceiveMsgTag:self.tag
+                socketGroupId:self.socketGroupId];
   }
 }
 
@@ -1775,6 +1798,7 @@ static dispatch_queue_t delegateQueue;
       [self.delegate udpRequest:self didReceiveMsg:msg address:address];
     }
     self.responseData = [NSData dataWithData:data];
+    [self.timer invalidate];
   }
 }
 

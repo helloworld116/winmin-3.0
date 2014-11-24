@@ -61,22 +61,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "winmin 3.0/UdpRequest.m"
-            timestampString = "438339895.632853"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "827"
-            endingLineNumber = "827"
-            landmarkName = "-sendMsg6BWithSwitch:alertUnder:isAlertUnder:alertGreater:isAlertGreater:turnOffUnder:isTurnOffUnder:turnOffGreater:isTurnOffGreater:sendMode:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "winmin 3.0/CC3xMessage.m"
             timestampString = "438061572.321079"
             startingColumnNumber = "9223372036854775807"
