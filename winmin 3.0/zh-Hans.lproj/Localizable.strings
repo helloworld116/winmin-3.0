@@ -68,6 +68,7 @@
 "Keyboard return"="完成";
 "Power Set Message Error"="功率范围为0~2500";
 "Name can't empty"="名称不能为空";
+"Save Success"="保存成功";
 
 /**
  *  控制列表设备状态图片

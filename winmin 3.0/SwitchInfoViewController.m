@@ -245,9 +245,11 @@ preparation before navigation
       stringByTrimmingCharactersInSet:charSet] floatValue];
   float offGreater = [[self.textFieldOffGreater.text
       stringByTrimmingCharactersInSet:charSet] floatValue];
-  if (alertUnder <= 0 || alertUnder > maxPower || alertGreater <= 0 ||
-      alertGreater > maxPower || offUnder <= 0 || offUnder > maxPower ||
-      offGreater <= 0 || offGreater > maxPower) {
+  if ((self._switchAlertUnder && (alertUnder <= 0 || alertUnder > maxPower)) ||
+      (self._switchAlertGreater &&
+       (alertGreater <= 0 || alertGreater > maxPower)) ||
+      (self._switchOffUnder && (offUnder <= 0 || offUnder > maxPower)) ||
+      (self._switchOffGreater && (offGreater <= 0 || offGreater > maxPower))) {
     [CRToastManager
         showNotificationWithMessage:NSLocalizedString(
                                         @"Power Set Message Error", nil)
@@ -279,6 +281,7 @@ preparation before navigation
 }
 
 - (IBAction)switchValueChanged:(id)sender {
+  NSCharacterSet *charSet = [NSCharacterSet whitespaceCharacterSet];
   [self.textFieldName resignFirstResponder];
   [self.textFieldAlertUnder resignFirstResponder];
   [self.textFieldAlertGreater resignFirstResponder];
@@ -298,26 +301,45 @@ preparation before navigation
       self.isLockUpdate = NO;
     }
   } else if (_switch == self._switchAlertUnder) {
-    if (!_switch.on) {
-      self.textFieldAlertUnder.text = @"20";
-      self.alertUnderValue = 20;
+    NSString *alertUnder =
+        [self.textFieldAlertUnder.text stringByTrimmingCharactersInSet:charSet];
+    if (_switch.on) {
+      if ([alertUnder isEqualToString:@""] ||
+          [alertUnder isEqualToString:@"0"]) {
+        self.textFieldAlertUnder.text = @"20";
+        self.alertUnderValue = 20;
+      }
     }
   } else if (_switch == self._switchAlertGreater) {
-    if (!_switch.on) {
-      self.textFieldAlertGreater.text =
-          [NSString stringWithFormat:@"%.0f", maxPower * 0.9];
-      self.alertGreaterValue = maxPower * 0.9;
+    NSString *alertGreater = [self.textFieldAlertGreater.text
+        stringByTrimmingCharactersInSet:charSet];
+    if (_switch.on) {
+      if ([alertGreater isEqualToString:@""] ||
+          [alertGreater isEqualToString:@"0"]) {
+        self.textFieldAlertGreater.text =
+            [NSString stringWithFormat:@"%.0f", maxPower * 0.9];
+        self.alertGreaterValue = maxPower * 0.9;
+      }
     }
   } else if (_switch == self._switchOffUnder) {
-    if (!_switch.on) {
-      self.textFieldOffUnder.text = @"5";
-      self.offUnderValue = 5;
+    NSString *offUnder =
+        [self.textFieldOffUnder.text stringByTrimmingCharactersInSet:charSet];
+    if (_switch.on) {
+      if ([offUnder isEqualToString:@""] || [offUnder isEqualToString:@"0"]) {
+        self.textFieldOffUnder.text = @"5";
+        self.offUnderValue = 5;
+      }
     }
   } else if (_switch == self._switchOffGreater) {
-    if (!_switch.on) {
-      self.textFieldOffGreater.text =
-          [NSString stringWithFormat:@"%.0f", maxPower * 0.99];
-      self.offGreaterValue = maxPower * 0.99;
+    NSString *offGreater =
+        [self.textFieldOffGreater.text stringByTrimmingCharactersInSet:charSet];
+    if (_switch.on) {
+      if ([offGreater isEqualToString:@""] ||
+          [offGreater isEqualToString:@"0"]) {
+        self.textFieldOffGreater.text =
+            [NSString stringWithFormat:@"%.0f", maxPower * 0.99];
+        self.offGreaterValue = maxPower * 0.99;
+      }
     }
   }
 }
@@ -433,6 +455,9 @@ preparation before navigation
   if (self.isUpdateNameSuccess && self.isUpdateLockSuccess &&
       self.isUpdatePowerInfoSuccess) {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [CRToastManager
+        showNotificationWithMessage:NSLocalizedString(@"Save Success", nil)
+                    completionBlock:^{}];
   }
 }
 
