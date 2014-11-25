@@ -16,6 +16,7 @@
 #import <AFNetworking.h>
 #import <UIViewController+MJPopupViewController.h>
 #import <ShareSDK/ShareSDK.h>
+#import <CocoaLumberjack.h>
 
 #import "CC3xMessage.h"
 #import "SDZGSwitch.h"
@@ -56,9 +57,11 @@
 #ifdef DEBUG
 #define debugLog(...) NSLog(__VA_ARGS__)
 #define debugMethod() NSLog(@"%s", __func__)
+static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 #else
 #define debugLog(...)
 #define debugMethod()
+static const int ddLogLevel = LOG_LEVEL_OFF;
 #endif
 
 #define isEqualOrGreaterToiOS7                                                 \

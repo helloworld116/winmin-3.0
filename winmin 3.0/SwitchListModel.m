@@ -38,7 +38,7 @@
                                      userInfo:nil
                                       repeats:YES];
   [self.timer fire];
-  [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+  [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
 }
 
 - (void)stopScanState {

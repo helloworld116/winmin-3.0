@@ -224,7 +224,7 @@
   [self.timerUpdateList
       setFireDate:[NSDate dateWithTimeIntervalSinceNow:self.delayInterval]];
   [[NSRunLoop currentRunLoop] addTimer:self.timerUpdateList
-                               forMode:NSRunLoopCommonModes];
+                               forMode:NSDefaultRunLoopMode];
 }
 
 - (void)stopUpdateList {

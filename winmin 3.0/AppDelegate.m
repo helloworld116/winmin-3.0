@@ -166,6 +166,7 @@
   [CRToastManager showNotificationWithOptions:options completionBlock:^{}];
 }
 
+#pragma mark -
 - (void)setStyle {
   [[UIApplication sharedApplication] setStatusBarHidden:NO];
   [[UIApplication sharedApplication]
@@ -186,6 +187,18 @@
 
 - (void)setData {
   self.switchDataCeneter = [SwitchDataCeneter sharedInstance];
+}
+
+- (void)setLog {
+  [DDLog addLogger:[DDTTYLogger sharedInstance]];
+  // 允许颜色
+  [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+  [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor]
+                                   backgroundColor:nil
+                                           forFlag:LOG_FLAG_WARN];
+  [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor redColor]
+                                   backgroundColor:nil
+                                           forFlag:LOG_FLAG_ERROR];
 }
 
 - (void)registPlatform {

@@ -56,7 +56,7 @@
                                          selector:@selector(sendMsg0BOr0D)
                                          userInfo:nil
                                           repeats:YES];
-      [self.timer fire];
+      [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:0.5f]];
       [[NSRunLoop mainRunLoop] addTimer:self.timer
                                 forMode:NSDefaultRunLoopMode];
   });
@@ -81,14 +81,16 @@
                                               repeats:YES];
       [self.timerElec fire];
       [[NSRunLoop mainRunLoop] addTimer:self.timerElec
-                                forMode:NSRunLoopCommonModes];
+                                forMode:NSDefaultRunLoopMode];
   });
 }
 
 - (void)stopRealTimeElec {
   dispatch_async(MAIN_QUEUE, ^{
-      [self.timerElec invalidate];
-      self.timerElec = nil;
+      if (self.timerElec) {
+        [self.timerElec invalidate];
+        self.timerElec = nil;
+      }
   });
 }
 
@@ -134,6 +136,8 @@
 
 //实时电量
 - (void)sendMsg33Or35 {
+  debugLog(@"****************************%s*********************************",
+           __FUNCTION__);
   [self.request1 sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
 }
 

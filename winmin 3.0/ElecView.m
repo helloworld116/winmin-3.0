@@ -157,7 +157,7 @@
     NCISimpleChartView *chart = [[NCISimpleChartView alloc] initWithFrame:frame
     andOptions:@{
           nciGraphRenderer : [NCIZoomGraphView class],
-          nciIsSmooth : @[ @YES ],
+          nciIsSmooth : @[ @NO ],
           nciIsFill : @[ @YES ],
           nciLineColors : @[ kThemeColor ],
           nciLineWidths : @[ @1 ],

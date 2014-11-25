@@ -225,15 +225,18 @@ preparation before navigation
 */
 
 - (BOOL)check {
+  [self.textFieldName resignFirstResponder];
+  [self.textFieldAlertUnder resignFirstResponder];
+  [self.textFieldAlertGreater resignFirstResponder];
+  [self.textFieldOffUnder resignFirstResponder];
+  [self.textFieldOffGreater resignFirstResponder];
   NSCharacterSet *charSet = [NSCharacterSet whitespaceCharacterSet];
   NSString *name =
       [self.textFieldName.text stringByTrimmingCharactersInSet:charSet];
   if ([name isEqualToString:@""]) {
     [CRToastManager
         showNotificationWithMessage:NSLocalizedString(@"Name can't empty", nil)
-                    completionBlock:^{
-
-                    }];
+                    completionBlock:^{}];
     return NO;
   }
 
@@ -458,6 +461,7 @@ preparation before navigation
     [CRToastManager
         showNotificationWithMessage:NSLocalizedString(@"Save Success", nil)
                     completionBlock:^{}];
+    [self.navigationController popViewControllerAnimated:YES];
   }
 }
 
