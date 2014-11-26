@@ -32,7 +32,7 @@
 
 - (void)startScanState {
   [self stopScanState];
-  debugLog(@"%s", __FUNCTION__);
+  DDLogDebug(@"%s", __FUNCTION__);
   dispatch_async(MAIN_QUEUE, ^{
       _isScanningState = YES;
       self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
@@ -47,7 +47,7 @@
 }
 
 - (void)stopScanState {
-  debugLog(@"%s", __FUNCTION__);
+  DDLogDebug(@"%s", __FUNCTION__);
   dispatch_async(MAIN_QUEUE, ^{
       _isScanningState = NO;
       if (self.timer) {
@@ -88,7 +88,7 @@
       [NSThread sleepForTimeInterval:0.5];
       NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
       for (SDZGSwitch *aSwitch in switchs) {
-        debugLog(@"switch mac is %@", aSwitch.mac);
+        DDLogDebug(@"switch mac is %@", aSwitch.mac);
         [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
       }
   });

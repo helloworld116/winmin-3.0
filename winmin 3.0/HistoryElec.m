@@ -19,7 +19,7 @@
 @end
 
 @interface HistoryElec ()
-@property(strong, nonatomic) NSDateFormatter *dateFormatter;
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @end
 
 @implementation HistoryElec
@@ -118,27 +118,27 @@ static const int oneDayInterval = 3600 * 24;
   NSDate *startDate;
   switch (dateType) {
     case OneDay:
-      interval = oneDayInterval / 72;  //一天取72个样本，20分钟一个样本
+      interval = oneDayInterval / 48; //一天取48个样本，30分钟一个样本
       startDate = [NSDate dateWithTimeIntervalSinceNow:-oneDayInterval];
       break;
     case OneWeek:
-      interval = oneDayInterval / 12;  //一周取84个样本，2小时一个样本
+      interval = oneDayInterval / 8; //一周取56个样本，3小时一个样本
       startDate = [NSDate dateWithTimeIntervalSinceNow:-7 * oneDayInterval];
       break;
     case OneMonth:
-      interval = oneDayInterval / 3;  //一个月取90个样本，8小时一个样本
+      interval = oneDayInterval / 2; //一个月取60个样本，12小时一个样本
       startDate = [NSDate dateWithTimeIntervalSinceNow:-30 * oneDayInterval];
       break;
     case ThreeMonth:
-      interval = oneDayInterval;
+      interval = 2 * oneDayInterval;
       startDate = [NSDate dateWithTimeIntervalSinceNow:-91 * oneDayInterval];
       break;
     case SixMonth:
-      interval = 2 * oneDayInterval;
+      interval = 3 * oneDayInterval;
       startDate = [NSDate dateWithTimeIntervalSinceNow:-183 * oneDayInterval];
       break;
     case OneYear:
-      interval = 4 * oneDayInterval;
+      interval = 6 * oneDayInterval;
       startDate = [NSDate dateWithTimeIntervalSinceNow:-365 * oneDayInterval];
       break;
     default:

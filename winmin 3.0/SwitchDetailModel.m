@@ -132,13 +132,13 @@
     }
     request = self.request3;
   }
-  debugLog(@"send requeset is %@ groupId is %d", request, groupId);
+  DDLogDebug(@"send requeset is %@ groupId is %d", request, groupId);
   [request sendMsg11Or13:aSwitch socketGroupId:groupId sendMode:ActiveMode];
 }
 
 //实时电量
 - (void)sendMsg33Or35 {
-  debugLog(@"****************************%s*********************************",
+  DDLogDebug(@"****************************%s*********************************",
            __FUNCTION__);
   [self.request1 sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
 }
@@ -160,7 +160,7 @@
 - (void)udpRequest:(UdpRequest *)request
      didReceiveMsg:(CC3xMessage *)message
            address:(NSData *)address {
-  debugLog(@"response request is %@", request);
+  DDLogDebug(@"response request is %@", request);
   switch (message.msgId) {
     //开关状态查询
     case 0xc:
@@ -187,7 +187,7 @@
 - (void)udpRequest:(UdpRequest *)request
     didNotReceiveMsgTag:(long)tag
           socketGroupId:(int)socketGroupId {
-  debugLog(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
+  DDLogDebug(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
   switch (tag) {
     case P2D_CONTROL_REQ_11:
     case P2S_CONTROL_REQ_13: {
@@ -209,7 +209,7 @@
   if (message.state == kUdpResponseSuccessCode) {
     SDZGSwitch *aSwitch = [SDZGSwitch parseMessageCOrEToSwitch:message];
     if (aSwitch) {
-      debugLog(@"############## recivied msg info");
+      DDLogDebug(@"############## recivied msg info");
       self.aSwitch = aSwitch;
       [[SwitchDataCeneter sharedInstance] updateSwitch:aSwitch];
       [[NSNotificationCenter defaultCenter]
@@ -223,7 +223,7 @@
 }
 
 - (void)responseMsg12Or14:(CC3xMessage *)message {
-  debugLog(@"%s socketGroupId is %d", __func__, message.socketGroupId);
+  DDLogDebug(@"%s socketGroupId is %d", __func__, message.socketGroupId);
   if (message.state == kUdpResponseSuccessCode) {
     if (message.socketGroupId == 1) {
       self.responseData12Or14GroupId1Count++;
@@ -264,7 +264,7 @@
 }
 
 - (void)responseMsg34Or36:(CC3xMessage *)message {
-  debugLog(@"power is %f", message.power);
+  DDLogDebug(@"power is %f", message.power);
   float diff = floorf(message.power - kElecDiff);
   float power = diff > 0 ? diff : 0.f;
   NSDictionary *userInfo = @{ @"power" : @(power) };
@@ -278,8 +278,8 @@
   if (message.state == kUdpResponseSuccessCode) {
     HistoryElecData *data =
         [self.historyElec parseResponse:message.historyElecs param:self.param];
-    //    debugLog(@"times is %@", data.times);
-    //    debugLog(@"values is %@", data.values);
+    //    DDLogDebug(@"times is %@", data.times);
+    //    DDLogDebug(@"values is %@", data.values);
     NSDictionary *userInfo = @{
       @"data" : data,
       @"dateType" : @(self.dateType)

@@ -85,7 +85,7 @@
           NSString *responseStr = __DECRYPT(string);
           ServerResponse *response =
               [[ServerResponse alloc] initWithResponseString:responseStr];
-          debugLog(@"response is %@", responseStr);
+          DDLogDebug(@"response is %@", responseStr);
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error){
 
@@ -114,7 +114,7 @@
           NSString *responseStr = __DECRYPT(string);
           ServerResponse *response =
               [[ServerResponse alloc] initWithResponseString:responseStr];
-          debugLog(@"response is %@", responseStr);
+          DDLogDebug(@"response is %@", responseStr);
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error){
 

@@ -25,7 +25,7 @@
   // Override point for customization after application launch.
   self.networkStatus = ReachableViaWiFi; //这里必不可少,必须在view展现前执行
   self.netUtil = [NetUtil sharedInstance];
-  //  debugLog(@"ip is %@",
+  //  DDLogDebug(@"ip is %@",
   //           [self.netUtil getIPWithHostName:@"server.itouchco.com"]);
   [self.netUtil addNetWorkChangeNotification];
   [self setStyle];
@@ -41,6 +41,7 @@
         instantiateViewControllerWithIdentifier:@"WelcomeViewController"];
     self.window.rootViewController = vc;
   }
+  [self setLog];
   [self setData];
   [self setDefaultUserSettingValue];
   [self registPlatform];
@@ -193,6 +194,9 @@
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
   // 允许颜色
   [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+  [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor whiteColor]
+                                   backgroundColor:nil
+                                           forFlag:LOG_FLAG_DEBUG];
   [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor]
                                    backgroundColor:nil
                                            forFlag:LOG_FLAG_WARN];

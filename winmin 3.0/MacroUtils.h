@@ -55,12 +55,8 @@
 
 //日志
 #ifdef DEBUG
-#define debugLog(...) NSLog(__VA_ARGS__)
-#define debugMethod() NSLog(@"%s", __func__)
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = LOG_LEVEL_DEBUG;
 #else
-#define debugLog(...)
-#define debugMethod()
 static const int ddLogLevel = LOG_LEVEL_OFF;
 #endif
 

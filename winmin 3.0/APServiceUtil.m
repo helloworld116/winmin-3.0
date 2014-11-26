@@ -40,7 +40,7 @@
   } else {
     self.finishBlock(NO);
   }
-  debugLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags, alias);
+  DDLogDebug(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags, alias);
 }
 
 @end

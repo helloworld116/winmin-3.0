@@ -166,7 +166,7 @@ static int const kQQNotInstalled = -6004;
                    result:^(BOOL result, id<ISSPlatformUser> userInfo,
                             id<ICMErrorInfo> error) {
                        if (result) {
-                         debugLog(@".......nickname is %@ and uid is %@",
+                         DDLogDebug(@".......nickname is %@ and uid is %@",
                                   [userInfo nickname], [userInfo uid]);
                          UserInfo *uInfo = [[UserInfo alloc]
                              initWithSinaUid:[userInfo uid]
@@ -174,7 +174,7 @@ static int const kQQNotInstalled = -6004;
                          [uInfo loginRequest];
                          [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                        }
-                       debugLog(@"errorCode is %d and errorDescription is %@",
+                       DDLogDebug(@"errorCode is %d and errorDescription is %@",
                                 [error errorCode], error.errorDescription);
                        if (kCancelAuthoriztionCode == [error errorCode]) {
                          [self.view makeToast:NSLocalizedString(
@@ -201,7 +201,7 @@ static int const kQQNotInstalled = -6004;
                          [uInfo loginRequest];
                          [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                        }
-                       debugLog(@"errorCode is %d and errorDescription is %@",
+                       DDLogDebug(@"errorCode is %d and errorDescription is %@",
                                 [error errorCode], error.errorDescription);
                        if ([error errorCode] == kQQNotInstalled) {
                          UIAlertView *alertView = [[UIAlertView alloc]

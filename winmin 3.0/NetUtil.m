@@ -38,15 +38,15 @@
   switch (status) {
     case NotReachable:
       kSharedAppliction.networkStatus = NotReachable;
-      debugLog(@"网络不可用");
+      DDLogDebug(@"网络不可用");
       break;
     case ReachableViaWiFi:
       kSharedAppliction.networkStatus = ReachableViaWiFi;
-      debugLog(@"网络改变为WIFI");
+      DDLogDebug(@"网络改变为WIFI");
       break;
     case ReachableViaWWAN:
       kSharedAppliction.networkStatus = ReachableViaWWAN;
-      debugLog(@"网络为蜂窝网络");
+      DDLogDebug(@"网络为蜂窝网络");
       break;
     default:
       kSharedAppliction.networkStatus = NotReachable;

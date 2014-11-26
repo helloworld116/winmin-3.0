@@ -1425,8 +1425,8 @@ typedef struct {
   message.ip = [NSString stringWithFormat:@"%d.%d.%d.%d", msg.ip[0], msg.ip[1],
                                           msg.ip[2], msg.ip[3]];
   message.port = ntohs(msg.port);
-  //  debugLog(@"#########port is %d", msg.port);
-  //  debugLog(@"*********port is %d", message.port);
+  //  DDLogDebug(@"#########port is %d", msg.port);
+  //  DDLogDebug(@"*********port is %d", message.port);
   NSString *deviceName = [[NSString alloc] initWithBytes:msg.deviceName
                                                   length:strlen(msg.deviceName)
                                                 encoding:NSUTF8StringEncoding];
@@ -1861,12 +1861,12 @@ typedef struct {
       int_ch2 = hex_char2 - 'a';
 
     int_ch = int_ch1 + int_ch2;
-    debugLog(@"int_ch=%d", int_ch);
+    DDLogDebug(@"int_ch=%d", int_ch);
     bytes[j] = int_ch;
     j++;
   }
   NSData *newData = [[NSData alloc] initWithBytes:bytes length:128];
-  debugLog(@"newData=%@", newData);
+  DDLogDebug(@"newData=%@", newData);
   return newData;
 }
 

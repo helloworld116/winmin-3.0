@@ -64,7 +64,7 @@ static CGFloat scaleX;
 //}
 
 - (void)updateView {
-  debugLog(@"point count is %d", self.powers.count);
+  DDLogDebug(@"point count is %d", self.powers.count);
   if (self.powers.count > kCount) {
     NSRange range = NSMakeRange(self.powers.count - kCount, kCount);
     self.points = [self.powers subarrayWithRange:range];

@@ -90,21 +90,21 @@ static dispatch_queue_t delegateQueue;
 
 - (void)dealloc {
   [self.udpSocket close];
-  debugLog(@"<<<<<<<<<<<<<socket close>>>>>>>>>>>>>>");
+  DDLogDebug(@"<<<<<<<<<<<<<socket close>>>>>>>>>>>>>>");
 }
 
 - (void)setupUdpSocket:(GCDAsyncUdpSocket *)socket port:(uint16_t)aPort {
   NSError *error = nil;
   if (![socket enableBroadcast:YES error:&error]) {
-    debugLog(@"Error starting server (enableBroadcast): %@", error);
+    DDLogDebug(@"Error starting server (enableBroadcast): %@", error);
   }
   if (![socket bindToPort:aPort error:&error]) {
-    debugLog(@"Error starting server (bind): %@", error);
+    DDLogDebug(@"Error starting server (bind): %@", error);
     return;
   }
   if (![socket beginReceiving:&error]) {
     [socket close];
-    debugLog(@"Error starting server (recv): %@", error);
+    DDLogDebug(@"Error starting server (recv): %@", error);
     return;
   }
   [self setReceiveFilterForSocket:socket];
@@ -1284,11 +1284,11 @@ static dispatch_queue_t delegateQueue;
       break;
   }
   if (delay) {
-    //    debugLog(@"%f 后检查", delay);
+    //    DDLogDebug(@"%f 后检查", delay);
     //    dispatch_time_t delayInNanoSeconds =
     //        dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
     //    dispatch_after(delayInNanoSeconds, MAIN_QUEUE, ^{
-    //        debugLog(@"开始检查");
+    //        DDLogDebug(@"开始检查");
     //        [self checkWithTag:tag];
     //    });
     //    self.timer =
@@ -1318,7 +1318,7 @@ static dispatch_queue_t delegateQueue;
             if (!self.responseData) {
               if (kSharedAppliction.networkStatus == ReachableViaWiFi &&
                   self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg05:self.host port:self.port mode:PassiveMode];
               }
             }
@@ -1326,7 +1326,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_SCAN_DEV_09:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg09:PassiveMode];
               }
             }
@@ -1338,8 +1338,8 @@ static dispatch_queue_t delegateQueue;
           case P2D_CONTROL_REQ_11:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次 request is %@", tag,
-                         self.msgSendCount + 1, self);
+                DDLogWarn(@"tag %ld 重新发送%d次 request is %@", tag,
+                          self.msgSendCount + 1, self);
                 [self sendMsg11WithSwitch:self.aSwitch
                             socketGroupId:self.socketGroupId
                                  sendMode:PassiveMode];
@@ -1351,7 +1351,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_CONTROL_REQ_13:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg13WithSwitch:self.aSwitch
                             socketGroupId:self.socketGroupId
                                  sendMode:PassiveMode];
@@ -1363,7 +1363,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_GET_TIMER_REQ_17:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg17Or19:self.aSwitch
                       socketGroupId:self.socketGroupId
                            sendMode:PassiveMode];
@@ -1375,7 +1375,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_GET_TIMER_REQ_19:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg19WithSwitch:self.aSwitch
                             socketGroupId:self.socketGroupId
                                  sendMode:PassiveMode];
@@ -1387,7 +1387,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_SET_TIMER_REQ_1D:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg1DWithSwitch:self.aSwitch
                             socketGroupId:self.socketGroupId
                                  timeList:self.timeList
@@ -1400,7 +1400,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_SET_TIMER_REQ_1F:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg1FWithSwitch:self.aSwitch
                             socketGroupId:self.socketGroupId
                                  timeList:self.timeList
@@ -1413,14 +1413,14 @@ static dispatch_queue_t delegateQueue;
           case P2D_GET_PROPERTY_REQ_25:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
               }
             }
             break;
           case P2S_GET_PROPERTY_REQ_27:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
               }
             }
             break;
@@ -1431,7 +1431,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_LOCATE_REQ_39:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg39WithSwitch:self.aSwitch
                                        on:NO
                                  sendMode:PassiveMode];
@@ -1443,7 +1443,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_LOCATE_REQ_3B:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg3BWithSwitch:self.aSwitch
                                        on:self.on
                                  sendMode:PassiveMode];
@@ -1455,7 +1455,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_SET_NAME_REQ_3F:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg3FOr41:self.aSwitch
                                type:self.type
                                name:self.name
@@ -1468,7 +1468,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_SET_NAME_REQ_41:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg41WithSwitch:self.aSwitch
                                      type:self.type
                                      name:self.name
@@ -1481,7 +1481,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_DEV_LOCK_REQ_47:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg47Or49:self.aSwitch sendMode:PassiveMode];
               } else {
                 [self noResponseTag:tag socketGroupId:self.socketGroupId];
@@ -1491,7 +1491,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_DEV_LOCK_REQ_49:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg49WithSwitch:self.aSwitch sendMode:PassiveMode];
               } else {
                 [self noResponseTag:tag socketGroupId:self.socketGroupId];
@@ -1501,7 +1501,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_SET_DELAY_REQ_4D:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg4DWithSwitch:self.aSwitch
                             socketGroupId:self.socketGroupId
                                 delayTime:self.delayTime
@@ -1515,7 +1515,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_SET_DELAY_REQ_4F:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg4FWithSwitch:self.aSwitch
                             socketGroupId:self.socketGroupId
                                 delayTime:self.delayTime
@@ -1529,7 +1529,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_GET_DELAY_REQ_53:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg53WithSwitch:self.aSwitch
                             socketGroupId:self.socketGroupId
                                  sendMode:PassiveMode];
@@ -1541,7 +1541,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_GET_DELAY_REQ_55:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg55WithSwitch:self.aSwitch
                             socketGroupId:self.socketGroupId
                                  sendMode:PassiveMode];
@@ -1553,7 +1553,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_PHONE_INIT_REQ_59:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg59:self.aSwitch sendMode:PassiveMode];
               } else {
                 [self noResponseTag:tag socketGroupId:self.socketGroupId];
@@ -1563,7 +1563,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_GET_NAME_REQ_5D:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg5DWithSwitch:self.aSwitch sendMode:PassiveMode];
               }
             }
@@ -1571,7 +1571,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_GET_NAME_REQ_5F:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg5FWithSwitch:self.aSwitch sendMode:PassiveMode];
               }
             }
@@ -1579,7 +1579,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_GET_POWER_LOG_REQ_63:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg63:self.aSwitch
                       beginTime:self.beginTime
                         endTime:self.endTime
@@ -1591,7 +1591,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_GET_CITY_REQ_65:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg65:self.mac type:self.type sendMode:PassiveMode];
               }
             }
@@ -1599,7 +1599,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_GET_CITY_WEATHER_REQ_67:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg67:self.mac
                            type:self.type
                        cityName:self.cityName
@@ -1610,7 +1610,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_SET_PASSWD_REQ_69:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg69:self.oldPassword
                     newPassword:self.password
                        sendMode:PassiveMode];
@@ -1620,7 +1620,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_SET_POWERACTION_REQ_6B:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg6BWithSwitch:self.aSwitch
                                alertUnder:self.alertUnder
                              isAlertUnder:self.isAlertUnder
@@ -1640,7 +1640,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_SET_POWERACTION_REQ_6D:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg6DWithSwitch:self.aSwitch
                                alertUnder:self.alertUnder
                              isAlertUnder:self.isAlertUnder
@@ -1660,7 +1660,7 @@ static dispatch_queue_t delegateQueue;
           case P2D_GET_POWERACTION_REQ_71:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg71WithSwitch:self.aSwitch sendMode:PassiveMode];
               } else {
                 [self noResponseTag:tag socketGroupId:self.socketGroupId];
@@ -1670,7 +1670,7 @@ static dispatch_queue_t delegateQueue;
           case P2S_GET_POWERACTION_REQ_73:
             if (!self.responseData) {
               if (self.msgSendCount < kTryCount) {
-                debugLog(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
                 [self sendMsg73WithSwitch:self.aSwitch sendMode:PassiveMode];
               } else {
                 [self noResponseTag:tag socketGroupId:self.socketGroupId];
@@ -1704,7 +1704,7 @@ static dispatch_queue_t delegateQueue;
  */
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock
     didConnectToAddress:(NSData *)address {
-  debugLog(@"didConnectToAddress");
+  DDLogDebug(@"didConnectToAddress");
 }
 
 /**
@@ -1721,7 +1721,7 @@ static dispatch_queue_t delegateQueue;
   * domain name is unable to be resolved.
   */
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didNotConnect:(NSError *)error {
-  debugLog(@"didNotConnect");
+  DDLogDebug(@"didNotConnect");
 }
 
 /**
@@ -1731,7 +1731,8 @@ static dispatch_queue_t delegateQueue;
  *  @param tag
  */
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag {
-  debugLog(@"didSendDataWithTag :%ld", tag);
+  DDLogDebug(@"didSendDataWithTag :%ld", tag);
+  //  DDLogDebug(@"didSendDataWithTag :%ld", tag);
   // 需要执行的操作：
   // 1、清空响应数据
   // 2、指定时间后检查数据是否为空，为空说明未响应，触发请求重发
@@ -1752,7 +1753,7 @@ static dispatch_queue_t delegateQueue;
     didNotSendDataWithTag:(long)tag
                dueToError:(NSError *)error {
   //  int triedCount = 0;
-  debugLog(@"didNotSendDataWithTag :%ld", tag);
+  DDLogDebug(@"didNotSendDataWithTag :%ld", tag);
   //  if ([self.delegate
   //  respondsToSelector:@selector(noSendMsgtag:triedCount:)]) {
   //    [self.delegate noSendMsgtag:tag triedCount:triedCount];
@@ -1772,7 +1773,7 @@ static dispatch_queue_t delegateQueue;
        didReceiveData:(NSData *)data
           fromAddress:(NSData *)address
     withFilterContext:(id)filterContext {
-  debugLog(@"receiveData is %@", [CC3xMessageUtil hexString:data]);
+  DDLogDebug(@"receiveData is %@", [CC3xMessageUtil hexString:data]);
   if (data) {
     CC3xMessage *msg = (CC3xMessage *)filterContext;
     if ([self.delegate
@@ -1793,6 +1794,6 @@ static dispatch_queue_t delegateQueue;
  *  @param error
  */
 - (void)udpSocketDidClose:(GCDAsyncUdpSocket *)sock withError:(NSError *)error {
-  debugLog(@"UdpSocketUtil udpSocketDidClose");
+  DDLogDebug(@"UdpSocketUtil udpSocketDidClose");
 }
 @end

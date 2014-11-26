@@ -11,7 +11,7 @@
 
 @implementation SDZGSwitch
 + (SDZGSwitch *)parseMessageCOrEToSwitch:(CC3xMessage *)message {
-  debugLog(@"%s", __func__);
+  DDLogDebug(@"%s", __func__);
   NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
   BOOL needToDBImmediately; //新扫描到的设备立即添加到数据库
   SDZGSwitch *aSwitch =
@@ -38,7 +38,7 @@
     aSwitch.ip = message.ip;
     aSwitch.port = message.port;
     aSwitch.name = message.deviceName;
-    debugLog(@"device name is %@", message.deviceName);
+    DDLogDebug(@"device name is %@", message.deviceName);
     aSwitch.version = message.version;
     aSwitch.lockStatus = message.lockStatus;
     aSwitch.lastUpdateInterval = current;
@@ -47,7 +47,7 @@
     aSwitch = [[SwitchDataCeneter sharedInstance].switchsDict
         objectForKey:message.mac];
     NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
-    debugLog(@"switch mac is %@ and thread is %@ diff is %f", aSwitch.mac,
+    DDLogDebug(@"switch mac is %@ and thread is %@ diff is %f", aSwitch.mac,
              [NSThread currentThread], diff);
     //内网外网都返回时，时间间隔大于刷新时间一半就更新设备，否则不更新设备，认为是外网响应
     if (diff > REFRESH_DEV_TIME / 2) {

@@ -137,7 +137,7 @@
     [self sendAction];
   }
   @catch (NSException *exception) {
-    debugLog(@"%s exception == %@", __FUNCTION__, [exception description]);
+    DDLogDebug(@"%s exception == %@", __FUNCTION__, [exception description]);
   }
   @finally {
   }
@@ -147,12 +147,12 @@
 - (void)sendAction {
   [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
   @try {
-    debugLog(@"begin");
+    DDLogDebug(@"begin");
     [self.config transmitSettings];
-    debugLog(@"end");
+    DDLogDebug(@"end");
   }
   @catch (NSException *exception) {
-    debugLog(@"exception === %@", [exception description]);
+    DDLogDebug(@"exception === %@", [exception description]);
   }
   @finally {
   }
@@ -163,16 +163,16 @@
                  dispatch_get_main_queue(), ^{
       [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
   });
-  debugLog(@"%s begin", __PRETTY_FUNCTION__);
+  DDLogDebug(@"%s begin", __PRETTY_FUNCTION__);
   @try {
     [self.config stopTransmitting];
   }
   @catch (NSException *exception) {
-    debugLog(@"%s exception == %@", __FUNCTION__, [exception description]);
+    DDLogDebug(@"%s exception == %@", __FUNCTION__, [exception description]);
   }
   @finally {
   }
-  debugLog(@"%s end", __PRETTY_FUNCTION__);
+  DDLogDebug(@"%s end", __PRETTY_FUNCTION__);
 }
 
 #pragma mark - UdpRequestDelegate
@@ -181,7 +181,7 @@
            address:(NSData *)address {
   switch (message.msgId) {
     case 0x2:
-      debugLog(@"mac is %@ ip is %@ and port is %d", message.mac, message.ip,
+      DDLogDebug(@"mac is %@ ip is %@ and port is %d", message.mac, message.ip,
                message.port);
       [self.request sendMsg05:message.ip port:message.port mode:ActiveMode];
       break;
@@ -206,7 +206,7 @@
                              }];
         });
       }
-      debugLog(@"mac is %@ state is %d", message.mac, message.state);
+      DDLogDebug(@"mac is %@ state is %d", message.mac, message.state);
       break;
     default:
       break;

@@ -77,7 +77,7 @@
 - (void)udpRequest:(UdpRequest *)request
     didNotReceiveMsgTag:(long)tag
           socketGroupId:(int)socketGroupId {
-  debugLog(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
+  DDLogDebug(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
   NSDictionary *userInfo = @{
     @"tag" : @(tag),
     @"socketGroupId" : @(socketGroupId)

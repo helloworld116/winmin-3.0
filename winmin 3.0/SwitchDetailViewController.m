@@ -312,11 +312,11 @@ preparation before navigation
       [self.socketView2 changeSocketState:socket2];
       [self.socketView2 removeRotateAnimation];
   });
-  debugLog(@"############## 修改界面");
+  DDLogDebug(@"############## 修改界面");
 }
 
 - (void)noResponse:(NSNotification *)notif {
-  debugLog(@"%s", __func__);
+  DDLogDebug(@"%s", __func__);
   dispatch_async(MAIN_QUEUE, ^{
       NSDictionary *userInfo = notif.userInfo;
       long tag = [userInfo[@"tag"] longValue];

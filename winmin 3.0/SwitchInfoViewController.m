@@ -431,7 +431,7 @@ preparation before navigation
 - (void)switchNameChanged:(NSNotification *)notification {
   self.isUpdateNameSuccess = YES;
   self.isNameUpdate = NO;
-  debugLog(@"########switch name changed");
+  DDLogDebug(@"########switch name changed");
   [[SwitchDataCeneter sharedInstance] updateSwitchName:self.switchName
                                            socketNames:nil
                                                    mac:self.aSwitch.mac];

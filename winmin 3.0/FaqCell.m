@@ -51,7 +51,7 @@ const CGFloat kContentWidth = 265.f;
   self.lblANum.text = [@"A" stringByAppendingFormat:@"%d", indexPath.row + 1];
   self.lblQuestion.text = question;
   self.lblAnswer.text = answer;
-  //  debugLog(@"****************cell height is %f", questionHeight +
+  //  DDLogDebug(@"****************cell height is %f", questionHeight +
   //  answerHeight);
 }
 @end

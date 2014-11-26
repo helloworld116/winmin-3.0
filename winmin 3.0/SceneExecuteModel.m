@@ -68,7 +68,7 @@ static dispatch_queue_t scene_recive_serial_queue() {
     };
 
     self.remainingSceneDetails = [sceneDetails mutableCopy];
-    debugLog(@"details is %@", self.remainingSceneDetails);
+    DDLogDebug(@"details is %@", self.remainingSceneDetails);
     [self executeFirstOperationInSceneDetails:self.remainingSceneDetails];
   }
 }
@@ -100,7 +100,7 @@ static dispatch_queue_t scene_recive_serial_queue() {
             } else {
               mode = PassiveMode;
             }
-            debugLog(@"sendMsgCount is %d", self.sendMsgCount);
+            DDLogDebug(@"sendMsgCount is %d", self.sendMsgCount);
             [self.request sendMsg11Or13:aSwitch
                           socketGroupId:sceneDetail.groupId
                                sendMode:mode];
@@ -132,21 +132,21 @@ static dispatch_queue_t scene_recive_serial_queue() {
     if (self.remainingSceneDetails.count > 0) {
       [self.remainingSceneDetails removeObjectAtIndex:0];
     }
-    debugLog(@"details is %@", self.remainingSceneDetails);
+    DDLogDebug(@"details is %@", self.remainingSceneDetails);
     self.noResponse(self.remainingSceneDetails);
     [self sendNotification];
   }
 }
 
 - (void)responseMsg12Or14:(CC3xMessage *)message {
-  debugLog(@"message info mac is %@ and socketGroupId is %d", message.mac,
+  DDLogDebug(@"message info mac is %@ and socketGroupId is %d", message.mac,
            message.socketGroupId);
   if (!self.executeSuccess && [self.mac isEqualToString:message.mac] &&
       self.socketGroupId == message.socketGroupId) {
     if (self.remainingSceneDetails.count > 0) {
       [self.remainingSceneDetails removeObjectAtIndex:0];
     }
-    debugLog(@"details is %@", self.remainingSceneDetails);
+    DDLogDebug(@"details is %@", self.remainingSceneDetails);
     if (message.state == kUdpResponseSuccessCode) {
       self.executeSuccess = YES;
       [self sendNotification];
@@ -174,10 +174,10 @@ static dispatch_queue_t scene_recive_serial_queue() {
   //  NO表示未收到响应，执行失败;YES表示收到响应，执行成功
   //  self.timerExcCount++;
   //  if (self.receivedData) {
-  //    debugLog(@"收到数据");
+  //    DDLogDebug(@"收到数据");
   //    resulstType = YES;
   //  } else {
-  //    debugLog(@"未收到数据");
+  //    DDLogDebug(@"未收到数据");
   //    resulstType = NO;
   //  }
   NSDictionary *userInfo = @{
@@ -189,7 +189,7 @@ static dispatch_queue_t scene_recive_serial_queue() {
                     object:self
                   userInfo:userInfo];
   if (self.remainingSceneDetails.count == 0) {
-    debugLog(@"任务全部完成");
+    DDLogDebug(@"任务全部完成");
     [[NSNotificationCenter defaultCenter]
         postNotificationName:kSceneExecuteFinishedNotification
                       object:self];

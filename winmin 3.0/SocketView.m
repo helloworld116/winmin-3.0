@@ -33,7 +33,16 @@
 }
 @end
 
+@interface SocketView ()
+@property (nonatomic, strong) UIImage *defaultSelectBgImage;
+@property (nonatomic, strong) UIImage *customSelectBgImage;
+@end
 @implementation SocketView
+
+- (void)awakeFromNib {
+  self.defaultSelectBgImage = [UIImage imageNamed:@"socket_bg_selected"];
+  self.customSelectBgImage = [UIImage imageNamed:@"socket_bg_custom"];
+}
 
 - (id)initWithFrame:(CGRect)frame {
   self = [super initWithFrame:frame];
@@ -125,6 +134,28 @@
   [self.btnSocket3 setImage:[SDZGSocket imgNameToImage:socket.imageNames[2]
                                                 status:socket.socketStatus]
                    forState:UIControlStateNormal];
+
+  if ([socket.imageNames[0] isEqualToString:socket_default_image]) {
+    [self.btnSocket1 setBackgroundImage:self.defaultSelectBgImage
+                               forState:UIControlStateSelected];
+  } else {
+    [self.btnSocket1 setBackgroundImage:self.customSelectBgImage
+                               forState:UIControlStateSelected];
+  }
+  if ([socket.imageNames[1] isEqualToString:socket_default_image]) {
+    [self.btnSocket2 setBackgroundImage:self.defaultSelectBgImage
+                               forState:UIControlStateSelected];
+  } else {
+    [self.btnSocket2 setBackgroundImage:self.customSelectBgImage
+                               forState:UIControlStateSelected];
+  }
+  if ([socket.imageNames[2] isEqualToString:socket_default_image]) {
+    [self.btnSocket3 setBackgroundImage:self.defaultSelectBgImage
+                               forState:UIControlStateSelected];
+  } else {
+    [self.btnSocket3 setBackgroundImage:self.customSelectBgImage
+                               forState:UIControlStateSelected];
+  }
 }
 
 - (void)addRotateAnimation {
@@ -132,7 +163,7 @@
   rotationAnimation =
       [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
   rotationAnimation.toValue = [NSNumber numberWithFloat:M_PI * 2.0];
-  rotationAnimation.duration = 1.f;
+  rotationAnimation.duration = 3.f;
   rotationAnimation.cumulative = YES;
   rotationAnimation.repeatCount =
       HUGE_VALF; // huge巨大的 value float 浮点数形式

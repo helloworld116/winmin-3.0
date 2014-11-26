@@ -67,9 +67,9 @@
         @"text);";
     BOOL success = [self.db executeUpdate:sql];
     if (success) {
-      debugLog(@"创建表switch成功");
+      DDLogDebug(@"创建表switch成功");
     } else {
-      debugLog(@"创建表switch失败");
+      DDLogDebug(@"创建表switch失败");
     }
     [self.db close];
     return success;
@@ -86,9 +86,9 @@
         @"text,socket3image text);";
     BOOL success = [self.db executeUpdate:sql];
     if (success) {
-      debugLog(@"创建表socket成功");
+      DDLogDebug(@"创建表socket成功");
     } else {
-      debugLog(@"创建表socket失败");
+      DDLogDebug(@"创建表socket失败");
     }
     [self.db close];
     return success;
@@ -103,9 +103,9 @@
         @"integer,iseffective numeric,actiontype integer);";
     BOOL success = [self.db executeUpdate:sql];
     if (success) {
-      debugLog(@"创建表timertask成功");
+      DDLogDebug(@"创建表timertask成功");
     } else {
-      debugLog(@"创建表timertask失败");
+      DDLogDebug(@"创建表timertask失败");
     }
     [self.db close];
     return success;
@@ -119,9 +119,9 @@
         @"autoincrement,name text,imagename text);";
     BOOL success = [self.db executeUpdate:sql];
     if (success) {
-      debugLog(@"创建表scene成功");
+      DDLogDebug(@"创建表scene成功");
     } else {
-      debugLog(@"创建表scene失败");
+      DDLogDebug(@"创建表scene失败");
     }
     [self.db close];
     return success;
@@ -136,9 +136,9 @@
         @"integer,groupid integer,interval real);";
     BOOL success = [self.db executeUpdate:sql];
     if (success) {
-      debugLog(@"创建表scenedetail成功");
+      DDLogDebug(@"创建表scenedetail成功");
     } else {
-      debugLog(@"创建表scenedetail失败");
+      DDLogDebug(@"创建表scenedetail失败");
     }
     [self.db close];
     return success;
@@ -153,9 +153,9 @@
         @"text,groupid integer,onoff integer);";
     BOOL success = [self.db executeUpdate:createTableSql];
     if (success) {
-      debugLog(@"创建表sceneeetailtmp成功");
+      DDLogDebug(@"创建表sceneeetailtmp成功");
     } else {
-      debugLog(@"创建表scenedetailtmp失败");
+      DDLogDebug(@"创建表scenedetailtmp失败");
     }
     [self.db close];
     return success;

@@ -88,7 +88,7 @@ typedef void (^failureResponse)(void);
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:[NSDate distantFuture]];
       }
-      debugLog(@"out while");
+      DDLogDebug(@"out while");
     }
     [self completeOperation];
   }
@@ -121,16 +121,16 @@ typedef void (^failureResponse)(void);
 - (void)simulationUdpRequest {
   dispatch_async(GLOBAL_QUEUE, ^{
       for (int i = 0; i <= 500; i++) {
-        debugLog(@"i is %d j is %d", self.outValue, i);
+        DDLogDebug(@"i is %d j is %d", self.outValue, i);
         if (i == 500) {
           self.isResponseSuccess = YES;
           self.completionBlock();
-          debugLog(@"response data recived");
+          DDLogDebug(@"response data recived");
           [NSThread sleepForTimeInterval:1];
         }
       }
   });
-  debugLog(@"request send");
+  DDLogDebug(@"request send");
 }
 
 @end
@@ -279,18 +279,18 @@ typedef void (^failureResponse)(void);
   dispatch_async(GLOBAL_QUEUE, ^{
       for (int i = 0; i < 5; i++) {
         //        TestOperation *op = [[TestOperation alloc] initWithSuccess:^{
-        //            debugLog(@"i is %d", i);
+        //            DDLogDebug(@"i is %d", i);
         //            //        [self.queue.operations[0] cancel];
         //        } failure:^{
         //
         //        } outValue:i];
-        //        //        debugLog(@"1 start %d", i);
+        //        //        DDLogDebug(@"1 start %d", i);
         //        //        [op start];
-        //        //        debugLog(@"2 start %d", i);
+        //        //        DDLogDebug(@"2 start %d", i);
         //        //        [NSThread sleepForTimeInterval:1];
         //        MyOperation *op = [[MyOperation alloc]
         //            initWithCount:100
-        //               completion:^(id result) { debugLog(@"result is %@",
+        //               completion:^(id result) { DDLogDebug(@"result is %@",
         //               result); }];
         //        [self.queue addOperation:op];
       }
