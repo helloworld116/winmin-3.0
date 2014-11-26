@@ -31,22 +31,30 @@
 }
 
 - (void)startScanState {
-  _isScanningState = YES;
-  self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
-                                       target:self
-                                     selector:@selector(sendMsg0BOr0D)
-                                     userInfo:nil
-                                      repeats:YES];
-  [self.timer fire];
-  [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+  [self stopScanState];
+  debugLog(@"%s", __FUNCTION__);
+  dispatch_async(MAIN_QUEUE, ^{
+      _isScanningState = YES;
+      self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
+                                           target:self
+                                         selector:@selector(sendMsg0BOr0D)
+                                         userInfo:nil
+                                          repeats:YES];
+      [self.timer fire];
+      [[NSRunLoop mainRunLoop] addTimer:self.timer
+                                forMode:NSDefaultRunLoopMode];
+  });
 }
 
 - (void)stopScanState {
-  _isScanningState = NO;
-  if (self.timer) {
-    [self.timer invalidate];
-    self.timer = nil;
-  }
+  debugLog(@"%s", __FUNCTION__);
+  dispatch_async(MAIN_QUEUE, ^{
+      _isScanningState = NO;
+      if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+      }
+  });
 }
 
 - (void)refreshSwitchList {

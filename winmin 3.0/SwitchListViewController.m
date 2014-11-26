@@ -215,6 +215,7 @@
 }
 
 - (void)startUpdateList {
+  [self stopUpdateList];
   self.timerUpdateList =
       [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
                               target:self
@@ -228,8 +229,10 @@
 }
 
 - (void)stopUpdateList {
-  [self.timerUpdateList invalidate];
-  self.timerUpdateList = nil;
+  if (self.timerUpdateList) {
+    [self.timerUpdateList invalidate];
+    self.timerUpdateList = nil;
+  }
 }
 
 #pragma mark - 通知
@@ -246,32 +249,35 @@
 }
 
 - (void)netChangedNotification:(NSNotification *)notification {
-  NetworkStatus status = kSharedAppliction.networkStatus;
-  if (status == NotReachable) {
-    //网络不可用时修改所有设备状态为离线并停止扫描
-    [self.model stopScanState];
-    [[SwitchDataCeneter sharedInstance] updateAllSwitchStautsToOffLine];
-    [self.tableView reloadData];
-    [self stopUpdateList];
-  } else {
-    if (status == ReachableViaWWAN) {
-      BOOL warn = [[[NSUserDefaults standardUserDefaults]
-          objectForKey:wwanWarn] boolValue];
-      if (warn) {
-        [self.view
-            makeToast:NSLocalizedString(@"WWAN Message", nil)
-             duration:5.f
-             position:[NSValue
-                          valueWithCGPoint:
-                              CGPointMake(self.view.frame.size.width / 2,
-                                          self.view.frame.size.height - 40)]];
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{
+      NetworkStatus status = kSharedAppliction.networkStatus;
+      if (status == NotReachable) {
+        //网络不可用时修改所有设备状态为离线并停止扫描
+        [self.model stopScanState];
+        [[SwitchDataCeneter sharedInstance] updateAllSwitchStautsToOffLine];
+        [self.tableView reloadData];
+        [self stopUpdateList];
+      } else {
+        if (status == ReachableViaWWAN) {
+          BOOL warn = [[[NSUserDefaults standardUserDefaults]
+              objectForKey:wwanWarn] boolValue];
+          if (warn) {
+            [self.view
+                makeToast:NSLocalizedString(@"WWAN Message", nil)
+                 duration:5.f
+                 position:[NSValue valueWithCGPoint:
+                                       CGPointMake(
+                                           self.view.frame.size.width / 2,
+                                           self.view.frame.size.height - 40)]];
+          }
+        }
+        if (!self.model.isScanningState) {
+          [self.model startScanState];
+          [self startUpdateList];
+        }
       }
-    }
-    if (!self.model.isScanningState) {
-      [self.model startScanState];
-      [self startUpdateList];
-    }
-  }
+  });
 }
 
 - (void)reloadTableView {

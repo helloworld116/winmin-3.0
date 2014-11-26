@@ -257,9 +257,9 @@ preparation before navigation
     case OneYear:
       if (self.showingRealTimeElecView) {
         self.showingRealTimeElecView = NO;
-        if (needGetData) {
-          [self.model historyElec:dateType];
-        }
+      }
+      if (needGetData) {
+        [self.model historyElec:dateType];
       }
       break;
     default:

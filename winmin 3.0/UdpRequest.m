@@ -227,59 +227,26 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg0B:(SENDMODE)mode {
-  //  dispatch_async(GLOBAL_QUEUE, ^{
-  //      if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
-  //
-  //      } else {
-  //        //不在内网的情况下的处理
-  //        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-  //          [self.delegate errorMsg:kNotViaWiFi];
-  //        }
-  //      }
-  //  });
-  dispatch_sync(GLOBAL_QUEUE, ^{
-      if (mode == ActiveMode) {
-        self.msgSendCount = 0;
-      } else if (mode == PassiveMode) {
-        self.msgSendCount++;
-      }
-      self.msg = [CC3xMessageUtil getP2dMsg0B];
-      self.host = BROADCAST_ADDRESS;
-      self.port = DEVICE_PORT;
-      self.tag = P2D_STATE_INQUIRY_0B;
-      [self sendDataToHost];
-  });
+  if (kSharedAppliction.networkStatus != ReachableViaWiFi) {
+    if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
+      [self.delegate errorMsg:kNotReachable];
+    }
+  } else {
+    self.msg = [CC3xMessageUtil getP2dMsg0B];
+    self.host = BROADCAST_ADDRESS;
+    self.port = DEVICE_PORT;
+    self.tag = P2D_STATE_INQUIRY_0B;
+    [self sendDataToHost];
+  }
 }
 
 - (void)sendMsg0B:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  if (mode == ActiveMode) {
-    self.msgSendCount = 0;
-  } else if (mode == PassiveMode) {
-    self.msgSendCount++;
-  }
   self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg0B]];
   self.aSwitch = aSwitch;
   self.host = aSwitch.ip;
   self.port = DEVICE_PORT;
   self.tag = P2D_STATE_INQUIRY_0B;
   [self sendDataToHost];
-}
-
-- (void)sendMsg0D:(NSString *)mac sendMode:(SENDMODE)mode tag:(long)tag {
-  dispatch_sync(GLOBAL_QUEUE, ^{
-      if (kSharedAppliction.networkStatus == NotReachable) {
-        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-          [self.delegate errorMsg:kNotReachable];
-        }
-      } else {
-        self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg0D:mac]];
-        self.mac = mac;
-        self.host = SERVER_IP;
-        self.port = SERVER_PORT;
-        self.tag = tag;
-        [self sendDataToHost];
-      }
-  });
 }
 
 - (void)sendMsg0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
@@ -289,6 +256,21 @@ static dispatch_queue_t delegateQueue;
   self.port = SERVER_PORT;
   self.tag = P2S_STATE_INQUIRY_0D;
   [self sendDataToHost];
+}
+
+- (void)sendMsg0D:(NSString *)mac sendMode:(SENDMODE)mode tag:(long)tag {
+  if (kSharedAppliction.networkStatus == NotReachable) {
+    if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
+      [self.delegate errorMsg:kNotReachable];
+    }
+  } else {
+    self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg0D:mac]];
+    self.mac = mac;
+    self.host = SERVER_IP;
+    self.port = SERVER_PORT;
+    self.tag = tag;
+    [self sendDataToHost];
+  }
 }
 
 - (void)sendMsg11WithSwitch:(SDZGSwitch *)aSwitch

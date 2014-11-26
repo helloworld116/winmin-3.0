@@ -49,6 +49,7 @@
 }
 
 - (void)startScanSwitchState {
+  [self stopScanSwitchState];
   dispatch_async(MAIN_QUEUE, ^{
       _isScanning = YES;
       self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
@@ -73,6 +74,7 @@
 }
 
 - (void)startRealTimeElec {
+  [self stopRealTimeElec];
   dispatch_async(MAIN_QUEUE, ^{
       self.timerElec = [NSTimer timerWithTimeInterval:kElecRefreshInterval
                                                target:self
