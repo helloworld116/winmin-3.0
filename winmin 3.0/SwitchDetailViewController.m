@@ -101,7 +101,7 @@
            object:nil];
   [self addObserver:self
          forKeyPath:@"showingRealTimeElecView"
-            options:NSKeyValueObservingOptionNew
+            options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
             context:nil];
 }
 
@@ -245,8 +245,9 @@ preparation before navigation
              needGetData:(BOOL)needGetData {
   switch (dateType) {
     case RealTime:
-      //      [self.model startRealTimeElec];
-      self.showingRealTimeElecView = YES;
+      if (!self.showingRealTimeElecView) {
+        self.showingRealTimeElecView = YES;
+      }
       break;
     case OneDay:
     case OneWeek:
@@ -254,10 +255,11 @@ preparation before navigation
     case ThreeMonth:
     case SixMonth:
     case OneYear:
-      //      [self.model stopRealTimeElec];
-      self.showingRealTimeElecView = NO;
-      if (needGetData) {
-        [self.model historyElec:dateType];
+      if (self.showingRealTimeElecView) {
+        self.showingRealTimeElecView = NO;
+        if (needGetData) {
+          [self.model historyElec:dateType];
+        }
       }
       break;
     default:
@@ -327,9 +329,7 @@ preparation before navigation
           [CRToastManager
               showNotificationWithMessage:NSLocalizedString(
                                               @"No UDP Response Msg", nil)
-                          completionBlock:^{
-
-                          }];
+                          completionBlock:^{}];
           if (socketGroupId == 1) {
             [self.socketView1 removeRotateAnimation];
           } else {

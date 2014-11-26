@@ -186,54 +186,56 @@
 }
 
 - (void)saveSwitch:(SDZGSwitch *)aSwitch {
-  [self.queue inDatabase:^(FMDatabase *db) {
-      if ([db open]) {
-        NSString *sql = @"select count(id) as sid from switch where mac=?";
-        FMResultSet *switchResult = [db executeQuery:sql, aSwitch.mac];
-        if ([switchResult next]) {
-          int sid = [switchResult intForColumn:@"sid"];
-          if (sid) {
-            NSString *sql = @"update switch set "
-                @"name=?,networkstatus=?,lockstatus=?,version=?,tag=?,"
-                @"imagename=?,password=?,ip=? where mac=?";
-            [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
-                              @(aSwitch.lockStatus), @(aSwitch.version), @(0),
-                              aSwitch.imageName, aSwitch.password, aSwitch.ip,
-                              aSwitch.mac];
-          } else {
-            NSString *sql = @"insert into "
-                @"switch(name,networkstatus,mac,ip,port,lockstatus,version,tag,"
-                @"imagename,password) values(?,?,?,?,?,?,?,?,?,?)";
-            [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
-                              aSwitch.mac, aSwitch.ip, @(aSwitch.port),
-                              @(aSwitch.lockStatus), @(aSwitch.version), @(0),
-                              aSwitch.imageName, aSwitch.password];
+  if (aSwitch && [aSwitch.sockets count] == 2) {
+    [self.queue inDatabase:^(FMDatabase *db) {
+        if ([db open]) {
+          NSString *sql = @"select count(id) as sid from switch where mac=?";
+          FMResultSet *switchResult = [db executeQuery:sql, aSwitch.mac];
+          if ([switchResult next]) {
+            int sid = [switchResult intForColumn:@"sid"];
+            if (sid) {
+              NSString *sql = @"update switch set "
+                  @"name=?,networkstatus=?,lockstatus=?,version=?,tag=?,"
+                  @"imagename=?,password=?,ip=? where mac=?";
+              [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
+                                @(aSwitch.lockStatus), @(aSwitch.version), @(0),
+                                aSwitch.imageName, aSwitch.password, aSwitch.ip,
+                                aSwitch.mac];
+            } else {
+              NSString *sql = @"insert into "
+                  @"switch(name,networkstatus,mac,ip,port,lockstatus,version,"
+                  @"tag," @"imagename,password) values(?,?,?,?,?,?,?,?,?,?)";
+              [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
+                                aSwitch.mac, aSwitch.ip, @(aSwitch.port),
+                                @(aSwitch.lockStatus), @(aSwitch.version), @(0),
+                                aSwitch.imageName, aSwitch.password];
+            }
           }
-        }
-        sql = @"delete from socket where mac=?";
-        [db executeUpdate:sql, aSwitch.mac];
-        sql = @"delete from timertask where mac=?";
-        [db executeUpdate:sql, aSwitch.mac];
-        for (SDZGSocket *socket in aSwitch.sockets) {
-          sql = @"insert into "
-              @"socket(mac,groupid,name,delaytime,delayaction,socketstatus,"
-              @"socket1image,socket2image,socket3image) "
-              @"values(?,?,?,?,?,?,?,?,?)";
-          [db executeUpdate:sql, aSwitch.mac, @(socket.groupId), socket.name,
-                            @(socket.delayTime), @(socket.delayAction),
-                            @(socket.socketStatus), socket.imageNames[0],
-                            socket.imageNames[1], socket.imageNames[2]];
-          for (SDZGTimerTask *timer in socket.timerList) {
-            sql = @"insert into " @"timertask(mac,groupid,week,actiontime,"
-                @"actiontype,iseffective) values(?,?,?,?,?,?)";
-            [db executeUpdate:sql, aSwitch.mac, @(socket.groupId),
-                              @(timer.week), @(timer.actionTime),
-                              @(timer.timerActionType), @(timer.isEffective)];
+          sql = @"delete from socket where mac=?";
+          [db executeUpdate:sql, aSwitch.mac];
+          sql = @"delete from timertask where mac=?";
+          [db executeUpdate:sql, aSwitch.mac];
+          for (SDZGSocket *socket in aSwitch.sockets) {
+            sql = @"insert into "
+                @"socket(mac,groupid,name,delaytime,delayaction,socketstatus,"
+                @"socket1image,socket2image,socket3image) "
+                @"values(?,?,?,?,?,?,?,?,?)";
+            [db executeUpdate:sql, aSwitch.mac, @(socket.groupId), socket.name,
+                              @(socket.delayTime), @(socket.delayAction),
+                              @(socket.socketStatus), socket.imageNames[0],
+                              socket.imageNames[1], socket.imageNames[2]];
+            for (SDZGTimerTask *timer in socket.timerList) {
+              sql = @"insert into timertask(mac,groupid,week,actiontime,"
+                  @"actiontype,iseffective) values(?,?,?,?,?,?)";
+              [db executeUpdate:sql, aSwitch.mac, @(socket.groupId),
+                                @(timer.week), @(timer.actionTime),
+                                @(timer.timerActionType), @(timer.isEffective)];
+            }
           }
+          [db close];
         }
-        [db close];
-      }
-  }];
+    }];
+  }
 }
 
 - (void)saveSwitchs:(NSArray *)switchs {

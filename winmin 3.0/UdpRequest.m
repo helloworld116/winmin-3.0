@@ -1797,8 +1797,10 @@ static dispatch_queue_t delegateQueue;
             respondsToSelector:@selector(udpRequest:didReceiveMsg:address:)]) {
       [self.delegate udpRequest:self didReceiveMsg:msg address:address];
     }
-    self.responseData = [NSData dataWithData:data];
-    [self.timer invalidate];
+    if ((msg.msgId != 0xc) && (msg.msgId != 0xe) && (msg.msgId != 0x34) &&
+        (msg.msgId != 0x36)) {
+      self.responseData = [NSData dataWithData:data];
+    }
   }
 }
 

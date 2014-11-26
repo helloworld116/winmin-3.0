@@ -173,7 +173,7 @@ static NSString *const AboutUsURLString = @"http://www.itouchco.com/";
 #define REFRESH_DEV_TIME 5
 
 static float const kElecRefreshInterval = 3.f;
-static float const kElecDiff = 3.4f;
+static float const kElecDiff = 2.8f;
 
 #define BROADCAST_ADDRESS @"255.255.255.255"
 
