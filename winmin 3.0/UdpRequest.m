@@ -196,7 +196,7 @@ static dispatch_queue_t delegateQueue;
       } else if (mode == PassiveMode) {
         self.msgSendCount++;
       }
-      self.msg = [CC3xMessageUtil getP2dMsg05];
+      self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg05]];
       self.host = ip;
       self.port = port;
       self.tag = P2D_SERVER_INFO_05;
@@ -212,7 +212,7 @@ static dispatch_queue_t delegateQueue;
         } else if (mode == PassiveMode) {
           self.msgSendCount++;
         }
-        self.msg = [CC3xMessageUtil getP2dMsg09];
+        self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg09]];
         self.host = BROADCAST_ADDRESS;
         self.port = DEVICE_PORT;
         self.tag = P2D_SCAN_DEV_09;
@@ -232,7 +232,7 @@ static dispatch_queue_t delegateQueue;
       [self.delegate errorMsg:kNotReachable];
     }
   } else {
-    self.msg = [CC3xMessageUtil getP2dMsg0B];
+    self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg0B]];
     self.host = BROADCAST_ADDRESS;
     self.port = DEVICE_PORT;
     self.tag = P2D_STATE_INQUIRY_0B;
@@ -282,8 +282,9 @@ static dispatch_queue_t delegateQueue;
     self.msgSendCount++;
   }
   SDZGSocket *socket = [aSwitch.sockets objectAtIndex:socketGroupId - 1];
-  self.msg = [CC3xMessageUtil getP2dMsg11:!socket.socketStatus
-                            socketGroupId:socketGroupId];
+  self.msg =
+      [NSData dataWithData:[CC3xMessageUtil getP2dMsg11:!socket.socketStatus
+                                          socketGroupId:socketGroupId]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.host = aSwitch.ip;
@@ -301,9 +302,10 @@ static dispatch_queue_t delegateQueue;
     self.msgSendCount++;
   }
   SDZGSocket *socket = [aSwitch.sockets objectAtIndex:socketGroupId - 1];
-  self.msg = [CC3xMessageUtil getP2sMsg13:aSwitch.mac
-                                  aSwitch:!socket.socketStatus
-                            socketGroupId:socketGroupId];
+  self.msg =
+      [NSData dataWithData:[CC3xMessageUtil getP2sMsg13:aSwitch.mac
+                                                aSwitch:!socket.socketStatus
+                                          socketGroupId:socketGroupId]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.host = SERVER_IP;
@@ -320,7 +322,7 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2dMsg17:socketGroupId];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg17:socketGroupId]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.host = aSwitch.ip;
@@ -337,8 +339,8 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg =
-      [CC3xMessageUtil getP2SMsg19:aSwitch.mac socketGroupId:socketGroupId];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg19:aSwitch.mac
+                                                 socketGroupId:socketGroupId]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.host = SERVER_IP;
@@ -368,10 +370,10 @@ static dispatch_queue_t delegateQueue;
   int min = (int)[comps minute];
   //获取当前时间离本周一0点开始的秒数
   NSInteger currentTime = weekday * 24 * 3600 + hour * 3600 + min * 60;
-  self.msg = [CC3xMessageUtil getP2dMsg1D:currentTime
-                                 password:aSwitch.password
-                            socketGroupId:socketGroupId
-                                timerList:timeList];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg1D:currentTime
+                                                      password:aSwitch.password
+                                                 socketGroupId:socketGroupId
+                                                     timerList:timeList]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.timeList = timeList;
@@ -402,11 +404,11 @@ static dispatch_queue_t delegateQueue;
   int min = (int)[comps minute];
   //获取当前时间离本周一0点开始的秒数
   NSInteger currentTime = weekday * 24 * 3600 + hour * 3600 + min * 60;
-  self.msg = [CC3xMessageUtil getP2SMsg1F:currentTime
-                                 password:aSwitch.password
-                            socketGroupId:socketGroupId
-                                timerList:timeList
-                                      mac:aSwitch.mac];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg1F:currentTime
+                                                      password:aSwitch.password
+                                                 socketGroupId:socketGroupId
+                                                     timerList:timeList
+                                                           mac:aSwitch.mac]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.timeList = timeList;
@@ -422,7 +424,7 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2DMsg33];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2DMsg33]];
   self.aSwitch = aSwitch;
   self.host = aSwitch.ip;
   self.port = DEVICE_PORT;
@@ -436,7 +438,7 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2SMsg35:aSwitch.mac];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg35:aSwitch.mac]];
   self.aSwitch = aSwitch;
   self.host = SERVER_IP;
   self.port = SERVER_PORT;
@@ -452,7 +454,7 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2dMsg39:on];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg39:on]];
   self.aSwitch = aSwitch;
   self.host = aSwitch.ip;
   self.port = DEVICE_PORT;
@@ -469,7 +471,8 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2SMsg3B:aSwitch.mac on:on];
+  self.msg =
+      [NSData dataWithData:[CC3xMessageUtil getP2SMsg3B:aSwitch.mac on:on]];
   self.aSwitch = aSwitch;
   self.host = SERVER_IP;
   self.port = SERVER_PORT;
@@ -489,7 +492,9 @@ static dispatch_queue_t delegateQueue;
     self.msgSendCount++;
   }
   self.msg =
-      [CC3xMessageUtil getP2dMsg3F:name type:type password:aSwitch.password];
+      [NSData dataWithData:[CC3xMessageUtil getP2dMsg3F:name
+                                                   type:type
+                                               password:aSwitch.password]];
   self.aSwitch = aSwitch;
   self.host = aSwitch.ip;
   self.port = DEVICE_PORT;
@@ -508,10 +513,11 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2sMsg41:aSwitch.mac
-                                     name:name
-                                     type:type
-                                 password:aSwitch.password];
+  self.msg =
+      [NSData dataWithData:[CC3xMessageUtil getP2sMsg41:aSwitch.mac
+                                                   name:name
+                                                   type:type
+                                               password:aSwitch.password]];
   self.aSwitch = aSwitch;
   self.host = SERVER_IP;
   self.port = SERVER_PORT;
@@ -527,8 +533,9 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2dMsg47:!aSwitch.lockStatus
-                                 password:aSwitch.password];
+  self.msg =
+      [NSData dataWithData:[CC3xMessageUtil getP2dMsg47:!aSwitch.lockStatus
+                                               password:aSwitch.password]];
   self.aSwitch = aSwitch;
   self.host = aSwitch.ip;
   self.port = DEVICE_PORT;
@@ -542,9 +549,10 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2sMsg49:aSwitch.mac
-                                     lock:!aSwitch.lockStatus
-                                 password:aSwitch.password];
+  self.msg =
+      [NSData dataWithData:[CC3xMessageUtil getP2sMsg49:aSwitch.mac
+                                                   lock:!aSwitch.lockStatus
+                                               password:aSwitch.password]];
   self.aSwitch = aSwitch;
   self.host = SERVER_IP;
   self.port = SERVER_PORT;
@@ -562,10 +570,11 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2dMsg4D:delayTime
-                                       on:on
-                            socketGroupId:socketGroupId
-                                 password:aSwitch.password];
+  self.msg =
+      [NSData dataWithData:[CC3xMessageUtil getP2dMsg4D:delayTime
+                                                     on:on
+                                          socketGroupId:socketGroupId
+                                               password:aSwitch.password]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.host = aSwitch.ip;
@@ -586,11 +595,12 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2SMsg4F:aSwitch.mac
-                                    delay:delayTime
-                                       on:on
-                            socketGroupId:socketGroupId
-                                 password:aSwitch.password];
+  self.msg =
+      [NSData dataWithData:[CC3xMessageUtil getP2SMsg4F:aSwitch.mac
+                                                  delay:delayTime
+                                                     on:on
+                                          socketGroupId:socketGroupId
+                                               password:aSwitch.password]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.host = SERVER_IP;
@@ -609,7 +619,7 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2dMsg53:socketGroupId];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg53:socketGroupId]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.host = aSwitch.ip;
@@ -626,8 +636,8 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg =
-      [CC3xMessageUtil getP2SMsg55:aSwitch.mac socketGroupId:socketGroupId];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg55:aSwitch.mac
+                                                 socketGroupId:socketGroupId]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.host = SERVER_IP;
@@ -643,7 +653,8 @@ static dispatch_queue_t delegateQueue;
       } else if (mode == PassiveMode) {
         self.msgSendCount++;
       }
-      self.msg = [CC3xMessageUtil getP2SMsg59:aSwitch.mac];
+      self.msg =
+          [NSData dataWithData:[CC3xMessageUtil getP2SMsg59:aSwitch.mac]];
       self.aSwitch = aSwitch;
       self.host = SERVER_IP;
       self.port = SERVER_PORT;
@@ -658,7 +669,7 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2DMsg5D];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2DMsg5D]];
   self.aSwitch = aSwitch;
   self.host = aSwitch.ip;
   self.port = DEVICE_PORT;
@@ -672,7 +683,7 @@ static dispatch_queue_t delegateQueue;
   } else if (mode == PassiveMode) {
     self.msgSendCount++;
   }
-  self.msg = [CC3xMessageUtil getP2SMsg5F:aSwitch.mac];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg5F:aSwitch.mac]];
   self.aSwitch = aSwitch;
   self.host = SERVER_IP;
   self.port = SERVER_PORT;
@@ -694,10 +705,10 @@ static dispatch_queue_t delegateQueue;
         } else if (mode == PassiveMode) {
           self.msgSendCount++;
         }
-        self.msg = [CC3xMessageUtil getP2SMsg63:aSwitch.mac
-                                      beginTime:beginTime
-                                        endTime:endTime
-                                       interval:interval];
+        self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg63:aSwitch.mac
+                                                           beginTime:beginTime
+                                                             endTime:endTime
+                                                            interval:interval]];
         self.aSwitch = aSwitch;
         self.host = SERVER_IP;
         self.port = SERVER_PORT;
@@ -721,7 +732,8 @@ static dispatch_queue_t delegateQueue;
         } else if (mode == PassiveMode) {
           self.msgSendCount++;
         }
-        self.msg = [CC3xMessageUtil getP2SMsg65:mac type:type];
+        self.msg =
+            [NSData dataWithData:[CC3xMessageUtil getP2SMsg65:mac type:type]];
         self.host = SERVER_IP;
         self.port = SERVER_PORT;
         self.type = type;
@@ -745,8 +757,9 @@ static dispatch_queue_t delegateQueue;
         } else if (mode == PassiveMode) {
           self.msgSendCount++;
         }
-        self.msg =
-            [CC3xMessageUtil getP2SMsg67:mac type:type cityName:cityName];
+        self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg67:mac
+                                                                type:type
+                                                            cityName:cityName]];
         self.host = SERVER_IP;
         self.port = SERVER_PORT;
         self.mac = mac;
@@ -771,7 +784,8 @@ static dispatch_queue_t delegateQueue;
           self.msgSendCount++;
         }
         self.msg =
-            [CC3xMessageUtil getP2DMsg69:oldPassword newPassword:newPassword];
+            [NSData dataWithData:[CC3xMessageUtil getP2DMsg69:oldPassword
+                                                  newPassword:newPassword]];
         self.host = BROADCAST_ADDRESS;
         self.port = DEVICE_PORT;
         self.oldPassword = oldPassword;
@@ -806,14 +820,15 @@ static dispatch_queue_t delegateQueue;
   self.isTurnOffUnder = isTurnOffUnder;
   self.turnOffGreater = turnOffGreater;
   self.isTurnOffGreater = isTurnOffGreater;
-  self.msg = [CC3xMessageUtil getP2DMsg6B:alertUnder
-                             isAlertUnder:isAlertUnder
-                             alertGreater:alertGreater
-                           isAlertGreater:isAlertGreater
-                             turnOffUnder:turnOffUnder
-                           isTurnOffUnder:isTurnOffUnder
-                           turnOffGreater:turnOffGreater
-                         isTurnOffGreater:isTurnOffGreater];
+  self.msg =
+      [NSData dataWithData:[CC3xMessageUtil getP2DMsg6B:alertUnder
+                                           isAlertUnder:isAlertUnder
+                                           alertGreater:alertGreater
+                                         isAlertGreater:isAlertGreater
+                                           turnOffUnder:turnOffUnder
+                                         isTurnOffUnder:isTurnOffUnder
+                                         turnOffGreater:turnOffGreater
+                                       isTurnOffGreater:isTurnOffGreater]];
   self.host = aSwitch.ip;
   self.port = DEVICE_PORT;
   self.tag = P2D_SET_POWERACTION_REQ_6B;
@@ -844,15 +859,16 @@ static dispatch_queue_t delegateQueue;
   self.isTurnOffUnder = isTurnOffUnder;
   self.turnOffGreater = turnOffGreater;
   self.isTurnOffGreater = isTurnOffGreater;
-  self.msg = [CC3xMessageUtil getP2SMsg6D:aSwitch.mac
-                               alertUnder:alertUnder
-                             isAlertUnder:isAlertUnder
-                             alertGreater:alertGreater
-                           isAlertGreater:isAlertGreater
-                             turnOffUnder:turnOffUnder
-                           isTurnOffUnder:isTurnOffUnder
-                           turnOffGreater:turnOffGreater
-                         isTurnOffGreater:isTurnOffGreater];
+  self.msg =
+      [NSData dataWithData:[CC3xMessageUtil getP2SMsg6D:aSwitch.mac
+                                             alertUnder:alertUnder
+                                           isAlertUnder:isAlertUnder
+                                           alertGreater:alertGreater
+                                         isAlertGreater:isAlertGreater
+                                           turnOffUnder:turnOffUnder
+                                         isTurnOffUnder:isTurnOffUnder
+                                         turnOffGreater:turnOffGreater
+                                       isTurnOffGreater:isTurnOffGreater]];
   self.host = SERVER_IP;
   self.port = SERVER_PORT;
   self.tag = P2S_SET_POWERACTION_REQ_6D;
@@ -866,7 +882,7 @@ static dispatch_queue_t delegateQueue;
     self.msgSendCount++;
   }
   self.aSwitch = aSwitch;
-  self.msg = [CC3xMessageUtil getP2DMsg71];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2DMsg71]];
   self.host = aSwitch.ip;
   self.port = DEVICE_PORT;
   self.tag = P2D_GET_POWERACTION_REQ_71;
@@ -881,7 +897,7 @@ static dispatch_queue_t delegateQueue;
   }
   self.aSwitch = aSwitch;
   self.mac = aSwitch.mac;
-  self.msg = [CC3xMessageUtil getP2SMsg73:aSwitch.mac];
+  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg73:aSwitch.mac]];
   self.host = SERVER_IP;
   self.port = SERVER_PORT;
   self.tag = P2S_GET_POWERACTION_REQ_73;
@@ -1273,6 +1289,7 @@ static dispatch_queue_t delegateQueue;
       delay = kCheckPublicResponseInterval;
       break;
     //定时调用情况下丢包不处理
+    case 0:
     case P2D_STATE_INQUIRY_0B:
     case P2S_STATE_INQUIRY_0D:
     case P2D_GET_POWER_INFO_REQ_33:
@@ -1284,21 +1301,6 @@ static dispatch_queue_t delegateQueue;
       break;
   }
   if (delay) {
-    //    DDLogDebug(@"%f 后检查", delay);
-    //    dispatch_time_t delayInNanoSeconds =
-    //        dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
-    //    dispatch_after(delayInNanoSeconds, MAIN_QUEUE, ^{
-    //        DDLogDebug(@"开始检查");
-    //        [self checkWithTag:tag];
-    //    });
-    //    self.timer =
-    //        [NSTimer scheduledTimerWithTimeInterval:0
-    //                                         target:self
-    //                                       selector:@selector(checkWithTag:)
-    //                                       userInfo:@(tag)
-    //                                        repeats:NO];
-    //    [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:delay]];
-
     self.timer = [NSTimer timerWithTimeInterval:0
                                          target:self
                                        selector:@selector(checkWithTag:)
@@ -1306,10 +1308,12 @@ static dispatch_queue_t delegateQueue;
                                         repeats:NO];
     [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:delay]];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    DDLogDebug(@"%s delay is %f and tag is %ld", __FUNCTION__, delay, tag);
   }
 }
 
 - (void)checkWithTag:(NSTimer *)timer {
+  DDLogDebug(@"%s", __FUNCTION__);
   long tag = [timer.userInfo longValue];
   dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus != NotReachable) {
@@ -1732,7 +1736,6 @@ static dispatch_queue_t delegateQueue;
  */
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag {
   DDLogDebug(@"didSendDataWithTag :%ld", tag);
-  //  DDLogDebug(@"didSendDataWithTag :%ld", tag);
   // 需要执行的操作：
   // 1、清空响应数据
   // 2、指定时间后检查数据是否为空，为空说明未响应，触发请求重发

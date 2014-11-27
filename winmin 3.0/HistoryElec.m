@@ -7,6 +7,7 @@
 //
 
 #import "HistoryElec.h"
+#import <NSDate+Calendar.h>
 #define kTimeIntervalDay 3600
 #define kTimeIntervalMonth 3600 * 24
 
@@ -115,31 +116,32 @@ static const int oneDayInterval = 3600 * 24;
 - (HistoryElecParam *)getParam:(NSTimeInterval)timeInterval
                       dateType:(HistoryElecDateType)dateType {
   long interval = 0;
+  NSDate *currentDate = [[NSDate alloc] init];
   NSDate *startDate;
   switch (dateType) {
     case OneDay:
       interval = oneDayInterval / 48; //一天取48个样本，30分钟一个样本
-      startDate = [NSDate dateWithTimeIntervalSinceNow:-oneDayInterval];
+      startDate = [currentDate dateByAddingDays:-1];
       break;
     case OneWeek:
       interval = oneDayInterval / 8; //一周取56个样本，3小时一个样本
-      startDate = [NSDate dateWithTimeIntervalSinceNow:-7 * oneDayInterval];
+      startDate = [currentDate dateByAddingWeek:-1];
       break;
     case OneMonth:
       interval = oneDayInterval / 2; //一个月取60个样本，12小时一个样本
-      startDate = [NSDate dateWithTimeIntervalSinceNow:-30 * oneDayInterval];
+      startDate = [currentDate dateByAddingMonth:-1];
       break;
     case ThreeMonth:
       interval = 2 * oneDayInterval;
-      startDate = [NSDate dateWithTimeIntervalSinceNow:-91 * oneDayInterval];
+      startDate = [currentDate dateByAddingMonth:-3];
       break;
     case SixMonth:
       interval = 3 * oneDayInterval;
-      startDate = [NSDate dateWithTimeIntervalSinceNow:-183 * oneDayInterval];
+      startDate = [currentDate dateByAddingMonth:-6];
       break;
     case OneYear:
       interval = 6 * oneDayInterval;
-      startDate = [NSDate dateWithTimeIntervalSinceNow:-365 * oneDayInterval];
+      startDate = [currentDate dateByAddingYear:-1];
       break;
     default:
       break;

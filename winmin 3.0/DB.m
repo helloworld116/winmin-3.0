@@ -211,19 +211,37 @@
                                 aSwitch.imageName, aSwitch.password];
             }
           }
-          sql = @"delete from socket where mac=?";
-          [db executeUpdate:sql, aSwitch.mac];
+
+          sql = @"select count(id) as socketcount from socket where mac=?";
+          FMResultSet *socketResult = [db executeQuery:sql, aSwitch.mac];
+          if ([socketResult next]) {
+            int socketcount = [socketResult intForColumn:@"socketcount"];
+            if (socketcount && socketcount == 2) {
+              sql = @"update socket set "
+                  @"delaytime=?,delayaction=?,socketstatus=? where mac=? "
+                  @"and groupid=?";
+              for (SDZGSocket *socket in aSwitch.sockets) {
+                [db executeUpdate:sql, @(socket.delayTime),
+                                  @(socket.delayAction), @(socket.socketStatus),
+                                  aSwitch.mac, @(socket.groupId)];
+              }
+            } else {
+              sql = @"insert into "
+                  @"socket(mac,groupid,name,delaytime,delayaction,socketstatus,"
+                  @"socket1image,socket2image,socket3image) "
+                  @"values(?,?,?,?,?,?,?,?,?)";
+              for (SDZGSocket *socket in aSwitch.sockets) {
+                [db executeUpdate:sql, aSwitch.mac, @(socket.groupId),
+                                  socket.name, @(socket.delayTime),
+                                  @(socket.delayAction), @(socket.socketStatus),
+                                  socket.imageNames[0], socket.imageNames[1],
+                                  socket.imageNames[2]];
+              }
+            }
+          }
           sql = @"delete from timertask where mac=?";
           [db executeUpdate:sql, aSwitch.mac];
           for (SDZGSocket *socket in aSwitch.sockets) {
-            sql = @"insert into "
-                @"socket(mac,groupid,name,delaytime,delayaction,socketstatus,"
-                @"socket1image,socket2image,socket3image) "
-                @"values(?,?,?,?,?,?,?,?,?)";
-            [db executeUpdate:sql, aSwitch.mac, @(socket.groupId), socket.name,
-                              @(socket.delayTime), @(socket.delayAction),
-                              @(socket.socketStatus), socket.imageNames[0],
-                              socket.imageNames[1], socket.imageNames[2]];
             for (SDZGTimerTask *timer in socket.timerList) {
               sql = @"insert into timertask(mac,groupid,week,actiontime,"
                   @"actiontype,iseffective) values(?,?,?,?,?,?)";

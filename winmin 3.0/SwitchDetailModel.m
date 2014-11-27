@@ -13,9 +13,10 @@
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *timerElec;
 
-@property (nonatomic, strong) UdpRequest *request1; //查询状态和实时电量
-@property (nonatomic, strong) UdpRequest *request2; //控制插孔I和历史电量查询
+@property (nonatomic, strong) UdpRequest *request1; //查询状态
+@property (nonatomic, strong) UdpRequest *request2; //控制插孔I
 @property (nonatomic, strong) UdpRequest *request3; //控制插孔II
+@property (nonatomic, strong) UdpRequest *request4; //实时电量和历史电量查询
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
 @property (nonatomic, strong) HistoryElec *historyElec;
 @property (nonatomic, strong) HistoryElecParam *param;
@@ -33,6 +34,8 @@
     self.aSwitch = aSwitch;
     self.request1 = [UdpRequest manager];
     self.request1.delegate = self;
+    self.request4 = [UdpRequest manager];
+    self.request4.delegate = self;
   }
   return self;
 }
@@ -41,6 +44,7 @@
   self.request1.delegate = nil;
   self.request2.delegate = nil;
   self.request3.delegate = nil;
+  self.request4.delegate = nil;
 }
 
 - (void)openOrCloseWithGroupId:(int)groupId {
@@ -57,7 +61,7 @@
                                          selector:@selector(sendMsg0BOr0D)
                                          userInfo:nil
                                           repeats:YES];
-      [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:0.5f]];
+      [self.timer fire];
       [[NSRunLoop mainRunLoop] addTimer:self.timer
                                 forMode:NSDefaultRunLoopMode];
   });
@@ -139,17 +143,13 @@
 //实时电量
 - (void)sendMsg33Or35 {
   DDLogDebug(@"****************************%s*********************************",
-           __FUNCTION__);
-  [self.request1 sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
+             __FUNCTION__);
+  [self.request4 sendMsg33Or35:self.aSwitch sendMode:ActiveMode];
 }
 
 //历史电量
 - (void)senMsg63:(HistoryElecParam *)param {
-  if (!self.request2) {
-    self.request2 = [UdpRequest manager];
-    self.request2.delegate = self;
-  }
-  [self.request2 sendMsg63:self.aSwitch
+  [self.request4 sendMsg63:self.aSwitch
                  beginTime:param.beginTime
                    endTime:param.endTime
                   interval:param.interval

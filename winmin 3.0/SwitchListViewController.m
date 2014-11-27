@@ -24,6 +24,8 @@
 @property (strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
 @property (assign, nonatomic) BOOL reloading;
 @property (nonatomic, strong) NSString *mac; //刚配置好的设备mac
+@property (nonatomic, assign)
+    BOOL isFirstLoad; //标识是否第一次加载，第一次时不修改最后更新时间
 @end
 
 @implementation SwitchListViewController
@@ -51,6 +53,7 @@
 
 - (void)setup {
   [self setupStyle];
+  self.isFirstLoad = YES;
   self.delayInterval = 1.f;
   self.noDataView = [[UIView alloc]
       initWithSize:self.view.frame.size
@@ -169,10 +172,16 @@
 }
 
 - (void)viewAppearOrEnterForeground {
-  NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
-  NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
-  for (SDZGSwitch *aSwitch in switchs) {
-    aSwitch.lastUpdateInterval = current;
+  if (!self.isFirstLoad) {
+    self.delayInterval = 1.f;
+    NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+    NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+    for (SDZGSwitch *aSwitch in switchs) {
+      aSwitch.lastUpdateInterval = current;
+    }
+  } else {
+    self.delayInterval = 3.1f;
+    self.isFirstLoad = NO;
   }
   [self.model startScanState];
   // model层修改数据，指定时间后，页面统一修改
@@ -281,6 +290,7 @@
 }
 
 - (void)reloadTableView {
+  DDLogDebug(@"***************%s****************", __FUNCTION__);
   self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
   [self.tableView reloadData];
 }

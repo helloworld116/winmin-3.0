@@ -1020,6 +1020,7 @@
 				158D987419C6F39C0068AFC5 /* Frameworks */,
 				158D987519C6F39C0068AFC5 /* Resources */,
 				C08155AC8B1D48FFA840CBC2 /* Copy Pods Resources */,
+				1553FC0D1A26B5580085E546 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1130,6 +1131,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1553FC0D1A26B5580085E546 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/bin/python /Applications/dSYM.app/Contents/Resources/RunScript.py";
+		};
 		B89FB106C3414CBBBA4F2AD8 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

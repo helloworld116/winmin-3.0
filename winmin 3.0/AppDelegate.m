@@ -192,6 +192,10 @@
 
 - (void)setLog {
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
+  DDFileLogger* fileLogger = [[DDFileLogger alloc] init];
+  fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
+  fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
+  [DDLog addLogger:fileLogger];
   // 允许颜色
   [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
   [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor whiteColor]
