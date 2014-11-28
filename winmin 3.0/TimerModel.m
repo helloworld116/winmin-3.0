@@ -97,11 +97,11 @@
   if (message.timerTaskList) {
     [self.timers removeAllObjects];
     [self.timers addObjectsFromArray:message.timerTaskList];
-    NSDictionary *userInfo = @{ @"timers" : self.timers };
-    [[NSNotificationCenter defaultCenter] postNotificationName:kTimerListChanged
-                                                        object:self
-                                                      userInfo:userInfo];
   }
+  NSDictionary *userInfo = @{ @"timers" : self.timers };
+  [[NSNotificationCenter defaultCenter] postNotificationName:kTimerListChanged
+                                                      object:self
+                                                    userInfo:userInfo];
 }
 
 - (void)responseMsg1EOr20:(CC3xMessage *)message {

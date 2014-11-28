@@ -39,7 +39,7 @@ NSString *const nciGridRightMargin = @"nciGridRightMargin";
 NSString *const nciGridTopMargin = @"nciGridTopMargin";
 NSString *const nciGridBottomMargin = @"nciGridBottomMargin";
 
-//range selectors chart options
+// range selectors chart options
 NSString *const nciTopGraphOptions = @"nciTopGraphOptions";
 NSString *const nciBottomGraphOptions = @"nciBottomGraphOptions";
 NSString *const nciBottomChartHeight = @"nciBottomChartHeight";
@@ -58,4 +58,5 @@ NSString *const nciLineDashes = @"nciLineDashes";
 NSString *const nciAxisShift = @"nciAxisShift";
 NSString *const nciAxisDecreasing = @"nciAxisDecreasing";
 
+NSString *const nciXDiffMin = @"nciXDiffMin";
 @end

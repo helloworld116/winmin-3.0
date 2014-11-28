@@ -80,7 +80,8 @@ static float startMaxRangeVal;
   if (newMax > [[self.chart.chartData lastObject][0] doubleValue]) {
     newMax = [[self.chart.chartData lastObject][0] doubleValue];
   }
-  if (newMin >= newMax || ((newMax - newMin) < 0.000005))
+  //  if (newMin >= newMax || ((newMax - newMin) < 0.000005))
+  if (newMin >= newMax || ((newMax - newMin) < 6 * self.chart.nciXDiffMin * 60))
     return;
   self.chart.minRangeVal = newMin;
   self.chart.maxRangeVal = newMax;

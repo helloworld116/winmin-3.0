@@ -9,9 +9,11 @@
 #import "SceneListViewController.h"
 #import "SceneDetailViewController.h"
 #import "SceneExecuteViewController.h"
+#import "ScenePreExcDailogViewController.h"
 #import "SceneCell.h"
 
-@interface SceneListViewController () <UIActionSheetDelegate>
+@interface SceneListViewController () <UIActionSheetDelegate,
+                                       ScenePreExcDailogControllerDelegate>
 @property (nonatomic, strong) NSIndexPath *operationIndexPath;
 @property (nonatomic, strong) NSMutableArray *scenes;
 
@@ -129,17 +131,15 @@ preparation before navigation
 - (void)collectionView:(UICollectionView *)collectionView
     didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
   self.operationIndexPath = indexPath;
-  //  [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-  SceneExecuteViewController *executeViewController =
-      [[SceneExecuteViewController alloc] init];
-  Scene *scene = self.scenes[indexPath.row];
-  executeViewController.scene = scene;
-  UIWindow *window =
-      [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  kSharedAppliction.userWindow = window;
-  window.rootViewController = executeViewController;
-  window.windowLevel = UIWindowLevelAlert;
-  [window makeKeyAndVisible];
+
+  ScenePreExcDailogViewController *viewController =
+      [[ScenePreExcDailogViewController alloc]
+          initWithNibName:@"ScenePreExcDailogViewController"
+                   bundle:nil];
+  viewController.delegate = self;
+  [self presentPopupViewController:viewController
+                     animationType:MJPopupViewAnimationFade
+               backgroundClickable:NO];
 }
 
 //返回这个UICollectionView是否可以被选择
@@ -161,6 +161,27 @@ preparation before navigation
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section {
   return UIEdgeInsetsMake(10, 10, 10, 10);
+}
+
+#pragma mark - PopViewControllerDelegate
+- (void)closePopViewController:(UIViewController *)controller
+                passExecutable:(BOOL)excute {
+  [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+  if (excute) {
+    SceneExecuteViewController *executeViewController =
+        [[SceneExecuteViewController alloc] init];
+    Scene *scene = self.scenes[self.operationIndexPath.row];
+    executeViewController.scene = scene;
+    UIWindow *window =
+        [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    kSharedAppliction.userWindow = window;
+    window.rootViewController = executeViewController;
+    window.windowLevel = UIWindowLevelAlert;
+    [window makeKeyAndVisible];
+  } else {
+    [self.collectionView deselectItemAtIndexPath:self.operationIndexPath
+                                        animated:YES];
+  }
 }
 
 #pragma mark -

@@ -58,5 +58,5 @@ extern NSString *const nciLabelsColor;
 extern NSString *const nciLabelsDistance;
 extern NSString *const nciAxisDecreasing;
 
-
+extern NSString *const nciXDiffMin;
 @end

@@ -35,8 +35,9 @@
 
 // Logging uses the CocoaLumberjack framework (which is also GCD based).
 // http://code.google.com/p/cocoalumberjack/
-// 
-// It allows us to do a lot of logging without significantly slowing down the code.
+//
+// It allows us to do a lot of logging without significantly slowing down the
+// code.
 #import "DDLog.h"
 
 #define LogAsync NO
@@ -3426,7 +3427,7 @@ enum GCDAsyncUdpSocketConfig {
      withTimeout:(NSTimeInterval)timeout
              tag:(long)tag {
   LogTrace();
-  //  NSLog(@"gcd send to host %@  port %d and data is %@", host, port, data);
+  NSLog(@"gcd send to host %@  port %d and data is %@", host, port, data);
   if ([data length] == 0) {
     LogWarn(@"Ignoring attempt to send nil/empty data.");
     return;

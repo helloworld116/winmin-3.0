@@ -671,7 +671,13 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="配置" id="tPK-7U-BgE"/>
+                    <navigationItem key="navigationItem" title="配置" id="tPK-7U-BgE">
+                        <barButtonItem key="rightBarButtonItem" title="帮助" id="q4b-fH-fyQ">
+                            <connections>
+                                <segue destination="B79-ui-p8g" kind="push" id="VJd-wN-ryh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="btnConfig" destination="86Z-q3-JP2" id="GmW-H3-oX3"/>
                         <outlet property="imgViewShowPassword" destination="YN3-gW-QAX" id="5CA-Js-voh"/>
@@ -685,6 +691,50 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GRH-OH-WS9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1262" y="209"/>
+        </scene>
+        <!--Conf Help View Controller-->
+        <scene sceneID="2su-Nf-o5m">
+            <objects>
+                <viewController storyboardIdentifier="ConfHelpViewController" hidesBottomBarWhenPushed="YES" id="B79-ui-p8g" customClass="ConfHelpViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aQd-iJ-1Ng"/>
+                        <viewControllerLayoutGuide type="bottom" id="gmI-l3-702"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EOJ-xi-Icj">
+                        <rect key="frame" x="0.0" y="64" width="320" height="519"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dsz-CS-46T">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="conf_help_1" translatesAutoresizingMaskIntoConstraints="NO" id="j5N-Uk-dDB">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.180392161" green="0.27843138579999999" blue="0.34901961679999999" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Dsz-CS-46T" secondAttribute="trailing" id="0V3-xM-4zw"/>
+                            <constraint firstItem="Dsz-CS-46T" firstAttribute="top" secondItem="EOJ-xi-Icj" secondAttribute="top" id="AIj-90-AnV"/>
+                            <constraint firstItem="gmI-l3-702" firstAttribute="top" secondItem="Dsz-CS-46T" secondAttribute="bottom" id="B4A-pO-9ly"/>
+                            <constraint firstItem="Dsz-CS-46T" firstAttribute="leading" secondItem="EOJ-xi-Icj" secondAttribute="leading" id="BbQ-a1-mfr"/>
+                            <constraint firstItem="gmI-l3-702" firstAttribute="top" secondItem="Dsz-CS-46T" secondAttribute="bottom" id="O2h-GO-9em"/>
+                            <constraint firstItem="Dsz-CS-46T" firstAttribute="leading" secondItem="EOJ-xi-Icj" secondAttribute="leading" id="XIK-FM-ayj"/>
+                            <constraint firstAttribute="trailing" secondItem="Dsz-CS-46T" secondAttribute="trailing" id="mWo-YL-jY3"/>
+                            <constraint firstItem="Dsz-CS-46T" firstAttribute="top" secondItem="EOJ-xi-Icj" secondAttribute="top" id="yvS-AO-XEB"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" id="DvQ-xs-guA"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="scrollView" destination="Dsz-CS-46T" id="P3l-e6-5kE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Irz-Yi-vGp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1642" y="205"/>
         </scene>
         <!--Socket Img Template View Controller-->
         <scene sceneID="UjY-Jz-YbW">
@@ -3976,6 +4026,7 @@
         <image name="aboutus_icon" width="99" height="99"/>
         <image name="cj" width="30" height="30"/>
         <image name="cj_edit_bg" width="84" height="84"/>
+        <image name="conf_help_1" width="320" height="480"/>
         <image name="delay" width="20" height="20"/>
         <image name="delay_split" width="14" height="19"/>
         <image name="enter" width="19" height="51"/>

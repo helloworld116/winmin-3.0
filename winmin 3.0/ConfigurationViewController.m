@@ -77,6 +77,8 @@
       [UIColor colorWithHexString:@"#136419"].CGColor;
   self.btnConfig.layer.borderWidth = .5f;
   self.btnConfig.layer.cornerRadius = 5.f;
+
+  self.navigationItem.backBarButtonItem = nil;
 }
 
 - (void)setup {

@@ -152,11 +152,36 @@
 
 - (void)showChart:(HistoryElecData *)data
          dateType:(HistoryElecDateType)dateType {
+  float xDiffMin;
+  switch (dateType) {
+    case OneDay:
+      xDiffMin = 30;
+      break;
+    case OneWeek:
+      xDiffMin = 30 * 6;
+      break;
+    case OneMonth:
+      xDiffMin = 30 * 24;
+      break;
+    case ThreeMonth:
+      xDiffMin = 30 * 96;
+      break;
+    case SixMonth:
+      xDiffMin = 30 * 144;
+      break;
+    case OneYear:
+      xDiffMin = 30 * 288;
+      break;
+    default:
+      xDiffMin = 30;
+      break;
+  }
   CGRect frame = self.containerView.bounds;
   frame.size.width -= 20;
     NCISimpleChartView *chart = [[NCISimpleChartView alloc] initWithFrame:frame
     andOptions:@{
           nciGraphRenderer : [NCIZoomGraphView class],
+          nciXDiffMin:@(xDiffMin),
           nciIsSmooth : @[ @NO ],
           nciIsFill : @[ @YES ],
           nciLineColors : @[ kThemeColor ],

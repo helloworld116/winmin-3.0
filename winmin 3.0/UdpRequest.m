@@ -1301,13 +1301,16 @@ static dispatch_queue_t delegateQueue;
       break;
   }
   if (delay) {
-    self.timer = [NSTimer timerWithTimeInterval:0
-                                         target:self
-                                       selector:@selector(checkWithTag:)
-                                       userInfo:@(tag)
-                                        repeats:NO];
-    [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:delay]];
-    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    dispatch_async(MAIN_QUEUE, ^{
+        self.timer = [NSTimer timerWithTimeInterval:0
+                                             target:self
+                                           selector:@selector(checkWithTag:)
+                                           userInfo:@(tag)
+                                            repeats:NO];
+        [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:delay]];
+        [[NSRunLoop mainRunLoop] addTimer:self.timer
+                                  forMode:NSRunLoopCommonModes];
+    });
     DDLogDebug(@"%s delay is %f and tag is %ld", __FUNCTION__, delay, tag);
   }
 }
@@ -1786,6 +1789,7 @@ static dispatch_queue_t delegateQueue;
     if ((msg.msgId != 0xc) && (msg.msgId != 0xe) && (msg.msgId != 0x34) &&
         (msg.msgId != 0x36)) {
       self.responseData = [NSData dataWithData:data];
+      dispatch_async(MAIN_QUEUE, ^{ [self.timer invalidate]; });
     }
   }
 }
