@@ -156,7 +156,8 @@ static const int oneDayInterval = 3600 * 24;
 - (HistoryElecData *)parseResponse:(NSArray *)responseArray
                              param:(HistoryElecParam *)param {
   NSMutableDictionary *needDict = [@{} mutableCopy];
-  int needCount = (param.endTime - param.beginTime) / param.interval;
+  int needCount =
+      ((long)param.endTime - (long)param.beginTime) / param.interval + 1;
   NSString *key;
   //设置默认值为0
   for (int i = 0; i < needCount; i++) {

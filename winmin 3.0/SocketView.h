@@ -26,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnSocket2;
 @property (strong, nonatomic) IBOutlet UIButton *btnSocket3;
 @property (strong, nonatomic) IBOutlet UIButton *btnOnOrOff;
+@property (strong, nonatomic) IBOutlet UIButton *btnOnOrOff2;
 @property (strong, nonatomic) IBOutlet UIImageView *imgViewBg;
 @property (strong, nonatomic) IBOutlet ArcImgView *arcView;
 - (IBAction)touchSocket1:(id)sender;

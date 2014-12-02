@@ -80,11 +80,6 @@
                                            selector:@selector(updateSwitchList:)
                                                name:kSwitchUpdate
                                              object:nil];
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(netChangedNotification:)
-             name:kNetChangedNotification
-           object:nil];
   //  [[NSNotificationCenter defaultCenter]
   //      addObserver:self
   //         selector:@selector(doneLoadingTableViewData)
@@ -121,9 +116,7 @@
 
   //下拉刷新
   self.refreshHeaderView = [[EGORefreshTableHeaderView alloc]
-       initWithFrame:CGRectMake(0.0f, 0.0f - self.view.bounds.size.height,
-                                self.view.frame.size.width,
-                                self.view.bounds.size.height)
+       initWithFrame:CGRectMake(0.0f, 0.0f - 65, self.view.frame.size.width, 65)
       arrowImageName:@"grayArrow"
            textColor:[UIColor grayColor]];
   self.refreshHeaderView.backgroundColor = [UIColor whiteColor];
@@ -151,6 +144,11 @@
          selector:@selector(applicationDidEnterBackgroundNotification:)
              name:UIApplicationDidEnterBackgroundNotification
            object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(netChangedNotification:)
+             name:kNetChangedNotification
+           object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -164,6 +162,9 @@
       removeObserver:self
                 name:UIApplicationDidEnterBackgroundNotification
               object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kNetChangedNotification
+                                                object:nil];
 }
 
 - (void)viewDisappearOrEnterBackground {
@@ -172,20 +173,22 @@
 }
 
 - (void)viewAppearOrEnterForeground {
-  if (!self.isFirstLoad) {
-    self.delayInterval = 1.f;
-    NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
-    NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
-    for (SDZGSwitch *aSwitch in switchs) {
-      aSwitch.lastUpdateInterval = current;
+  if (kSharedAppliction.networkStatus != NotReachable) {
+    if (!self.isFirstLoad) {
+      self.delayInterval = 1.f;
+      NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+      for (SDZGSwitch *aSwitch in switchs) {
+        aSwitch.lastUpdateInterval = current;
+      }
+    } else {
+      self.delayInterval = 3.1f;
+      self.isFirstLoad = NO;
     }
-  } else {
-    self.delayInterval = 3.1f;
-    self.isFirstLoad = NO;
+    [self.model startScanState];
+    // model层修改数据，指定时间后，页面统一修改
+    [self startUpdateList];
   }
-  [self.model startScanState];
-  // model层修改数据，指定时间后，页面统一修改
-  [self startUpdateList];
 }
 
 #pragma mark - begin iOS8下cell分割线处理
@@ -267,7 +270,12 @@
         [[SwitchDataCeneter sharedInstance] updateAllSwitchStautsToOffLine];
         [self.tableView reloadData];
         [self stopUpdateList];
+
+        self.tableView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0);
+        self.tableView.contentOffset = CGPointMake(0, -20);
       } else {
+        self.tableView.contentInset = UIEdgeInsetsZero;
+        self.tableView.contentOffset = CGPointZero;
         if (status == ReachableViaWWAN) {
           BOOL warn = [[[NSUserDefaults standardUserDefaults]
               objectForKey:wwanWarn] boolValue];

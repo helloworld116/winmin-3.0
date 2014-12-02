@@ -47,10 +47,10 @@
     aSwitch = [[SwitchDataCeneter sharedInstance].switchsDict
         objectForKey:message.mac];
     NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
-    DDLogDebug(@"switch mac is %@ and thread is %@ diff is %f", aSwitch.mac,
-             [NSThread currentThread], diff);
     //内网外网都返回时，时间间隔大于刷新时间一半就更新设备，否则不更新设备，认为是外网响应
     if (diff > REFRESH_DEV_TIME / 2) {
+      DDLogDebug(@"switch mac is %@ and thread is %@ diff is %f", aSwitch.mac,
+                 [NSThread currentThread], diff);
       NSMutableArray *sockets = aSwitch.sockets;
       for (int i = 0; i < sockets.count; i++) {
         SDZGSocket *socket = sockets[i];
@@ -62,7 +62,7 @@
           aSwitch.lastUpdateInterval = current;
         } else if (message.msgId == 0xe) {
           if (aSwitch.networkStatus == SWITCH_LOCAL) {
-            if (diff > 2 * REFRESH_DEV_TIME) {
+            if (diff > 1.5 * REFRESH_DEV_TIME + 0.5) {
               aSwitch.networkStatus = SWITCH_REMOTE;
               aSwitch.lastUpdateInterval = current;
             }

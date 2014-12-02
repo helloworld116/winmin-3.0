@@ -102,373 +102,396 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pQ8-cN-gbp">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Lb-zg-W2M" userLabel="scroll anchor">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gdU-fk-1Md">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JL5-Fc-0vL" customClass="SocketView">
-                                        <rect key="frame" x="0.0" y="10" width="320" height="110"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pQ8-cN-gbp">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg_off" highlightedImage="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="oV6-Bq-Koh" userLabel="背景图片">
-                                                <rect key="frame" x="7" y="50" width="306" height="52"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ee-Sf-ebI" userLabel="孔1按钮">
-                                                <rect key="frame" x="24" y="5" width="56" height="56"/>
-                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected" backgroundImage="socket_bg_selected"/>
-                                                <connections>
-                                                    <action selector="touchSocket1:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="1fc-Mn-5FD"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BRZ-JH-M7g" userLabel="孔2按钮">
-                                                <rect key="frame" x="89" y="5" width="56" height="56"/>
-                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected" backgroundImage="socket_bg_selected"/>
-                                                <connections>
-                                                    <action selector="touchSocket2:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="mLJ-ji-tha"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QQ7-Nw-1X6" userLabel="孔3按钮">
-                                                <rect key="frame" x="154" y="5" width="56" height="56"/>
-                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected" backgroundImage="socket_bg_selected"/>
-                                                <connections>
-                                                    <action selector="touchSocket3:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="aZR-SZ-GaN"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJD-q0-izU" userLabel="开关按钮">
-                                                <rect key="frame" x="258" y="54" width="45" height="45"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <state key="normal" title="关" backgroundImage="socket_onoff_normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected" title="开" backgroundImage="socket_onoff_selected"/>
-                                                <connections>
-                                                    <action selector="touchOnOrOff:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="XuQ-aY-Zn1"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hE1-u5-U5v" userLabel="定时按钮">
-                                                <rect key="frame" x="50" y="66" width="70" height="35"/>
-                                                <state key="normal" title="定时" image="timer">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="touchTimer:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="HTC-Ft-T3k"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lq6-md-TsT" userLabel="延时按钮">
-                                                <rect key="frame" x="130" y="66" width="70" height="35"/>
-                                                <state key="normal" title="延时" image="delay">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="touchDelay:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="VMz-gn-LEC"/>
-                                                </connections>
-                                            </button>
-                                            <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3BE-H6-eDB" customClass="ArcImgView">
-                                                <rect key="frame" x="258" y="54" width="45" height="45"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="ymo-Df-NX3">
-                                                <rect key="frame" x="20" y="64" width="15" height="23"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPv-iw-SX3">
-                                                <rect key="frame" x="204" y="54" width="55" height="45"/>
-                                                <state key="normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="touchOnOrOff:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="ZcW-Fj-h1v"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="110" id="fuT-vC-kyB"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="arcView" destination="3BE-H6-eDB" id="meK-Qj-y8R"/>
-                                            <outlet property="btnOnOrOff" destination="IJD-q0-izU" id="k1v-t3-kuT"/>
-                                            <outlet property="btnSocket1" destination="1Ee-Sf-ebI" id="rfE-RG-fZ4"/>
-                                            <outlet property="btnSocket2" destination="BRZ-JH-M7g" id="BU6-rp-RwP"/>
-                                            <outlet property="btnSocket3" destination="QQ7-Nw-1X6" id="qwp-bI-7UA"/>
-                                            <outlet property="imgViewBg" destination="oV6-Bq-Koh" id="CF4-9y-NbY"/>
-                                        </connections>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZoC-de-892" customClass="SocketView">
-                                        <rect key="frame" x="0.0" y="119" width="320" height="110"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg_off" highlightedImage="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="wBG-uJ-a9k" userLabel="背景图片">
-                                                <rect key="frame" x="7" y="50" width="306" height="52"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xeU-37-nZS" userLabel="孔1按钮">
-                                                <rect key="frame" x="24" y="5" width="56" height="56"/>
-                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected" backgroundImage="socket_bg_selected"/>
-                                                <connections>
-                                                    <action selector="touchSocket1:" destination="ZoC-de-892" eventType="touchUpInside" id="2AU-tG-lCz"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qDA-4p-Xzt" userLabel="孔2按钮">
-                                                <rect key="frame" x="89" y="5" width="56" height="56"/>
-                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected" backgroundImage="socket_bg_selected"/>
-                                                <connections>
-                                                    <action selector="touchSocket2:" destination="ZoC-de-892" eventType="touchUpInside" id="bnq-k9-CyB"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n5X-Kc-kM8" userLabel="孔3按钮">
-                                                <rect key="frame" x="154" y="5" width="56" height="56"/>
-                                                <state key="normal" image="099" backgroundImage="socket_bg_normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected" backgroundImage="socket_bg_selected"/>
-                                                <connections>
-                                                    <action selector="touchSocket3:" destination="ZoC-de-892" eventType="touchUpInside" id="S6j-Ke-Xvi"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1fG-DM-5AU" userLabel="开关按钮">
-                                                <rect key="frame" x="258" y="54" width="45" height="45"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <state key="normal" title="关" backgroundImage="socket_onoff_normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected" title="开" backgroundImage="socket_onoff_selected"/>
-                                                <connections>
-                                                    <action selector="touchOnOrOff:" destination="ZoC-de-892" eventType="touchUpInside" id="e5r-8H-o8y"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58q-ea-yYU" userLabel="定时按钮">
-                                                <rect key="frame" x="50" y="66" width="70" height="35"/>
-                                                <state key="normal" title="定时" image="timer">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="touchTimer:" destination="ZoC-de-892" eventType="touchUpInside" id="7lh-ga-9rD"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzk-Ah-mge" userLabel="延时按钮">
-                                                <rect key="frame" x="130" y="66" width="70" height="35"/>
-                                                <state key="normal" title="延时" image="delay">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="touchDelay:" destination="ZoC-de-892" eventType="touchUpInside" id="VPc-ln-yli"/>
-                                                </connections>
-                                            </button>
-                                            <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ge-rL-uiK" customClass="ArcImgView">
-                                                <rect key="frame" x="258" y="54" width="45" height="45"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="bpw-nF-9Ph">
-                                                <rect key="frame" x="20" y="64" width="15" height="23"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dsI-ff-Cgz">
-                                                <rect key="frame" x="204" y="54" width="55" height="45"/>
-                                                <state key="normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="touchOnOrOff:" destination="ZoC-de-892" eventType="touchUpInside" id="14e-SS-RFt"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="110" id="TNR-42-2u9"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="arcView" destination="3ge-rL-uiK" id="GO9-Po-w2R"/>
-                                            <outlet property="btnOnOrOff" destination="1fG-DM-5AU" id="tbb-hO-Zcf"/>
-                                            <outlet property="btnSocket1" destination="xeU-37-nZS" id="W14-xb-JRy"/>
-                                            <outlet property="btnSocket2" destination="qDA-4p-Xzt" id="3WM-S7-5cf"/>
-                                            <outlet property="btnSocket3" destination="n5X-Kc-kM8" id="77d-Ia-zEP"/>
-                                            <outlet property="imgViewBg" destination="wBG-uJ-a9k" id="T5c-y2-8aa"/>
-                                        </connections>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Kp-op-mYm" customClass="ElecView">
-                                        <rect key="frame" x="10" y="234" width="300" height="329"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MqG-zb-Sia">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JL5-Fc-0vL" customClass="SocketView">
+                                                <rect key="frame" x="0.0" y="10" width="320" height="110"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7wr-d1-WBN">
-                                                        <rect key="frame" x="3" y="0.0" width="42" height="40"/>
-                                                        <state key="normal" title="实时">
-                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg_off" highlightedImage="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="oV6-Bq-Koh" userLabel="背景图片">
+                                                        <rect key="frame" x="7" y="50" width="306" height="52"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ee-Sf-ebI" userLabel="孔1按钮">
+                                                        <rect key="frame" x="24" y="5" width="56" height="56"/>
+                                                        <state key="normal" image="099" backgroundImage="socket_bg_normal">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="selected">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
+                                                        <state key="selected" backgroundImage="socket_bg_selected"/>
                                                         <connections>
-                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="8zG-8P-yHa"/>
+                                                            <action selector="touchSocket1:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="1fc-Mn-5FD"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8CF-tY-69s">
-                                                        <rect key="frame" x="45" y="0.0" width="42" height="40"/>
-                                                        <state key="normal" title="1天">
-                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BRZ-JH-M7g" userLabel="孔2按钮">
+                                                        <rect key="frame" x="89" y="5" width="56" height="56"/>
+                                                        <state key="normal" image="099" backgroundImage="socket_bg_normal">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="selected">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
+                                                        <state key="selected" backgroundImage="socket_bg_selected"/>
                                                         <connections>
-                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="HLM-IU-X1N"/>
+                                                            <action selector="touchSocket2:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="mLJ-ji-tha"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XXX-2J-eId">
-                                                        <rect key="frame" x="87" y="0.0" width="42" height="40"/>
-                                                        <state key="normal" title="1周">
-                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QQ7-Nw-1X6" userLabel="孔3按钮">
+                                                        <rect key="frame" x="154" y="5" width="56" height="56"/>
+                                                        <state key="normal" image="099" backgroundImage="socket_bg_normal">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="selected">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
+                                                        <state key="selected" backgroundImage="socket_bg_selected"/>
                                                         <connections>
-                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="ABd-f2-YS0"/>
+                                                            <action selector="touchSocket3:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="aZR-SZ-GaN"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ywm-SG-V6s">
-                                                        <rect key="frame" x="129" y="0.0" width="42" height="40"/>
-                                                        <state key="normal" title="1月">
-                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJD-q0-izU" userLabel="开关按钮">
+                                                        <rect key="frame" x="258" y="54" width="45" height="45"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <state key="normal" title="关" backgroundImage="socket_onoff_normal">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="selected">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
+                                                        <state key="selected" title="开" backgroundImage="socket_onoff_selected"/>
                                                         <connections>
-                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="rpi-AY-dIE"/>
+                                                            <action selector="touchOnOrOff:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="XuQ-aY-Zn1"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F35-e2-b6b">
-                                                        <rect key="frame" x="171" y="0.0" width="42" height="40"/>
-                                                        <state key="normal" title="3月">
-                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hE1-u5-U5v" userLabel="定时按钮">
+                                                        <rect key="frame" x="50" y="66" width="70" height="35"/>
+                                                        <state key="normal" title="定时" image="timer">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="selected">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
                                                         <connections>
-                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="r5s-f6-FWV"/>
+                                                            <action selector="touchTimer:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="HTC-Ft-T3k"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iha-vB-vGu">
-                                                        <rect key="frame" x="213" y="0.0" width="42" height="40"/>
-                                                        <state key="normal" title="6月">
-                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lq6-md-TsT" userLabel="延时按钮">
+                                                        <rect key="frame" x="130" y="66" width="70" height="35"/>
+                                                        <state key="normal" title="延时" image="delay">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="selected">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
                                                         <connections>
-                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="Nb6-bi-M0X"/>
+                                                            <action selector="touchDelay:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="VMz-gn-LEC"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35W-mQ-9Ou">
-                                                        <rect key="frame" x="255" y="0.0" width="42" height="40"/>
-                                                        <state key="normal" title="1年">
-                                                            <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="selected">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="k9P-Im-kaR"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="GS6-de-cgv"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TLY-rz-uaK" userLabel="Line">
-                                                <rect key="frame" x="0.0" y="40" width="300" height="1"/>
-                                                <color key="backgroundColor" red="0.76470588235294112" green="0.76470588235294112" blue="0.76470588235294112" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="1" id="s0N-ae-mDR"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-Bd-crA">
-                                                <rect key="frame" x="0.0" y="41" width="300" height="288"/>
-                                                <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H70-3X-xFu" customClass="ElecRealTimeView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="288"/>
+                                                    <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3BE-H6-eDB" customClass="ArcImgView">
+                                                        <rect key="frame" x="258" y="54" width="45" height="45"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </view>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="ymo-Df-NX3">
+                                                        <rect key="frame" x="20" y="64" width="15" height="23"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPv-iw-SX3">
+                                                        <rect key="frame" x="204" y="54" width="55" height="45"/>
+                                                        <state key="normal">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="touchOnOrOff:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="ZcW-Fj-h1v"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.83529418706893921" green="0.94509810209274292" blue="0.85490202903747559" alpha="1" colorSpace="deviceRGB"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="bottom" secondItem="H70-3X-xFu" secondAttribute="bottom" id="4aP-Nl-9ez"/>
-                                                    <constraint firstAttribute="trailing" secondItem="H70-3X-xFu" secondAttribute="trailing" id="F6g-sd-6dz"/>
-                                                    <constraint firstItem="H70-3X-xFu" firstAttribute="top" secondItem="vcZ-Bd-crA" secondAttribute="top" id="VCc-uZ-qrN"/>
-                                                    <constraint firstItem="H70-3X-xFu" firstAttribute="leading" secondItem="vcZ-Bd-crA" secondAttribute="leading" id="wmF-fG-8M8"/>
+                                                    <constraint firstAttribute="height" constant="110" id="fuT-vC-kyB"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outlet property="arcView" destination="3BE-H6-eDB" id="meK-Qj-y8R"/>
+                                                    <outlet property="btnOnOrOff" destination="IJD-q0-izU" id="k1v-t3-kuT"/>
+                                                    <outlet property="btnOnOrOff2" destination="uPv-iw-SX3" id="WBu-Ue-BfD"/>
+                                                    <outlet property="btnSocket1" destination="1Ee-Sf-ebI" id="rfE-RG-fZ4"/>
+                                                    <outlet property="btnSocket2" destination="BRZ-JH-M7g" id="BU6-rp-RwP"/>
+                                                    <outlet property="btnSocket3" destination="QQ7-Nw-1X6" id="qwp-bI-7UA"/>
+                                                    <outlet property="imgViewBg" destination="oV6-Bq-Koh" id="CF4-9y-NbY"/>
+                                                </connections>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZoC-de-892" customClass="SocketView">
+                                                <rect key="frame" x="0.0" y="119" width="320" height="110"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="socket_bg_off" highlightedImage="socket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="wBG-uJ-a9k" userLabel="背景图片">
+                                                        <rect key="frame" x="7" y="50" width="306" height="52"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xeU-37-nZS" userLabel="孔1按钮">
+                                                        <rect key="frame" x="24" y="5" width="56" height="56"/>
+                                                        <state key="normal" image="099" backgroundImage="socket_bg_normal">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <state key="selected" backgroundImage="socket_bg_selected"/>
+                                                        <connections>
+                                                            <action selector="touchSocket1:" destination="ZoC-de-892" eventType="touchUpInside" id="2AU-tG-lCz"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qDA-4p-Xzt" userLabel="孔2按钮">
+                                                        <rect key="frame" x="89" y="5" width="56" height="56"/>
+                                                        <state key="normal" image="099" backgroundImage="socket_bg_normal">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <state key="selected" backgroundImage="socket_bg_selected"/>
+                                                        <connections>
+                                                            <action selector="touchSocket2:" destination="ZoC-de-892" eventType="touchUpInside" id="bnq-k9-CyB"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n5X-Kc-kM8" userLabel="孔3按钮">
+                                                        <rect key="frame" x="154" y="5" width="56" height="56"/>
+                                                        <state key="normal" image="099" backgroundImage="socket_bg_normal">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <state key="selected" backgroundImage="socket_bg_selected"/>
+                                                        <connections>
+                                                            <action selector="touchSocket3:" destination="ZoC-de-892" eventType="touchUpInside" id="S6j-Ke-Xvi"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1fG-DM-5AU" userLabel="开关按钮">
+                                                        <rect key="frame" x="258" y="54" width="45" height="45"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <state key="normal" title="关" backgroundImage="socket_onoff_normal">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <state key="selected" title="开" backgroundImage="socket_onoff_selected"/>
+                                                        <connections>
+                                                            <action selector="touchOnOrOff:" destination="ZoC-de-892" eventType="touchUpInside" id="e5r-8H-o8y"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58q-ea-yYU" userLabel="定时按钮">
+                                                        <rect key="frame" x="50" y="66" width="70" height="35"/>
+                                                        <state key="normal" title="定时" image="timer">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="touchTimer:" destination="ZoC-de-892" eventType="touchUpInside" id="7lh-ga-9rD"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzk-Ah-mge" userLabel="延时按钮">
+                                                        <rect key="frame" x="130" y="66" width="70" height="35"/>
+                                                        <state key="normal" title="延时" image="delay">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="touchDelay:" destination="ZoC-de-892" eventType="touchUpInside" id="VPc-ln-yli"/>
+                                                        </connections>
+                                                    </button>
+                                                    <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ge-rL-uiK" customClass="ArcImgView">
+                                                        <rect key="frame" x="258" y="54" width="45" height="45"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </view>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="bpw-nF-9Ph">
+                                                        <rect key="frame" x="20" y="64" width="15" height="23"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dsI-ff-Cgz">
+                                                        <rect key="frame" x="204" y="54" width="55" height="45"/>
+                                                        <state key="normal">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="touchOnOrOff:" destination="ZoC-de-892" eventType="touchUpInside" id="14e-SS-RFt"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="110" id="TNR-42-2u9"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="arcView" destination="3ge-rL-uiK" id="GO9-Po-w2R"/>
+                                                    <outlet property="btnOnOrOff" destination="1fG-DM-5AU" id="tbb-hO-Zcf"/>
+                                                    <outlet property="btnOnOrOff2" destination="dsI-ff-Cgz" id="AMb-1P-e58"/>
+                                                    <outlet property="btnSocket1" destination="xeU-37-nZS" id="W14-xb-JRy"/>
+                                                    <outlet property="btnSocket2" destination="qDA-4p-Xzt" id="3WM-S7-5cf"/>
+                                                    <outlet property="btnSocket3" destination="n5X-Kc-kM8" id="77d-Ia-zEP"/>
+                                                    <outlet property="imgViewBg" destination="wBG-uJ-a9k" id="T5c-y2-8aa"/>
+                                                </connections>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Kp-op-mYm" customClass="ElecView">
+                                                <rect key="frame" x="10" y="234" width="300" height="329"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MqG-zb-Sia">
+                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
+                                                        <subviews>
+                                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7wr-d1-WBN">
+                                                                <rect key="frame" x="3" y="0.0" width="42" height="40"/>
+                                                                <state key="normal" title="实时">
+                                                                    <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <state key="selected">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="8zG-8P-yHa"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8CF-tY-69s">
+                                                                <rect key="frame" x="45" y="0.0" width="42" height="40"/>
+                                                                <state key="normal" title="1天">
+                                                                    <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <state key="selected">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="HLM-IU-X1N"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XXX-2J-eId">
+                                                                <rect key="frame" x="87" y="0.0" width="42" height="40"/>
+                                                                <state key="normal" title="1周">
+                                                                    <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <state key="selected">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="ABd-f2-YS0"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ywm-SG-V6s">
+                                                                <rect key="frame" x="129" y="0.0" width="42" height="40"/>
+                                                                <state key="normal" title="1月">
+                                                                    <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <state key="selected">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="rpi-AY-dIE"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F35-e2-b6b">
+                                                                <rect key="frame" x="171" y="0.0" width="42" height="40"/>
+                                                                <state key="normal" title="3月">
+                                                                    <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <state key="selected">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="r5s-f6-FWV"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iha-vB-vGu">
+                                                                <rect key="frame" x="213" y="0.0" width="42" height="40"/>
+                                                                <state key="normal" title="6月">
+                                                                    <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <state key="selected">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="Nb6-bi-M0X"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35W-mQ-9Ou">
+                                                                <rect key="frame" x="255" y="0.0" width="42" height="40"/>
+                                                                <state key="normal" title="1年">
+                                                                    <color key="titleColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <state key="selected">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="showSelectedDate:" destination="9Kp-op-mYm" eventType="touchUpInside" id="k9P-Im-kaR"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="GS6-de-cgv"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TLY-rz-uaK" userLabel="Line">
+                                                        <rect key="frame" x="0.0" y="40" width="300" height="1"/>
+                                                        <color key="backgroundColor" red="0.76470588235294112" green="0.76470588235294112" blue="0.76470588235294112" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="s0N-ae-mDR"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-Bd-crA">
+                                                        <rect key="frame" x="0.0" y="41" width="300" height="288"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H70-3X-xFu" customClass="ElecRealTimeView">
+                                                                <rect key="frame" x="0.0" y="0.0" width="300" height="288"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            </view>
+                                                        </subviews>
+                                                        <color key="backgroundColor" red="0.83529418706893921" green="0.94509810209274292" blue="0.85490202903747559" alpha="1" colorSpace="deviceRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="H70-3X-xFu" secondAttribute="bottom" id="4aP-Nl-9ez"/>
+                                                            <constraint firstAttribute="trailing" secondItem="H70-3X-xFu" secondAttribute="trailing" id="F6g-sd-6dz"/>
+                                                            <constraint firstItem="H70-3X-xFu" firstAttribute="top" secondItem="vcZ-Bd-crA" secondAttribute="top" id="VCc-uZ-qrN"/>
+                                                            <constraint firstItem="H70-3X-xFu" firstAttribute="leading" secondItem="vcZ-Bd-crA" secondAttribute="leading" id="wmF-fG-8M8"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="TLY-rz-uaK" firstAttribute="top" secondItem="MqG-zb-Sia" secondAttribute="bottom" id="32e-Hi-tBf"/>
+                                                    <constraint firstAttribute="trailing" secondItem="TLY-rz-uaK" secondAttribute="trailing" id="5n5-W3-nQk"/>
+                                                    <constraint firstAttribute="trailing" secondItem="MqG-zb-Sia" secondAttribute="trailing" id="7xh-2t-aK6"/>
+                                                    <constraint firstItem="MqG-zb-Sia" firstAttribute="leading" secondItem="9Kp-op-mYm" secondAttribute="leading" id="8Mi-Ep-fqH"/>
+                                                    <constraint firstItem="MqG-zb-Sia" firstAttribute="top" secondItem="9Kp-op-mYm" secondAttribute="top" id="CrM-to-GtD"/>
+                                                    <constraint firstItem="vcZ-Bd-crA" firstAttribute="top" secondItem="MqG-zb-Sia" secondAttribute="bottom" constant="1" id="G5H-dK-quG"/>
+                                                    <constraint firstAttribute="trailing" secondItem="vcZ-Bd-crA" secondAttribute="trailing" id="ZVC-Os-hoN"/>
+                                                    <constraint firstItem="TLY-rz-uaK" firstAttribute="leading" secondItem="9Kp-op-mYm" secondAttribute="leading" id="fcx-Qy-kDR"/>
+                                                    <constraint firstAttribute="bottom" secondItem="vcZ-Bd-crA" secondAttribute="bottom" id="osC-4K-Qt8"/>
+                                                    <constraint firstItem="vcZ-Bd-crA" firstAttribute="leading" secondItem="9Kp-op-mYm" secondAttribute="leading" id="yMB-EU-OWl"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="btnOneDay" destination="8CF-tY-69s" id="ewj-Yu-LTa"/>
+                                                    <outlet property="btnOneMonth" destination="ywm-SG-V6s" id="TLV-3K-4BE"/>
+                                                    <outlet property="btnOneWeek" destination="XXX-2J-eId" id="b0d-5W-OMM"/>
+                                                    <outlet property="btnOneYear" destination="35W-mQ-9Ou" id="CBf-Ns-fq8"/>
+                                                    <outlet property="btnRealTime" destination="7wr-d1-WBN" id="JRz-PB-JiJ"/>
+                                                    <outlet property="btnSixMonth" destination="Iha-vB-vGu" id="CaH-bR-yxX"/>
+                                                    <outlet property="btnThreeMonth" destination="F35-e2-b6b" id="ve7-B1-A8j"/>
+                                                    <outlet property="containerView" destination="vcZ-Bd-crA" id="1JB-01-z8x"/>
+                                                    <outlet property="realTimeView" destination="H70-3X-xFu" id="gGk-Qa-Xjq"/>
+                                                </connections>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.94117647058823528" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstItem="TLY-rz-uaK" firstAttribute="top" secondItem="MqG-zb-Sia" secondAttribute="bottom" id="32e-Hi-tBf"/>
-                                            <constraint firstAttribute="trailing" secondItem="TLY-rz-uaK" secondAttribute="trailing" id="5n5-W3-nQk"/>
-                                            <constraint firstAttribute="trailing" secondItem="MqG-zb-Sia" secondAttribute="trailing" id="7xh-2t-aK6"/>
-                                            <constraint firstItem="MqG-zb-Sia" firstAttribute="leading" secondItem="9Kp-op-mYm" secondAttribute="leading" id="8Mi-Ep-fqH"/>
-                                            <constraint firstItem="MqG-zb-Sia" firstAttribute="top" secondItem="9Kp-op-mYm" secondAttribute="top" id="CrM-to-GtD"/>
-                                            <constraint firstItem="vcZ-Bd-crA" firstAttribute="top" secondItem="MqG-zb-Sia" secondAttribute="bottom" constant="1" id="G5H-dK-quG"/>
-                                            <constraint firstAttribute="trailing" secondItem="vcZ-Bd-crA" secondAttribute="trailing" id="ZVC-Os-hoN"/>
-                                            <constraint firstItem="TLY-rz-uaK" firstAttribute="leading" secondItem="9Kp-op-mYm" secondAttribute="leading" id="fcx-Qy-kDR"/>
-                                            <constraint firstAttribute="bottom" secondItem="vcZ-Bd-crA" secondAttribute="bottom" id="osC-4K-Qt8"/>
-                                            <constraint firstItem="vcZ-Bd-crA" firstAttribute="leading" secondItem="9Kp-op-mYm" secondAttribute="leading" id="yMB-EU-OWl"/>
+                                            <constraint firstItem="JL5-Fc-0vL" firstAttribute="top" secondItem="pQ8-cN-gbp" secondAttribute="top" constant="10" id="E02-vn-swP"/>
+                                            <constraint firstAttribute="bottom" secondItem="9Kp-op-mYm" secondAttribute="bottom" constant="5" id="JC9-LE-w59"/>
+                                            <constraint firstItem="ZoC-de-892" firstAttribute="top" secondItem="pQ8-cN-gbp" secondAttribute="top" constant="119" id="Ks8-gT-ILz"/>
+                                            <constraint firstItem="JL5-Fc-0vL" firstAttribute="leading" secondItem="pQ8-cN-gbp" secondAttribute="leading" id="TD9-H1-IRY"/>
+                                            <constraint firstItem="9Kp-op-mYm" firstAttribute="top" secondItem="ZoC-de-892" secondAttribute="bottom" constant="5" id="Tid-xR-2oj"/>
+                                            <constraint firstItem="9Kp-op-mYm" firstAttribute="leading" secondItem="pQ8-cN-gbp" secondAttribute="leading" constant="10" id="Uox-xS-F60"/>
+                                            <constraint firstItem="ZoC-de-892" firstAttribute="leading" secondItem="pQ8-cN-gbp" secondAttribute="leading" id="VV5-D4-J0R"/>
+                                            <constraint firstAttribute="trailing" secondItem="JL5-Fc-0vL" secondAttribute="trailing" id="cyF-He-Tho"/>
+                                            <constraint firstAttribute="trailing" secondItem="9Kp-op-mYm" secondAttribute="trailing" constant="10" id="hQH-an-elD"/>
+                                            <constraint firstAttribute="trailing" secondItem="ZoC-de-892" secondAttribute="trailing" id="jfv-0a-z2K"/>
                                         </constraints>
-                                        <connections>
-                                            <outlet property="btnOneDay" destination="8CF-tY-69s" id="ewj-Yu-LTa"/>
-                                            <outlet property="btnOneMonth" destination="ywm-SG-V6s" id="TLV-3K-4BE"/>
-                                            <outlet property="btnOneWeek" destination="XXX-2J-eId" id="b0d-5W-OMM"/>
-                                            <outlet property="btnOneYear" destination="35W-mQ-9Ou" id="CBf-Ns-fq8"/>
-                                            <outlet property="btnRealTime" destination="7wr-d1-WBN" id="JRz-PB-JiJ"/>
-                                            <outlet property="btnSixMonth" destination="Iha-vB-vGu" id="CaH-bR-yxX"/>
-                                            <outlet property="btnThreeMonth" destination="F35-e2-b6b" id="ve7-B1-A8j"/>
-                                            <outlet property="containerView" destination="vcZ-Bd-crA" id="1JB-01-z8x"/>
-                                            <outlet property="realTimeView" destination="H70-3X-xFu" id="gGk-Qa-Xjq"/>
-                                        </connections>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.94117647058823528" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="JL5-Fc-0vL" firstAttribute="top" secondItem="pQ8-cN-gbp" secondAttribute="top" constant="10" id="E02-vn-swP"/>
-                                    <constraint firstAttribute="bottom" secondItem="9Kp-op-mYm" secondAttribute="bottom" constant="5" id="JC9-LE-w59"/>
-                                    <constraint firstItem="ZoC-de-892" firstAttribute="top" secondItem="pQ8-cN-gbp" secondAttribute="top" constant="119" id="Ks8-gT-ILz"/>
-                                    <constraint firstItem="JL5-Fc-0vL" firstAttribute="leading" secondItem="pQ8-cN-gbp" secondAttribute="leading" id="TD9-H1-IRY"/>
-                                    <constraint firstItem="9Kp-op-mYm" firstAttribute="top" secondItem="ZoC-de-892" secondAttribute="bottom" constant="5" id="Tid-xR-2oj"/>
-                                    <constraint firstItem="9Kp-op-mYm" firstAttribute="leading" secondItem="pQ8-cN-gbp" secondAttribute="leading" constant="10" id="Uox-xS-F60"/>
-                                    <constraint firstItem="ZoC-de-892" firstAttribute="leading" secondItem="pQ8-cN-gbp" secondAttribute="leading" id="VV5-D4-J0R"/>
-                                    <constraint firstAttribute="trailing" secondItem="JL5-Fc-0vL" secondAttribute="trailing" id="cyF-He-Tho"/>
-                                    <constraint firstAttribute="trailing" secondItem="9Kp-op-mYm" secondAttribute="trailing" constant="10" id="hQH-an-elD"/>
-                                    <constraint firstAttribute="trailing" secondItem="ZoC-de-892" secondAttribute="trailing" id="jfv-0a-z2K"/>
+                                    <constraint firstItem="pQ8-cN-gbp" firstAttribute="top" secondItem="gdU-fk-1Md" secondAttribute="top" id="1zF-7b-R4O"/>
+                                    <constraint firstItem="pQ8-cN-gbp" firstAttribute="leading" secondItem="gdU-fk-1Md" secondAttribute="leading" id="DaG-hA-JOf"/>
+                                    <constraint firstAttribute="trailing" secondItem="pQ8-cN-gbp" secondAttribute="trailing" id="RTg-wE-W52"/>
+                                    <constraint firstAttribute="bottom" secondItem="pQ8-cN-gbp" secondAttribute="bottom" id="vTx-ky-pxh"/>
                                 </constraints>
-                            </view>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="pQ8-cN-gbp" firstAttribute="leading" secondItem="hTv-DA-YbW" secondAttribute="leading" id="0wD-NA-cfc"/>
-                            <constraint firstItem="nCX-m4-ig1" firstAttribute="top" secondItem="pQ8-cN-gbp" secondAttribute="bottom" id="131-HQ-wI8"/>
-                            <constraint firstItem="pQ8-cN-gbp" firstAttribute="top" secondItem="hTv-DA-YbW" secondAttribute="top" id="El4-ru-qVF"/>
-                            <constraint firstAttribute="trailing" secondItem="pQ8-cN-gbp" secondAttribute="trailing" id="wPJ-nX-sSr"/>
+                            <constraint firstItem="7Lb-zg-W2M" firstAttribute="height" secondItem="pQ8-cN-gbp" secondAttribute="height" id="9RQ-3Z-CKA"/>
+                            <constraint firstItem="nCX-m4-ig1" firstAttribute="top" secondItem="7Lb-zg-W2M" secondAttribute="bottom" id="9Ue-vK-3zK"/>
+                            <constraint firstItem="7Lb-zg-W2M" firstAttribute="leading" secondItem="hTv-DA-YbW" secondAttribute="leading" id="Bjb-Pm-SUA"/>
+                            <constraint firstItem="gdU-fk-1Md" firstAttribute="top" secondItem="hTv-DA-YbW" secondAttribute="top" id="JmP-m2-gIB"/>
+                            <constraint firstItem="7Lb-zg-W2M" firstAttribute="width" secondItem="pQ8-cN-gbp" secondAttribute="width" id="eLT-Ti-xST"/>
+                            <constraint firstItem="nCX-m4-ig1" firstAttribute="top" secondItem="gdU-fk-1Md" secondAttribute="bottom" id="jAO-Tk-0WU"/>
+                            <constraint firstItem="gdU-fk-1Md" firstAttribute="leading" secondItem="hTv-DA-YbW" secondAttribute="leading" id="lm6-t7-tll"/>
+                            <constraint firstAttribute="trailing" secondItem="7Lb-zg-W2M" secondAttribute="trailing" id="xZc-jK-dnd"/>
+                            <constraint firstAttribute="trailing" secondItem="gdU-fk-1Md" secondAttribute="trailing" id="yxh-AO-ySt"/>
+                            <constraint firstItem="7Lb-zg-W2M" firstAttribute="top" secondItem="hTv-DA-YbW" secondAttribute="top" id="zpF-Ku-a0E"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -481,6 +504,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="elecView" destination="9Kp-op-mYm" id="9IC-hj-sDI"/>
+                        <outlet property="scrollView" destination="gdU-fk-1Md" id="lMg-9W-IMA"/>
                         <outlet property="socketView1" destination="JL5-Fc-0vL" id="kvv-4J-P5n"/>
                         <outlet property="socketView2" destination="ZoC-de-892" id="gov-bu-TiN"/>
                     </connections>

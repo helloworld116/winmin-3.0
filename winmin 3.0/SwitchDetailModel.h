@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "HistoryElec.h"
 
+typedef void (^SwitchStateChangeBlock)(int);
 @interface SwitchDetailModel : NSObject
-@property(nonatomic, assign, readonly) BOOL isScanning;
-- (id)initWithSwitch:(SDZGSwitch *)aSwitch;
+@property (nonatomic, assign, readonly) BOOL isScanning;
+- (id)initWithSwitch:(SDZGSwitch *)aSwitch
+    switchStateChangeBlock:(SwitchStateChangeBlock)block;
 
 - (void)openOrCloseWithGroupId:(int)groupId;
 

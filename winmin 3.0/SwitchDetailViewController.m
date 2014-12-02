@@ -19,13 +19,17 @@
 
 @interface SwitchDetailViewController () <
     SocketViewDelegate, SocketImgTemplateDelegate, ElecViewDelegate>
-@property (strong, nonatomic) IBOutlet SocketView *socketView1;
-@property (strong, nonatomic) IBOutlet SocketView *socketView2;
-@property (strong, nonatomic) IBOutlet ElecView *elecView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet SocketView *socketView1;
+@property (weak, nonatomic) IBOutlet SocketView *socketView2;
+@property (weak, nonatomic) IBOutlet ElecView *elecView;
 @property (strong, nonatomic) SwitchDetailModel *model;
 
 @property (assign, nonatomic) BOOL showingRealTimeElecView;
 @property (strong, nonatomic) NSMutableArray *powers; //保存实时电量数据
+
+@property (strong, nonatomic) UIView *errorMsgView;
+
 @end
 
 @implementation SwitchDetailViewController
@@ -61,7 +65,45 @@
   self.elecView.layer.masksToBounds = YES;
   self.elecView.delegate = self;
 
-  self.model = [[SwitchDetailModel alloc] initWithSwitch:self.aSwitch];
+  self.errorMsgView =
+      [[UIView alloc] initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH, 20)];
+  UILabel *lblMsg = [[UILabel alloc] initWithFrame:self.errorMsgView.bounds];
+  lblMsg.text =
+      NSLocalizedString(@"Device offline, Please check your network", nil);
+  lblMsg.textColor = [UIColor redColor];
+  lblMsg.font = [UIFont systemFontOfSize:13.f];
+  lblMsg.textAlignment = NSTextAlignmentCenter;
+  [self.errorMsgView addSubview:lblMsg];
+  [self.scrollView addSubview:self.errorMsgView];
+
+  __weak SwitchDetailViewController *weakSelf = self;
+  self.model =
+      [[SwitchDetailModel alloc] initWithSwitch:self.aSwitch
+                         switchStateChangeBlock:^(int switchStatus) {
+                             dispatch_async(MAIN_QUEUE, ^{
+                                 if (switchStatus == SWITCH_OFFLINE) {
+                                   weakSelf.scrollView.contentInset =
+                                       UIEdgeInsetsMake(20, 0, 0, 0);
+                                   weakSelf.scrollView.contentOffset =
+                                       CGPointMake(0, -20);
+                                   //关闭开关动画
+                                   [weakSelf.socketView1 removeRotateAnimation];
+                                   [weakSelf.socketView2 removeRotateAnimation];
+                                   //关闭实时电量查询
+                                   [weakSelf.model stopRealTimeElec];
+                                   [weakSelf.elecView stopRealTimeDraw];
+                                 } else {
+                                   weakSelf.scrollView.contentInset =
+                                       UIEdgeInsetsZero;
+                                   weakSelf.scrollView.contentOffset =
+                                       CGPointZero;
+                                   //从详情、定时和延时页面返回时如果选中的是实时则开启刷新
+                                   if (weakSelf.showingRealTimeElecView) {
+                                     weakSelf.showingRealTimeElecView = YES;
+                                   }
+                                 }
+                             });
+                         }];
   self.powers = [@[] mutableCopy];
   //必须在添加观察者之前
   self.showingRealTimeElecView = YES;
@@ -94,11 +136,6 @@
                                            selector:@selector(noResponse:)
                                                name:kNoResponseNotification
                                              object:self.model];
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(netChangedNotification:)
-             name:kNetChangedNotification
-           object:nil];
   [self addObserver:self
          forKeyPath:@"showingRealTimeElecView"
             options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
@@ -118,6 +155,11 @@
          selector:@selector(applicationDidEnterBackgroundNotification:)
              name:UIApplicationDidEnterBackgroundNotification
            object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(netChangedNotification:)
+             name:kNetChangedNotification
+           object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -131,6 +173,9 @@
       removeObserver:self
                 name:UIApplicationDidEnterBackgroundNotification
               object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kNetChangedNotification
+                                                object:nil];
 }
 
 - (void)viewDisappearOrEnterBackground {
@@ -140,6 +185,8 @@
 }
 
 - (void)viewAppearOrEnterForeground {
+  NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+  self.aSwitch.lastUpdateInterval = current;
   [self.model startScanSwitchState];
   //从详情、定时和延时页面返回时如果选中的是实时则开启刷新
   if (self.showingRealTimeElecView) {
@@ -296,7 +343,15 @@ preparation before navigation
   NSDictionary *userInfo = notif.userInfo;
   float power = [userInfo[@"power"] floatValue];
   [self.powers addObject:@(power)];
-
+  if (self.powers.count > 8 + 1) {
+    [self.powers removeObjectAtIndex:0];
+    NSSet *isAllEqual = [NSSet setWithArray:self.powers];
+    DDLogDebug(@"all equal count is %d", [isAllEqual count]);
+    if ([isAllEqual count] == 1) {
+      [self.powers removeAllObjects];
+      [self.powers addObjectsFromArray:[isAllEqual allObjects]];
+    }
+  }
   [self.elecView showRealTimeData:self.powers];
 }
 
@@ -347,7 +402,19 @@ preparation before navigation
   NetworkStatus status = kSharedAppliction.networkStatus;
   if (status == NotReachable) {
     //网络不可用时
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.scrollView.contentInset =
+                             UIEdgeInsetsMake(50, 0, 0, 0);
+                         self.scrollView.contentOffset = CGPointMake(0, -50);
+                     }];
+
   } else {
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.scrollView.contentInset = UIEdgeInsetsZero;
+                         self.scrollView.contentOffset = CGPointZero;
+                     }];
     if (status == ReachableViaWWAN) {
       BOOL warn = [[[NSUserDefaults standardUserDefaults]
           objectForKey:wwanWarn] boolValue];

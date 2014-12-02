@@ -12,6 +12,7 @@
 @interface SwitchDetailModel () <UdpRequestDelegate>
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSTimer *timerElec;
+@property (strong, nonatomic) NSTimer *timerCheckOnline; //检查设备是否在线
 
 @property (nonatomic, strong) UdpRequest *request1; //查询状态
 @property (nonatomic, strong) UdpRequest *request2; //控制插孔I
@@ -22,6 +23,8 @@
 @property (nonatomic, strong) HistoryElecParam *param;
 @property (nonatomic, assign) HistoryElecDateType dateType;
 
+@property (nonatomic, copy) SwitchStateChangeBlock stateChangeBlock;
+
 //防止网络延迟多个请求同时或延迟响应时改变开关状态，值为1表示第一次接收，正常处理，其他情况下抛弃响应
 @property (atomic, assign) int responseData12Or14GroupId1Count;
 @property (atomic, assign) int responseData12Or14GroupId2Count;
@@ -29,13 +32,20 @@
 
 @implementation SwitchDetailModel
 
-- (id)initWithSwitch:(SDZGSwitch *)aSwitch {
+- (id)initWithSwitch:(SDZGSwitch *)aSwitch
+    switchStateChangeBlock:(SwitchStateChangeBlock)block {
   if (self = [super init]) {
     self.aSwitch = aSwitch;
     self.request1 = [UdpRequest manager];
     self.request1.delegate = self;
     self.request4 = [UdpRequest manager];
     self.request4.delegate = self;
+    self.stateChangeBlock = block;
+    [self.aSwitch
+        addObserver:self
+         forKeyPath:@"networkStatus"
+            options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
+            context:nil];
   }
   return self;
 }
@@ -45,6 +55,7 @@
   self.request2.delegate = nil;
   self.request3.delegate = nil;
   self.request4.delegate = nil;
+  [self.aSwitch removeObserver:self forKeyPath:@"networkStatus"];
 }
 
 - (void)openOrCloseWithGroupId:(int)groupId {
@@ -64,6 +75,17 @@
       [self.timer fire];
       [[NSRunLoop mainRunLoop] addTimer:self.timer
                                 forMode:NSDefaultRunLoopMode];
+
+      self.timerCheckOnline =
+          [NSTimer timerWithTimeInterval:kElecRefreshInterval
+                                  target:self
+                                selector:@selector(checkSwitchState)
+                                userInfo:nil
+                                 repeats:YES];
+      [self.timerCheckOnline
+          setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.f]];
+      [[NSRunLoop mainRunLoop] addTimer:self.timerCheckOnline
+                                forMode:NSDefaultRunLoopMode];
   });
 }
 
@@ -73,6 +95,10 @@
       if (self.timer) {
         [self.timer invalidate];
         self.timer = nil;
+      }
+      if (self.timerCheckOnline) {
+        [self.timerCheckOnline invalidate];
+        self.timerCheckOnline = nil;
       }
   });
 }
@@ -111,6 +137,10 @@
                             dateType:dateType];
       [self senMsg63:self.param];
   });
+}
+
+- (void)checkSwitchState {
+  [[SwitchDataCeneter sharedInstance] checkSwitchOnlineState:self.aSwitch];
 }
 
 //状态
@@ -267,6 +297,7 @@
   DDLogDebug(@"power is %f", message.power);
   float diff = floorf(message.power - kElecDiff);
   float power = diff > 0 ? diff : 0.f;
+  DDLogDebug(@"draw is %f", power);
   NSDictionary *userInfo = @{ @"power" : @(power) };
   [[NSNotificationCenter defaultCenter]
       postNotificationName:kRealTimeElecNotification
@@ -289,5 +320,27 @@
                       object:self
                     userInfo:userInfo];
   }
+}
+
+#pragma mark - Observer
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+  SwitchStatus oldStatus =
+      [[change objectForKey:NSKeyValueChangeOldKey] intValue];
+  SwitchStatus newStatus =
+      [[change objectForKey:NSKeyValueChangeNewKey] intValue];
+  if ([keyPath isEqualToString:@"networkStatus"])
+    if (oldStatus != newStatus) {
+      if (newStatus == SWITCH_OFFLINE) {
+        DDLogDebug(@"设备已离线");
+      } else {
+        DDLogDebug(@"设备已在线");
+      }
+      if (self.stateChangeBlock) {
+        self.stateChangeBlock(newStatus);
+      }
+    }
 }
 @end

@@ -22,6 +22,13 @@
 - (NSArray *)switchsWithChangeStatus;
 
 /**
+ *  检查设备是否在线
+ *
+ *  @param aSwitch
+ */
+- (void)checkSwitchOnlineState:(SDZGSwitch *)aSwitch;
+
+/**
  *  添加switch
  *
  *  @param aSwitch

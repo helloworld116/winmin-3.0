@@ -9,6 +9,8 @@
 #import "SwitchDataCeneter.h"
 #import "SwitchSyncService.h"
 
+static NSTimeInterval checkInterval = 2.f;
+
 static dispatch_queue_t switch_datacenter_serial_queue() {
   static dispatch_queue_t sdzg_switch_datacenter_serial_queue;
   static dispatch_once_t onceToken;
@@ -166,11 +168,30 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   });
 }
 
+- (void)checkSwitchOnlineState:(SDZGSwitch *)aSwitch {
+  NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+  NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
+  if (diff > checkInterval * REFRESH_DEV_TIME &&
+      aSwitch.networkStatus == SWITCH_LOCAL) {
+    aSwitch.networkStatus = SWITCH_OFFLINE;
+  } else if (diff > 2 * checkInterval * REFRESH_DEV_TIME &&
+             aSwitch.networkStatus == SWITCH_REMOTE) {
+    aSwitch.networkStatus = SWITCH_OFFLINE;
+  }
+}
+
 - (NSArray *)switchsWithChangeStatus {
   NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
   NSArray *switchs = [self.switchsDict allValues];
   for (SDZGSwitch *aSwitch in switchs) {
-    if (current - aSwitch.lastUpdateInterval > 1.2 * REFRESH_DEV_TIME) {
+    NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
+    if ((aSwitch.networkStatus == SWITCH_NEW ||
+         aSwitch.networkStatus == SWITCH_LOCAL) &&
+        diff > checkInterval * REFRESH_DEV_TIME) {
+      aSwitch.networkStatus = SWITCH_OFFLINE;
+    }
+    if (aSwitch.networkStatus == SWITCH_REMOTE &&
+        diff > 2 * checkInterval * REFRESH_DEV_TIME) {
       aSwitch.networkStatus = SWITCH_OFFLINE;
     }
   }
@@ -185,8 +206,14 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
 
 - (NSArray *)switchs {
   // TODO: 修复新扫描到的设备场景添加中找不到
-  return [self.switchsDict allValues];
+  //  return [self.switchsDict allValues];
   //  return _switchs;
+  NSSortDescriptor *netDescriptor =
+      [[NSSortDescriptor alloc] initWithKey:@"networkStatus" ascending:YES];
+  NSSortDescriptor *macDescriptor =
+      [[NSSortDescriptor alloc] initWithKey:@"mac" ascending:YES];
+  return [[self.switchsDict allValues]
+      sortedArrayUsingDescriptors:@[ netDescriptor, macDescriptor ]];
 }
 
 - (BOOL)isAllSwitchOffLine {

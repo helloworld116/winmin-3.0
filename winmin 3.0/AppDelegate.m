@@ -46,6 +46,7 @@
   [self setDefaultUserSettingValue];
   [self registPlatform];
   [self registJPush:launchOptions];
+  [NSThread sleepForTimeInterval:2.0];
   return YES;
 }
 

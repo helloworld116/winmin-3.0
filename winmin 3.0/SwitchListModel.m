@@ -68,6 +68,12 @@
   if (aSwitch) {
     aSwitch.networkStatus = SWITCH_NEW;
     aSwitch.name = NSLocalizedString(@"Smart Switch", nil);
+    SDZGSocket *socket1 = aSwitch.sockets[0];
+    socket1.imageNames =
+        @[ socket_default_image, socket_default_image, socket_default_image ];
+    SDZGSocket *socket2 = aSwitch.sockets[1];
+    socket2.imageNames =
+        @[ socket_default_image, socket_default_image, socket_default_image ];
     NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
     NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
     for (SDZGSwitch *aSwitch in switchs) {
@@ -88,8 +94,11 @@
       [NSThread sleepForTimeInterval:0.5];
       NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
       for (SDZGSwitch *aSwitch in switchs) {
-        DDLogDebug(@"switch mac is %@", aSwitch.mac);
-        [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
+        if (aSwitch.networkStatus == SWITCH_REMOTE ||
+            aSwitch.networkStatus == SWITCH_OFFLINE) {
+          DDLogDebug(@"switch mac is %@", aSwitch.mac);
+          [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
+        }
       }
   });
 }

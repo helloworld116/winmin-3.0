@@ -171,11 +171,13 @@
                             forKey:@"rotationAnimation"];
   self.arcView.hidden = NO;
   self.btnOnOrOff.enabled = NO;
+  self.btnOnOrOff2.enabled = NO;
 }
 
 - (void)removeRotateAnimation {
   [self.arcView.layer removeAnimationForKey:@"rotationAnimation"];
   self.arcView.hidden = YES;
   self.btnOnOrOff.enabled = YES;
+  self.btnOnOrOff2.enabled = YES;
 }
 @end
