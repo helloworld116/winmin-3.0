@@ -1042,13 +1042,37 @@
                                                             <action selector="touchImg:" destination="0fj-Ly-DaW" eventType="touchUpInside" id="4Hk-kN-SpN"/>
                                                         </connections>
                                                     </button>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="自定义" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pjt-xV-W6u">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="默认" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pjt-xV-W6u">
                                                         <rect key="frame" x="0.0" y="55" width="80" height="42"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="usersetting" translatesAutoresizingMaskIntoConstraints="NO" id="fWx-Xg-8Ck">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="099__" translatesAutoresizingMaskIntoConstraints="NO" id="fWx-Xg-8Ck">
+                                                        <rect key="frame" x="12" y="0.0" width="56" height="56"/>
+                                                    </imageView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z87-7I-L9m">
+                                                <rect key="frame" x="240" y="0.0" width="80" height="100"/>
+                                                <subviews>
+                                                    <button opaque="NO" tag="1012" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9HL-7e-WIr">
+                                                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                                        <state key="normal">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="touchImg:" destination="0fj-Ly-DaW" eventType="touchUpInside" id="Yv1-du-6Fu"/>
+                                                        </connections>
+                                                    </button>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="自定义" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8K6-xM-Zko">
+                                                        <rect key="frame" x="0.0" y="55" width="80" height="42"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="usersetting-1" translatesAutoresizingMaskIntoConstraints="NO" id="TG4-xj-4ez">
                                                         <rect key="frame" x="12" y="0.0" width="56" height="56"/>
                                                     </imageView>
                                                 </subviews>
@@ -3091,36 +3115,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jr" translatesAutoresizingMaskIntoConstraints="NO" id="nvo-4E-bAm">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mvI-rd-mPD" customClass="EAIntroView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8L0-h8-Ve4">
-                                <rect key="frame" x="41" y="457" width="239" height="51"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="51" id="I13-Vr-epr"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="开始体验" backgroundImage="enter">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="enter:" destination="yRW-JH-Ddy" eventType="touchUpInside" id="nV0-p0-bdh"/>
-                                </connections>
-                            </button>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bB0-c8-6Cm" firstAttribute="top" secondItem="8L0-h8-Ve4" secondAttribute="bottom" constant="60" id="BUz-fG-jr0"/>
-                            <constraint firstItem="8L0-h8-Ve4" firstAttribute="leading" secondItem="Ilg-bZ-4lR" secondAttribute="leading" constant="41" id="Cui-QY-95N"/>
-                            <constraint firstItem="nvo-4E-bAm" firstAttribute="top" secondItem="Ilg-bZ-4lR" secondAttribute="top" id="H4d-xK-eD3"/>
-                            <constraint firstItem="bB0-c8-6Cm" firstAttribute="top" secondItem="nvo-4E-bAm" secondAttribute="bottom" id="M5F-Qp-oPQ"/>
-                            <constraint firstItem="nvo-4E-bAm" firstAttribute="leading" secondItem="Ilg-bZ-4lR" secondAttribute="leading" id="SKH-bQ-4Lz"/>
-                            <constraint firstAttribute="trailing" secondItem="8L0-h8-Ve4" secondAttribute="trailing" constant="40" id="VgI-gM-grT"/>
-                            <constraint firstAttribute="trailing" secondItem="nvo-4E-bAm" secondAttribute="trailing" id="yPI-aH-D9V"/>
+                            <constraint firstAttribute="trailing" secondItem="mvI-rd-mPD" secondAttribute="trailing" id="C3R-gF-Sbo"/>
+                            <constraint firstItem="mvI-rd-mPD" firstAttribute="top" secondItem="Ilg-bZ-4lR" secondAttribute="top" id="TnC-fc-ivG"/>
+                            <constraint firstItem="mvI-rd-mPD" firstAttribute="leading" secondItem="Ilg-bZ-4lR" secondAttribute="leading" id="U5a-4p-lG0"/>
+                            <constraint firstItem="bB0-c8-6Cm" firstAttribute="top" secondItem="mvI-rd-mPD" secondAttribute="bottom" id="XkB-gj-RCb"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
+                    <connections>
+                        <outlet property="introView" destination="mvI-rd-mPD" id="lSa-OI-B0e"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CE5-fQ-JlT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -4036,6 +4047,7 @@
         <image name="009" width="60" height="60"/>
         <image name="010" width="56" height="56"/>
         <image name="099" width="56" height="56"/>
+        <image name="099__" width="56" height="56"/>
         <image name="1" width="15" height="23"/>
         <image name="100" width="42" height="42"/>
         <image name="101" width="60" height="60"/>
@@ -4053,13 +4065,11 @@
         <image name="conf_help_1" width="320" height="480"/>
         <image name="delay" width="20" height="20"/>
         <image name="delay_split" width="14" height="19"/>
-        <image name="enter" width="19" height="51"/>
         <image name="gb" width="38" height="38"/>
         <image name="gd" width="30" height="30"/>
         <image name="gx" width="22" height="22"/>
         <image name="info" width="44" height="44"/>
         <image name="info_arrow" width="44" height="44"/>
-        <image name="jr" width="320" height="480"/>
         <image name="kz" width="30" height="30"/>
         <image name="more_arrow" width="44" height="44"/>
         <image name="off" width="74" height="29"/>
@@ -4083,6 +4093,7 @@
         <image name="timer" width="20" height="20"/>
         <image name="username" width="22" height="22"/>
         <image name="usersetting" width="56" height="56"/>
+        <image name="usersetting-1" width="56" height="56"/>
         <image name="warn" width="29" height="29"/>
         <image name="warn_switch" width="127" height="127"/>
         <image name="wb" width="24" height="20"/>

@@ -182,6 +182,8 @@
   [self.model stopRealTimeElec];
   [self.elecView stopRealTimeDraw];
   [self.model stopScanSwitchState];
+  //清空实时电量数据
+  [self.powers removeAllObjects];
 }
 
 - (void)viewAppearOrEnterForeground {
@@ -269,18 +271,39 @@ preparation before navigation
           socketId:(int)socketId
            imgName:(NSString *)imgName {
   UIImage *img = [SDZGSocket imgNameToImage:imgName status:SocketStatusOn];
+  UIImage *defaultSelectBgImage = [UIImage imageNamed:@"socket_bg_selected"];
+  UIImage *customSelectBgImage = [UIImage imageNamed:@"socket_bg_custom"];
   switch (socketId) {
     case 1:
-      //      socketView.imgViewSocket1.image = img;
       [socketView.btnSocket1 setImage:img forState:UIControlStateNormal];
+      if ([imgName isEqualToString:socket_default_image]) {
+        [socketView.btnSocket1 setBackgroundImage:defaultSelectBgImage
+                                         forState:UIControlStateSelected];
+      } else {
+        [socketView.btnSocket1 setBackgroundImage:customSelectBgImage
+                                         forState:UIControlStateSelected];
+      }
       break;
     case 2:
-      //      socketView.imgViewSocket2.image = img;
       [socketView.btnSocket2 setImage:img forState:UIControlStateNormal];
+      if ([imgName isEqualToString:socket_default_image]) {
+        [socketView.btnSocket2 setBackgroundImage:defaultSelectBgImage
+                                         forState:UIControlStateSelected];
+      } else {
+        [socketView.btnSocket2 setBackgroundImage:customSelectBgImage
+                                         forState:UIControlStateSelected];
+      }
+
       break;
     case 3:
-      //      socketView.imgViewSocket3.image = img;
       [socketView.btnSocket3 setImage:img forState:UIControlStateNormal];
+      if ([imgName isEqualToString:socket_default_image]) {
+        [socketView.btnSocket3 setBackgroundImage:defaultSelectBgImage
+                                         forState:UIControlStateSelected];
+      } else {
+        [socketView.btnSocket3 setBackgroundImage:customSelectBgImage
+                                         forState:UIControlStateSelected];
+      }
       break;
     default:
       break;

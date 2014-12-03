@@ -367,3 +367,6 @@
 
 /* Class = "IBUITextField"; placeholder = "Enter registered email"; ObjectID = "zwv-Cp-1vr"; */
 "zwv-Cp-1vr.placeholder" = "Enter registered email";
+
+/* Class = "IBUILabel"; text = "默认"; ObjectID = "Pjt-xV-W6u"; */
+"Pjt-xV-W6u.text" = "Default";

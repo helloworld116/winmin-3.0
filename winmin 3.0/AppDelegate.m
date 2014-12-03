@@ -36,17 +36,20 @@
       [[NSUserDefaults standardUserDefaults] objectForKey:kCurrentVersion];
   BOOL showed = [[[NSUserDefaults standardUserDefaults]
       objectForKey:kWelcomePageShowed] boolValue];
-  if (!showed || ![appVersion isEqualToString:currentVersion]) {
-    UIViewController* vc = [[self.window.rootViewController storyboard]
-        instantiateViewControllerWithIdentifier:@"WelcomeViewController"];
-    self.window.rootViewController = vc;
-  }
+  //  if (!showed || ![appVersion isEqualToString:currentVersion]) {
+  //    UIViewController* vc = [[self.window.rootViewController storyboard]
+  //        instantiateViewControllerWithIdentifier:@"WelcomeViewController"];
+  //    self.window.rootViewController = vc;
+  //  }
+  UIViewController* vc = [[self.window.rootViewController storyboard]
+      instantiateViewControllerWithIdentifier:@"WelcomeViewController"];
+  self.window.rootViewController = vc;
   [self setLog];
   [self setData];
   [self setDefaultUserSettingValue];
   [self registPlatform];
   [self registJPush:launchOptions];
-  [NSThread sleepForTimeInterval:2.0];
+  [NSThread sleepForTimeInterval:1.0];
   return YES;
 }
 
@@ -99,6 +102,7 @@
   // Called when the application is about to terminate. Save
   // data if
   // appropriate. See also applicationDidEnterBackground:.
+  [[SwitchDataCeneter sharedInstance] syncSwitchs];
 }
 
 - (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url {

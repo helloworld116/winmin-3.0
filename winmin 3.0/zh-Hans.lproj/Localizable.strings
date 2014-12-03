@@ -34,6 +34,7 @@
 /**
  *  控制
  */
+"Start to experience"="开始体验";
 "You have not configure any device!"="您暂时还未添加任何设备";
 "Device offline, Please check your network"="设备已离线,请检查手机或设备网络情况";
 "Which operation do you want?"="请选择操作";

@@ -65,8 +65,14 @@
 /* Class = "IBUIButton"; normalTitle = "1天"; ObjectID = "8CF-tY-69s"; */
 "8CF-tY-69s.normalTitle" = "1天";
 
+/* Class = "IBUILabel"; text = "自定义"; ObjectID = "8K6-xM-Zko"; */
+"8K6-xM-Zko.text" = "自定义";
+
 /* Class = "IBUIButton"; normalTitle = "开始体验"; ObjectID = "8L0-h8-Ve4"; */
 "8L0-h8-Ve4.normalTitle" = "开始体验";
+
+/* Class = "IBUILabel"; text = "W 提醒"; ObjectID = "8yX-al-9Pb"; */
+"8yX-al-9Pb.text" = "W 提醒";
 
 /* Class = "IBUILabel"; text = "0"; ObjectID = "A92-Eb-goY"; */
 "A92-Eb-goY.text" = "0";
@@ -76,6 +82,9 @@
 
 /* Class = "IBUILabel"; text = "忘记密码？"; ObjectID = "Abb-D0-dMa"; */
 "Abb-D0-dMa.text" = "忘记密码？";
+
+/* Class = "IBUILabel"; text = "功率低于"; ObjectID = "B6a-bY-4Hp"; */
+"B6a-bY-4Hp.text" = "功率低于";
 
 /* Class = "IBUITextField"; placeholder = "请输入新密码"; ObjectID = "BWD-9w-wKs"; */
 "BWD-9w-wKs.placeholder" = "请输入新密码";
@@ -170,11 +179,11 @@
 /* Class = "IBUITextField"; placeholder = "输入6-20个数字或字母"; ObjectID = "Oa1-X7-MGw"; */
 "Oa1-X7-MGw.placeholder" = "输入6-20个数字或字母";
 
-/* Class = "IBUIButton"; normalTitle = "退出"; ObjectID = "PcL-EO-u4K"; */
-"PcL-EO-u4K.normalTitle" = "退出";
+/* Class = "IBUIButton"; normalTitle = "注销"; ObjectID = "PcL-EO-u4K"; */
+"PcL-EO-u4K.normalTitle" = "注销";
 
-/* Class = "IBUILabel"; text = "自定义"; ObjectID = "Pjt-xV-W6u"; */
-"Pjt-xV-W6u.text" = "自定义";
+/* Class = "IBUILabel"; text = "默认"; ObjectID = "Pjt-xV-W6u"; */
+"Pjt-xV-W6u.text" = "默认";
 
 /* Class = "IBUILabel"; text = "功率最大为2500W"; ObjectID = "Pro-HW-cy1"; */
 "Pro-HW-cy1.text" = "功率最大为2500W";
@@ -184,6 +193,9 @@
 
 /* Class = "IBUILabel"; text = "0"; ObjectID = "RjX-na-O6R"; */
 "RjX-na-O6R.text" = "0";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "Rnk-IX-3v8"; */
+"Rnk-IX-3v8.text" = "Label";
 
 /* Class = "IBUILabel"; text = "风扇"; ObjectID = "S6W-RL-lzc"; */
 "S6W-RL-lzc.text" = "风扇";
@@ -200,11 +212,17 @@
 /* Class = "IBUITabBarItem"; title = "更多"; ObjectID = "Tpf-P8-2f7"; */
 "Tpf-P8-2f7.title" = "更多";
 
+/* Class = "IBUILabel"; text = "W 关闭"; ObjectID = "U4z-G0-2od"; */
+"U4z-G0-2od.text" = "W 关闭";
+
 /* Class = "IBUILabel"; text = "您尚未登录"; ObjectID = "V2i-b4-JG9"; */
 "V2i-b4-JG9.text" = "您尚未登录";
 
 /* Class = "IBUILabel"; text = "阅读并同意"; ObjectID = "VA3-fp-BGU"; */
 "VA3-fp-BGU.text" = "阅读并同意";
+
+/* Class = "IBUILabel"; text = "功率高于"; ObjectID = "Vyo-TQ-7RM"; */
+"Vyo-TQ-7RM.text" = "功率高于";
 
 /* Class = "IBUILabel"; text = "开"; ObjectID = "XAF-Ez-sQi"; */
 "XAF-Ez-sQi.text" = "开";
@@ -236,6 +254,9 @@
 /* Class = "IBUILabel"; text = "微波炉"; ObjectID = "a3r-sY-NVK"; */
 "a3r-sY-NVK.text" = "微波炉";
 
+/* Class = "IBUILabel"; text = "功率高于"; ObjectID = "aDZ-Y9-Q13"; */
+"aDZ-Y9-Q13.text" = "功率高于";
+
 /* Class = "IBUILabel"; text = "0"; ObjectID = "aXt-UZ-i7m"; */
 "aXt-UZ-i7m.text" = "0";
 
@@ -253,6 +274,12 @@
 
 /* Class = "IBUIButton"; normalTitle = "登  录"; ObjectID = "e14-PH-eKo"; */
 "e14-PH-eKo.normalTitle" = "登  录";
+
+/* Class = "IBUILabel"; text = "W 关闭"; ObjectID = "eIu-aH-Phe"; */
+"eIu-aH-Phe.text" = "W 关闭";
+
+/* Class = "IBUILabel"; text = "W 提醒"; ObjectID = "ffZ-Cl-mbe"; */
+"ffZ-Cl-mbe.text" = "W 提醒";
 
 /* Class = "IBUILabel"; text = "名称"; ObjectID = "fhC-Kb-pNF"; */
 "fhC-Kb-pNF.text" = "名称";
@@ -293,11 +320,14 @@
 /* Class = "IBUIButton"; normalTitle = "延时"; ObjectID = "mzk-Ah-mge"; */
 "mzk-Ah-mge.normalTitle" = "延时";
 
-/* Class = "IBUILabel"; text = "邮箱"; ObjectID = "o8i-sh-lzF"; */
-"o8i-sh-lzF.text" = "邮箱";
+/* Class = "IBUILabel"; text = "用户名"; ObjectID = "o8i-sh-lzF"; */
+"o8i-sh-lzF.text" = "用户名";
 
 /* Class = "IBUILabel"; text = "Label"; ObjectID = "phl-th-Yxe"; */
 "phl-th-Yxe.text" = "Label";
+
+/* Class = "IBUIBarButtonItem"; title = "帮助"; ObjectID = "q4b-fH-fyQ"; */
+"q4b-fH-fyQ.title" = "帮助";
 
 /* Class = "IBUILabel"; text = "书房"; ObjectID = "qHN-bq-q3e"; */
 "qHN-bq-q3e.text" = "书房";
@@ -334,6 +364,9 @@
 
 /* Class = "IBUILabel"; text = "密码"; ObjectID = "uaT-S8-9q1"; */
 "uaT-S8-9q1.text" = "密码";
+
+/* Class = "IBUILabel"; text = "功率低于"; ObjectID = "vyo-Hs-rhK"; */
+"vyo-Hs-rhK.text" = "功率低于";
 
 /* Class = "IBUITextField"; placeholder = "请输入场景名称"; ObjectID = "wlC-5q-G3p"; */
 "wlC-5q-G3p.placeholder" = "请输入场景名称";

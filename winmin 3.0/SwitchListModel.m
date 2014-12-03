@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString *mac; //扫描指定设备时使用
 
 @property (strong, nonatomic) UdpRequest *request;
+@property (strong, nonatomic) UdpRequest *request2; //用于闪烁
 @end
 
 @implementation SwitchListModel
@@ -28,6 +29,7 @@
 
 - (void)dealloc {
   self.request.delegate = nil;
+  self.request2.delegate = nil;
 }
 
 - (void)startScanState {
@@ -55,6 +57,20 @@
         self.timer = nil;
       }
   });
+}
+
+- (void)pauseScanState {
+  if (![self.timer isValid]) {
+    return;
+  }
+  [self.timer setFireDate:[NSDate distantFuture]];
+}
+
+- (void)resumeScanState {
+  if (![self.timer isValid]) {
+    return;
+  }
+  [self.timer setFireDate:[NSDate date]];
 }
 
 - (void)refreshSwitchList {
@@ -103,7 +119,14 @@
   });
 }
 
+- (void)scanSwitchState:(SDZGSwitch *)aSwitch {
+}
+
 - (void)blinkSwitch:(SDZGSwitch *)aSwitch {
+  if (!self.request2) {
+    self.request2 = [UdpRequest manager];
+    self.request2.delegate = self;
+  }
   [self.request sendMsg39Or3B:aSwitch on:YES sendMode:ActiveMode];
 }
 

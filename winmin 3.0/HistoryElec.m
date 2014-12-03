@@ -189,14 +189,12 @@ static const int oneDayInterval = 3600 * 24;
           return [obj1 intValue] - [obj2 intValue];
       }];
   for (NSString *dateInterval in timeArray) {
-    //    NSDate *date =
-    //        [NSDate dateWithTimeIntervalSince1970:[dateInterval intValue]];
-    //    formatterDateStr = [self.dateFormatter stringFromDate:date];
     value = [[needDict objectForKey:dateInterval] intValue];
-    //    [times addObject:formatterDateStr];
     [times addObject:dateInterval];
     [values addObject:@(value)];
   }
+  [values replaceObjectAtIndex:values.count - 1
+                    withObject:[values objectAtIndex:values.count - 2]];
   data.times = times;
   data.values = values;
   return data;

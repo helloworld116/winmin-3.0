@@ -12,7 +12,8 @@
 #import "SwitchListModel.h"
 
 @interface SwitchListViewController () <
-    UIActionSheetDelegate, UIAlertViewDelegate, EGORefreshTableHeaderDelegate>
+    UIActionSheetDelegate, UIAlertViewDelegate, EGORefreshTableHeaderDelegate,
+    MBProgressHUDDelegate>
 @property (nonatomic, strong) SwitchListModel *model;
 @property (nonatomic, strong) SDZGSwitch *operationSwitch; //当前操作的switch
 @property (nonatomic, strong) NSArray *switchs;
@@ -26,6 +27,8 @@
 @property (nonatomic, strong) NSString *mac; //刚配置好的设备mac
 @property (nonatomic, assign)
     BOOL isFirstLoad; //标识是否第一次加载，第一次时不修改最后更新时间
+@property (nonatomic, strong) MBProgressHUD *HUD;
+@property (nonatomic, assign) BOOL hasBlinkMenu;
 @end
 
 @implementation SwitchListViewController
@@ -191,6 +194,15 @@
   }
 }
 
+- (void)didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
+  // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - begin iOS8下cell分割线处理
 #ifdef __IPHONE_8_0
 - (void)viewDidLayoutSubviews {
@@ -217,15 +229,6 @@
 #endif
 #pragma mark - end iOS8下cell分割线处理
 
-- (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
-}
-
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)startUpdateList {
   [self stopUpdateList];
   self.timerUpdateList =
@@ -245,6 +248,20 @@
     [self.timerUpdateList invalidate];
     self.timerUpdateList = nil;
   }
+}
+
+- (void)pauseUpdateList {
+  if (![self.timerUpdateList isValid]) {
+    return;
+  }
+  [self.timerUpdateList setFireDate:[NSDate distantFuture]];
+}
+
+- (void)resumeUpdateList {
+  if (![self.timerUpdateList isValid]) {
+    return;
+  }
+  [self.timerUpdateList setFireDate:[NSDate date]];
 }
 
 #pragma mark - 通知
@@ -340,6 +357,28 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  //  // Should be initialized with the windows frame so the HUD disables all
+  //  user
+  //  // input by covering the entire screen
+  //  self.HUD = [[MBProgressHUD alloc]
+  //  initWithWindow:kSharedAppliction.window];
+  //  // Add HUD to screen
+  //  [self.view.window addSubview:self.HUD];
+  //  // Register for HUD callbacks so we can remove it from the window at the
+  //  right
+  //  // time
+  //  self.HUD.delegate = self;
+  //  self.HUD.labelText = NSLocalizedString(@"Loading Workbench", nil);
+  //  self.HUD.detailsLabelText = NSLocalizedString(@"please wait", nil);
+  //  [self.HUD showAnimated:YES
+  //      whileExecutingBlock:^{
+  //          [self.model pauseScanState];
+  //          for (int i = 0; i < 50000; i++) {
+  //            DDLogDebug(@"inblock");
+  //          }
+  //      }
+  //      onQueue:GLOBAL_QUEUE
+  //      completionBlock:^{}];
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
   if (aSwitch.networkStatus == SWITCH_OFFLINE) {
@@ -363,34 +402,32 @@
 - (void)handlerLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
   CGPoint p = [gestureRecognizer locationInView:self.tableView];
   NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
-  //  SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
+  SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
+  self.operationSwitch = aSwitch;
   if (indexPath && gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    [self pauseUpdateList];
     self.longPressIndexPath = indexPath;
-    //    if (aSwitch.lockStatus == LockStatusOn) {
-    //      UIActionSheet *actionSheet = [[UIActionSheet alloc]
-    //                   initWithTitle:@"请选择操作"
-    //                        delegate:self
-    //               cancelButtonTitle:@"取消"
-    //          destructiveButtonTitle:nil
-    //               otherButtonTitles:@"解锁", @"闪烁", @"删除", nil];
-    //      [actionSheet showInView:self.view];
-    //    } else {
-    //      UIActionSheet *actionSheet = [[UIActionSheet alloc]
-    //                   initWithTitle:@"请选择操作"
-    //                        delegate:self
-    //               cancelButtonTitle:@"取消"
-    //          destructiveButtonTitle:nil
-    //               otherButtonTitles:@"加锁", @"闪烁", @"删除", nil];
-    //      [actionSheet showInView:self.view];
-    //    }
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                 initWithTitle:NSLocalizedString(
-                                   @"Which operation do you want?", nil)
-                      delegate:self
-             cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-        destructiveButtonTitle:nil
-             otherButtonTitles:NSLocalizedString(@"Flash", nil),
-                               NSLocalizedString(@"Delete", nil), nil];
+    UIActionSheet *actionSheet;
+    if (aSwitch.networkStatus == SWITCH_OFFLINE) {
+      self.hasBlinkMenu = NO;
+      actionSheet = [[UIActionSheet alloc]
+                   initWithTitle:NSLocalizedString(
+                                     @"Which operation do you want?", nil)
+                        delegate:self
+               cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+          destructiveButtonTitle:nil
+               otherButtonTitles:NSLocalizedString(@"Delete", nil), nil];
+    } else {
+      self.hasBlinkMenu = YES;
+      actionSheet = [[UIActionSheet alloc]
+                   initWithTitle:NSLocalizedString(
+                                     @"Which operation do you want?", nil)
+                        delegate:self
+               cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+          destructiveButtonTitle:nil
+               otherButtonTitles:NSLocalizedString(@"Flash", nil),
+                                 NSLocalizedString(@"Delete", nil), nil];
+    }
     //    [actionSheet showInView:self.view];
     [actionSheet showFromTabBar:self.tabBarController.tabBar];
   }
@@ -398,23 +435,33 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet
     clickedButtonAtIndex:(NSInteger)buttonIndex {
-  self.operationSwitch =
-      [self.switchs objectAtIndex:self.longPressIndexPath.row];
+  [self resumeUpdateList];
   switch (buttonIndex) {
     case 0:
       //闪烁
-      [self.model blinkSwitch:self.operationSwitch];
+      if (self.hasBlinkMenu) {
+        [self.model blinkSwitch:self.operationSwitch];
+      } else {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                initWithTitle:NSLocalizedString(@"Tips", nil)
+                      message:NSLocalizedString(@"TipsInfo", nil)
+                     delegate:self
+            cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+            otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
+        [alertView show];
+      }
       break;
-    case 1: {
-      UIAlertView *alertView = [[UIAlertView alloc]
-              initWithTitle:NSLocalizedString(@"Tips", nil)
-                    message:NSLocalizedString(@"TipsInfo", nil)
-                   delegate:self
-          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-          otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
-      [alertView show];
-      break;
-    }
+    case 1:
+      if (self.hasBlinkMenu) {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                initWithTitle:NSLocalizedString(@"Tips", nil)
+                      message:NSLocalizedString(@"TipsInfo", nil)
+                     delegate:self
+            cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+            otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
+        [alertView show];
+        break;
+      }
     default:
       break;
   }
@@ -483,4 +530,11 @@
   return [NSDate date]; // should return date data source was last changed
 }
 
+#pragma mark - MBProgressHud
+- (void)hudWasHidden {
+  // Remove HUD from screen
+  [self.HUD removeFromSuperview];
+
+  // add here the code you may need
+}
 @end

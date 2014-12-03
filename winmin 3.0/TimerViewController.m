@@ -131,6 +131,15 @@
   [self setup];
 }
 
+- (void)didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
+  // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - begin iOS8下cell分割线处理
 #ifdef __IPHONE_8_0
 - (void)viewDidLayoutSubviews {
@@ -156,15 +165,6 @@
 }
 #endif
 #pragma mark - end iOS8下cell分割线处理
-
-- (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
-}
-
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 #pragma mark - Table view data source
 

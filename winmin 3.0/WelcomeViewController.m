@@ -7,16 +7,79 @@
 //
 
 #import "WelcomeViewController.h"
+#import <EAIntroView.h>
 
-@interface WelcomeViewController ()
-- (IBAction)enter:(id)sender;
+@interface WelcomeViewController () <EAIntroDelegate>
+@property (strong, nonatomic) IBOutlet EAIntroView *introView;
 @end
 
 @implementation WelcomeViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil
+               bundle:(NSBundle *)nibBundleOrNil {
+  self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+  if (self) {
+    // Custom initialization
+  }
+  return self;
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
+
+  self.introView.delegate = self;
+  NSString *page1Name, *page2Name, *page3Name, *page4Name;
+  if (is4Inch) {
+    page1Name = @"welcome1-5@2x";
+    page2Name = @"welcome2-5@2x";
+    page3Name = @"welcome3-5@2x";
+    page4Name = @"welcome4-5@2x";
+  } else {
+    page1Name = @"welcome1@2x";
+    page2Name = @"welcome2@2x";
+    page3Name = @"welcome3@2x";
+    page4Name = @"welcome4@2x";
+  }
+  EAIntroPage *page1 = [EAIntroPage page];
+  [page1
+      setBgImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle]
+                                                      pathForResource:page1Name
+                                                               ofType:@"png"]]];
+  EAIntroPage *page2 = [EAIntroPage page];
+  [page2
+      setBgImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle]
+                                                      pathForResource:page2Name
+                                                               ofType:@"png"]]];
+  EAIntroPage *page3 = [EAIntroPage page];
+  [page3
+      setBgImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle]
+                                                      pathForResource:page3Name
+                                                               ofType:@"png"]]];
+  EAIntroPage *page4 = [EAIntroPage page];
+  [page4
+      setBgImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle]
+                                                      pathForResource:page4Name
+                                                               ofType:@"png"]]];
+  UIButton *enterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+  [enterBtn setBackgroundImage:[UIImage imageNamed:@"mskq"]
+                      forState:UIControlStateNormal];
+  [enterBtn setFrame:CGRectMake(0, 0, 105, 37)];
+  [enterBtn setTitle:NSLocalizedString(@"Start to experience", nil)
+            forState:UIControlStateNormal];
+  [enterBtn addTarget:self
+                action:@selector(enterMainViewController:)
+      forControlEvents:UIControlEventTouchUpInside];
+  page4.titleIconPositionY = [[UIScreen mainScreen] bounds].size.height - 70;
+  page4.titleIconView = enterBtn;
+
+  NSArray *pages = @[ page1, page2, page3, page4 ];
+  [self.introView setPages:pages];
+  [self.introView setSwipeToExit:NO];
+  [self.introView setSkipButton:nil];
+  //  self.introView.pageControl.currentPageIndicatorTintColor = kThemeColor;
+  //  self.introView.pageControl.pageIndicatorTintColor = [UIColor whiteColor];
+  self.introView.pageControl = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,17 +87,12 @@
   // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little
-preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - UIStatusBarStyle
+- (UIStatusBarStyle)preferredStatusBarStyle {
+  return UIStatusBarStyleLightContent;
 }
-*/
-- (IBAction)enter:(id)sender {
+
+- (void)enterMainViewController:(id)sender {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   [userDefaults setObject:@YES forKey:kWelcomePageShowed];
   NSString *appVersion =
@@ -50,5 +108,9 @@ preparation before navigation
                        kSharedAppliction.window.rootViewController =
                            mainViewController;
                    }];
+}
+
+#pragma mark - EAIntroDelegate
+- (void)introDidFinish:(EAIntroView *)introView {
 }
 @end

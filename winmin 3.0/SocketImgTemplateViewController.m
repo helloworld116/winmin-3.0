@@ -10,9 +10,9 @@
 #define kRowHeight 80.f
 #define kMargin 80.f
 
-@interface SocketImgTemplateViewController ()<UINavigationControllerDelegate,
-                                              UIImagePickerControllerDelegate,
-                                              UIActionSheetDelegate>
+@interface SocketImgTemplateViewController () <UINavigationControllerDelegate,
+                                               UIImagePickerControllerDelegate,
+                                               UIActionSheetDelegate>
 @property (strong, nonatomic) IBOutlet UIView *backgroundView;
 - (IBAction)close:(id)sender;
 - (IBAction)touchImg:(id)sender;
@@ -97,12 +97,15 @@ preparation before navigation
 - (IBAction)touchImg:(id)sender {
   UIButton *btn = (UIButton *)sender;
   int imgId = btn.tag - 1000;
-  if (imgId != 11) {
+  if (imgId != 12) {
     NSString *imgName;
     if (imgId >= 10) {
       imgName = [NSString stringWithFormat:@"0%d_", imgId];
     } else {
       imgName = [NSString stringWithFormat:@"00%d_", imgId];
+    }
+    if ([imgName isEqualToString:@"011_"]) {
+      imgName = @"099";
     }
     if ([self saveImage:imgName]) {
       if (self.delegate &&

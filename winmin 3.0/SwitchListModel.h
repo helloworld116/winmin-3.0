@@ -21,6 +21,14 @@
  *  结束扫描设备状态
  */
 - (void)stopScanState;
+/**
+ *  暂停状态扫描
+ */
+- (void)pauseScanState;
+/**
+ *  恢复状态扫描
+ */
+- (void)resumeScanState;
 
 /**
  *  添加设备，扫描局域网内
