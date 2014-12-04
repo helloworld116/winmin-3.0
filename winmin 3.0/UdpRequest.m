@@ -183,7 +183,10 @@ static dispatch_queue_t delegateQueue;
 }
 
 #pragma mark -
-- (void)sendMsg05:(NSString *)ip port:(uint16_t)port mode:(SENDMODE)mode {
+- (void)sendMsg05:(NSString *)ip
+             port:(uint16_t)port
+         password:(unsigned char[6])password
+             mode:(SENDMODE)mode {
   //  dispatch_async(GLOBAL_QUEUE, ^{
   //      if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
   //             } else {
@@ -196,7 +199,7 @@ static dispatch_queue_t delegateQueue;
       } else if (mode == PassiveMode) {
         self.msgSendCount++;
       }
-      self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg05]];
+      self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg05:password]];
       self.host = ip;
       self.port = port;
       self.tag = P2D_SERVER_INFO_05;
@@ -250,7 +253,9 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg0D:aSwitch.mac]];
+  self.msg =
+      [NSData dataWithData:[CC3xMessageUtil getP2SMsg0D:aSwitch.mac
+                                               password:aSwitch.password]];
   self.aSwitch = aSwitch;
   self.host = SERVER_IP;
   self.port = SERVER_PORT;
@@ -258,14 +263,16 @@ static dispatch_queue_t delegateQueue;
   [self sendDataToHost];
 }
 
-- (void)sendMsg0D:(NSString *)mac sendMode:(SENDMODE)mode tag:(long)tag {
+- (void)sendMsg0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode tag:(long)tag {
   if (kSharedAppliction.networkStatus == NotReachable) {
     if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
       [self.delegate errorMsg:kNotReachable];
     }
   } else {
-    self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg0D:mac]];
-    self.mac = mac;
+    self.msg =
+        [NSData dataWithData:[CC3xMessageUtil getP2SMsg0D:aSwitch.mac
+                                                 password:aSwitch.password]];
+    self.mac = aSwitch.mac;
     self.host = SERVER_IP;
     self.port = SERVER_PORT;
     self.tag = tag;
@@ -284,7 +291,8 @@ static dispatch_queue_t delegateQueue;
   SDZGSocket *socket = [aSwitch.sockets objectAtIndex:socketGroupId - 1];
   self.msg =
       [NSData dataWithData:[CC3xMessageUtil getP2dMsg11:!socket.socketStatus
-                                          socketGroupId:socketGroupId]];
+                                          socketGroupId:socketGroupId
+                                               password:aSwitch.password]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.host = aSwitch.ip;
@@ -305,7 +313,8 @@ static dispatch_queue_t delegateQueue;
   self.msg =
       [NSData dataWithData:[CC3xMessageUtil getP2sMsg13:aSwitch.mac
                                                 aSwitch:!socket.socketStatus
-                                          socketGroupId:socketGroupId]];
+                                          socketGroupId:socketGroupId
+                                               password:aSwitch.password]];
   self.aSwitch = aSwitch;
   self.socketGroupId = socketGroupId;
   self.host = SERVER_IP;
@@ -1251,7 +1260,6 @@ static dispatch_queue_t delegateQueue;
 - (void)checkResponseDataAfterSettingIntervalWithTag:(long)tag {
   float delay;
   switch (tag) {
-    case P2D_SERVER_INFO_05:
     case P2D_SCAN_DEV_09:
     case P2D_CONTROL_REQ_11:
     case P2D_GET_TIMER_REQ_17:
@@ -1287,8 +1295,9 @@ static dispatch_queue_t delegateQueue;
     case P2S_GET_POWERACTION_REQ_73:
       delay = kCheckPublicResponseInterval;
       break;
-    //定时调用情况下丢包不处理
+    //定时调用等情况下丢包不处理
     case 0:
+    case P2D_SERVER_INFO_05:
     case P2D_STATE_INQUIRY_0B:
     case P2S_STATE_INQUIRY_0D:
     case P2D_GET_POWER_INFO_REQ_33:
@@ -1321,13 +1330,6 @@ static dispatch_queue_t delegateQueue;
       if (kSharedAppliction.networkStatus != NotReachable) {
         switch (tag) {
           case P2D_SERVER_INFO_05:
-            if (!self.responseData) {
-              if (kSharedAppliction.networkStatus == ReachableViaWiFi &&
-                  self.msgSendCount < kTryCount) {
-                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-                [self sendMsg05:self.host port:self.port mode:PassiveMode];
-              }
-            }
             break;
           case P2D_SCAN_DEV_09:
             if (!self.responseData) {

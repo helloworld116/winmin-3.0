@@ -14,6 +14,13 @@
 
 @property (strong, nonatomic) UdpRequest *request;
 @property (strong, nonatomic) UdpRequest *request2; //用于闪烁
+
+//检查某个设备网络状态时使用
+@property (strong, nonatomic) ScaneOneSwitchCompleteBlock completeBlock;
+@property (strong, nonatomic) NSTimer *timerCheckOneSwitch;
+@property (assign, nonatomic) BOOL isScanOneSwitch;
+@property (assign, nonatomic) BOOL isRemote;
+@property (strong, nonatomic) SDZGSwitch *currentSwitch;
 @end
 
 @implementation SwitchListModel
@@ -113,13 +120,40 @@
         if (aSwitch.networkStatus == SWITCH_REMOTE ||
             aSwitch.networkStatus == SWITCH_OFFLINE) {
           DDLogDebug(@"switch mac is %@", aSwitch.mac);
-          [self.request sendMsg0D:aSwitch.mac sendMode:ActiveMode tag:0];
+          [self.request sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
         }
       }
   });
 }
 
-- (void)scanSwitchState:(SDZGSwitch *)aSwitch {
+- (void)scanSwitchState:(SDZGSwitch *)aSwitch
+               complete:(ScaneOneSwitchCompleteBlock)complete {
+  [self pauseScanState];
+  self.timerCheckOneSwitch =
+      [NSTimer scheduledTimerWithTimeInterval:3.f
+                                       target:self
+                                     selector:@selector(checkSwitchStatus)
+                                     userInfo:nil
+                                      repeats:NO];
+  self.currentSwitch = aSwitch;
+  self.completeBlock = complete;
+  self.isScanOneSwitch = YES;
+  self.isRemote = NO;
+  if (aSwitch.networkStatus == SWITCH_REMOTE ||
+      aSwitch.networkStatus == SWITCH_OFFLINE) {
+    [self.request sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
+  } else {
+    [self.request sendMsg0B:aSwitch sendMode:ActiveMode];
+    [NSThread sleepForTimeInterval:0.1f];
+    [self.request sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
+  }
+}
+
+- (void)stopScanOneSwitch {
+  if (self.timerCheckOneSwitch) {
+    [self.timerCheckOneSwitch invalidate];
+    self.timerCheckOneSwitch = nil;
+  }
 }
 
 - (void)blinkSwitch:(SDZGSwitch *)aSwitch {
@@ -153,6 +187,17 @@
                                                  forKey:jPushTagArrayKey];
                                   }
                               }];
+  }
+}
+
+#pragma mark -
+- (void)checkSwitchStatus {
+  if (self.isRemote) {
+    self.completeBlock(SWITCH_REMOTE);
+  } else {
+    self.isScanOneSwitch = NO;
+    self.completeBlock(-1);
+    [self resumeScanState];
   }
 }
 
@@ -209,19 +254,47 @@
 }
 
 - (void)responseMsgCOrE:(CC3xMessage *)message {
-  SDZGSwitch *aSwitchInTmp =
-      [[SwitchDataCeneter sharedInstance] getSwitchFromTmpByMac:message.mac];
-
-  SDZGSwitch *aSwitch = [[[SwitchDataCeneter sharedInstance] switchsDict]
-      objectForKey:message.mac];
-  if ((aSwitchInTmp || aSwitch) && message.version == kHardwareVersion &&
-      message.state == kUdpResponseSuccessCode) {
-    [SDZGSwitch parseMessageCOrEToSwitch:message];
-    if (aSwitchInTmp) {
-      [[SwitchDataCeneter sharedInstance] removeSwitchFromTmp:aSwitchInTmp];
-      [[NSNotificationCenter defaultCenter] postNotificationName:kSwitchUpdate
-                                                          object:self
-                                                        userInfo:nil];
+  if (self.isScanOneSwitch) {
+    if (message.state == kUdpResponseSuccessCode) {
+      if (message.msgId == 0xc) {
+        //设备内网
+        self.completeBlock(SWITCH_LOCAL);
+        [self stopScanOneSwitch];
+      } else if (message.msgId == 0xe) {
+        self.isRemote = YES;
+        if (self.currentSwitch.networkStatus == SWITCH_REMOTE ||
+            self.currentSwitch.networkStatus == SWITCH_OFFLINE) {
+          self.completeBlock(SWITCH_REMOTE);
+          [self stopScanOneSwitch];
+        }
+      }
+    } else {
+      //设备不在线
+      if (message.state == kUdpResponsePasswordErrorCode) {
+        //密码错误，设备被重新配置
+        self.completeBlock(kUdpResponsePasswordErrorCode);
+      } else {
+        //设备离线
+        self.completeBlock(-1);
+      }
+      [self stopScanOneSwitch];
+      [self resumeScanState];
+    }
+    self.isScanOneSwitch = NO;
+  } else {
+    SDZGSwitch *aSwitchInTmp =
+        [[SwitchDataCeneter sharedInstance] getSwitchFromTmpByMac:message.mac];
+    SDZGSwitch *aSwitch = [[[SwitchDataCeneter sharedInstance] switchsDict]
+        objectForKey:message.mac];
+    if ((aSwitchInTmp || aSwitch) && message.version == kHardwareVersion &&
+        message.state == kUdpResponseSuccessCode) {
+      [SDZGSwitch parseMessageCOrEToSwitch:message];
+      if (aSwitchInTmp) {
+        [[SwitchDataCeneter sharedInstance] removeSwitchFromTmp:aSwitchInTmp];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSwitchUpdate
+                                                            object:self
+                                                          userInfo:nil];
+      }
     }
   }
 }

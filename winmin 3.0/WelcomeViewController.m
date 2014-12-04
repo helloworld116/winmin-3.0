@@ -62,7 +62,7 @@
                                                       pathForResource:page4Name
                                                                ofType:@"png"]]];
   UIButton *enterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-  [enterBtn setBackgroundImage:[UIImage imageNamed:@"mskq"]
+  [enterBtn setBackgroundImage:[UIImage imageNamed:@"enter"]
                       forState:UIControlStateNormal];
   [enterBtn setFrame:CGRectMake(0, 0, 105, 37)];
   [enterBtn setTitle:NSLocalizedString(@"Start to experience", nil)

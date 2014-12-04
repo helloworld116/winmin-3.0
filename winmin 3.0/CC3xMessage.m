@@ -61,6 +61,7 @@ typedef struct {
   unsigned char deviceName[32];
   unsigned char count;
   socketInfo socketName[2];
+  unsigned char password[6];
   unsigned short crc;
 } p2dMsg05;
 
@@ -87,6 +88,7 @@ typedef struct {
   char deviceName[32];
   unsigned char FWVersion;
   char isLocked;
+  unsigned char password[6];
   unsigned short crc;
 } d2pMsg0A;
 
@@ -107,6 +109,7 @@ typedef struct {
   unsigned char deviceLockState;
   unsigned char FWVersion;
   unsigned char onOffState;
+  unsigned char password[6];
   unsigned short crc;
 } d2pMsg0C;
 
@@ -114,10 +117,11 @@ typedef struct {
 typedef struct {
   msgHeader header;
   unsigned char mac[6];
+  unsigned char password[6];
   unsigned short crc;
 } p2sMsg0D;
 
-// D2P_STATE_RESP 0x0E
+// D2S_STATE_RESP 0x0E
 typedef struct {
   msgHeader header;
   char state;
@@ -135,7 +139,7 @@ typedef struct {
 typedef struct {
   msgHeader header;
   unsigned char socketGroupId;
-  char password[6];
+  unsigned char password[6];
   unsigned char on;
   unsigned short crc;
 } p2dMsg11;
@@ -154,7 +158,7 @@ typedef struct {
   msgHeader header;
   unsigned char mac[6];
   unsigned char socketGroupId;
-  char password[6];
+  unsigned char password[6];
   unsigned char on;
   unsigned short crc;
 } p2sMsg13;
@@ -216,7 +220,7 @@ typedef struct {
 typedef struct {
   msgHeader header;
   unsigned char socketGroupId;
-  char password[6];
+  unsigned char password[6];
   unsigned int currentTime;
   unsigned char timerNumber;
   unsigned short crc;
@@ -236,7 +240,7 @@ typedef struct {
   msgHeader header;
   unsigned char mac[6];
   unsigned char socketGroupId;
-  char password[6];
+  unsigned char password[6];
   unsigned int currentTime;
   unsigned char timerNumber;
   unsigned short crc;
@@ -345,7 +349,7 @@ typedef struct {
 typedef struct {
   msgHeader header;
   unsigned char type; // 0代表插座名字，1-n表示插孔n的名字
-  char password[6];
+  unsigned char password[6];
   char name[32];
   unsigned short crc;
 } p2dMsg3F;
@@ -364,7 +368,7 @@ typedef struct {
   msgHeader header;
   unsigned char mac[6];
   unsigned char type; // 0代表插座名字，1-n表示插孔n的名字
-  char password[6];
+  unsigned char password[6];
   char name[32];
   unsigned short crc;
 } p2sMsg41;
@@ -381,7 +385,7 @@ typedef struct {
 // P2D_DEV_LOCK_REQ 0x47
 typedef struct {
   msgHeader header;
-  char password[6];
+  unsigned char password[6];
   char lock; // 0X1加锁；0X0解锁
   unsigned short crc;
 } p2dMsg47;
@@ -398,7 +402,7 @@ typedef struct {
 typedef struct {
   msgHeader header;
   unsigned char mac[6];
-  char password[6];
+  unsigned char password[6];
   char lock; // 0X1加锁；0X0解锁
   unsigned short crc;
 } p2sMsg49;
@@ -415,7 +419,7 @@ typedef struct {
 typedef struct {
   msgHeader header;
   unsigned char socketGroupId;
-  char password[6];
+  unsigned char password[6];
   unsigned int delay; // max= 1440分钟
   char on;            // 0x1表示开，0x0表示关
   unsigned short crc;
@@ -435,7 +439,7 @@ typedef struct {
   msgHeader header;
   unsigned char mac[6];
   unsigned char socketGroupId;
-  char password[6];
+  unsigned char password[6];
   unsigned int delay;
   char on; // 0x1表示开，0x0表示关
   unsigned short crc;
@@ -699,7 +703,7 @@ typedef struct {
 #pragma mark - method implementation 将信息转换为Data ，用于发送
 
 //	P2D_SERVER_INFO  0X05
-+ (NSData *)getP2dMsg05 {
++ (NSData *)getP2dMsg05:(unsigned char[6])password {
   p2dMsg05 msg;
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x5;
@@ -737,6 +741,7 @@ typedef struct {
   memcpy(&msg.socketName[1], socket2, sizeof(socketInfo));
   free(socket1);
   free(socket2);
+  memcpy(msg.password, password, sizeof(msg.password));
   msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
@@ -765,7 +770,7 @@ typedef struct {
 }
 
 // P2S_STATE_INQUIRY	0X0D
-+ (NSData *)getP2SMsg0D:(NSString *)mac {
++ (NSData *)getP2SMsg0D:(NSString *)mac password:(NSString *)password {
   p2sMsg0D msg;
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0xD;
@@ -773,15 +778,18 @@ typedef struct {
   msg.header.msgLength = htons(sizeof(msg));
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(msg.mac, macBytes, sizeof(msg.mac));
-
   free(macBytes);
-
+  Byte *passwordBytes = [CC3xMessageUtil mac2HexBytes:password];
+  memcpy(msg.password, passwordBytes, sizeof(msg.password));
+  free(passwordBytes);
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
 
 // P2D_CONTROL_REQ	0X11
-+ (NSData *)getP2dMsg11:(BOOL)on socketGroupId:(int)socketGroupId {
++ (NSData *)getP2dMsg11:(BOOL)on
+          socketGroupId:(int)socketGroupId
+               password:(NSString *)password {
   p2dMsg11 msg;
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x11;
@@ -789,6 +797,9 @@ typedef struct {
   msg.socketGroupId = socketGroupId;
   msg.on = on;
   msg.header.msgLength = htons(sizeof(msg));
+  Byte *passwordBytes = [CC3xMessageUtil mac2HexBytes:password];
+  memcpy(msg.password, passwordBytes, sizeof(msg.password));
+  free(passwordBytes);
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -796,7 +807,8 @@ typedef struct {
 // P2S_CONTROL_REQ	0X13
 + (NSData *)getP2sMsg13:(NSString *)mac
                 aSwitch:(BOOL)on
-          socketGroupId:(int)socketGroupId {
+          socketGroupId:(int)socketGroupId
+               password:(NSString *)password {
   p2sMsg13 msg;
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x13;
@@ -807,6 +819,9 @@ typedef struct {
   msg.on = on;
   msg.socketGroupId = socketGroupId;
   msg.header.msgLength = htons(sizeof(msg));
+  Byte *passwordBytes = [CC3xMessageUtil mac2HexBytes:password];
+  memcpy(msg.password, passwordBytes, sizeof(msg.password));
+  free(passwordBytes);
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -850,8 +865,9 @@ typedef struct {
   msg.header.msgId = 0x1D;
   msg.header.msgDir = 0xAD;
   msg.socketGroupId = socketGroupId;
-  NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
-  memcpy(&msg.password, [passwordData bytes], [password length]);
+  Byte *passwordBytes = [CC3xMessageUtil mac2HexBytes:password];
+  memcpy(msg.password, passwordBytes, sizeof(msg.password));
+  free(passwordBytes);
   msg.currentTime = htonl(currentTime);
   msg.timerNumber = timerList.count;
   NSData *data1 = [NSData dataWithBytes:&msg length:sizeof(msg) - 2];
@@ -892,8 +908,9 @@ typedef struct {
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
   msg.socketGroupId = socketGroupId;
-  NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
-  memcpy(&msg.password, [passwordData bytes], [password length]);
+  Byte *passwordBytes = [CC3xMessageUtil mac2HexBytes:password];
+  memcpy(msg.password, passwordBytes, sizeof(msg.password));
+  free(passwordBytes);
   msg.currentTime = htonl(currentTime);
   msg.timerNumber = timerList.count;
   NSData *data1 = [NSData dataWithBytes:&msg length:sizeof(msg) - 2];
@@ -1006,8 +1023,9 @@ typedef struct {
   NSData *nameData = [name dataUsingEncoding:NSUTF8StringEncoding];
   memcpy(&msg.name, [nameData bytes], [nameData length]);
   msg.type = type;
-  NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
-  memcpy(&msg.password, [passwordData bytes], [password length]);
+  Byte *passwordBytes = [CC3xMessageUtil mac2HexBytes:password];
+  memcpy(msg.password, passwordBytes, sizeof(msg.password));
+  free(passwordBytes);
   msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
@@ -1027,8 +1045,9 @@ typedef struct {
   free(macBytes);
   NSData *nameData = [name dataUsingEncoding:NSUTF8StringEncoding];
   memcpy(&msg.name, [nameData bytes], [nameData length]);
-  NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
-  memcpy(&msg.password, [passwordData bytes], [password length]);
+  Byte *passwordBytes = [CC3xMessageUtil mac2HexBytes:password];
+  memcpy(msg.password, passwordBytes, sizeof(msg.password));
+  free(passwordBytes);
   msg.type = type;
   msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
@@ -1042,8 +1061,9 @@ typedef struct {
   msg.header.msgId = 0x47;
   msg.header.msgDir = 0xAD;
   msg.lock = isLock;
-  NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
-  memcpy(&msg.password, [passwordData bytes], [password length]);
+  Byte *passwordBytes = [CC3xMessageUtil mac2HexBytes:password];
+  memcpy(msg.password, passwordBytes, sizeof(msg.password));
+  free(passwordBytes);
   msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
@@ -1061,8 +1081,9 @@ typedef struct {
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
   msg.lock = isLock;
-  NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
-  memcpy(&msg.password, [passwordData bytes], [password length]);
+  Byte *passwordBytes = [CC3xMessageUtil mac2HexBytes:password];
+  memcpy(msg.password, passwordBytes, sizeof(msg.password));
+  free(passwordBytes);
   msg.header.msgLength = htons(sizeof(msg));
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
@@ -1081,8 +1102,9 @@ typedef struct {
   msg.delay = htonl(delay * 60);
   msg.socketGroupId = socketGroupId;
   msg.on = on;
-  NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
-  memcpy(&msg.password, [passwordData bytes], [password length]);
+  Byte *passwordBytes = [CC3xMessageUtil mac2HexBytes:password];
+  memcpy(msg.password, passwordBytes, sizeof(msg.password));
+  free(passwordBytes);
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -1104,8 +1126,9 @@ typedef struct {
   msg.delay = htonl(delay * 60);
   msg.socketGroupId = socketGroupId;
   msg.on = on;
-  NSData *passwordData = [password dataUsingEncoding:NSASCIIStringEncoding];
-  memcpy(&msg.password, [passwordData bytes], [password length]);
+  Byte *passwordBytes = [CC3xMessageUtil mac2HexBytes:password];
+  memcpy(msg.password, passwordBytes, sizeof(msg.password));
+  free(passwordBytes);
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -1407,6 +1430,10 @@ typedef struct {
                                               encoding:NSUTF8StringEncoding];
   message.version = msg.FWVersion;
   message.lockStatus = msg.isLocked;
+  message.password = [NSString
+      stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X", msg.password[0],
+                       msg.password[1], msg.password[2], msg.password[3],
+                       msg.password[4], msg.password[5]];
   message.crc = msg.crc;
   return message;
 }
@@ -1434,6 +1461,10 @@ typedef struct {
   message.version = msg.FWVersion;
   message.lockStatus = msg.deviceLockState;
   message.onStatus = msg.onOffState;
+  message.password = [NSString
+      stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X", msg.password[0],
+                       msg.password[1], msg.password[2], msg.password[3],
+                       msg.password[4], msg.password[5]];
   message.crc = msg.crc;
   return message;
 }
@@ -1907,6 +1938,9 @@ typedef struct {
 @implementation CC3xMessage
 - (id)init {
   self = [super init];
+  if (self) {
+    self.state = -999;
+  }
   return self;
 }
 

@@ -69,7 +69,10 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
  *  @param address   发往的地址
  *  @param mode
  */
-- (void)sendMsg05:(NSString *)ip port:(uint16_t)port mode:(SENDMODE)mode;
+- (void)sendMsg05:(NSString *)ip
+             port:(uint16_t)port
+         password:(unsigned char[6])password
+             mode:(SENDMODE)mode;
 
 /**
  *  手机添加设备
@@ -101,7 +104,7 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
  *  @param udpSocket
  *  @param mode
  */
-- (void)sendMsg0D:(NSString *)mac sendMode:(SENDMODE)mode tag:(long)tag;
+- (void)sendMsg0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode tag:(long)tag;
 
 /**
  *  手机向查询指定设备的开关状态

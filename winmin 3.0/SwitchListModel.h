@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+//-1表示设备离线，其他表示设备状态
+typedef void (^ScaneOneSwitchCompleteBlock)(int);
 
 @interface SwitchListModel : NSObject
 /**
@@ -55,4 +57,12 @@
  *  @param mac
  */
 - (void)addSwitchWithMac:(NSString *)mac;
+
+/**
+ *  扫描一个设备当前状态信息
+ *
+ *  @param aSwitch
+ */
+- (void)scanSwitchState:(SDZGSwitch *)aSwitch
+               complete:(ScaneOneSwitchCompleteBlock)complete;
 @end

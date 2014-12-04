@@ -36,14 +36,11 @@
       [[NSUserDefaults standardUserDefaults] objectForKey:kCurrentVersion];
   BOOL showed = [[[NSUserDefaults standardUserDefaults]
       objectForKey:kWelcomePageShowed] boolValue];
-  //  if (!showed || ![appVersion isEqualToString:currentVersion]) {
-  //    UIViewController* vc = [[self.window.rootViewController storyboard]
-  //        instantiateViewControllerWithIdentifier:@"WelcomeViewController"];
-  //    self.window.rootViewController = vc;
-  //  }
-  UIViewController* vc = [[self.window.rootViewController storyboard]
-      instantiateViewControllerWithIdentifier:@"WelcomeViewController"];
-  self.window.rootViewController = vc;
+  if (!showed || ![appVersion isEqualToString:currentVersion]) {
+    UIViewController* vc = [[self.window.rootViewController storyboard]
+        instantiateViewControllerWithIdentifier:@"WelcomeViewController"];
+    self.window.rootViewController = vc;
+  }
   [self setLog];
   [self setData];
   [self setDefaultUserSettingValue];

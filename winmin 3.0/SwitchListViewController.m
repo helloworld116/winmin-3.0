@@ -261,7 +261,8 @@
   if (![self.timerUpdateList isValid]) {
     return;
   }
-  [self.timerUpdateList setFireDate:[NSDate date]];
+  [self.timerUpdateList
+      setFireDate:[NSDate dateWithTimeIntervalSinceNow:REFRESH_DEV_TIME]];
 }
 
 #pragma mark - 通知
@@ -357,45 +358,55 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  //  // Should be initialized with the windows frame so the HUD disables all
-  //  user
-  //  // input by covering the entire screen
-  //  self.HUD = [[MBProgressHUD alloc]
-  //  initWithWindow:kSharedAppliction.window];
-  //  // Add HUD to screen
-  //  [self.view.window addSubview:self.HUD];
-  //  // Register for HUD callbacks so we can remove it from the window at the
-  //  right
-  //  // time
-  //  self.HUD.delegate = self;
-  //  self.HUD.labelText = NSLocalizedString(@"Loading Workbench", nil);
-  //  self.HUD.detailsLabelText = NSLocalizedString(@"please wait", nil);
-  //  [self.HUD showAnimated:YES
-  //      whileExecutingBlock:^{
-  //          [self.model pauseScanState];
-  //          for (int i = 0; i < 50000; i++) {
-  //            DDLogDebug(@"inblock");
-  //          }
-  //      }
-  //      onQueue:GLOBAL_QUEUE
-  //      completionBlock:^{}];
-  [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  [self pauseUpdateList];
+  self.HUD = [[MBProgressHUD alloc] initWithWindow:kSharedAppliction.window];
+  [self.view.window addSubview:self.HUD];
+  self.HUD.delegate = self;
+  [self.HUD show:YES];
   SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
-  if (aSwitch.networkStatus == SWITCH_OFFLINE) {
-    [self.tableView
-        makeToast:NSLocalizedString(
-                      @"Device offline, Please check your network", nil)];
-    return;
-  }
-  if (aSwitch.networkStatus == SWITCH_NEW) {
-    aSwitch.networkStatus = SWITCH_LOCAL;
-    [[SwitchDataCeneter sharedInstance] updateSwitch:aSwitch];
-  }
-  SwitchDetailViewController *detailViewController = [self.storyboard
-      instantiateViewControllerWithIdentifier:@"SwitchDetailViewController"];
-  detailViewController.aSwitch = aSwitch;
-  [self.navigationController pushViewController:detailViewController
-                                       animated:YES];
+  [self.model scanSwitchState:aSwitch
+                     complete:^(int status) {
+                         [self switchStatusRecivied:aSwitch
+                                             status:status
+                                          indexPath:indexPath];
+                     }];
+}
+
+- (void)switchStatusRecivied:(SDZGSwitch *)aSwitch
+                      status:(int)status
+                   indexPath:(NSIndexPath *)indexPath {
+  dispatch_async(MAIN_QUEUE, ^{
+      [self.HUD hide:YES];
+      DDLogDebug(@"result is %d", status);
+      [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+      if (status == -1) {
+        [self.tableView
+            makeToast:NSLocalizedString(
+                          @"Device offline, Please check your network", nil)];
+        [self resumeUpdateList];
+      } else if (status == kUdpResponsePasswordErrorCode) {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                initWithTitle:nil
+                      message:@"认"
+                      @"证失败，请进入局域网重新刷新设备。"
+                     delegate:self
+            cancelButtonTitle:@"确定"
+            otherButtonTitles:nil, nil];
+        [alertView show];
+        [self resumeUpdateList];
+      } else {
+        if (aSwitch.networkStatus == SWITCH_NEW) {
+          aSwitch.networkStatus = SWITCH_LOCAL;
+        }
+        aSwitch.networkStatus = status;
+        SwitchDetailViewController *detailViewController =
+            [self.storyboard instantiateViewControllerWithIdentifier:
+                                 @"SwitchDetailViewController"];
+        detailViewController.aSwitch = aSwitch;
+        [self.navigationController pushViewController:detailViewController
+                                             animated:YES];
+      }
+  });
 }
 
 #pragma mark - 长按处理

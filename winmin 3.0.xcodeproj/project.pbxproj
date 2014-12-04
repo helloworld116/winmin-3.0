@@ -127,6 +127,10 @@
 		15B5B99F1A2808B4008C8F94 /* ScenePreExcDailogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15B5B99E1A2808B4008C8F94 /* ScenePreExcDailogViewController.xib */; };
 		15B5B9A21A280901008C8F94 /* ScenePreExcDailogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B5B9A11A280900008C8F94 /* ScenePreExcDailogViewController.m */; };
 		15B5B9A51A2821FB008C8F94 /* ConfHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B5B9A41A2821FB008C8F94 /* ConfHelpViewController.m */; };
+		15B649DE1A306B01005AF244 /* welcome4-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B649DA1A306B01005AF244 /* welcome4-5@2x.png */; };
+		15B649DF1A306B01005AF244 /* welcome3-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B649DB1A306B01005AF244 /* welcome3-5@2x.png */; };
+		15B649E01A306B01005AF244 /* welcome2-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B649DC1A306B01005AF244 /* welcome2-5@2x.png */; };
+		15B649E11A306B01005AF244 /* welcome1-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B649DD1A306B01005AF244 /* welcome1-5@2x.png */; };
 		15BA47A519FDEA49008ADB9D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 15BA47A719FDEA49008ADB9D /* Localizable.strings */; };
 		15BA47B219FE00CB008ADB9D /* DelaySettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15BA47B419FE00CB008ADB9D /* DelaySettingViewController.xib */; };
 		15BA47B919FE153E008ADB9D /* DatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15BA47BB19FE153E008ADB9D /* DatePickerViewController.xib */; };
@@ -361,6 +365,10 @@
 		15B5B9A11A280900008C8F94 /* ScenePreExcDailogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScenePreExcDailogViewController.m; sourceTree = "<group>"; };
 		15B5B9A31A2821FB008C8F94 /* ConfHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfHelpViewController.h; sourceTree = "<group>"; };
 		15B5B9A41A2821FB008C8F94 /* ConfHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfHelpViewController.m; sourceTree = "<group>"; };
+		15B649DA1A306B01005AF244 /* welcome4-5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome4-5@2x.png"; sourceTree = "<group>"; };
+		15B649DB1A306B01005AF244 /* welcome3-5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3-5@2x.png"; sourceTree = "<group>"; };
+		15B649DC1A306B01005AF244 /* welcome2-5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2-5@2x.png"; sourceTree = "<group>"; };
+		15B649DD1A306B01005AF244 /* welcome1-5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1-5@2x.png"; sourceTree = "<group>"; };
 		15BA47A819FDEA54008ADB9D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		15BA47A919FDEA55008ADB9D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		15BA47B319FE00CB008ADB9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DelaySettingViewController.xib; sourceTree = "<group>"; };
@@ -977,6 +985,10 @@
 		15EBEE4419F65B03006DF044 /* 图片 */ = {
 			isa = PBXGroup;
 			children = (
+				15B649DA1A306B01005AF244 /* welcome4-5@2x.png */,
+				15B649DB1A306B01005AF244 /* welcome3-5@2x.png */,
+				15B649DC1A306B01005AF244 /* welcome2-5@2x.png */,
+				15B649DD1A306B01005AF244 /* welcome1-5@2x.png */,
 				15EA3F151A2F0A6F00D14A47 /* welcome1@2x.png */,
 				15EA3F161A2F0A6F00D14A47 /* welcome2@2x.png */,
 				15EA3F171A2F0A6F00D14A47 /* welcome3@2x.png */,
@@ -1124,6 +1136,7 @@
 				15B3B92C19F511760058D91F /* ConfigLoadingViewController.xib in Resources */,
 				15BA47B219FE00CB008ADB9D /* DelaySettingViewController.xib in Resources */,
 				158D989619C6F39C0068AFC5 /* Images.xcassets in Resources */,
+				15B649E01A306B01005AF244 /* welcome2-5@2x.png in Resources */,
 				151B4AAA1A0226DF00C77467 /* winmin 3.0-Info.plist in Resources */,
 				15EA3F1C1A2F0A6F00D14A47 /* welcome4@2x.png in Resources */,
 				1551F6F319F90AF500A24447 /* faq.plist in Resources */,
@@ -1138,11 +1151,14 @@
 				150FC6E519FA419B005134B7 /* protocol.htm in Resources */,
 				158D988E19C6F39C0068AFC5 /* Main.storyboard in Resources */,
 				1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */,
+				15B649DE1A306B01005AF244 /* welcome4-5@2x.png in Resources */,
 				158D98F419C7C9660068AFC5 /* ShareSDKFlatShareViewUI.bundle in Resources */,
 				15BA47A519FDEA49008ADB9D /* Localizable.strings in Resources */,
 				15EA3F1A1A2F0A6F00D14A47 /* welcome2@2x.png in Resources */,
 				150955A21A1C6D4800822B82 /* PushConfig.plist in Resources */,
 				158D98ED19C7C9660068AFC5 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				15B649DF1A306B01005AF244 /* welcome3-5@2x.png in Resources */,
+				15B649E11A306B01005AF244 /* welcome1-5@2x.png in Resources */,
 				158D98E919C7C9660068AFC5 /* Resource.bundle in Resources */,
 				1560132519CA79D700BF7E12 /* image.plist in Resources */,
 				158D98EF19C7C9660068AFC5 /* WeiboSDK.bundle in Resources */,

@@ -9,6 +9,7 @@
 #import "ConfigLoadingViewController.h"
 #import <DDProgressView.h>
 
+static unsigned char password[6];
 @interface ConfigLoadingViewController () <UdpRequestDelegate>
 @property (strong, nonatomic) IBOutlet UIView *loadingView;
 @property (strong, nonatomic) IBOutlet UIView *successView;
@@ -61,6 +62,10 @@
   [self setup];
   self.request = [UdpRequest managerConfig];
   self.request.delegate = self;
+  for (int i = 0; i < 6; i++) {
+    unsigned char random = (arc4random() % 255);
+    password[i] = random;
+  }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -182,8 +187,11 @@
   switch (message.msgId) {
     case 0x2:
       DDLogDebug(@"mac is %@ ip is %@ and port is %d", message.mac, message.ip,
-               message.port);
-      [self.request sendMsg05:message.ip port:message.port mode:ActiveMode];
+                 message.port);
+      [self.request sendMsg05:message.ip
+                         port:message.port
+                     password:password
+                         mode:ActiveMode];
       break;
     case 0x6:
       if (message.state == 0) {

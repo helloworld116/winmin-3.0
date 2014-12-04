@@ -41,6 +41,7 @@
     DDLogDebug(@"device name is %@", message.deviceName);
     aSwitch.version = message.version;
     aSwitch.lockStatus = message.lockStatus;
+    aSwitch.password = message.password;
     aSwitch.lastUpdateInterval = current;
   } else {
     needToDBImmediately = NO;
@@ -80,6 +81,7 @@
       aSwitch.name = message.deviceName;
       aSwitch.version = message.version;
       aSwitch.lockStatus = message.lockStatus;
+      aSwitch.password = message.password;
     } else {
       return nil;
     }
