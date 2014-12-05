@@ -70,6 +70,7 @@
 "Power Set Message Error"="功率范围为0~2500";
 "Name can't empty"="名称不能为空";
 "Save Success"="保存成功";
+"Auth Error"="设备已被重新配置，请进入设备所在局域网内刷新设备";
 
 /**
  *  控制列表设备状态图片

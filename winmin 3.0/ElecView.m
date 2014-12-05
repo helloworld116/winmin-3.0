@@ -28,6 +28,13 @@
 @property (nonatomic, strong) UIView *viewSixMonth;
 @property (nonatomic, strong) UIView *viewOneYear;
 
+@property (nonatomic, assign) BOOL oneDayDataRecived;
+@property (nonatomic, assign) BOOL oneWeekDataRecived;
+@property (nonatomic, assign) BOOL oneMonthDataRecived;
+@property (nonatomic, assign) BOOL threeMonthDataRecived;
+@property (nonatomic, assign) BOOL sixMonthDataRecived;
+@property (nonatomic, assign) BOOL oneYearDataRecived;
+
 @property (nonatomic, strong) UIButton *btnLastSelected;
 @property (nonatomic, strong) UIView *viewShowing; //当前展示的view
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
@@ -75,8 +82,8 @@
     self.viewShowing = self.realTimeView;
   } else if (btn == self.btnOneDay) {
     dateType = OneDay;
+    shouldGetData = self.oneDayDataRecived;
     if (!self.viewOneDay) {
-      shouldGetData = YES;
       self.viewOneDay =
           [[UIView alloc] initWithFrame:self.containerView.bounds];
       [self.containerView addSubview:self.viewOneDay];
@@ -84,8 +91,8 @@
     self.viewShowing = self.viewOneDay;
   } else if (btn == self.btnOneWeek) {
     dateType = OneWeek;
+    shouldGetData = self.oneWeekDataRecived;
     if (!self.viewOneWeek) {
-      shouldGetData = YES;
       self.viewOneWeek =
           [[UIView alloc] initWithFrame:self.containerView.bounds];
       [self.containerView addSubview:self.viewOneWeek];
@@ -93,8 +100,8 @@
     self.viewShowing = self.viewOneWeek;
   } else if (btn == self.btnOneMonth) {
     dateType = OneMonth;
+    shouldGetData = self.oneMonthDataRecived;
     if (!self.viewOneMonth) {
-      shouldGetData = YES;
       self.viewOneMonth =
           [[UIView alloc] initWithFrame:self.containerView.bounds];
       [self.containerView addSubview:self.viewOneMonth];
@@ -102,8 +109,8 @@
     self.viewShowing = self.viewOneMonth;
   } else if (btn == self.btnThreeMonth) {
     dateType = ThreeMonth;
+    shouldGetData = self.threeMonthDataRecived;
     if (!self.viewThreeMonth) {
-      shouldGetData = YES;
       self.viewThreeMonth =
           [[UIView alloc] initWithFrame:self.containerView.bounds];
       [self.containerView addSubview:self.viewThreeMonth];
@@ -111,8 +118,8 @@
     self.viewShowing = self.viewThreeMonth;
   } else if (btn == self.btnSixMonth) {
     dateType = SixMonth;
+    shouldGetData = self.sixMonthDataRecived;
     if (!self.viewSixMonth) {
-      shouldGetData = YES;
       self.viewSixMonth =
           [[UIView alloc] initWithFrame:self.containerView.bounds];
       [self.containerView addSubview:self.viewSixMonth];
@@ -120,8 +127,8 @@
     self.viewShowing = self.viewSixMonth;
   } else if (btn == self.btnOneYear) {
     dateType = OneYear;
+    shouldGetData = self.oneYearDataRecived;
     if (!self.viewOneYear) {
-      shouldGetData = YES;
       self.viewOneYear =
           [[UIView alloc] initWithFrame:self.containerView.bounds];
       [self.containerView addSubview:self.viewOneYear];
@@ -132,7 +139,7 @@
   if (self.delegate &&
       [self.delegate
           respondsToSelector:@selector(selectedDatetype:needGetData:)]) {
-    [self.delegate selectedDatetype:dateType needGetData:shouldGetData];
+    [self.delegate selectedDatetype:dateType needGetData:!shouldGetData];
   }
   //绘制
   if (btn == self.btnRealTime) {
@@ -156,21 +163,27 @@
   switch (dateType) {
     case OneDay:
       xDiffMin = 30;
+      self.oneDayDataRecived = YES;
       break;
     case OneWeek:
       xDiffMin = 30 * 6;
+      self.oneWeekDataRecived = YES;
       break;
     case OneMonth:
       xDiffMin = 30 * 24;
+      self.oneMonthDataRecived = YES;
       break;
     case ThreeMonth:
       xDiffMin = 30 * 96;
+      self.threeMonthDataRecived = YES;
       break;
     case SixMonth:
       xDiffMin = 30 * 144;
+      self.sixMonthDataRecived = YES;
       break;
     case OneYear:
       xDiffMin = 30 * 288;
+      self.oneYearDataRecived = YES;
       break;
     default:
       xDiffMin = 30;

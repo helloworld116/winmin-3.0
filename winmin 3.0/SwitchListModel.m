@@ -51,7 +51,7 @@
                                           repeats:YES];
       [self.timer fire];
       [[NSRunLoop mainRunLoop] addTimer:self.timer
-                                forMode:NSDefaultRunLoopMode];
+                                forMode:NSRunLoopCommonModes];
   });
 }
 
@@ -81,9 +81,10 @@
 }
 
 - (void)refreshSwitchList {
+  [self pauseScanState];
   [self.request sendMsg09:ActiveMode];
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
-                 dispatch_get_main_queue(), ^{ [self sendMsg0BOr0D]; });
+                 dispatch_get_main_queue(), ^{ [self resumeScanState]; });
 }
 
 - (void)addSwitchWithMac:(NSString *)mac {
@@ -232,8 +233,7 @@
       return;
     }
   }
-  if (message.version == kHardwareVersion &&
-      message.state == kUdpResponseSuccessCode) {
+  if (message.version == kHardwareVersion) {
     SDZGSwitch *aSwitch = [[[SwitchDataCeneter sharedInstance] switchsDict]
         objectForKey:message.mac];
     if (!aSwitch && message.lockStatus == LockStatusOff) {

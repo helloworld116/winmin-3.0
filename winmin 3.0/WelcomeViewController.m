@@ -64,7 +64,13 @@
   UIButton *enterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
   [enterBtn setBackgroundImage:[UIImage imageNamed:@"enter"]
                       forState:UIControlStateNormal];
-  [enterBtn setFrame:CGRectMake(0, 0, 105, 37)];
+  CGFloat btnWidth;
+  if ([kSharedAppliction.currnetLanguage isEqualToString:@"en"]) {
+    btnWidth = 160.f;
+  } else {
+    btnWidth = 105.f;
+  }
+  [enterBtn setFrame:CGRectMake(0, 0, btnWidth, 37)];
   [enterBtn setTitle:NSLocalizedString(@"Start to experience", nil)
             forState:UIControlStateNormal];
   [enterBtn addTarget:self

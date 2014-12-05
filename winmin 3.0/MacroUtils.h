@@ -42,11 +42,12 @@
 
 #define kCheckNetworkWebsite @"www.baidu.com"
 
-#define kCheckPrivateResponseInterval                                          \
-  1.0 //发送UDP内网请求后，检查是否有响应数据的间隔，单位为秒
-#define kCheckPublicResponseInterval                                           \
-  2.0 //发送UDP外网请求后，检查是否有响应数据的间隔，单位为秒
-#define kTryCount 2 //请求失败后自动尝试次数
+//发送UDP内网请求后，检查是否有响应数据的间隔，单位为秒
+#define kCheckPrivateResponseInterval 1.0
+//发送UDP外网请求后，检查是否有响应数据的间隔，单位为秒
+#define kCheckPublicResponseInterval 2.0
+//请求失败后自动尝试次数
+#define kTryCount 2
 
 // UDP内网过期时间,单位秒
 #define kPrivateUDPTimeOut 0.001
@@ -145,14 +146,13 @@ extern NSString *const jPushTagArrayKey;
                  options:kNilOptions                                           \
                    error:nil]
 
-//#ifdef DEBUG
-//#define SERVER_IP @"192.168.0.89"
-//#else
+#ifdef DEBUG
 //#define SERVER_IP @"183.63.35.203"
-//#endif
+//#define SERVER_IP @"192.168.0.89"
 #define SERVER_IP @"120.24.75.50"
-//#define SERVER_IP @"183.63.35.203"
-//#define SERVER_IP @"192.168.0.89"
+#else
+#define SERVER_IP @"120.24.75.50"
+#endif
 static float const kHardwareVersion = 2.0;
 static int const kUdpResponseSuccessCode = 0;
 static int const kUdpResponsePasswordErrorCode = 4;

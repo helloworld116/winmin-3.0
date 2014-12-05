@@ -1260,7 +1260,6 @@ static dispatch_queue_t delegateQueue;
 - (void)checkResponseDataAfterSettingIntervalWithTag:(long)tag {
   float delay;
   switch (tag) {
-    case P2D_SCAN_DEV_09:
     case P2D_CONTROL_REQ_11:
     case P2D_GET_TIMER_REQ_17:
     case P2D_SET_TIMER_REQ_1D:
@@ -1298,6 +1297,7 @@ static dispatch_queue_t delegateQueue;
     //定时调用等情况下丢包不处理
     case 0:
     case P2D_SERVER_INFO_05:
+    case P2D_SCAN_DEV_09:
     case P2D_STATE_INQUIRY_0B:
     case P2S_STATE_INQUIRY_0D:
     case P2D_GET_POWER_INFO_REQ_33:
@@ -1802,6 +1802,6 @@ static dispatch_queue_t delegateQueue;
  *  @param error
  */
 - (void)udpSocketDidClose:(GCDAsyncUdpSocket *)sock withError:(NSError *)error {
-  DDLogDebug(@"UdpSocketUtil udpSocketDidClose");
+  DDLogDebug(@"UdpSocketUtil udpSocketDidClose socket is %@", sock);
 }
 @end

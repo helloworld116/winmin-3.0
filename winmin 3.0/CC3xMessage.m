@@ -1452,8 +1452,6 @@ typedef struct {
   message.ip = [NSString stringWithFormat:@"%d.%d.%d.%d", msg.ip[0], msg.ip[1],
                                           msg.ip[2], msg.ip[3]];
   message.port = ntohs(msg.port);
-  //  DDLogDebug(@"#########port is %d", msg.port);
-  //  DDLogDebug(@"*********port is %d", message.port);
   NSString *deviceName = [[NSString alloc] initWithBytes:msg.deviceName
                                                   length:strlen(msg.deviceName)
                                                 encoding:NSUTF8StringEncoding];
@@ -1465,6 +1463,33 @@ typedef struct {
       stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X", msg.password[0],
                        msg.password[1], msg.password[2], msg.password[3],
                        msg.password[4], msg.password[5]];
+  message.crc = msg.crc;
+  return message;
+}
+
++ (CC3xMessage *)parseS2P0E:(NSData *)aData {
+  CC3xMessage *message = nil;
+  d2pMsg0C msg;
+  [aData getBytes:&msg length:sizeof(msg)];
+  message = [[CC3xMessage alloc] init];
+  message.msgId = msg.header.msgId;
+  message.msgDir = msg.header.msgDir;
+  message.state = msg.state;
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                                           msg.mac[0], msg.mac[1], msg.mac[2],
+                                           msg.mac[3], msg.mac[4], msg.mac[5]];
+  message.ip = [NSString stringWithFormat:@"%d.%d.%d.%d", msg.ip[0], msg.ip[1],
+                                          msg.ip[2], msg.ip[3]];
+  message.port = ntohs(msg.port);
+  //  DDLogDebug(@"#########port is %d", msg.port);
+  //  DDLogDebug(@"*********port is %d", message.port);
+  NSString *deviceName = [[NSString alloc] initWithBytes:msg.deviceName
+                                                  length:strlen(msg.deviceName)
+                                                encoding:NSUTF8StringEncoding];
+  message.deviceName = deviceName;
+  message.version = msg.FWVersion;
+  message.lockStatus = msg.deviceLockState;
+  message.onStatus = msg.onOffState;
   message.crc = msg.crc;
   return message;
 }
@@ -1732,8 +1757,10 @@ typedef struct {
       result = [CC3xMessageUtil parseD2P06:data];
       break;
     case 0xc:
-    case 0xe:
       result = [CC3xMessageUtil parseD2P0C:data];
+      break;
+    case 0xe:
+      result = [CC3xMessageUtil parseS2P0E:data];
       break;
     case 0xa:
       result = [CC3xMessageUtil parseD2P0A:data];
@@ -1785,6 +1812,7 @@ typedef struct {
     case 0x72:
     case 0x74:
       result = [CC3xMessageUtil parseD2P72:data];
+      break;
     default:
       break;
   }
@@ -1939,7 +1967,8 @@ typedef struct {
 - (id)init {
   self = [super init];
   if (self) {
-    self.state = -999;
+    self.state = 127;
+    //    self.password = nil;
   }
   return self;
 }

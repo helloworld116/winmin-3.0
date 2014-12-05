@@ -43,4 +43,12 @@
   DDLogDebug(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags, alias);
 }
 
+// NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+// NSMutableSet *tags = [NSMutableSet setWithCapacity:switchs.count];
+// for (SDZGSwitch *aSwitch in switchs) {
+//    NSString *mac = [aSwitch.mac stringByReplacingOccurrencesOfString:@":"
+//                                                           withString:@""];
+//    [tags addObject:mac];
+//}
+
 @end

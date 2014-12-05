@@ -119,7 +119,8 @@
 
   //下拉刷新
   self.refreshHeaderView = [[EGORefreshTableHeaderView alloc]
-       initWithFrame:CGRectMake(0.0f, 0.0f - 65, self.view.frame.size.width, 65)
+       initWithFrame:CGRectMake(0.0f, 0.0f - 100, self.view.frame.size.width,
+                                100)
       arrowImageName:@"grayArrow"
            textColor:[UIColor grayColor]];
   self.refreshHeaderView.backgroundColor = [UIColor whiteColor];
@@ -289,11 +290,11 @@
         [self.tableView reloadData];
         [self stopUpdateList];
 
-        self.tableView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0);
-        self.tableView.contentOffset = CGPointMake(0, -20);
+        //        self.tableView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0);
+        //        self.tableView.contentOffset = CGPointMake(0, -20);
       } else {
-        self.tableView.contentInset = UIEdgeInsetsZero;
-        self.tableView.contentOffset = CGPointZero;
+        //        self.tableView.contentInset = UIEdgeInsetsZero;
+        //        self.tableView.contentOffset = CGPointZero;
         if (status == ReachableViaWWAN) {
           BOOL warn = [[[NSUserDefaults standardUserDefaults]
               objectForKey:wwanWarn] boolValue];
@@ -364,6 +365,12 @@
   self.HUD.delegate = self;
   [self.HUD show:YES];
   SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
+  if (aSwitch.networkStatus == SWITCH_NEW) {
+    aSwitch.networkStatus = SWITCH_LOCAL;
+    NSArray *indexPaths = @[ indexPath ];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
+  }
   [self.model scanSwitchState:aSwitch
                      complete:^(int status) {
                          [self switchStatusRecivied:aSwitch
@@ -380,24 +387,34 @@
       DDLogDebug(@"result is %d", status);
       [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
       if (status == -1) {
-        [self.tableView
+        if (aSwitch.networkStatus != SWITCH_OFFLINE) {
+          aSwitch.networkStatus = SWITCH_REMOTE;
+          NSArray *indexPaths = @[ indexPath ];
+          [self.tableView
+              reloadRowsAtIndexPaths:indexPaths
+                    withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        [self.view
             makeToast:NSLocalizedString(
                           @"Device offline, Please check your network", nil)];
         [self resumeUpdateList];
       } else if (status == kUdpResponsePasswordErrorCode) {
+        if (aSwitch.networkStatus != SWITCH_OFFLINE) {
+          aSwitch.networkStatus = SWITCH_REMOTE;
+          NSArray *indexPaths = @[ indexPath ];
+          [self.tableView
+              reloadRowsAtIndexPaths:indexPaths
+                    withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
         UIAlertView *alertView = [[UIAlertView alloc]
                 initWithTitle:nil
-                      message:@"认"
-                      @"证失败，请进入局域网重新刷新设备。"
+                      message:NSLocalizedString(@"Auth Error", nil)
                      delegate:self
-            cancelButtonTitle:@"确定"
+            cancelButtonTitle:NSLocalizedString(@"Sure", nil)
             otherButtonTitles:nil, nil];
         [alertView show];
         [self resumeUpdateList];
       } else {
-        if (aSwitch.networkStatus == SWITCH_NEW) {
-          aSwitch.networkStatus = SWITCH_LOCAL;
-        }
         aSwitch.networkStatus = status;
         SwitchDetailViewController *detailViewController =
             [self.storyboard instantiateViewControllerWithIdentifier:

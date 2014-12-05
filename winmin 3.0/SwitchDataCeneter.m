@@ -188,7 +188,7 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
     if ((aSwitch.networkStatus == SWITCH_NEW ||
          aSwitch.networkStatus == SWITCH_LOCAL) &&
         diff > checkInterval * REFRESH_DEV_TIME) {
-      aSwitch.networkStatus = SWITCH_OFFLINE;
+      aSwitch.networkStatus = SWITCH_REMOTE;
     }
     if (aSwitch.networkStatus == SWITCH_REMOTE &&
         diff > 2 * checkInterval * REFRESH_DEV_TIME) {

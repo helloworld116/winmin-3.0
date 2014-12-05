@@ -23,30 +23,19 @@
 - (BOOL)application:(UIApplication*)application
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Override point for customization after application launch.
+  [self setLog];
+  self.currnetLanguage = [self getPreferredLanguage];
   self.networkStatus = ReachableViaWiFi; //这里必不可少,必须在view展现前执行
   self.netUtil = [NetUtil sharedInstance];
   //  DDLogDebug(@"ip is %@",
   //           [self.netUtil getIPWithHostName:@"server.itouchco.com"]);
   [self.netUtil addNetWorkChangeNotification];
-  [self setStyle];
-  self.currnetLanguage = [self getPreferredLanguage];
-  NSString* appVersion =
-      [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-  NSString* currentVersion =
-      [[NSUserDefaults standardUserDefaults] objectForKey:kCurrentVersion];
-  BOOL showed = [[[NSUserDefaults standardUserDefaults]
-      objectForKey:kWelcomePageShowed] boolValue];
-  if (!showed || ![appVersion isEqualToString:currentVersion]) {
-    UIViewController* vc = [[self.window.rootViewController storyboard]
-        instantiateViewControllerWithIdentifier:@"WelcomeViewController"];
-    self.window.rootViewController = vc;
-  }
-  [self setLog];
+  [self checkVersion];
   [self setData];
   [self setDefaultUserSettingValue];
   [self registPlatform];
   [self registJPush:launchOptions];
-  [NSThread sleepForTimeInterval:1.0];
+  [self setStyle];
   return YES;
 }
 
@@ -170,6 +159,20 @@
 }
 
 #pragma mark -
+- (void)checkVersion {
+  NSString* appVersion =
+      [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+  NSString* currentVersion =
+      [[NSUserDefaults standardUserDefaults] objectForKey:kCurrentVersion];
+  BOOL showed = [[[NSUserDefaults standardUserDefaults]
+      objectForKey:kWelcomePageShowed] boolValue];
+  if (!showed || ![appVersion isEqualToString:currentVersion]) {
+    UIViewController* vc = [[self.window.rootViewController storyboard]
+        instantiateViewControllerWithIdentifier:@"WelcomeViewController"];
+    self.window.rootViewController = vc;
+  }
+}
+
 - (void)setStyle {
   [[UIApplication sharedApplication] setStatusBarHidden:NO];
   [[UIApplication sharedApplication]
