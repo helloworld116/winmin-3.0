@@ -54,9 +54,7 @@
                                      nil)];
   self.noDataView.hidden = YES;
   [self.tableView addSubview:self.noDataView];
-  self.model = [[TimerModel alloc] initWithSwitch:self.aSwitch
-                                    socketGroupId:self.socketGroupId];
-  [self.model queryTimers];
+
   self.timers = [@[] mutableCopy];
   SDZGSocket *socket =
       [self.aSwitch.sockets objectAtIndex:self.socketGroupId - 1];
@@ -65,6 +63,7 @@
   } else {
     self.noDataView.hidden = NO;
   }
+
   [[NSNotificationCenter defaultCenter]
       addObserver:self
          selector:@selector(addOrEditTimerNotification:)
@@ -112,6 +111,11 @@
   self.refreshHeaderView.delegate = self;
   [self.view addSubview:self.refreshHeaderView];
   [self.refreshHeaderView refreshLastUpdatedDate];
+
+  self.model = [[TimerModel alloc] initWithSwitch:self.aSwitch
+                                           timers:self.timers
+                                    socketGroupId:self.socketGroupId];
+  [self.model queryTimers];
 }
 
 - (void)viewDidLoad {
@@ -288,15 +292,12 @@
 
 - (void)changeTimersList:(NSNotification *)notification {
   NSDictionary *userInfo = notification.userInfo;
-  self.timers = [userInfo objectForKey:@"timers"];
+  NSMutableArray *timers = [userInfo objectForKey:@"timers"];
+  if (timers) {
+    self.timers = timers;
+  }
   dispatch_async(MAIN_QUEUE, ^{ [self updateViewWithReloadData:YES]; });
   [self updateMemorySwitch];
-
-  //  dispatch_async(MAIN_QUEUE, ^{
-  //      _reloading = NO;
-  //      [_refreshHeaderView
-  //          egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-  //  });
 }
 
 - (void)timerDeleteNotification:(NSNotification *)notification {

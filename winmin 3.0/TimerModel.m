@@ -18,12 +18,14 @@
 @end
 
 @implementation TimerModel
-- (id)initWithSwitch:(SDZGSwitch *)aSwitch socketGroupId:(int)groupId {
+- (id)initWithSwitch:(SDZGSwitch *)aSwitch
+              timers:(NSMutableArray *)timers
+       socketGroupId:(int)groupId {
   self = [super init];
   if (self) {
     self.aSwitch = aSwitch;
     self.groupId = groupId;
-    self.timers = [@[] mutableCopy];
+    self.timers = timers;
     self.request = [UdpRequest manager];
     self.request.delegate = self;
   }

@@ -119,8 +119,9 @@
 
   //下拉刷新
   self.refreshHeaderView = [[EGORefreshTableHeaderView alloc]
-       initWithFrame:CGRectMake(0.0f, 0.0f - 100, self.view.frame.size.width,
-                                100)
+       initWithFrame:CGRectMake(0.0f, 0.0f - self.view.bounds.size.height,
+                                self.view.frame.size.width,
+                                self.view.bounds.size.height)
       arrowImageName:@"grayArrow"
            textColor:[UIColor grayColor]];
   self.refreshHeaderView.backgroundColor = [UIColor whiteColor];
@@ -388,7 +389,7 @@
       [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
       if (status == -1) {
         if (aSwitch.networkStatus != SWITCH_OFFLINE) {
-          aSwitch.networkStatus = SWITCH_REMOTE;
+          aSwitch.networkStatus = SWITCH_OFFLINE;
           NSArray *indexPaths = @[ indexPath ];
           [self.tableView
               reloadRowsAtIndexPaths:indexPaths
@@ -400,7 +401,7 @@
         [self resumeUpdateList];
       } else if (status == kUdpResponsePasswordErrorCode) {
         if (aSwitch.networkStatus != SWITCH_OFFLINE) {
-          aSwitch.networkStatus = SWITCH_REMOTE;
+          aSwitch.networkStatus = SWITCH_OFFLINE;
           NSArray *indexPaths = @[ indexPath ];
           [self.tableView
               reloadRowsAtIndexPaths:indexPaths

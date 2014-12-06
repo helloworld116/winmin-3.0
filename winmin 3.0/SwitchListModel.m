@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSString *mac; //扫描指定设备时使用
 
 @property (strong, nonatomic) UdpRequest *request;
-@property (strong, nonatomic) UdpRequest *request2; //用于闪烁
+@property (strong, nonatomic) UdpRequest *request2; //用于闪烁和检查单个设备状态
 
 //检查某个设备网络状态时使用
 @property (strong, nonatomic) ScaneOneSwitchCompleteBlock completeBlock;
@@ -129,9 +129,13 @@
 
 - (void)scanSwitchState:(SDZGSwitch *)aSwitch
                complete:(ScaneOneSwitchCompleteBlock)complete {
+  if (!self.request2) {
+    self.request2 = [UdpRequest manager];
+    self.request2.delegate = self;
+  }
   [self pauseScanState];
   self.timerCheckOneSwitch =
-      [NSTimer scheduledTimerWithTimeInterval:3.f
+      [NSTimer scheduledTimerWithTimeInterval:5.f
                                        target:self
                                      selector:@selector(checkSwitchStatus)
                                      userInfo:nil
@@ -142,11 +146,11 @@
   self.isRemote = NO;
   if (aSwitch.networkStatus == SWITCH_REMOTE ||
       aSwitch.networkStatus == SWITCH_OFFLINE) {
-    [self.request sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
+    [self.request2 sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
   } else {
-    [self.request sendMsg0B:aSwitch sendMode:ActiveMode];
+    [self.request2 sendMsg0B:aSwitch sendMode:ActiveMode];
     [NSThread sleepForTimeInterval:0.1f];
-    [self.request sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
+    [self.request2 sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
   }
 }
 
@@ -214,7 +218,7 @@
     //开关状态查询
     case 0xc:
     case 0xe:
-      [self responseMsgCOrE:message];
+      [self responseMsgCOrE:message request:request];
       break;
     //闪烁
     case 0x3a:
@@ -253,8 +257,8 @@
   }
 }
 
-- (void)responseMsgCOrE:(CC3xMessage *)message {
-  if (self.isScanOneSwitch) {
+- (void)responseMsgCOrE:(CC3xMessage *)message request:(UdpRequest *)request {
+  if (self.isScanOneSwitch && request == self.request2) {
     if (message.state == kUdpResponseSuccessCode) {
       if (message.msgId == 0xc) {
         //设备内网
@@ -281,7 +285,7 @@
       [self resumeScanState];
     }
     self.isScanOneSwitch = NO;
-  } else {
+  } else if (request == self.request) {
     SDZGSwitch *aSwitchInTmp =
         [[SwitchDataCeneter sharedInstance] getSwitchFromTmpByMac:message.mac];
     SDZGSwitch *aSwitch = [[[SwitchDataCeneter sharedInstance] switchsDict]

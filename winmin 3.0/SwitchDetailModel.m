@@ -195,12 +195,12 @@
     //开关状态查询
     case 0xc:
     case 0xe:
-      [self responseMsgCOrE:message];
+      [self responseMsgCOrE:message request:request];
       break;
     //开关控制
     case 0x12:
     case 0x14:
-      [self responseMsg12Or14:message];
+      [self responseMsg12Or14:message request:request];
       break;
     //实时电量
     case 0x34:
@@ -235,8 +235,8 @@
   }
 }
 
-- (void)responseMsgCOrE:(CC3xMessage *)message {
-  if (message.state == kUdpResponseSuccessCode) {
+- (void)responseMsgCOrE:(CC3xMessage *)message request:(UdpRequest *)request {
+  if (message.state == kUdpResponseSuccessCode && request == self.request1) {
     SDZGSwitch *aSwitch = [SDZGSwitch parseMessageCOrEToSwitch:message];
     if (aSwitch) {
       DDLogDebug(@"############## recivied msg info");
@@ -252,10 +252,10 @@
   }
 }
 
-- (void)responseMsg12Or14:(CC3xMessage *)message {
+- (void)responseMsg12Or14:(CC3xMessage *)message request:(UdpRequest *)request {
   DDLogDebug(@"%s socketGroupId is %d", __func__, message.socketGroupId);
   if (message.state == kUdpResponseSuccessCode) {
-    if (message.socketGroupId == 1) {
+    if (message.socketGroupId == 1 && self.request2 == request) {
       self.responseData12Or14GroupId1Count++;
       if (self.responseData12Or14GroupId1Count == 1) {
         SDZGSocket *socket =
@@ -272,7 +272,7 @@
                           object:self
                         userInfo:userInfo];
       }
-    } else {
+    } else if (message.socketGroupId == 2 && self.request3 == request) {
       self.responseData12Or14GroupId2Count++;
       if (self.responseData12Or14GroupId2Count == 1) {
         SDZGSocket *socket =

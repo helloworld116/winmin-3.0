@@ -1573,7 +1573,7 @@ typedef struct {
   if (msg.pulse == 0) {
     message.power = 0;
   } else {
-    message.power = 46246.9f / ntohs(msg.pulse);
+    message.power = kElecFactor / ntohs(msg.pulse);
   }
   return message;
 }
@@ -1593,7 +1593,7 @@ typedef struct {
   if (msg.pulse == 0) {
     message.power = 0;
   } else {
-    message.power = 53035.5f / ntohs(msg.pulse);
+    message.power = kElecFactor / ntohs(msg.pulse);
   }
   return message;
 }

@@ -160,6 +160,7 @@ static const int maxCount = 20;
   } else {
     [self.model updateTimers:self.timers type:type];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
   }
 }
 
@@ -245,6 +246,7 @@ static const int maxCount = 20;
         [self.timers removeObject:self.timer];
       }
       [MBProgressHUD hideHUDForView:self.view animated:YES];
+      self.navigationItem.rightBarButtonItem.enabled = YES;
       NSDictionary *userInfo = notif.userInfo;
       long tag = [userInfo[@"tag"] longValue];
       switch (tag) {
