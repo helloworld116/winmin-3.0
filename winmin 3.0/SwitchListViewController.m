@@ -12,8 +12,9 @@
 #import "SwitchListModel.h"
 
 @interface SwitchListViewController () <
-    UIActionSheetDelegate, UIAlertViewDelegate, EGORefreshTableHeaderDelegate,
-    MBProgressHUDDelegate>
+    UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate,
+    UIAlertViewDelegate, EGORefreshTableHeaderDelegate, MBProgressHUDDelegate>
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) SwitchListModel *model;
 @property (nonatomic, strong) SDZGSwitch *operationSwitch; //当前操作的switch
 @property (nonatomic, strong) NSArray *switchs;
@@ -56,6 +57,8 @@
 
 - (void)setup {
   [self setupStyle];
+  self.tableView.delegate = self;
+  self.tableView.dataSource = self;
   self.isFirstLoad = YES;
   self.delayInterval = 1.f;
   self.noDataView = [[UIView alloc]
@@ -126,7 +129,7 @@
            textColor:[UIColor grayColor]];
   self.refreshHeaderView.backgroundColor = [UIColor whiteColor];
   self.refreshHeaderView.delegate = self;
-  [self.view addSubview:self.refreshHeaderView];
+  [self.tableView addSubview:self.refreshHeaderView];
   [self.refreshHeaderView refreshLastUpdatedDate];
 }
 

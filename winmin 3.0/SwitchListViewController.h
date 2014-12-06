@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SwitchListViewController : UITableViewController
+@interface SwitchListViewController : UIViewController
 
 @end

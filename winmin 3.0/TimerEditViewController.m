@@ -90,6 +90,11 @@ static const int maxCount = 20;
   self.lblTime.text = [self.timer actionTimeString];
   self.lblRepeatDesc.text = [self.timer actionWeekString];
   self.btnOnOff.selected = self.timer.timerActionType;
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(timerAddNotification:)
+             name:kTimerAddNotification
+           object:nil];
 }
 
 - (void)viewDidLoad {
@@ -110,11 +115,6 @@ static const int maxCount = 20;
   [super viewDidAppear:animated];
   [[NSNotificationCenter defaultCenter]
       addObserver:self
-         selector:@selector(timerAddNotification:)
-             name:kTimerAddNotification
-           object:nil];
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
          selector:@selector(timerUpdateNotification:)
              name:kTimerUpdateNotification
            object:nil];
@@ -129,9 +129,6 @@ static const int maxCount = 20;
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kTimerAddNotification
-                                                object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self
                                                   name:kTimerUpdateNotification
                                                 object:nil];
   [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -142,6 +139,10 @@ static const int maxCount = 20;
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - UINavigationBar事件_保存
@@ -215,6 +216,7 @@ static const int maxCount = 20;
 
 #pragma mark - 通知
 - (void)timerAddNotification:(NSNotification *)notification {
+  DDLogDebug(@"add success");
   dispatch_async(MAIN_QUEUE, ^{
       [MBProgressHUD hideHUDForView:self.view animated:YES];
       NSDictionary *userInfo = @{ @"type" : @(self.index) };

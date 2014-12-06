@@ -62,10 +62,11 @@
   // Dispose of any resources that can be recreated.
 }
 
-//- (void)viewDidLayoutSubviews {
-//  [super viewDidLayoutSubviews];
-//  self.scollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, SCREEN_HEIGHT);
-//}
+- (void)viewDidLayoutSubviews {
+  [super viewDidLayoutSubviews];
+  self.scollView.contentSize =
+      CGSizeMake(3757, SCREEN_HEIGHT - STATUSBAR_HEIGHT - NAVIGATIONBAR_HEIGHT);
+}
 
 /*
 #pragma mark - Navigation

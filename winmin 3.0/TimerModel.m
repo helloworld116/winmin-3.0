@@ -107,6 +107,8 @@
 }
 
 - (void)responseMsg1EOr20:(CC3xMessage *)message {
+  DDLogDebug(@"state is %d type is %d count is %d", message.state, self.type,
+             self.responseData1EOr20Count);
   if (message.state == kUdpResponseSuccessCode) {
     self.responseData1EOr20Count++;
     if (self.responseData1EOr20Count == 1) {

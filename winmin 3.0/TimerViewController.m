@@ -13,8 +13,10 @@
 #import "TimerModel.h"
 #define kAddTimer -1
 
-@interface TimerViewController () <UIActionSheetDelegate,
+@interface TimerViewController () <UITableViewDelegate, UITableViewDataSource,
+                                   UIActionSheetDelegate,
                                    EGORefreshTableHeaderDelegate>
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *timers;
 @property (nonatomic, strong)
     NSIndexPath *editIndexPath; //正在编辑或删除的indexPath
@@ -31,14 +33,6 @@
 
 @implementation TimerViewController
 
-- (id)initWithStyle:(UITableViewStyle)style {
-  self = [super initWithStyle:style];
-  if (self) {
-    // Custom initialization
-  }
-  return self;
-}
-
 - (void)setupStyle {
   UIView *view = [[UIView alloc] init];
   view.backgroundColor = [UIColor clearColor];
@@ -47,6 +41,8 @@
 
 - (void)setup {
   [self setupStyle];
+  self.tableView.delegate = self;
+  self.tableView.dataSource = self;
   self.noDataView = [[UIView alloc]
       initWithSize:self.view.frame.size
            imgName:@"notimer"
@@ -109,7 +105,7 @@
            textColor:[UIColor grayColor]];
   self.refreshHeaderView.backgroundColor = [UIColor whiteColor];
   self.refreshHeaderView.delegate = self;
-  [self.view addSubview:self.refreshHeaderView];
+  [self.tableView addSubview:self.refreshHeaderView];
   [self.refreshHeaderView refreshLastUpdatedDate];
 
   self.model = [[TimerModel alloc] initWithSwitch:self.aSwitch
@@ -230,7 +226,7 @@
 
 #pragma mark - SceneListCellHandler
 - (void)handlerLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
-  CGPoint p = [gestureRecognizer locationInView:self.view];
+  CGPoint p = [gestureRecognizer locationInView:self.tableView];
   NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
   if (indexPath && gestureRecognizer.state == UIGestureRecognizerStateBegan) {
     self.editIndexPath = indexPath;

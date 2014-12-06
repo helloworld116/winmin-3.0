@@ -337,6 +337,27 @@
         }
         [aSwitch.sockets addObject:socket];
       }
+      if (!aSwitch.sockets || [aSwitch.sockets count] != 2) {
+        aSwitch.sockets = [@[] mutableCopy];
+        SDZGSocket *socket1 = [[SDZGSocket alloc] init];
+        socket1.groupId = 1;
+        socket1.socketStatus = SocketStatusOff;
+        socket1.imageNames = @[
+          socket_default_image,
+          socket_default_image,
+          socket_default_image
+        ];
+        [aSwitch.sockets addObject:socket1];
+        SDZGSocket *socket2 = [[SDZGSocket alloc] init];
+        socket2.groupId = 2;
+        socket2.socketStatus = SocketStatusOff;
+        socket2.imageNames = @[
+          socket_default_image,
+          socket_default_image,
+          socket_default_image
+        ];
+        [aSwitch.sockets addObject:socket2];
+      }
       [switchs addObject:aSwitch];
     }
     [self.db close];
