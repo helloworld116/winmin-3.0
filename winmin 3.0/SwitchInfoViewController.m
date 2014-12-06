@@ -407,11 +407,11 @@ preparation before navigation
     message.turnOffGreater = maxPower * .99f;
   }
   self.offGreaterValue = message.turnOffGreater;
-  self._switchAlertUnder.on = message.isAlertUnderOn;
-  self._switchAlertGreater.on = message.isAlertGreaterOn;
-  self._switchOffUnder.on = message.isTurnOffUnderOn;
-  self._switchOffGreater.on = message.isTurnOffGreaterOn;
   dispatch_async(MAIN_QUEUE, ^{
+      self._switchAlertUnder.on = message.isAlertUnderOn;
+      self._switchAlertGreater.on = message.isAlertGreaterOn;
+      self._switchOffUnder.on = message.isTurnOffUnderOn;
+      self._switchOffGreater.on = message.isTurnOffGreaterOn;
       self.textFieldAlertUnder.text =
           [NSString stringWithFormat:@"%d", message.alertUnder];
       self.textFieldAlertGreater.text =
@@ -439,10 +439,12 @@ preparation before navigation
       [self allResuestSuccess];
       self.navigationItem.title = self.switchName;
       int count = [[self.navigationController viewControllers] count];
-      UIViewController *popViewController =
-          [[self.navigationController viewControllers] objectAtIndex:count - 2];
-      popViewController.navigationItem.title = self.switchName;
-
+      if (count == 3) {
+        UIViewController *popViewController =
+            [[self.navigationController viewControllers]
+                objectAtIndex:count - 2];
+        popViewController.navigationItem.title = self.switchName;
+      }
   });
 }
 

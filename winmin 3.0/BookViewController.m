@@ -62,6 +62,11 @@
   // Dispose of any resources that can be recreated.
 }
 
+//- (void)viewDidLayoutSubviews {
+//  [super viewDidLayoutSubviews];
+//  self.scollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, SCREEN_HEIGHT);
+//}
+
 /*
 #pragma mark - Navigation
 

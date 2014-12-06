@@ -48,6 +48,23 @@
   backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
   self.navigationItem.title = self.aSwitch.name;
+  if (!self.aSwitch.sockets || [self.aSwitch.sockets count] != 2) {
+    self.aSwitch.sockets = [@[] mutableCopy];
+    SDZGSocket *socket1 = [[SDZGSocket alloc] init];
+    socket1.groupId = 1;
+    socket1.socketStatus = SocketStatusOff;
+    socket1.imageNames =
+        @[ socket_default_image, socket_default_image, socket_default_image ];
+    [self.aSwitch.sockets addObject:socket1];
+
+    SDZGSocket *socket2 = [[SDZGSocket alloc] init];
+    socket2.groupId = 2;
+    socket2.socketStatus = SocketStatusOff;
+    socket2.imageNames =
+        @[ socket_default_image, socket_default_image, socket_default_image ];
+    [self.aSwitch.sockets addObject:socket2];
+  }
+
   self.socketView1.sockeViewDelegate = self;
   self.socketView1.groupId = 1;
   SDZGSocket *socket1 = [self.aSwitch.sockets objectAtIndex:0];
