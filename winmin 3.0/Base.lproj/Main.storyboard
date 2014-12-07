@@ -2977,6 +2977,70 @@
             </objects>
             <point key="canvasLocation" x="1725" y="2267"/>
         </scene>
+        <!--Feedback View Controller-->
+        <scene sceneID="6UD-B7-FgX">
+            <objects>
+                <viewController storyboardIdentifier="FeedbackViewController" automaticallyAdjustsScrollViewInsets="NO" id="SDw-xy-eEC" customClass="FeedbackViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="H9V-yg-YyM"/>
+                        <viewControllerLayoutGuide type="bottom" id="LFO-OG-pZe"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wUs-w5-Lv9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fkk-DF-uWS">
+                                <rect key="frame" x="10" y="20" width="75" height="40"/>
+                                <state key="normal" title="有问题">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="me4-Kh-jf0">
+                                <rect key="frame" x="85" y="20" width="75" height="40"/>
+                                <state key="normal" title="提建议">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLD-LL-DkE">
+                                <rect key="frame" x="160" y="20" width="75" height="40"/>
+                                <state key="normal" title="不会用">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jld-6l-hSQ">
+                                <rect key="frame" x="235" y="20" width="75" height="40"/>
+                                <state key="normal" title="其他">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入您的邮箱地址" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qog-HW-oIW">
+                                <rect key="frame" x="10" y="228" width="300" height="50"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LKf-sz-xoE">
+                                <rect key="frame" x="10" y="286" width="300" height="50"/>
+                                <state key="normal" title="提  交">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="请输入您的反馈意见..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ftO-Td-HdT">
+                                <rect key="frame" x="10" y="68" width="300" height="150"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="textEmail" destination="qog-HW-oIW" id="Wps-3J-3nF"/>
+                        <outlet property="textSuggestion" destination="ftO-Td-HdT" id="b6g-yw-PK8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tmL-Py-UyI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2525" y="2267"/>
+        </scene>
         <!--Security Warn View Controller-->
         <scene sceneID="UTR-Y4-a9g">
             <objects>

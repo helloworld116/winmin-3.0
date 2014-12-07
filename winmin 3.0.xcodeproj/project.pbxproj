@@ -51,6 +51,7 @@
 		1560132319CA795100BF7E12 /* SocketImgTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560132219CA795100BF7E12 /* SocketImgTemplateViewController.m */; };
 		1560132519CA79D700BF7E12 /* image.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1560132419CA79D700BF7E12 /* image.plist */; };
 		1560132819CBDCA700BF7E12 /* SwitchDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */; };
+		1561BFC11A33FE35009D1349 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1561BFC01A33FE34009D1349 /* FeedbackViewController.m */; };
 		156692011A1EECC000E94C39 /* APServiceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 156692001A1EECC000E94C39 /* APServiceUtil.m */; };
 		15736B9019F2482F00D6A45D /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15736B8F19F2482F00D6A45D /* WelcomeViewController.m */; };
 		158D987B19C6F39C0068AFC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987A19C6F39C0068AFC5 /* Foundation.framework */; };
@@ -245,6 +246,8 @@
 		1560132419CA79D700BF7E12 /* image.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = image.plist; sourceTree = "<group>"; };
 		1560132619CBDCA700BF7E12 /* SwitchDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchDetailModel.h; sourceTree = "<group>"; };
 		1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchDetailModel.m; sourceTree = "<group>"; };
+		1561BFBF1A33FE34009D1349 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		1561BFC01A33FE34009D1349 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		156691FF1A1EECC000E94C39 /* APServiceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APServiceUtil.h; sourceTree = "<group>"; };
 		156692001A1EECC000E94C39 /* APServiceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APServiceUtil.m; sourceTree = "<group>"; };
 		15736B8E19F2482F00D6A45D /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
@@ -568,6 +571,8 @@
 				1551F6EE19F8951200A24447 /* FAQViewController.m */,
 				151E7BC31A1AD5AD002BE94F /* UserSettingViewController.h */,
 				151E7BC41A1AD5AD002BE94F /* UserSettingViewController.m */,
+				1561BFBF1A33FE34009D1349 /* FeedbackViewController.h */,
+				1561BFC01A33FE34009D1349 /* FeedbackViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -1274,6 +1279,7 @@
 				158D988719C6F39C0068AFC5 /* main.m in Sources */,
 				15BBD6F219D92AC30002D973 /* SceneExecuteModel.m in Sources */,
 				158D991519C7CBC50068AFC5 /* UdpRequest.m in Sources */,
+				1561BFC11A33FE35009D1349 /* FeedbackViewController.m in Sources */,
 				15736B9019F2482F00D6A45D /* WelcomeViewController.m in Sources */,
 				15AC865819D158D700D154EB /* DelayModel.m in Sources */,
 				15AC863C19CFC6C900D154EB /* TimerEditViewController.m in Sources */,

@@ -1787,8 +1787,8 @@ static dispatch_queue_t delegateQueue;
             respondsToSelector:@selector(udpRequest:didReceiveMsg:address:)]) {
       [self.delegate udpRequest:self didReceiveMsg:msg address:address];
     }
-    if ((msg.msgId != 0xc) && (msg.msgId != 0xe) && (msg.msgId != 0x34) &&
-        (msg.msgId != 0x36)) {
+    if ((msg.msgId != 0xa) && (msg.msgId != 0xc) && (msg.msgId != 0xe) &&
+        (msg.msgId != 0x34) && (msg.msgId != 0x36)) {
       self.responseData = [NSData dataWithData:data];
       dispatch_async(MAIN_QUEUE, ^{ [self.timer invalidate]; });
     }

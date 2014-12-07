@@ -55,7 +55,9 @@
   self.request2.delegate = nil;
   self.request3.delegate = nil;
   self.request4.delegate = nil;
-  [self.aSwitch removeObserver:self forKeyPath:@"networkStatus"];
+  if (self.aSwitch) {
+    [self.aSwitch removeObserver:self forKeyPath:@"networkStatus"];
+  }
 }
 
 - (void)openOrCloseWithGroupId:(int)groupId {
