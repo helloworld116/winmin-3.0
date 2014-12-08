@@ -10,6 +10,7 @@
 typedef void (^finishCallbackBlock)(BOOL);
 @interface APServiceUtil : NSObject
 + (void)closeRemoteNotification:(finishCallbackBlock)block;
-+ (void)openRemoteNotification:(NSSet *)tags
-                   finishBlock:(finishCallbackBlock)block;
++ (void)openRemoteNotification:(finishCallbackBlock)block;
++ (void)removeSwitchRemoteNotification:(SDZGSwitch *)aSwitch
+                           finishBlock:(finishCallbackBlock)block;
 @end

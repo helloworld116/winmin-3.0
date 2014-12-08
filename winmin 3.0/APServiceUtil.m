@@ -23,39 +23,62 @@
                 object:util];
 }
 
-+ (void)openRemoteNotification:(NSSet *)tags
-                   finishBlock:(finishCallbackBlock)block {
++ (void)openRemoteNotification:(finishCallbackBlock)block {
   APServiceUtil *util = [[APServiceUtil alloc] init];
   util.finishBlock = block;
+  NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+  NSMutableSet *tags = [self switchsToTags:switchs];
   [APService setTags:tags
       callbackSelector:@selector(tagsAliasCallback:tags:alias:)
                 object:util];
+}
+
++ (void)removeSwitchRemoteNotification:(SDZGSwitch *)aSwitch
+                           finishBlock:(finishCallbackBlock)block {
+  APServiceUtil *util = [[APServiceUtil alloc] init];
+  util.finishBlock = block;
+  NSString *tag = [self aSwitchToTag:aSwitch];
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSMutableArray *jPushTagArray =
+      [[defaults objectForKey:jPushTagArrayKey] mutableCopy];
+  [jPushTagArray removeObject:tag];
+  NSSet *tags = [NSSet setWithArray:jPushTagArray];
+  [APService setTags:tags
+      callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                object:util];
+}
+
++ (NSMutableSet *)switchsToTags:(NSArray *)switchs {
+  NSMutableSet *tags = [NSMutableSet setWithCapacity:switchs.count];
+  for (SDZGSwitch *aSwitch in switchs) {
+    NSString *tag = [self aSwitchToTag:aSwitch];
+    [tags addObject:tag];
+  }
+  return tags;
+}
+
++ (NSString *)aSwitchToTag:(SDZGSwitch *)aSwitch {
+  NSString *mac =
+      [aSwitch.mac stringByReplacingOccurrencesOfString:@":" withString:@""];
+  NSString *password =
+      [aSwitch.password stringByReplacingOccurrencesOfString:@":"
+                                                  withString:@""];
+  NSString *tag = [NSString stringWithFormat:@"%@%@", mac, password];
+  return tag;
 }
 
 - (void)tagsAliasCallback:(int)iResCode
                      tags:(NSSet *)tags
                     alias:(NSString *)alias {
   if (iResCode == 0) {
+    NSArray *successTags = [tags allObjects];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:successTags forKey:jPushTagArrayKey];
+    [defaults synchronize];
     self.finishBlock(YES);
   } else {
     self.finishBlock(NO);
   }
   DDLogDebug(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags, alias);
 }
-
-+ (void)allReciviedRemoteNotification:(finishCallbackBlock)block {
-  APServiceUtil *util = [[APServiceUtil alloc] init];
-  util.finishBlock = block;
-  NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
-  NSMutableSet *tags = [NSMutableSet setWithCapacity:switchs.count];
-  for (SDZGSwitch *aSwitch in switchs) {
-    NSString *mac =
-        [aSwitch.mac stringByReplacingOccurrencesOfString:@":" withString:@""];
-    [tags addObject:mac];
-  }
-  [APService setTags:tags
-      callbackSelector:@selector(tagsAliasCallback:tags:alias:)
-                object:util];
-}
-
 @end

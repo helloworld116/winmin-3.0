@@ -67,7 +67,7 @@
            message:NSLocalizedString(@"You have not configure any device!",
                                      nil)];
   self.noDataView.hidden = YES;
-  [self.view addSubview:self.noDataView];
+  [self.tableView addSubview:self.noDataView];
 
   NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
   //  NSSortDescriptor *netDescriptor =

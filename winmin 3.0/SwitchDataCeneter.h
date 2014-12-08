@@ -150,7 +150,8 @@
 - (BOOL)isAllSwitchOffLine;
 
 #pragma mark - 临时空间
-- (void)addSwitchToTmp:(SDZGSwitch *)aSwitch;
+- (void)addSwitchToTmp:(SDZGSwitch *)aSwitch
+            completion:(void (^)(void))completion;
 - (void)removeSwitchFromTmp:(SDZGSwitch *)aSwitch;
 - (SDZGSwitch *)getSwitchFromTmpByMac:(NSString *)mac;
 @end

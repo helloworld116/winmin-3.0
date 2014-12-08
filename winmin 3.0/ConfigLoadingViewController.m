@@ -20,6 +20,7 @@ static unsigned char password[6];
 @property (strong, nonatomic) FirstTimeConfig *config;
 @property (strong, nonatomic) UdpRequest *request;
 @property (strong, nonatomic) NSTimer *timer;
+@property (assign, nonatomic) int msg2RecivedCount;
 
 @property (strong, nonatomic) NSString *mac; //配置成功后设备的mac
 - (IBAction)cancel:(id)sender;
@@ -186,15 +187,19 @@ static unsigned char password[6];
            address:(NSData *)address {
   switch (message.msgId) {
     case 0x2:
-      DDLogDebug(@"mac is %@ ip is %@ and port is %d", message.mac, message.ip,
-                 message.port);
-      [self.request sendMsg05:message.ip
-                         port:message.port
-                     password:password
-                         mode:ActiveMode];
+      if (self.msg2RecivedCount % 5 == 0) {
+        [self.request sendMsg05:message.ip
+                           port:message.port
+                       password:password
+                           mode:ActiveMode];
+      }
+      self.msg2RecivedCount++;
+      DDLogDebug(
+          @"mac is %@ ip is %@ and port is %d and recivedMsgId2 count is %d",
+          message.mac, message.ip, message.port, self.msg2RecivedCount);
       break;
     case 0x6:
-      if (message.state == 0) {
+      if (message.state == kUdpResponseSuccessCode) {
         // TODO:配置成功
         //保存wifi信息
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

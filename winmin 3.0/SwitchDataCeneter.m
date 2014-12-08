@@ -9,7 +9,8 @@
 #import "SwitchDataCeneter.h"
 #import "SwitchSyncService.h"
 
-static NSTimeInterval checkInterval = 2.f;
+static NSTimeInterval localToRemoteFactor = 2.f;
+static NSTimeInterval remoteToOfflineFactor = 3.f;
 
 static dispatch_queue_t switch_datacenter_serial_queue() {
   static dispatch_queue_t sdzg_switch_datacenter_serial_queue;
@@ -171,10 +172,10 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
 - (void)checkSwitchOnlineState:(SDZGSwitch *)aSwitch {
   NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
   NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
-  if (diff > checkInterval * REFRESH_DEV_TIME &&
+  if (diff > localToRemoteFactor * REFRESH_DEV_TIME &&
       aSwitch.networkStatus == SWITCH_LOCAL) {
     aSwitch.networkStatus = SWITCH_OFFLINE;
-  } else if (diff > 2 * checkInterval * REFRESH_DEV_TIME &&
+  } else if (diff > remoteToOfflineFactor * REFRESH_DEV_TIME &&
              aSwitch.networkStatus == SWITCH_REMOTE) {
     aSwitch.networkStatus = SWITCH_OFFLINE;
   }
@@ -187,11 +188,11 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
     NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
     if ((aSwitch.networkStatus == SWITCH_NEW ||
          aSwitch.networkStatus == SWITCH_LOCAL) &&
-        diff > checkInterval * REFRESH_DEV_TIME) {
+        diff > localToRemoteFactor * REFRESH_DEV_TIME) {
       aSwitch.networkStatus = SWITCH_REMOTE;
     }
     if (aSwitch.networkStatus == SWITCH_REMOTE &&
-        diff > 2 * checkInterval * REFRESH_DEV_TIME) {
+        diff > remoteToOfflineFactor * REFRESH_DEV_TIME) {
       aSwitch.networkStatus = SWITCH_OFFLINE;
     }
   }
@@ -261,9 +262,11 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
 }
 
 #pragma mark - 临时空间
-- (void)addSwitchToTmp:(SDZGSwitch *)aSwitch {
+- (void)addSwitchToTmp:(SDZGSwitch *)aSwitch
+            completion:(void (^)(void))completion {
   dispatch_async(switch_datacenter_serial_queue(), ^{
       [self.switchTmpDict setObject:aSwitch forKey:aSwitch.mac];
+      completion();
   });
 }
 

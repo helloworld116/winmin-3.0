@@ -173,11 +173,14 @@ static dispatch_queue_t delegateQueue;
     case P2S_GET_CITY_WEATHER_REQ_67:
     case P2S_SET_POWERACTION_REQ_6D:
     case P2S_GET_POWERACTION_REQ_73: {
-      [self.udpSocket sendData:self.msg
-                        toHost:self.host
-                          port:self.port
-                   withTimeout:kPublicUDPTimeOut
-                           tag:self.tag];
+      dispatch_async(udp_send_serial_queue(), ^{
+          [self.udpSocket sendData:self.msg
+                            toHost:self.host
+                              port:self.port
+                       withTimeout:kPublicUDPTimeOut
+                               tag:self.tag];
+          [NSThread sleepForTimeInterval:.08f];
+      });
     } break;
   }
 }
@@ -230,17 +233,19 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg0B:(SENDMODE)mode {
-  if (kSharedAppliction.networkStatus != ReachableViaWiFi) {
-    if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-      [self.delegate errorMsg:kNotReachable];
-    }
-  } else {
-    self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg0B]];
-    self.host = BROADCAST_ADDRESS;
-    self.port = DEVICE_PORT;
-    self.tag = P2D_STATE_INQUIRY_0B;
-    [self sendDataToHost];
-  }
+  dispatch_sync(GLOBAL_QUEUE, ^{
+      if (kSharedAppliction.networkStatus != ReachableViaWiFi) {
+        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
+          [self.delegate errorMsg:kNotReachable];
+        }
+      } else {
+        self.msg = [NSData dataWithData:[CC3xMessageUtil getP2dMsg0B]];
+        self.host = BROADCAST_ADDRESS;
+        self.port = DEVICE_PORT;
+        self.tag = P2D_STATE_INQUIRY_0B;
+        [self sendDataToHost];
+      }
+  });
 }
 
 - (void)sendMsg0B:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
@@ -264,20 +269,22 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode tag:(long)tag {
-  if (kSharedAppliction.networkStatus == NotReachable) {
-    if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
-      [self.delegate errorMsg:kNotReachable];
-    }
-  } else {
-    self.msg =
-        [NSData dataWithData:[CC3xMessageUtil getP2SMsg0D:aSwitch.mac
-                                                 password:aSwitch.password]];
-    self.mac = aSwitch.mac;
-    self.host = SERVER_IP;
-    self.port = SERVER_PORT;
-    self.tag = tag;
-    [self sendDataToHost];
-  }
+  dispatch_sync(GLOBAL_QUEUE, ^{
+      if (kSharedAppliction.networkStatus == NotReachable) {
+        if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
+          [self.delegate errorMsg:kNotReachable];
+        }
+      } else {
+        self.msg = [NSData
+            dataWithData:[CC3xMessageUtil getP2SMsg0D:aSwitch.mac
+                                             password:aSwitch.password]];
+        self.mac = aSwitch.mac;
+        self.host = SERVER_IP;
+        self.port = SERVER_PORT;
+        self.tag = tag;
+        [self sendDataToHost];
+      }
+  });
 }
 
 - (void)sendMsg11WithSwitch:(SDZGSwitch *)aSwitch

@@ -70,6 +70,7 @@
   if (![self.timer isValid]) {
     return;
   }
+  _isScanningState = NO;
   [self.timer setFireDate:[NSDate distantFuture]];
 }
 
@@ -77,6 +78,8 @@
   if (![self.timer isValid]) {
     return;
   }
+  self.request.delegate = self;
+  _isScanningState = YES;
   [self.timer setFireDate:[NSDate date]];
 }
 
@@ -118,8 +121,9 @@
       [NSThread sleepForTimeInterval:0.5];
       NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
       for (SDZGSwitch *aSwitch in switchs) {
-        if (aSwitch.networkStatus == SWITCH_REMOTE ||
-            aSwitch.networkStatus == SWITCH_OFFLINE) {
+        if ((aSwitch.networkStatus == SWITCH_REMOTE ||
+             aSwitch.networkStatus == SWITCH_OFFLINE) &&
+            _isScanningState) {
           DDLogDebug(@"switch mac is %@", aSwitch.mac);
           [self.request sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
         }
@@ -134,6 +138,9 @@
     self.request2.delegate = self;
   }
   [self pauseScanState];
+  self.request.delegate = nil;
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{ self.request.delegate = self; });
   self.timerCheckOneSwitch =
       [NSTimer scheduledTimerWithTimeInterval:5.f
                                        target:self
@@ -144,6 +151,7 @@
   self.completeBlock = complete;
   self.isScanOneSwitch = YES;
   self.isRemote = NO;
+  DDLogDebug(@"switch status is %d", aSwitch.networkStatus);
   if (aSwitch.networkStatus == SWITCH_REMOTE ||
       aSwitch.networkStatus == SWITCH_OFFLINE) {
     [self.request2 sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
@@ -177,21 +185,12 @@
   [[NSNotificationCenter defaultCenter]
       postNotificationName:kSwitchDeleteSceneNotification
                     object:nil];
-  if (kSharedAppliction.reciveRemoteNotification) {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *jPushTagArray =
-        [[defaults objectForKey:jPushTagArrayKey] mutableCopy];
-    NSString *macWithout =
-        [aSwitch.mac stringByReplacingOccurrencesOfString:@":" withString:@""];
-    [jPushTagArray removeObject:macWithout];
-    NSSet *set = [NSSet setWithArray:jPushTagArray];
-    [APServiceUtil openRemoteNotification:set
-                              finishBlock:^(BOOL result) {
-                                  if (result) {
-                                    [defaults setObject:jPushTagArray
-                                                 forKey:jPushTagArrayKey];
-                                  }
-                              }];
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  BOOL reciveRemoteNotification =
+      [[defaults objectForKey:remoteNotification] boolValue];
+  if (reciveRemoteNotification) {
+    [APServiceUtil removeSwitchRemoteNotification:aSwitch
+                                      finishBlock:^(BOOL result){}];
   }
 }
 
@@ -247,8 +246,11 @@
       aSwitch.ip = message.ip;
       aSwitch.port = message.port;
       aSwitch.networkStatus = SWITCH_NEW;
-      [[SwitchDataCeneter sharedInstance] addSwitchToTmp:aSwitch];
-      [self.request sendMsg0B:aSwitch sendMode:ActiveMode];
+      [[SwitchDataCeneter sharedInstance]
+          addSwitchToTmp:aSwitch
+              completion:^{
+                  [self.request sendMsg0B:aSwitch sendMode:ActiveMode];
+              }];
     }
   }
   //删除指定mac，避免下拉刷新时使用该mac
@@ -292,13 +294,17 @@
         objectForKey:message.mac];
     if ((aSwitchInTmp || aSwitch) && message.version == kHardwareVersion &&
         message.state == kUdpResponseSuccessCode) {
-      [SDZGSwitch parseMessageCOrEToSwitch:message];
-      if (aSwitchInTmp) {
-        [[SwitchDataCeneter sharedInstance] removeSwitchFromTmp:aSwitchInTmp];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSwitchUpdate
-                                                            object:self
-                                                          userInfo:nil];
-      }
+      [SDZGSwitch parseMessageCOrE:message
+                          toSwitch:^(SDZGSwitch *aSwitch) {
+                              if (aSwitchInTmp) {
+                                [[SwitchDataCeneter sharedInstance]
+                                    removeSwitchFromTmp:aSwitchInTmp];
+                                [[NSNotificationCenter defaultCenter]
+                                    postNotificationName:kSwitchUpdate
+                                                  object:self
+                                                userInfo:nil];
+                              }
+                          }];
     }
   }
 }

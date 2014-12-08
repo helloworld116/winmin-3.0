@@ -13,6 +13,7 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "WeiboApi.h"
 #import "APService.h"
+#import "APServiceUtil.h"
 #import <CRToast.h>
 
 @interface AppDelegate ()
@@ -82,6 +83,17 @@
   // previously in
   // the
   // background, optionally refresh the user interface.
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{
+      NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+      BOOL reciveRemoteNotification =
+          [[defaults objectForKey:remoteNotification] boolValue];
+      if (reciveRemoteNotification) {
+        [APServiceUtil openRemoteNotification:^(BOOL result){}];
+      } else {
+        [APServiceUtil closeRemoteNotification:^(BOOL result){}];
+      }
+  });
 }
 
 - (void)applicationWillTerminate:(UIApplication*)application {
@@ -307,6 +319,5 @@
     [userDefaults setObject:@(YES) forKey:remoteNotification];
   }
   [userDefaults synchronize];
-  self.reciveRemoteNotification = [userDefaults boolForKey:remoteNotification];
 }
 @end

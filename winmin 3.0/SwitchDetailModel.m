@@ -239,18 +239,21 @@
 
 - (void)responseMsgCOrE:(CC3xMessage *)message request:(UdpRequest *)request {
   if (message.state == kUdpResponseSuccessCode && request == self.request1) {
-    SDZGSwitch *aSwitch = [SDZGSwitch parseMessageCOrEToSwitch:message];
-    if (aSwitch) {
-      DDLogDebug(@"############## recivied msg info");
-      self.aSwitch = aSwitch;
-      [[SwitchDataCeneter sharedInstance] updateSwitch:aSwitch];
-      [[NSNotificationCenter defaultCenter]
-          postNotificationName:kOneSwitchUpdate
-                        object:self
-                      userInfo:@{
-                        @"switch" : aSwitch
-                      }];
-    }
+    [SDZGSwitch
+        parseMessageCOrE:message
+                toSwitch:^(SDZGSwitch *aSwitch) {
+                    if (aSwitch) {
+                      DDLogDebug(@"############## recivied msg info");
+                      self.aSwitch = aSwitch;
+                      [[SwitchDataCeneter sharedInstance] updateSwitch:aSwitch];
+                      [[NSNotificationCenter defaultCenter]
+                          postNotificationName:kOneSwitchUpdate
+                                        object:self
+                                      userInfo:@{
+                                        @"switch" : aSwitch
+                                      }];
+                    }
+                }];
   }
 }
 

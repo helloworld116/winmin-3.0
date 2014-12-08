@@ -13,7 +13,6 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIWindow *userWindow;
 @property (nonatomic, assign) NetworkStatus networkStatus;
-@property (nonatomic, assign) BOOL reciveRemoteNotification;
 @property (nonatomic, strong) SwitchDataCeneter *switchDataCeneter;
 @property (nonatomic, strong) NSString *currnetLanguage;
 @end
