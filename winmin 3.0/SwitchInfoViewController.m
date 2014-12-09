@@ -28,7 +28,7 @@ static const int maxPower = 2500;
 @end
 
 @interface SwitchInfoCell : UITableViewCell
-@property (nonatomic, strong) IBOutlet UIView *outerView;
+@property (nonatomic, weak) IBOutlet UIView *outerView;
 @end
 
 @implementation SwitchInfoCell
@@ -43,17 +43,17 @@ static const int maxPower = 2500;
 @interface SwitchInfoViewController () <
     UIActionSheetDelegate, UITextFieldDelegate, UINavigationControllerDelegate,
     UIImagePickerControllerDelegate>
-@property (nonatomic, strong) IBOutlet UIImageView *imgViewSwitch;
-@property (nonatomic, strong) IBOutlet UITextField *textFieldName;
-@property (nonatomic, strong) IBOutlet UITextField *textFieldAlertUnder;
-@property (nonatomic, strong) IBOutlet UITextField *textFieldAlertGreater;
-@property (nonatomic, strong) IBOutlet UITextField *textFieldOffUnder;
-@property (nonatomic, strong) IBOutlet UITextField *textFieldOffGreater;
-@property (nonatomic, strong) IBOutlet UISwitch *_switchLock;
-@property (nonatomic, strong) IBOutlet UISwitch *_switchAlertUnder;
-@property (nonatomic, strong) IBOutlet UISwitch *_switchAlertGreater;
-@property (nonatomic, strong) IBOutlet UISwitch *_switchOffUnder;
-@property (nonatomic, strong) IBOutlet UISwitch *_switchOffGreater;
+@property (nonatomic, weak) IBOutlet UIImageView *imgViewSwitch;
+@property (nonatomic, weak) IBOutlet UITextField *textFieldName;
+@property (nonatomic, weak) IBOutlet UITextField *textFieldAlertUnder;
+@property (nonatomic, weak) IBOutlet UITextField *textFieldAlertGreater;
+@property (nonatomic, weak) IBOutlet UITextField *textFieldOffUnder;
+@property (nonatomic, weak) IBOutlet UITextField *textFieldOffGreater;
+@property (nonatomic, weak) IBOutlet UISwitch *_switchLock;
+@property (nonatomic, weak) IBOutlet UISwitch *_switchAlertUnder;
+@property (nonatomic, weak) IBOutlet UISwitch *_switchAlertGreater;
+@property (nonatomic, weak) IBOutlet UISwitch *_switchOffUnder;
+@property (nonatomic, weak) IBOutlet UISwitch *_switchOffGreater;
 @property (nonatomic, strong) UITextField *currentEditField;
 
 @property (nonatomic, assign) LockStatus lockStatus;
@@ -277,7 +277,8 @@ preparation before navigation
                     delegate:self
            cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
       destructiveButtonTitle:nil
-           otherButtonTitles:NSLocalizedString(@"Take a picture", nil),
+           otherButtonTitles:NSLocalizedString(@"Default", nil),
+                             NSLocalizedString(@"Take a picture", nil),
                              NSLocalizedString(@"Choose from album", nil), nil];
 
   [actionSheet showInView:self.view];
@@ -373,6 +374,7 @@ preparation before navigation
   } else if (textField == self.textFieldOffGreater) {
     self.offGreaterValue = [textField.text floatValue];
   }
+  self.currentEditField = nil;
 }
 
 //- (BOOL)textField:(UITextField *)textField
@@ -490,7 +492,86 @@ preparation before navigation
 }
 
 #pragma mark - 键盘通知
+//- (void)keyboardDidShow:(NSNotification *)notification {
+//  if (self.currentEditField == self.textFieldOffUnder ||
+//      self.currentEditField == self.textFieldOffGreater ||
+//      self.currentEditField == self.textFieldAlertUnder ||
+//      self.currentEditField == self.textFieldAlertGreater) {
+//    NSDictionary *info = [notification userInfo];
+//    CGSize kbSize =
+//        [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+//    CGFloat width = kbSize.width / 3;
+//    CGFloat height = kbSize.height / 4;
+//    if (self.btnDone == nil) {
+//      self.btnDone = [UIButton buttonWithType:UIButtonTypeCustom];
+//      self.btnDone.frame = CGRectMake(0, SCREEN_HEIGHT - height, width,
+//      height);
+//      [self.btnDone setTitle:NSLocalizedString(@"Keyboard return", nil)
+//                    forState:UIControlStateNormal];
+//      [self.btnDone setTitleColor:[UIColor blackColor]
+//                         forState:UIControlStateNormal];
+//      [self.btnDone addTarget:self
+//                       action:@selector(finishAction:)
+//             forControlEvents:UIControlEventTouchUpInside];
+//    }
+//
+//    // locate keyboard view
+//    UIWindow *tempWindow =
+//        [[[UIApplication sharedApplication] windows] objectAtIndex:1];
+//    if (self.btnDone.superview == nil) {
+//      [tempWindow addSubview:self.btnDone]; // 注意这里直接加到window上
+//    }
+//
+//    CGRect selfFrame = self.view.frame;
+//    selfFrame.origin.y -= 90;
+//    [UIView animateWithDuration:0.3
+//                     animations:^{ self.view.frame = selfFrame; }];
+//  } else {
+//    //    CGRect selfFrame = self.view.frame;
+//    //    selfFrame.origin.y += 90;
+//    //    [UIView animateWithDuration:0.3
+//    //                     animations:^{ self.view.frame = selfFrame; }];
+//    if (self.btnDone.superview) {
+//      [self.btnDone removeFromSuperview];
+//      self.btnDone = nil;
+//    }
+//  }
+//}
+
+//- (void)keyboardWillBeHidden:(NSNotification *)notification {
+//  if (self.currentEditField == self.textFieldOffUnder ||
+//      self.currentEditField == self.textFieldOffGreater ||
+//      self.currentEditField == self.textFieldAlertUnder ||
+//      self.currentEditField == self.textFieldAlertGreater) {
+//    CGRect selfFrame = self.view.frame;
+//    selfFrame.origin.y += 90;
+//    [UIView animateWithDuration:0.3
+//                     animations:^{ self.view.frame = selfFrame; }];
+//    if (self.btnDone.superview) {
+//      [self.btnDone removeFromSuperview];
+//      self.btnDone = nil;
+//    }
+//  }
+//}
+
+//#pragma mark - 键盘通知
 - (void)keyboardDidShow:(NSNotification *)notification {
+  NSDictionary *info = [notification userInfo];
+  CGRect kbRect =
+      [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+  kbRect = [self.view convertRect:kbRect fromView:nil];
+
+  UIEdgeInsets contentInsets =
+      UIEdgeInsetsMake(0.0, 0.0, kbRect.size.height, 0.0);
+  self.tableView.contentInset = contentInsets;
+  self.tableView.scrollIndicatorInsets = contentInsets;
+
+  CGRect aRect = self.view.frame;
+  aRect.size.height -= kbRect.size.height;
+  if (!CGRectContainsPoint(aRect, self.currentEditField.frame.origin)) {
+    [self.tableView scrollRectToVisible:self.currentEditField.frame
+                               animated:YES];
+  }
   if (self.currentEditField == self.textFieldOffUnder ||
       self.currentEditField == self.textFieldOffGreater ||
       self.currentEditField == self.textFieldAlertUnder ||
@@ -518,23 +599,7 @@ preparation before navigation
     if (self.btnDone.superview == nil) {
       [tempWindow addSubview:self.btnDone]; // 注意这里直接加到window上
     }
-
-    CGRect selfFrame = self.view.frame;
-    selfFrame.origin.y -= 90;
-    [UIView animateWithDuration:0.3
-                     animations:^{ self.view.frame = selfFrame; }];
-  }
-}
-
-- (void)keyboardWillBeHidden:(NSNotification *)notification {
-  if (self.currentEditField == self.textFieldOffUnder ||
-      self.currentEditField == self.textFieldOffGreater ||
-      self.currentEditField == self.textFieldAlertUnder ||
-      self.currentEditField == self.textFieldAlertGreater) {
-    CGRect selfFrame = self.view.frame;
-    selfFrame.origin.y += 90;
-    [UIView animateWithDuration:0.3
-                     animations:^{ self.view.frame = selfFrame; }];
+  } else {
     if (self.btnDone.superview) {
       [self.btnDone removeFromSuperview];
       self.btnDone = nil;
@@ -542,31 +607,20 @@ preparation before navigation
   }
 }
 
-//#pragma mark - 键盘通知
-//- (void)keyboardDidShow:(NSNotification *)notification {
-//    NSDictionary *info = [notification userInfo];
-//    CGRect kbRect =
-//    [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-//    kbRect = [self.view convertRect:kbRect fromView:nil];
-//
-//    UIEdgeInsets contentInsets =
-//    UIEdgeInsetsMake(0.0, 0.0, kbRect.size.height, 0.0);
-//    self.scrollView.contentInset = contentInsets;
-//    self.scrollView.scrollIndicatorInsets = contentInsets;
-//
-//    CGRect aRect = self.view.frame;
-//    aRect.size.height -= kbRect.size.height;
-//    if (!CGRectContainsPoint(aRect, self.activeField.frame.origin)) {
-//        [self.scrollView scrollRectToVisible:self.activeField.frame
-//        animated:YES];
-//    }
-//}
-//
-//- (void)keyboardWillBeHidden:(NSNotification *)notification {
-//    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-//    self.scrollView.contentInset = contentInsets;
-//    self.scrollView.scrollIndicatorInsets = contentInsets;
-//}
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
+  UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+  self.tableView.contentInset = contentInsets;
+  self.tableView.scrollIndicatorInsets = contentInsets;
+  if (self.currentEditField == self.textFieldOffUnder ||
+      self.currentEditField == self.textFieldOffGreater ||
+      self.currentEditField == self.textFieldAlertUnder ||
+      self.currentEditField == self.textFieldAlertGreater) {
+    if (self.btnDone.superview) {
+      [self.btnDone removeFromSuperview];
+      self.btnDone = nil;
+    }
+  }
+}
 
 - (void)finishAction:(id)sender {
   //  [self.textField resignFirstResponder];
@@ -583,10 +637,15 @@ preparation before navigation
   }
   switch (buttonIndex) {
     case 0:
+      self.isImgUpdate = YES;
+      self.imgName = switch_default_image;
+      self.imgViewSwitch.image = [UIImage imageNamed:self.imgName];
+      break;
+    case 1:
       //调用相机
       [self takePhoto];
       break;
-    case 1:
+    case 2:
       //调用本地相册
       [self localPhoto];
       break;

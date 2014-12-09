@@ -132,6 +132,10 @@
 		15B649DF1A306B01005AF244 /* welcome3-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B649DB1A306B01005AF244 /* welcome3-5@2x.png */; };
 		15B649E01A306B01005AF244 /* welcome2-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B649DC1A306B01005AF244 /* welcome2-5@2x.png */; };
 		15B649E11A306B01005AF244 /* welcome1-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B649DD1A306B01005AF244 /* welcome1-5@2x.png */; };
+		15B8E4BA1A36EF30004DAD1E /* HistoryMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B8E4B91A36EF30004DAD1E /* HistoryMessage.m */; };
+		15B8E4BD1A36F66B004DAD1E /* MessageCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B8E4BC1A36F66B004DAD1E /* MessageCenterViewController.m */; };
+		15B8E4C01A36FC76004DAD1E /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B8E4BF1A36FC76004DAD1E /* MessageCell.m */; };
+		15B8E4C31A36FF51004DAD1E /* MessageCenterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B8E4C21A36FF51004DAD1E /* MessageCenterModel.m */; };
 		15BA47A519FDEA49008ADB9D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 15BA47A719FDEA49008ADB9D /* Localizable.strings */; };
 		15BA47B219FE00CB008ADB9D /* DelaySettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15BA47B419FE00CB008ADB9D /* DelaySettingViewController.xib */; };
 		15BA47B919FE153E008ADB9D /* DatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15BA47BB19FE153E008ADB9D /* DatePickerViewController.xib */; };
@@ -372,6 +376,14 @@
 		15B649DB1A306B01005AF244 /* welcome3-5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3-5@2x.png"; sourceTree = "<group>"; };
 		15B649DC1A306B01005AF244 /* welcome2-5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2-5@2x.png"; sourceTree = "<group>"; };
 		15B649DD1A306B01005AF244 /* welcome1-5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1-5@2x.png"; sourceTree = "<group>"; };
+		15B8E4B81A36EF30004DAD1E /* HistoryMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryMessage.h; sourceTree = "<group>"; };
+		15B8E4B91A36EF30004DAD1E /* HistoryMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryMessage.m; sourceTree = "<group>"; };
+		15B8E4BB1A36F66B004DAD1E /* MessageCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCenterViewController.h; sourceTree = "<group>"; };
+		15B8E4BC1A36F66B004DAD1E /* MessageCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCenterViewController.m; sourceTree = "<group>"; };
+		15B8E4BE1A36FC75004DAD1E /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
+		15B8E4BF1A36FC76004DAD1E /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
+		15B8E4C11A36FF51004DAD1E /* MessageCenterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCenterModel.h; sourceTree = "<group>"; };
+		15B8E4C21A36FF51004DAD1E /* MessageCenterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCenterModel.m; sourceTree = "<group>"; };
 		15BA47A819FDEA54008ADB9D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		15BA47A919FDEA55008ADB9D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		15BA47B319FE00CB008ADB9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DelaySettingViewController.xib; sourceTree = "<group>"; };
@@ -548,6 +560,10 @@
 		1560131519C9665E00BF7E12 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				15B8E4B81A36EF30004DAD1E /* HistoryMessage.h */,
+				15B8E4B91A36EF30004DAD1E /* HistoryMessage.m */,
+				15B8E4C11A36FF51004DAD1E /* MessageCenterModel.h */,
+				15B8E4C21A36FF51004DAD1E /* MessageCenterModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -573,6 +589,8 @@
 				151E7BC41A1AD5AD002BE94F /* UserSettingViewController.m */,
 				1561BFBF1A33FE34009D1349 /* FeedbackViewController.h */,
 				1561BFC01A33FE34009D1349 /* FeedbackViewController.m */,
+				15B8E4BB1A36F66B004DAD1E /* MessageCenterViewController.h */,
+				15B8E4BC1A36F66B004DAD1E /* MessageCenterViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -589,6 +607,8 @@
 				1551F6F419F9120B00A24447 /* FaqCell.h */,
 				1551F6F519F9120B00A24447 /* FaqCell.m */,
 				150FC6DD19F9E276005134B7 /* FaqCell.xib */,
+				15B8E4BE1A36FC75004DAD1E /* MessageCell.h */,
+				15B8E4BF1A36FC76004DAD1E /* MessageCell.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -1247,6 +1267,7 @@
 				15BBD6F819DA857A0002D973 /* ElecRealTimeView.m in Sources */,
 				1560131419C9600600BF7E12 /* UIImage+Color.m in Sources */,
 				15AC864D19D10A2100D154EB /* DelayViewController.m in Sources */,
+				15B8E4C01A36FC76004DAD1E /* MessageCell.m in Sources */,
 				15AC865B19D2C56400D154EB /* DatePickerViewController.m in Sources */,
 				15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */,
 				158D992219C7DF830068AFC5 /* CC3xMessage.m in Sources */,
@@ -1283,9 +1304,11 @@
 				15736B9019F2482F00D6A45D /* WelcomeViewController.m in Sources */,
 				15AC865819D158D700D154EB /* DelayModel.m in Sources */,
 				15AC863C19CFC6C900D154EB /* TimerEditViewController.m in Sources */,
+				15B8E4BD1A36F66B004DAD1E /* MessageCenterViewController.m in Sources */,
 				1560132819CBDCA700BF7E12 /* SwitchDetailModel.m in Sources */,
 				15AC865119D10A4E00D154EB /* DelaySettingViewController.m in Sources */,
 				150BE86D1A01D47700A358CF /* SceneExcTitleView.m in Sources */,
+				15B8E4BA1A36EF30004DAD1E /* HistoryMessage.m in Sources */,
 				15B5B9A21A280901008C8F94 /* ScenePreExcDailogViewController.m in Sources */,
 				156012BE19C8129300BF7E12 /* ConfigLoadingViewController.m in Sources */,
 				158D991719C7CBC50068AFC5 /* DESUtil.m in Sources */,
@@ -1293,6 +1316,7 @@
 				158D991F19C7DF7A0068AFC5 /* CRC.c in Sources */,
 				15F3A48219EBCCE6001CD296 /* QuestionViewController.m in Sources */,
 				15F3A47E19EB8123001CD296 /* UserInfo.m in Sources */,
+				15B8E4C31A36FF51004DAD1E /* MessageCenterModel.m in Sources */,
 				150FC6E319FA39DB005134B7 /* ProtocolViewController.m in Sources */,
 				15BBD6F519DA7CBC0002D973 /* ElecView.m in Sources */,
 				15F3A47F19EB8123001CD296 /* ServerResponse.m in Sources */,

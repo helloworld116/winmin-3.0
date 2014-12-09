@@ -291,6 +291,9 @@ static float startMaxRangeVal;
   //    self.minYVal = 0;
   //  }
   self.minYVal = 0;
+  if (self.maxYVal < 5) {
+    self.maxYVal = 5;
+  }
   self.yStep = self.gridHeigth / (self.maxYVal - self.minYVal);
 }
 

@@ -27,9 +27,9 @@ static const int maxCount = 20;
 
 @interface TimerEditViewController () <PassValueDelegate,
                                        DatePickerControllerDelegate>
-@property (strong, nonatomic) IBOutlet UILabel *lblTime;
-@property (strong, nonatomic) IBOutlet UILabel *lblRepeatDesc;
-@property (strong, nonatomic) IBOutlet UIButton *btnOnOff;
+@property (weak, nonatomic) IBOutlet UILabel *lblTime;
+@property (weak, nonatomic) IBOutlet UILabel *lblRepeatDesc;
+@property (weak, nonatomic) IBOutlet UIButton *btnOnOff;
 - (IBAction)onOffChanged:(id)sender;
 - (IBAction)showDatePicker:(id)sender;
 - (IBAction)changeWeek:(id)sender;

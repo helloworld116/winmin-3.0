@@ -46,6 +46,8 @@
     NSLocalizedString(@"Safety Warning", nil),
     NSLocalizedString(@"FAQ", nil),
     NSLocalizedString(@"User Manual", nil),
+    NSLocalizedString(@"Message Center", nil),
+    NSLocalizedString(@"Feedback", nil),
     NSLocalizedString(@"Purchase Products", nil)
   ];
   self.icons = @[
@@ -54,6 +56,8 @@
     @"security",
     @"question",
     @"book",
+    @"push_message",
+    @"feedback",
     @"buy"
   ];
   [[NSNotificationCenter defaultCenter]
@@ -209,6 +213,15 @@
             instantiateViewControllerWithIdentifier:@"BookViewController"];
         break;
       case 5:
+        nextController =
+            [self.storyboard instantiateViewControllerWithIdentifier:
+                                 @"MessageCenterViewController"];
+        break;
+      case 6:
+        nextController = [self.storyboard
+            instantiateViewControllerWithIdentifier:@"FeedbackViewController"];
+        break;
+      case 7:
         [[UIApplication sharedApplication]
             openURL:[NSURL URLWithString:@"http://shop111398559.taobao.com"]];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];

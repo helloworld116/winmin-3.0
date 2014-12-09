@@ -19,9 +19,9 @@
   }
 
 @interface CycleCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UIView *viewOfCellContent;
-@property (strong, nonatomic) IBOutlet UILabel *lblDate;
-@property (strong, nonatomic) IBOutlet UIButton *btnSelected;
+@property (weak, nonatomic) IBOutlet UIView *viewOfCellContent;
+@property (weak, nonatomic) IBOutlet UILabel *lblDate;
+@property (weak, nonatomic) IBOutlet UIButton *btnSelected;
 @end
 @implementation CycleCell
 - (void)awakeFromNib {

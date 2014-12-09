@@ -9,9 +9,9 @@
 #import "DatePickerViewController.h"
 
 @interface DatePickerViewController ()
-@property (strong, nonatomic) IBOutlet UIButton *btnOK;
-@property (strong, nonatomic) IBOutlet UIButton *btnCancel;
-@property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet UIButton *btnOK;
+@property (weak, nonatomic) IBOutlet UIButton *btnCancel;
+@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @property (strong, nonatomic) NSString *dateString;

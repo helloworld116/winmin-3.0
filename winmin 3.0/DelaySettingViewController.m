@@ -9,16 +9,16 @@
 #import "DelaySettingViewController.h"
 
 @interface DelaySettingViewController () <UITextFieldDelegate>
-@property (strong, nonatomic) IBOutlet UITextField *textField;
-@property (strong, nonatomic) IBOutlet UIButton *btnInput;
-@property (strong, nonatomic) IBOutlet UIButton *btnMinitues5;
-@property (strong, nonatomic) IBOutlet UIButton *btnMinitues10;
-@property (strong, nonatomic) IBOutlet UIButton *btnMinitues30;
-@property (strong, nonatomic) IBOutlet UIButton *btnMinitues60;
-@property (strong, nonatomic) IBOutlet UIButton *btnMinitues90;
-@property (strong, nonatomic) IBOutlet UIButton *btnMinitues120;
-@property (strong, nonatomic) IBOutlet UIButton *btnOnOff;
-@property (strong, nonatomic) IBOutlet UIButton *btnSave;
+@property (nonatomic, weak) IBOutlet UITextField *textField;
+@property (nonatomic, weak) IBOutlet UIButton *btnInput;
+@property (nonatomic, weak) IBOutlet UIButton *btnMinitues5;
+@property (nonatomic, weak) IBOutlet UIButton *btnMinitues10;
+@property (nonatomic, weak) IBOutlet UIButton *btnMinitues30;
+@property (nonatomic, weak) IBOutlet UIButton *btnMinitues60;
+@property (nonatomic, weak) IBOutlet UIButton *btnMinitues90;
+@property (nonatomic, weak) IBOutlet UIButton *btnMinitues120;
+@property (nonatomic, weak) IBOutlet UIButton *btnOnOff;
+@property (nonatomic, weak) IBOutlet UIButton *btnSave;
 - (IBAction)choiceAction:(id)sender;
 - (IBAction)onOffAction:(id)sender;
 - (IBAction)save:(id)sender;

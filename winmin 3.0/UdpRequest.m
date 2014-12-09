@@ -122,6 +122,20 @@ static dispatch_queue_t delegateQueue;
 }
 
 #pragma mark - UDP发送请求
+- (void)sendDataToHostWithPort {
+  if (self.udpSocket.isClosed) {
+    [self setupUdpSocket:self.udpSocket port:APP_PORT];
+  }
+  dispatch_async(udp_send_serial_queue(), ^{
+      [self.udpSocket sendData:self.msg
+                        toHost:self.host
+                          port:self.port
+                   withTimeout:kPrivateUDPTimeOut
+                           tag:self.tag];
+      [NSThread sleepForTimeInterval:.08f];
+  });
+}
+
 - (void)sendDataToHost {
   if (self.udpSocket.isClosed) {
     [self setupUdpSocket:self.udpSocket port:0];
@@ -196,7 +210,7 @@ static dispatch_queue_t delegateQueue;
   //        //不在内网的情况下的处理
   //      }
   //  });
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_send_serial_queue(), ^{
       if (mode == ActiveMode) {
         self.msgSendCount = 0;
       } else if (mode == PassiveMode) {
@@ -206,7 +220,7 @@ static dispatch_queue_t delegateQueue;
       self.host = ip;
       self.port = port;
       self.tag = P2D_SERVER_INFO_05;
-      [self sendDataToHost];
+      [self sendDataToHostWithPort];
   });
 }
 
@@ -269,7 +283,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode tag:(long)tag {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_send_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
         if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
           [self.delegate errorMsg:kNotReachable];

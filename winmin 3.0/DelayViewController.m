@@ -12,8 +12,8 @@
 #import "DelaySettingViewController.h"
 
 @interface DelayViewController () <DelaySettingControllerDelegate>
-@property (nonatomic, strong) IBOutlet DelayTimeCountDownView *countDownView;
-@property (nonatomic, strong) IBOutlet UIButton *settingBtn;
+@property (nonatomic, weak) IBOutlet DelayTimeCountDownView *countDownView;
+@property (nonatomic, weak) IBOutlet UIButton *settingBtn;
 - (IBAction)showSetting:(id)sender;
 
 @property (nonatomic, strong) DelayModel *model;

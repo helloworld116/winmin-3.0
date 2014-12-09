@@ -97,13 +97,13 @@
   if (self.sockeViewDelegate &&
       [self.sockeViewDelegate
           respondsToSelector:@selector(touchOnOrOffWithSelf:)]) {
+    [self addRotateAnimation];
     [self.sockeViewDelegate touchOnOrOffWithSelf:self];
     BOOL shake = [
         [[NSUserDefaults standardUserDefaults] valueForKey:keyShake] boolValue];
     if (shake) {
       AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     }
-    [self addRotateAnimation];
   }
 }
 

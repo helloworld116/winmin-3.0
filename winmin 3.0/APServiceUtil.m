@@ -63,7 +63,12 @@
   NSString *password =
       [aSwitch.password stringByReplacingOccurrencesOfString:@":"
                                                   withString:@""];
-  NSString *tag = [NSString stringWithFormat:@"%@%@", mac, password];
+  NSString *tag; //新老版本兼容
+  if (password) {
+    tag = [NSString stringWithFormat:@"%@%@", mac, password];
+  } else {
+    tag = mac;
+  }
   return tag;
 }
 

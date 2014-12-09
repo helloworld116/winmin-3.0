@@ -18,7 +18,8 @@
 #import <CRToast.h>
 
 @interface SwitchDetailViewController () <
-    SocketViewDelegate, SocketImgTemplateDelegate, ElecViewDelegate>
+    SocketViewDelegate, SocketImgTemplateDelegate, ElecViewDelegate,
+    MBProgressHUDDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet SocketView *socketView1;
 @property (weak, nonatomic) IBOutlet SocketView *socketView2;
@@ -29,6 +30,7 @@
 @property (strong, nonatomic) NSMutableArray *powers; //保存实时电量数据
 
 @property (strong, nonatomic) UIView *errorMsgView;
+@property (nonatomic, strong) MBProgressHUD *HUD;
 
 @end
 
@@ -48,6 +50,10 @@
   backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
   self.navigationItem.title = self.aSwitch.name;
+  self.HUD = [[MBProgressHUD alloc] initWithWindow:kSharedAppliction.window];
+  [self.view.window addSubview:self.HUD];
+  //  self.HUD.delegate = self;
+
   if (!self.aSwitch.sockets || [self.aSwitch.sockets count] != 2) {
     self.aSwitch.sockets = [@[] mutableCopy];
     SDZGSocket *socket1 = [[SDZGSocket alloc] init];
@@ -232,9 +238,13 @@ preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   // Get the new view controller using [segue destinationViewController].
   // Pass the selected object to the new view controller.
-  SwitchInfoViewController *destViewController =
-      [segue destinationViewController];
-  destViewController.aSwitch = self.aSwitch;
+  if (self.aSwitch.networkStatus == SWITCH_OFFLINE) {
+    [self showOfflineMsg];
+  } else {
+    SwitchInfoViewController *destViewController =
+        [segue destinationViewController];
+    destViewController.aSwitch = self.aSwitch;
+  }
 }
 
 #pragma mark -
@@ -264,24 +274,37 @@ preparation before navigation
 }
 
 - (void)touchOnOrOffWithSelf:(SocketView *)_self {
-  [self.model openOrCloseWithGroupId:_self.groupId];
+  if (self.aSwitch.networkStatus == SWITCH_OFFLINE) {
+    [_self removeRotateAnimation];
+    [self showOfflineMsg];
+  } else {
+    [self.model openOrCloseWithGroupId:_self.groupId];
+  }
 }
 
 - (void)touchTimerWithSelf:(SocketView *)_self {
-  TimerViewController *nextViewController = [self.storyboard
-      instantiateViewControllerWithIdentifier:@"TimerViewController"];
-  nextViewController.aSwitch = self.aSwitch;
-  nextViewController.socketGroupId = _self.groupId;
-  [self.navigationController pushViewController:nextViewController
-                                       animated:YES];
+  if (self.aSwitch.networkStatus == SWITCH_OFFLINE) {
+    [self showOfflineMsg];
+  } else {
+    TimerViewController *nextViewController = [self.storyboard
+        instantiateViewControllerWithIdentifier:@"TimerViewController"];
+    nextViewController.aSwitch = self.aSwitch;
+    nextViewController.socketGroupId = _self.groupId;
+    [self.navigationController pushViewController:nextViewController
+                                         animated:YES];
+  }
 }
 - (void)touchDelayWithSelf:(SocketView *)_self {
-  DelayViewController *nextViewController = [self.storyboard
-      instantiateViewControllerWithIdentifier:@"DelayViewController"];
-  nextViewController.aSwitch = self.aSwitch;
-  nextViewController.socketGroupId = _self.groupId;
-  [self.navigationController pushViewController:nextViewController
-                                       animated:YES];
+  if (self.aSwitch.networkStatus == SWITCH_OFFLINE) {
+    [self showOfflineMsg];
+  } else {
+    DelayViewController *nextViewController = [self.storyboard
+        instantiateViewControllerWithIdentifier:@"DelayViewController"];
+    nextViewController.aSwitch = self.aSwitch;
+    nextViewController.socketGroupId = _self.groupId;
+    [self.navigationController pushViewController:nextViewController
+                                         animated:YES];
+  }
 }
 
 - (void)socketView:(SocketView *)socketView
@@ -495,6 +518,19 @@ preparation before navigation
       [self.elecView stopRealTimeDraw];
     }
   }
+}
+
+#pragma mark - 显示消息
+- (void)showOfflineMsg {
+  //  [self.view hideToast:self.view];
+  [self.view
+      makeToast:NSLocalizedString(@"Device offline, Please check your network",
+                                  nil)
+       duration:1.f
+       position:[NSValue
+                    valueWithCGPoint:CGPointMake(self.view.frame.size.width / 2,
+                                                 self.view.frame.size.height -
+                                                     40)]];
 }
 
 @end

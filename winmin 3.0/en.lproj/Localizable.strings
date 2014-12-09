@@ -30,6 +30,7 @@
 "Choose from album"="Choose from album";
 "No UDP Response Msg"="Network latency, check the device network connection";
 "WWAN Message"="You are using the mobile network operators may charge other fees, depending on your network subscriptions";
+"Default"="Default";
 
 /**
  *  控制
@@ -107,6 +108,8 @@
 "Safety Warning"="Safety Warning";
 "FAQ"="FAQ";
 "User Manual"="User Manual";
+"Message Center"="Message Center";
+"Feedback"="Feedback";
 "Purchase Products"="Purchase Products";
 "User Login"="Log in";
 "User Register"="Sign up";
