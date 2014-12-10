@@ -2978,68 +2978,113 @@
             <point key="canvasLocation" x="1725" y="2267"/>
         </scene>
         <!--Feedback View Controller-->
-        <scene sceneID="6UD-B7-FgX">
+        <scene sceneID="Tsa-wF-sFG">
             <objects>
-                <viewController storyboardIdentifier="FeedbackViewController" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="SDw-xy-eEC" customClass="FeedbackViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FeedbackViewController" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="av0-fi-Ohl" customClass="FeedbackViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="H9V-yg-YyM"/>
-                        <viewControllerLayoutGuide type="bottom" id="LFO-OG-pZe"/>
+                        <viewControllerLayoutGuide type="top" id="Bp4-XK-2ge"/>
+                        <viewControllerLayoutGuide type="bottom" id="2nT-yg-OWa"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="wUs-w5-Lv9">
+                    <view key="view" contentMode="scaleToFill" id="Ajn-Np-n5l">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fkk-DF-uWS">
-                                <rect key="frame" x="10" y="20" width="75" height="40"/>
-                                <state key="normal" title="有问题">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="me4-Kh-jf0">
-                                <rect key="frame" x="85" y="20" width="75" height="40"/>
-                                <state key="normal" title="提建议">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLD-LL-DkE">
-                                <rect key="frame" x="160" y="20" width="75" height="40"/>
-                                <state key="normal" title="不会用">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jld-6l-hSQ">
-                                <rect key="frame" x="235" y="20" width="75" height="40"/>
-                                <state key="normal" title="其他">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入您的邮箱地址" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qog-HW-oIW">
-                                <rect key="frame" x="10" y="228" width="300" height="50"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LKf-sz-xoE">
-                                <rect key="frame" x="10" y="286" width="300" height="50"/>
-                                <state key="normal" title="提  交">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="请输入您的反馈意见..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ftO-Td-HdT">
-                                <rect key="frame" x="10" y="68" width="300" height="150"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w0V-VS-ZC4" userLabel="scroll anchor">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vcu-QY-Ryb">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wUs-w5-Lv9" customClass="UIControl">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fkk-DF-uWS">
+                                                <rect key="frame" x="10" y="10" width="67" height="30"/>
+                                                <state key="normal" title="有问题">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="me4-Kh-jf0">
+                                                <rect key="frame" x="87" y="10" width="67" height="30"/>
+                                                <state key="normal" title="提建议">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLD-LL-DkE">
+                                                <rect key="frame" x="164" y="10" width="67" height="30"/>
+                                                <state key="normal" title="不会用">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jld-6l-hSQ">
+                                                <rect key="frame" x="240" y="10" width="67" height="30"/>
+                                                <state key="normal" title="其他">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入您的邮箱地址" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qog-HW-oIW" customClass="FeedbackTextField">
+                                                <rect key="frame" x="10" y="208" width="300" height="50"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LKf-sz-xoE">
+                                                <rect key="frame" x="10" y="266" width="300" height="50"/>
+                                                <color key="backgroundColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="提  交">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="请输入您的反馈意见..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ftO-Td-HdT" customClass="FeedbackTextField">
+                                                <rect key="frame" x="10" y="48" width="300" height="150"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.94117647059999998" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="touchBackground:" destination="av0-fi-Ohl" eventType="touchDown" id="TkH-RG-tu4"/>
+                                        </connections>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="wUs-w5-Lv9" secondAttribute="bottom" id="1YK-W8-oGY"/>
+                                    <constraint firstItem="wUs-w5-Lv9" firstAttribute="leading" secondItem="Vcu-QY-Ryb" secondAttribute="leading" id="CQu-0d-8CC"/>
+                                    <constraint firstAttribute="trailing" secondItem="wUs-w5-Lv9" secondAttribute="trailing" id="Pmm-ie-7kg"/>
+                                    <constraint firstItem="wUs-w5-Lv9" firstAttribute="top" secondItem="Vcu-QY-Ryb" secondAttribute="top" id="mtL-HH-xz3"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Vcu-QY-Ryb" firstAttribute="top" secondItem="Ajn-Np-n5l" secondAttribute="top" id="8kW-uw-r4k"/>
+                            <constraint firstAttribute="trailing" secondItem="w0V-VS-ZC4" secondAttribute="trailing" id="QU7-IQ-o3F"/>
+                            <constraint firstItem="w0V-VS-ZC4" firstAttribute="height" secondItem="wUs-w5-Lv9" secondAttribute="height" id="RyH-N2-eu6"/>
+                            <constraint firstItem="2nT-yg-OWa" firstAttribute="top" secondItem="w0V-VS-ZC4" secondAttribute="bottom" id="X0B-Db-1KC"/>
+                            <constraint firstAttribute="trailing" secondItem="Vcu-QY-Ryb" secondAttribute="trailing" id="fVz-0g-eL4"/>
+                            <constraint firstItem="w0V-VS-ZC4" firstAttribute="width" secondItem="wUs-w5-Lv9" secondAttribute="width" id="ghb-T7-BGG"/>
+                            <constraint firstItem="2nT-yg-OWa" firstAttribute="top" secondItem="Vcu-QY-Ryb" secondAttribute="bottom" id="jbi-qd-JPu"/>
+                            <constraint firstItem="w0V-VS-ZC4" firstAttribute="leading" secondItem="Ajn-Np-n5l" secondAttribute="leading" id="uSn-8l-Ndp"/>
+                            <constraint firstItem="Vcu-QY-Ryb" firstAttribute="leading" secondItem="Ajn-Np-n5l" secondAttribute="leading" id="wWL-YY-tkd"/>
+                            <constraint firstItem="w0V-VS-ZC4" firstAttribute="top" secondItem="Ajn-Np-n5l" secondAttribute="top" id="xY6-zo-qrx"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="textEmail" destination="qog-HW-oIW" id="Wps-3J-3nF"/>
-                        <outlet property="textSuggestion" destination="ftO-Td-HdT" id="b6g-yw-PK8"/>
+                        <outlet property="btnOther" destination="jld-6l-hSQ" id="3dq-SM-jH3"/>
+                        <outlet property="btnQuestion" destination="fkk-DF-uWS" id="46a-Z3-UIv"/>
+                        <outlet property="btnSubmit" destination="LKf-sz-xoE" id="jdQ-UF-fsD"/>
+                        <outlet property="btnSuggestion" destination="me4-Kh-jf0" id="yzf-O0-eS0"/>
+                        <outlet property="btnUsage" destination="jLD-LL-DkE" id="Xjo-WD-LGA"/>
+                        <outlet property="scrollView" destination="Vcu-QY-Ryb" id="UVM-Id-k4S"/>
+                        <outlet property="textEmail" destination="qog-HW-oIW" id="8cW-th-Reu"/>
+                        <outlet property="textSuggestion" destination="ftO-Td-HdT" id="GAa-CH-LIF"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tmL-Py-UyI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pop-Ee-YxG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2525" y="2267"/>
+            <point key="canvasLocation" x="2542" y="2262"/>
         </scene>
         <!--Message Center View Controller-->
         <scene sceneID="IPZ-Hu-ywS">
@@ -3123,6 +3168,40 @@
                                             <outlet property="lblTitle" destination="Prt-S8-Rrt" id="8Ub-rQ-Lny"/>
                                             <outlet property="viewContainer" destination="Oa7-nN-QpJ" id="Hqg-30-6bm"/>
                                             <outlet property="viewLine" destination="yzI-KC-xQT" id="mTe-DB-cbQ"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoadmoreCell" rowHeight="50" id="R9u-eu-K0g" customClass="LoadmoreCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R9u-eu-K0g" id="52h-NZ-jGt">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aLO-oa-LoO">
+                                                    <rect key="frame" x="8" y="8" width="304" height="34"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <state key="normal" title="显示下20条">
+                                                        <color key="titleColor" red="0.58823529409999997" green="0.58823529409999997" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="b01-A3-FPn">
+                                                    <rect key="frame" x="77" y="15" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="b01-A3-FPn" firstAttribute="top" secondItem="52h-NZ-jGt" secondAttribute="top" constant="15" id="2MO-cR-vD9"/>
+                                                <constraint firstAttribute="bottom" secondItem="aLO-oa-LoO" secondAttribute="bottom" constant="8" id="RYd-Xf-mwQ"/>
+                                                <constraint firstItem="aLO-oa-LoO" firstAttribute="top" secondItem="52h-NZ-jGt" secondAttribute="top" constant="8" id="Tcc-Af-uEh"/>
+                                                <constraint firstItem="aLO-oa-LoO" firstAttribute="leading" secondItem="52h-NZ-jGt" secondAttribute="leading" constant="8" id="aby-ki-Xbr"/>
+                                                <constraint firstItem="b01-A3-FPn" firstAttribute="leading" secondItem="52h-NZ-jGt" secondAttribute="leading" constant="77" id="ftt-gD-7W2"/>
+                                                <constraint firstAttribute="trailing" secondItem="aLO-oa-LoO" secondAttribute="trailing" constant="8" id="iSp-qP-Fs4"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="activityIndicator" destination="b01-A3-FPn" id="iJA-3G-5D1"/>
+                                            <outlet property="btnLoadmore" destination="aLO-oa-LoO" id="XhN-Z9-RCR"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

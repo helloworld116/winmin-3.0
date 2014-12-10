@@ -150,11 +150,13 @@ extern NSString *const jPushTagArrayKey;
 //#define SERVER_IP @"183.63.35.203"
 //#define SERVER_IP @"192.168.0.89"
 #define SERVER_IP @"120.24.75.50"
-// static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
-static NSString *const BaseURLString = @"http://192.168.0.188:8080/ais/app/";
+// static NSString *const BaseURLString = @"http://192.168.0.188:8080/ais/app/";
+static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
+static NSString *const MessageURLString = @"http://120.24.75.50:18080/ais/app/";
 #else
 #define SERVER_IP @"120.24.75.50"
 static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
+static NSString *const MessageURLString = @"http://120.24.75.50:18080/ais/app/";
 #endif
 static float const kHardwareVersion = 2.0;
 static int const kUdpResponseSuccessCode = 0;

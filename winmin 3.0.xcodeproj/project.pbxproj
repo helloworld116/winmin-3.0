@@ -26,6 +26,8 @@
 		150FC6E519FA419B005134B7 /* protocol.htm in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6E419FA419B005134B7 /* protocol.htm */; };
 		151B4AAA1A0226DF00C77467 /* winmin 3.0-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 151B4AA91A0226DF00C77467 /* winmin 3.0-Info.plist */; };
 		151E7BC51A1AD5AD002BE94F /* UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 151E7BC41A1AD5AD002BE94F /* UserSettingViewController.m */; };
+		15391C401A37DCBB00287C4F /* LoadmoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15391C3F1A37DCBB00287C4F /* LoadmoreCell.m */; };
+		15391C431A38378000287C4F /* FeedbackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15391C421A38378000287C4F /* FeedbackModel.m */; };
 		15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 15476D4B19E68B6B00EC6BD1 /* NetUtil.m */; };
 		1551F6EF19F8951200A24447 /* FAQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1551F6EE19F8951200A24447 /* FAQViewController.m */; };
 		1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6F019F8AC9300A24447 /* bookinfo@2x.png */; };
@@ -202,6 +204,10 @@
 		151B4AAB1A0226FC00C77467 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		151E7BC31A1AD5AD002BE94F /* UserSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettingViewController.h; sourceTree = "<group>"; };
 		151E7BC41A1AD5AD002BE94F /* UserSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSettingViewController.m; sourceTree = "<group>"; };
+		15391C3E1A37DCBB00287C4F /* LoadmoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadmoreCell.h; sourceTree = "<group>"; };
+		15391C3F1A37DCBB00287C4F /* LoadmoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadmoreCell.m; sourceTree = "<group>"; };
+		15391C411A38378000287C4F /* FeedbackModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackModel.h; sourceTree = "<group>"; };
+		15391C421A38378000287C4F /* FeedbackModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackModel.m; sourceTree = "<group>"; };
 		15476D4A19E68B6B00EC6BD1 /* NetUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetUtil.h; sourceTree = "<group>"; };
 		15476D4B19E68B6B00EC6BD1 /* NetUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetUtil.m; sourceTree = "<group>"; };
 		1551F6ED19F8951200A24447 /* FAQViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQViewController.h; sourceTree = "<group>"; };
@@ -564,6 +570,8 @@
 				15B8E4B91A36EF30004DAD1E /* HistoryMessage.m */,
 				15B8E4C11A36FF51004DAD1E /* MessageCenterModel.h */,
 				15B8E4C21A36FF51004DAD1E /* MessageCenterModel.m */,
+				15391C411A38378000287C4F /* FeedbackModel.h */,
+				15391C421A38378000287C4F /* FeedbackModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -609,6 +617,8 @@
 				150FC6DD19F9E276005134B7 /* FaqCell.xib */,
 				15B8E4BE1A36FC75004DAD1E /* MessageCell.h */,
 				15B8E4BF1A36FC76004DAD1E /* MessageCell.m */,
+				15391C3E1A37DCBB00287C4F /* LoadmoreCell.h */,
+				15391C3F1A37DCBB00287C4F /* LoadmoreCell.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -1310,8 +1320,10 @@
 				150BE86D1A01D47700A358CF /* SceneExcTitleView.m in Sources */,
 				15B8E4BA1A36EF30004DAD1E /* HistoryMessage.m in Sources */,
 				15B5B9A21A280901008C8F94 /* ScenePreExcDailogViewController.m in Sources */,
+				15391C431A38378000287C4F /* FeedbackModel.m in Sources */,
 				156012BE19C8129300BF7E12 /* ConfigLoadingViewController.m in Sources */,
 				158D991719C7CBC50068AFC5 /* DESUtil.m in Sources */,
+				15391C401A37DCBB00287C4F /* LoadmoreCell.m in Sources */,
 				1560132319CA795100BF7E12 /* SocketImgTemplateViewController.m in Sources */,
 				158D991F19C7DF7A0068AFC5 /* CRC.c in Sources */,
 				15F3A48219EBCCE6001CD296 /* QuestionViewController.m in Sources */,

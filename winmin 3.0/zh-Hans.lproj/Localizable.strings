@@ -148,3 +148,6 @@
 "ShowMac"="显示MAC地址";
 "WWANWarn"="移动网络下提醒";
 "remoteNotification"="接收推送消息";
+"feedback cannot empty"="请输入您的反馈意见";
+"feedback error"="网络延迟，请重试";
+"feedback success"="提交成功";

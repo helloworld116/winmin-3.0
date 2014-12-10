@@ -8,7 +8,7 @@
 
 #import "MessageCenterModel.h"
 #import "HistoryMessage.h"
-
+const int successCode = 1;
 @implementation MessageCenterModel
 - (void)requestMsgWithMac:(NSString *)mac
                      type:(int)type
@@ -17,7 +17,7 @@
                completion:(void (^)(int status, NSArray *messages,
                                     int totalCount))compeltion {
   NSString *messageUrl =
-      [NSString stringWithFormat:@"%@message/list", BaseURLString];
+      [NSString stringWithFormat:@"%@message/list", MessageURLString];
   AFHTTPRequestOperationManager *manager =
       [AFHTTPRequestOperationManager manager];
   manager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -32,10 +32,10 @@
           NSString *string =
               [[NSString alloc] initWithData:responseObject
                                     encoding:NSUTF8StringEncoding];
-          DDLogDebug(@"response is %@", string);
+          //          DDLogDebug(@"response msg is %@",string);
           NSDictionary *responseData = __JSON(string);
           int status = [responseData[@"status"] intValue];
-          if (status == 1) {
+          if (status == successCode) {
             NSDictionary *data = responseData[@"data"];
             int responseCount = [data[@"count"] intValue];
             int totalCount = [data[@"total"] intValue];

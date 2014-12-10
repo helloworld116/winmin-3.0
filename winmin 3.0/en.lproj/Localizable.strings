@@ -137,3 +137,6 @@
 "ShowMac"="显示MAC地址";
 "WWANWarn"="移动网络下提醒";
 "remoteNotification"="接收推送消息";
+"feedback cannot empty"="feedback cannot empty";
+"feedback error"="Network delay, please try again";
+"feedback success"="Submit success";
