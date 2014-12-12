@@ -11,7 +11,8 @@
 #import "DelayModel.h"
 #import "DelaySettingViewController.h"
 
-@interface DelayViewController () <DelaySettingControllerDelegate>
+@interface DelayViewController () <DelaySettingControllerDelegate,
+                                   UIAlertViewDelegate>
 @property (nonatomic, weak) IBOutlet DelayTimeCountDownView *countDownView;
 @property (nonatomic, weak) IBOutlet UIButton *settingBtn;
 @property (nonatomic, weak) IBOutlet UIView *viewTop;
@@ -139,6 +140,29 @@ preparation before navigation
 
 #pragma mark -
 - (void)cancelDelay:(id)sender {
+  UIAlertView *alertView =
+      [[UIAlertView alloc] initWithTitle:nil
+                                 message:@"确定取消延时吗？"
+                                delegate:self
+                       cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                       otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
+  [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView
+    clickedButtonAtIndex:(NSInteger)buttonIndex {
+  switch (buttonIndex) {
+    case 0:
+      break;
+    case 1:
+      [self cancel];
+      break;
+    default:
+      break;
+  }
+}
+
+- (void)cancel {
   [self.countDownView countDown:0];
   self.viewTop.hidden = YES;
   [MBProgressHUD showHUDAddedTo:self.view animated:YES];

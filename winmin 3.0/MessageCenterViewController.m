@@ -43,11 +43,10 @@ void (^loadCompletion)(MessageCenterViewController *iSelf, int status,
 
 - (void)setup {
   self.navigationItem.title = NSLocalizedString(@"Message Center", nil);
-  self.noDataView = [[UIView alloc]
-      initWithSize:self.view.frame.size
-           imgName:@"noswitch"
-           message:NSLocalizedString(@"You have not configure any device!",
-                                     nil)];
+  self.noDataView =
+      [[UIView alloc] initWithSize:self.view.frame.size
+                           imgName:@"no_message"
+                           message:NSLocalizedString(@"No Message!", nil)];
   self.noDataView.hidden = YES;
   [self.tableView addSubview:self.noDataView];
   self.tableView.dataSource = self;

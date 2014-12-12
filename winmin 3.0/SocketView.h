@@ -41,4 +41,6 @@
 - (void)setSocketInfo:(SDZGSocket *)socket;
 - (void)changeSocketState:(SDZGSocket *)socket;
 - (void)removeRotateAnimation;
+- (void)timerState:(BOOL)hasTimer;
+- (void)delayState:(BOOL)hasDelay;
 @end

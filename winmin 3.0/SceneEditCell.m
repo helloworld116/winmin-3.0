@@ -44,13 +44,13 @@
   if (onOff) {
     self.lblStatus.backgroundColor = kSelectColor;
     self.lblStatus.textColor = [UIColor whiteColor];
-    self.lblStatus.text = NSLocalizedString(@"ON", nil);
+    self.lblStatus.text = NSLocalizedString(@"ON_Scene", nil);
     self.btnOnOff.selected = YES;
   } else {
     //默认关闭
     self.lblStatus.backgroundColor = kUnselectColor;
     self.lblStatus.textColor = [UIColor colorWithHexString:@"#CCCCCC"];
-    self.lblStatus.text = NSLocalizedString(@"OFF", nil);
+    self.lblStatus.text = NSLocalizedString(@"OFF_Scene", nil);
     self.btnOnOff.selected = NO;
   }
 }

@@ -180,4 +180,19 @@
   self.btnOnOrOff.enabled = YES;
   self.btnOnOrOff2.enabled = YES;
 }
+
+- (void)timerState:(BOOL)hasTimer {
+  if (hasTimer) {
+    self.btnTimer.highlighted = YES;
+  } else {
+    self.btnTimer.highlighted = NO;
+  }
+}
+- (void)delayState:(BOOL)hasDelay {
+  if (hasDelay) {
+    self.btnDelay.highlighted = YES;
+  } else {
+    self.btnDelay.highlighted = NO;
+  }
+}
 @end

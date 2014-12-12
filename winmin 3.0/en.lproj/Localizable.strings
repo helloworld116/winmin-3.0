@@ -106,6 +106,8 @@
 "Studyroom"="Studyroom";
 "Kids room"="Kids room";
 "Vestibule"="Vestibule";
+"ON_Scene"="ON";
+"OFF_Scene"="OFF";
 
 /**
  *  更多
@@ -146,3 +148,4 @@
 "feedback cannot empty"="feedback cannot empty";
 "feedback error"="Network delay, please try again";
 "feedback success"="Submit success";
+"No Message!"="No Message!";

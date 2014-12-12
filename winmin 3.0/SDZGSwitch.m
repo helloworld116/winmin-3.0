@@ -111,25 +111,15 @@ static dispatch_queue_t switch_parse_serial_queue() {
       if (needToDBImmediately && aSwitch.sockets.count == 2) {
         [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
         [[DBUtil sharedInstance] saveSwitch:aSwitch];
-        //        if (kSharedAppliction.reciveRemoteNotification) {
-        //          NSUserDefaults *defaults = [NSUserDefaults
-        //          standardUserDefaults];
-        //          NSMutableArray *jPushTagArray =
-        //              [[defaults objectForKey:jPushTagArrayKey] mutableCopy];
-        //          NSString *macWithout =
-        //              [aSwitch.mac stringByReplacingOccurrencesOfString:@":"
-        //                                                     withString:@""];
-        //          [jPushTagArray addObject:macWithout];
-        //          NSSet *set = [NSSet setWithArray:jPushTagArray];
-        //          [APServiceUtil openRemoteNotification:set
-        //                                    finishBlock:^(BOOL result) {
-        //                                        if (result) {
-        //                                          [defaults
-        //                                          setObject:jPushTagArray
-        //                                                       forKey:jPushTagArrayKey];
-        //                                        }
-        //                                    }];
-        //        }
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        BOOL reciveRemoteNotification =
+            [[defaults objectForKey:remoteNotification] boolValue];
+        if (reciveRemoteNotification) {
+          dispatch_after(
+              dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)),
+              dispatch_get_main_queue(),
+              ^{ [APServiceUtil openRemoteNotification:^(BOOL result){}]; });
+        }
       }
       completion(aSwitch);
   });
@@ -310,6 +300,9 @@ static dispatch_queue_t switch_parse_serial_queue() {
         if (diff < task.actionTime && task.isEffective) {
           [actionTimeList addObject:@(task.actionTime)];
         }
+      } else if (task.week == 0 && diff < task.actionTime && task.isEffective) {
+        //执行一次并生效的
+        [actionTimeList addObject:@(task.actionTime)];
       }
     }
     int min = 0;

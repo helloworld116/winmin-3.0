@@ -61,7 +61,12 @@
     }
   }
   self.imgViewOfState.image = [UIImage imageNamed:imageName];
-  if (aSwitch.networkStatus == SWITCH_OFFLINE) {
+  SDZGSocket *socket1 = aSwitch.sockets[0];
+  SDZGSocket *socket2 = aSwitch.sockets[1];
+  //插孔均关闭或离线情况下
+  if (aSwitch.networkStatus == SWITCH_OFFLINE ||
+      (socket1.socketStatus == SocketStatusOff &&
+       socket2.socketStatus == SocketStatusOff)) {
     self.imgViewOfSwitch.image =
         [SDZGSwitch imgNameToImageOffline:aSwitch.imageName];
   } else {

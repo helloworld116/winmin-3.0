@@ -223,7 +223,7 @@
         break;
       case 7:
         [[UIApplication sharedApplication]
-            openURL:[NSURL URLWithString:@"http://shop111398559.taobao.com"]];
+            openURL:[NSURL URLWithString:@"http://yunzujj.tmall.com/"]];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         //        nextController = [self.storyboard
         //            instantiateViewControllerWithIdentifier:@"TestViewController"];

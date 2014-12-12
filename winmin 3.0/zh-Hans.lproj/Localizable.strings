@@ -117,6 +117,8 @@
 "Studyroom"="书房";
 "Kids room"="儿童房";
 "Vestibule"="玄关";
+"ON_Scene"="开";
+"OFF_Scene"="关";
 
 /**
  *  更多
@@ -157,3 +159,4 @@
 "feedback cannot empty"="请输入您的反馈意见";
 "feedback error"="网络延迟，请重试";
 "feedback success"="提交成功";
+"No Message!"="暂无消息！";

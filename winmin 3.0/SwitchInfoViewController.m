@@ -393,19 +393,19 @@ preparation before navigation
 #pragma mark - 通知
 - (void)getElecPowerInfoSuccessNotification:(NSNotification *)notification {
   CC3xMessage *message = notification.userInfo[@"message"];
-  if (message.alertUnder == 0) {
+  if (message.alertUnder == 0 || message.alertUnder > maxPower) {
     message.alertUnder = 20;
   }
   self.alertUnderValue = message.alertUnder;
-  if (message.alertGreater == 0) {
+  if (message.alertGreater == 0 || message.alertGreater > maxPower) {
     message.alertGreater = maxPower * 0.9f;
   }
   self.alertGreaterValue = message.alertGreater;
-  if (message.turnOffUnder == 0) {
+  if (message.turnOffUnder == 0 || message.turnOffUnder > maxPower) {
     message.turnOffUnder = 5;
   }
   self.offUnderValue = message.turnOffUnder;
-  if (message.turnOffGreater == 0) {
+  if (message.turnOffGreater == 0 || message.turnOffGreater > maxPower) {
     message.turnOffGreater = maxPower * .99f;
   }
   self.offGreaterValue = message.turnOffGreater;
@@ -462,6 +462,8 @@ preparation before navigation
   if (self.isUpdateNameSuccess && self.isUpdateLockSuccess &&
       self.isUpdatePowerInfoSuccess) {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    NSDictionary *options = @{ kCRToastBackgroundColorKey : kThemeColor };
+    [CRToastManager setDefaultOptions:options];
     [CRToastManager
         showNotificationWithMessage:NSLocalizedString(@"Save Success", nil)
                     completionBlock:^{}];

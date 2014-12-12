@@ -18,12 +18,21 @@
 @property (nonatomic, strong) UdpRequest *request2; //控制插孔I
 @property (nonatomic, strong) UdpRequest *request3; //控制插孔II
 @property (nonatomic, strong) UdpRequest *request4; //实时电量和历史电量查询
+@property (nonatomic, strong) UdpRequest *request5; //插孔I定时
+@property (nonatomic, strong) UdpRequest *request6; //插孔I延时
+@property (nonatomic, strong) UdpRequest *request7; //插孔II定时
+@property (nonatomic, strong) UdpRequest *request8; //插孔II延时
+
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
 @property (nonatomic, strong) HistoryElec *historyElec;
 @property (nonatomic, strong) HistoryElecParam *param;
 @property (nonatomic, assign) HistoryElecDateType dateType;
 
-@property (nonatomic, copy) SwitchStateChangeBlock stateChangeBlock;
+@property (nonatomic, strong) SwitchStateChangeBlock stateChangeBlock;
+@property (nonatomic, strong) SocketTimerBlock socket1TimerBlock;
+@property (nonatomic, strong) SocketTimerBlock socket2TimerBlock;
+@property (nonatomic, strong) SocketDelayBlock socket1DelayBlock;
+@property (nonatomic, strong) SocketDelayBlock socket2DelayBlock;
 
 //防止网络延迟多个请求同时或延迟响应时改变开关状态，值为1表示第一次接收，正常处理，其他情况下抛弃响应
 @property (atomic, assign) int responseData12Or14GroupId1Count;
@@ -40,6 +49,14 @@
     self.request1.delegate = self;
     self.request4 = [UdpRequest manager];
     self.request4.delegate = self;
+    self.request5 = [UdpRequest manager];
+    self.request5.delegate = self;
+    self.request6 = [UdpRequest manager];
+    self.request6.delegate = self;
+    self.request7 = [UdpRequest manager];
+    self.request7.delegate = self;
+    self.request8 = [UdpRequest manager];
+    self.request8.delegate = self;
     self.stateChangeBlock = block;
     [self.aSwitch
         addObserver:self
@@ -55,9 +72,41 @@
   self.request2.delegate = nil;
   self.request3.delegate = nil;
   self.request4.delegate = nil;
+  self.request5.delegate = nil;
+  self.request6.delegate = nil;
+  self.request7.delegate = nil;
+  self.request8.delegate = nil;
   if (self.aSwitch) {
     [self.aSwitch removeObserver:self forKeyPath:@"networkStatus"];
   }
+}
+
+- (void)socket1Timer:(SocketTimerBlock)block {
+  dispatch_async(GLOBAL_QUEUE, ^{
+      self.socket1TimerBlock = block;
+      [self sendMsg17Or19Socket1];
+  });
+}
+
+- (void)socket2Timer:(SocketTimerBlock)block {
+  dispatch_async(GLOBAL_QUEUE, ^{
+      self.socket2TimerBlock = block;
+      [self sendMsg17Or19Socket2];
+  });
+}
+
+- (void)socket1Delay:(SocketDelayBlock)block {
+  dispatch_async(GLOBAL_QUEUE, ^{
+      self.socket1DelayBlock = block;
+      [self sendMsg53Or55Socket1];
+  });
+}
+
+- (void)socket2Delay:(SocketDelayBlock)block {
+  dispatch_async(GLOBAL_QUEUE, ^{
+      self.socket2DelayBlock = block;
+      [self sendMsg53Or55Socket2];
+  });
 }
 
 - (void)openOrCloseWithGroupId:(int)groupId {
@@ -145,9 +194,31 @@
   [[SwitchDataCeneter sharedInstance] checkSwitchOnlineState:self.aSwitch];
 }
 
-- (void)sendMsg53Or55 {
-  [self.request1 sendMsg53Or55:self.aSwitch
+//插孔I定时
+- (void)sendMsg17Or19Socket1 {
+  [self.request5 sendMsg17Or19:self.aSwitch
                  socketGroupId:1
+                      sendMode:ActiveMode];
+}
+
+//插孔I延时
+- (void)sendMsg53Or55Socket1 {
+  [self.request6 sendMsg53Or55:self.aSwitch
+                 socketGroupId:1
+                      sendMode:ActiveMode];
+}
+
+//插孔II定时
+- (void)sendMsg17Or19Socket2 {
+  [self.request7 sendMsg17Or19:self.aSwitch
+                 socketGroupId:2
+                      sendMode:ActiveMode];
+}
+
+//插孔II延时
+- (void)sendMsg53Or55Socket2 {
+  [self.request8 sendMsg53Or55:self.aSwitch
+                 socketGroupId:2
                       sendMode:ActiveMode];
 }
 
@@ -210,10 +281,20 @@
     case 0x14:
       [self responseMsg12Or14:message request:request];
       break;
+    //定时查询
+    case 0x18:
+    case 0x1a:
+      [self responseMsg18Or1A:message];
+      break;
     //实时电量
     case 0x34:
     case 0x36:
       [self responseMsg34Or36:message];
+      break;
+    //查询延时
+    case 0x54:
+    case 0x56:
+      [self responseMsg54Or56:message];
       break;
     //历史电量
     case 0x64:
@@ -304,6 +385,27 @@
   }
 }
 
+- (void)responseMsg18Or1A:(CC3xMessage *)message {
+  switch (message.socketGroupId) {
+    case 1:
+      if (message.timerTaskList) {
+        self.socket1TimerBlock(YES, message.timerTaskList);
+      } else {
+        self.socket1TimerBlock(NO, nil);
+      }
+      break;
+    case 2:
+      if (message.timerTaskList) {
+        self.socket2TimerBlock(YES, message.timerTaskList);
+      } else {
+        self.socket2TimerBlock(NO, nil);
+      }
+      break;
+    default:
+      break;
+  }
+}
+
 - (void)responseMsg34Or36:(CC3xMessage *)message {
   DDLogDebug(@"power is %f", message.power);
   float diff = floorf(message.power - kElecDiff);
@@ -314,6 +416,27 @@
       postNotificationName:kRealTimeElecNotification
                     object:self
                   userInfo:userInfo];
+}
+
+- (void)responseMsg54Or56:(CC3xMessage *)message {
+  switch (message.socketGroupId) {
+    case 1:
+      if (message.delay > 0) {
+        self.socket1DelayBlock(YES, message.delay);
+      } else {
+        self.socket1DelayBlock(NO, 0);
+      }
+      break;
+    case 2:
+      if (message.delay > 0) {
+        self.socket2DelayBlock(YES, message.delay);
+      } else {
+        self.socket2DelayBlock(NO, 0);
+      }
+      break;
+    default:
+      break;
+  }
 }
 
 - (void)responseMsg64:(CC3xMessage *)message {

@@ -200,7 +200,7 @@
       NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
       NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
       for (SDZGSwitch *aSwitch in switchs) {
-        aSwitch.lastUpdateInterval = current;
+        aSwitch.lastUpdateInterval = current + 1.5 * REFRESH_DEV_TIME;
       }
     } else {
       self.delayInterval = 3.1f;

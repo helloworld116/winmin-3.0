@@ -525,13 +525,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="winmin智能" id="Kv8-vZ-VK9">
-                        <barButtonItem key="rightBarButtonItem" image="info" id="eLk-Eu-Yau">
-                            <connections>
-                                <segue destination="3sa-6E-EbI" kind="push" id="pGZ-VL-w5e"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="winmin智能" id="Kv8-vZ-VK9"/>
                     <connections>
                         <outlet property="elecView" destination="9Kp-op-mYm" id="9IC-hj-sDI"/>
                         <outlet property="scrollView" destination="gdU-fk-1Md" id="lMg-9W-IMA"/>
@@ -3436,7 +3430,7 @@
         <!--Switch Info View Controller-->
         <scene sceneID="Wsq-BF-ny4">
             <objects>
-                <tableViewController storyboardIdentifier="SwitchInfoViewController.h" automaticallyAdjustsScrollViewInsets="NO" id="3sa-6E-EbI" customClass="SwitchInfoViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SwitchInfoViewController" automaticallyAdjustsScrollViewInsets="NO" id="3sa-6E-EbI" customClass="SwitchInfoViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="eYz-kF-NTb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4325,7 +4319,6 @@
         <image name="gb" width="38" height="38"/>
         <image name="gd" width="30" height="30"/>
         <image name="gx" width="22" height="22"/>
-        <image name="info" width="44" height="44"/>
         <image name="info_arrow" width="44" height="44"/>
         <image name="kz" width="30" height="30"/>
         <image name="more_arrow" width="44" height="44"/>

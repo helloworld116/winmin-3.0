@@ -10,6 +10,8 @@
 #import "HistoryElec.h"
 
 typedef void (^SwitchStateChangeBlock)(int);
+typedef void (^SocketDelayBlock)(BOOL isSuccess, int delaySeconds);
+typedef void (^SocketTimerBlock)(BOOL isSuccess, NSArray *timers);
 @interface SwitchDetailModel : NSObject
 @property (nonatomic, assign, readonly) BOOL isScanning;
 - (id)initWithSwitch:(SDZGSwitch *)aSwitch
@@ -43,4 +45,8 @@ typedef void (^SwitchStateChangeBlock)(int);
  */
 - (void)historyElec:(HistoryElecDateType)dateType;
 
+- (void)socket1Timer:(SocketTimerBlock)block;
+- (void)socket2Timer:(SocketTimerBlock)block;
+- (void)socket1Delay:(SocketDelayBlock)block;
+- (void)socket2Delay:(SocketDelayBlock)block;
 @end

@@ -49,6 +49,14 @@
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
   backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
+
+  self.navigationItem.rightBarButtonItem =
+      [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info"]
+                                       style:UIBarButtonItemStylePlain
+                                      target:self
+                                      action:@selector(shwoInfo:)];
+  //  self.navigationItem.rightBarButtonItem setTarget:@selector()
+
   self.navigationItem.title = self.aSwitch.name;
   self.HUD = [[MBProgressHUD alloc] initWithWindow:kSharedAppliction.window];
   [self.view.window addSubview:self.HUD];
@@ -217,6 +225,81 @@
   if (self.showingRealTimeElecView) {
     self.showingRealTimeElecView = YES;
   }
+  __weak SwitchDetailViewController *weakSelf = self;
+  dispatch_after(
+      dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.10 * NSEC_PER_SEC)),
+      dispatch_get_main_queue(), ^{
+          [self.model socket1Timer:^(BOOL isSuccess, NSArray *timers) {
+              dispatch_async(MAIN_QUEUE, ^{
+                  __strong SwitchDetailViewController *strongSelf = weakSelf;
+                  if (isSuccess) {
+                    int seconds = [SDZGTimerTask getShowSeconds:timers];
+                    if (seconds) {
+                      [strongSelf.socketView1 timerState:YES];
+                    } else {
+                      [strongSelf.socketView1 timerState:NO];
+                    }
+                  } else {
+                    [strongSelf.socketView1 timerState:NO];
+                  }
+              });
+          }];
+      });
+  dispatch_after(
+      dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)),
+      dispatch_get_main_queue(), ^{
+          [self.model socket2Timer:^(BOOL isSuccess, NSArray *timers) {
+              dispatch_async(MAIN_QUEUE, ^{
+                  __strong SwitchDetailViewController *strongSelf = weakSelf;
+                  if (isSuccess) {
+                    int seconds = [SDZGTimerTask getShowSeconds:timers];
+                    if (seconds) {
+                      [strongSelf.socketView2 timerState:YES];
+                    } else {
+                      [strongSelf.socketView2 timerState:NO];
+                    }
+                  } else {
+                    [strongSelf.socketView2 timerState:NO];
+                  }
+              });
+          }];
+      });
+  dispatch_after(
+      dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.20 * NSEC_PER_SEC)),
+      dispatch_get_main_queue(), ^{
+          [self.model socket1Delay:^(BOOL isSuccess, int delaySeconds) {
+              dispatch_async(MAIN_QUEUE, ^{
+                  __strong SwitchDetailViewController *strongSelf = weakSelf;
+                  if (isSuccess) {
+                    if (delaySeconds) {
+                      [strongSelf.socketView1 delayState:YES];
+                    } else {
+                      [strongSelf.socketView1 delayState:NO];
+                    }
+                  } else {
+                    [strongSelf.socketView1 delayState:NO];
+                  }
+              });
+          }];
+      });
+  dispatch_after(
+      dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)),
+      dispatch_get_main_queue(), ^{
+          [self.model socket2Delay:^(BOOL isSuccess, int delaySeconds) {
+              dispatch_async(MAIN_QUEUE, ^{
+                  __strong SwitchDetailViewController *strongSelf = weakSelf;
+                  if (isSuccess) {
+                    if (delaySeconds) {
+                      [strongSelf.socketView2 delayState:YES];
+                    } else {
+                      [strongSelf.socketView2 delayState:NO];
+                    }
+                  } else {
+                    [strongSelf.socketView2 delayState:NO];
+                  }
+              });
+          }];
+      });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -244,6 +327,18 @@ preparation before navigation
     SwitchInfoViewController *destViewController =
         [segue destinationViewController];
     destViewController.aSwitch = self.aSwitch;
+  }
+}
+
+- (void)shwoInfo:(id)sender {
+  if (self.aSwitch.networkStatus == SWITCH_OFFLINE) {
+    [self showOfflineMsg];
+  } else {
+    SwitchInfoViewController *destViewController = [self.storyboard
+        instantiateViewControllerWithIdentifier:@"SwitchInfoViewController"];
+    destViewController.aSwitch = self.aSwitch;
+    [self.navigationController pushViewController:destViewController
+                                         animated:YES];
   }
 }
 
