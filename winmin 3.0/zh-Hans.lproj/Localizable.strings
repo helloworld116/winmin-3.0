@@ -21,11 +21,16 @@
  */
 "Back"="返回";
 "Save"="保存";
+"Add"="添加";
 "Edit"="编辑";
+"AddWithBlank"="添加";
+"EditWithBlank"="编辑";
 "Cancel"="取消";
+"CancelWithBlank"="取  消";
 "Sure"="确定";
 "Delete"="删除";
 "Setting"="设置";
+"SettingWithBlank"="设  置";
 "Take a picture"="拍照";
 "Choose from album"="从手机相册中选择";
 "No UDP Response Msg"="网络延迟，请检查设备网络连接";
@@ -42,7 +47,7 @@
 "Flash"="闪烁";
 "Tips"="温馨提示";
 "TipsInfo"="删除设备将删除该设备关联下的所有场景，是否继续删除该设备？";
-"Timer Task"="定时任务";
+"Timer Task"="定时";
 "maximum count is 20"="最多只能添加20条";
 "Repeat"="重复";
 "Operating One Time"="执行一次";
@@ -54,13 +59,14 @@
 "Sat"="周六";
 "Sun"="周日";
 "Everyday"="每天";
-"ON"="开";
-"OFF"="关";
+"ON"="开启";
+"OFF"="关闭";
+"Please choose whether to open the task"="请选择是否开启这个任务";
 ""="暂时还未添加任何定时计划";
 ""="确定删除该定时记录";
 ""="添加成功";
 ""="修改成功";
-"Delay Task"="延时任务";
+"Delay Task"="延时";
 "at most 1440 minutes"="最多设置1440分钟";
 "How to set the Icon?"="如何设置图标？";
 "You have not yet added any time task"="您暂时还未添加任何定时任务";

@@ -14,8 +14,8 @@
                 <outlet property="btnMinitues5" destination="wRR-nC-HtS" id="fjm-MN-sAS"/>
                 <outlet property="btnMinitues60" destination="vDl-Wr-yYe" id="3c3-j5-5AA"/>
                 <outlet property="btnMinitues90" destination="0D2-0h-Ze2" id="qea-6a-KQC"/>
-                <outlet property="btnOnOff" destination="j2M-AH-gDg" id="TgF-do-LRR"/>
                 <outlet property="btnSave" destination="INg-9m-gkv" id="ypp-hW-wuC"/>
+                <outlet property="lblState" destination="Lc2-LJ-T2k" id="HgA-N5-6rm"/>
                 <outlet property="textField" destination="yVh-ul-IDF" id="0mx-hy-e9M"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -34,24 +34,20 @@
                             <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j2M-AH-gDg">
-                            <rect key="frame" x="93" y="15" width="74" height="29"/>
-                            <state key="normal" backgroundImage="off">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="selected" backgroundImage="on"/>
-                            <connections>
-                                <action selector="onOffAction:" destination="-1" eventType="touchUpInside" id="SUb-Gh-yBh"/>
-                            </connections>
-                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开启" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lc2-LJ-T2k">
+                            <rect key="frame" x="93" y="18" width="40" height="24"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <color key="textColor" red="0.58823529411764708" green="0.58823529411764708" blue="0.58823529411764708" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="3w7-rp-Htr" firstAttribute="leading" secondItem="pm6-Ut-Iai" secondAttribute="leading" constant="33" id="18X-II-UG7"/>
-                        <constraint firstItem="j2M-AH-gDg" firstAttribute="top" secondItem="pm6-Ut-Iai" secondAttribute="top" constant="15" id="CMm-M0-4W2"/>
+                        <constraint firstItem="Lc2-LJ-T2k" firstAttribute="leading" secondItem="3w7-rp-Htr" secondAttribute="trailing" id="9TA-IK-KOF"/>
                         <constraint firstAttribute="height" constant="51" id="DlC-Zr-lIp"/>
+                        <constraint firstItem="Lc2-LJ-T2k" firstAttribute="top" secondItem="pm6-Ut-Iai" secondAttribute="top" constant="18" id="WYi-Ve-yO8"/>
                         <constraint firstItem="3w7-rp-Htr" firstAttribute="top" secondItem="pm6-Ut-Iai" secondAttribute="top" constant="18" id="XiE-Sm-TaK"/>
-                        <constraint firstItem="j2M-AH-gDg" firstAttribute="leading" secondItem="3w7-rp-Htr" secondAttribute="trailing" id="rai-hf-IcR"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y8P-I4-4r4">
@@ -272,8 +268,6 @@
         <image name="delay_input" width="80" height="30"/>
         <image name="delay_selected" width="29" height="29"/>
         <image name="delay_unselected" width="29" height="29"/>
-        <image name="off" width="74" height="29"/>
-        <image name="on" width="74" height="29"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -11,10 +11,12 @@
 
 @protocol DelaySettingControllerDelegate<NSObject>
 - (void)closePopViewController:(UIViewController *)controller
-                  passMinitues:(int)minitues;
+                  passMinitues:(int)minitues
+                    actionType:(int)actionType;
 @end
 
 @interface DelaySettingViewController : UIViewController
-@property(nonatomic, assign) id<DelaySettingControllerDelegate> delegate;
-@property(nonatomic, strong) DelayModel *model;
+@property (nonatomic, assign) id<DelaySettingControllerDelegate> delegate;
+@property (nonatomic, strong) DelayModel *model;
+@property (nonatomic, assign) SocketStatus socketStatus;
 @end

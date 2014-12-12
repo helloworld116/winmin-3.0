@@ -22,13 +22,15 @@
 @interface SocketView : UIView
 @property (assign, nonatomic) int groupId; //标识插孔所属分组的id
 @property (assign, nonatomic) id<SocketViewDelegate> sockeViewDelegate;
-@property (strong, nonatomic) IBOutlet UIButton *btnSocket1;
-@property (strong, nonatomic) IBOutlet UIButton *btnSocket2;
-@property (strong, nonatomic) IBOutlet UIButton *btnSocket3;
-@property (strong, nonatomic) IBOutlet UIButton *btnOnOrOff;
-@property (strong, nonatomic) IBOutlet UIButton *btnOnOrOff2;
-@property (strong, nonatomic) IBOutlet UIImageView *imgViewBg;
-@property (strong, nonatomic) IBOutlet ArcImgView *arcView;
+@property (weak, nonatomic) IBOutlet UIButton *btnSocket1;
+@property (weak, nonatomic) IBOutlet UIButton *btnSocket2;
+@property (weak, nonatomic) IBOutlet UIButton *btnSocket3;
+@property (weak, nonatomic) IBOutlet UIButton *btnOnOrOff;
+@property (weak, nonatomic) IBOutlet UIButton *btnOnOrOff2;
+@property (weak, nonatomic) IBOutlet UIButton *btnTimer;
+@property (weak, nonatomic) IBOutlet UIButton *btnDelay;
+@property (weak, nonatomic) IBOutlet UIImageView *imgViewBg;
+@property (weak, nonatomic) IBOutlet ArcImgView *arcView;
 - (IBAction)touchSocket1:(id)sender;
 - (IBAction)touchSocket2:(id)sender;
 - (IBAction)touchSocket3:(id)sender;

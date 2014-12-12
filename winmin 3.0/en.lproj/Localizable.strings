@@ -22,10 +22,15 @@
 "Back"="Back";
 "Save"="Save";
 "Cancel"="Cancel";
+"CancelWithBlank"="Cancel";
+"Add"="Add";
 "Edit"="Edit";
+"AddWithBlank"="Add ";
+"EditWithBlank"="Edit ";
 "Sure"="Sure";
 "Delete"="Delete";
 "Setting"="Setting";
+"SettingWithBlank"="Setting";
 "Take a picture"="Take a picture";
 "Choose from album"="Choose from album";
 "No UDP Response Msg"="Network latency, check the device network connection";
@@ -56,6 +61,7 @@
 "Everyday"="Everday";
 "ON"="ON";
 "OFF"="OFF";
+"Please choose whether to open the task"="Please choose whether to open the task";
 "Delay Task"="Delay Task";
 "at most 1440 minutes"="at most 1440 minutes";
 "How to set the Icon?"="How to set the Icon?";

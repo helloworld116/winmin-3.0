@@ -165,6 +165,7 @@ static int const kUdpResponsePasswordErrorCode = 4;
 // @"http://183.63.35.203:18080/ais/api/";
 
 static NSString *const AboutUsURLString = @"http://www.itouchco.com/";
+typedef void (^NotReceiveDataBlock)(long tag, int socktGroupId);
 
 #define SERVER_PORT 20002
 

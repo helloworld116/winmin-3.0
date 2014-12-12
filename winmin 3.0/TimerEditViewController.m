@@ -13,51 +13,52 @@
 #import "DatePickerViewController.h"
 static const int maxCount = 20;
 
-@interface TimerEditCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UIView *viewOfCellContent;
+@interface TimerCellInfo : NSObject
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *info;
+- (id)initWithTitle:(NSString *)title info:(NSString *)info;
 @end
-@implementation TimerEditCell
-- (void)awakeFromNib {
-  self.viewOfCellContent.layer.borderWidth = .5f;
-  self.viewOfCellContent.layer.borderColor =
-      [UIColor colorWithHexString:@"#c3c3c3"].CGColor;
-  self.viewOfCellContent.layer.cornerRadius = 10.f;
+
+@implementation TimerCellInfo
+- (id)initWithTitle:(NSString *)title info:(NSString *)info {
+  self = [super init];
+  if (self) {
+    self.title = title;
+    self.info = info;
+  }
+  return self;
 }
 @end
 
-@interface TimerEditViewController () <PassValueDelegate,
-                                       DatePickerControllerDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *lblTime;
-@property (weak, nonatomic) IBOutlet UILabel *lblRepeatDesc;
-@property (weak, nonatomic) IBOutlet UIButton *btnOnOff;
-- (IBAction)onOffChanged:(id)sender;
-- (IBAction)showDatePicker:(id)sender;
-- (IBAction)changeWeek:(id)sender;
+@interface TimerEditCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *lblTitle;
+@property (weak, nonatomic) IBOutlet UILabel *lblInfo;
+- (void)setContent:(NSDictionary *)content;
+@end
+@implementation TimerEditCell
+- (void)setContent:(TimerCellInfo *)timerCellInfo {
+  self.lblTitle.text = timerCellInfo.title;
+  self.lblInfo.text = timerCellInfo.info;
+}
+@end
 
-//@property(nonatomic, strong) SDZGSwitch *aSwtich;
-//@property(nonatomic, assign) int socketGroupId;
+@interface TimerEditViewController () <UITableViewDelegate,
+                                       UITableViewDataSource,
+                                       UIActionSheetDelegate, PassValueDelegate>
+@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSMutableArray *timers; //所有的定时任务
 @property (nonatomic, strong) SDZGTimerTask *timer; //正在编辑的定时任务
 @property (nonatomic, assign)
     int index; //正在编辑的timer在数组中位置，方便后续编辑操作时replace
 @property (strong, nonatomic) TimerModel *model;
+@property (strong, nonatomic) NSMutableArray *menus;
+@property (strong, nonatomic) NSIndexPath *currentEditIndexPath;
 @end
 
 @implementation TimerEditViewController
-
-//- (void)setParamSwitch:(SDZGSwitch *)aSwtich
-//         socketGroupId:(int)socketGroupId
-//            timerModel:(TimerModel *)model
-//                timers:(NSMutableArray *)timers
-//                 timer:(SDZGTimerTask *)timer
-//                 index:(int)index {
-//  self.aSwtich = aSwtich;
-//  self.socketGroupId = socketGroupId;
-//  self.model = model;
-//  self.timers = timers;
-//  self.timer = timer;
-//  self.index = index;
-//}
 
 - (void)setTimers:(NSMutableArray *)timers
             timer:(SDZGTimerTask *)timer
@@ -70,10 +71,10 @@ static const int maxCount = 20;
 }
 
 - (void)setup {
-  UIView *tableHeaderView = [[UIView alloc]
-      initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 15)];
-  tableHeaderView.backgroundColor = [UIColor clearColor];
-  self.tableView.tableHeaderView = tableHeaderView;
+  UIView *view = [[UIView alloc] init];
+  view.backgroundColor = [UIColor clearColor];
+  self.tableView.tableFooterView = view;
+  self.menus = [@[] mutableCopy];
   if (!self.timer) {
     // timer不存在，则表明正在进行添加操作
     self.timer = [[SDZGTimerTask alloc] init];
@@ -87,9 +88,26 @@ static const int maxCount = 20;
     NSInteger tenMinituesLaterTime = hour * 3600 + min * 60;
     self.timer.actionTime = tenMinituesLaterTime;
   }
-  self.lblTime.text = [self.timer actionTimeString];
-  self.lblRepeatDesc.text = [self.timer actionWeekString];
-  self.btnOnOff.selected = self.timer.timerActionType;
+  self.dateFormatter = [[NSDateFormatter alloc] init];
+  [self.dateFormatter setDateFormat:@"HH:mm"];
+  NSDate *defaultDate =
+      [self.dateFormatter dateFromString:[self.timer actionTimeString]];
+  self.datePicker.date = defaultDate;
+  NSString *actionType;
+  if (self.timer.timerActionType) {
+    actionType = NSLocalizedString(@"ON", nil);
+  } else {
+    actionType = NSLocalizedString(@"OFF", nil);
+  }
+
+  [self.menus addObject:[[TimerCellInfo alloc] initWithTitle:@"插座动作"
+                                                        info:actionType]];
+
+  [self.menus addObject:[[TimerCellInfo alloc]
+                            initWithTitle:NSLocalizedString(@"Repeat", nil)
+                                     info:[self.timer actionWeekString]]];
+  self.tableView.dataSource = self;
+  self.tableView.delegate = self;
   [[NSNotificationCenter defaultCenter]
       addObserver:self
          selector:@selector(timerAddNotification:)
@@ -99,7 +117,15 @@ static const int maxCount = 20;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.navigationItem.title = NSLocalizedString(@"Timer Task", nil);
+  NSString *operationType;
+  if (self.index == TimerOperationAdd) {
+    operationType = NSLocalizedString(@"AddWithBlank", nil);
+  } else {
+    operationType = NSLocalizedString(@"EditWithBlank", nil);
+  }
+  self.navigationItem.title =
+      [NSString stringWithFormat:@"%@%@", operationType,
+                                 NSLocalizedString(@"Timer Task", nil)];
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
   backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
@@ -124,6 +150,9 @@ static const int maxCount = 20;
          selector:@selector(noResponseNotification:)
              name:kNoResponseNotification
            object:self.model];
+  [self.tableView
+      deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow]
+                    animated:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -145,15 +174,23 @@ static const int maxCount = 20;
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (IBAction)timeValueChanged:(id)sender {
+  //时间选择时，输出格式
+  NSString *dateString =
+      [self.dateFormatter stringFromDate:self.datePicker.date];
+  NSArray *time = [dateString componentsSeparatedByString:@":"];
+  self.timer.actionTime = [time[0] intValue] * 3600 + [time[1] intValue] * 60;
+}
+
 #pragma mark - UINavigationBar事件_保存
 - (void)save:(id)sender {
   int type = 0;
-  if (self.index == -1) {
+  if (self.index == TimerOperationAdd) {
     //添加
-    type = 1;
+    type = TimerOperationAdd;
     [self.timers addObject:self.timer];
   } else {
-    type = 2;
+    type = TimerOperationEdit;
     [self.timers replaceObjectAtIndex:self.index withObject:self.timer];
   }
   if (self.timers.count > maxCount) {
@@ -161,24 +198,13 @@ static const int maxCount = 20;
   } else {
     [self.model updateTimers:self.timers type:type];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //确保在保存操作时，按钮重复点击
     self.navigationItem.rightBarButtonItem.enabled = NO;
   }
 }
 
 #pragma mark -
-- (IBAction)showDatePicker:(id)sender {
-  DatePickerViewController *popupViewController =
-      [[DatePickerViewController alloc]
-          initWithNibName:@"DatePickerViewController"
-                   bundle:nil];
-  popupViewController.delegate = self;
-  popupViewController.actionTimeString = [self.timer actionTimeString];
-  [self presentPopupViewController:popupViewController
-                     animationType:MJPopupViewAnimationFade
-               backgroundClickable:YES];
-}
-
-- (IBAction)changeWeek:(id)sender {
+- (void)changeWeek {
   CycleViewController *nextVC = [self.storyboard
       instantiateViewControllerWithIdentifier:@"CycleViewController"];
   nextVC.week = self.timer.week;
@@ -186,32 +212,17 @@ static const int maxCount = 20;
   [self.navigationController pushViewController:nextVC animated:YES];
 }
 
-- (IBAction)onOffChanged:(id)sender {
-  [UIView animateWithDuration:0.3
-                   animations:^{
-                       self.btnOnOff.selected = !self.btnOnOff.selected;
-                   }];
-  self.timer.timerActionType = self.btnOnOff.selected;
-}
-
 #pragma mark - PassValueDelegate
 - (void)passValue:(id)value {
+  [self.tableView deselectRowAtIndexPath:self.currentEditIndexPath
+                                animated:YES];
   int week = [value intValue];
   self.timer.week = week;
-  self.lblRepeatDesc.text = [self.timer actionWeekString];
-}
-
-#pragma mark - DatePickerControllerDelegate
-- (void)okBtnClicked:(UIViewController *)viewController
-         passSeconds:(int)seconds
-          dateString:(NSString *)dateString {
-  self.lblTime.text = dateString;
-  self.timer.actionTime = seconds;
-  [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
-}
-
-- (void)cancelBtnClicked:(UIViewController *)viewController {
-  [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+  TimerCellInfo *cellInfo = self.menus[self.currentEditIndexPath.row];
+  cellInfo.info = [self.timer actionWeekString];
+  NSArray *indexPaths = @[ self.currentEditIndexPath ];
+  [self.tableView reloadRowsAtIndexPaths:indexPaths
+                        withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - 通知
@@ -262,6 +273,78 @@ static const int maxCount = 20;
           break;
       }
   });
+}
+
+#pragma mark - UITableViewDataSource
+- (CGFloat)tableView:(UITableView *)tableView
+    heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  return 44.f;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView
+    numberOfRowsInSection:(NSInteger)section {
+  return [self.menus count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  static NSString *cellID = @"TimerEditCell";
+  NSDictionary *content = self.menus[indexPath.row];
+  TimerEditCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID
+                                                        forIndexPath:indexPath];
+  [cell setContent:content];
+  return cell;
+}
+
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView
+    didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  self.currentEditIndexPath = indexPath;
+  switch (indexPath.row) {
+    case 0: {
+      UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                   initWithTitle:NSLocalizedString(
+                                     @"Please choose whether to open the task",
+                                     nil)
+                        delegate:self
+               cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+          destructiveButtonTitle:nil
+               otherButtonTitles:NSLocalizedString(@"ON", nil),
+                                 NSLocalizedString(@"OFF", nil), nil];
+      [actionSheet showInView:self.view];
+    } break;
+    case 1:
+      [self changeWeek];
+      break;
+    default:
+      break;
+  }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet
+    clickedButtonAtIndex:(NSInteger)buttonIndex {
+  [self.tableView deselectRowAtIndexPath:self.currentEditIndexPath
+                                animated:YES];
+  TimerCellInfo *cellInfo = self.menus[self.currentEditIndexPath.row];
+  NSString *type;
+  switch (buttonIndex) {
+    case 0:
+      type = NSLocalizedString(@"ON", nil);
+      self.timer.timerActionType = TimerActionTypeOn;
+      break;
+    case 1:
+      type = NSLocalizedString(@"OFF", nil);
+      self.timer.timerActionType = TimerActionTypeOff;
+      break;
+    default:
+      type = cellInfo.info;
+      self.timer.timerActionType = self.timer.timerActionType;
+      break;
+  }
+  cellInfo.info = type;
+  NSArray *indexPaths = @[ self.currentEditIndexPath ];
+  [self.tableView reloadRowsAtIndexPaths:indexPaths
+                        withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 @end

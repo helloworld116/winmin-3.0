@@ -14,6 +14,10 @@
 @interface DelayViewController () <DelaySettingControllerDelegate>
 @property (nonatomic, weak) IBOutlet DelayTimeCountDownView *countDownView;
 @property (nonatomic, weak) IBOutlet UIButton *settingBtn;
+@property (nonatomic, weak) IBOutlet UIView *viewTop;
+@property (nonatomic, weak) IBOutlet UILabel *lblOperationInfo;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSTimer *timer;
 - (IBAction)showSetting:(id)sender;
 
 @property (nonatomic, strong) DelayModel *model;
@@ -42,15 +46,8 @@
   self.navigationItem.title = NSLocalizedString(@"Delay Task", nil);
   self.model = [[DelayModel alloc] initWithSwitch:self.aSwitch
                                     socketGroupId:self.socketGroupId];
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(delayNotif:)
-                                               name:kDelayQueryNotification
-                                             object:nil];
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(noResponseNotification:)
-             name:kNoResponseNotification
-           object:self.model];
+  self.dateFormatter = [[NSDateFormatter alloc] init];
+  [self.dateFormatter setDateFormat:@"HH:mm"];
 }
 
 - (void)viewDidLoad {
@@ -61,16 +58,16 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  [self.model queryDelay];
+  [self.model queryDelay:^(int delaySeconds, SocketStatus status) {
+      [self showDelayInfo:delaySeconds action:status];
+  } notReceiveData:^(long tag, int socktGroupId) {
+      [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+  }];
 }
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
-}
-
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*
@@ -90,6 +87,8 @@ preparation before navigation
           initWithNibName:@"DelaySettingViewController"
                    bundle:nil];
   viewController.model = self.model;
+  SDZGSocket *socket = self.aSwitch.sockets[self.socketGroupId - 1];
+  viewController.socketStatus = socket.socketStatus;
   viewController.delegate = self;
   [self presentPopupViewController:viewController
                      animationType:MJPopupViewAnimationFade
@@ -97,36 +96,100 @@ preparation before navigation
 }
 
 - (void)closePopViewController:(UIViewController *)controller
-                  passMinitues:(int)minitues {
+                  passMinitues:(int)minitues
+                    actionType:(int)actionType {
   dispatch_async(MAIN_QUEUE, ^{
       [self
           dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
-      [self.countDownView countDown:minitues * 60];
+      [self showDelayInfo:minitues * 60 action:actionType];
   });
 }
 
-#pragma mark - 通知
-- (void)delayNotif:(NSNotification *)notification {
-  if (notification.object == self.model) {
-    int delay = [[notification.userInfo objectForKey:@"delay"] intValue];
-    dispatch_async(MAIN_QUEUE, ^{ [self.countDownView countDown:delay]; });
+#pragma mark -
+- (void)showDelayInfo:(int)delaySeconds action:(SocketStatus)actionType {
+  NSDate *executeDate = [[NSDate date] dateByAddingTimeInterval:delaySeconds];
+  NSString *info = [self.dateFormatter stringFromDate:executeDate];
+  NSString *action;
+  if (actionType) {
+    action = NSLocalizedString(@"ON", nil);
+  } else {
+    action = NSLocalizedString(@"OFF", nil);
   }
+  dispatch_async(MAIN_QUEUE, ^{
+      [self.countDownView countDown:delaySeconds];
+      self.viewTop.hidden = NO;
+      self.lblOperationInfo.text =
+          [NSString stringWithFormat:@"延时至%@%@", info, action];
+      self.timer =
+          [NSTimer scheduledTimerWithTimeInterval:delaySeconds
+                                           target:self
+                                         selector:@selector(timerAction)
+                                         userInfo:nil
+                                          repeats:NO];
+      [self.settingBtn setTitle:NSLocalizedString(@"CancelWithBlank", nil)
+                       forState:UIControlStateNormal];
+      [self.settingBtn removeTarget:self
+                             action:@selector(showSetting:)
+                   forControlEvents:UIControlEventTouchUpInside];
+      [self.settingBtn addTarget:self
+                          action:@selector(cancelDelay:)
+                forControlEvents:UIControlEventTouchUpInside];
+  });
 }
 
-- (void)noResponseNotification:(NSNotification *)notif {
-  dispatch_async(MAIN_QUEUE, ^{
-      NSDictionary *userInfo = notif.userInfo;
-      long tag = [userInfo[@"tag"] longValue];
-      switch (tag) {
-        case P2D_SET_DELAY_REQ_4D:
-        case P2S_SET_DELAY_REQ_4F:
-          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
-          break;
-        case P2D_GET_DELAY_REQ_53:
-        case P2S_GET_DELAY_REQ_55:
-          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
-          break;
+#pragma mark -
+- (void)cancelDelay:(id)sender {
+  [self.countDownView countDown:0];
+  self.viewTop.hidden = YES;
+  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  __weak DelayViewController *weakSelf = self;
+  [self.model setDelayWithMinitues:0
+      onOrOff:NO
+      completion:^(BOOL result) {
+          __strong DelayViewController *strongSelf = weakSelf;
+          dispatch_async(MAIN_QUEUE, ^{
+              if (result) {
+                [strongSelf cancelTimer];
+                [strongSelf.settingBtn
+                    setTitle:NSLocalizedString(@"SettingWithBlank", nil)
+                    forState:UIControlStateNormal];
+                [strongSelf.settingBtn
+                        removeTarget:strongSelf
+                              action:@selector(cancelDelay:)
+                    forControlEvents:UIControlEventTouchUpInside];
+                [strongSelf.settingBtn addTarget:strongSelf
+                                          action:@selector(showSetting:)
+                                forControlEvents:UIControlEventTouchUpInside];
+                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+              }
+          });
       }
-  });
+      notReceiveData:^(long tag, int socktGroupId) {
+          __strong DelayViewController *strongSelf = weakSelf;
+          dispatch_async(MAIN_QUEUE, ^{
+              [strongSelf.view
+                  makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+          });
+      }];
+}
+
+#pragma mark - timer
+- (void)timerAction {
+  self.viewTop.hidden = YES;
+  [self.settingBtn setTitle:NSLocalizedString(@"SettingWithBlank", nil)
+                   forState:UIControlStateNormal];
+  [self.settingBtn removeTarget:self
+                         action:@selector(cancelDelay:)
+               forControlEvents:UIControlEventTouchUpInside];
+  [self.settingBtn addTarget:self
+                      action:@selector(showSetting:)
+            forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)cancelTimer {
+  if (self.timer) {
+    [self.timer invalidate];
+    self.timer = nil;
+  }
 }
 @end

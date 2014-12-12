@@ -145,6 +145,12 @@
   [[SwitchDataCeneter sharedInstance] checkSwitchOnlineState:self.aSwitch];
 }
 
+- (void)sendMsg53Or55 {
+  [self.request1 sendMsg53Or55:self.aSwitch
+                 socketGroupId:1
+                      sendMode:ActiveMode];
+}
+
 //状态
 - (void)sendMsg0BOr0D {
   [self.request1 sendMsg0BOr0D:self.aSwitch sendMode:ActiveMode];

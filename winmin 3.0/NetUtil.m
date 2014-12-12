@@ -36,10 +36,17 @@
   NSParameterAssert([curReach isKindOfClass:[Reachability class]]);
   NetworkStatus status = [curReach currentReachabilityStatus];
   switch (status) {
-    case NotReachable:
-      kSharedAppliction.networkStatus = NotReachable;
-      DDLogDebug(@"网络不可用");
-      break;
+    case NotReachable: {
+      int type = [self newtworkType];
+      if (type == 5) {
+        //有wifi，但是不能访问外网
+        kSharedAppliction.networkStatus = ReachableViaWiFi;
+        DDLogDebug(@"网络改变为WIFI，但是不能访问外网");
+      } else {
+        kSharedAppliction.networkStatus = NotReachable;
+        DDLogDebug(@"网络不可用");
+      }
+    } break;
     case ReachableViaWiFi:
       kSharedAppliction.networkStatus = ReachableViaWiFi;
       DDLogDebug(@"网络改变为WIFI");
@@ -77,6 +84,46 @@
   } else {
     return nil;
   }
+}
+
+- (int)newtworkType {
+  NSArray *subviews =
+      [[[[UIApplication sharedApplication] valueForKey:@"statusBar"]
+          valueForKey:@"foregroundView"] subviews];
+  NSNumber *dataNetworkItemView = nil;
+
+  for (id subview in subviews) {
+    if ([subview isKindOfClass:[NSClassFromString(
+                                   @"UIStatusBarDataNetworkItemView") class]]) {
+      dataNetworkItemView = subview;
+      break;
+    }
+  }
+  int type =
+      [[dataNetworkItemView valueForKey:@"dataNetworkType"] integerValue];
+  switch (type) {
+    case 0:
+      DDLogDebug(@"No wifi or cellular");
+      break;
+    case 1:
+      DDLogDebug(@"2G");
+      break;
+    case 2:
+      DDLogDebug(@"3G");
+      break;
+    case 3:
+      DDLogDebug(@"4G");
+      break;
+    case 4:
+      DDLogDebug(@"LTE");
+      break;
+    case 5:
+      DDLogDebug(@"Wifi");
+      break;
+    default:
+      break;
+  }
+  return type;
 }
 
 @end

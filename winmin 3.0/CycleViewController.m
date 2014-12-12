@@ -79,11 +79,11 @@
   [super viewDidLoad];
 
   self.navigationItem.title = NSLocalizedString(@"Repeat", nil);
-  self.navigationItem.rightBarButtonItem =
-      [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", nil)
-                                       style:UIBarButtonItemStylePlain
-                                      target:self
-                                      action:@selector(save:)];
+  //  self.navigationItem.rightBarButtonItem =
+  //      [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", nil)
+  //                                       style:UIBarButtonItemStylePlain
+  //                                      target:self
+  //                                      action:@selector(save:)];
 
   UIView *tableHeaderView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 10)];
@@ -92,6 +92,17 @@
   [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor clearColor]];
 
   [self setup];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+  NSArray *array = [self.data objectForKey:@"section0"];
+  int week = [array[0] intValue] << 0 | [array[1] intValue] << 1 |
+             [array[2] intValue] << 2 | [array[3] intValue] << 3 |
+             [array[4] intValue] << 4 | [array[5] intValue] << 5 |
+             [array[6] intValue] << 6;
+  [self.delegate passValue:@(week)];
+  //  DDLogDebug(@"week is %d", week);
+  [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -189,13 +200,7 @@
 
 #pragma mark - UINavigationBar事件
 - (void)save:(id)sender {
-  NSArray *array = [self.data objectForKey:@"section0"];
-  int week = [array[0] intValue] << 0 | [array[1] intValue] << 1 |
-             [array[2] intValue] << 2 | [array[3] intValue] << 3 |
-             [array[4] intValue] << 4 | [array[5] intValue] << 5 |
-             [array[6] intValue] << 6;
-  [self.delegate passValue:@(week)];
-  //  DDLogDebug(@"week is %d", week);
+
   [self.navigationController popViewControllerAnimated:YES];
 }
 @end

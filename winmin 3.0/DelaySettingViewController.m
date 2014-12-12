@@ -17,10 +17,9 @@
 @property (nonatomic, weak) IBOutlet UIButton *btnMinitues60;
 @property (nonatomic, weak) IBOutlet UIButton *btnMinitues90;
 @property (nonatomic, weak) IBOutlet UIButton *btnMinitues120;
-@property (nonatomic, weak) IBOutlet UIButton *btnOnOff;
+@property (nonatomic, weak) IBOutlet UILabel *lblState;
 @property (nonatomic, weak) IBOutlet UIButton *btnSave;
 - (IBAction)choiceAction:(id)sender;
-- (IBAction)onOffAction:(id)sender;
 - (IBAction)save:(id)sender;
 
 @property (nonatomic, assign) BOOL actionState;    //开关状态
@@ -53,7 +52,15 @@
 - (void)setup {
   [self setupStyle];
   self.textField.delegate = self;
-  self.actionState = YES;
+  //开关状态根据当前socket的开关状态取反
+  if (self.socketStatus == SocketStatusOn) {
+    self.actionState = NO;
+    self.lblState.text = NSLocalizedString(@"OFF", nil);
+  } else {
+    self.actionState = YES;
+    self.lblState.text = NSLocalizedString(@"ON", nil);
+  }
+
   //默认选中5分钟的按钮
   self.actionMinitues = 5;
   self.btnOfLast = self.btnMinitues5;
@@ -68,15 +75,6 @@
          selector:@selector(keyboardWillBeHidden:)
              name:UIKeyboardWillHideNotification
            object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(delaySetSuccess:)
-                                               name:kDelaySettingNotification
-                                             object:nil];
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(noResponseNotification:)
-             name:kNoResponseNotification
-           object:self.model];
 }
 
 - (void)viewDidLoad {
@@ -154,20 +152,47 @@
                    }];
 }
 
-- (IBAction)onOffAction:(id)sender {
-  [UIView animateWithDuration:0.3
-                   animations:^{
-                       self.btnOnOff.selected = !self.btnOnOff.selected;
-                   }];
-  self.actionState = self.btnOnOff.selected;
-}
+//- (IBAction)onOffAction:(id)sender {
+//  [UIView animateWithDuration:0.3
+//                   animations:^{
+//                       self.btnOnOff.selected = !self.btnOnOff.selected;
+//                   }];
+//  self.actionState = self.btnOnOff.selected;
+//}
 - (IBAction)save:(id)sender {
   if (self.actionMinitues > 1440) {
     [self.view makeToast:NSLocalizedString(@"at most 1440 minutes", nil)];
   } else {
-    [self.model setDelayWithMinitues:self.actionMinitues
-                             onOrOff:self.actionState];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+    __weak DelaySettingViewController *weakSelf = self;
+    [self.model setDelayWithMinitues:self.actionMinitues
+        onOrOff:self.actionState
+        completion:^(BOOL result) {
+            __strong DelaySettingViewController *strongSelf = weakSelf;
+            if (result) {
+              dispatch_async(MAIN_QUEUE, ^{
+                  [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+                  if ([strongSelf.delegate
+                          respondsToSelector:@selector(
+                                                 closePopViewController:
+                                                           passMinitues:
+                                                             actionType:)]) {
+                    [strongSelf.delegate
+                        closePopViewController:strongSelf
+                                  passMinitues:strongSelf.actionMinitues
+                                    actionType:strongSelf.actionState];
+                  }
+
+              });
+            }
+        }
+        notReceiveData:^(long tag, int socktGroupId) {
+            __strong DelaySettingViewController *strongSelf = weakSelf;
+            dispatch_async(MAIN_QUEUE, ^{
+                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+            });
+        }];
   }
 }
 
@@ -221,21 +246,5 @@
 - (void)finishAction:(id)sender {
   [self.textField resignFirstResponder];
   self.actionMinitues = [self.textField.text intValue];
-}
-
-- (void)delaySetSuccess:(NSNotification *)notification {
-  dispatch_async(MAIN_QUEUE,
-                 ^{ [MBProgressHUD hideHUDForView:self.view animated:YES]; });
-  if (self.delegate &&
-      [self.delegate
-          respondsToSelector:@selector(closePopViewController:passMinitues:)]) {
-    [self.delegate closePopViewController:self
-                             passMinitues:self.actionMinitues];
-  }
-}
-
-- (void)noResponseNotification:(NSNotification *)notif {
-  dispatch_async(MAIN_QUEUE,
-                 ^{ [MBProgressHUD hideHUDForView:self.view animated:YES]; });
 }
 @end

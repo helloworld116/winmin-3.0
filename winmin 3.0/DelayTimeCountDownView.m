@@ -8,15 +8,15 @@
 
 #import "DelayTimeCountDownView.h"
 @interface DelayTimeCountDownView ()
-@property(nonatomic, strong) IBOutlet UILabel *lblHour1;
-@property(nonatomic, strong) IBOutlet UILabel *lblHour2;
-@property(nonatomic, strong) IBOutlet UILabel *lblMin1;
-@property(nonatomic, strong) IBOutlet UILabel *lblMin2;
-@property(nonatomic, strong) IBOutlet UILabel *lblSec1;
-@property(nonatomic, strong) IBOutlet UILabel *lblSec2;
+@property (nonatomic, strong) IBOutlet UILabel *lblHour1;
+@property (nonatomic, strong) IBOutlet UILabel *lblHour2;
+@property (nonatomic, strong) IBOutlet UILabel *lblMin1;
+@property (nonatomic, strong) IBOutlet UILabel *lblMin2;
+@property (nonatomic, strong) IBOutlet UILabel *lblSec1;
+@property (nonatomic, strong) IBOutlet UILabel *lblSec2;
 
-@property(nonatomic, assign) int seconds;  //需要倒计时的秒数
-@property(nonatomic, strong) dispatch_source_t timer;
+@property (nonatomic, assign) int seconds; //需要倒计时的秒数
+@property (nonatomic, strong) dispatch_source_t timer;
 @end
 
 @implementation DelayTimeCountDownView
@@ -34,28 +34,26 @@
 }
 
 - (void)countDown:(int)seconds {
-  if (seconds) {
-    self.seconds = seconds;
-    __weak id weakSelf = self;
-    if (self.timer) {
-      dispatch_source_cancel(self.timer);
-    }
-    self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,
-                                        dispatch_get_main_queue());
-    dispatch_source_set_timer(_timer, dispatch_walltime(NULL, 0),
-                              (unsigned)(1 * NSEC_PER_SEC), 0);
-    dispatch_source_set_event_handler(_timer, ^{ [weakSelf updateView]; });
-    dispatch_resume(_timer);
+  self.seconds = seconds;
+  __weak id weakSelf = self;
+  if (self.timer) {
+    dispatch_source_cancel(self.timer);
   }
+  self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,
+                                      dispatch_get_main_queue());
+  dispatch_source_set_timer(_timer, dispatch_walltime(NULL, 0),
+                            (unsigned)(1 * NSEC_PER_SEC), 0);
+  dispatch_source_set_event_handler(_timer, ^{ [weakSelf updateView]; });
+  dispatch_resume(_timer);
 }
 
 - (void)updateView {
   if (self.seconds) {
     NSString *imgHour1Name, *imgHour2Name, *imgMin1Name, *imgMin2Name,
         *imgSec1Name, *imgSec2Name;
-    int hour = self.seconds / 3600;                           //小时
-    int minutes = (self.seconds - 3600 * hour) / 60;          //分钟
-    int seconds = self.seconds - 3600 * hour - 60 * minutes;  //秒
+    int hour = self.seconds / 3600;                          //小时
+    int minutes = (self.seconds - 3600 * hour) / 60;         //分钟
+    int seconds = self.seconds - 3600 * hour - 60 * minutes; //秒
     imgHour1Name = [NSString stringWithFormat:@"%d", hour / 10];
     imgHour2Name = [NSString stringWithFormat:@"%d", hour % 10];
     imgMin1Name = [NSString stringWithFormat:@"%d", minutes / 10];

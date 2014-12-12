@@ -11,7 +11,6 @@
 #import "TimerEditViewController.h"
 #import "SwitchDataCeneter.h"
 #import "TimerModel.h"
-#define kAddTimer -1
 
 @interface TimerViewController () <UITableViewDelegate, UITableViewDataSource,
                                    UIActionSheetDelegate,
@@ -220,7 +219,7 @@
   [nextVC setTimers:self.timers
               timer:nil
          timerModel:self.model
-              index:kAddTimer];
+              index:TimerOperationAdd];
   [self.navigationController pushViewController:nextVC animated:YES];
 }
 
@@ -258,10 +257,10 @@
   NSDictionary *userIofo = [notification userInfo];
   int type = [[userIofo objectForKey:@"type"] intValue];
   NSIndexPath *indexPath;
-  NSString *message;
+  //  NSString *message;
   switch (type) {
-    case kAddTimer:
-      message = NSLocalizedString(@"Added successfully", nil);
+    case TimerOperationAdd:
+      //      message = NSLocalizedString(@"Added successfully", nil);
       indexPath =
           [NSIndexPath indexPathForRow:self.timers.count - 1 inSection:0];
       [self.tableView beginUpdates];
@@ -271,19 +270,21 @@
       [self updateViewWithReloadData:NO];
       break;
     default:
-      message = NSLocalizedString(@"Modified successfully", nil);
+      //      message = NSLocalizedString(@"Modified successfully", nil);
       indexPath = [NSIndexPath indexPathForRow:type inSection:0];
       [self.tableView reloadRowsAtIndexPaths:@[ indexPath ]
                             withRowAnimation:UITableViewRowAnimationAutomatic];
       break;
   }
-  [self.view
-      makeToast:message
-       duration:1.f
-       position:[NSValue
-                    valueWithCGPoint:CGPointMake(self.view.frame.size.width / 2,
-                                                 self.view.frame.size.height -
-                                                     40)]];
+  //  [self.view
+  //      makeToast:message
+  //       duration:1.f
+  //       position:[NSValue
+  //                    valueWithCGPoint:CGPointMake(self.view.frame.size.width
+  //                    / 2,
+  //                                                 self.view.frame.size.height
+  //                                                 -
+  //                                                     40)]];
 }
 
 - (void)changeTimersList:(NSNotification *)notification {

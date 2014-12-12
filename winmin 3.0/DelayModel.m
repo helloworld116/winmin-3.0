@@ -11,6 +11,9 @@
 @property (nonatomic, strong) SDZGSwitch *aSwitch;
 @property (nonatomic, assign) int groupId;
 @property (nonatomic, strong) UdpRequest *request;
+@property (nonatomic, strong) QueryBlock queryBlcok;
+@property (nonatomic, strong) SettingBlock settingBlock;
+@property (nonatomic, strong) NotReceiveDataBlock notReceiveDataBlock;
 @end
 
 @implementation DelayModel
@@ -29,11 +32,19 @@
   self.request.delegate = nil;
 }
 
-- (void)queryDelay {
+- (void)queryDelay:(QueryBlock)queryResult
+    notReceiveData:(NotReceiveDataBlock)notReceiveData {
+  self.queryBlcok = queryResult;
+  self.notReceiveDataBlock = notReceiveData;
   dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg53Or55]; });
 }
 
-- (void)setDelayWithMinitues:(int)minitues onOrOff:(BOOL)onOrOff {
+- (void)setDelayWithMinitues:(int)minitues
+                     onOrOff:(BOOL)onOrOff
+                  completion:(SettingBlock)result
+              notReceiveData:(NotReceiveDataBlock)notReceiveData {
+  self.settingBlock = result;
+  self.notReceiveDataBlock = notReceiveData;
   dispatch_async(GLOBAL_QUEUE, ^{
       [self sendMsg4DOr4FWithMinitues:minitues onOrOff:onOrOff];
   });
@@ -78,31 +89,32 @@
     didNotReceiveMsgTag:(long)tag
           socketGroupId:(int)socketGroupId {
   DDLogDebug(@"tag is %ld and socketGroupId is %d", tag, socketGroupId);
-  NSDictionary *userInfo = @{
-    @"tag" : @(tag),
-    @"socketGroupId" : @(socketGroupId)
-  };
-  [[NSNotificationCenter defaultCenter]
-      postNotificationName:kNoResponseNotification
-                    object:self
-                  userInfo:userInfo];
+  self.notReceiveDataBlock(tag, socketGroupId);
 }
 
 - (void)responseMsg4EOr50:(CC3xMessage *)message {
-  if (message.state == 0) {
-    [[NSNotificationCenter defaultCenter]
-        postNotificationName:kDelaySettingNotification
-                      object:self];
+  if (message.state == kUdpResponseSuccessCode) {
+    //    [[NSNotificationCenter defaultCenter]
+    //        postNotificationName:kDelaySettingNotification
+    //                      object:self];
+    self.settingBlock(YES);
+  } else {
+    self.settingBlock(NO);
   }
 }
 
 - (void)responseMsg54Or56:(CC3xMessage *)message {
   if (message.delay > 0) {
-    NSDictionary *userInfo = @{ @"delay" : @(message.delay) };
-    [[NSNotificationCenter defaultCenter]
-        postNotificationName:kDelayQueryNotification
-                      object:self
-                    userInfo:userInfo];
+    //    NSDictionary *userInfo = @{
+    //      @"delay" : @(message.delay),
+    //      @"status" : @(message.onStatus)
+    //    };
+    //    [[NSNotificationCenter defaultCenter]
+    //        postNotificationName:kDelayQueryNotification
+    //                      object:self
+    //                    userInfo:userInfo];
+    self.queryBlcok(message.delay, message.onStatus);
+  } else {
   }
 }
 

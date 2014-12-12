@@ -83,6 +83,7 @@
 
 - (void)setup {
   [self setupStyle];
+  self.textWIFI.userInteractionEnabled = NO;
   self.textWIFI.delegate = self;
   self.textPassword.delegate = self;
   [[NSNotificationCenter defaultCenter]

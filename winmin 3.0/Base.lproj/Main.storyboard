@@ -178,6 +178,9 @@
                                                         <state key="normal" title="定时" image="timer">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <state key="highlighted" title="定时" image="timer_highlighted">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
                                                         <connections>
                                                             <action selector="touchTimer:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="HTC-Ft-T3k"/>
                                                         </connections>
@@ -186,6 +189,9 @@
                                                         <rect key="frame" x="130" y="66" width="70" height="35"/>
                                                         <state key="normal" title="延时" image="delay">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <state key="highlighted" title="延时" image="delay_highlighted">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="touchDelay:" destination="JL5-Fc-0vL" eventType="touchUpInside" id="VMz-gn-LEC"/>
@@ -214,11 +220,13 @@
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="arcView" destination="3BE-H6-eDB" id="meK-Qj-y8R"/>
+                                                    <outlet property="btnDelay" destination="Lq6-md-TsT" id="F4p-Xt-cEb"/>
                                                     <outlet property="btnOnOrOff" destination="IJD-q0-izU" id="k1v-t3-kuT"/>
                                                     <outlet property="btnOnOrOff2" destination="uPv-iw-SX3" id="WBu-Ue-BfD"/>
                                                     <outlet property="btnSocket1" destination="1Ee-Sf-ebI" id="rfE-RG-fZ4"/>
                                                     <outlet property="btnSocket2" destination="BRZ-JH-M7g" id="BU6-rp-RwP"/>
                                                     <outlet property="btnSocket3" destination="QQ7-Nw-1X6" id="qwp-bI-7UA"/>
+                                                    <outlet property="btnTimer" destination="hE1-u5-U5v" id="Sj5-3b-Mq1"/>
                                                     <outlet property="imgViewBg" destination="oV6-Bq-Koh" id="CF4-9y-NbY"/>
                                                 </connections>
                                             </view>
@@ -274,6 +282,9 @@
                                                         <state key="normal" title="定时" image="timer">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <state key="highlighted" title="定时" image="timer_highlighted">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
                                                         <connections>
                                                             <action selector="touchTimer:" destination="ZoC-de-892" eventType="touchUpInside" id="7lh-ga-9rD"/>
                                                         </connections>
@@ -282,6 +293,9 @@
                                                         <rect key="frame" x="130" y="66" width="70" height="35"/>
                                                         <state key="normal" title="延时" image="delay">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <state key="highlighted" title="延时" image="delay_highlighted">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="touchDelay:" destination="ZoC-de-892" eventType="touchUpInside" id="VPc-ln-yli"/>
@@ -310,11 +324,13 @@
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="arcView" destination="3ge-rL-uiK" id="GO9-Po-w2R"/>
+                                                    <outlet property="btnDelay" destination="mzk-Ah-mge" id="3oU-oO-8Rf"/>
                                                     <outlet property="btnOnOrOff" destination="1fG-DM-5AU" id="tbb-hO-Zcf"/>
                                                     <outlet property="btnOnOrOff2" destination="dsI-ff-Cgz" id="AMb-1P-e58"/>
                                                     <outlet property="btnSocket1" destination="xeU-37-nZS" id="W14-xb-JRy"/>
                                                     <outlet property="btnSocket2" destination="qDA-4p-Xzt" id="3WM-S7-5cf"/>
                                                     <outlet property="btnSocket3" destination="n5X-Kc-kM8" id="77d-Ia-zEP"/>
+                                                    <outlet property="btnTimer" destination="58q-ea-yYU" id="hgF-2p-fa4"/>
                                                     <outlet property="imgViewBg" destination="wBG-uJ-a9k" id="T5c-y2-8aa"/>
                                                 </connections>
                                             </view>
@@ -4074,10 +4090,35 @@
                                     <action selector="showSetting:" destination="gSG-nI-XIh" eventType="touchUpInside" id="IAC-Yv-AnZ"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PHc-Qo-42j">
+                                <rect key="frame" x="127" y="0.0" width="66" height="90"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ww-fR-vyt">
+                                        <rect key="frame" x="24" y="34" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="delay_down" translatesAutoresizingMaskIntoConstraints="NO" id="DRJ-7D-xVX">
+                                        <rect key="frame" x="0.0" y="35" width="19" height="19"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="DRJ-7D-xVX" firstAttribute="leading" secondItem="PHc-Qo-42j" secondAttribute="leading" id="5a6-sB-KJF"/>
+                                    <constraint firstItem="DRJ-7D-xVX" firstAttribute="top" secondItem="PHc-Qo-42j" secondAttribute="top" constant="35" id="6nT-9w-pre"/>
+                                    <constraint firstAttribute="trailing" secondItem="1ww-fR-vyt" secondAttribute="trailing" id="Uz5-ID-OVp"/>
+                                    <constraint firstItem="1ww-fR-vyt" firstAttribute="top" secondItem="PHc-Qo-42j" secondAttribute="top" constant="34" id="Xc6-Uu-Blb"/>
+                                    <constraint firstItem="1ww-fR-vyt" firstAttribute="leading" secondItem="DRJ-7D-xVX" secondAttribute="trailing" constant="5" id="Zly-rA-D5e"/>
+                                    <constraint firstAttribute="height" constant="90" id="fvf-aF-lOZ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.94117647059999998" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="PHc-Qo-42j" firstAttribute="top" secondItem="RBD-i6-xWL" secondAttribute="top" id="8yY-Me-pAW"/>
                             <constraint firstAttribute="centerY" secondItem="Xuu-CP-5E2" secondAttribute="centerY" constant="50" id="Dvp-iI-Sa6"/>
+                            <constraint firstAttribute="centerX" secondItem="PHc-Qo-42j" secondAttribute="centerX" id="IRU-9g-6tv"/>
                             <constraint firstAttribute="trailing" secondItem="lZJ-jQ-4md" secondAttribute="trailing" constant="8" id="JQo-xA-gJ2"/>
                             <constraint firstItem="Xuu-CP-5E2" firstAttribute="leading" secondItem="RBD-i6-xWL" secondAttribute="leading" id="dAv-fC-xbn"/>
                             <constraint firstAttribute="trailing" secondItem="Xuu-CP-5E2" secondAttribute="trailing" id="fej-Uy-qQv"/>
@@ -4087,7 +4128,9 @@
                     </view>
                     <connections>
                         <outlet property="countDownView" destination="Xuu-CP-5E2" id="2to-8c-N9B"/>
+                        <outlet property="lblOperationInfo" destination="1ww-fR-vyt" id="uQS-zs-HXs"/>
                         <outlet property="settingBtn" destination="lZJ-jQ-4md" id="WD8-ty-Ejd"/>
+                        <outlet property="viewTop" destination="PHc-Qo-42j" id="MHW-Ny-u2V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fze-Ug-QZC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4095,160 +4138,98 @@
             <point key="canvasLocation" x="2459" y="176"/>
         </scene>
         <!--Timer Edit View Controller-->
-        <scene sceneID="gOY-at-icO">
+        <scene sceneID="iPF-A0-6HB">
             <objects>
-                <tableViewController storyboardIdentifier="TimerEditViewController" id="Kb1-ze-IV2" customClass="TimerEditViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="CLF-2H-H0Z">
+                <viewController storyboardIdentifier="TimerEditViewController" id="gBP-ls-3Vi" customClass="TimerEditViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0Yj-jY-srx"/>
+                        <viewControllerLayoutGuide type="bottom" id="g2O-WI-UQs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="G5v-8Z-D7P">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TEV-wt-lgg">
+                                <rect key="frame" x="0.0" y="256" width="320" height="312"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TimerEditCell" id="y2z-Xd-RXp" customClass="TimerEditCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="y2z-Xd-RXp" id="JGt-HH-Fq4">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W02-K2-NFh">
+                                                    <rect key="frame" x="15" y="11" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KPz-ar-uDF">
+                                                    <rect key="frame" x="245" y="11" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.58823529411764708" green="0.58823529411764708" blue="0.58823529411764708" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="KPz-ar-uDF" secondAttribute="trailing" id="Egm-8a-X9Y"/>
+                                                <constraint firstItem="W02-K2-NFh" firstAttribute="leading" secondItem="JGt-HH-Fq4" secondAttribute="leading" constant="15" id="GKp-vW-26b"/>
+                                                <constraint firstItem="KPz-ar-uDF" firstAttribute="top" secondItem="JGt-HH-Fq4" secondAttribute="top" constant="11" id="YpK-dd-VIT"/>
+                                                <constraint firstItem="W02-K2-NFh" firstAttribute="top" secondItem="JGt-HH-Fq4" secondAttribute="top" constant="11" id="fZF-pe-bUE"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="lblInfo" destination="KPz-ar-uDF" id="oqu-6t-dDd"/>
+                                            <outlet property="lblTitle" destination="W02-K2-NFh" id="Ex8-im-W07"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="11V-Mc-Sao">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="216"/>
+                                <subviews>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="zqJ-rL-WcG">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="216"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <date key="date" timeIntervalSinceReferenceDate="439963123.63523602">
+                                            <!--2014-12-11 03:58:43 +0000-->
+                                        </date>
+                                        <connections>
+                                            <action selector="timeValueChanged:" destination="gBP-ls-3Vi" eventType="valueChanged" id="BmJ-8f-xni"/>
+                                        </connections>
+                                    </datePicker>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="zqJ-rL-WcG" secondAttribute="bottom" id="4h3-GA-tCJ"/>
+                                    <constraint firstAttribute="height" constant="216" id="BOE-bu-OfS"/>
+                                    <constraint firstItem="zqJ-rL-WcG" firstAttribute="top" secondItem="11V-Mc-Sao" secondAttribute="top" id="E3m-Ec-4Wg"/>
+                                    <constraint firstAttribute="trailing" secondItem="zqJ-rL-WcG" secondAttribute="trailing" id="NY6-XT-Ih1"/>
+                                    <constraint firstItem="zqJ-rL-WcG" firstAttribute="leading" secondItem="11V-Mc-Sao" secondAttribute="leading" id="sR5-FU-HO5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="0.94117647059999998" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
-                        <sections>
-                            <tableViewSection id="SFQ-2Y-a8z">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Qgl-DZ-YV1" customClass="TimerEditCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qgl-DZ-YV1" id="U16-Yk-vfO">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="32T-mW-TgM">
-                                                    <rect key="frame" x="10" y="5" width="300" height="51"/>
-                                                    <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="任务" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jot-1a-y1T">
-                                                            <rect key="frame" x="10" y="13" width="40" height="24"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <color key="textColor" red="0.396078431372549" green="0.396078431372549" blue="0.396078431372549" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="周期" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xuf-fd-E1G">
-                                                            <rect key="frame" x="237" y="13" width="55" height="24"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <color key="textColor" red="0.39607843139999999" green="0.39607843139999999" blue="0.39607843139999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="viewOfCellContent" destination="32T-mW-TgM" id="y6i-0O-2Mo"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="mV4-rw-Sf7" customClass="TimerEditCell">
-                                        <rect key="frame" x="0.0" y="60" width="320" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mV4-rw-Sf7" id="h02-Pd-3C2">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EOT-M0-8mK">
-                                                    <rect key="frame" x="10" y="5" width="300" height="51"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KPA-nb-7q3">
-                                                            <rect key="frame" x="206" y="10" width="74" height="29"/>
-                                                            <state key="normal" backgroundImage="off">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <state key="selected" backgroundImage="on"/>
-                                                            <connections>
-                                                                <action selector="onOffChanged:" destination="Kb1-ze-IV2" eventType="touchUpInside" id="aVo-NI-2IB"/>
-                                                            </connections>
-                                                        </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="时间" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZeX-Za-f8f">
-                                                            <rect key="frame" x="10" y="13" width="55" height="24"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <color key="textColor" red="0.39607843139999999" green="0.39607843139999999" blue="0.39607843139999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FsH-vZ-mMt">
-                                                            <rect key="frame" x="75" y="13" width="50" height="24"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                            <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bUy-PG-s1l">
-                                                            <rect key="frame" x="60" y="0.0" width="145" height="50"/>
-                                                            <state key="normal">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="showDatePicker:" destination="Kb1-ze-IV2" eventType="touchUpInside" id="CcY-Ya-i8S"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="viewOfCellContent" destination="EOT-M0-8mK" id="NYo-YZ-X7B"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="R9B-7U-4TW" customClass="TimerEditCell">
-                                        <rect key="frame" x="0.0" y="120" width="320" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R9B-7U-4TW" id="2gX-jv-GeK">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TzB-f5-WvB">
-                                                    <rect key="frame" x="10" y="5" width="300" height="51"/>
-                                                    <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="重复" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YVx-mn-jPB">
-                                                            <rect key="frame" x="10" y="13" width="58" height="24"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <color key="textColor" red="0.39607843139999999" green="0.39607843139999999" blue="0.39607843139999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="205" translatesAutoresizingMaskIntoConstraints="NO" id="FiI-tk-zve">
-                                                            <rect key="frame" x="75" y="0.0" width="205" height="50"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5z7-YT-y8r">
-                                                            <rect key="frame" x="60" y="0.0" width="239" height="50"/>
-                                                            <state key="normal">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="changeWeek:" destination="Kb1-ze-IV2" eventType="touchUpInside" id="m55-QH-Jcq"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="viewOfCellContent" destination="TzB-f5-WvB" id="KWv-AS-lX4"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="Kb1-ze-IV2" id="A9L-kd-uUA"/>
-                            <outlet property="delegate" destination="Kb1-ze-IV2" id="hNR-D1-uDc"/>
-                        </connections>
-                    </tableView>
+                        <constraints>
+                            <constraint firstItem="TEV-wt-lgg" firstAttribute="top" secondItem="11V-Mc-Sao" secondAttribute="bottom" constant="40" id="3re-8N-irD"/>
+                            <constraint firstItem="11V-Mc-Sao" firstAttribute="leading" secondItem="G5v-8Z-D7P" secondAttribute="leading" id="XCs-oy-DsS"/>
+                            <constraint firstAttribute="trailing" secondItem="11V-Mc-Sao" secondAttribute="trailing" id="bbr-yC-pH4"/>
+                            <constraint firstItem="g2O-WI-UQs" firstAttribute="top" secondItem="TEV-wt-lgg" secondAttribute="bottom" id="epL-hK-Gho"/>
+                            <constraint firstItem="TEV-wt-lgg" firstAttribute="leading" secondItem="G5v-8Z-D7P" secondAttribute="leading" id="g0I-R6-Q8A"/>
+                            <constraint firstAttribute="trailing" secondItem="TEV-wt-lgg" secondAttribute="trailing" id="tSp-fJ-TfO"/>
+                            <constraint firstItem="11V-Mc-Sao" firstAttribute="top" secondItem="G5v-8Z-D7P" secondAttribute="top" id="vns-Pu-gaP"/>
+                        </constraints>
+                    </view>
                     <connections>
-                        <outlet property="btnOnOff" destination="KPA-nb-7q3" id="7Fp-XJ-K3D"/>
-                        <outlet property="lblRepeatDesc" destination="FiI-tk-zve" id="W90-CQ-NCs"/>
-                        <outlet property="lblTime" destination="FsH-vZ-mMt" id="tHD-yb-SJ5"/>
+                        <outlet property="datePicker" destination="zqJ-rL-WcG" id="yzG-gv-Zuq"/>
+                        <outlet property="tableView" destination="TEV-wt-lgg" id="2aJ-O1-cpu"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UXW-y0-8ZV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k9G-Eb-vxX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3047" y="-544"/>
+            <point key="canvasLocation" x="3039" y="-544"/>
         </scene>
         <!--周期选择-->
         <scene sceneID="Ejy-7A-xl8">
@@ -4338,6 +4319,8 @@
         <image name="cj_edit_bg" width="84" height="84"/>
         <image name="conf_help_1" width="320" height="480"/>
         <image name="delay" width="20" height="20"/>
+        <image name="delay_down" width="19" height="19"/>
+        <image name="delay_highlighted" width="20" height="20"/>
         <image name="delay_split" width="14" height="19"/>
         <image name="gb" width="38" height="38"/>
         <image name="gd" width="30" height="30"/>
@@ -4346,8 +4329,6 @@
         <image name="info_arrow" width="44" height="44"/>
         <image name="kz" width="30" height="30"/>
         <image name="more_arrow" width="44" height="44"/>
-        <image name="off" width="74" height="29"/>
-        <image name="on" width="74" height="29"/>
         <image name="password" width="22" height="22"/>
         <image name="password_normal" width="23" height="23"/>
         <image name="protocol_normal" width="24" height="24"/>
@@ -4365,6 +4346,7 @@
         <image name="tabbar_selected" width="80" height="49"/>
         <image name="time_bg" width="44" height="59"/>
         <image name="timer" width="20" height="20"/>
+        <image name="timer_highlighted" width="20" height="20"/>
         <image name="username" width="22" height="22"/>
         <image name="usersetting" width="56" height="56"/>
         <image name="usersetting-1" width="56" height="56"/>

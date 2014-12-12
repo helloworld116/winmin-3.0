@@ -224,37 +224,37 @@ static dispatch_queue_t switch_parse_serial_queue() {
     }
     if ([self isDayOn:TUESDAY]) {
       if ([weekStr length]) {
-        [weekStr appendString:@"、"];
+        [weekStr appendString:@" "];
       }
       [weekStr appendString:NSLocalizedString(@"Tues", nil)];
     }
     if ([self isDayOn:WENSDAY]) {
       if ([weekStr length]) {
-        [weekStr appendString:@"、"];
+        [weekStr appendString:@" "];
       }
       [weekStr appendString:NSLocalizedString(@"Wed", nil)];
     }
     if ([self isDayOn:THURSDAY]) {
       if ([weekStr length]) {
-        [weekStr appendString:@"、"];
+        [weekStr appendString:@" "];
       }
       [weekStr appendString:NSLocalizedString(@"Thurs", nil)];
     }
     if ([self isDayOn:FRIDAY]) {
       if ([weekStr length]) {
-        [weekStr appendString:@"、"];
+        [weekStr appendString:@" "];
       }
       [weekStr appendString:NSLocalizedString(@"Fri", nil)];
     }
     if ([self isDayOn:SATURDAY]) {
       if ([weekStr length]) {
-        [weekStr appendString:@"、"];
+        [weekStr appendString:@" "];
       }
       [weekStr appendString:NSLocalizedString(@"Sat", nil)];
     }
     if ([self isDayOn:SUNDAY]) {
       if ([weekStr length]) {
-        [weekStr appendString:@"、"];
+        [weekStr appendString:@" "];
       }
       [weekStr appendString:NSLocalizedString(@"Sun", nil)];
     }
