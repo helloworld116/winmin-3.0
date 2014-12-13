@@ -233,6 +233,9 @@
               dispatch_async(MAIN_QUEUE, ^{
                   __strong SwitchDetailViewController *strongSelf = weakSelf;
                   if (isSuccess) {
+                    SDZGSocket *socket = strongSelf.aSwitch.sockets[0];
+                    [socket.timerList removeAllObjects];
+                    [socket.timerList addObjectsFromArray:timers];
                     int seconds = [SDZGTimerTask getShowSeconds:timers];
                     if (seconds) {
                       [strongSelf.socketView1 timerState:YES];
@@ -252,6 +255,9 @@
               dispatch_async(MAIN_QUEUE, ^{
                   __strong SwitchDetailViewController *strongSelf = weakSelf;
                   if (isSuccess) {
+                    SDZGSocket *socket = strongSelf.aSwitch.sockets[1];
+                    [socket.timerList removeAllObjects];
+                    [socket.timerList addObjectsFromArray:timers];
                     int seconds = [SDZGTimerTask getShowSeconds:timers];
                     if (seconds) {
                       [strongSelf.socketView2 timerState:YES];

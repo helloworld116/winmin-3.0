@@ -20,6 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - BEMSimpleLineGraph (3.2)
   - CocoaAsyncSocket (7.3.5)
   - CocoaLumberjack (2.0.0-beta):
     - CocoaLumberjack/CLI
@@ -54,6 +55,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - BEMSimpleLineGraph
   - CocoaAsyncSocket
   - CocoaLumberjack
   - CRToast (~> 0.0.7)
@@ -78,6 +80,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
+  BEMSimpleLineGraph: 68e349eb22320d1a21a29e390d0f67772f6f6f44
   CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
   CocoaLumberjack: aadc76d7bd6c839ca84b38ed50cbf89d7cf8c693
   CRToast: f9f2c4b29776d68ba24c4d621cba59a83fea921b

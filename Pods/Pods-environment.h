@@ -48,6 +48,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 4
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 1
 
+// BEMSimpleLineGraph
+#define COCOAPODS_POD_AVAILABLE_BEMSimpleLineGraph
+#define COCOAPODS_VERSION_MAJOR_BEMSimpleLineGraph 3
+#define COCOAPODS_VERSION_MINOR_BEMSimpleLineGraph 2
+#define COCOAPODS_VERSION_PATCH_BEMSimpleLineGraph 0
+
 // CRToast
 #define COCOAPODS_POD_AVAILABLE_CRToast
 #define COCOAPODS_VERSION_MAJOR_CRToast 0

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E35A2926AFF04A80A1ED7974"
+               BlueprintIdentifier = "17423CAF7410410E9B716DAB"
                BuildableName = "libPods-TWMessageBarManager.a"
                BlueprintName = "Pods-TWMessageBarManager"
                ReferencedContainer = "container:Pods.xcodeproj">
