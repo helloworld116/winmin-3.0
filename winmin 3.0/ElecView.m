@@ -8,9 +8,12 @@
 
 #import "ElecView.h"
 #import "ElecRealTimeView.h"
-#import <NCISimpleChartView.h>
-#import <NCIZoomGraphView.h>
-@interface ElecView ()
+//#import <NCISimpleChartView.h>
+//#import <NCIZoomGraphView.h>
+#import <BEMSimpleLineGraphView.h>
+static const int kWidth = 64.f;
+@interface ElecView () <BEMSimpleLineGraphDataSource,
+                        BEMSimpleLineGraphDelegate>
 @property (nonatomic, strong) IBOutlet UIButton *btnRealTime;
 @property (nonatomic, strong) IBOutlet UIButton *btnOneDay;
 @property (nonatomic, strong) IBOutlet UIButton *btnOneWeek;
@@ -21,12 +24,9 @@
 @property (nonatomic, strong) IBOutlet UIView *containerView;
 
 @property (nonatomic, strong) IBOutlet ElecRealTimeView *realTimeView;
-@property (nonatomic, strong) UIView *viewOneDay;
-@property (nonatomic, strong) UIView *viewOneWeek;
-@property (nonatomic, strong) UIView *viewOneMonth;
-@property (nonatomic, strong) UIView *viewThreeMonth;
-@property (nonatomic, strong) UIView *viewSixMonth;
-@property (nonatomic, strong) UIView *viewOneYear;
+
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) BEMSimpleLineGraphView *myGraph;
 
 @property (nonatomic, assign) BOOL oneDayDataRecived;
 @property (nonatomic, assign) BOOL oneWeekDataRecived;
@@ -35,8 +35,16 @@
 @property (nonatomic, assign) BOOL sixMonthDataRecived;
 @property (nonatomic, assign) BOOL oneYearDataRecived;
 
+@property (nonatomic, strong) HistoryElecData *oneDayData;
+@property (nonatomic, strong) HistoryElecData *oneWeekData;
+@property (nonatomic, strong) HistoryElecData *oneMonthData;
+@property (nonatomic, strong) HistoryElecData *threeMonthData;
+@property (nonatomic, strong) HistoryElecData *sixMonthData;
+@property (nonatomic, strong) HistoryElecData *oneYearData;
+
 @property (nonatomic, strong) UIButton *btnLastSelected;
 @property (nonatomic, strong) UIView *viewShowing; //当前展示的view
+@property (nonatomic, strong) HistoryElecData *currentData;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 - (IBAction)showSelectedDate:(id)sender;
 @end
@@ -65,6 +73,45 @@
   [self.btnThreeMonth setBackgroundImage:img forState:UIControlStateSelected];
   [self.btnSixMonth setBackgroundImage:img forState:UIControlStateSelected];
   [self.btnOneYear setBackgroundImage:img forState:UIControlStateSelected];
+
+  self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
+  self.scrollView.bounces = NO;
+  self.scrollView.showsHorizontalScrollIndicator = NO;
+  self.scrollView.hidden = YES;
+  [self.containerView addSubview:self.scrollView];
+  self.myGraph =
+      [[BEMSimpleLineGraphView alloc] initWithFrame:self.containerView.bounds];
+  self.myGraph.delegate = self;
+  self.myGraph.dataSource = self;
+  // Customization of the graph
+  //  CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+  //  size_t num_locations = 2;
+  //  CGFloat locations[2] = { 0.0, 1.0 };
+  //  CGFloat components[8] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0 };
+  //  self.myGraph.gradientBottom = CGGradientCreateWithColorComponents(
+  //      colorspace, components, locations, num_locations);
+  self.myGraph.colorTop = [UIColor colorWithHexString:@"#CCEFD1"];
+  self.myGraph.colorBottom = [UIColor colorWithHexString:@"#CCEFD1"];
+  self.myGraph.colorLine = kThemeColor;
+  self.myGraph.colorXaxisLabel = [UIColor blackColor];
+  self.myGraph.colorYaxisLabel = [UIColor whiteColor];
+  self.myGraph.colorPoint = kThemeColor;
+  self.myGraph.animationGraphEntranceTime = 0.5f;
+  self.myGraph.widthLine = 1.0;
+  self.myGraph.sizePoint = 5.f;
+  self.myGraph.enableTouchReport = YES;
+  self.myGraph.enablePopUpReport = YES;
+  self.myGraph.enableBezierCurve = YES;
+  self.myGraph.enableYAxisLabel = NO;
+  self.myGraph.autoScaleYAxis = YES;
+  self.myGraph.alwaysDisplayDots = YES;
+  self.myGraph.alwaysDisplayPopUpLabels = YES;
+  self.myGraph.enableReferenceXAxisLines = YES;
+  self.myGraph.enableReferenceYAxisLines = YES;
+  self.myGraph.enableReferenceAxisFrame = YES;
+  self.myGraph.animationGraphStyle = BEMLineAnimationDraw;
+  self.myGraph.enableBezierCurve = NO;
+  [self.scrollView addSubview:self.myGraph];
 }
 
 - (IBAction)showSelectedDate:(id)sender {
@@ -80,66 +127,55 @@
   if (btn == self.btnRealTime) {
     dateType = RealTime;
     self.viewShowing = self.realTimeView;
+    self.scrollView.hidden = YES;
   } else if (btn == self.btnOneDay) {
     dateType = OneDay;
-    shouldGetData = self.oneDayDataRecived;
-    if (!self.viewOneDay) {
-      self.viewOneDay =
-          [[UIView alloc] initWithFrame:self.containerView.bounds];
-      [self.containerView addSubview:self.viewOneDay];
+    shouldGetData = !self.oneDayDataRecived;
+    if (!shouldGetData) {
+      self.currentData = self.oneDayData;
+      [self showGraph:OneDay];
     }
-    self.viewShowing = self.viewOneDay;
   } else if (btn == self.btnOneWeek) {
     dateType = OneWeek;
-    shouldGetData = self.oneWeekDataRecived;
-    if (!self.viewOneWeek) {
-      self.viewOneWeek =
-          [[UIView alloc] initWithFrame:self.containerView.bounds];
-      [self.containerView addSubview:self.viewOneWeek];
+    shouldGetData = !self.oneWeekDataRecived;
+    if (!shouldGetData) {
+      self.currentData = self.oneWeekData;
+      [self showGraph:OneWeek];
     }
-    self.viewShowing = self.viewOneWeek;
   } else if (btn == self.btnOneMonth) {
     dateType = OneMonth;
-    shouldGetData = self.oneMonthDataRecived;
-    if (!self.viewOneMonth) {
-      self.viewOneMonth =
-          [[UIView alloc] initWithFrame:self.containerView.bounds];
-      [self.containerView addSubview:self.viewOneMonth];
+    shouldGetData = !self.oneMonthDataRecived;
+    if (!shouldGetData) {
+      self.currentData = self.oneMonthData;
+      [self showGraph:OneMonth];
     }
-    self.viewShowing = self.viewOneMonth;
   } else if (btn == self.btnThreeMonth) {
     dateType = ThreeMonth;
-    shouldGetData = self.threeMonthDataRecived;
-    if (!self.viewThreeMonth) {
-      self.viewThreeMonth =
-          [[UIView alloc] initWithFrame:self.containerView.bounds];
-      [self.containerView addSubview:self.viewThreeMonth];
+    shouldGetData = !self.threeMonthDataRecived;
+    if (!shouldGetData) {
+      self.currentData = self.threeMonthData;
+      [self showGraph:ThreeMonth];
     }
-    self.viewShowing = self.viewThreeMonth;
   } else if (btn == self.btnSixMonth) {
     dateType = SixMonth;
-    shouldGetData = self.sixMonthDataRecived;
-    if (!self.viewSixMonth) {
-      self.viewSixMonth =
-          [[UIView alloc] initWithFrame:self.containerView.bounds];
-      [self.containerView addSubview:self.viewSixMonth];
+    shouldGetData = !self.sixMonthDataRecived;
+    if (!shouldGetData) {
+      self.currentData = self.sixMonthData;
+      [self showGraph:SixMonth];
     }
-    self.viewShowing = self.viewSixMonth;
   } else if (btn == self.btnOneYear) {
     dateType = OneYear;
-    shouldGetData = self.oneYearDataRecived;
-    if (!self.viewOneYear) {
-      self.viewOneYear =
-          [[UIView alloc] initWithFrame:self.containerView.bounds];
-      [self.containerView addSubview:self.viewOneYear];
+    shouldGetData = !self.oneYearDataRecived;
+    if (!shouldGetData) {
+      self.currentData = self.oneYearData;
+      [self showGraph:OneYear];
     }
-    self.viewShowing = self.viewOneYear;
   }
   self.viewShowing.hidden = NO;
   if (self.delegate &&
       [self.delegate
           respondsToSelector:@selector(selectedDatetype:needGetData:)]) {
-    [self.delegate selectedDatetype:dateType needGetData:!shouldGetData];
+    [self.delegate selectedDatetype:dateType needGetData:shouldGetData];
   }
   //绘制
   if (btn == self.btnRealTime) {
@@ -159,123 +195,50 @@
 
 - (void)showChart:(HistoryElecData *)data
          dateType:(HistoryElecDateType)dateType {
-  float xDiffMin;
   switch (dateType) {
     case OneDay:
-      xDiffMin = 30;
+      self.oneDayData = data;
       self.oneDayDataRecived = YES;
       break;
     case OneWeek:
-      xDiffMin = 30 * 6;
+      self.oneWeekData = data;
       self.oneWeekDataRecived = YES;
       break;
     case OneMonth:
-      xDiffMin = 30 * 24;
+      self.oneMonthData = data;
       self.oneMonthDataRecived = YES;
       break;
     case ThreeMonth:
-      xDiffMin = 30 * 96;
+      self.threeMonthData = data;
       self.threeMonthDataRecived = YES;
       break;
     case SixMonth:
-      xDiffMin = 30 * 144;
+      self.sixMonthData = data;
       self.sixMonthDataRecived = YES;
       break;
     case OneYear:
-      xDiffMin = 30 * 288;
+      self.oneYearData = data;
       self.oneYearDataRecived = YES;
       break;
     default:
-      xDiffMin = 30;
       break;
   }
-  CGRect frame = self.containerView.bounds;
-  frame.size.width -= 20;
-    NCISimpleChartView *chart = [[NCISimpleChartView alloc] initWithFrame:frame
-    andOptions:@{
-          nciGraphRenderer : [NCIZoomGraphView class],
-          nciXDiffMin:@(xDiffMin),
-          nciIsSmooth : @[ @NO ],
-          nciIsFill : @[ @YES ],
-          nciLineColors : @[ kThemeColor ],
-          nciLineWidths : @[ @1 ],
-          nciHasSelection : @NO,
-          nciShowPoints : @NO,
-          nciGridVertical : @{
-                  nciLineColor : kThemeColor,
-                  nciLineDashes : @[],
-                  nciLineWidth : @0.3
-                  },
-          nciGridHorizontal : @{
-                  nciLineColor : [UIColor clearColor],
-                  nciLineDashes : @[ ],
-                  nciLineWidth : @1
-                  },
-          nciGridColor : [UIColor colorWithHexString:@"#ccefd1"],
-          nciGridLeftMargin : @0,
-          nciGridRightMargin : @20,
-          nciGridTopMargin : @0,
-          nciGridBottomMargin : @20,
-          nciYAxis : @{
-                  nciLineColor : kThemeColor,
-                  nciLineDashes : @[],
-                  nciAxisShift : @259,
-                  nciInvertedLabes:@YES,
-                  nciLineWidth : @2,
-                  nciLabelsColor : [UIColor blackColor],
-                  nciLabelsDistance : @((int)(frame.size.height/6)),
-                  nciLabelRenderer : ^(double value) {
-    return [[NSAttributedString alloc]
-    initWithString:[NSString stringWithFormat:@"%dW", (int)value]];
+  self.currentData = data;
+  [self showGraph:dateType];
 }
-}
-, nciXAxis :
-    @{
-      nciLineColor : [UIColor colorWithHexString:@"#C3C3C3"],
-      nciLineWidth : @1,
-      nciAxisShift : @(frame.size.height - 20),
-      nciLineDashes : @[],
-      nciInvertedLabes : @NO,
-      nciLabelsDistance : @40,
-      //               nciUseDateFormatter : @YES
-      nciLabelRenderer : ^(double value){ NSTimeInterval interval = value;
-NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-return [self.dateFormatter stringFromDate:date];
-}
-}
-}];
 
-NSArray *values = data.values;
-NSArray *times = data.times;
-for (int i = 0; i < values.count; i++) {
-  double time = [times[i] doubleValue];
-  double value = [values[i] doubleValue];
-  [chart addPoint:time val:@[ @(value) ]];
-}
-UIView *view;
-switch (dateType) {
-  case OneDay:
-    view = self.viewOneDay;
-    break;
-  case OneWeek:
-    view = self.viewOneWeek;
-    break;
-  case OneMonth:
-    view = self.viewOneMonth;
-    break;
-  case ThreeMonth:
-    view = self.viewThreeMonth;
-    break;
-  case SixMonth:
-    view = self.viewSixMonth;
-    break;
-  case OneYear:
-    view = self.viewOneYear;
-    break;
-  default:
-    break;
-}
-[view addSubview:chart];
+- (void)showGraph:(HistoryElecDateType)dateType {
+  int dataCount = [self.currentData.times count];
+  self.scrollView.frame = CGRectMake(0, 0, self.containerView.frame.size.width,
+                                     self.containerView.frame.size.height);
+  self.scrollView.contentSize =
+      CGSizeMake(dataCount * kWidth, self.containerView.frame.size.height);
+  CGRect graphFrame = self.myGraph.frame;
+  graphFrame.size =
+      CGSizeMake(dataCount * kWidth, self.containerView.frame.size.height);
+  self.myGraph.frame = graphFrame;
+  [self.myGraph reloadGraph];
+  self.scrollView.hidden = NO;
 }
 
 - (void)showRealTimeData:(NSMutableArray *)powers {
@@ -289,4 +252,50 @@ switch (dateType) {
 - (void)stopRealTimeDraw {
   [self.realTimeView stop];
 }
+
+#pragma mark - SimpleLineGraph Data Source
+
+- (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
+  //  return (int)[self.arrayOfValues count];
+  return [self.currentData.values count];
+}
+
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph
+    valueForPointAtIndex:(NSInteger)index {
+  return [[self.currentData.values objectAtIndex:index] floatValue];
+}
+
+#pragma mark - SimpleLineGraph Delegate
+
+- (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:
+                 (BEMSimpleLineGraphView *)graph {
+  return 0;
+}
+
+- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph
+    labelOnXAxisForIndex:(NSInteger)index {
+  NSTimeInterval intervalStr =
+      [[self.currentData.times objectAtIndex:index] doubleValue];
+  //  NSString *label =
+  //    self.dateFormatter
+  return [self.dateFormatter
+      stringFromDate:[NSDate dateWithTimeIntervalSince1970:intervalStr]];
+  //  return [label stringByReplacingOccurrencesOfString:@" " withString:@"\n"];
+}
+
+- (CGFloat)staticPaddingForLineGraph:(BEMSimpleLineGraphView *)graph {
+  return 20.f;
+}
+
+//- (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+//  return 3;
+//}
+//
+//- (CGFloat)minValueForLineGraph:(BEMSimpleLineGraphView *)graph {
+//  return 0.f;
+//}
+//
+//- (CGFloat)maxValueForLineGraph:(BEMSimpleLineGraphView *)graph {
+//  return 10000.f;
+//}
 @end
