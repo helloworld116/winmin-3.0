@@ -77,7 +77,8 @@
   self.request6.delegate = nil;
   self.request7.delegate = nil;
   self.request8.delegate = nil;
-  if (self.aSwitch) {
+  id observationInfo = [self.aSwitch observationInfo];
+  if (observationInfo) {
     [self.aSwitch removeObserver:self forKeyPath:@"networkStatus"];
   }
 }

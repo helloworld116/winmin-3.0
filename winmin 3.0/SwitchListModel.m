@@ -264,7 +264,12 @@
     if (message.state == kUdpResponseSuccessCode) {
       if (message.msgId == 0xc) {
         //设备内网
-        self.completeBlock(SWITCH_LOCAL);
+        //解决多个设备使用同一ip导致各种奇怪问题
+        if ([message.mac isEqualToString:self.currentSwitch.mac]) {
+          self.completeBlock(SWITCH_LOCAL);
+        } else {
+          self.completeBlock(-1);
+        }
         [self stopScanOneSwitch];
       } else if (message.msgId == 0xe) {
         self.isRemote = YES;
