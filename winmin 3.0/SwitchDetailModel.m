@@ -33,6 +33,7 @@
 @property (nonatomic, strong) SocketTimerBlock socket2TimerBlock;
 @property (nonatomic, strong) SocketDelayBlock socket1DelayBlock;
 @property (nonatomic, strong) SocketDelayBlock socket2DelayBlock;
+@property (nonatomic, strong) HistoryElecBlock historyElecBlock;
 
 //防止网络延迟多个请求同时或延迟响应时改变开关状态，值为1表示第一次接收，正常处理，其他情况下抛弃响应
 @property (atomic, assign) int responseData12Or14GroupId1Count;
@@ -125,7 +126,7 @@
                                           repeats:YES];
       [self.timer fire];
       [[NSRunLoop mainRunLoop] addTimer:self.timer
-                                forMode:NSDefaultRunLoopMode];
+                                forMode:NSRunLoopCommonModes];
 
       self.timerCheckOnline =
           [NSTimer timerWithTimeInterval:kElecRefreshInterval
@@ -177,17 +178,58 @@
   });
 }
 
-- (void)historyElec:(HistoryElecDateType)dateType {
-  dispatch_async(GLOBAL_QUEUE, ^{
-      if (!self.historyElec) {
-        self.historyElec = [[HistoryElec alloc] init];
+- (void)historyElec:(HistoryElecDateType)dateType
+         completion:(HistoryElecBlock)compeltion {
+  //  dispatch_async(GLOBAL_QUEUE, ^{
+  //      if (!self.historyElec) {
+  //        self.historyElec = [[HistoryElec alloc] init];
+  //      }
+  //      self.dateType = dateType;
+  //      self.param =
+  //          [self.historyElec getParam:[[NSDate date] timeIntervalSince1970]
+  //                            dateType:dateType];
+  //      [self senMsg63:self.param];
+  //  });
+
+  self.historyElecBlock = compeltion;
+  NSString *messageUrl =
+      [NSString stringWithFormat:@"%@degrees/list", MessageURLString];
+  AFHTTPRequestOperationManager *manager =
+      [AFHTTPRequestOperationManager manager];
+  manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+  if (!self.historyElec) {
+    self.historyElec = [[HistoryElec alloc] init];
+  }
+  self.param = [self.historyElec getParam:0 dateType:dateType];
+
+  NSMutableDictionary *parameters = [@{} mutableCopy];
+  [parameters setObject:self.aSwitch.mac forKey:@"mac"];
+  //    0 半小时, 1 天  ，2 月.
+  [parameters setObject:@(self.param.type) forKey:@"type"];
+  [parameters setObject:@(self.param.beginTime) forKey:@"beginTimes"];
+  [parameters setObject:@(self.param.endTime) forKey:@"endTimes"];
+  [manager POST:messageUrl
+      parameters:parameters
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          NSString *string =
+              [[NSString alloc] initWithData:responseObject
+                                    encoding:NSUTF8StringEncoding];
+          DDLogDebug(@"response msg is %@", string);
+          NSDictionary *responseData = __JSON(string);
+          int status = [responseData[@"status"] intValue];
+          if (status == 1) {
+            NSDictionary *data = responseData[@"data"];
+            NSArray *degrees = data[@"degrees"];
+            HistoryElecData *historyElecData =
+                [self.historyElec parseResponse:degrees param:self.param];
+            self.historyElecBlock(YES, self.dateType, historyElecData);
+          } else {
+            self.historyElecBlock(NO, self.dateType, nil);
+          }
       }
-      self.dateType = dateType;
-      self.param =
-          [self.historyElec getParam:[[NSDate date] timeIntervalSince1970]
-                            dateType:dateType];
-      [self senMsg63:self.param];
-  });
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          self.historyElecBlock(NO, self.dateType, nil);
+      }];
 }
 
 - (void)checkSwitchState {

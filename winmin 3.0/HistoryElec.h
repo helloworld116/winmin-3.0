@@ -7,28 +7,30 @@
 //
 
 #import <Foundation/Foundation.h>
+typedef NS_OPTIONS(NSUInteger, HistoryElecDateType){
+  RealTime = 0, OneDay, OneWeek, OneMonth, ThreeMonth, SixMonth, OneYear,
+};
 
 @interface HistoryElecParam : NSObject
-@property(nonatomic, assign) NSTimeInterval beginTime;
-@property(nonatomic, assign) NSTimeInterval endTime;
-@property(nonatomic, assign) int interval;
+@property (nonatomic, assign) NSTimeInterval beginTime;
+@property (nonatomic, assign) NSTimeInterval endTime;
+@property (nonatomic, assign) int interval;
+@property (nonatomic, assign) int type;
+@property (nonatomic, assign) HistoryElecDateType dateType;
 @end
 
 @interface HistoryElecData : NSObject
-@property(nonatomic, strong) NSArray *times;
-@property(nonatomic, strong) NSArray *values;
+@property (nonatomic, strong) NSArray *times;
+@property (nonatomic, strong) NSArray *values;
 @end
 
 @interface HistoryElecResponse : NSObject
-@property(nonatomic, assign) int power;
-@property(nonatomic, assign) int time;
+@property (nonatomic, assign) int power;
+@property (nonatomic, assign) int time;
 - (id)initWithTime:(int)time power:(int)power;
 @end
 
 @interface HistoryElec : NSObject
-typedef NS_OPTIONS(NSUInteger, HistoryElecDateType) {
-    RealTime = 0, OneDay, OneWeek, OneMonth, ThreeMonth, SixMonth, OneYear,
-};
 
 - (HistoryElecParam *)getParam:(int)currentYear
                  selectedMonth:(int)selectedMonth

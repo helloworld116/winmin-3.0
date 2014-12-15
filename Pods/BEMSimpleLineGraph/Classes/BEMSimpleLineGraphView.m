@@ -114,7 +114,7 @@
   // -initWithCoder: in this method
 
   // Set the X Axis label font
-  _labelFont = [UIFont fontWithName:DEFAULT_FONT_NAME size:13];
+  _labelFont = [UIFont fontWithName:DEFAULT_FONT_NAME size:9];
 
   // Set Animation Values
   _animationGraphEntranceTime = 1.5;
@@ -956,21 +956,20 @@
   UILabel *permanentPopUpLabel = [[UILabel alloc] init];
   permanentPopUpLabel.textAlignment = 1;
   permanentPopUpLabel.numberOfLines = 0;
-  permanentPopUpLabel.text = [NSString
-      stringWithFormat:@"%@",
-                       [NSNumber numberWithInteger:circleDot.absoluteValue]];
+  permanentPopUpLabel.text =
+      [NSString stringWithFormat:@"%.2f度", circleDot.absoluteValue];
   permanentPopUpLabel.font = self.labelFont;
   permanentPopUpLabel.backgroundColor = [UIColor clearColor];
   [permanentPopUpLabel sizeToFit];
   permanentPopUpLabel.center =
       CGPointMake(self.xCenterLabel,
-                  circleDot.center.y - circleDot.frame.size.height / 2 - 15);
+                  circleDot.center.y - circleDot.frame.size.height / 2 - 8);
   permanentPopUpLabel.alpha = 0;
 
   UIView *permanentPopUpView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, permanentPopUpLabel.frame.size.width + 7,
                                permanentPopUpLabel.frame.size.height + 2)];
-  permanentPopUpView.backgroundColor = [UIColor whiteColor];
+  permanentPopUpView.backgroundColor = [UIColor clearColor];
   permanentPopUpView.alpha = 0;
   permanentPopUpView.layer.cornerRadius = 3;
   permanentPopUpView.tag = 3100;
@@ -980,32 +979,32 @@
     self.xCenterLabel = permanentPopUpLabel.frame.size.width / 2 + 4;
     permanentPopUpLabel.center =
         CGPointMake(self.xCenterLabel,
-                    circleDot.center.y - circleDot.frame.size.height / 2 - 15);
+                    circleDot.center.y - circleDot.frame.size.height / 2 - 8);
   } else if (self.enableYAxisLabel == YES &&
              permanentPopUpLabel.frame.origin.x <= self.YAxisLabelXOffset) {
     self.xCenterLabel = permanentPopUpLabel.frame.size.width / 2 + 4;
     permanentPopUpLabel.center =
         CGPointMake(self.xCenterLabel + self.YAxisLabelXOffset,
-                    circleDot.center.y - circleDot.frame.size.height / 2 - 15);
+                    circleDot.center.y - circleDot.frame.size.height / 2 - 8);
   } else if ((permanentPopUpLabel.frame.origin.x +
               permanentPopUpLabel.frame.size.width) >= self.frame.size.width) {
     self.xCenterLabel =
         self.frame.size.width - permanentPopUpLabel.frame.size.width / 2 - 4;
     permanentPopUpLabel.center =
         CGPointMake(self.xCenterLabel,
-                    circleDot.center.y - circleDot.frame.size.height / 2 - 15);
+                    circleDot.center.y - circleDot.frame.size.height / 2 - 8);
   }
 
   if (permanentPopUpLabel.frame.origin.y <= 2) {
     permanentPopUpLabel.center =
         CGPointMake(self.xCenterLabel,
-                    circleDot.center.y + circleDot.frame.size.height / 2 + 15);
+                    circleDot.center.y + circleDot.frame.size.height / 2 + 8);
   }
 
   if ([self checkOverlapsForView:permanentPopUpView] == YES) {
     permanentPopUpLabel.center =
         CGPointMake(self.xCenterLabel,
-                    circleDot.center.y + circleDot.frame.size.height / 2 + 15);
+                    circleDot.center.y + circleDot.frame.size.height / 2 + 8);
   }
 
   permanentPopUpView.center = permanentPopUpLabel.center;

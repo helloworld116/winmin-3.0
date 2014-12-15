@@ -113,42 +113,160 @@
 //}
 
 static const int oneDayInterval = 3600 * 24;
+//- (HistoryElecParam *)getParam:(NSTimeInterval)timeInterval
+//                      dateType:(HistoryElecDateType)dateType {
+//  long interval = 0;
+//  NSDate *currentDate = [[NSDate alloc] init];
+//  NSDate *startDate;
+//  switch (dateType) {
+//    case OneDay:
+//      interval = oneDayInterval / 48; //一天取48个样本，30分钟一个样本
+//      startDate = [currentDate dateByAddingDays:-1];
+//      break;
+//    case OneWeek:
+//      interval = oneDayInterval / 8; //一周取56个样本，3小时一个样本
+//      startDate = [currentDate dateByAddingWeek:-1];
+//      break;
+//    case OneMonth:
+//      interval = oneDayInterval / 2; //一个月取60个样本，12小时一个样本
+//      startDate = [currentDate dateByAddingMonth:-1];
+//      break;
+//    case ThreeMonth:
+//      interval = 2 * oneDayInterval;
+//      startDate = [currentDate dateByAddingMonth:-3];
+//      break;
+//    case SixMonth:
+//      interval = 3 * oneDayInterval;
+//      startDate = [currentDate dateByAddingMonth:-6];
+//      break;
+//    case OneYear:
+//      interval = 6 * oneDayInterval;
+//      startDate = [currentDate dateByAddingYear:-1];
+//      break;
+//    default:
+//      break;
+//  }
+//  HistoryElecParam *param = [[HistoryElecParam alloc] init];
+//  param.beginTime = [startDate timeIntervalSince1970];
+//  param.endTime = timeInterval;
+//  param.interval = interval;
+//  return param;
+//}
+//
+//- (HistoryElecData *)parseResponse:(NSArray *)responseArray
+//                             param:(HistoryElecParam *)param {
+//  NSMutableDictionary *needDict = [@{} mutableCopy];
+//  int needCount =
+//      ((long)param.endTime - (long)param.beginTime) / param.interval + 1;
+//  NSString *key;
+//  //设置默认值为0
+//  for (int i = 0; i < needCount; i++) {
+//    key = [NSString
+//        stringWithFormat:@"%d", (int)(param.beginTime + i * param.interval)];
+//    [needDict setObject:@(0) forKey:key];
+//  }
+//  //替换服务器响应的数据
+//  if (responseArray && responseArray.count) {
+//    for (HistoryElecResponse *response in responseArray) {
+//      NSString *key = [NSString stringWithFormat:@"%d", response.time];
+//      [needDict setObject:@(response.power) forKey:key];
+//    }
+//  }
+//
+//  HistoryElecData *data = [[HistoryElecData alloc] init];
+//  //  if (param.interval < oneDayInterval) {
+//  //    [self.dateFormatter setDateFormat:@"HH:mm"];
+//  //  } else {
+//  //    [self.dateFormatter setDateFormat:@"MM-dd"];
+//  //  }
+//  NSMutableArray *times = [@[] mutableCopy];
+//  NSMutableArray *values = [@[] mutableCopy];
+//  //  NSString *formatterDateStr;
+//  int value;
+//  //排序后的时间戳
+//  NSArray *timeArray = [[needDict allKeys]
+//      sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//          return [obj1 intValue] - [obj2 intValue];
+//      }];
+//  for (NSString *dateInterval in timeArray) {
+//    value = [[needDict objectForKey:dateInterval] intValue];
+//    [times addObject:dateInterval];
+//    [values addObject:@(value)];
+//  }
+//  [values replaceObjectAtIndex:values.count - 1
+//                    withObject:[values objectAtIndex:values.count - 2]];
+//  data.times = times;
+//  data.values = values;
+//  return data;
+//}
+
 - (HistoryElecParam *)getParam:(NSTimeInterval)timeInterval
                       dateType:(HistoryElecDateType)dateType {
   long interval = 0;
   NSDate *currentDate = [[NSDate alloc] init];
+  int currentYear = currentDate.year;
+  int currentMonth = currentDate.month;
+  int currentDay = currentDate.day;
+  int currentHour = currentDate.hour;
+  int currentMinute = currentDate.minute;
+  if (currentMinute < 30) {
+    currentMinute = 0;
+  } else if (currentMinute) {
+    currentMinute = 30;
+  }
   NSDate *startDate;
+  NSDate *endDate;
+  int type;
   switch (dateType) {
     case OneDay:
-      interval = oneDayInterval / 48; //一天取48个样本，30分钟一个样本
-      startDate = [currentDate dateByAddingDays:-1];
+      endDate = [NSDate dateWithYear:currentYear
+                               month:currentMonth
+                                 day:currentDay
+                                hour:currentHour
+                              minute:currentMinute
+                              second:0];
+      startDate = [endDate dateByAddingDays:-1];
+      type = 0; //间隔半小时
+      interval = oneDayInterval / 48;
       break;
     case OneWeek:
-      interval = oneDayInterval / 8; //一周取56个样本，3小时一个样本
-      startDate = [currentDate dateByAddingWeek:-1];
+      startDate = [currentDate dateWeekStart];
+      endDate = [currentDate dateWeekEnd];
+      type = 1; //间隔1天
+      interval = oneDayInterval;
       break;
     case OneMonth:
-      interval = oneDayInterval / 2; //一个月取60个样本，12小时一个样本
-      startDate = [currentDate dateByAddingMonth:-1];
+      startDate = [currentDate dateMonthStart];
+      endDate = [currentDate dateMonthEnd];
+      type = 1; //间隔1天
+      interval = oneDayInterval;
       break;
     case ThreeMonth:
-      interval = 2 * oneDayInterval;
-      startDate = [currentDate dateByAddingMonth:-3];
+      startDate = [[currentDate dateMonthStart] dateByAddingMonth:-3];
+      endDate = [[currentDate dateMonthEnd] dateByAddingMonth:-3];
+      type = 1;
+      interval = oneDayInterval;
       break;
     case SixMonth:
-      interval = 3 * oneDayInterval;
-      startDate = [currentDate dateByAddingMonth:-6];
+      startDate = [[currentDate dateMonthStart] dateByAddingMonth:-6];
+      endDate = [[currentDate dateMonthEnd] dateByAddingMonth:-6];
+      type = 1;
+      interval = oneDayInterval;
       break;
     case OneYear:
-      interval = 6 * oneDayInterval;
-      startDate = [currentDate dateByAddingYear:-1];
+      startDate = [currentDate dateYearStart];
+      endDate = [currentDate dateMonthEnd];
+      type = 2; //间隔1月
+      interval = oneDayInterval * 30;
       break;
     default:
       break;
   }
   HistoryElecParam *param = [[HistoryElecParam alloc] init];
   param.beginTime = [startDate timeIntervalSince1970];
-  param.endTime = timeInterval;
+  param.endTime = [endDate timeIntervalSince1970];
+  param.type = type;
+  param.dateType = dateType;
   param.interval = interval;
   return param;
 }
@@ -157,7 +275,7 @@ static const int oneDayInterval = 3600 * 24;
                              param:(HistoryElecParam *)param {
   NSMutableDictionary *needDict = [@{} mutableCopy];
   int needCount =
-      ((long)param.endTime - (long)param.beginTime) / param.interval + 1;
+      ((long)param.endTime - (long)param.beginTime) / param.interval;
   NSString *key;
   //设置默认值为0
   for (int i = 0; i < needCount; i++) {
@@ -167,34 +285,40 @@ static const int oneDayInterval = 3600 * 24;
   }
   //替换服务器响应的数据
   if (responseArray && responseArray.count) {
-    for (HistoryElecResponse *response in responseArray) {
-      NSString *key = [NSString stringWithFormat:@"%d", response.time];
-      [needDict setObject:@(response.power) forKey:key];
+    for (NSDictionary *response in responseArray) {
+      NSString *key =
+          [NSString stringWithFormat:@"%@", response[@"insertTimes"]];
+      [needDict
+          setObject:[NSString
+                        stringWithFormat:@"%.2f",
+                                         [response[@"md"] doubleValue] / 100]
+             forKey:key];
     }
   }
 
   HistoryElecData *data = [[HistoryElecData alloc] init];
-  //  if (param.interval < oneDayInterval) {
-  //    [self.dateFormatter setDateFormat:@"HH:mm"];
-  //  } else {
-  //    [self.dateFormatter setDateFormat:@"MM-dd"];
-  //  }
   NSMutableArray *times = [@[] mutableCopy];
   NSMutableArray *values = [@[] mutableCopy];
   //  NSString *formatterDateStr;
-  int value;
+  double value;
   //排序后的时间戳
   NSArray *timeArray = [[needDict allKeys]
       sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
           return [obj1 intValue] - [obj2 intValue];
       }];
-  for (NSString *dateInterval in timeArray) {
-    value = [[needDict objectForKey:dateInterval] intValue];
+  for (int i = 0; i < timeArray.count; i++) {
+    NSString *dateInterval = timeArray[i];
+    value = [[needDict objectForKey:dateInterval] doubleValue];
     [times addObject:dateInterval];
+    if (value == 0 && i > 0) {
+      NSString *preDateInterval = timeArray[i - 1];
+      value = [[needDict objectForKey:preDateInterval] doubleValue];
+      [needDict setObject:@(value) forKey:dateInterval];
+    }
     [values addObject:@(value)];
   }
-  [values replaceObjectAtIndex:values.count - 1
-                    withObject:[values objectAtIndex:values.count - 2]];
+  //  [values replaceObjectAtIndex:values.count - 1
+  //                    withObject:[values objectAtIndex:values.count - 2]];
   data.times = times;
   data.values = values;
   return data;

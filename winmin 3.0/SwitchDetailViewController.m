@@ -454,6 +454,7 @@ preparation before navigation
 #pragma mark - 电量代理
 - (void)selectedDatetype:(HistoryElecDateType)dateType
              needGetData:(BOOL)needGetData {
+  __weak SwitchDetailViewController *weakSelf = self;
   switch (dateType) {
     case RealTime:
       if (!self.showingRealTimeElecView) {
@@ -470,7 +471,18 @@ preparation before navigation
         self.showingRealTimeElecView = NO;
       }
       if (needGetData) {
-        [self.model historyElec:dateType];
+        [self.model historyElec:dateType
+                     completion:^(BOOL isSuccess, HistoryElecDateType dateType,
+                                  HistoryElecData *elecData) {
+                         __strong SwitchDetailViewController *strongSelf =
+                             weakSelf;
+                         if (isSuccess) {
+                           dispatch_async(MAIN_QUEUE, ^{
+                               [strongSelf.elecView showChart:elecData
+                                                     dateType:dateType];
+                           });
+                         }
+                     }];
       }
       break;
     default:
@@ -566,18 +578,22 @@ preparation before navigation
   NetworkStatus status = kSharedAppliction.networkStatus;
   if (status == NotReachable) {
     //网络不可用时
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.scrollView.contentInset =
-                             UIEdgeInsetsMake(50, 0, 0, 0);
-                         self.scrollView.contentOffset = CGPointMake(0, -50);
-                     }];
+    [UIView
+        animateWithDuration:0.3
+                 animations:^{
+                   //                         self.scrollView.contentInset =
+                   //                             UIEdgeInsetsMake(50, 0, 0, 0);
+                   //                         self.scrollView.contentOffset =
+                   //                         CGPointMake(0, -50);
+                 }];
 
   } else {
     [UIView animateWithDuration:0.3
                      animations:^{
-                         self.scrollView.contentInset = UIEdgeInsetsZero;
-                         self.scrollView.contentOffset = CGPointZero;
+                       //                         self.scrollView.contentInset =
+                       //                         UIEdgeInsetsZero;
+                       //                         self.scrollView.contentOffset
+                       //                         = CGPointZero;
                      }];
     if (status == ReachableViaWWAN) {
       BOOL warn = [[[NSUserDefaults standardUserDefaults]

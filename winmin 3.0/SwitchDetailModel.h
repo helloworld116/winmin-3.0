@@ -12,6 +12,8 @@
 typedef void (^SwitchStateChangeBlock)(int);
 typedef void (^SocketDelayBlock)(BOOL isSuccess, int delaySeconds);
 typedef void (^SocketTimerBlock)(BOOL isSuccess, NSArray *timers);
+typedef void (^HistoryElecBlock)(BOOL isSuccess, HistoryElecDateType dateType,
+                                 HistoryElecData *elecData);
 @interface SwitchDetailModel : NSObject
 @property (nonatomic, assign, readonly) BOOL isScanning;
 - (id)initWithSwitch:(SDZGSwitch *)aSwitch
@@ -43,7 +45,8 @@ typedef void (^SocketTimerBlock)(BOOL isSuccess, NSArray *timers);
  *
  *  @param param
  */
-- (void)historyElec:(HistoryElecDateType)dateType;
+- (void)historyElec:(HistoryElecDateType)dateType
+         completion:(HistoryElecBlock)compeltion;
 
 - (void)socket1Timer:(SocketTimerBlock)block;
 - (void)socket2Timer:(SocketTimerBlock)block;

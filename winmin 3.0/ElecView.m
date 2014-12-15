@@ -11,7 +11,7 @@
 //#import <NCISimpleChartView.h>
 //#import <NCIZoomGraphView.h>
 #import <BEMSimpleLineGraphView.h>
-static const int kWidth = 64.f;
+static const int kWidth = 45.f;
 @interface ElecView () <BEMSimpleLineGraphDataSource,
                         BEMSimpleLineGraphDelegate>
 @property (nonatomic, strong) IBOutlet UIButton *btnRealTime;
@@ -91,7 +91,7 @@ static const int kWidth = 64.f;
   //  self.myGraph.gradientBottom = CGGradientCreateWithColorComponents(
   //      colorspace, components, locations, num_locations);
   self.myGraph.colorTop = [UIColor colorWithHexString:@"#CCEFD1"];
-  self.myGraph.colorBottom = [UIColor colorWithHexString:@"#CCEFD1"];
+  self.myGraph.colorBottom = [UIColor colorWithHexString:@"#28B92E" alpha:0.3f];
   self.myGraph.colorLine = kThemeColor;
   self.myGraph.colorXaxisLabel = [UIColor blackColor];
   self.myGraph.colorYaxisLabel = [UIColor whiteColor];
@@ -99,6 +99,7 @@ static const int kWidth = 64.f;
   self.myGraph.animationGraphEntranceTime = 0.5f;
   self.myGraph.widthLine = 1.0;
   self.myGraph.sizePoint = 5.f;
+  //  self.myGraph.labelFont = [UIFont systemFontOfSize:10.f];
   self.myGraph.enableTouchReport = YES;
   self.myGraph.enablePopUpReport = YES;
   self.myGraph.enableBezierCurve = YES;
@@ -130,6 +131,7 @@ static const int kWidth = 64.f;
     self.scrollView.hidden = YES;
   } else if (btn == self.btnOneDay) {
     dateType = OneDay;
+    self.viewShowing = self.scrollView;
     shouldGetData = !self.oneDayDataRecived;
     if (!shouldGetData) {
       self.currentData = self.oneDayData;
@@ -137,6 +139,7 @@ static const int kWidth = 64.f;
     }
   } else if (btn == self.btnOneWeek) {
     dateType = OneWeek;
+    self.viewShowing = self.scrollView;
     shouldGetData = !self.oneWeekDataRecived;
     if (!shouldGetData) {
       self.currentData = self.oneWeekData;
@@ -144,6 +147,7 @@ static const int kWidth = 64.f;
     }
   } else if (btn == self.btnOneMonth) {
     dateType = OneMonth;
+    self.viewShowing = self.scrollView;
     shouldGetData = !self.oneMonthDataRecived;
     if (!shouldGetData) {
       self.currentData = self.oneMonthData;
@@ -151,6 +155,7 @@ static const int kWidth = 64.f;
     }
   } else if (btn == self.btnThreeMonth) {
     dateType = ThreeMonth;
+    self.viewShowing = self.scrollView;
     shouldGetData = !self.threeMonthDataRecived;
     if (!shouldGetData) {
       self.currentData = self.threeMonthData;
@@ -158,6 +163,7 @@ static const int kWidth = 64.f;
     }
   } else if (btn == self.btnSixMonth) {
     dateType = SixMonth;
+    self.viewShowing = self.scrollView;
     shouldGetData = !self.sixMonthDataRecived;
     if (!shouldGetData) {
       self.currentData = self.sixMonthData;
@@ -165,6 +171,7 @@ static const int kWidth = 64.f;
     }
   } else if (btn == self.btnOneYear) {
     dateType = OneYear;
+    self.viewShowing = self.scrollView;
     shouldGetData = !self.oneYearDataRecived;
     if (!shouldGetData) {
       self.currentData = self.oneYearData;
@@ -262,7 +269,7 @@ static const int kWidth = 64.f;
 
 - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph
     valueForPointAtIndex:(NSInteger)index {
-  return [[self.currentData.values objectAtIndex:index] floatValue];
+  return [[self.currentData.values objectAtIndex:index] doubleValue];
 }
 
 #pragma mark - SimpleLineGraph Delegate
@@ -284,7 +291,7 @@ static const int kWidth = 64.f;
 }
 
 - (CGFloat)staticPaddingForLineGraph:(BEMSimpleLineGraphView *)graph {
-  return 20.f;
+  return 50.f;
 }
 
 //- (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
