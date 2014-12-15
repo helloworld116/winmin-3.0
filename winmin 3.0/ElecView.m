@@ -11,7 +11,7 @@
 //#import <NCISimpleChartView.h>
 //#import <NCIZoomGraphView.h>
 #import <BEMSimpleLineGraphView.h>
-static const int kWidth = 45.f;
+static const int kWidth = 50.f;
 @interface ElecView () <BEMSimpleLineGraphDataSource,
                         BEMSimpleLineGraphDelegate>
 @property (nonatomic, strong) IBOutlet UIButton *btnRealTime;
@@ -195,6 +195,8 @@ static const int kWidth = 45.f;
   }
   if (dateType == OneDay) {
     [self.dateFormatter setDateFormat:@"HH:mm"];
+  } else if (dateType == SixMonth || dateType == OneYear) {
+    [self.dateFormatter setDateFormat:@"yy-MM"];
   } else {
     [self.dateFormatter setDateFormat:@"MM-dd"];
   }

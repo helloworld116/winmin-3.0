@@ -209,16 +209,16 @@ static const int oneDayInterval = 3600 * 24;
   int currentDay = currentDate.day;
   int currentHour = currentDate.hour;
   int currentMinute = currentDate.minute;
-  if (currentMinute < 30) {
-    currentMinute = 0;
-  } else if (currentMinute) {
-    currentMinute = 30;
-  }
   NSDate *startDate;
   NSDate *endDate;
   int type;
   switch (dateType) {
     case OneDay:
+      if (currentMinute < 30) {
+        currentMinute = 0;
+      } else if (currentMinute) {
+        currentMinute = 30;
+      }
       endDate = [NSDate dateWithYear:currentYear
                                month:currentMonth
                                  day:currentDay
@@ -230,34 +230,46 @@ static const int oneDayInterval = 3600 * 24;
       interval = oneDayInterval / 48;
       break;
     case OneWeek:
-      startDate = [currentDate dateWeekStart];
-      endDate = [currentDate dateWeekEnd];
+      startDate = [[currentDate dateWeekStart] dateByAddingDays:1];
+      endDate = [[currentDate dateWeekEnd] dateByAddingDays:1];
       type = 1; //间隔1天
       interval = oneDayInterval;
       break;
     case OneMonth:
       startDate = [currentDate dateMonthStart];
       endDate = [currentDate dateMonthEnd];
+      [endDate dateByAddingHour:23];
+      [endDate dateByAddingMinute:59];
+      [endDate dateByAddingSecond:59];
       type = 1; //间隔1天
       interval = oneDayInterval;
       break;
     case ThreeMonth:
       startDate = [[currentDate dateMonthStart] dateByAddingMonth:-3];
-      endDate = [[currentDate dateMonthEnd] dateByAddingMonth:-3];
+      endDate = [[currentDate dateMonthEnd] dateByAddingMonth:-1];
+      [endDate dateByAddingHour:23];
+      [endDate dateByAddingMinute:59];
+      [endDate dateByAddingSecond:59];
       type = 1;
       interval = oneDayInterval;
       break;
     case SixMonth:
       startDate = [[currentDate dateMonthStart] dateByAddingMonth:-6];
-      endDate = [[currentDate dateMonthEnd] dateByAddingMonth:-6];
-      type = 1;
-      interval = oneDayInterval;
+      endDate = [[currentDate dateMonthEnd] dateByAddingMonth:-1];
+      [endDate dateByAddingHour:23];
+      [endDate dateByAddingMinute:59];
+      [endDate dateByAddingSecond:59];
+      type = 2;
+      interval = oneDayInterval * 31;
       break;
     case OneYear:
       startDate = [currentDate dateYearStart];
       endDate = [currentDate dateMonthEnd];
+      [endDate dateByAddingHour:23];
+      [endDate dateByAddingMinute:59];
+      [endDate dateByAddingSecond:59];
       type = 2; //间隔1月
-      interval = oneDayInterval * 30;
+      interval = oneDayInterval * 31;
       break;
     default:
       break;
@@ -275,7 +287,7 @@ static const int oneDayInterval = 3600 * 24;
                              param:(HistoryElecParam *)param {
   NSMutableDictionary *needDict = [@{} mutableCopy];
   int needCount =
-      ((long)param.endTime - (long)param.beginTime) / param.interval;
+      ((long)param.endTime - (long)param.beginTime) / param.interval + 1;
   NSString *key;
   //设置默认值为0
   for (int i = 0; i < needCount; i++) {
