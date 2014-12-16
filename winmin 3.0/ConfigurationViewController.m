@@ -101,6 +101,42 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(keyboardDidShow:)
+             name:UIKeyboardDidShowNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(keyboardWillBeHidden:)
+             name:UIKeyboardWillHideNotification
+           object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(applicationWillEnterForegroundNotification:)
+             name:UIApplicationWillEnterForegroundNotification
+           object:nil];
+  [self viewAppearOrEnterForeground];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIKeyboardDidShowNotification
+              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIKeyboardWillHideNotification
+              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIApplicationWillEnterForegroundNotification
+              object:nil];
+}
+
+- (void)viewAppearOrEnterForeground {
 #if defined(TARGET_IPHONE_SIMULATOR) && TARGET_IPHONE_SIMULATOR
 #else
   self.ssid = [FirstTimeConfig getSSID];
@@ -118,29 +154,6 @@
   }
   self.textPassword.secureTextEntry = YES;
   self.imgViewShowPassword.image = [UIImage imageNamed:@"password_normal"];
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(keyboardDidShow:)
-             name:UIKeyboardDidShowNotification
-           object:nil];
-
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(keyboardWillBeHidden:)
-             name:UIKeyboardWillHideNotification
-           object:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-  [super viewWillDisappear:animated];
-  [[NSNotificationCenter defaultCenter]
-      removeObserver:self
-                name:UIKeyboardDidShowNotification
-              object:nil];
-  [[NSNotificationCenter defaultCenter]
-      removeObserver:self
-                name:UIKeyboardWillHideNotification
-              object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -222,6 +235,11 @@
   UIEdgeInsets contentInsets = UIEdgeInsetsZero;
   self.scrollView.contentInset = contentInsets;
   self.scrollView.scrollIndicatorInsets = contentInsets;
+}
+
+#pragma mark -
+- (void)applicationWillEnterForegroundNotification:(NSNotification *)notif {
+  [self viewAppearOrEnterForeground];
 }
 
 #pragma mark - 网络改变通知
