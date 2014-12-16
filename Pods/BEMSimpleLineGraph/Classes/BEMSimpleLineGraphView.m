@@ -470,7 +470,7 @@
               [self displayPermanentLabelForPoint:circleDot];
             }
           } else
-            [self displayPermanentLabelForPoint:circleDot];
+            [self displayPermanentLabelForPoint:circleDot isBottom:i % 2 != 0];
         }
 
         // Dot entrance animation
@@ -1002,6 +1002,84 @@
   }
 
   if ([self checkOverlapsForView:permanentPopUpView] == YES) {
+    permanentPopUpLabel.center =
+        CGPointMake(self.xCenterLabel,
+                    circleDot.center.y + circleDot.frame.size.height / 2 + 8);
+  }
+
+  permanentPopUpView.center = permanentPopUpLabel.center;
+
+  [self addSubview:permanentPopUpView];
+  [self addSubview:permanentPopUpLabel];
+
+  if (self.animationGraphEntranceTime == 0) {
+    permanentPopUpLabel.alpha = 1;
+    permanentPopUpView.alpha = 0.7;
+  } else {
+    [UIView animateWithDuration:0.5
+                          delay:self.animationGraphEntranceTime
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         permanentPopUpLabel.alpha = 1;
+                         permanentPopUpView.alpha = 0.7;
+                     }
+                     completion:nil];
+  }
+}
+
+- (void)displayPermanentLabelForPoint:(BEMCircle *)circleDot
+                             isBottom:(BOOL)isBottom {
+  self.enablePopUpReport = NO;
+  self.xCenterLabel = circleDot.center.x;
+  UILabel *permanentPopUpLabel = [[UILabel alloc] init];
+  permanentPopUpLabel.textAlignment = 1;
+  permanentPopUpLabel.numberOfLines = 0;
+  permanentPopUpLabel.text =
+      [NSString stringWithFormat:@"%.2f度", circleDot.absoluteValue];
+  permanentPopUpLabel.font = self.labelFont;
+  permanentPopUpLabel.backgroundColor = [UIColor clearColor];
+  [permanentPopUpLabel sizeToFit];
+  permanentPopUpLabel.center =
+      CGPointMake(self.xCenterLabel,
+                  circleDot.center.y - circleDot.frame.size.height / 2 - 8);
+  permanentPopUpLabel.alpha = 0;
+
+  UIView *permanentPopUpView = [[UIView alloc]
+      initWithFrame:CGRectMake(0, 0, permanentPopUpLabel.frame.size.width + 7,
+                               permanentPopUpLabel.frame.size.height + 2)];
+  permanentPopUpView.backgroundColor = [UIColor clearColor];
+  permanentPopUpView.alpha = 0;
+  permanentPopUpView.layer.cornerRadius = 3;
+  permanentPopUpView.tag = 3100;
+  permanentPopUpView.center = permanentPopUpLabel.center;
+
+  if (permanentPopUpLabel.frame.origin.x <= 0) {
+    self.xCenterLabel = permanentPopUpLabel.frame.size.width / 2 + 4;
+    permanentPopUpLabel.center =
+        CGPointMake(self.xCenterLabel,
+                    circleDot.center.y - circleDot.frame.size.height / 2 - 8);
+  } else if (self.enableYAxisLabel == YES &&
+             permanentPopUpLabel.frame.origin.x <= self.YAxisLabelXOffset) {
+    self.xCenterLabel = permanentPopUpLabel.frame.size.width / 2 + 4;
+    permanentPopUpLabel.center =
+        CGPointMake(self.xCenterLabel + self.YAxisLabelXOffset,
+                    circleDot.center.y - circleDot.frame.size.height / 2 - 8);
+  } else if ((permanentPopUpLabel.frame.origin.x +
+              permanentPopUpLabel.frame.size.width) >= self.frame.size.width) {
+    self.xCenterLabel =
+        self.frame.size.width - permanentPopUpLabel.frame.size.width / 2 - 4;
+    permanentPopUpLabel.center =
+        CGPointMake(self.xCenterLabel,
+                    circleDot.center.y - circleDot.frame.size.height / 2 - 8);
+  }
+
+  if (permanentPopUpLabel.frame.origin.y <= 2) {
+    permanentPopUpLabel.center =
+        CGPointMake(self.xCenterLabel,
+                    circleDot.center.y + circleDot.frame.size.height / 2 + 8);
+  }
+
+  if (isBottom) {
     permanentPopUpLabel.center =
         CGPointMake(self.xCenterLabel,
                     circleDot.center.y + circleDot.frame.size.height / 2 + 8);

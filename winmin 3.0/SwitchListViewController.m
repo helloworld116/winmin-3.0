@@ -98,7 +98,8 @@
                    queue:nil
               usingBlock:^(NSNotification *note) {
                   NSString *mac = note.userInfo[@"mac"];
-                  [self.model addSwitchWithMac:mac];
+                  NSString *password = note.userInfo[@"password"];
+                  [self.model addSwitchWithMac:mac password:password];
                   dispatch_async(MAIN_QUEUE, ^{ [self.tableView reloadData]; });
                   //                  self.mac = mac;
                   //                  SDZGSwitch *aSwitch =
@@ -527,6 +528,7 @@
   //  model should call this when its done loading
   dispatch_async(MAIN_QUEUE, ^{
       _reloading = NO;
+      [self.tableView reloadData];
       [_refreshHeaderView
           egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
   });
@@ -564,6 +566,11 @@
                 (EGORefreshTableHeaderView *)view {
   return [NSDate date]; // should return date data source was last changed
 }
+
+//- (void)egoRefreshScrollViewDataSourceDidFinishedLoading:
+//            (UIScrollView *)scrollView {
+//  [self.tableView reloadData];
+//}
 
 #pragma mark - MBProgressHud
 - (void)hudWasHidden {

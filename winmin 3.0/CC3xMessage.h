@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 enum {
+  D2P_CONFIG_RESULT_02 = 999,
   P2D_SERVER_INFO_05 = 1000,
   P2D_SCAN_DEV_09 = 1001,
   P2D_STATE_INQUIRY_0B = 1002,

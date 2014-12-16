@@ -56,7 +56,7 @@ typedef void (^ScaneOneSwitchCompleteBlock)(int);
  *
  *  @param mac
  */
-- (void)addSwitchWithMac:(NSString *)mac;
+- (void)addSwitchWithMac:(NSString *)mac password:(NSString *)password;
 
 /**
  *  扫描一个设备当前状态信息

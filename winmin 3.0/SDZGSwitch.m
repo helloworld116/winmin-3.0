@@ -297,10 +297,11 @@ static dispatch_queue_t switch_parse_serial_queue() {
     for (SDZGTimerTask *task in timers) {
       if (task.week & (1 << weekday)) {
         //时间还未到并且操作打开
-        if (diff < task.actionTime && task.isEffective) {
+        if (diff <= task.actionTime && task.isEffective) {
           [actionTimeList addObject:@(task.actionTime)];
         }
-      } else if (task.week == 0 && diff < task.actionTime && task.isEffective) {
+      } else if (task.week == 0 && diff <= task.actionTime &&
+                 task.isEffective) {
         //执行一次并生效的
         [actionTimeList addObject:@(task.actionTime)];
       }

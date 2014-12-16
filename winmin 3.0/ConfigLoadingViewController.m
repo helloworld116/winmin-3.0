@@ -87,11 +87,17 @@ static unsigned char password[6];
   BOOL success = NO;
   if ([self.lblTitle.text
           isEqualToString:NSLocalizedString(@"Config Success", nil)]) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kConfigNewSwitch
-                                                        object:self
-                                                      userInfo:@{
-                                                        @"mac" : self.mac
-                                                      }];
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:kConfigNewSwitch
+                      object:self
+                    userInfo:@{
+                      @"mac" : self.mac,
+                      @"password" : [NSString
+                          stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                                           password[0], password[1],
+                                           password[2], password[3],
+                                           password[4], password[5]]
+                    }];
     success = YES;
   }
   [self success];

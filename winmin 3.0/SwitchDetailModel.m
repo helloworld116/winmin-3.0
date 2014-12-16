@@ -223,13 +223,13 @@
             NSArray *degrees = data[@"degrees"];
             HistoryElecData *historyElecData =
                 [self.historyElec parseResponse:degrees param:self.param];
-            self.historyElecBlock(YES, self.dateType, historyElecData);
+            self.historyElecBlock(YES, dateType, historyElecData);
           } else {
-            self.historyElecBlock(NO, self.dateType, nil);
+            self.historyElecBlock(NO, dateType, nil);
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          self.historyElecBlock(NO, self.dateType, nil);
+          self.historyElecBlock(NO, dateType, nil);
       }];
 }
 

@@ -90,10 +90,11 @@
                  dispatch_get_main_queue(), ^{ [self resumeScanState]; });
 }
 
-- (void)addSwitchWithMac:(NSString *)mac {
+- (void)addSwitchWithMac:(NSString *)mac password:(NSString *)password {
   SDZGSwitch *aSwitch = [SwitchDataCeneter sharedInstance].switchsDict[mac];
   if (aSwitch) {
     aSwitch.networkStatus = SWITCH_NEW;
+    aSwitch.password = password;
     aSwitch.name = NSLocalizedString(@"Smart Switch", nil);
     SDZGSocket *socket1 = aSwitch.sockets[0];
     socket1.imageNames =

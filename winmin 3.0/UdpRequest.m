@@ -1317,6 +1317,7 @@ static dispatch_queue_t delegateQueue;
       break;
     //定时调用等情况下丢包不处理
     case 0:
+    case D2P_CONFIG_RESULT_02:
     case P2D_SERVER_INFO_05:
     case P2D_SCAN_DEV_09:
     case P2D_STATE_INQUIRY_0B:
@@ -1808,8 +1809,8 @@ static dispatch_queue_t delegateQueue;
             respondsToSelector:@selector(udpRequest:didReceiveMsg:address:)]) {
       [self.delegate udpRequest:self didReceiveMsg:msg address:address];
     }
-    if ((msg.msgId != 0xa) && (msg.msgId != 0xc) && (msg.msgId != 0xe) &&
-        (msg.msgId != 0x34) && (msg.msgId != 0x36)) {
+    if ((msg.msgId != 0x2) && (msg.msgId != 0xa) && (msg.msgId != 0xc) &&
+        (msg.msgId != 0xe) && (msg.msgId != 0x34) && (msg.msgId != 0x36)) {
       self.responseData = [NSData dataWithData:data];
       dispatch_async(MAIN_QUEUE, ^{ [self.timer invalidate]; });
     }

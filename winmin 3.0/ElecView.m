@@ -188,6 +188,7 @@ static const int kWidth = 50.f;
   if (btn == self.btnRealTime) {
     [self.realTimeView start];
   } else {
+    self.scrollView.contentOffset = CGPointZero;
     [self.realTimeView stop];
   }
   if (!self.dateFormatter) {
