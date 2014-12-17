@@ -1638,6 +1638,73 @@
             </objects>
             <point key="canvasLocation" x="1597" y="942"/>
         </scene>
+        <!--Scene Detail View Controller2-->
+        <scene sceneID="96D-e6-81G">
+            <objects>
+                <viewController storyboardIdentifier="SceneDetailViewController2" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="ZKY-Xl-uj0" customClass="SceneDetailViewController2" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6yW-va-e4z"/>
+                        <viewControllerLayoutGuide type="bottom" id="DbB-nB-Lph"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2Jw-JP-g1K">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="JAA-sz-kxz">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BWZ-La-Pnx">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设置一系列场景命令，轻轻一点这个场景触发所有命令" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5KF-1K-WFY">
+                                        <rect key="frame" x="64" y="10" width="192" height="32"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="0.58823529411764708" green="0.58823529411764708" blue="0.58823529411764708" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2xF-0L-YjT">
+                                        <rect key="frame" x="139" y="57" width="42" height="42"/>
+                                        <state key="normal" image="scene_add">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showSwitchList:" destination="ZKY-Xl-uj0" eventType="touchUpInside" id="ndb-tJ-9PY"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="2xF-0L-YjT" secondAttribute="centerX" id="6c0-jG-Ink"/>
+                                    <constraint firstItem="5KF-1K-WFY" firstAttribute="top" secondItem="BWZ-La-Pnx" secondAttribute="top" constant="10" id="ATy-nc-p06"/>
+                                    <constraint firstAttribute="trailing" secondItem="5KF-1K-WFY" secondAttribute="trailing" constant="64" id="HZO-dB-kxV"/>
+                                    <constraint firstItem="5KF-1K-WFY" firstAttribute="leading" secondItem="BWZ-La-Pnx" secondAttribute="leading" constant="64" id="KB6-eB-mH2"/>
+                                    <constraint firstItem="2xF-0L-YjT" firstAttribute="top" secondItem="5KF-1K-WFY" secondAttribute="bottom" constant="15" id="wtC-UY-2DT"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="DbB-nB-Lph" firstAttribute="top" secondItem="BWZ-La-Pnx" secondAttribute="bottom" id="0Go-cs-fGO"/>
+                            <constraint firstItem="DbB-nB-Lph" firstAttribute="top" secondItem="JAA-sz-kxz" secondAttribute="bottom" id="8tk-ke-y9k"/>
+                            <constraint firstAttribute="trailing" secondItem="BWZ-La-Pnx" secondAttribute="trailing" id="NC5-EF-Pn4"/>
+                            <constraint firstItem="BWZ-La-Pnx" firstAttribute="top" secondItem="2Jw-JP-g1K" secondAttribute="top" id="SwT-AP-36q"/>
+                            <constraint firstItem="JAA-sz-kxz" firstAttribute="leading" secondItem="2Jw-JP-g1K" secondAttribute="leading" id="acq-M3-MlS"/>
+                            <constraint firstAttribute="trailing" secondItem="JAA-sz-kxz" secondAttribute="trailing" id="n1m-L0-QCS"/>
+                            <constraint firstItem="JAA-sz-kxz" firstAttribute="top" secondItem="2Jw-JP-g1K" secondAttribute="top" id="sU6-eI-oQB"/>
+                            <constraint firstItem="BWZ-La-Pnx" firstAttribute="leading" secondItem="2Jw-JP-g1K" secondAttribute="leading" id="xL8-Ig-QAz"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <connections>
+                        <outlet property="tableView" destination="JAA-sz-kxz" id="Lz3-tl-1dR"/>
+                        <outlet property="viewDefault" destination="BWZ-La-Pnx" id="mqZ-Ew-5zC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0dw-3t-VIf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1949" y="939"/>
+        </scene>
         <!--Scene Execute View Controller-->
         <scene sceneID="GLs-Wo-ogJ">
             <objects>
@@ -1654,7 +1721,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x2s-25-I25" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2124" y="874"/>
+            <point key="canvasLocation" x="2303" y="942"/>
         </scene>
         <!--更多-->
         <scene sceneID="L5e-we-TLS">
@@ -4328,6 +4395,7 @@
         <image name="protocol_selected" width="24" height="24"/>
         <image name="pz" width="30" height="30"/>
         <image name="qq" width="19" height="20"/>
+        <image name="scene_add" width="42" height="42"/>
         <image name="scene_bj" width="320" height="480"/>
         <image name="sdef__" width="34" height="34"/>
         <image name="socket_bg" width="306" height="51"/>

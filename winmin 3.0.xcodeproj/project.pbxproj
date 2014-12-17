@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		06276B622ABA4D69A45BB762 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B2B7BB80C1420797A2EE26 /* libPods.a */; };
+		1500CD7A1A411E1E00A720E0 /* SceneSwitchListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1500CD791A411E1E00A720E0 /* SceneSwitchListController.xib */; };
+		1500CD7D1A41270200A720E0 /* SceneSwitchListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1500CD7C1A41270200A720E0 /* SceneSwitchListController.m */; };
+		1500CD7F1A41570200A720E0 /* libFTC_RELEASE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98F919C7CA000068AFC5 /* libFTC_RELEASE.a */; };
+		1500CD821A415BEA00A720E0 /* SceneDetailViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 1500CD811A415BEA00A720E0 /* SceneDetailViewController2.m */; };
+		1500CD871A419DA300A720E0 /* SceneSwitchListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1500CD861A419DA300A720E0 /* SceneSwitchListCell.xib */; };
 		150955961A1C6B9500822B82 /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 150955951A1C6B9400822B82 /* libPushSDK.a */; };
 		150955981A1C6BFE00822B82 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150955971A1C6BFE00822B82 /* CFNetwork.framework */; };
 		1509559A1A1C6C1F00822B82 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150955991A1C6C1F00822B82 /* CoreFoundation.framework */; };
@@ -93,7 +98,6 @@
 		158D98F419C7C9660068AFC5 /* ShareSDKFlatShareViewUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 158D98DB19C7C9660068AFC5 /* ShareSDKFlatShareViewUI.bundle */; };
 		158D98F519C7C9660068AFC5 /* ShareSDKFlatShareViewUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98DC19C7C9660068AFC5 /* ShareSDKFlatShareViewUI.framework */; };
 		158D98F619C7C9660068AFC5 /* ShareSDKShareActionSheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98DD19C7C9660068AFC5 /* ShareSDKShareActionSheet.framework */; };
-		158D98FC19C7CA000068AFC5 /* libFTC_RELEASE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98F919C7CA000068AFC5 /* libFTC_RELEASE.a */; };
 		158D98FE19C7CA980068AFC5 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98FD19C7CA980068AFC5 /* CoreTelephony.framework */; };
 		158D990019C7CAA00068AFC5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98FF19C7CAA00068AFC5 /* AVFoundation.framework */; };
 		158D990219C7CAB20068AFC5 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D990119C7CAB20068AFC5 /* libicucore.dylib */; };
@@ -174,6 +178,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1500CD791A411E1E00A720E0 /* SceneSwitchListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SceneSwitchListController.xib; sourceTree = "<group>"; };
+		1500CD7B1A41270200A720E0 /* SceneSwitchListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneSwitchListController.h; sourceTree = "<group>"; };
+		1500CD7C1A41270200A720E0 /* SceneSwitchListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneSwitchListController.m; sourceTree = "<group>"; };
+		1500CD801A415BE900A720E0 /* SceneDetailViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDetailViewController2.h; sourceTree = "<group>"; };
+		1500CD811A415BEA00A720E0 /* SceneDetailViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDetailViewController2.m; sourceTree = "<group>"; };
+		1500CD861A419DA300A720E0 /* SceneSwitchListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SceneSwitchListCell.xib; sourceTree = "<group>"; };
 		150955941A1C6B9400822B82 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APService.h; path = jpush/APService.h; sourceTree = "<group>"; };
 		150955951A1C6B9400822B82 /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPushSDK.a; path = jpush/libPushSDK.a; sourceTree = "<group>"; };
 		150955971A1C6BFE00822B82 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -443,6 +453,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1500CD7F1A41570200A720E0 /* libFTC_RELEASE.a in Frameworks */,
 				150955A01A1C6C5D00822B82 /* libz.dylib in Frameworks */,
 				1509559E1A1C6C5100822B82 /* Security.framework in Frameworks */,
 				158D987D19C6F39C0068AFC5 /* CoreGraphics.framework in Frameworks */,
@@ -467,7 +478,6 @@
 				158D98E319C7C9660068AFC5 /* SMSConnection.framework in Frameworks */,
 				158D98F019C7C9660068AFC5 /* libTCWeiboSDK.a in Frameworks */,
 				158D98E119C7C9660068AFC5 /* QZoneConnection.framework in Frameworks */,
-				158D98FC19C7CA000068AFC5 /* libFTC_RELEASE.a in Frameworks */,
 				158D987F19C6F39C0068AFC5 /* UIKit.framework in Frameworks */,
 				158D98F319C7C9660068AFC5 /* ShareSDK.framework in Frameworks */,
 				158D98E219C7C9660068AFC5 /* SinaWeiboConnection.framework in Frameworks */,
@@ -529,6 +539,11 @@
 				15B5B99E1A2808B4008C8F94 /* ScenePreExcDailogViewController.xib */,
 				15B5B9A01A280900008C8F94 /* ScenePreExcDailogViewController.h */,
 				15B5B9A11A280900008C8F94 /* ScenePreExcDailogViewController.m */,
+				1500CD791A411E1E00A720E0 /* SceneSwitchListController.xib */,
+				1500CD7B1A41270200A720E0 /* SceneSwitchListController.h */,
+				1500CD7C1A41270200A720E0 /* SceneSwitchListController.m */,
+				1500CD801A415BE900A720E0 /* SceneDetailViewController2.h */,
+				1500CD811A415BEA00A720E0 /* SceneDetailViewController2.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -546,6 +561,7 @@
 				150BE86B1A01D47700A358CF /* SceneExcTitleView.h */,
 				150BE86C1A01D47700A358CF /* SceneExcTitleView.m */,
 				150BE86E1A01D49700A358CF /* SceneExcTitleView.xib */,
+				1500CD861A419DA300A720E0 /* SceneSwitchListCell.xib */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -1172,9 +1188,11 @@
 				15BA47B219FE00CB008ADB9D /* DelaySettingViewController.xib in Resources */,
 				158D989619C6F39C0068AFC5 /* Images.xcassets in Resources */,
 				15B649E01A306B01005AF244 /* welcome2-5@2x.png in Resources */,
+				1500CD871A419DA300A720E0 /* SceneSwitchListCell.xib in Resources */,
 				151B4AAA1A0226DF00C77467 /* winmin 3.0-Info.plist in Resources */,
 				15EA3F1C1A2F0A6F00D14A47 /* welcome4@2x.png in Resources */,
 				1551F6F319F90AF500A24447 /* faq.plist in Resources */,
+				1500CD7A1A411E1E00A720E0 /* SceneSwitchListController.xib in Resources */,
 				15BA47B919FE153E008ADB9D /* DatePickerViewController.xib in Resources */,
 				15B5B99F1A2808B4008C8F94 /* ScenePreExcDailogViewController.xib in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
@@ -1278,6 +1296,7 @@
 				1560131419C9600600BF7E12 /* UIImage+Color.m in Sources */,
 				15AC864D19D10A2100D154EB /* DelayViewController.m in Sources */,
 				15B8E4C01A36FC76004DAD1E /* MessageCell.m in Sources */,
+				1500CD7D1A41270200A720E0 /* SceneSwitchListController.m in Sources */,
 				15AC865B19D2C56400D154EB /* DatePickerViewController.m in Sources */,
 				15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */,
 				158D992219C7DF830068AFC5 /* CC3xMessage.m in Sources */,
@@ -1329,6 +1348,7 @@
 				15F3A48219EBCCE6001CD296 /* QuestionViewController.m in Sources */,
 				15F3A47E19EB8123001CD296 /* UserInfo.m in Sources */,
 				15B8E4C31A36FF51004DAD1E /* MessageCenterModel.m in Sources */,
+				1500CD821A415BEA00A720E0 /* SceneDetailViewController2.m in Sources */,
 				150FC6E319FA39DB005134B7 /* ProtocolViewController.m in Sources */,
 				15BBD6F519DA7CBC0002D973 /* ElecView.m in Sources */,
 				15F3A47F19EB8123001CD296 /* ServerResponse.m in Sources */,

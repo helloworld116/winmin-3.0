@@ -28,9 +28,18 @@
   util.finishBlock = block;
   NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
   NSMutableSet *tags = [self switchsToTags:switchs];
-  [APService setTags:tags
-      callbackSelector:@selector(tagsAliasCallback:tags:alias:)
-                object:util];
+
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSMutableArray *jPushTagArray =
+      [[defaults objectForKey:jPushTagArrayKey] mutableCopy];
+  NSSet *defaultTags = [NSSet setWithArray:jPushTagArray];
+  if (![tags isEqualToSet:defaultTags]) {
+    [APService setTags:tags
+        callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                  object:util];
+  } else {
+    DDLogDebug(@"tags未改动，无需注册");
+  }
 }
 
 + (void)removeSwitchRemoteNotification:(SDZGSwitch *)aSwitch

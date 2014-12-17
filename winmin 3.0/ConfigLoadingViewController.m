@@ -109,8 +109,89 @@ static unsigned char password[6];
 }
 
 - (void)changeProgress {
-  self.progressView.progress += 1.f / 60; //默认1分钟
-  if (self.progressView.progress == 1.f) {
+  //默认1分钟
+  self.progressView.progress += 1.f / 60;
+  //方式1，
+  //  if (self.progressView.progress == 1.f) {
+  //    self.request = nil;
+  //    [self.timer invalidate];
+  //    //停止发送
+  //    [self stopAction];
+  //    CGRect selfFrame = self.view.frame;
+  //    CGFloat beginHeight = self.loadingView.frame.size.height;
+  //    CGFloat endHeight = self.timeoutView.frame.size.height;
+  //    selfFrame.origin.y -= (endHeight - beginHeight) / 2;
+  //    selfFrame.size = CGSizeMake(
+  //        selfFrame.size.width, selfFrame.size.height + endHeight -
+  //        beginHeight);
+  //    [UIView animateWithDuration:0.3f
+  //                     animations:^{
+  //                         self.view.frame = selfFrame;
+  //                         self.loadingView.hidden = YES;
+  //                         self.timeoutView.hidden = NO;
+  //                         self.lblTitle.text =
+  //                             NSLocalizedString(@"Config Timeout", nnil);
+  //                         [self.btn
+  //                             setTitle:NSLocalizedString(@"Config Close",
+  //                             nil)
+  //                             forState:UIControlStateNormal];
+  //                     }];
+  //  }
+  //方式2，发送10秒，休息10秒
+  //  if ((self.progressView.progress > 10.f / 60 &&
+  //       self.progressView.progress < 20.f / 60) ||
+  //      (self.progressView.progress > 30.f / 60 &&
+  //       self.progressView.progress < 40.f / 60) ||
+  //      (self.progressView.progress > 50.f / 60 &&
+  //       self.progressView.progress < 60.f / 60)) {
+  //    if ([self.config isTransmitting]) {
+  //      [self stopAction];
+  //    }
+  //  } else if ((self.progressView.progress > 20.f / 60 &&
+  //              self.progressView.progress < 30.f / 60) ||
+  //             (self.progressView.progress > 40.f / 60 &&
+  //              self.progressView.progress < 50.f / 60)) {
+  //    if (![self.config isTransmitting]) {
+  //      [self startTransmitting];
+  //    }
+  //  } else if (self.progressView.progress == 1.f) {
+  //    self.request = nil;
+  //    [self.timer invalidate];
+  //    //停止发送
+  //    [self stopAction];
+  //    CGRect selfFrame = self.view.frame;
+  //    CGFloat beginHeight = self.loadingView.frame.size.height;
+  //    CGFloat endHeight = self.timeoutView.frame.size.height;
+  //    selfFrame.origin.y -= (endHeight - beginHeight) / 2;
+  //    selfFrame.size = CGSizeMake(
+  //        selfFrame.size.width, selfFrame.size.height + endHeight -
+  //        beginHeight);
+  //    [UIView animateWithDuration:0.3f
+  //                     animations:^{
+  //                         self.view.frame = selfFrame;
+  //                         self.loadingView.hidden = YES;
+  //                         self.timeoutView.hidden = NO;
+  //                         self.lblTitle.text =
+  //                             NSLocalizedString(@"Config Timeout", nnil);
+  //                         [self.btn
+  //                             setTitle:NSLocalizedString(@"Config Close",
+  //                             nil)
+  //                             forState:UIControlStateNormal];
+  //                     }];
+  //  }
+  //方式3，前30秒默认发送，中间休息15秒
+  if ((self.progressView.progress > 30.f / 60 &&
+       self.progressView.progress < 45.f / 60)) {
+    if ([self.config isTransmitting]) {
+      [self stopAction];
+    }
+  } else if (self.progressView.progress > 45.f / 60 &&
+             self.progressView.progress < 60.f / 60) {
+    if (![self.config isTransmitting]) {
+      [self startTransmitting];
+    }
+  } else if (self.progressView.progress == 1.f) {
+    self.request = nil;
     [self.timer invalidate];
     //停止发送
     [self stopAction];
@@ -147,6 +228,9 @@ static unsigned char password[6];
       self.config = [[FirstTimeConfig alloc] init];
     }
     [self sendAction];
+    [NSThread detachNewThreadSelector:@selector(waitForAckThread:)
+                             toTarget:self
+                           withObject:nil];
   }
   @catch (NSException *exception) {
     DDLogDebug(@"%s exception == %@", __FUNCTION__, [exception description]);
@@ -165,6 +249,23 @@ static unsigned char password[6];
   }
   @catch (NSException *exception) {
     DDLogDebug(@"exception === %@", [exception description]);
+  }
+  @finally {
+  }
+}
+
+- (void)waitForAckThread:(id)sender {
+  @try {
+    DDLogDebug(@"%s begin", __PRETTY_FUNCTION__);
+    Boolean val = [self.config waitForAck];
+    DDLogDebug(@"Bool value == %d", val);
+    if (val) {
+      [self stopAction];
+    }
+  }
+  @catch (NSException *exception) {
+    DDLogDebug(@"%s exception == %@", __FUNCTION__, [exception description]);
+    /// stop here
   }
   @finally {
   }

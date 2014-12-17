@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SceneSwitchListCell" id="mlV-GS-24I" customClass="SceneSwitchListCell">
+            <rect key="frame" x="0.0" y="0.0" width="280" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mlV-GS-24I" id="mCx-AD-0bP">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3KP-Hg-otq">
+                        <rect key="frame" x="15" y="2" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="B61-wG-K9U"/>
+                            <constraint firstAttribute="width" constant="40" id="n3d-W8-vz2"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lHz-Pi-Pqh">
+                        <rect key="frame" x="65" y="4" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.58823529409999997" green="0.58823529409999997" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bn9-at-Oeh">
+                        <rect key="frame" x="65" y="24" width="31" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="3KP-Hg-otq" firstAttribute="top" secondItem="mCx-AD-0bP" secondAttribute="top" constant="2" id="AmE-V6-W1n"/>
+                    <constraint firstItem="3KP-Hg-otq" firstAttribute="leading" secondItem="mCx-AD-0bP" secondAttribute="leading" constant="15" id="RWL-Ne-wtj"/>
+                    <constraint firstItem="Bn9-at-Oeh" firstAttribute="leading" secondItem="3KP-Hg-otq" secondAttribute="trailing" constant="10" id="TmG-hd-OSs"/>
+                    <constraint firstItem="lHz-Pi-Pqh" firstAttribute="leading" secondItem="3KP-Hg-otq" secondAttribute="trailing" constant="10" id="aIJ-D0-8mg"/>
+                    <constraint firstAttribute="bottom" secondItem="Bn9-at-Oeh" secondAttribute="bottom" constant="4" id="fyW-WO-lcF"/>
+                    <constraint firstItem="lHz-Pi-Pqh" firstAttribute="top" secondItem="mCx-AD-0bP" secondAttribute="top" constant="4" id="nT0-07-iR7"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="imgViewOfSwitch" destination="3KP-Hg-otq" id="Nvp-I4-uFf"/>
+                <outlet property="lblMac" destination="Bn9-at-Oeh" id="n9e-EL-MHQ"/>
+                <outlet property="lblName" destination="lHz-Pi-Pqh" id="5Bc-It-TmX"/>
+            </connections>
+            <point key="canvasLocation" x="296" y="100"/>
+        </tableViewCell>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

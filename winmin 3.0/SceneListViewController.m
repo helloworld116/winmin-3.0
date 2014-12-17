@@ -187,7 +187,7 @@ preparation before navigation
 #pragma mark -
 - (void)addScene:(id)sender {
   SceneDetailViewController *nextViewController = [self.storyboard
-      instantiateViewControllerWithIdentifier:@"SceneDetailViewController"];
+      instantiateViewControllerWithIdentifier:@"SceneDetailViewController2"];
   [self.navigationController pushViewController:nextViewController
                                        animated:YES];
 }
