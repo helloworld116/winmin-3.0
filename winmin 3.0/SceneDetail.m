@@ -9,7 +9,7 @@
 #import "SceneDetail.h"
 
 @implementation SceneDetail
-static double interval = 0.5;
+static double interval = 1.0;
 
 - (id)initWithMac:(NSString *)mac groupId:(int)groupId onOrOff:(BOOL)onOrOff {
   self = [self init];
@@ -53,4 +53,26 @@ static double interval = 0.5;
   return [NSString
       stringWithFormat:@"%@ %@ %@", operation, self.aSwitch.name, socketName];
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+  SceneDetail *copy = [[[self class] allocWithZone:zone] init];
+  copy->_mac = [_mac copy];
+  copy->_groupId = _groupId;
+  copy->_onOrOff = _onOrOff;
+  copy->_interval = _interval;
+  return copy;
+}
+
+//@property (nonatomic, strong) NSString *mac;
+//@property (nonatomic, assign) int groupId;
+//@property (nonatomic, strong) SDZGSwitch *aSwitch;
+//@property (nonatomic, strong) SDZGSocket *socket;
+//@property (nonatomic, assign) BOOL onOrOff;
+//@property (nonatomic, assign) double interval; //执行时间间隔
+//- (id)mutableCopyWithZone:(NSZone *)zone {
+//  SceneDetail *copy = NSCopyObject(self, 0, zone);
+//  copy->name = [self.name mutableCopy];
+//  copy->age = age;
+//  return copy;
+//}
 @end

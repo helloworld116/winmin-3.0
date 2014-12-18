@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Scene : NSObject
-@property(nonatomic, strong) NSString *name;
-@property(nonatomic, strong) NSString *imageName;
-@property(nonatomic, assign)
-    NSInteger indentifier;  //数据库的索引，便于后续添加或修改操作
-@property(nonatomic, strong) NSArray *detailList;
+@interface Scene : NSObject<NSCopying>
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *imageName;
+@property (nonatomic, assign)
+    NSInteger indentifier; //数据库的索引，便于后续添加或修改操作
+@property (nonatomic, strong) NSMutableArray *detailList;
 
 + (UIImage *)imgNameToImage:(NSString *)imgName;
 @end

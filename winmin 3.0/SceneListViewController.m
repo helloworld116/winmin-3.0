@@ -221,7 +221,7 @@ preparation before navigation
       {
         SceneDetailViewController *nextViewController =
             [self.storyboard instantiateViewControllerWithIdentifier:
-                                 @"SceneDetailViewController"];
+                                 @"SceneDetailViewController2"];
         nextViewController.scene = scene;
         nextViewController.row = self.operationIndexPath.row;
         [self.navigationController pushViewController:nextViewController

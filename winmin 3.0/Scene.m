@@ -26,4 +26,12 @@
   return image;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+  Scene *copy = [[[self class] allocWithZone:zone] init];
+  copy->_name = [_name copy];
+  copy->_imageName = [_imageName copy];
+  copy->_indentifier = _indentifier;
+  copy->_detailList = [_detailList mutableCopy];
+  return copy;
+}
 @end

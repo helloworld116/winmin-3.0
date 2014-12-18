@@ -11,4 +11,5 @@
 
 @interface SceneDetailViewController2 : UIViewController
 @property (nonatomic, strong) Scene *scene;
+@property (nonatomic, assign) int row;
 @end

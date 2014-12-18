@@ -37,6 +37,9 @@
 #pragma mark - 临时表
 - (void)addSceneToSceneDetailTmp:(id)object;
 - (void)addDetailTmpWithSwitchMac:(NSString *)mac groupId:(int)groupid;
+- (void)addDetailTmpWithSwitchMac:(NSString *)mac
+                          groupId:(int)groupid
+                             isOn:(BOOL)isOn;
 - (void)removeDetailTmpWithSwitchMac:(NSString *)mac groupId:(int)groupid;
 - (void)updateDetailTmpWithSwitchMac:(NSString *)mac
                              groupId:(int)groupid

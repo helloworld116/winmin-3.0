@@ -527,6 +527,17 @@
   }
 }
 
+- (void)addDetailTmpWithSwitchMac:(NSString *)mac
+                          groupId:(int)groupid
+                             isOn:(BOOL)isOn {
+  if ([self.db open]) {
+    static NSString *sql =
+        @"insert into scenedetailtmp (mac,groupid,onoff) values (?,?,?)";
+    [self.db executeUpdate:sql, mac, @(groupid), @(isOn)];
+    [self.db close];
+  }
+}
+
 - (void)removeDetailTmpWithSwitchMac:(NSString *)mac groupId:(int)groupid {
   if ([self.db open]) {
     static NSString *sql =

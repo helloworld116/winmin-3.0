@@ -59,6 +59,11 @@
 		1560132519CA79D700BF7E12 /* image.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1560132419CA79D700BF7E12 /* image.plist */; };
 		1560132819CBDCA700BF7E12 /* SwitchDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */; };
 		1561BFC11A33FE35009D1349 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1561BFC01A33FE34009D1349 /* FeedbackViewController.m */; };
+		1564D6F71A429FD000F574A5 /* SceneEditLeftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1564D6F61A429FD000F574A5 /* SceneEditLeftCell.m */; };
+		1564D6FA1A42A17700F574A5 /* SceneEditRightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1564D6F91A42A17700F574A5 /* SceneEditRightCell.m */; };
+		1564D6FD1A42A24C00F574A5 /* SceneSocketView2.m in Sources */ = {isa = PBXBuildFile; fileRef = 1564D6FC1A42A24C00F574A5 /* SceneSocketView2.m */; };
+		1564D7001A42A6C100F574A5 /* SceneEditCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 1564D6FF1A42A6C100F574A5 /* SceneEditCell2.m */; };
+		1564D7031A42B1F400F574A5 /* SceneEditAddCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1564D7021A42B1F400F574A5 /* SceneEditAddCell.m */; };
 		156692011A1EECC000E94C39 /* APServiceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 156692001A1EECC000E94C39 /* APServiceUtil.m */; };
 		15736B9019F2482F00D6A45D /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15736B8F19F2482F00D6A45D /* WelcomeViewController.m */; };
 		158D987B19C6F39C0068AFC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987A19C6F39C0068AFC5 /* Foundation.framework */; };
@@ -268,6 +273,16 @@
 		1560132719CBDCA700BF7E12 /* SwitchDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchDetailModel.m; sourceTree = "<group>"; };
 		1561BFBF1A33FE34009D1349 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
 		1561BFC01A33FE34009D1349 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		1564D6F51A429FD000F574A5 /* SceneEditLeftCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneEditLeftCell.h; sourceTree = "<group>"; };
+		1564D6F61A429FD000F574A5 /* SceneEditLeftCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneEditLeftCell.m; sourceTree = "<group>"; };
+		1564D6F81A42A17700F574A5 /* SceneEditRightCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneEditRightCell.h; sourceTree = "<group>"; };
+		1564D6F91A42A17700F574A5 /* SceneEditRightCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneEditRightCell.m; sourceTree = "<group>"; };
+		1564D6FB1A42A24C00F574A5 /* SceneSocketView2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneSocketView2.h; sourceTree = "<group>"; };
+		1564D6FC1A42A24C00F574A5 /* SceneSocketView2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneSocketView2.m; sourceTree = "<group>"; };
+		1564D6FE1A42A6C100F574A5 /* SceneEditCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneEditCell2.h; sourceTree = "<group>"; };
+		1564D6FF1A42A6C100F574A5 /* SceneEditCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneEditCell2.m; sourceTree = "<group>"; };
+		1564D7011A42B1F400F574A5 /* SceneEditAddCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneEditAddCell.h; sourceTree = "<group>"; };
+		1564D7021A42B1F400F574A5 /* SceneEditAddCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneEditAddCell.m; sourceTree = "<group>"; };
 		156691FF1A1EECC000E94C39 /* APServiceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APServiceUtil.h; sourceTree = "<group>"; };
 		156692001A1EECC000E94C39 /* APServiceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APServiceUtil.m; sourceTree = "<group>"; };
 		15736B8E19F2482F00D6A45D /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
@@ -562,6 +577,16 @@
 				150BE86C1A01D47700A358CF /* SceneExcTitleView.m */,
 				150BE86E1A01D49700A358CF /* SceneExcTitleView.xib */,
 				1500CD861A419DA300A720E0 /* SceneSwitchListCell.xib */,
+				1564D6F51A429FD000F574A5 /* SceneEditLeftCell.h */,
+				1564D6F61A429FD000F574A5 /* SceneEditLeftCell.m */,
+				1564D6F81A42A17700F574A5 /* SceneEditRightCell.h */,
+				1564D6F91A42A17700F574A5 /* SceneEditRightCell.m */,
+				1564D6FB1A42A24C00F574A5 /* SceneSocketView2.h */,
+				1564D6FC1A42A24C00F574A5 /* SceneSocketView2.m */,
+				1564D6FE1A42A6C100F574A5 /* SceneEditCell2.h */,
+				1564D6FF1A42A6C100F574A5 /* SceneEditCell2.m */,
+				1564D7011A42B1F400F574A5 /* SceneEditAddCell.h */,
+				1564D7021A42B1F400F574A5 /* SceneEditAddCell.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -1293,11 +1318,13 @@
 				156692011A1EECC000E94C39 /* APServiceUtil.m in Sources */,
 				15AC864A19D02F7300D154EB /* SwitchInfoModel.m in Sources */,
 				15BBD6F819DA857A0002D973 /* ElecRealTimeView.m in Sources */,
+				1564D6F71A429FD000F574A5 /* SceneEditLeftCell.m in Sources */,
 				1560131419C9600600BF7E12 /* UIImage+Color.m in Sources */,
 				15AC864D19D10A2100D154EB /* DelayViewController.m in Sources */,
 				15B8E4C01A36FC76004DAD1E /* MessageCell.m in Sources */,
 				1500CD7D1A41270200A720E0 /* SceneSwitchListController.m in Sources */,
 				15AC865B19D2C56400D154EB /* DatePickerViewController.m in Sources */,
+				1564D7001A42A6C100F574A5 /* SceneEditCell2.m in Sources */,
 				15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */,
 				158D992219C7DF830068AFC5 /* CC3xMessage.m in Sources */,
 				15BBD6FB19DA89540002D973 /* TestViewController.m in Sources */,
@@ -1336,10 +1363,13 @@
 				15B8E4BD1A36F66B004DAD1E /* MessageCenterViewController.m in Sources */,
 				1560132819CBDCA700BF7E12 /* SwitchDetailModel.m in Sources */,
 				15AC865119D10A4E00D154EB /* DelaySettingViewController.m in Sources */,
+				1564D7031A42B1F400F574A5 /* SceneEditAddCell.m in Sources */,
 				150BE86D1A01D47700A358CF /* SceneExcTitleView.m in Sources */,
 				15B8E4BA1A36EF30004DAD1E /* HistoryMessage.m in Sources */,
 				15B5B9A21A280901008C8F94 /* ScenePreExcDailogViewController.m in Sources */,
 				15391C431A38378000287C4F /* FeedbackModel.m in Sources */,
+				1564D6FD1A42A24C00F574A5 /* SceneSocketView2.m in Sources */,
+				1564D6FA1A42A17700F574A5 /* SceneEditRightCell.m in Sources */,
 				156012BE19C8129300BF7E12 /* ConfigLoadingViewController.m in Sources */,
 				158D991719C7CBC50068AFC5 /* DESUtil.m in Sources */,
 				15391C401A37DCBB00287C4F /* LoadmoreCell.m in Sources */,
