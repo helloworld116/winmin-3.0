@@ -12,5 +12,6 @@
 @interface SceneExcCell : UITableViewCell
 - (void)setSceneDetail:(SceneDetail *)sceneDetail row:(int)row;
 - (void)updatePage:(BOOL)success;
+- (void)showLeftSeconds:(double)leftSeconds;
 - (void)beginExecute;
 @end

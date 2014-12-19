@@ -104,7 +104,7 @@ NSString *const jPushTagArrayKey = @"jPushTagArrayKey";
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self setupStyle];
-  self.settings = @[ keyShake, showMac, wwanWarn, remoteNotification ];
+  self.settings = @[ showMac, keyShake, wwanWarn, remoteNotification ];
 }
 
 - (void)didReceiveMemoryWarning {

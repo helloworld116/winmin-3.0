@@ -126,6 +126,7 @@ extern NSString *const jPushTagArrayKey;
 
 #define kSceneAddOrUpdateNotification @"SceneAddOrUpdateNotification"
 #define kSceneExecuteBeginNotification @"SceneExecuteBeginNotification"
+#define kSceneExecuteLeftTimeNotification @"SceneExecuteLeftTimeNotification"
 #define kSceneExecuteResultNotification @"SceneExecuteResultNotification"
 #define kSceneExecuteFinishedNotification @"SceneExecuteFinishedNotification"
 #define kSceneFinishedWindowViewRemoveNotification                             \

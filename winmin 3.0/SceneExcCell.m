@@ -41,6 +41,13 @@
   self.lblDesc.text = [sceneDetail description];
 }
 
+- (void)showLeftSeconds:(double)leftSeconds {
+  NSString *preState = NSLocalizedString(@"scene waiting", nil);
+  NSString *suffState = [NSString stringWithFormat:@"%.1fs", leftSeconds];
+  self.lblExcResult.text =
+      [NSString stringWithFormat:@"%@ %@", preState, suffState];
+}
+
 - (void)updatePage:(BOOL)success {
   NSString *result;
   NSString *imgName;

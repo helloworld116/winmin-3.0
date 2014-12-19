@@ -225,49 +225,47 @@ static const int oneDayInterval = 3600 * 24;
                                 hour:currentHour
                               minute:currentMinute
                               second:0];
-      startDate = [endDate dateByAddingDays:-1];
+      startDate = [[endDate dateByAddingDays:-1] dateByAddingMinute:-30];
       type = 0; //间隔半小时
       interval = oneDayInterval / 48;
       break;
     case OneWeek:
-      startDate = [[currentDate dateWeekStart] dateByAddingDays:1];
-      endDate = [[currentDate dateWeekEnd] dateByAddingDays:1];
+      startDate = [[currentDate dateByAddingDays:-7] dateByAddingDays:-1];
+      startDate = [startDate dateBySettingHour:0 minute:0 second:0];
+      endDate = [currentDate dateByAddingDays:-1];
+      endDate = [endDate dateBySettingHour:0 minute:0 second:0];
       type = 1; //间隔1天
       interval = oneDayInterval;
       break;
     case OneMonth:
-      startDate = [currentDate dateMonthStart];
-      endDate = [currentDate dateMonthEnd];
-      [endDate dateByAddingHour:23];
-      [endDate dateByAddingMinute:59];
-      [endDate dateByAddingSecond:59];
+      startDate = [[currentDate dateByAddingMonth:-1] dateByAddingDays:-1];
+      startDate = [startDate dateBySettingHour:0 minute:0 second:0];
+      endDate = [currentDate dateByAddingDays:-1];
+      endDate = [endDate dateBySettingHour:0 minute:0 second:0];
       type = 1; //间隔1天
       interval = oneDayInterval;
       break;
     case ThreeMonth:
-      startDate = [[currentDate dateMonthStart] dateByAddingMonth:-3];
-      endDate = [[currentDate dateMonthEnd] dateByAddingMonth:-1];
-      [endDate dateByAddingHour:23];
-      [endDate dateByAddingMinute:59];
-      [endDate dateByAddingSecond:59];
+      startDate = [[currentDate dateByAddingMonth:-3] dateByAddingDays:-1];
+      startDate = [startDate dateBySettingHour:0 minute:0 second:0];
+      endDate = [currentDate dateByAddingDays:-1];
+      endDate = [endDate dateBySettingHour:0 minute:0 second:0];
       type = 1;
       interval = oneDayInterval;
       break;
     case SixMonth:
-      startDate = [[currentDate dateMonthStart] dateByAddingMonth:-6];
+      startDate = [[currentDate dateByAddingMonth:-6] dateByAddingMonth:-1];
+      startDate = [startDate dateBySettingHour:0 minute:0 second:0];
       endDate = [[currentDate dateMonthEnd] dateByAddingMonth:-1];
-      [endDate dateByAddingHour:23];
-      [endDate dateByAddingMinute:59];
-      [endDate dateByAddingSecond:59];
+      endDate = [endDate dateBySettingHour:0 minute:0 second:0];
       type = 2;
       interval = oneDayInterval * 31;
       break;
     case OneYear:
-      startDate = [currentDate dateYearStart];
-      endDate = [currentDate dateMonthEnd];
-      [endDate dateByAddingHour:23];
-      [endDate dateByAddingMinute:59];
-      [endDate dateByAddingSecond:59];
+      startDate = [[currentDate dateByAddingYear:-1] dateByAddingMonth:-1];
+      startDate = [startDate dateBySettingHour:0 minute:0 second:0];
+      endDate = [[currentDate dateMonthEnd] dateByAddingMonth:-1];
+      endDate = [endDate dateBySettingHour:0 minute:0 second:0];
       type = 2; //间隔1月
       interval = oneDayInterval * 31;
       break;
@@ -283,18 +281,62 @@ static const int oneDayInterval = 3600 * 24;
   return param;
 }
 
+//- (HistoryElecData *)parseResponse:(NSArray *)responseArray
+//                             param:(HistoryElecParam *)param {
+//  NSMutableDictionary *needDict = [@{} mutableCopy];
+//  int needCount =
+//      ((long)param.endTime - (long)param.beginTime) / param.interval + 1;
+//  NSString *key;
+//  //设置默认值为0
+//  for (int i = 0; i < needCount; i++) {
+//    key = [NSString
+//        stringWithFormat:@"%d", (int)(param.beginTime + i * param.interval)];
+//    [needDict setObject:@(0) forKey:key];
+//  }
+//  //替换服务器响应的数据
+//  if (responseArray && responseArray.count) {
+//    for (NSDictionary *response in responseArray) {
+//      NSString *key =
+//          [NSString stringWithFormat:@"%@", response[@"insertTimes"]];
+//      [needDict
+//          setObject:[NSString
+//                        stringWithFormat:@"%.2f",
+//                                         [response[@"md"] doubleValue] / 100]
+//             forKey:key];
+//    }
+//  }
+//
+//  HistoryElecData *data = [[HistoryElecData alloc] init];
+//  NSMutableArray *times = [@[] mutableCopy];
+//  NSMutableArray *values = [@[] mutableCopy];
+//  //  NSString *formatterDateStr;
+//  double value;
+//  //排序后的时间戳
+//  NSArray *timeArray = [[needDict allKeys]
+//      sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//          return [obj1 intValue] - [obj2 intValue];
+//      }];
+//  for (int i = 0; i < timeArray.count; i++) {
+//    NSString *dateInterval = timeArray[i];
+//    value = [[needDict objectForKey:dateInterval] doubleValue];
+//    [times addObject:dateInterval];
+//    if (value == 0 && i > 0) {
+//      NSString *preDateInterval = timeArray[i - 1];
+//      value = [[needDict objectForKey:preDateInterval] doubleValue];
+//      [needDict setObject:@(value) forKey:dateInterval];
+//    }
+//    [values addObject:@(value)];
+//  }
+//  //  [values replaceObjectAtIndex:values.count - 1
+//  //                    withObject:[values objectAtIndex:values.count - 2]];
+//  data.times = times;
+//  data.values = values;
+//  return data;
+//}
+
 - (HistoryElecData *)parseResponse:(NSArray *)responseArray
                              param:(HistoryElecParam *)param {
   NSMutableDictionary *needDict = [@{} mutableCopy];
-  int needCount =
-      ((long)param.endTime - (long)param.beginTime) / param.interval + 1;
-  NSString *key;
-  //设置默认值为0
-  for (int i = 0; i < needCount; i++) {
-    key = [NSString
-        stringWithFormat:@"%d", (int)(param.beginTime + i * param.interval)];
-    [needDict setObject:@(0) forKey:key];
-  }
   //替换服务器响应的数据
   if (responseArray && responseArray.count) {
     for (NSDictionary *response in responseArray) {
@@ -311,7 +353,6 @@ static const int oneDayInterval = 3600 * 24;
   HistoryElecData *data = [[HistoryElecData alloc] init];
   NSMutableArray *times = [@[] mutableCopy];
   NSMutableArray *values = [@[] mutableCopy];
-  //  NSString *formatterDateStr;
   double value;
   //排序后的时间戳
   NSArray *timeArray = [[needDict allKeys]
@@ -322,11 +363,11 @@ static const int oneDayInterval = 3600 * 24;
     NSString *dateInterval = timeArray[i];
     value = [[needDict objectForKey:dateInterval] doubleValue];
     [times addObject:dateInterval];
-    if (value == 0 && i > 0) {
-      NSString *preDateInterval = timeArray[i - 1];
-      value = [[needDict objectForKey:preDateInterval] doubleValue];
-      [needDict setObject:@(value) forKey:dateInterval];
-    }
+    //    if (value == 0 && i > 0) {
+    //      NSString *preDateInterval = timeArray[i - 1];
+    //      value = [[needDict objectForKey:preDateInterval] doubleValue];
+    //      [needDict setObject:@(value) forKey:dateInterval];
+    //    }
     [values addObject:@(value)];
   }
   //  [values replaceObjectAtIndex:values.count - 1

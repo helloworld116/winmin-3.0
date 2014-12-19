@@ -1998,7 +1998,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-NS-VGa">
-                                                            <rect key="frame" x="139" y="1" width="42" height="42"/>
+                                                            <rect key="frame" x="139" y="0.0" width="42" height="42"/>
                                                             <state key="normal" image="scene_add">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>

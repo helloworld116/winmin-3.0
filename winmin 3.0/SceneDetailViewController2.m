@@ -48,6 +48,8 @@ typedef NS_OPTIONS(NSUInteger, SceneSwitchListOperation){
   self.textFieldSceneName.layer.borderColor = [kThemeColor CGColor];
   self.textFieldSceneName.layer.borderWidth = 2.f;
   self.textFieldSceneName.layer.cornerRadius = 21.f;
+  self.viewTimeInterval.layer.borderColor = [UIColor blackColor].CGColor;
+  self.viewTimeInterval.layer.borderWidth = 1.f;
 
   UIView *view = [[UIView alloc] init];
   view.backgroundColor = [UIColor clearColor];
@@ -326,6 +328,9 @@ preparation before navigation
   DDLogDebug(@"row is %d", indexPath.row);
   self.currentEditRow = indexPath.row;
   self.viewTimeInterval.hidden = NO;
+  int currentValue = [[self.currentEditIntervalBtn currentTitle] intValue];
+  DDLogDebug(@"current is %d", currentValue);
+  [self.pickerView selectRow:currentValue - 1 inComponent:0 animated:YES];
   [self.viewSceneInfo bringSubviewToFront:self.viewTimeInterval];
 }
 
@@ -425,6 +430,8 @@ preparation before navigation
 - (NSString *)pickerView:(UIPickerView *)pickerView
              titleForRow:(NSInteger)row
             forComponent:(NSInteger)component {
+  //  int i = row % [self.pickerData count];
+  //  DDLogDebug(@"i is %d", i);
   return [NSString
       stringWithFormat:@"%.1f 秒",
                        [self.pickerData[row %

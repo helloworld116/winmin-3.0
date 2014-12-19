@@ -7,6 +7,9 @@
 //
 
 #import "SceneDetail.h"
+@interface SceneDetail ()
+@property (nonatomic, strong) NSArray *switchs;
+@end
 
 @implementation SceneDetail
 static double interval = 1.0;
@@ -17,8 +20,12 @@ static double interval = 1.0;
     self.mac = mac;
     self.groupId = groupId;
     self.onOrOff = onOrOff;
-    NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
-    for (SDZGSwitch *aSwitch in switchs) {
+    if (!self.switchs) {
+      self.switchs = [[NSMutableArray alloc]
+          initWithArray:[[SwitchDataCeneter sharedInstance] switchs]
+              copyItems:YES];
+    }
+    for (SDZGSwitch *aSwitch in self.switchs) {
       if ([aSwitch.mac isEqualToString:self.mac]) {
         self.aSwitch = aSwitch;
         self.socket = self.aSwitch.sockets[self.groupId - 1];

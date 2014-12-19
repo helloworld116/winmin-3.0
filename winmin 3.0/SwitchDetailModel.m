@@ -194,7 +194,7 @@
 
   self.historyElecBlock = compeltion;
   NSString *messageUrl =
-      [NSString stringWithFormat:@"%@degrees/list", MessageURLString];
+      [NSString stringWithFormat:@"%@degrees/listIncrement", MessageURLString];
   AFHTTPRequestOperationManager *manager =
       [AFHTTPRequestOperationManager manager];
   manager.responseSerializer = [AFHTTPResponseSerializer serializer];

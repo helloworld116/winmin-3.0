@@ -99,6 +99,7 @@
 "execute failure"="failure";
 "executing"="executing";
 "is executing"="is executing";
+"scene waiting"="waiting";
 "execute finished"="execute finished";
 "Living room"="Living room";
 "Kitchen"="Kitchen";

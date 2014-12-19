@@ -135,6 +135,11 @@
          selector:@selector(sceneExecuteFinished:)
              name:kSceneExecuteFinishedNotification
            object:self.model];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(sceneExecuteLeftSeconds:)
+             name:kSceneExecuteLeftTimeNotification
+           object:self.model];
 }
 
 - (void)viewDidLoad {
@@ -257,6 +262,25 @@
                                       animated:YES];
       }
       [cell updatePage:resultType];
+  });
+}
+
+- (void)sceneExecuteLeftSeconds:(NSNotification *)notification {
+  NSDictionary *userInfo = notification.userInfo;
+  int row = [userInfo[@"row"] intValue];
+  double leftSeconds = [userInfo[@"leftSeconds"] doubleValue];
+  NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+  SceneExcCell *cell =
+      (SceneExcCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+  dispatch_async(MAIN_QUEUE, ^{
+      if (indexPath.row < self.sceneDetails.count - 1) {
+        NSIndexPath *scollIndexPath =
+            [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:0];
+        [self.tableView scrollToRowAtIndexPath:scollIndexPath
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:YES];
+      }
+      [cell showLeftSeconds:leftSeconds];
   });
 }
 

@@ -197,7 +197,7 @@ static const int kWidth = 50.f;
   if (dateType == OneDay) {
     [self.dateFormatter setDateFormat:@"HH:mm"];
   } else if (dateType == SixMonth || dateType == OneYear) {
-    [self.dateFormatter setDateFormat:@"yy-MM"];
+    [self.dateFormatter setDateFormat:@"MM"];
   } else {
     [self.dateFormatter setDateFormat:@"MM-dd"];
   }
@@ -241,11 +241,34 @@ static const int kWidth = 50.f;
   int dataCount = [self.currentData.times count];
   self.scrollView.frame = CGRectMake(0, 0, self.containerView.frame.size.width,
                                      self.containerView.frame.size.height);
+  CGFloat width = kWidth;
+  //  switch (dateType) {
+  //    case OneDay:
+  //      width = 25.f;
+  //      break;
+  //    case OneWeek:
+  //
+  //      break;
+  //    case OneMonth:
+  //
+  //      break;
+  //    case ThreeMonth:
+  //
+  //      break;
+  //    case SixMonth:
+  //
+  //      break;
+  //    case OneYear:
+  //
+  //      break;
+  //    default:
+  //      break;
+  //  }
   self.scrollView.contentSize =
-      CGSizeMake(dataCount * kWidth, self.containerView.frame.size.height);
+      CGSizeMake(dataCount * width, self.containerView.frame.size.height);
   CGRect graphFrame = self.myGraph.frame;
   graphFrame.size =
-      CGSizeMake(dataCount * kWidth, self.containerView.frame.size.height);
+      CGSizeMake(dataCount * width, self.containerView.frame.size.height);
   self.myGraph.frame = graphFrame;
   [self.myGraph reloadGraph];
   self.scrollView.hidden = NO;

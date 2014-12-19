@@ -28,7 +28,7 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE){ MONDAY = 1 << 0,  TUESDAY = 1 << 1,
                                          FRIDAY = 1 << 4,  SATURDAY = 1 << 5,
                                          SUNDAY = 1 << 6 };
 
-@interface SDZGSwitch : NSObject
+@interface SDZGSwitch : NSObject<NSCopying>
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) SwitchStatus networkStatus;
 @property (nonatomic, strong) NSString *mac;
@@ -48,7 +48,7 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE){ MONDAY = 1 << 0,  TUESDAY = 1 << 1,
 + (UIImage *)imgNameToImageOffline:(NSString *)imgName;
 
 @end
-@interface SDZGSocket : NSObject
+@interface SDZGSocket : NSObject<NSCopying>
 @property (nonatomic, assign) int groupId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSMutableArray *timerList;
@@ -62,7 +62,7 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE){ MONDAY = 1 << 0,  TUESDAY = 1 << 1,
 + (UIImage *)imgNameToImage:(NSString *)imgName status:(SocketStatus)status;
 @end
 
-@interface SDZGTimerTask : NSObject
+@interface SDZGTimerTask : NSObject<NSCopying>
 @property (nonatomic, assign) unsigned char week;
 @property (nonatomic, assign) unsigned int actionTime; //动作时间
 @property (nonatomic, assign) BOOL isEffective;        //是否生效

@@ -159,6 +159,23 @@ static dispatch_queue_t switch_parse_serial_queue() {
   return image;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+  SDZGSwitch *copy = [[[self class] allocWithZone:zone] init];
+  copy->_name = [_name copy];
+  copy->_networkStatus = _networkStatus;
+  copy->_mac = [_mac copy];
+  copy->_ip = [_ip copy];
+  copy->_port = _port;
+  copy->_lockStatus = _lockStatus;
+  copy->_sockets = [_sockets mutableCopy];
+  copy->_version = _version;
+  copy->_tag = _tag;
+  copy->_imageName = [_imageName copy];
+  copy->_password = [_password copy];
+  copy->_lastUpdateInterval = _lastUpdateInterval;
+  return copy;
+}
+
 @end
 
 @implementation SDZGSocket
@@ -180,6 +197,18 @@ static dispatch_queue_t switch_parse_serial_queue() {
     }
   }
   return image;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+  SDZGSocket *copy = [[[self class] allocWithZone:zone] init];
+  copy->_groupId = _groupId;
+  copy->_name = [_name copy];
+  copy->_timerList = [_timerList mutableCopy];
+  copy->_delayTime = _delayTime;
+  copy->_delayAction = _delayAction;
+  copy->_socketStatus = _socketStatus;
+  copy->_imageNames = [_imageNames mutableCopy];
+  return copy;
 }
 @end
 
@@ -313,5 +342,14 @@ static dispatch_queue_t switch_parse_serial_queue() {
     return min;
   }
   return 0;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+  SDZGTimerTask *copy = [[[self class] allocWithZone:zone] init];
+  copy->_week = _week;
+  copy->_actionTime = _actionTime;
+  copy->_isEffective = _isEffective;
+  copy->_timerActionType = _timerActionType;
+  return copy;
 }
 @end

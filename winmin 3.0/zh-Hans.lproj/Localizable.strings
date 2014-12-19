@@ -111,6 +111,7 @@
 "executing"="执行中";
 "execute success"="执行成功";
 "execute failure"="执行失败";
+"scene waiting"="等待";
 "Living room"="客厅";
 "Kitchen"="厨房";
 "Bedroom"="卧室";
@@ -152,8 +153,8 @@
 "Answer Update"="有新的版本更新，是否前往更新？";
 "Go Update"="前往更新";
 "User Setting"="用户设置";
-"KeyShake"="按键震动";
-"ShowMac"="显示MAC地址";
+"KeyShake"="按键时震动反馈";
+"ShowMac"="列表显示MAC地址";
 "WWANWarn"="移动网络下提醒";
 "remoteNotification"="接收推送消息";
 "feedback cannot empty"="请输入您的反馈意见";

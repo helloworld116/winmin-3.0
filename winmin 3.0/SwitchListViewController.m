@@ -100,7 +100,11 @@
                   NSString *mac = note.userInfo[@"mac"];
                   NSString *password = note.userInfo[@"password"];
                   [self.model addSwitchWithMac:mac password:password];
-                  dispatch_async(MAIN_QUEUE, ^{ [self.tableView reloadData]; });
+                  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                                               (int64_t)(1 * NSEC_PER_SEC)),
+                                 dispatch_get_main_queue(),
+                                 ^{ [self reloadTableView]; });
+                  //                  dispatch_async(MAIN_QUEUE, ^{});
                   //                  self.mac = mac;
                   //                  SDZGSwitch *aSwitch =
                   //                      [SwitchDataCeneter
@@ -183,17 +187,18 @@
 
 - (void)viewAppearOrEnterForeground {
   if (kSharedAppliction.networkStatus != NotReachable) {
-    if (!self.isFirstLoad) {
-      self.delayInterval = 1.f;
-      NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
-      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
-      for (SDZGSwitch *aSwitch in switchs) {
-        aSwitch.lastUpdateInterval = current + 1.5 * REFRESH_DEV_TIME;
-      }
-    } else {
-      self.delayInterval = 3.1f;
-      self.isFirstLoad = NO;
-    }
+    //    if (!self.isFirstLoad) {
+    //      self.delayInterval = 1.f;
+    //      NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+    //      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+    //      for (SDZGSwitch *aSwitch in switchs) {
+    //        aSwitch.lastUpdateInterval = current + 1.5 * REFRESH_DEV_TIME;
+    //      }
+    //    } else {
+    //      self.delayInterval = 3.1f;
+    //      self.isFirstLoad = NO;
+    //    }
+    self.delayInterval = REFRESH_DEV_TIME;
     [self.model startScanState];
     // model层修改数据，指定时间后，页面统一修改
     [self startUpdateList];
