@@ -136,6 +136,28 @@
   self.refreshHeaderView.delegate = self;
   [self.tableView addSubview:self.refreshHeaderView];
   [self.refreshHeaderView refreshLastUpdatedDate];
+  BOOL isShowedPulldownGuide = [[[NSUserDefaults standardUserDefaults]
+      objectForKey:switchListPulldownRefresh] boolValue];
+  if (!isShowedPulldownGuide) {
+    dispatch_after(
+        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+        dispatch_get_main_queue(), ^{
+            UIView *viewForGuide =
+                [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+            viewForGuide.backgroundColor = [UIColor blackColor];
+            viewForGuide.alpha = .5f;
+            viewForGuide.tag = switchListPulldownRefreshViewTag;
+            UIImageView *imageView = [[UIImageView alloc]
+                initWithImage:[UIImage imageNamed:@"pulldown_guide"]];
+            imageView.frame = CGRectMake(100, 64, 216.f, 141.f);
+            [viewForGuide addSubview:imageView];
+            [UIView animateWithDuration:0.3f
+                             animations:^{
+                                 [[[UIApplication sharedApplication] keyWindow]
+                                     addSubview:viewForGuide];
+                             }];
+        });
+  }
 }
 
 - (void)viewDidLoad {
@@ -146,6 +168,29 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  BOOL isShowedLongPressDeleteGuide = [[[NSUserDefaults standardUserDefaults]
+      objectForKey:switchListLongPressDelete] boolValue];
+  if (!isShowedLongPressDeleteGuide && self.switchs.count) {
+    dispatch_after(
+        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+        dispatch_get_main_queue(), ^{
+            UIView *viewForGuide =
+                [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+            viewForGuide.backgroundColor = [UIColor blackColor];
+            viewForGuide.alpha = .5f;
+            viewForGuide.tag = switchListLongPressDeleteViewTag;
+            UIImageView *imageView = [[UIImageView alloc]
+                initWithImage:[UIImage imageNamed:@"delete_guide"]];
+            imageView.frame = CGRectMake(-5, 58, 96.f, 98.f);
+            [viewForGuide addSubview:imageView];
+            [UIView animateWithDuration:0.3f
+                             animations:^{
+                                 [[[UIApplication sharedApplication] keyWindow]
+                                     addSubview:viewForGuide];
+                             }];
+        });
+  }
+
   [self viewAppearOrEnterForeground];
   [[NSNotificationCenter defaultCenter]
       addObserver:self

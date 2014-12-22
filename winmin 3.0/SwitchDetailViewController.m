@@ -59,8 +59,8 @@
 
   self.navigationItem.title = self.aSwitch.name;
   self.HUD = [[MBProgressHUD alloc] initWithWindow:kSharedAppliction.window];
-  [self.view.window addSubview:self.HUD];
-  //  self.HUD.delegate = self;
+  [self.view addSubview:self.HUD];
+  self.HUD.delegate = self;
 
   if (!self.aSwitch.sockets || [self.aSwitch.sockets count] != 2) {
     self.aSwitch.sockets = [@[] mutableCopy];
@@ -471,18 +471,22 @@ preparation before navigation
         self.showingRealTimeElecView = NO;
       }
       if (needGetData) {
-        [self.model historyElec:dateType
-                     completion:^(BOOL isSuccess, HistoryElecDateType dateType,
-                                  HistoryElecData *elecData) {
-                         __strong SwitchDetailViewController *strongSelf =
-                             weakSelf;
-                         if (isSuccess) {
-                           dispatch_async(MAIN_QUEUE, ^{
-                               [strongSelf.elecView showChart:elecData
-                                                     dateType:dateType];
-                           });
-                         }
-                     }];
+        [self.HUD show:YES];
+        [self.model
+            historyElec:dateType
+             completion:^(BOOL isSuccess, HistoryElecDateType dateType,
+                          HistoryElecData *elecData) {
+                 __strong SwitchDetailViewController *strongSelf = weakSelf;
+                 dispatch_async(MAIN_QUEUE, ^{
+                     if (isSuccess) {
+                       [strongSelf.elecView showChart:elecData
+                                             dateType:dateType];
+                     } else {
+                       [strongSelf.elecView showChart:nil dateType:dateType];
+                     }
+                     [strongSelf.HUD hide:YES];
+                 });
+             }];
       }
       break;
     default:
@@ -648,6 +652,14 @@ preparation before navigation
                     valueWithCGPoint:CGPointMake(self.view.frame.size.width / 2,
                                                  self.view.frame.size.height -
                                                      40)]];
+}
+
+#pragma mark - MBProgressHud
+- (void)hudWasHidden {
+  // Remove HUD from screen
+  [self.HUD removeFromSuperview];
+
+  // add here the code you may need
 }
 
 @end

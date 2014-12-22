@@ -39,6 +39,7 @@ typedef NS_OPTIONS(NSUInteger, SceneSwitchListOperation){
 @property (strong, nonatomic) NSMutableArray *pickerData;
 @property (assign, nonatomic) float selectedInterval;
 @property (strong, nonatomic) UIButton *currentEditIntervalBtn;
+@property (strong, nonatomic) UIBarButtonItem *rightButtonItem;
 - (IBAction)showSwitchList:(id)sender;
 @end
 
@@ -64,7 +65,7 @@ typedef NS_OPTIONS(NSUInteger, SceneSwitchListOperation){
   self.pickerView.dataSource = self;
 
   self.navigationItem.title = NSLocalizedString(@"Scene", nil);
-  self.navigationItem.rightBarButtonItem =
+  self.rightButtonItem =
       [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", nil)
                                        style:UIBarButtonItemStylePlain
                                       target:self
@@ -93,6 +94,7 @@ typedef NS_OPTIONS(NSUInteger, SceneSwitchListOperation){
     self.textFieldSceneName.text = self.scene.name;
     self.viewSceneInfo.hidden = NO;
     self.viewDefault.hidden = YES;
+    self.navigationItem.rightBarButtonItem = self.rightButtonItem;
   } else {
     self.row = -1;
     self.viewSceneInfo.hidden = YES;
@@ -286,6 +288,7 @@ preparation before navigation
     if (self.scene.detailList.count) {
       self.viewDefault.hidden = YES;
       self.viewSceneInfo.hidden = NO;
+      self.navigationItem.rightBarButtonItem = self.rightButtonItem;
       [self.tableView reloadData];
     }
   } else if (actionSheet.tag == 98982) {

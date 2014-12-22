@@ -205,35 +205,37 @@ static const int kWidth = 50.f;
 
 - (void)showChart:(HistoryElecData *)data
          dateType:(HistoryElecDateType)dateType {
-  switch (dateType) {
-    case OneDay:
-      self.oneDayData = data;
-      self.oneDayDataRecived = YES;
-      break;
-    case OneWeek:
-      self.oneWeekData = data;
-      self.oneWeekDataRecived = YES;
-      break;
-    case OneMonth:
-      self.oneMonthData = data;
-      self.oneMonthDataRecived = YES;
-      break;
-    case ThreeMonth:
-      self.threeMonthData = data;
-      self.threeMonthDataRecived = YES;
-      break;
-    case SixMonth:
-      self.sixMonthData = data;
-      self.sixMonthDataRecived = YES;
-      break;
-    case OneYear:
-      self.oneYearData = data;
-      self.oneYearDataRecived = YES;
-      break;
-    default:
-      break;
+  if (data) {
+    switch (dateType) {
+      case OneDay:
+        self.oneDayData = data;
+        self.oneDayDataRecived = YES;
+        break;
+      case OneWeek:
+        self.oneWeekData = data;
+        self.oneWeekDataRecived = YES;
+        break;
+      case OneMonth:
+        self.oneMonthData = data;
+        self.oneMonthDataRecived = YES;
+        break;
+      case ThreeMonth:
+        self.threeMonthData = data;
+        self.threeMonthDataRecived = YES;
+        break;
+      case SixMonth:
+        self.sixMonthData = data;
+        self.sixMonthDataRecived = YES;
+        break;
+      case OneYear:
+        self.oneYearData = data;
+        self.oneYearDataRecived = YES;
+        break;
+      default:
+        break;
+    }
+    self.currentData = data;
   }
-  self.currentData = data;
   [self showGraph:dateType];
 }
 

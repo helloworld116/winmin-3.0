@@ -320,4 +320,23 @@
   }
   [userDefaults synchronize];
 }
+
+#pragma mark - touch
+//开始摸
+- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
+  NSArray* subViews = [[UIApplication sharedApplication].keyWindow subviews];
+  for (UIView* view in subViews) {
+    if (view.tag == switchListPulldownRefreshViewTag) {
+      [view removeFromSuperview];
+      [[NSUserDefaults standardUserDefaults]
+          setObject:@(YES)
+             forKey:switchListPulldownRefresh];
+    } else if (view.tag == switchListLongPressDeleteViewTag) {
+      [view removeFromSuperview];
+      [[NSUserDefaults standardUserDefaults]
+          setObject:@(YES)
+             forKey:switchListLongPressDelete];
+    }
+  }
+}
 @end

@@ -316,9 +316,8 @@
         //        socket.delayTime = [socketResult intForColumn:@"delaytime"];
         //        socket.delayAction = [socketResult
         //        intForColumn:@"delayaction"];
-        //        socket.socketStatus = [socketResult
-        //        intForColumn:@"socketstatus"];
-        socket.socketStatus = SocketStatusOff;
+        socket.socketStatus = [socketResult intForColumn:@"socketstatus"];
+        //        socket.socketStatus = SocketStatusOff;
         socket.timerList = [@[] mutableCopy];
 
         NSString *timertaskSql =

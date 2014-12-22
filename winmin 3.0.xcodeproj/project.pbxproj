@@ -13,7 +13,6 @@
 		1500CD7F1A41570200A720E0 /* libFTC_RELEASE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98F919C7CA000068AFC5 /* libFTC_RELEASE.a */; };
 		1500CD821A415BEA00A720E0 /* SceneDetailViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 1500CD811A415BEA00A720E0 /* SceneDetailViewController2.m */; };
 		1500CD871A419DA300A720E0 /* SceneSwitchListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1500CD861A419DA300A720E0 /* SceneSwitchListCell.xib */; };
-		150955961A1C6B9500822B82 /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 150955951A1C6B9400822B82 /* libPushSDK.a */; };
 		150955981A1C6BFE00822B82 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150955971A1C6BFE00822B82 /* CFNetwork.framework */; };
 		1509559A1A1C6C1F00822B82 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150955991A1C6C1F00822B82 /* CoreFoundation.framework */; };
 		1509559C1A1C6C3900822B82 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1509559B1A1C6C3900822B82 /* SystemConfiguration.framework */; };
@@ -143,6 +142,7 @@
 		15B649DF1A306B01005AF244 /* welcome3-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B649DB1A306B01005AF244 /* welcome3-5@2x.png */; };
 		15B649E01A306B01005AF244 /* welcome2-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B649DC1A306B01005AF244 /* welcome2-5@2x.png */; };
 		15B649E11A306B01005AF244 /* welcome1-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B649DD1A306B01005AF244 /* welcome1-5@2x.png */; };
+		15B6F9F21A47C5CA006B4F8D /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B6F9F11A47C5CA006B4F8D /* libPushSDK.a */; };
 		15B8E4BA1A36EF30004DAD1E /* HistoryMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B8E4B91A36EF30004DAD1E /* HistoryMessage.m */; };
 		15B8E4BD1A36F66B004DAD1E /* MessageCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B8E4BC1A36F66B004DAD1E /* MessageCenterViewController.m */; };
 		15B8E4C01A36FC76004DAD1E /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B8E4BF1A36FC76004DAD1E /* MessageCell.m */; };
@@ -189,8 +189,6 @@
 		1500CD801A415BE900A720E0 /* SceneDetailViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDetailViewController2.h; sourceTree = "<group>"; };
 		1500CD811A415BEA00A720E0 /* SceneDetailViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDetailViewController2.m; sourceTree = "<group>"; };
 		1500CD861A419DA300A720E0 /* SceneSwitchListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SceneSwitchListCell.xib; sourceTree = "<group>"; };
-		150955941A1C6B9400822B82 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APService.h; path = jpush/APService.h; sourceTree = "<group>"; };
-		150955951A1C6B9400822B82 /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPushSDK.a; path = jpush/libPushSDK.a; sourceTree = "<group>"; };
 		150955971A1C6BFE00822B82 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		150955991A1C6C1F00822B82 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		1509559B1A1C6C3900822B82 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -287,7 +285,7 @@
 		156692001A1EECC000E94C39 /* APServiceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APServiceUtil.m; sourceTree = "<group>"; };
 		15736B8E19F2482F00D6A45D /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		15736B8F19F2482F00D6A45D /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
-		158D987719C6F39C0068AFC5 /* 微云智控.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微云智控.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		158D987719C6F39C0068AFC5 /* winmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = winmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		158D987A19C6F39C0068AFC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		158D987E19C6F39C0068AFC5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -407,6 +405,8 @@
 		15B649DB1A306B01005AF244 /* welcome3-5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3-5@2x.png"; sourceTree = "<group>"; };
 		15B649DC1A306B01005AF244 /* welcome2-5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2-5@2x.png"; sourceTree = "<group>"; };
 		15B649DD1A306B01005AF244 /* welcome1-5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1-5@2x.png"; sourceTree = "<group>"; };
+		15B6F9F01A47C5CA006B4F8D /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
+		15B6F9F11A47C5CA006B4F8D /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
 		15B8E4B81A36EF30004DAD1E /* HistoryMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryMessage.h; sourceTree = "<group>"; };
 		15B8E4B91A36EF30004DAD1E /* HistoryMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryMessage.m; sourceTree = "<group>"; };
 		15B8E4BB1A36F66B004DAD1E /* MessageCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCenterViewController.h; sourceTree = "<group>"; };
@@ -479,7 +479,6 @@
 				158D990A19C7CAFC0068AFC5 /* libsqlite3.dylib in Frameworks */,
 				158D990819C7CAE30068AFC5 /* libxml2.dylib in Frameworks */,
 				158D990619C7CAD10068AFC5 /* libstdc++.dylib in Frameworks */,
-				150955961A1C6B9500822B82 /* libPushSDK.a in Frameworks */,
 				158D990419C7CABA0068AFC5 /* libz.1.2.5.dylib in Frameworks */,
 				158D990219C7CAB20068AFC5 /* libicucore.dylib in Frameworks */,
 				158D990019C7CAA00068AFC5 /* AVFoundation.framework in Frameworks */,
@@ -489,6 +488,7 @@
 				158D98EC19C7C9660068AFC5 /* TencentOpenAPI.framework in Frameworks */,
 				158D98E519C7C9660068AFC5 /* WeChatConnection.framework in Frameworks */,
 				158D98F619C7C9660068AFC5 /* ShareSDKShareActionSheet.framework in Frameworks */,
+				15B6F9F21A47C5CA006B4F8D /* libPushSDK.a in Frameworks */,
 				158D98EE19C7C9660068AFC5 /* libSinaWeiboSDK.a in Frameworks */,
 				158D98E319C7C9660068AFC5 /* SMSConnection.framework in Frameworks */,
 				158D98F019C7C9660068AFC5 /* libTCWeiboSDK.a in Frameworks */,
@@ -525,8 +525,8 @@
 		150955901A1C6AC800822B82 /* jpush */ = {
 			isa = PBXGroup;
 			children = (
-				150955941A1C6B9400822B82 /* APService.h */,
-				150955951A1C6B9400822B82 /* libPushSDK.a */,
+				15B6F9F01A47C5CA006B4F8D /* APService.h */,
+				15B6F9F11A47C5CA006B4F8D /* libPushSDK.a */,
 			);
 			name = jpush;
 			sourceTree = "<group>";
@@ -752,7 +752,7 @@
 		158D987819C6F39C0068AFC5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				158D987719C6F39C0068AFC5 /* 微云智控.app */,
+				158D987719C6F39C0068AFC5 /* winmin.app */,
 				158D989B19C6F39D0068AFC5 /* winmin 3.0Tests.xctest */,
 			);
 			name = Products;
@@ -1141,7 +1141,7 @@
 			);
 			name = "winmin 3.0";
 			productName = "winmin 3.0";
-			productReference = 158D987719C6F39C0068AFC5 /* 微云智控.app */;
+			productReference = 158D987719C6F39C0068AFC5 /* winmin.app */;
 			productType = "com.apple.product-type.application";
 		};
 		158D989A19C6F39D0068AFC5 /* winmin 3.0Tests */ = {
@@ -1603,7 +1603,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/jpush",
 				);
-				PRODUCT_NAME = "微云智控";
+				PRODUCT_NAME = winmin;
 				PROVISIONING_PROFILE = "8eb32d76-f343-4e6e-8bac-3d83c1441858";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
