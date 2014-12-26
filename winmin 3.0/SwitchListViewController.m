@@ -212,7 +212,6 @@
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
   [self viewDisappearOrEnterBackground];
   [[NSNotificationCenter defaultCenter]
       removeObserver:self
@@ -225,6 +224,7 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self
                                                   name:kNetChangedNotification
                                                 object:nil];
+  [super viewDidDisappear:animated];
 }
 
 - (void)viewDisappearOrEnterBackground {

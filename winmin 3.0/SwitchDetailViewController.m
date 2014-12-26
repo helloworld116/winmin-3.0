@@ -662,4 +662,18 @@ preparation before navigation
   // add here the code you may need
 }
 
+#pragma mark -
+
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+  if (motion == UIEventSubtypeMotionShake) {
+    [self.model openOrCloseWithGroupId:1];
+  }
+}
+
+- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+}
+
 @end

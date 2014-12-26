@@ -11,9 +11,7 @@
 //#import "CC3xTimerTask.h"
 #import "CRC.h"
 #import "HistoryElec.h"
-#include <sys/sysctl.h>
-#include <net/if.h>
-#include <net/if_dl.h>
+#import "UIDeviceHardware.h"
 
 #define B2D(bytes) ([NSData dataWithBytes:&bytes length:sizeof(bytes)]);
 
@@ -1170,26 +1168,12 @@ typedef struct {
   msg.header.msgId = 0x59;
   msg.header.msgDir = 0xA5;
   msg.header.msgLength = htons(sizeof(msg));
-  NSString *mac = [CC3xMessageUtil macaddress];
-  Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
-  memcpy(&msg.mac, macBytes, sizeof(msg.mac));
-  free(macBytes);
-  //  const char *name = [[[UIDevice currentDevice] name] UTF8String];
-  //  const char *systemName =
-  //      [[[UIDevice currentDevice] systemVersion] UTF8String];
-  //  if (sizeof(name) > 20) {
-  //    memcpy(msg.phoneType, name, 20);
-  //  } else {
-  //    strcpy(msg.phoneType, name);
-  //  }
-  //  if (sizeof(systemName) > 20) {
-  //    memcpy(msg.systemName, systemName, 20);
-  //  } else {
-  //    strcpy(msg.systemName, systemName);
-  //  }
-  //  strcpy(msg.appVersion, "2.0");
-  NSData *deviceData =
-      [[[UIDevice currentDevice] name] dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *uuid = [UIDevice currentDevice].identifierForVendor.UUIDString;
+  uuid = [uuid substringWithRange:NSMakeRange(uuid.length - 12, 12)];
+  NSData *uuidData = [self dataFromHexString:uuid];
+  memcpy(&msg.mac, [uuidData bytes], [uuid length]);
+  NSData *deviceData = [[UIDeviceHardware platformString]
+      dataUsingEncoding:NSUTF8StringEncoding];
   memcpy(&msg.phoneType, [deviceData bytes], [deviceData length]);
   NSData *systemData = [[[UIDevice currentDevice] systemVersion]
       dataUsingEncoding:NSUTF8StringEncoding];
@@ -1199,6 +1183,8 @@ typedef struct {
       dataUsingEncoding:NSUTF8StringEncoding];
   memcpy(&msg.appVersion, [appVersionData bytes], [appVersionData length]);
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
+  NSData *pdata = B2D(msg);
+  NSLog(@"data is %@", pdata);
   return B2D(msg);
 }
 
@@ -1870,126 +1856,6 @@ typedef struct {
 }
 
 #pragma mark - util method 数据转换方法
-+ (NSString *)getDeviceMacAddress {
-  int mgmtInfoBase[6];
-  char *msgBuffer = NULL;
-  size_t length;
-  unsigned char macAddress[6];
-  struct if_msghdr *interfaceMsgStruct;
-  struct sockaddr_dl *socketStruct;
-  NSString *errorFlag = NULL;
-
-  // Setup the management Information Base (mib)
-  mgmtInfoBase[0] = CTL_NET;  // Request network subsystem
-  mgmtInfoBase[1] = AF_ROUTE; // Routing table info
-  mgmtInfoBase[2] = 0;
-  mgmtInfoBase[3] = AF_LINK;       // Request link layer information
-  mgmtInfoBase[4] = NET_RT_IFLIST; // Request all configured interfaces
-
-  // With all configured interfaces requested, get handle index
-  if ((mgmtInfoBase[5] = if_nametoindex("en0")) == 0)
-    errorFlag = @"if_nametoindex failure";
-  else {
-    // Get the size of the data available (store in len)
-    if (sysctl(mgmtInfoBase, 6, NULL, &length, NULL, 0) < 0)
-      errorFlag = @"sysctl mgmtInfoBase failure";
-    else {
-      // Alloc memory based on above call
-      if ((msgBuffer = malloc(length)) == NULL)
-        errorFlag = @"buffer allocation failure";
-      else {
-        // Get system information, store in buffer
-        if (sysctl(mgmtInfoBase, 6, msgBuffer, &length, NULL, 0) < 0)
-          errorFlag = @"sysctl msgBuffer failure";
-      }
-    }
-  }
-
-  // Befor going any further...
-  if (errorFlag != NULL) {
-    NSLog(@"Error: %@", errorFlag);
-    return errorFlag;
-  }
-
-  // Map msgbuffer to interface message structure
-  interfaceMsgStruct = (struct if_msghdr *)msgBuffer;
-
-  // Map to link-level socket structure
-  socketStruct = (struct sockaddr_dl *)(interfaceMsgStruct + 1);
-
-  // Copy link layer address data in socket structure to an array
-  memcpy(&macAddress, socketStruct->sdl_data + socketStruct->sdl_nlen, 6);
-
-  // Read from char array into a string object, into traditional Mac address
-  // format
-  NSString *macAddressString =
-      [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
-                                 macAddress[0], macAddress[1], macAddress[2],
-                                 macAddress[3], macAddress[4], macAddress[5]];
-  DDLogDebug(@"Mac Address: %@", macAddressString);
-
-  // Release the buffer memory
-  free(msgBuffer);
-
-  return macAddressString;
-}
-
-// Return the local MAC addy
-// Courtesy of FreeBSD hackers email list
-// Accidentally munged during previous update. Fixed thanks to mlamb.
-+ (NSString *)macaddress {
-
-  int mib[6];
-  size_t len;
-  char *buf;
-  unsigned char *ptr;
-  struct if_msghdr *ifm;
-  struct sockaddr_dl *sdl;
-
-  mib[0] = CTL_NET;
-  mib[1] = AF_ROUTE;
-  mib[2] = 0;
-  mib[3] = AF_LINK;
-  mib[4] = NET_RT_IFLIST;
-
-  if ((mib[5] = if_nametoindex("en0")) == 0) {
-    printf("Error: if_nametoindex error/n");
-    return NULL;
-  }
-
-  if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0) {
-    printf("Error: sysctl, take 1/n");
-    return NULL;
-  }
-
-  if ((buf = malloc(len)) == NULL) {
-    printf("Could not allocate memory. error!/n");
-    return NULL;
-  }
-
-  if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
-    printf("Error: sysctl, take 2");
-    return NULL;
-  }
-
-  ifm = (struct if_msghdr *)buf;
-  sdl = (struct sockaddr_dl *)(ifm + 1);
-  ptr = (unsigned char *)LLADDR(sdl);
-  NSString *outstring = [NSString
-      stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", *ptr, *(ptr + 1),
-                       *(ptr + 2), *(ptr + 3), *(ptr + 4), *(ptr + 5)];
-
-  //    NSString *outstring = [NSString
-  //    stringWithFormat:@"%02x%02x%02x%02x%02x%02x", *ptr, *(ptr+1), *(ptr+2),
-  //    *(ptr+3), *(ptr+4), *(ptr+5)];
-
-  NSLog(@"outString:%@", outstring);
-
-  free(buf);
-
-  return [outstring uppercaseString];
-}
-
 + (NSData *)string2Data:(NSString *)aString {
   return [aString dataUsingEncoding:NSUTF8StringEncoding];
 }
@@ -2041,39 +1907,22 @@ typedef struct {
   return [CC3xMessageUtil hexString2Ip:str];
 }
 
-+ (NSData *)hexString2Data:(NSString *)hexString {
-  int j = 0;
-  Byte bytes[128];
-  for (int i = 0; i < [hexString length]; i++) {
-    int int_ch;
++ (NSData *)dataFromHexString:(NSString *)hexString {
+  NSString *cleanString = hexString;
+  NSMutableData *result = [[NSMutableData alloc] init];
 
-    unichar hex_char1 = [hexString characterAtIndex:i];
-    int int_ch1;
-    if (hex_char1 >= '0' && hex_char1 <= '9')
-      int_ch1 = (hex_char1 - '0') * 16;
-    else if (hex_char1 >= 'A' && hex_char1 <= 'F')
-      int_ch1 = (hex_char1 - 'A') * 16;
-    else
-      int_ch1 = (hex_char1 - 'a') * 16;
-    i++;
-
-    unichar hex_char2 = [hexString characterAtIndex:i];
-    int int_ch2;
-    if (hex_char2 >= '0' && hex_char2 <= '9')
-      int_ch2 = (hex_char2 - 48);
-    else if (hex_char1 >= 'A' && hex_char1 <= 'F')
-      int_ch2 = hex_char2 - 'A';
-    else
-      int_ch2 = hex_char2 - 'a';
-
-    int_ch = int_ch1 + int_ch2;
-    DDLogDebug(@"int_ch=%d", int_ch);
-    bytes[j] = int_ch;
-    j++;
+  int i = 0;
+  for (i = 0; i + 2 <= cleanString.length; i += 2) {
+    NSRange range = NSMakeRange(i, 2);
+    NSString *hexStr = [cleanString substringWithRange:range];
+    NSScanner *scanner = [NSScanner scannerWithString:hexStr];
+    unsigned int intValue;
+    [scanner scanHexInt:&intValue];
+    unsigned char uc = (unsigned char)intValue;
+    [result appendBytes:&uc length:1];
   }
-  NSData *newData = [[NSData alloc] initWithBytes:bytes length:128];
-  DDLogDebug(@"newData=%@", newData);
-  return newData;
+  NSData *data = [NSData dataWithData:result];
+  return data;
 }
 
 + (NSString *)hexString:(NSData *)data {

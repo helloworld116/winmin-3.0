@@ -179,7 +179,7 @@ static const int kWidth = 50.f;
     }
   }
   self.viewShowing.hidden = NO;
-  if (self.delegate &&
+  if (shouldGetData && self.delegate &&
       [self.delegate
           respondsToSelector:@selector(selectedDatetype:needGetData:)]) {
     [self.delegate selectedDatetype:dateType needGetData:shouldGetData];
@@ -243,6 +243,7 @@ static const int kWidth = 50.f;
   int dataCount = [self.currentData.times count];
   self.scrollView.frame = CGRectMake(0, 0, self.containerView.frame.size.width,
                                      self.containerView.frame.size.height);
+  DDLogDebug(@"%s", __func__);
   CGFloat width = kWidth;
   //  switch (dateType) {
   //    case OneDay:
@@ -272,7 +273,6 @@ static const int kWidth = 50.f;
   graphFrame.size =
       CGSizeMake(dataCount * width, self.containerView.frame.size.height);
   self.myGraph.frame = graphFrame;
-  [self.myGraph reloadGraph];
   CGFloat xOffset = 0;
   if (self.scrollView.contentSize.width > self.scrollView.bounds.size.width) {
     xOffset =
@@ -280,6 +280,7 @@ static const int kWidth = 50.f;
   }
   [self.scrollView setContentOffset:CGPointMake(xOffset, 0) animated:NO];
   self.scrollView.hidden = NO;
+  [self.myGraph reloadGraph];
 }
 
 - (void)showRealTimeData:(NSMutableArray *)powers {
