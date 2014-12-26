@@ -30,6 +30,11 @@
   if (self) {
     self.request = [UdpRequest manager];
     self.request.delegate = self;
+    self.request2 = [UdpRequest manager];
+    self.request2.delegate = self;
+    dispatch_after(
+        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)),
+        dispatch_get_main_queue(), ^{ [self uploadDeviceAndAppInfo]; });
   }
   return self;
 }
@@ -53,6 +58,10 @@
       [[NSRunLoop mainRunLoop] addTimer:self.timer
                                 forMode:NSRunLoopCommonModes];
   });
+}
+
+- (void)uploadDeviceAndAppInfo {
+  [self.request2 sendMsg59WithSendMode:ActiveMode];
 }
 
 - (void)stopScanState {
@@ -224,6 +233,9 @@
     case 0x3a:
     case 0x3c:
       [self responseMsg3AOr3C:message];
+      break;
+    case 0x5a:
+      DDLogDebug(@"设备信息已上传");
       break;
     default:
       break;

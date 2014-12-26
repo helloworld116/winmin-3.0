@@ -10,14 +10,13 @@
 @protocol SceneSwitchListDelegate;
 
 @interface SceneSwitchListController : UIViewController
-@property (nonatomic, weak) IBOutlet UILabel *lblTitle;
-@property (nonatomic, weak) IBOutlet UIButton *btn;
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UILabel *lblTitle;
+@property (nonatomic, strong) IBOutlet UIButton *btn;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, assign) id<SceneSwitchListDelegate> delegate;
 @end
 
 @protocol SceneSwitchListDelegate<NSObject>
 @optional
-- (void)touchScene:(SceneSwitchListController *)sceneSwitchListController
-           aSwitch:(SDZGSwitch *)aSwitch;
+- (void)touchSceneCallbackSwitch:(SDZGSwitch *)aSwitch;
 @end

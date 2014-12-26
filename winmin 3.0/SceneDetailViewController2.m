@@ -40,6 +40,8 @@ typedef NS_OPTIONS(NSUInteger, SceneSwitchListOperation){
 @property (assign, nonatomic) float selectedInterval;
 @property (strong, nonatomic) UIButton *currentEditIntervalBtn;
 @property (strong, nonatomic) UIBarButtonItem *rightButtonItem;
+@property (strong, nonatomic)
+    SceneSwitchListController *sceneSwitchListController;
 - (IBAction)showSwitchList:(id)sender;
 @end
 
@@ -131,11 +133,13 @@ preparation before navigation
 }
 
 - (void)showSwitchListController {
-  SceneSwitchListController *viewController = [[SceneSwitchListController alloc]
-      initWithNibName:@"SceneSwitchListController"
-               bundle:nil];
-  viewController.delegate = self;
-  [self presentPopupViewController:viewController
+  if (!self.sceneSwitchListController) {
+    self.sceneSwitchListController = [[SceneSwitchListController alloc]
+        initWithNibName:@"SceneSwitchListController"
+                 bundle:nil];
+    self.sceneSwitchListController.delegate = self;
+  }
+  [self presentPopupViewController:self.sceneSwitchListController
                      animationType:MJPopupViewAnimationFade
                backgroundClickable:YES];
 }
@@ -215,9 +219,8 @@ preparation before navigation
 }
 
 #pragma mark - SceneSwitchListDelegate
-- (void)touchScene:(SceneSwitchListController *)sceneSwitchListController
-           aSwitch:(SDZGSwitch *)aSwitch {
-  [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+- (void)touchSceneCallbackSwitch:(SDZGSwitch *)aSwitch {
+  DDLogDebug(@"%s", __FUNCTION__);
   if (aSwitch) {
     //
     self.aSwitch = aSwitch;
@@ -234,6 +237,7 @@ preparation before navigation
     [sheet showInView:self.view];
   } else {
   }
+  [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -290,6 +294,15 @@ preparation before navigation
       self.viewSceneInfo.hidden = NO;
       self.navigationItem.rightBarButtonItem = self.rightButtonItem;
       [self.tableView reloadData];
+      //      [self.tableView setContentOffset:CGPointMake(0, CGFLOAT_MAX)
+      //                              animated:YES];
+      CGFloat yOffset = 0;
+      if (self.tableView.contentSize.height >
+          self.tableView.bounds.size.height) {
+        yOffset = self.tableView.contentSize.height -
+                  self.tableView.bounds.size.height;
+      }
+      [self.tableView setContentOffset:CGPointMake(0, yOffset) animated:NO];
     }
   } else if (actionSheet.tag == 98982) {
     switch (buttonIndex) {

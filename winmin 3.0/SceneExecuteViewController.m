@@ -153,6 +153,36 @@
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   [self.model executeSceneDetails:self.sceneDetails];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(applicationWillEnterForegroundNotification:)
+             name:UIApplicationWillEnterForegroundNotification
+           object:nil];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(applicationDidEnterBackgroundNotification:)
+             name:UIApplicationDidEnterBackgroundNotification
+           object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIApplicationWillEnterForegroundNotification
+              object:nil];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self
+                name:UIApplicationDidEnterBackgroundNotification
+              object:nil];
+}
+
+- (void)applicationWillEnterForegroundNotification:(NSNotification *)notif {
+  [self.model resumeTask];
+}
+
+- (void)applicationDidEnterBackgroundNotification:(NSNotification *)notif {
+  [self.model suspendTask];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -30,6 +30,7 @@
 		150FC6E519FA419B005134B7 /* protocol.htm in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6E419FA419B005134B7 /* protocol.htm */; };
 		151B4AAA1A0226DF00C77467 /* winmin 3.0-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 151B4AA91A0226DF00C77467 /* winmin 3.0-Info.plist */; };
 		151E7BC51A1AD5AD002BE94F /* UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 151E7BC41A1AD5AD002BE94F /* UserSettingViewController.m */; };
+		152622051A4BFDC100A1E34A /* FIR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 152622041A4BFDC000A1E34A /* FIR.framework */; };
 		15391C401A37DCBB00287C4F /* LoadmoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15391C3F1A37DCBB00287C4F /* LoadmoreCell.m */; };
 		15391C431A38378000287C4F /* FeedbackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15391C421A38378000287C4F /* FeedbackModel.m */; };
 		15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 15476D4B19E68B6B00EC6BD1 /* NetUtil.m */; };
@@ -217,6 +218,7 @@
 		151B4AAB1A0226FC00C77467 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		151E7BC31A1AD5AD002BE94F /* UserSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettingViewController.h; sourceTree = "<group>"; };
 		151E7BC41A1AD5AD002BE94F /* UserSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSettingViewController.m; sourceTree = "<group>"; };
+		152622041A4BFDC000A1E34A /* FIR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FIR.framework; sourceTree = "<group>"; };
 		15391C3E1A37DCBB00287C4F /* LoadmoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadmoreCell.h; sourceTree = "<group>"; };
 		15391C3F1A37DCBB00287C4F /* LoadmoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadmoreCell.m; sourceTree = "<group>"; };
 		15391C411A38378000287C4F /* FeedbackModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackModel.h; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 				158D990419C7CABA0068AFC5 /* libz.1.2.5.dylib in Frameworks */,
 				158D990219C7CAB20068AFC5 /* libicucore.dylib in Frameworks */,
 				158D990019C7CAA00068AFC5 /* AVFoundation.framework in Frameworks */,
+				152622051A4BFDC100A1E34A /* FIR.framework in Frameworks */,
 				158D98FE19C7CA980068AFC5 /* CoreTelephony.framework in Frameworks */,
 				158D98E019C7C9660068AFC5 /* QQConnection.framework in Frameworks */,
 				158D98F519C7C9660068AFC5 /* ShareSDKFlatShareViewUI.framework in Frameworks */,
@@ -761,6 +764,7 @@
 		158D987919C6F39C0068AFC5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				152622041A4BFDC000A1E34A /* FIR.framework */,
 				1509559F1A1C6C5D00822B82 /* libz.dylib */,
 				1509559D1A1C6C5100822B82 /* Security.framework */,
 				1509559B1A1C6C3900822B82 /* SystemConfiguration.framework */,
@@ -1589,6 +1593,7 @@
 					"$(PROJECT_DIR)/ShareSDK/Extend/QQConnectSDK",
 					"$(PROJECT_DIR)/ShareSDK",
 					"$(PROJECT_DIR)/ShareSDK/UI",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "winmin 3.0/winmin 3.0-Prefix.pch";
@@ -1626,6 +1631,7 @@
 					"$(PROJECT_DIR)/ShareSDK/Extend/QQConnectSDK",
 					"$(PROJECT_DIR)/ShareSDK",
 					"$(PROJECT_DIR)/ShareSDK/UI",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "winmin 3.0/winmin 3.0-Prefix.pch";

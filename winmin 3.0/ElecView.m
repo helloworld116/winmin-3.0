@@ -273,6 +273,12 @@ static const int kWidth = 50.f;
       CGSizeMake(dataCount * width, self.containerView.frame.size.height);
   self.myGraph.frame = graphFrame;
   [self.myGraph reloadGraph];
+  CGFloat xOffset = 0;
+  if (self.scrollView.contentSize.width > self.scrollView.bounds.size.width) {
+    xOffset =
+        self.scrollView.contentSize.width - self.scrollView.bounds.size.width;
+  }
+  [self.scrollView setContentOffset:CGPointMake(xOffset, 0) animated:NO];
   self.scrollView.hidden = NO;
 }
 

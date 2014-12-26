@@ -218,8 +218,7 @@ static unsigned char password[6];
 #pragma mark - CC3000
 //网络连接完好，进行udp传输
 - (void)startTransmitting {
-#if defined(TARGET_IPHONE_SIMULATOR) && TARGET_IPHONE_SIMULATOR
-#else
+#if !TARGET_IPHONE_SIMULATOR
   @try {
     self.config = nil;
     if ([self.password length]) {

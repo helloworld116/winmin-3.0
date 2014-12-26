@@ -30,6 +30,8 @@
     BOOL isFirstLoad; //标识是否第一次加载，第一次时不修改最后更新时间
 @property (nonatomic, strong) MBProgressHUD *HUD;
 @property (nonatomic, assign) BOOL hasBlinkMenu;
+//选中设备修改名称或图标延时刷新问题
+@property (nonatomic, strong) NSIndexPath *lastSelectedIndexPath;
 @end
 
 @implementation SwitchListViewController
@@ -243,6 +245,13 @@
     //      self.delayInterval = 3.1f;
     //      self.isFirstLoad = NO;
     //    }
+    if (self.lastSelectedIndexPath) {
+      NSArray *indexPaths = @[ self.lastSelectedIndexPath ];
+      [self.tableView reloadRowsAtIndexPaths:indexPaths
+                            withRowAnimation:UITableViewRowAnimationAutomatic];
+      self.lastSelectedIndexPath = nil;
+    }
+
     self.delayInterval = REFRESH_DEV_TIME;
     [self.model startScanState];
     // model层修改数据，指定时间后，页面统一修改
@@ -473,6 +482,7 @@
         [alertView show];
         [self resumeUpdateList];
       } else {
+        self.lastSelectedIndexPath = indexPath;
         aSwitch.networkStatus = status;
         SwitchDetailViewController *detailViewController =
             [self.storyboard instantiateViewControllerWithIdentifier:

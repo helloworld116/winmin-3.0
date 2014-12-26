@@ -12,4 +12,8 @@
 - (void)executeSceneDetails:(NSArray *)sceneDetails;
 
 - (void)cancelExecute;
+
+- (void)resumeTask;
+
+- (void)suspendTask;
 @end

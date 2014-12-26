@@ -15,6 +15,7 @@
 #import "APService.h"
 #import "APServiceUtil.h"
 #import <CRToast.h>
+#import <FIR/FIR.h>
 
 @interface AppDelegate ()
 @property (nonatomic, strong) NetUtil* netUtil;
@@ -37,6 +38,7 @@
   [self registPlatform];
   [self registJPush:launchOptions];
   [self setStyle];
+  [self registCrashLog];
   return YES;
 }
 
@@ -249,6 +251,10 @@
   //  [ShareSDK connectCopy];
 }
 
+- (void)registCrashLog {
+  [FIR handleCrashWithKey:@"b10fea02d906508a2702b2c68cc350f5"];
+}
+
 - (void)registJPush:(NSDictionary*)launchOptions {
 // Required
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
@@ -288,10 +294,11 @@
   //  NSString* content = [userInfo valueForKey:@"content"];
   //  NSString* extras = [userInfo valueForKey:@"extras"];
   //  NSString* customizeField1 =
-  //      [extras valueForKey:@"customizeField1"]; //自定义参数，key是自己定义的
+  //      [extras valueForKey:@"customizeField1"];
+  //      //自定义参数，key是自己定义的
 }
 
-/**  *得到本机现在用的语言  * en:英文  zh-Hans:简体中文   zh-Hant:繁体中文
+/**  *得到本机现在用的语言  * en:英文  zh-Hans:简体中文 zh-Hant:繁体中文
  * ja:日本  ......  */
 - (NSString*)getPreferredLanguage {
   NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];

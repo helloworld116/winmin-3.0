@@ -137,8 +137,7 @@
 }
 
 - (void)viewAppearOrEnterForeground {
-#if defined(TARGET_IPHONE_SIMULATOR) && TARGET_IPHONE_SIMULATOR
-#else
+#if !TARGET_IPHONE_SIMULATOR
   self.ssid = [FirstTimeConfig getSSID];
   self.textWIFI.text = self.ssid;
 #endif

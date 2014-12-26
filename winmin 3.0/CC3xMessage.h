@@ -108,7 +108,7 @@ enum {
                password:(NSString *)password;
 + (NSData *)getP2dMsg53:(int)socketGroupId;
 + (NSData *)getP2SMsg55:(NSString *)mac socketGroupId:(int)socketGroupId;
-+ (NSData *)getP2SMsg59:(NSString *)mac;
++ (NSData *)getP2SMsg59;
 + (NSData *)getP2DMsg5D;
 + (NSData *)getP2SMsg5F:(NSString *)mac;
 + (NSData *)getP2SMsg63:(NSString *)mac

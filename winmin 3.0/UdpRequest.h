@@ -216,6 +216,13 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
              sendMode:(SENDMODE)mode;
 
 /**
+ *  手机上报设备、应用信息
+ *
+ *  @param mode
+ */
+- (void)sendMsg59WithSendMode:(SENDMODE)mode;
+
+/**
  *  查询设备名字
  *
  *  @param udpSocket

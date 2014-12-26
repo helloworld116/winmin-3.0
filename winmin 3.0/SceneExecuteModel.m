@@ -40,6 +40,8 @@ static dispatch_queue_t scene_recive_serial_queue() {
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) NSTimer *timerExe;
 @property (nonatomic, assign) double leftSeconds; //当前执行任务的剩余时间
+@property (nonatomic, strong) SceneDetail *sceneDetail; //当前执行任务
+@property (nonatomic, assign) BOOL isFirstExc;
 @end
 
 @implementation SceneExecuteModel
@@ -84,8 +86,18 @@ static dispatch_queue_t scene_recive_serial_queue() {
 - (void)executeFirstOperationInSceneDetails:(NSMutableArray *)sceneDetails
                                  isFirstExc:(BOOL)isFirstExc {
   SceneDetail *sceneDetail = [sceneDetails firstObject];
+  self.sceneDetail = sceneDetail;
+  self.isFirstExc = isFirstExc;
   double interval = sceneDetail.interval;
   self.leftSeconds = interval;
+  if (self.timer) {
+    [self.timer invalidate];
+    self.timer = nil;
+  }
+  if (self.timerExe) {
+    [self.timerExe invalidate];
+    self.timerExe = nil;
+  }
   self.timer = [NSTimer timerWithTimeInterval:1
                                        target:self
                                      selector:@selector(timerAction:)
@@ -105,6 +117,46 @@ static dispatch_queue_t scene_recive_serial_queue() {
 
   [self.timerExe setFireDate:[NSDate dateWithTimeIntervalSinceNow:interval]];
   [[NSRunLoop mainRunLoop] addTimer:self.timerExe forMode:NSRunLoopCommonModes];
+}
+
+- (void)resumeTask {
+  if (self.leftSeconds >= 0) {
+    self.timer = [NSTimer timerWithTimeInterval:1
+                                         target:self
+                                       selector:@selector(timerAction:)
+                                       userInfo:@(self.sendMsgCount)
+                                        repeats:YES];
+    [self.timer fire];
+    if (self.timer) {
+      [[NSRunLoop mainRunLoop] addTimer:self.timer
+                                forMode:NSRunLoopCommonModes];
+    }
+
+    self.timerExe = [NSTimer timerWithTimeInterval:NSIntegerMax
+                                            target:self
+                                          selector:@selector(sendRequest:)
+                                          userInfo:@{
+                                            @"sceneDetail" : self.sceneDetail,
+                                            @"isFirstExc" : @(self.isFirstExc)
+                                          }
+                                           repeats:NO];
+
+    [self.timerExe
+        setFireDate:[NSDate dateWithTimeIntervalSinceNow:self.leftSeconds]];
+    [[NSRunLoop mainRunLoop] addTimer:self.timerExe
+                              forMode:NSRunLoopCommonModes];
+  }
+}
+
+- (void)suspendTask {
+  if (self.timer) {
+    [self.timer invalidate];
+    self.timer = nil;
+  }
+  if (self.timerExe) {
+    [self.timerExe invalidate];
+    self.timerExe = nil;
+  }
 }
 
 - (void)sendRequest:(NSTimer *)timer {
@@ -156,10 +208,12 @@ static dispatch_queue_t scene_recive_serial_queue() {
     @"row" : @(row),
     @"leftSeconds" : @(self.leftSeconds)
   };
-  [[NSNotificationCenter defaultCenter]
-      postNotificationName:kSceneExecuteLeftTimeNotification
-                    object:self
-                  userInfo:userInfo];
+  if (self.leftSeconds > 0) {
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:kSceneExecuteLeftTimeNotification
+                      object:self
+                    userInfo:userInfo];
+  }
   self.leftSeconds -= 1.f;
   if (self.leftSeconds < 0) {
     [self.timer invalidate];

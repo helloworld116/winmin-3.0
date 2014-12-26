@@ -38,10 +38,12 @@
 @implementation SceneSwitchListController
 
 - (void)setup {
-  self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
+  self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
   [self.btn addTarget:self
-                action:@selector(cancel:)
+                action:@selector(cancelSelectSwitch:)
       forControlEvents:UIControlEventTouchUpInside];
+  self.tableView.delegate = self;
+  self.tableView.dataSource = self;
 }
 
 - (void)viewDidLoad {
@@ -96,15 +98,16 @@ preparation before navigation
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   SDZGSwitch *aSwitch = self.switchs[indexPath.row];
-  if ([self.delegate respondsToSelector:@selector(touchScene:aSwitch:)]) {
-    [self.delegate touchScene:self aSwitch:aSwitch];
+  if ([self.delegate respondsToSelector:@selector(touchSceneCallbackSwitch:)]) {
+    [self.delegate touchSceneCallbackSwitch:aSwitch];
   }
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
-- (void)cancel:(id)sender {
-  if ([self.delegate respondsToSelector:@selector(touchScene:aSwitch:)]) {
-    [self.delegate touchScene:self aSwitch:nil];
+- (void)cancelSelectSwitch:(id)sender {
+  if ([self.delegate respondsToSelector:@selector(touchSceneCallbackSwitch:)]) {
+    [self.delegate touchSceneCallbackSwitch:nil];
   }
 }
 @end

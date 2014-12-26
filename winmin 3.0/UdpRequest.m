@@ -678,16 +678,14 @@ static dispatch_queue_t delegateQueue;
   [self sendDataToHost];
 }
 
-- (void)sendMsg59:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
+- (void)sendMsg59WithSendMode:(SENDMODE)mode {
   dispatch_sync(GLOBAL_QUEUE, ^{
       if (mode == ActiveMode) {
         self.msgSendCount = 0;
       } else if (mode == PassiveMode) {
         self.msgSendCount++;
       }
-      self.msg =
-          [NSData dataWithData:[CC3xMessageUtil getP2SMsg59:aSwitch.mac]];
-      self.aSwitch = aSwitch;
+      self.msg = [NSData dataWithData:[CC3xMessageUtil getP2SMsg59]];
       self.host = SERVER_IP;
       self.port = SERVER_PORT;
       self.tag = P2S_PHONE_INIT_REQ_59;
@@ -1586,7 +1584,7 @@ static dispatch_queue_t delegateQueue;
             if (!self.isReciviedResponseData) {
               if (self.msgSendCount < kTryCount) {
                 DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
-                [self sendMsg59:self.aSwitch sendMode:PassiveMode];
+                [self sendMsg59WithSendMode:PassiveMode];
               } else {
                 [self noResponseTag:tag socketGroupId:self.socketGroupId];
               }

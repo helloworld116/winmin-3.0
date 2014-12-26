@@ -11,6 +11,9 @@
 //#import "CC3xTimerTask.h"
 #import "CRC.h"
 #import "HistoryElec.h"
+#include <sys/sysctl.h>
+#include <net/if.h>
+#include <net/if_dl.h>
 
 #define B2D(bytes) ([NSData dataWithBytes:&bytes length:sizeof(bytes)]);
 
@@ -1161,29 +1164,40 @@ typedef struct {
 }
 
 // P2S_PHONE_INIT_REQ 0x59
-+ (NSData *)getP2SMsg59:(NSString *)mac {
++ (NSData *)getP2SMsg59 {
   p2sMsg59 msg;
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x59;
   msg.header.msgDir = 0xA5;
   msg.header.msgLength = htons(sizeof(msg));
+  NSString *mac = [CC3xMessageUtil macaddress];
   Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
   memcpy(&msg.mac, macBytes, sizeof(msg.mac));
   free(macBytes);
-  const char *name = [[[UIDevice currentDevice] name] UTF8String];
-  const char *systemName =
-      [[[UIDevice currentDevice] systemVersion] UTF8String];
-  if (sizeof(name) > 20) {
-    memcpy(msg.phoneType, name, 20);
-  } else {
-    strcpy(msg.phoneType, name);
-  }
-  if (sizeof(systemName) > 20) {
-    memcpy(msg.systemName, systemName, 20);
-  } else {
-    strcpy(msg.systemName, systemName);
-  }
-  strcpy(msg.appVersion, "2.0");
+  //  const char *name = [[[UIDevice currentDevice] name] UTF8String];
+  //  const char *systemName =
+  //      [[[UIDevice currentDevice] systemVersion] UTF8String];
+  //  if (sizeof(name) > 20) {
+  //    memcpy(msg.phoneType, name, 20);
+  //  } else {
+  //    strcpy(msg.phoneType, name);
+  //  }
+  //  if (sizeof(systemName) > 20) {
+  //    memcpy(msg.systemName, systemName, 20);
+  //  } else {
+  //    strcpy(msg.systemName, systemName);
+  //  }
+  //  strcpy(msg.appVersion, "2.0");
+  NSData *deviceData =
+      [[[UIDevice currentDevice] name] dataUsingEncoding:NSUTF8StringEncoding];
+  memcpy(&msg.phoneType, [deviceData bytes], [deviceData length]);
+  NSData *systemData = [[[UIDevice currentDevice] systemVersion]
+      dataUsingEncoding:NSUTF8StringEncoding];
+  memcpy(&msg.systemName, [systemData bytes], [systemData length]);
+  NSData *appVersionData = [[[NSBundle mainBundle]
+      objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+      dataUsingEncoding:NSUTF8StringEncoding];
+  memcpy(&msg.appVersion, [appVersionData bytes], [appVersionData length]);
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
 }
@@ -1633,6 +1647,17 @@ typedef struct {
   return message;
 }
 
++ (CC3xMessage *)parseS2P5A:(NSData *)aData {
+  CC3xMessage *message = nil;
+  s2pMsg5A msg;
+  [aData getBytes:&msg length:sizeof(msg)];
+  message = [[CC3xMessage alloc] init];
+  message.msgId = msg.header.msgId;
+  message.msgDir = msg.header.msgDir;
+  message.msgLength = msg.header.msgLength;
+  return message;
+}
+
 + (CC3xMessage *)parseS2P6A:(NSData *)aData {
   CC3xMessage *message = nil;
   s2pMsg5A *msg;
@@ -1793,6 +1818,9 @@ typedef struct {
     case 0x56:
       result = [CC3xMessageUtil parseD2P54:data];
       break;
+    case 0x5a:
+      result = [CC3xMessageUtil parseS2P5A:data];
+      break;
     case 0x6A:
       result = [CC3xMessageUtil parseS2P6A:data];
       break;
@@ -1842,6 +1870,125 @@ typedef struct {
 }
 
 #pragma mark - util method 数据转换方法
++ (NSString *)getDeviceMacAddress {
+  int mgmtInfoBase[6];
+  char *msgBuffer = NULL;
+  size_t length;
+  unsigned char macAddress[6];
+  struct if_msghdr *interfaceMsgStruct;
+  struct sockaddr_dl *socketStruct;
+  NSString *errorFlag = NULL;
+
+  // Setup the management Information Base (mib)
+  mgmtInfoBase[0] = CTL_NET;  // Request network subsystem
+  mgmtInfoBase[1] = AF_ROUTE; // Routing table info
+  mgmtInfoBase[2] = 0;
+  mgmtInfoBase[3] = AF_LINK;       // Request link layer information
+  mgmtInfoBase[4] = NET_RT_IFLIST; // Request all configured interfaces
+
+  // With all configured interfaces requested, get handle index
+  if ((mgmtInfoBase[5] = if_nametoindex("en0")) == 0)
+    errorFlag = @"if_nametoindex failure";
+  else {
+    // Get the size of the data available (store in len)
+    if (sysctl(mgmtInfoBase, 6, NULL, &length, NULL, 0) < 0)
+      errorFlag = @"sysctl mgmtInfoBase failure";
+    else {
+      // Alloc memory based on above call
+      if ((msgBuffer = malloc(length)) == NULL)
+        errorFlag = @"buffer allocation failure";
+      else {
+        // Get system information, store in buffer
+        if (sysctl(mgmtInfoBase, 6, msgBuffer, &length, NULL, 0) < 0)
+          errorFlag = @"sysctl msgBuffer failure";
+      }
+    }
+  }
+
+  // Befor going any further...
+  if (errorFlag != NULL) {
+    NSLog(@"Error: %@", errorFlag);
+    return errorFlag;
+  }
+
+  // Map msgbuffer to interface message structure
+  interfaceMsgStruct = (struct if_msghdr *)msgBuffer;
+
+  // Map to link-level socket structure
+  socketStruct = (struct sockaddr_dl *)(interfaceMsgStruct + 1);
+
+  // Copy link layer address data in socket structure to an array
+  memcpy(&macAddress, socketStruct->sdl_data + socketStruct->sdl_nlen, 6);
+
+  // Read from char array into a string object, into traditional Mac address
+  // format
+  NSString *macAddressString =
+      [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",
+                                 macAddress[0], macAddress[1], macAddress[2],
+                                 macAddress[3], macAddress[4], macAddress[5]];
+  DDLogDebug(@"Mac Address: %@", macAddressString);
+
+  // Release the buffer memory
+  free(msgBuffer);
+
+  return macAddressString;
+}
+
+// Return the local MAC addy
+// Courtesy of FreeBSD hackers email list
+// Accidentally munged during previous update. Fixed thanks to mlamb.
++ (NSString *)macaddress {
+
+  int mib[6];
+  size_t len;
+  char *buf;
+  unsigned char *ptr;
+  struct if_msghdr *ifm;
+  struct sockaddr_dl *sdl;
+
+  mib[0] = CTL_NET;
+  mib[1] = AF_ROUTE;
+  mib[2] = 0;
+  mib[3] = AF_LINK;
+  mib[4] = NET_RT_IFLIST;
+
+  if ((mib[5] = if_nametoindex("en0")) == 0) {
+    printf("Error: if_nametoindex error/n");
+    return NULL;
+  }
+
+  if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0) {
+    printf("Error: sysctl, take 1/n");
+    return NULL;
+  }
+
+  if ((buf = malloc(len)) == NULL) {
+    printf("Could not allocate memory. error!/n");
+    return NULL;
+  }
+
+  if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
+    printf("Error: sysctl, take 2");
+    return NULL;
+  }
+
+  ifm = (struct if_msghdr *)buf;
+  sdl = (struct sockaddr_dl *)(ifm + 1);
+  ptr = (unsigned char *)LLADDR(sdl);
+  NSString *outstring = [NSString
+      stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", *ptr, *(ptr + 1),
+                       *(ptr + 2), *(ptr + 3), *(ptr + 4), *(ptr + 5)];
+
+  //    NSString *outstring = [NSString
+  //    stringWithFormat:@"%02x%02x%02x%02x%02x%02x", *ptr, *(ptr+1), *(ptr+2),
+  //    *(ptr+3), *(ptr+4), *(ptr+5)];
+
+  NSLog(@"outString:%@", outstring);
+
+  free(buf);
+
+  return [outstring uppercaseString];
+}
 
 + (NSData *)string2Data:(NSString *)aString {
   return [aString dataUsingEncoding:NSUTF8StringEncoding];
