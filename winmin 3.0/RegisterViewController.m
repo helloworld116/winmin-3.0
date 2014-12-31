@@ -32,6 +32,8 @@
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *nickName;
 @property (strong, nonatomic) NSString *password;
+@property (strong, nonatomic) ResponseBlock successResonse;
+@property (strong, nonatomic) ResponseBlock failureResponse;
 @end
 
 @implementation RegisterViewController
@@ -79,6 +81,35 @@
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
   backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
+
+  __weak typeof(self) weakSelf = self;
+  self.successResonse = ^(int status, id responseData) {
+      if (status == 1) {
+        ServerResponse *reponse = (ServerResponse *)responseData;
+        switch (reponse.status) {
+          case 1: {
+            //登陆成功
+            [[NSNotificationCenter defaultCenter]
+                postNotificationName:kLoginSuccess
+                              object:weakSelf
+                            userInfo:nil];
+
+            [weakSelf.navigationController popToRootViewControllerAnimated:NO];
+            break;
+          }
+          default:
+            [weakSelf.view
+                makeToast:reponse.errorMsg
+                 duration:1.f
+                 position:[NSValue
+                              valueWithCGPoint:
+                                  CGPointMake(
+                                      weakSelf.view.frame.size.width / 2,
+                                      weakSelf.view.frame.size.height - 40)]];
+            break;
+        }
+      }
+  };
 }
 
 - (void)viewDidLoad {
@@ -102,10 +133,10 @@
              name:UIKeyboardWillHideNotification
            object:nil];
 
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(registerResponse:)
-                                               name:kRegisterResponse
-                                             object:nil];
+  //  [[NSNotificationCenter defaultCenter] addObserver:self
+  //                                           selector:@selector(registerResponse:)
+  //                                               name:kRegisterResponse
+  //                                             object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -118,9 +149,9 @@
       removeObserver:self
                 name:UIKeyboardWillHideNotification
               object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kRegisterResponse
-                                                object:nil];
+  //  [[NSNotificationCenter defaultCenter] removeObserver:self
+  //                                                  name:kRegisterResponse
+  //                                                object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -160,7 +191,9 @@ preparation before navigation
     UserInfo *userInfo = [[UserInfo alloc] initWithEmail:self.email
                                                 password:self.password
                                                 nickName:self.nickName];
-    [userInfo registerRequest];
+    [userInfo registerRequestWithResponse:^(int status, id response) {
+        self.successResonse(status, response);
+    }];
   }
 }
 
@@ -277,34 +310,35 @@ preparation before navigation
 }
 
 #pragma mark - 注册消息通知
-- (void)registerResponse:(NSNotification *)notification {
-  [MBProgressHUD hideHUDForView:self.view animated:YES];
-  NSDictionary *info = [notification userInfo];
-  int status = [[info objectForKey:@"status"] intValue];
-  if (status == 1) {
-    ServerResponse *reponse = [info objectForKey:@"data"];
-    switch (reponse.status) {
-      case 1: {
-        //登陆成功
-        [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccess
-                                                            object:self
-                                                          userInfo:nil];
-
-        [self.navigationController popToRootViewControllerAnimated:NO];
-        break;
-      }
-      default:
-        [self.view
-            makeToast:reponse.errorMsg
-             duration:1.f
-             position:[NSValue
-                          valueWithCGPoint:
-                              CGPointMake(self.view.frame.size.width / 2,
-                                          self.view.frame.size.height - 40)]];
-        break;
-    }
-  } else if (status == 0) {
-    NSError *error = (NSError *)[info objectForKey:@"data"];
-  }
-}
+//- (void)registerResponse:(NSNotification *)notification {
+//  [MBProgressHUD hideHUDForView:self.view animated:YES];
+//  NSDictionary *info = [notification userInfo];
+//  int status = [[info objectForKey:@"status"] intValue];
+//  if (status == 1) {
+//    ServerResponse *reponse = [info objectForKey:@"data"];
+//    switch (reponse.status) {
+//      case 1: {
+//        //登陆成功
+//        [[NSNotificationCenter defaultCenter]
+//        postNotificationName:kLoginSuccess
+//                                                            object:self
+//                                                          userInfo:nil];
+//
+//        [self.navigationController popToRootViewControllerAnimated:NO];
+//        break;
+//      }
+//      default:
+//        [self.view
+//            makeToast:reponse.errorMsg
+//             duration:1.f
+//             position:[NSValue
+//                          valueWithCGPoint:
+//                              CGPointMake(self.view.frame.size.width / 2,
+//                                          self.view.frame.size.height - 40)]];
+//        break;
+//    }
+//  } else if (status == 0) {
+//    NSError *error = (NSError *)[info objectForKey:@"data"];
+//  }
+//}
 @end

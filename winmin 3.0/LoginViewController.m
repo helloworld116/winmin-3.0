@@ -32,6 +32,8 @@ static int const kQQNotInstalled = -6004;
 @property (strong, nonatomic) UITextField *activeField;
 @property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSString *password;
+@property (strong, nonatomic) ResponseBlock successResonse;
+@property (strong, nonatomic) ResponseBlock failureResponse;
 @end
 @implementation LoginViewController
 - (id)initWithNibName:(NSString *)nibNameOrNil
@@ -81,10 +83,10 @@ static int const kQQNotInstalled = -6004;
   [self setupStyle];
   self.textFieldUsername.delegate = self;
   self.textFieldPassword.delegate = self;
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(loginResponse:)
-                                               name:kLoginResponse
-                                             object:nil];
+  //  [[NSNotificationCenter defaultCenter] addObserver:self
+  //                                           selector:@selector(loginResponse:)
+  //                                               name:kLoginResponse
+  //                                             object:nil];
   [[NSNotificationCenter defaultCenter]
       addObserverForName:kNewPasswordLogin
                   object:nil
@@ -93,6 +95,35 @@ static int const kQQNotInstalled = -6004;
                   [self showMessage:NSLocalizedString(@"new  password login",
                                                       nil)];
               }];
+
+  __weak typeof(self) weakSelf = self;
+  self.successResonse = ^(int status, id responseData) {
+      [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+      if (status == 1) {
+        ServerResponse *reponse = (ServerResponse *)responseData;
+        switch (reponse.status) {
+          case 1: {
+            //登陆成功
+            [[NSNotificationCenter defaultCenter]
+                postNotificationName:kLoginSuccess
+                              object:weakSelf
+                            userInfo:nil];
+            [weakSelf.navigationController popViewControllerAnimated:NO];
+            break;
+          }
+          default:
+            [weakSelf.view
+                makeToast:reponse.errorMsg
+                 duration:1.f
+                 position:[NSValue
+                              valueWithCGPoint:
+                                  CGPointMake(
+                                      weakSelf.view.frame.size.width / 2,
+                                      weakSelf.view.frame.size.height - 40)]];
+            break;
+        }
+      }
+  };
 }
 
 - (void)viewDidLoad {
@@ -167,15 +198,18 @@ static int const kQQNotInstalled = -6004;
                             id<ICMErrorInfo> error) {
                        if (result) {
                          DDLogDebug(@".......nickname is %@ and uid is %@",
-                                  [userInfo nickname], [userInfo uid]);
+                                    [userInfo nickname], [userInfo uid]);
                          UserInfo *uInfo = [[UserInfo alloc]
                              initWithSinaUid:[userInfo uid]
                                     nickname:[userInfo nickname]];
-                         [uInfo loginRequest];
+                         [uInfo loginRequestWithResponse:^(int status,
+                                                           id response) {
+                             self.successResonse(status, response);
+                         }];
                          [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                        }
                        DDLogDebug(@"errorCode is %d and errorDescription is %@",
-                                [error errorCode], error.errorDescription);
+                                  [error errorCode], error.errorDescription);
                        if (kCancelAuthoriztionCode == [error errorCode]) {
                          [self.view makeToast:NSLocalizedString(
                                                   @"The user cancels the "
@@ -198,11 +232,14 @@ static int const kQQNotInstalled = -6004;
                          UserInfo *uInfo = [[UserInfo alloc]
                              initWithQQUid:[userInfo uid]
                                   nickname:[userInfo nickname]];
-                         [uInfo loginRequest];
+                         [uInfo loginRequestWithResponse:^(int status,
+                                                           id response) {
+                             self.successResonse(status, response);
+                         }];
                          [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                        }
                        DDLogDebug(@"errorCode is %d and errorDescription is %@",
-                                [error errorCode], error.errorDescription);
+                                  [error errorCode], error.errorDescription);
                        if ([error errorCode] == kQQNotInstalled) {
                          UIAlertView *alertView = [[UIAlertView alloc]
                                  initWithTitle:NSLocalizedString(@"Tips", nil)
@@ -238,7 +275,9 @@ static int const kQQNotInstalled = -6004;
   if ([self check]) {
     UserInfo *userInfo =
         [[UserInfo alloc] initWithEmail:self.username password:self.password];
-    [userInfo loginRequest];
+    [userInfo loginRequestWithResponse:^(int status, id response) {
+        self.successResonse(status, response);
+    }];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
   }
 }
@@ -328,33 +367,34 @@ static int const kQQNotInstalled = -6004;
 }
 
 #pragma mark - 登陆消息通知
-- (void)loginResponse:(NSNotification *)notification {
-  [MBProgressHUD hideHUDForView:self.view animated:YES];
-  NSDictionary *info = [notification userInfo];
-  int status = [[info objectForKey:@"status"] intValue];
-  if (status == 1) {
-    ServerResponse *reponse = [info objectForKey:@"data"];
-    switch (reponse.status) {
-      case 1: {
-        //登陆成功
-        [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccess
-                                                            object:self
-                                                          userInfo:nil];
-        [self.navigationController popViewControllerAnimated:NO];
-        break;
-      }
-      default:
-        [self.view
-            makeToast:reponse.errorMsg
-             duration:1.f
-             position:[NSValue
-                          valueWithCGPoint:
-                              CGPointMake(self.view.frame.size.width / 2,
-                                          self.view.frame.size.height - 40)]];
-        break;
-    }
-  } else if (status == 0) {
-    NSError *error = (NSError *)[info objectForKey:@"data"];
-  }
-}
+//- (void)loginResponse:(NSNotification *)notification {
+//  [MBProgressHUD hideHUDForView:self.view animated:YES];
+//  NSDictionary *info = [notification userInfo];
+//  int status = [[info objectForKey:@"status"] intValue];
+//  if (status == 1) {
+//    ServerResponse *reponse = [info objectForKey:@"data"];
+//    switch (reponse.status) {
+//      case 1: {
+//        //登陆成功
+//        [[NSNotificationCenter defaultCenter]
+//        postNotificationName:kLoginSuccess
+//                                                            object:self
+//                                                          userInfo:nil];
+//        [self.navigationController popViewControllerAnimated:NO];
+//        break;
+//      }
+//      default:
+//        [self.view
+//            makeToast:reponse.errorMsg
+//             duration:1.f
+//             position:[NSValue
+//                          valueWithCGPoint:
+//                              CGPointMake(self.view.frame.size.width / 2,
+//                                          self.view.frame.size.height - 40)]];
+//        break;
+//    }
+//  } else if (status == 0) {
+//    NSError *error = (NSError *)[info objectForKey:@"data"];
+//  }
+//}
 @end

@@ -462,11 +462,12 @@ preparation before navigation
   if (self.isUpdateNameSuccess && self.isUpdateLockSuccess &&
       self.isUpdatePowerInfoSuccess) {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    NSDictionary *options = @{ kCRToastBackgroundColorKey : kThemeColor };
-    [CRToastManager setDefaultOptions:options];
-    [CRToastManager
-        showNotificationWithMessage:NSLocalizedString(@"Save Success", nil)
-                    completionBlock:^{}];
+    //    NSDictionary *options = @{ kCRToastBackgroundColorKey : kThemeColor };
+    //    [CRToastManager setDefaultOptions:options];
+    //    [CRToastManager
+    //        showNotificationWithMessage:NSLocalizedString(@"Save Success",
+    //        nil)
+    //                    completionBlock:^{}];
     [self.navigationController popViewControllerAnimated:YES];
   }
 }

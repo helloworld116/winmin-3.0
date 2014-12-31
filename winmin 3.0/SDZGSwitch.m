@@ -125,6 +125,46 @@ static dispatch_queue_t switch_parse_serial_queue() {
   });
 }
 
+/**
+ *  从服务器上同步的设备加入到本地解析
+ *
+ *  @return
+ */
+static int switchId = 200000;
++ (instancetype)parseSyncSwitch:(NSString *)mac
+                       password:(NSString *)password
+                           name:(NSString *)name
+                        version:(int)version
+                     lockStauts:(LockStatus)lockStauts {
+  SDZGSwitch *aSwitch = [[SDZGSwitch alloc] init];
+  aSwitch._id = switchId++;
+  aSwitch.networkStatus = SWITCH_REMOTE;
+  aSwitch.imageName = switch_default_image;
+  aSwitch.mac = mac;
+  aSwitch.ip = @"";
+  aSwitch.port = 0;
+  aSwitch.name = name;
+  aSwitch.password = password;
+  aSwitch.lockStatus = lockStauts;
+  aSwitch.version = version;
+
+  aSwitch.sockets = [@[] mutableCopy];
+  SDZGSocket *socket1 = [[SDZGSocket alloc] init];
+  socket1.groupId = 1;
+  socket1.socketStatus = SocketStatusOff;
+  socket1.imageNames =
+      @[ socket_default_image, socket_default_image, socket_default_image ];
+  [aSwitch.sockets addObject:socket1];
+
+  SDZGSocket *socket2 = [[SDZGSocket alloc] init];
+  socket2.groupId = 2;
+  socket2.socketStatus = SocketStatusOff;
+  socket2.imageNames =
+      @[ socket_default_image, socket_default_image, socket_default_image ];
+  [aSwitch.sockets addObject:socket2];
+  return aSwitch;
+}
+
 + (UIImage *)imgNameToImage:(NSString *)imgName {
   UIImage *image;
   if (imgName.length < 10) {

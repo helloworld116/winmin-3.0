@@ -240,47 +240,51 @@ static const int kWidth = 50.f;
 }
 
 - (void)showGraph:(HistoryElecDateType)dateType {
-  int dataCount = [self.currentData.times count];
-  self.scrollView.frame = CGRectMake(0, 0, self.containerView.frame.size.width,
-                                     self.containerView.frame.size.height);
-  DDLogDebug(@"%s", __func__);
-  CGFloat width = kWidth;
-  //  switch (dateType) {
-  //    case OneDay:
-  //      width = 25.f;
-  //      break;
-  //    case OneWeek:
-  //
-  //      break;
-  //    case OneMonth:
-  //
-  //      break;
-  //    case ThreeMonth:
-  //
-  //      break;
-  //    case SixMonth:
-  //
-  //      break;
-  //    case OneYear:
-  //
-  //      break;
-  //    default:
-  //      break;
-  //  }
-  self.scrollView.contentSize =
-      CGSizeMake(dataCount * width, self.containerView.frame.size.height);
-  CGRect graphFrame = self.myGraph.frame;
-  graphFrame.size =
-      CGSizeMake(dataCount * width, self.containerView.frame.size.height);
-  self.myGraph.frame = graphFrame;
-  CGFloat xOffset = 0;
-  if (self.scrollView.contentSize.width > self.scrollView.bounds.size.width) {
-    xOffset =
-        self.scrollView.contentSize.width - self.scrollView.bounds.size.width;
-  }
-  [self.scrollView setContentOffset:CGPointMake(xOffset, 0) animated:NO];
-  self.scrollView.hidden = NO;
-  [self.myGraph reloadGraph];
+  dispatch_async(dispatch_get_main_queue(), ^{
+      self.scrollView.hidden = NO;
+      int dataCount = [self.currentData.times count];
+      self.scrollView.frame =
+          CGRectMake(0, 0, self.containerView.frame.size.width,
+                     self.containerView.frame.size.height);
+      DDLogDebug(@"%s", __func__);
+      CGFloat width = kWidth;
+      //  switch (dateType) {
+      //    case OneDay:
+      //      width = 25.f;
+      //      break;
+      //    case OneWeek:
+      //
+      //      break;
+      //    case OneMonth:
+      //
+      //      break;
+      //    case ThreeMonth:
+      //
+      //      break;
+      //    case SixMonth:
+      //
+      //      break;
+      //    case OneYear:
+      //
+      //      break;
+      //    default:
+      //      break;
+      //  }
+      self.scrollView.contentSize =
+          CGSizeMake(dataCount * width, self.containerView.frame.size.height);
+      CGRect graphFrame = self.myGraph.frame;
+      graphFrame.size =
+          CGSizeMake(dataCount * width, self.containerView.frame.size.height);
+      self.myGraph.frame = graphFrame;
+      CGFloat xOffset = 0;
+      if (self.scrollView.contentSize.width >
+          self.scrollView.bounds.size.width) {
+        xOffset = self.scrollView.contentSize.width -
+                  self.scrollView.bounds.size.width;
+      }
+      [self.scrollView setContentOffset:CGPointMake(xOffset, 0) animated:NO];
+      [self.myGraph reloadGraph];
+  });
 }
 
 - (void)showRealTimeData:(NSMutableArray *)powers {

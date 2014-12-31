@@ -22,6 +22,13 @@
 - (NSArray *)switchsWithChangeStatus;
 
 /**
+ *  从服务器上同步到本地的设备添加到本地
+ *
+ *  @param switchs
+ */
+- (void)addSwitchFromServer:(NSArray *)switchs;
+
+/**
  *  检查设备是否在线
  *
  *  @param aSwitch

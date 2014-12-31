@@ -8,13 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "ServerResponse.h"
+typedef void (^ResponseBlock)(int status, id response);
 
 @interface UserInfo : NSObject
-@property(nonatomic, strong) NSString *nickName;
-@property(nonatomic, strong) NSString *password;
-@property(nonatomic, strong) NSString *qqUid;
-@property(nonatomic, strong) NSString *sinaUid;
-@property(nonatomic, strong) NSString *email;
+@property (nonatomic, strong) NSString *nickName;
+@property (nonatomic, strong) NSString *password;
+@property (nonatomic, strong) NSString *qqUid;
+@property (nonatomic, strong) NSString *sinaUid;
+@property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) ResponseBlock responseBlock;
 
 - (id)initWithEmail:(NSString *)email password:(NSString *)password;
 
@@ -26,9 +28,9 @@
 
 - (id)initWithSinaUid:(NSString *)sinaUid nickname:(NSString *)nickname;
 
-- (void)loginRequest;
+- (void)loginRequestWithResponse:(ResponseBlock)responseBlock;
 
-- (void)registerRequest;
+- (void)registerRequestWithResponse:(ResponseBlock)responseBlock;
 
 + (BOOL)userInfoInDisk;
 

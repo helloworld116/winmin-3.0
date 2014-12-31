@@ -197,7 +197,6 @@
     NSFontAttributeName : [UIFont systemFontOfSize:22],
     UITextAttributeTextColor : [UIColor whiteColor]
   }];
-
   [[UITabBar appearance]
       setBarTintColor:[UIColor colorWithHexString:@"#F0EFEF"]];
   [[UITabBar appearance] setSelectedImageTintColor:[UIColor whiteColor]];

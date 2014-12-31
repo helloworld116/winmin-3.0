@@ -669,7 +669,7 @@ preparation before navigation
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
   if (motion == UIEventSubtypeMotionShake) {
-    [self.model openOrCloseWithGroupId:1];
+    //    [self.model openOrCloseWithGroupId:1];
   }
 }
 

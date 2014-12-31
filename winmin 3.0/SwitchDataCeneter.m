@@ -23,7 +23,6 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
 }
 
 @interface SwitchDataCeneter ()
-@property (nonatomic, strong) SwitchSyncService *switchSyncService;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundUpdateTask;
 @end
 
@@ -49,6 +48,12 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{ instance = [[self alloc] init]; });
   return instance;
+}
+
+- (void)addSwitchFromServer:(NSArray *)switchs {
+  for (SDZGSwitch *aSwitch in switchs) {
+    [self.switchsDict setObject:aSwitch forKey:aSwitch.mac];
+  }
 }
 
 - (void)updateAllSwitchStautsToOffLine {
@@ -211,25 +216,33 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
       aSwitch.networkStatus = SWITCH_OFFLINE;
     }
   }
-  //  return [self.switchsDict allValues];
-  NSSortDescriptor *netDescriptor =
-      [[NSSortDescriptor alloc] initWithKey:@"networkStatus" ascending:YES];
-  NSSortDescriptor *macDescriptor =
-      [[NSSortDescriptor alloc] initWithKey:@"mac" ascending:YES];
+  //  NSSortDescriptor *netDescriptor =
+  //      [[NSSortDescriptor alloc] initWithKey:@"networkStatus" ascending:YES];
+  //  NSSortDescriptor *macDescriptor =
+  //      [[NSSortDescriptor alloc] initWithKey:@"mac" ascending:YES];
+  //  return [[self.switchsDict allValues]
+  //      sortedArrayUsingDescriptors:@[ netDescriptor, macDescriptor ]];
+  NSSortDescriptor *_idDescriptor =
+      [[NSSortDescriptor alloc] initWithKey:@"_id" ascending:NO];
   return [[self.switchsDict allValues]
-      sortedArrayUsingDescriptors:@[ netDescriptor, macDescriptor ]];
+      sortedArrayUsingDescriptors:@[ _idDescriptor ]];
 }
 
 - (NSArray *)switchs {
   // TODO: 修复新扫描到的设备场景添加中找不到
   //  return [self.switchsDict allValues];
   //  return _switchs;
-  NSSortDescriptor *netDescriptor =
-      [[NSSortDescriptor alloc] initWithKey:@"networkStatus" ascending:YES];
-  NSSortDescriptor *macDescriptor =
-      [[NSSortDescriptor alloc] initWithKey:@"mac" ascending:YES];
+  //  NSSortDescriptor *netDescriptor =
+  //      [[NSSortDescriptor alloc] initWithKey:@"networkStatus" ascending:YES];
+  //  NSSortDescriptor *macDescriptor =
+  //      [[NSSortDescriptor alloc] initWithKey:@"mac" ascending:YES];
+  //  return [[self.switchsDict allValues]
+  //      sortedArrayUsingDescriptors:@[ netDescriptor, macDescriptor ]];
+
+  NSSortDescriptor *_idDescriptor =
+      [[NSSortDescriptor alloc] initWithKey:@"_id" ascending:NO];
   return [[self.switchsDict allValues]
-      sortedArrayUsingDescriptors:@[ netDescriptor, macDescriptor ]];
+      sortedArrayUsingDescriptors:@[ _idDescriptor ]];
 }
 
 - (BOOL)isAllSwitchOffLine {
@@ -248,11 +261,9 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   dispatch_async(GLOBAL_QUEUE, ^{
       [self beginBackgroundUpdateTask];
       [[DBUtil sharedInstance] saveSwitchs:[self switchs]];
-      //      if (!self.switchSyncService) {
-      //        self.switchSyncService = [[SwitchSyncService alloc] init];
-      //      }
-      //      [self.switchSyncService uploadSwitchs:[self switchs]];
-      [self endBackgroundUpdateTask];
+      SwitchSyncService *service = [[SwitchSyncService alloc] init];
+      [service
+          uploadSwitchs:^(BOOL isSuccess) { [self endBackgroundUpdateTask]; }];
   });
 }
 

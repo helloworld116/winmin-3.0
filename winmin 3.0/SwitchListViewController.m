@@ -10,6 +10,7 @@
 #import "SwitchDetailViewController.h"
 #import "SwitchListCell.h"
 #import "SwitchListModel.h"
+#import "SwitchSyncService.h"
 
 @interface SwitchListViewController () <
     UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate,
@@ -106,25 +107,6 @@
                                                (int64_t)(1 * NSEC_PER_SEC)),
                                  dispatch_get_main_queue(),
                                  ^{ [self reloadTableView]; });
-                  //                  dispatch_async(MAIN_QUEUE, ^{});
-                  //                  self.mac = mac;
-                  //                  SDZGSwitch *aSwitch =
-                  //                      [SwitchDataCeneter
-                  //                      sharedInstance].switchsDict[mac];
-                  //                  NSArray *switchs = [[SwitchDataCeneter
-                  //                          sharedInstance]
-                  //                          switchsWithChangeStatus];
-                  //                  if (aSwitch) {
-                  //                    aSwitch.networkStatus = SWITCH_NEW;
-                  //                    aSwitch.name = NSLocalizedString(@"Smart
-                  //                    Switch", nil);
-                  //                    self.switchs = switchs;
-                  //                    dispatch_async(MAIN_QUEUE,
-                  //                                   ^{ [self.tableView
-                  //                                   reloadData]; });
-                  //                  } else {
-                  //
-                  //                  }
               }];
 
   //下拉刷新
@@ -166,6 +148,8 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   [self setup];
+  SwitchSyncService *service = [[SwitchSyncService alloc] init];
+  [service downloadSwitchs];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -49,7 +49,8 @@
   return self;
 }
 
-- (void)loginRequest {
+- (void)loginRequestWithResponse:(ResponseBlock)responseBlock {
+  self.responseBlock = responseBlock;
   NSString *loginUrl =
       [NSString stringWithFormat:@"%@login/login", BaseURLString];
   AFHTTPRequestOperationManager *manager =
@@ -85,23 +86,27 @@
                            sinaUid:self.sinaUid
                           nickname:nickname];
           }
-
-          NSDictionary *userInfo = @{ @"status" : @1, @"data" : response };
-          [[NSNotificationCenter defaultCenter]
-              postNotificationName:kLoginResponse
-                            object:self
-                          userInfo:userInfo];
+          //          NSDictionary *userInfo = @{ @"status" : @1, @"data" :
+          //          response };
+          //          [[NSNotificationCenter defaultCenter]
+          //              postNotificationName:kLoginResponse
+          //                            object:self
+          //                          userInfo:userInfo];
+          self.responseBlock(1, response);
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSDictionary *userInfo = @{ @"status" : @0, @"data" : error };
-          [[NSNotificationCenter defaultCenter]
-              postNotificationName:kLoginResponse
-                            object:self
-                          userInfo:userInfo];
+          //          NSDictionary *userInfo = @{ @"status" : @0, @"data" :
+          //          error };
+          //          [[NSNotificationCenter defaultCenter]
+          //              postNotificationName:kLoginResponse
+          //                            object:self
+          //                          userInfo:userInfo];
+          self.responseBlock(0, error);
       }];
 }
 
-- (void)registerRequest {
+- (void)registerRequestWithResponse:(ResponseBlock)responseBlock {
+  self.responseBlock = responseBlock;
   NSString *registerUrl =
       [NSString stringWithFormat:@"%@user/register", BaseURLString];
   AFHTTPRequestOperationManager *manager =
@@ -134,18 +139,23 @@
                            sinaUid:nil
                           nickname:self.nickName];
           }
-          NSDictionary *userInfo = @{ @"status" : @1, @"data" : response };
-          [[NSNotificationCenter defaultCenter]
-              postNotificationName:kRegisterResponse
-                            object:self
-                          userInfo:userInfo];
+          //          NSDictionary *userInfo = @{ @"status" : @1, @"data" :
+          //          response };
+          //          [[NSNotificationCenter defaultCenter]
+          //              postNotificationName:kRegisterResponse
+          //                            object:self
+          //                          userInfo:userInfo];
+          self.responseBlock(1, response);
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSDictionary *userInfo = @{ @"status" : @0, @"data" : error };
-          [[NSNotificationCenter defaultCenter]
-              postNotificationName:kRegisterResponse
-                            object:self
-                          userInfo:userInfo];
+          //          NSDictionary *userInfo = @{ @"status" : @0, @"data" :
+          //          error
+          //          };
+          //          [[NSNotificationCenter defaultCenter]
+          //              postNotificationName:kRegisterResponse
+          //                            object:self
+          //                          userInfo:userInfo];
+          self.responseBlock(0, error);
       }];
 }
 

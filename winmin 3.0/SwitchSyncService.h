@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+typedef void (^SyncDeviceCompletionBlcok)(BOOL isSuccess);
 
 @interface SwitchSyncService : NSObject
-- (void)uploadSwitchs:(NSArray *)switchs;
-- (void)downloadSwitchs:(int)benginId;
+- (void)uploadSwitchs:(SyncDeviceCompletionBlcok)block;
+- (void)downloadSwitchs;
 @end

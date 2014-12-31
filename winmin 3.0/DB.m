@@ -276,11 +276,12 @@
 
 - (NSArray *)getSwitchs {
   NSMutableArray *switchs = [@[] mutableCopy];
-  NSString *switchSql = @"select * from switch order by networkstatus,mac";
+  NSString *switchSql = @"select * from switch order by id desc";
   if ([self.db open]) {
     FMResultSet *switchResult = [self.db executeQuery:switchSql];
     while (switchResult.next) {
       SDZGSwitch *aSwitch = [[SDZGSwitch alloc] init];
+      aSwitch._id = [switchResult intForColumn:@"id"];
       aSwitch.name = [switchResult stringForColumn:@"name"];
       aSwitch.ip = [switchResult stringForColumn:@"ip"];
       aSwitch.mac = [switchResult stringForColumn:@"mac"];

@@ -29,6 +29,7 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE){ MONDAY = 1 << 0,  TUESDAY = 1 << 1,
                                          SUNDAY = 1 << 6 };
 
 @interface SDZGSwitch : NSObject<NSCopying>
+@property (nonatomic, assign) int _id;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) SwitchStatus networkStatus;
 @property (nonatomic, strong) NSString *mac;
@@ -44,6 +45,16 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE){ MONDAY = 1 << 0,  TUESDAY = 1 << 1,
 @property (nonatomic, assign) NSTimeInterval lastUpdateInterval; //最近修改时间
 + (void)parseMessageCOrE:(CC3xMessage *)message
                 toSwitch:(void (^)(SDZGSwitch *aSwitch))completion;
+/**
+ *  从服务器上同步的设备加入到本地解析
+ *
+ *  @return
+ */
++ (instancetype)parseSyncSwitch:(NSString *)mac
+                       password:(NSString *)password
+                           name:(NSString *)name
+                        version:(int)version
+                     lockStauts:(LockStatus)lockStauts;
 + (UIImage *)imgNameToImage:(NSString *)imgName;
 + (UIImage *)imgNameToImageOffline:(NSString *)imgName;
 

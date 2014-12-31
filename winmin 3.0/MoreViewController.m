@@ -11,6 +11,7 @@
 #import "MoreCellTypeSecond.h"
 #import "MoreCellTypeThird.h"
 #import "UserInfo.h"
+#import "SwitchSyncService.h"
 
 @interface MoreViewController ()
 @property (nonatomic, strong) NSArray *titles;
@@ -66,6 +67,8 @@
                    queue:nil
               usingBlock:^(NSNotification *note) {
                   self.isLogin = YES;
+                  SwitchSyncService *service = [[SwitchSyncService alloc] init];
+                  [service downloadSwitchs];
                   dispatch_async(MAIN_QUEUE, ^{
                       NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
                       [self.tableView

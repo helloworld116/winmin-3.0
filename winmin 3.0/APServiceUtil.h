@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 typedef void (^finishCallbackBlock)(BOOL);
 @interface APServiceUtil : NSObject
++ (NSString *)aSwitchToTag:(SDZGSwitch *)aSwitch;
 + (void)closeRemoteNotification:(finishCallbackBlock)block;
 + (void)openRemoteNotification:(finishCallbackBlock)block;
 + (void)removeSwitchRemoteNotification:(SDZGSwitch *)aSwitch
