@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "ShakeWindow.h"
+#import "ShakeWindow+Motion.h"
 #import <ShareSDK/ShareSDK.h>
 //#import <TencentOpenAPI/TencentOpenSDK.h>
 #import <TencentOpenAPI/QQApiInterface.h>
@@ -206,6 +208,14 @@
 
 - (void)setData {
   self.switchDataCeneter = [SwitchDataCeneter sharedInstance];
+  //  self.globalRequest = [UdpRequest manager];
+  //  //  self.request.delegate = self;
+  //  self.globalSwitch = [self.switchDataCeneter.switchs objectAtIndex:0];
+  //  self.globalGroupId = 1;
+
+  ShakeWindow* shakeWindow = (ShakeWindow*)self.window;
+  [shakeWindow setSwitch:[self.switchDataCeneter.switchs objectAtIndex:0]
+                 groupId:1];
 }
 
 - (void)setLog {
@@ -344,5 +354,14 @@
              forKey:switchListLongPressDelete];
     }
   }
+}
+
+#pragma mark - shake
+- (ShakeWindow*)window {
+  static ShakeWindow* shakeWindow = nil;
+  if (!shakeWindow)
+    shakeWindow =
+        [[ShakeWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  return shakeWindow;
 }
 @end

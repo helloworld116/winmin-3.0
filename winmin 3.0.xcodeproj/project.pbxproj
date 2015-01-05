@@ -67,6 +67,8 @@
 		1564D7031A42B1F400F574A5 /* SceneEditAddCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1564D7021A42B1F400F574A5 /* SceneEditAddCell.m */; };
 		156692011A1EECC000E94C39 /* APServiceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 156692001A1EECC000E94C39 /* APServiceUtil.m */; };
 		15736B9019F2482F00D6A45D /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15736B8F19F2482F00D6A45D /* WelcomeViewController.m */; };
+		157924841A58DE440034C832 /* ShakeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 157924831A58DE440034C832 /* ShakeWindow.m */; };
+		157924871A58DF180034C832 /* ShakeWindow+Motion.m in Sources */ = {isa = PBXBuildFile; fileRef = 157924861A58DF180034C832 /* ShakeWindow+Motion.m */; };
 		158D987B19C6F39C0068AFC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987A19C6F39C0068AFC5 /* Foundation.framework */; };
 		158D987D19C6F39C0068AFC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */; };
 		158D987F19C6F39C0068AFC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987E19C6F39C0068AFC5 /* UIKit.framework */; };
@@ -123,7 +125,6 @@
 		158D992F19C7E2380068AFC5 /* HistoryElec.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D992D19C7E2380068AFC5 /* HistoryElec.m */; };
 		158D993619C7E2530068AFC5 /* SceneDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D993119C7E2530068AFC5 /* SceneDetail.m */; };
 		158D993719C7E2530068AFC5 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D993319C7E2530068AFC5 /* Scene.m */; };
-		15AA4DE31A4D60150024FD8D /* UIWindow+Motion.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA4DE21A4D60150024FD8D /* UIWindow+Motion.m */; };
 		15AC863519CFBF7800D154EB /* SwitchInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC863419CFBF7800D154EB /* SwitchInfoViewController.m */; };
 		15AC863C19CFC6C900D154EB /* TimerEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC863719CFC6C800D154EB /* TimerEditViewController.m */; };
 		15AC863D19CFC6C900D154EB /* CycleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC863919CFC6C900D154EB /* CycleViewController.m */; };
@@ -291,6 +292,10 @@
 		156692001A1EECC000E94C39 /* APServiceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APServiceUtil.m; sourceTree = "<group>"; };
 		15736B8E19F2482F00D6A45D /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		15736B8F19F2482F00D6A45D /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
+		157924821A58DE440034C832 /* ShakeWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShakeWindow.h; sourceTree = "<group>"; };
+		157924831A58DE440034C832 /* ShakeWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShakeWindow.m; sourceTree = "<group>"; };
+		157924851A58DF180034C832 /* ShakeWindow+Motion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ShakeWindow+Motion.h"; sourceTree = "<group>"; };
+		157924861A58DF180034C832 /* ShakeWindow+Motion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ShakeWindow+Motion.m"; sourceTree = "<group>"; };
 		158D987719C6F39C0068AFC5 /* winmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = winmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		158D987A19C6F39C0068AFC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -373,8 +378,6 @@
 		158D993119C7E2530068AFC5 /* SceneDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDetail.m; sourceTree = "<group>"; };
 		158D993219C7E2530068AFC5 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		158D993319C7E2530068AFC5 /* Scene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scene.m; sourceTree = "<group>"; };
-		15AA4DE11A4D60140024FD8D /* UIWindow+Motion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+Motion.h"; sourceTree = "<group>"; };
-		15AA4DE21A4D60150024FD8D /* UIWindow+Motion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+Motion.m"; sourceTree = "<group>"; };
 		15AC863319CFBF7800D154EB /* SwitchInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchInfoViewController.h; sourceTree = "<group>"; };
 		15AC863419CFBF7800D154EB /* SwitchInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchInfoViewController.m; sourceTree = "<group>"; };
 		15AC863619CFC6C800D154EB /* TimerEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerEditViewController.h; sourceTree = "<group>"; };
@@ -1003,8 +1006,10 @@
 				156692001A1EECC000E94C39 /* APServiceUtil.m */,
 				152355741A4D4D2700BDB850 /* UIDeviceHardware.h */,
 				152355751A4D4D2700BDB850 /* UIDeviceHardware.m */,
-				15AA4DE11A4D60140024FD8D /* UIWindow+Motion.h */,
-				15AA4DE21A4D60150024FD8D /* UIWindow+Motion.m */,
+				157924821A58DE440034C832 /* ShakeWindow.h */,
+				157924831A58DE440034C832 /* ShakeWindow.m */,
+				157924851A58DF180034C832 /* ShakeWindow+Motion.h */,
+				157924861A58DF180034C832 /* ShakeWindow+Motion.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -1319,6 +1324,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				157924871A58DF180034C832 /* ShakeWindow+Motion.m in Sources */,
+				157924841A58DE440034C832 /* ShakeWindow.m in Sources */,
 				15F3A47619EB80E4001CD296 /* RegisterViewController.m in Sources */,
 				150BE86119FFA7B700A358CF /* FindPassword.m in Sources */,
 				158D993619C7E2530068AFC5 /* SceneDetail.m in Sources */,
@@ -1366,7 +1373,6 @@
 				15F3A47519EB80E4001CD296 /* LoginViewController.m in Sources */,
 				15F3A48819EE521D001CD296 /* MoreCellTypeThird.m in Sources */,
 				15F3A46E19EB718A001CD296 /* AboutUsViewController.m in Sources */,
-				15AA4DE31A4D60150024FD8D /* UIWindow+Motion.m in Sources */,
 				1560130419C91EF800BF7E12 /* SwitchListModel.m in Sources */,
 				155A5BFF19D54206007864C8 /* SceneExcCell.m in Sources */,
 				158D988719C6F39C0068AFC5 /* main.m in Sources */,
