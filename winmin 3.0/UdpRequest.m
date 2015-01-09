@@ -1825,6 +1825,8 @@ static dispatch_queue_t delegateQueue;
  *  @param error
  */
 - (void)udpSocketDidClose:(GCDAsyncUdpSocket *)sock withError:(NSError *)error {
-  DDLogDebug(@"UdpSocketUtil udpSocketDidClose socket is %@", sock);
+  DDLogDebug(@"UdpSocketUtil udpSocketDidClose socket is %@ and reason is %@ "
+             @"desc is %@",
+             sock, error.localizedFailureReason, error.localizedDescription);
 }
 @end

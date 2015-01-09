@@ -11,12 +11,21 @@
 #import "SceneExecuteViewController.h"
 #import "ScenePreExcDailogViewController.h"
 #import "SceneCell.h"
+#import "Scene.h"
+#import "ShakeWindow.h"
+typedef NS_ENUM(NSInteger, ShakeType) {
+  ShakeType_Cancel,
+  ShakeType_Set,
+};
 
 @interface SceneListViewController () <UIActionSheetDelegate,
                                        ScenePreExcDailogControllerDelegate>
 @property (nonatomic, strong) NSIndexPath *operationIndexPath;
 @property (nonatomic, strong) NSMutableArray *scenes;
-
+@property (nonatomic, assign) ShakeType shakeType; //长按时设置摇一摇的动作类型
+@property (nonatomic, assign) NSInteger shakeId; //摇一摇的指定场景id
+@property (nonatomic, strong)
+    NSIndexPath *lastShakeIndexPath; //修改摇一摇之前的indexPath
 @property (nonatomic, strong) UIView *noDataView;
 @end
 
@@ -75,6 +84,8 @@
   if (!self.scenes || self.scenes.count == 0) {
     self.noDataView.hidden = NO;
   }
+  self.shakeId = [[[NSUserDefaults standardUserDefaults]
+      objectForKey:@"shakeId"] integerValue];
 }
 
 - (void)viewDidLoad {
@@ -111,7 +122,14 @@ preparation before navigation
       [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier
                                                 forIndexPath:indexPath];
   Scene *scene = self.scenes[indexPath.row];
-  [cell setCellInfo:scene];
+  BOOL isShowShake;
+  if (scene.indentifier == self.shakeId) {
+    self.lastShakeIndexPath = indexPath;
+    isShowShake = YES;
+  } else {
+    isShowShake = NO;
+  }
+  [cell setCellInfo:scene isShowShake:isShowShake];
   UILongPressGestureRecognizer *longPressGesture =
       [[UILongPressGestureRecognizer alloc]
           initWithTarget:self
@@ -198,6 +216,15 @@ preparation before navigation
   NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:p];
   if (indexPath && gestureRecognizer.state == UIGestureRecognizerStateBegan) {
     self.operationIndexPath = indexPath;
+    Scene *scene = self.scenes[self.operationIndexPath.row];
+    NSString *shakeName;
+    if (self.shakeId != scene.indentifier) {
+      shakeName = @"设置摇一摇";
+      self.shakeType = ShakeType_Set;
+    } else {
+      shakeName = @"取消摇一摇";
+      self.shakeType = ShakeType_Cancel;
+    }
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                  initWithTitle:
                      NSLocalizedString(
@@ -206,7 +233,7 @@ preparation before navigation
                       delegate:self
              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
         destructiveButtonTitle:nil
-             otherButtonTitles:NSLocalizedString(@"Edit", nil),
+             otherButtonTitles:shakeName, NSLocalizedString(@"Edit", nil),
                                NSLocalizedString(@"Delete", nil), nil];
     [actionSheet showFromTabBar:self.tabBarController.tabBar];
   }
@@ -216,7 +243,42 @@ preparation before navigation
     clickedButtonAtIndex:(NSInteger)buttonIndex {
   Scene *scene = self.scenes[self.operationIndexPath.row];
   switch (buttonIndex) {
-    case 0:
+    case 0: {
+      NSArray *reloadItemsAtIndexPaths;
+      NSInteger shakeId;
+      if (self.shakeType == ShakeType_Set) {
+        shakeId = scene.indentifier;
+        if (self.lastShakeIndexPath &&
+            self.lastShakeIndexPath != self.operationIndexPath) {
+          reloadItemsAtIndexPaths =
+              @[ self.lastShakeIndexPath, self.operationIndexPath ];
+        } else {
+          reloadItemsAtIndexPaths = @[ self.operationIndexPath ];
+        }
+      } else if (self.shakeType == ShakeType_Cancel) {
+        shakeId = 0;
+        self.lastShakeIndexPath = nil;
+        reloadItemsAtIndexPaths = @[ self.operationIndexPath ];
+      }
+      NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+      [userDefaults setObject:@(shakeId) forKey:@"shakeId"];
+      [self.collectionView performBatchUpdates:^{
+          self.shakeId = shakeId;
+          [self.collectionView reloadItemsAtIndexPaths:reloadItemsAtIndexPaths];
+          //          [self.collectionView reloadSections:[NSIndexSet
+          //          indexSetWithIndex:0]];
+      } completion:^(BOOL finished) {
+          if (finished) {
+            ShakeWindow *shakeWindow = (ShakeWindow *)kSharedAppliction.window;
+            if (self.shakeType == ShakeType_Set) {
+              [shakeWindow setShakeScene:scene];
+            } else {
+              [shakeWindow setShakeScene:nil];
+            }
+          }
+      }];
+    } break;
+    case 1:
       //编辑
       {
         SceneDetailViewController *nextViewController =
@@ -227,11 +289,18 @@ preparation before navigation
         [self.navigationController pushViewController:nextViewController
                                              animated:YES];
       }
-
       break;
-    case 1:
+    case 2:
       //删除
       {
+        //摇一摇
+        if (scene.indentifier == self.shakeId) {
+          NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+          [userDefaults setObject:@(0) forKey:@"shakeId"];
+          ShakeWindow *shakeWindow = (ShakeWindow *)kSharedAppliction.window;
+          [shakeWindow setShakeScene:nil];
+        }
+        //
         [[DBUtil sharedInstance] removeScene:scene];
         //删除后提示页面
         NSArray *indexPaths = @[ self.operationIndexPath ];
@@ -275,7 +344,14 @@ preparation before navigation
         [self.scenes replaceObjectAtIndex:row withObject:scene];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
         [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
-    } completion:^(BOOL finished){}];
+    } completion:^(BOOL finished) {
+        if (finished) {
+          if (scene.indentifier == self.shakeId) {
+            ShakeWindow *shakeWindow = (ShakeWindow *)kSharedAppliction.window;
+            [shakeWindow setShakeScene:scene];
+          }
+        }
+    }];
   }
 }
 @end

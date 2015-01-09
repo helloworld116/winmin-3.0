@@ -176,16 +176,20 @@
       NSString *localMac = [macs componentsJoinedByString:@":"];
       NSString *localPassword = [passwords componentsJoinedByString:@":"];
       BOOL isNeedAdd = NO;
-      for (int i = 0; i < self.switchs.count; i++) {
-        SDZGSwitch *aSwtich = self.switchs[i];
-        if ([aSwtich.mac isEqualToString:localMac]) {
-          isNeedAdd = NO;
-          break;
-        } else {
-          if (i == self.switchs.count - 1) {
-            isNeedAdd = YES;
+      if (self.switchs.count) {
+        for (int i = 0; i < self.switchs.count; i++) {
+          SDZGSwitch *aSwtich = self.switchs[i];
+          if ([aSwtich.mac isEqualToString:localMac]) {
+            isNeedAdd = NO;
+            break;
+          } else {
+            if (i == self.switchs.count - 1) {
+              isNeedAdd = YES;
+            }
           }
         }
+      } else {
+        isNeedAdd = YES;
       }
       if (isNeedAdd) {
         NSString *name = [jsonSwitch objectForKey:@"name"];

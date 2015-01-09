@@ -7,7 +7,41 @@
 //
 
 #import "ShakeWindow.h"
+#import "Scene.h"
+#import "SceneDetail.h"
+#import <CoreMotion/CoreMotion.h>
+
+typedef void (^shakeResponseMsg)(NSMutableArray *);
+typedef void (^shakeNoResponseMsg)(NSMutableArray *);
 @interface ShakeWindow () <UdpRequestDelegate>
+@property (nonatomic, strong) CMMotionManager *manager;
+//用于全局摇一摇
+@property (nonatomic, strong) UdpRequest *request;
+
+//控制指定插孔
+@property (nonatomic, strong) SDZGSwitch *aSwitch;
+@property (nonatomic, assign) int groupId;
+
+//控制场景
+@property (nonatomic, strong) Scene *scene;
+@property (nonatomic, assign) int taskCount; //任务个数，队列中的数据个数
+@property (nonatomic, assign) BOOL executeSuccess;
+@property (nonatomic, assign)
+    int sendMsgCount; //发送消息次数,每个开关任务对应一条执行次数
+
+@property (nonatomic, strong) NSString *mac; //当前执行的设备mac
+@property (nonatomic, assign) int socketGroupId; //当前执行设备所要执行的组
+@property (nonatomic, strong) shakeResponseMsg response;
+@property (nonatomic, strong) shakeNoResponseMsg noResponse;
+@property (nonatomic, strong) NSArray *sceneDetails; //原始的任务
+@property (nonatomic, strong)
+    NSMutableArray *remainingSceneDetails; //剩下待执行的任务
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) NSTimer *timerExe;
+@property (nonatomic, assign) double leftSeconds; //当前执行任务的剩余时间
+@property (nonatomic, strong) SceneDetail *sceneDetail; //当前执行任务
+@property (nonatomic, assign) BOOL isFirstExc;
+
 @end
 
 @implementation ShakeWindow
@@ -17,30 +51,261 @@
   if (self) {
     self.request = [UdpRequest manager];
     self.request.delegate = self;
+    //    CMMotionManager *manager = [[CMMotionManager alloc] init];
+    //    if (!manager.accelerometerAvailable) {
+    //      NSLog(@"Accelerometer not available");
+    //    } else {
+    //      manager.accelerometerUpdateInterval = 1.0;
+    //      NSOperationQueue *motionQueue = [[NSOperationQueue alloc] init];
+    //      //    [manager startAccelerometerUpdatesToQueue:motionQueue
+    //      // withHandler:^(CMAccelerometerData
+    //      //                                  *data,
+    //      //                                                NSError *error) {
+    //      //                                      NSLog(@"Accelerometer data:
+    //      %@",
+    //      //                                            [data description]);
+    //      //                                  }];
+    //      [manager startDeviceMotionUpdatesToQueue:motionQueue
+    //                                   withHandler:^(CMDeviceMotion *motion,
+    //                                                 NSError *error) {
+    //                                       [self motionMethod:motion];
+    //                                   }];
+    //    }
+    //    self.manager = manager;
   }
   return self;
+}
+
+//#pragma mark - UdpRequestDelegate
+//- (void)udpRequest:(UdpRequest *)request
+//     didReceiveMsg:(CC3xMessage *)message
+//           address:(NSData *)address {
+//  switch (message.msgId) { //开关控制
+//    case 0x12:
+//    case 0x14:
+//      [self responseMsg12Or14:message request:request];
+//      break;
+//  }
+//}
+//
+//- (void)responseMsg12Or14:(CC3xMessage *)message request:(UdpRequest *)request
+//{
+//  DDLogDebug(@"%s socketGroupId is %d", __func__, message.socketGroupId);
+//  if (message.state == kUdpResponseSuccessCode) {
+//    SDZGSocket *socket =
+//        [self.aSwitch.sockets objectAtIndex:message.socketGroupId - 1];
+//    socket.socketStatus = !socket.socketStatus;
+//    [self.aSwitch.sockets replaceObjectAtIndex:message.socketGroupId - 1
+//                                    withObject:socket];
+//  }
+//}
+#define accelerationThreshold 2.30
+- (void)motionMethod:(CMDeviceMotion *)deviceMotion {
+  CMAcceleration userAcceleration = deviceMotion.userAcceleration;
+  if (fabs(userAcceleration.x) > accelerationThreshold ||
+      fabs(userAcceleration.y) > accelerationThreshold ||
+      fabs(userAcceleration.z) > accelerationThreshold) {
+    NSLog(@"motion shake");
+  }
+}
+
+static dispatch_queue_t shake_scene_recive_serial_queue() {
+  static dispatch_queue_t sdzg_scene_shake_recive_send_serial_queue;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+      sdzg_scene_shake_recive_send_serial_queue = dispatch_queue_create(
+          "serial.shake.scenerecive.com.itouchco.www", DISPATCH_QUEUE_SERIAL);
+  });
+  return sdzg_scene_shake_recive_send_serial_queue;
+}
+
+- (void)setSwitch:(SDZGSwitch *)aSwitch groupId:(int)groupId {
+  self.aSwitch = aSwitch;
+  self.groupId = groupId;
+}
+
+- (void)setShakeScene:(id)scene {
+  self.scene = (Scene *)scene;
+}
+
+//默认是NO，所以得重写此方法，设成YES
+- (BOOL)canBecomeFirstResponder {
+  return NO;
+}
+
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+  NSLog(@"shake");
+  //  if (self.aSwitch && self.groupId) {
+  //    [self.request sendMsg11Or13:self.aSwitch
+  //                  socketGroupId:self.groupId
+  //                       sendMode:ActiveMode];
+  //  }
+
+  if (self.scene) {
+    NSArray *sceneDetails = self.scene.detailList;
+    [self executeSceneDetails:sceneDetails];
+  }
+}
+
+- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+}
+
+- (void)executeSceneDetails:(NSArray *)sceneDetails {
+  self.taskCount = [sceneDetails count];
+  if (self.taskCount) {
+    self.sceneDetails = sceneDetails;
+    __weak typeof(self) weakSelf = self;
+    self.response = ^(NSMutableArray *details) {
+        if (details.count) {
+          [weakSelf executeFirstOperationInSceneDetails:details isFirstExc:NO];
+        }
+    };
+    self.noResponse = ^(NSMutableArray *details) {
+        if (details.count) {
+          [weakSelf executeFirstOperationInSceneDetails:details isFirstExc:NO];
+        }
+    };
+
+    self.remainingSceneDetails = [sceneDetails mutableCopy];
+    DDLogDebug(@"details is %@", self.remainingSceneDetails);
+    [self executeFirstOperationInSceneDetails:self.remainingSceneDetails
+                                   isFirstExc:YES];
+  }
+}
+
+- (void)executeFirstOperationInSceneDetails:(NSMutableArray *)sceneDetails
+                                 isFirstExc:(BOOL)isFirstExc {
+  SceneDetail *sceneDetail = [sceneDetails firstObject];
+  self.sceneDetail = sceneDetail;
+  self.isFirstExc = isFirstExc;
+  double interval = sceneDetail.interval;
+  self.leftSeconds = interval;
+  if (self.timer) {
+    [self.timer invalidate];
+    self.timer = nil;
+  }
+  if (self.timerExe) {
+    [self.timerExe invalidate];
+    self.timerExe = nil;
+  }
+  self.timer = [NSTimer timerWithTimeInterval:1
+                                       target:self
+                                     selector:@selector(timerAction:)
+                                     userInfo:@(self.sendMsgCount)
+                                      repeats:YES];
+  [self.timer fire];
+  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+
+  self.timerExe = [NSTimer timerWithTimeInterval:NSIntegerMax
+                                          target:self
+                                        selector:@selector(sendRequest:)
+                                        userInfo:@{
+                                          @"sceneDetail" : sceneDetail,
+                                          @"isFirstExc" : @(isFirstExc)
+                                        }
+                                         repeats:NO];
+
+  [self.timerExe setFireDate:[NSDate dateWithTimeIntervalSinceNow:interval]];
+  [[NSRunLoop mainRunLoop] addTimer:self.timerExe forMode:NSRunLoopCommonModes];
+}
+
+- (void)sendRequest:(NSTimer *)timer {
+  NSDictionary *userInfo = timer.userInfo;
+  BOOL isFirstExc = [userInfo[@"isFirstExc"] boolValue];
+  SceneDetail *sceneDetail = userInfo[@"sceneDetail"];
+  dispatch_async(shake_scene_recive_serial_queue(), ^{
+      if (sceneDetail) {
+        SDZGSwitch *aSwitch = sceneDetail.aSwitch;
+        if (aSwitch.networkStatus == SWITCH_OFFLINE) {
+          aSwitch.networkStatus = SWITCH_REMOTE;
+        }
+        SDZGSocket *socket = aSwitch.sockets[sceneDetail.groupId - 1];
+        socket.socketStatus = !sceneDetail.onOrOff;
+        NSOperation *op = [NSBlockOperation blockOperationWithBlock:^{
+            SENDMODE mode = ActiveMode;
+            self.executeSuccess = NO;
+            if (self.sendMsgCount < self.sceneDetails.count) {
+              if (isFirstExc ||
+                  ([sceneDetail
+                      isEqual:self.sceneDetails[self.sendMsgCount]])) {
+                self.socketGroupId = sceneDetail.groupId;
+                self.mac = aSwitch.mac;
+                self.sendMsgCount++;
+                mode = ActiveMode;
+              } else {
+                mode = PassiveMode;
+              }
+            }
+            DDLogDebug(@"sendMsgCount is %d", self.sendMsgCount);
+            [self.request sendMsg11Or13:aSwitch
+                          socketGroupId:sceneDetail.groupId
+                               sendMode:mode];
+        }];
+        [op start];
+      }
+  });
+}
+
+- (void)timerAction:(NSTimer *)timer {
+  self.leftSeconds -= 1.f;
+  if (self.leftSeconds < 0) {
+    [self.timer invalidate];
+    self.timer = nil;
+  }
 }
 
 #pragma mark - UdpRequestDelegate
 - (void)udpRequest:(UdpRequest *)request
      didReceiveMsg:(CC3xMessage *)message
            address:(NSData *)address {
-  switch (message.msgId) { //开关控制
+  switch (message.msgId) {
+    //开关控制
     case 0x12:
     case 0x14:
-      [self responseMsg12Or14:message request:request];
+      dispatch_sync(shake_scene_recive_serial_queue(),
+                    ^{ [self responseMsg12Or14:message]; });
+
       break;
   }
 }
 
-- (void)responseMsg12Or14:(CC3xMessage *)message request:(UdpRequest *)request {
-  DDLogDebug(@"%s socketGroupId is %d", __func__, message.socketGroupId);
+- (void)udpRequest:(UdpRequest *)request
+    didNotReceiveMsgTag:(long)tag
+          socketGroupId:(int)socketGroupId {
+  dispatch_sync(shake_scene_recive_serial_queue(), ^{
+      if (!self.executeSuccess) {
+        if (self.remainingSceneDetails.count > 0) {
+          [self.remainingSceneDetails removeObjectAtIndex:0];
+        }
+        DDLogDebug(@"details is %@", self.remainingSceneDetails);
+        self.noResponse(self.remainingSceneDetails);
+      }
+  });
+}
+
+- (void)responseMsg12Or14:(CC3xMessage *)message {
+  DDLogDebug(@"message info mac is %@ and socketGroupId is %d", message.mac,
+             message.socketGroupId);
   if (message.state == kUdpResponseSuccessCode) {
-    SDZGSocket *socket =
-        [self.aSwitch.sockets objectAtIndex:message.socketGroupId - 1];
-    socket.socketStatus = !socket.socketStatus;
-    [self.aSwitch.sockets replaceObjectAtIndex:message.socketGroupId - 1
-                                    withObject:socket];
+    if (!self.executeSuccess) {
+      if (self.remainingSceneDetails.count > 0) {
+        [self.remainingSceneDetails removeObjectAtIndex:0];
+      }
+      DDLogDebug(@"details is %@", self.remainingSceneDetails);
+      self.executeSuccess = YES;
+      self.response(self.remainingSceneDetails);
+    }
+  } else {
+    //收到不在线设备控制的回应
+    if (self.remainingSceneDetails.count > 0) {
+      [self.remainingSceneDetails removeObjectAtIndex:0];
+    }
+    DDLogDebug(@"details is %@", self.remainingSceneDetails);
+    self.executeSuccess = NO;
+    self.response(self.remainingSceneDetails);
   }
 }
 

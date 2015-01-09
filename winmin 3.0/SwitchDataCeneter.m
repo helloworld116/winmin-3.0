@@ -262,6 +262,9 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
       [self beginBackgroundUpdateTask];
       [[DBUtil sharedInstance] saveSwitchs:[self switchs]];
       SwitchSyncService *service = [[SwitchSyncService alloc] init];
+      //      for (int i = 0; i < 10; i++) {
+      //        [NSThread sleepForTimeInterval:1];
+      //      }
       [service
           uploadSwitchs:^(BOOL isSuccess) { [self endBackgroundUpdateTask]; }];
   });

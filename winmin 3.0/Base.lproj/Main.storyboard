@@ -1391,6 +1391,9 @@
                                                     <color key="textColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="shake" translatesAutoresizingMaskIntoConstraints="NO" id="GpD-Ux-TaE">
+                                                    <rect key="frame" x="89" y="0.0" width="31" height="31"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </view>
@@ -1399,6 +1402,7 @@
                                 </view>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
+                                    <outlet property="imgShake" destination="GpD-Ux-TaE" id="dPI-jF-fWK"/>
                                     <outlet property="imgViewScene" destination="fDY-Xb-WEN" id="y06-z2-Y7I"/>
                                     <outlet property="lblName" destination="qHN-bq-q3e" id="WU2-k6-h18"/>
                                     <outlet property="viewBg" destination="TdS-w5-d65" id="f0a-fq-KZh"/>
@@ -4780,6 +4784,7 @@
         <image name="scene_add" width="42" height="42"/>
         <image name="scene_bj" width="320" height="480"/>
         <image name="sdef__" width="34" height="34"/>
+        <image name="shake" width="31" height="31"/>
         <image name="socket_bg" width="306" height="51"/>
         <image name="socket_bg_normal" width="56" height="56"/>
         <image name="socket_bg_off" width="306" height="51"/>

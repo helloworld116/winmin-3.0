@@ -280,9 +280,11 @@
 }
 
 - (void)responseMsgCOrE:(CC3xMessage *)message request:(UdpRequest *)request {
+  //  DDLogDebug(@"%s", __func__);
   if (self.isScanOneSwitch && request == self.request2) {
     if (message.state == kUdpResponseSuccessCode) {
       if (message.msgId == 0xc) {
+        DDLogDebug(@"%@ msgId=0xc", [NSThread currentThread]);
         //设备内网
         //解决多个设备使用同一ip导致各种奇怪问题
         if ([message.mac isEqualToString:self.currentSwitch.mac]) {
@@ -292,6 +294,7 @@
         }
         [self stopScanOneSwitch];
       } else if (message.msgId == 0xe) {
+        DDLogDebug(@"%@ msgId=0xe", [NSThread currentThread]);
         self.isRemote = YES;
         if (self.currentSwitch.networkStatus == SWITCH_REMOTE ||
             self.currentSwitch.networkStatus == SWITCH_OFFLINE) {

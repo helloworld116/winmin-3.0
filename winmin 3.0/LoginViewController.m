@@ -10,7 +10,6 @@
 #import "UserInfo.h"
 
 static int const kCancelAuthoriztionCode = -103;
-static int const kQQNotInstalled = -6004;
 
 @interface LoginViewController () <UITextFieldDelegate, ISSViewDelegate>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -223,9 +222,15 @@ static int const kQQNotInstalled = -6004;
 }
 
 - (IBAction)qqLogin:(id)sender {
+  id<ISSAuthOptions> authOptions =
+      [ShareSDK authOptionsWithAutoAuth:YES
+                          allowCallback:YES
+                          authViewStyle:SSAuthViewStyleModal
+                           viewDelegate:self
+                authManagerViewDelegate:self];
   [ShareSDK
       getUserInfoWithType:ShareTypeQQSpace
-              authOptions:nil
+              authOptions:authOptions
                    result:^(BOOL result, id<ISSPlatformUser> userInfo,
                             id<ICMErrorInfo> error) {
                        if (result) {
@@ -240,21 +245,7 @@ static int const kQQNotInstalled = -6004;
                        }
                        DDLogDebug(@"errorCode is %d and errorDescription is %@",
                                   [error errorCode], error.errorDescription);
-                       if ([error errorCode] == kQQNotInstalled) {
-                         UIAlertView *alertView = [[UIAlertView alloc]
-                                 initWithTitle:NSLocalizedString(@"Tips", nil)
-                                       message:NSLocalizedString(
-                                                   @"You are currently QQ or "
-                                                   @"QQSpace is not "
-                                                   @"installed, please "
-                                                   @"install",
-                                                   nil)
-                                      delegate:nil
-                             cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                             otherButtonTitles:nil];
-                         [alertView show];
-                       } else if (kCancelAuthoriztionCode ==
-                                  [error errorCode]) {
+                       if (kCancelAuthoriztionCode == [error errorCode]) {
                          [self.view makeToast:NSLocalizedString(
                                                   @"The user cancels the "
                                                   @"authorization, use the "

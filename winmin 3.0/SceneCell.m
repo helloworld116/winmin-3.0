@@ -10,9 +10,10 @@
 #import "Scene.h"
 
 @interface SceneCell ()
-@property (nonatomic, strong) IBOutlet UILabel *lblName;
-@property (nonatomic, strong) IBOutlet UIView *viewBg;
-@property (nonatomic, strong) IBOutlet UIImageView *imgViewScene;
+@property (nonatomic, weak) IBOutlet UILabel *lblName;
+@property (nonatomic, weak) IBOutlet UIView *viewBg;
+@property (nonatomic, weak) IBOutlet UIImageView *imgViewScene;
+@property (nonatomic, weak) IBOutlet UIImageView *imgShake;
 @property (nonatomic, strong) NSString *imgName;
 @end
 
@@ -54,10 +55,11 @@
   }
 }
 
-- (void)setCellInfo:(id)scene {
+- (void)setCellInfo:(id)scene isShowShake:(BOOL)isShake {
   Scene *_scene = (Scene *)scene;
   self.lblName.text = _scene.name;
   self.imgName = _scene.imageName;
   self.imgViewScene.image = [Scene imgNameToImage:_scene.imageName];
+  self.imgShake.hidden = !isShake;
 }
 @end

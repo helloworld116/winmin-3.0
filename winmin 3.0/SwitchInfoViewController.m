@@ -233,9 +233,17 @@ preparation before navigation
   NSCharacterSet *charSet = [NSCharacterSet whitespaceCharacterSet];
   NSString *name =
       [self.textFieldName.text stringByTrimmingCharactersInSet:charSet];
+  NSData *data = [name dataUsingEncoding:NSUTF8StringEncoding];
+  NSUInteger nameLength = data.length;
   if ([name isEqualToString:@""]) {
     [CRToastManager
         showNotificationWithMessage:NSLocalizedString(@"Name can't empty", nil)
+                    completionBlock:^{}];
+    return NO;
+  } else if (nameLength > 24) {
+    [CRToastManager
+        showNotificationWithMessage:
+            @"输入名称过长(最大支持8个纯中文或24个纯英文)"
                     completionBlock:^{}];
     return NO;
   }

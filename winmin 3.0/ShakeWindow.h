@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class SDZGSwitch;
+@class Scene;
 
 @interface ShakeWindow : UIWindow
-//用于全局摇一摇
-@property (nonatomic, strong) UdpRequest *request;
-@property (nonatomic, strong) SDZGSwitch *aSwitch;
-@property (nonatomic, assign) int groupId;
+- (void)setSwitch:(SDZGSwitch *)aSwitch groupId:(int)groupId;
+
+- (void)setShakeScene:(Scene *)scene;
 @end

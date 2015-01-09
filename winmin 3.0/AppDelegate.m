@@ -8,16 +8,17 @@
 
 #import "AppDelegate.h"
 #import "ShakeWindow.h"
-#import "ShakeWindow+Motion.h"
 #import <ShareSDK/ShareSDK.h>
 //#import <TencentOpenAPI/TencentOpenSDK.h>
+#import <QZoneConnection/ISSQZoneApp.h>
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
-#import "WeiboApi.h"
+//#import "WeiboApi.h"
 #import "APService.h"
 #import "APServiceUtil.h"
 #import <CRToast.h>
 #import <FIR/FIR.h>
+#import "Scene.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong) NetUtil* netUtil;
@@ -208,14 +209,24 @@
 
 - (void)setData {
   self.switchDataCeneter = [SwitchDataCeneter sharedInstance];
-  //  self.globalRequest = [UdpRequest manager];
-  //  //  self.request.delegate = self;
-  //  self.globalSwitch = [self.switchDataCeneter.switchs objectAtIndex:0];
-  //  self.globalGroupId = 1;
+  NSArray* scenes = [[[DBUtil sharedInstance] scenes] mutableCopy];
+  NSInteger shakeId = [[[NSUserDefaults standardUserDefaults]
+      objectForKey:@"shakeId"] integerValue];
+  if (shakeId && scenes.count) {
+    for (Scene* scene in scenes) {
+      if (scene.indentifier == shakeId) {
+        ShakeWindow* shakeWindow = (ShakeWindow*)self.window;
+        [shakeWindow setShakeScene:scene];
+        break;
+      }
+    }
+  }
 
-  ShakeWindow* shakeWindow = (ShakeWindow*)self.window;
-  [shakeWindow setSwitch:[self.switchDataCeneter.switchs objectAtIndex:0]
-                 groupId:1];
+  //  if (self.switchDataCeneter.switchs.count) {
+  //    ShakeWindow* shakeWindow = (ShakeWindow*)self.window;
+  //    [shakeWindow setSwitch:[self.switchDataCeneter.switchs objectAtIndex:0]
+  //                   groupId:1];
+  //  }
 }
 
 - (void)setLog {
@@ -238,23 +249,29 @@
 }
 
 - (void)registPlatform {
-  [ShareSDK registerApp:@"3603417cd788"];
-  //添加QQ应用  注册网址  http://mobile.qq.com/api/
-  [ShareSDK connectQQWithQZoneAppKey:@"1103439550"
-                   qqApiInterfaceCls:[QQApiInterface class]
-                     tencentOAuthCls:[TencentOAuth class]];
+  //  [ShareSDK registerApp:@"3603417cd788"];
+  [ShareSDK registerApp:@"3d3513a6d000"];
 
   //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
   [ShareSDK connectQZoneWithAppKey:@"1103439550"
                          appSecret:@"PMgcuxrYBiQT69oa"
                  qqApiInterfaceCls:[QQApiInterface class]
                    tencentOAuthCls:[TencentOAuth class]];
-  //
+
+  //添加QQ应用  注册网址  http://mobile.qq.com/api/
+  [ShareSDK connectQQWithQZoneAppKey:@"1103439550"
+                   qqApiInterfaceCls:[QQApiInterface class]
+                     tencentOAuthCls:[TencentOAuth class]];
+
   //添加新浪微博应用 注册网址 http://open.weibo.com
   [ShareSDK
       connectSinaWeiboWithAppKey:@"611419555"
                        appSecret:@"ca2db85365133fcc1e7f815acd22f038"
                      redirectUri:@"http://api.weibo.com/oauth2/default.html"];
+  //开启QQ空间网页授权开关
+  id<ISSQZoneApp> app =
+      (id<ISSQZoneApp>)[ShareSDK getClientWithType:ShareTypeQQSpace];
+  [app setIsAllowWebAuthorize:YES];
   //  [ShareSDK connectMail];
   //  [ShareSDK connectSMS];
   //  [ShareSDK connectCopy];

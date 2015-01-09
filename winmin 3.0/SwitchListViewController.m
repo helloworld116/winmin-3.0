@@ -33,6 +33,8 @@
 @property (nonatomic, assign) BOOL hasBlinkMenu;
 //选中设备修改名称或图标延时刷新问题
 @property (nonatomic, strong) NSIndexPath *lastSelectedIndexPath;
+//判断是不是刚登录，是则刷新设备列表，然后将值设为NO；
+@property (nonatomic, assign) BOOL isLogin;
 @end
 
 @implementation SwitchListViewController
@@ -108,6 +110,12 @@
                                  dispatch_get_main_queue(),
                                  ^{ [self reloadTableView]; });
               }];
+  //检查登录后设备变化
+  [[NSNotificationCenter defaultCenter]
+      addObserverForName:kLoginSuccess
+                  object:nil
+                   queue:nil
+              usingBlock:^(NSNotification *note) { self.isLogin = YES; }];
 
   //下拉刷新
   self.refreshHeaderView = [[EGORefreshTableHeaderView alloc]
@@ -158,7 +166,7 @@
       objectForKey:switchListLongPressDelete] boolValue];
   if (!isShowedLongPressDeleteGuide && self.switchs.count) {
     dispatch_after(
-        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)),
         dispatch_get_main_queue(), ^{
             UIView *viewForGuide =
                 [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -176,7 +184,14 @@
                              }];
         });
   }
-
+  if (self.isLogin) {
+    self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
+    if (self.switchs.count) {
+      self.noDataView.hidden = YES;
+      [self.tableView reloadData];
+    }
+    self.isLogin = NO;
+  }
   [self viewAppearOrEnterForeground];
   [[NSNotificationCenter defaultCenter]
       addObserver:self
