@@ -262,6 +262,7 @@
       [self saveSwitch:aSwitch];
     }
   }
+  DDLogDebug(@"设备信息保存数据库完成");
 }
 
 - (BOOL)updateSwitch:(SDZGSwitch *)aSwitch imageName:(NSString *)imageName {
@@ -276,7 +277,7 @@
 
 - (NSArray *)getSwitchs {
   NSMutableArray *switchs = [@[] mutableCopy];
-  NSString *switchSql = @"select * from switch order by id desc";
+  NSString *switchSql = @"select * from switch order by name,mac asc, id desc";
   if ([self.db open]) {
     FMResultSet *switchResult = [self.db executeQuery:switchSql];
     while (switchResult.next) {

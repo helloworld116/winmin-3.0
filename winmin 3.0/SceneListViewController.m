@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, ShakeType) {
 };
 
 @interface SceneListViewController () <UIActionSheetDelegate,
+                                       UIAlertViewDelegate,
                                        ScenePreExcDailogControllerDelegate>
 @property (nonatomic, strong) NSIndexPath *operationIndexPath;
 @property (nonatomic, strong) NSMutableArray *scenes;
@@ -26,6 +27,7 @@ typedef NS_ENUM(NSInteger, ShakeType) {
 @property (nonatomic, assign) NSInteger shakeId; //摇一摇的指定场景id
 @property (nonatomic, strong)
     NSIndexPath *lastShakeIndexPath; //修改摇一摇之前的indexPath
+@property (nonatomic, strong) Scene *currentEditScene; //
 @property (nonatomic, strong) UIView *noDataView;
 @end
 
@@ -219,10 +221,10 @@ preparation before navigation
     Scene *scene = self.scenes[self.operationIndexPath.row];
     NSString *shakeName;
     if (self.shakeId != scene.indentifier) {
-      shakeName = @"设置摇一摇";
+      shakeName = NSLocalizedString(@"Open Shake", nil);
       self.shakeType = ShakeType_Set;
     } else {
-      shakeName = @"取消摇一摇";
+      shakeName = NSLocalizedString(@"Close Shake", nil);
       self.shakeType = ShakeType_Cancel;
     }
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
@@ -242,41 +244,58 @@ preparation before navigation
 - (void)actionSheet:(UIActionSheet *)actionSheet
     clickedButtonAtIndex:(NSInteger)buttonIndex {
   Scene *scene = self.scenes[self.operationIndexPath.row];
+  self.currentEditScene = scene;
   switch (buttonIndex) {
     case 0: {
       NSArray *reloadItemsAtIndexPaths;
       NSInteger shakeId;
       if (self.shakeType == ShakeType_Set) {
-        shakeId = scene.indentifier;
-        if (self.lastShakeIndexPath &&
-            self.lastShakeIndexPath != self.operationIndexPath) {
-          reloadItemsAtIndexPaths =
-              @[ self.lastShakeIndexPath, self.operationIndexPath ];
+        NSString *message;
+        BOOL motionShake = [[[NSUserDefaults standardUserDefaults]
+            objectForKey:acceleration] boolValue];
+        if (motionShake) {
+          if (self.lastShakeIndexPath &&
+              self.lastShakeIndexPath != self.operationIndexPath) {
+            //          reloadItemsAtIndexPaths =
+            //              @[ self.lastShakeIndexPath, self.operationIndexPath
+            //              ];
+            message = NSLocalizedString(@"scene_shake_replace", nil);
+          } else {
+            //          reloadItemsAtIndexPaths = @[ self.operationIndexPath ];
+            message = NSLocalizedString(@"scene_shake_setting", nil);
+          }
         } else {
-          reloadItemsAtIndexPaths = @[ self.operationIndexPath ];
+          message = NSLocalizedString(@"scene_shake_enable", nil);
         }
+        UIAlertView *alert = [[UIAlertView alloc]
+                initWithTitle:NSLocalizedString(@"Notice", nil)
+                      message:message
+                     delegate:self
+            cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+            otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
+        [alert show];
       } else if (self.shakeType == ShakeType_Cancel) {
         shakeId = 0;
         self.lastShakeIndexPath = nil;
         reloadItemsAtIndexPaths = @[ self.operationIndexPath ];
-      }
-      NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-      [userDefaults setObject:@(shakeId) forKey:@"shakeId"];
-      [self.collectionView performBatchUpdates:^{
-          self.shakeId = shakeId;
-          [self.collectionView reloadItemsAtIndexPaths:reloadItemsAtIndexPaths];
-          //          [self.collectionView reloadSections:[NSIndexSet
-          //          indexSetWithIndex:0]];
-      } completion:^(BOOL finished) {
-          if (finished) {
-            ShakeWindow *shakeWindow = (ShakeWindow *)kSharedAppliction.window;
-            if (self.shakeType == ShakeType_Set) {
-              [shakeWindow setShakeScene:scene];
-            } else {
-              [shakeWindow setShakeScene:nil];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:@(shakeId) forKey:@"shakeId"];
+        [self.collectionView performBatchUpdates:^{
+            self.shakeId = shakeId;
+            [self.collectionView
+                reloadItemsAtIndexPaths:reloadItemsAtIndexPaths];
+        } completion:^(BOOL finished) {
+            if (finished) {
+              ShakeWindow *shakeWindow =
+                  (ShakeWindow *)kSharedAppliction.window;
+              if (self.shakeType == ShakeType_Set) {
+                [shakeWindow setShakeScene:scene];
+              } else {
+                [shakeWindow setShakeScene:nil];
+              }
             }
-          }
-      }];
+        }];
+      }
     } break;
     case 1:
       //编辑
@@ -317,6 +336,48 @@ preparation before navigation
         }];
       }
       break;
+    default:
+      break;
+  }
+}
+
+- (void)alertView:(UIAlertView *)alertView
+    clickedButtonAtIndex:(NSInteger)buttonIndex {
+  switch (buttonIndex) {
+    case 0:
+      break;
+    case 1: {
+      BOOL motionShake = [[[NSUserDefaults standardUserDefaults]
+          objectForKey:acceleration] boolValue];
+      if (!motionShake) {
+        [[NSUserDefaults standardUserDefaults] setObject:@(YES)
+                                                  forKey:acceleration];
+      }
+      NSArray *reloadItemsAtIndexPaths;
+      NSInteger shakeId = self.currentEditScene.indentifier;
+      if (self.lastShakeIndexPath &&
+          self.lastShakeIndexPath != self.operationIndexPath) {
+        reloadItemsAtIndexPaths =
+            @[ self.lastShakeIndexPath, self.operationIndexPath ];
+      } else {
+        reloadItemsAtIndexPaths = @[ self.operationIndexPath ];
+      }
+      NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+      [userDefaults setObject:@(shakeId) forKey:@"shakeId"];
+      [self.collectionView performBatchUpdates:^{
+          self.shakeId = shakeId;
+          [self.collectionView reloadItemsAtIndexPaths:reloadItemsAtIndexPaths];
+      } completion:^(BOOL finished) {
+          if (finished) {
+            ShakeWindow *shakeWindow = (ShakeWindow *)kSharedAppliction.window;
+            if (self.shakeType == ShakeType_Set) {
+              [shakeWindow setShakeScene:self.currentEditScene];
+            } else {
+              [shakeWindow setShakeScene:nil];
+            }
+          }
+      }];
+    } break;
     default:
       break;
   }

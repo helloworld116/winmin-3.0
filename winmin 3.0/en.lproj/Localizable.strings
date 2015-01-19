@@ -36,6 +36,7 @@
 "No UDP Response Msg"="Network latency, check the device network connection";
 "WWAN Message"="You are using the mobile network operators may charge other fees, depending on your network subscriptions";
 "Default"="Default";
+"Notice"="Notice";
 
 /**
  *  控制
@@ -109,6 +110,19 @@
 "Vestibule"="Vestibule";
 "ON_Scene"="ON";
 "OFF_Scene"="OFF";
+"Set command %@ will be executed"="Set command %@ will be executed";
+"Open Switch I"="Open Switch I";
+"Close Switch I"="Close Switch I";
+"Open Switch II"="Open Switch II";
+"Close Switch II"="Close Switch II";
+"You want to do this kind of operation command?"="You want to do this kind of operation command?";
+"Insert"="Insert";
+"Reset"="Reset";
+"Open Shake"="Open Shake";
+"Close Shake"="Close Shake";
+"scene_shake_enable"="Enable scene shake need to turn on the shake controller.Scenes will be execute on shaking after turn on.Notice: This function need your hardware support. If you feel trouble while using, please turn off this.Are you sure to turn on it and enable this scene?";
+"scene_shake_setting"="Enable scene shake will result on scenes execute on shaking.Notice: This function need your hardware support. If you feel trouble while using, please turn off this.Are you sure to enable this scene?";
+"scene_shake_replace"="Scene shake only support one scene as the target, continue will replace the original setting.Are you sure to continue?";
 
 /**
  *  更多
@@ -141,12 +155,14 @@
 "verfication code can not be empty"="verfication code can not be empty";
 "Answer Update"="There is a new version of the update, whether access to updated?";
 "Go Update"="Go Update";
-"User Setting"="用户设置";
-"KeyShake"="按键震动";
-"ShowMac"="显示MAC地址";
-"WWANWarn"="移动网络下提醒";
-"remoteNotification"="接收推送消息";
+"User Setting"="Function Setting";
+"KeyShake"="Vibrate while controlling";
+"ShowMac"="Show mac address in list";
+"WWANWarn"="Notify while using mobile network";
+"remoteNotification"="Receive push messages";
+"acceleration"="Shake to control";
 "feedback cannot empty"="feedback cannot empty";
 "feedback error"="Network delay, please try again";
 "feedback success"="Submit success";
 "No Message!"="No Message!";
+"setting_shake_hint"="Turn on the shake controller and set target scene will result on shake to execute scene.Notice: This function need your hardware support. If you feel trouble while using, please turn off this.Are you sure to turn on it?";

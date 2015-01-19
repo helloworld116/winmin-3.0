@@ -10,11 +10,13 @@
 #import "Scene.h"
 #import "SceneDetail.h"
 #import <CoreMotion/CoreMotion.h>
+#import "BackgroundAudioPlay.h"
 
 typedef void (^shakeResponseMsg)(NSMutableArray *);
 typedef void (^shakeNoResponseMsg)(NSMutableArray *);
 @interface ShakeWindow () <UdpRequestDelegate>
 @property (nonatomic, strong) CMMotionManager *manager;
+@property (nonatomic, strong) NSOperationQueue *motionQueue;
 //用于全局摇一摇
 @property (nonatomic, strong) UdpRequest *request;
 
@@ -51,29 +53,33 @@ typedef void (^shakeNoResponseMsg)(NSMutableArray *);
   if (self) {
     self.request = [UdpRequest manager];
     self.request.delegate = self;
-    //    CMMotionManager *manager = [[CMMotionManager alloc] init];
-    //    if (!manager.accelerometerAvailable) {
-    //      NSLog(@"Accelerometer not available");
-    //    } else {
-    //      manager.accelerometerUpdateInterval = 1.0;
-    //      NSOperationQueue *motionQueue = [[NSOperationQueue alloc] init];
-    //      //    [manager startAccelerometerUpdatesToQueue:motionQueue
-    //      // withHandler:^(CMAccelerometerData
-    //      //                                  *data,
-    //      //                                                NSError *error) {
-    //      //                                      NSLog(@"Accelerometer data:
-    //      %@",
-    //      //                                            [data description]);
-    //      //                                  }];
-    //      [manager startDeviceMotionUpdatesToQueue:motionQueue
-    //                                   withHandler:^(CMDeviceMotion *motion,
-    //                                                 NSError *error) {
-    //                                       [self motionMethod:motion];
-    //                                   }];
-    //    }
-    //    self.manager = manager;
+    CMMotionManager *manager = [[CMMotionManager alloc] init];
+    if (!manager.accelerometerAvailable) {
+      NSLog(@"Accelerometer not available");
+    } else {
+      self.motionQueue = [[NSOperationQueue alloc] init];
+      manager.deviceMotionUpdateInterval = .5f;
+    }
+    self.manager = manager;
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+           selector:@selector(applicationWillEnterForegroundNotification:)
+               name:UIApplicationWillEnterForegroundNotification
+             object:nil];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+           selector:@selector(applicationDidEnterBackgroundNotification:)
+               name:UIApplicationDidEnterBackgroundNotification
+             object:nil];
+    [self registerforDeviceLockNotif];
   }
   return self;
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  CFNotificationCenterRemoveEveryObserver(
+      CFNotificationCenterGetDarwinNotifyCenter(), NULL);
 }
 
 //#pragma mark - UdpRequestDelegate
@@ -99,13 +105,17 @@ typedef void (^shakeNoResponseMsg)(NSMutableArray *);
 //                                    withObject:socket];
 //  }
 //}
-#define accelerationThreshold 2.30
+#define accelerationThreshold 2.0
 - (void)motionMethod:(CMDeviceMotion *)deviceMotion {
   CMAcceleration userAcceleration = deviceMotion.userAcceleration;
   if (fabs(userAcceleration.x) > accelerationThreshold ||
       fabs(userAcceleration.y) > accelerationThreshold ||
       fabs(userAcceleration.z) > accelerationThreshold) {
-    NSLog(@"motion shake");
+    DDLogDebug(@"motion shake");
+    if (self.scene && kSharedAppliction.networkStatus == ReachableViaWiFi) {
+      NSArray *sceneDetails = self.scene.detailList;
+      [self executeSceneDetails:sceneDetails];
+    }
   }
 }
 
@@ -144,7 +154,7 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
   //                       sendMode:ActiveMode];
   //  }
 
-  if (self.scene) {
+  if (self.scene && kSharedAppliction.networkStatus == ReachableViaWiFi) {
     NSArray *sceneDetails = self.scene.detailList;
     [self executeSceneDetails:sceneDetails];
   }
@@ -154,6 +164,7 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
 }
 
 - (void)executeSceneDetails:(NSArray *)sceneDetails {
+  self.sendMsgCount = 0;
   self.taskCount = [sceneDetails count];
   if (self.taskCount) {
     self.sceneDetails = sceneDetails;
@@ -219,9 +230,10 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
   dispatch_async(shake_scene_recive_serial_queue(), ^{
       if (sceneDetail) {
         SDZGSwitch *aSwitch = sceneDetail.aSwitch;
-        if (aSwitch.networkStatus == SWITCH_OFFLINE) {
-          aSwitch.networkStatus = SWITCH_REMOTE;
-        }
+        //        if (aSwitch.networkStatus == SWITCH_OFFLINE) {
+        //          aSwitch.networkStatus = SWITCH_REMOTE;
+        //        }
+        aSwitch.networkStatus = SWITCH_LOCAL;
         SDZGSocket *socket = aSwitch.sockets[sceneDetail.groupId - 1];
         socket.socketStatus = !sceneDetail.onOrOff;
         NSOperation *op = [NSBlockOperation blockOperationWithBlock:^{
@@ -307,6 +319,81 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
     self.executeSuccess = NO;
     self.response(self.remainingSceneDetails);
   }
+}
+
+#pragma mark - 通知
+- (void)applicationWillEnterForegroundNotification:(NSNotification *)notif {
+  if (self.manager) {
+    [self.manager stopDeviceMotionUpdates];
+  }
+}
+
+- (void)applicationDidEnterBackgroundNotification:(NSNotification *)notif {
+  [self.manager startDeviceMotionUpdatesToQueue:self.motionQueue
+                                    withHandler:^(CMDeviceMotion *motion,
+                                                  NSError *error) {
+                                        [self motionMethod:motion];
+                                    }];
+}
+
+#pragma mark - Screen Lock Event
+// call back
+static void displayStatusChanged(CFNotificationCenterRef center, void *observer,
+                                 CFStringRef name, const void *object,
+                                 CFDictionaryRef userInfo) {
+  // the "com.apple.springboard.lockcomplete" notification will always come
+  // after the "com.apple.springboard.lockstate" notification
+
+  NSString *lockState = (NSString *)CFBridgingRelease(name);
+  NSLog(@"Darwin notification NAME = %@", name);
+
+  if ([lockState isEqualToString:@"com.apple.springboard.lockcomplete"]) {
+    NSLog(@"DEVICE LOCKED");
+  } else if ([lockState isEqualToString:@"com.apple.iokit.hid.displayStatus"]) {
+    if (userInfo != nil) {
+      CFShow(userInfo);
+    }
+  } else if ([lockState
+                 isEqualToString:@"com.apple.springboard.hasBlankedScreen"]) {
+    if (userInfo != nil) {
+      CFShow(userInfo);
+    }
+  } else {
+    NSLog(@"LOCK STATUS CHANGED");
+  }
+}
+
+- (void)registerforDeviceLockNotif {
+  // Screen lock notifications
+  CFNotificationCenterAddObserver(
+      CFNotificationCenterGetDarwinNotifyCenter(), // center
+      NULL,                                        // observer
+      displayStatusChanged,                        // callback
+      CFSTR("com.apple.springboard.lockcomplete"), // event name
+      NULL,                                        // object
+      CFNotificationSuspensionBehaviorDeliverImmediately);
+
+  CFNotificationCenterAddObserver(
+      CFNotificationCenterGetDarwinNotifyCenter(), // center
+      NULL,                                        // observer
+      displayStatusChanged,                        // callback
+      CFSTR("com.apple.springboard.lockstate"),    // event name
+      NULL,                                        // object
+      CFNotificationSuspensionBehaviorDeliverImmediately);
+  CFNotificationCenterAddObserver(
+      CFNotificationCenterGetDarwinNotifyCenter(), // center
+      NULL,                                        // observer
+      displayStatusChanged,                        // callback
+      CFSTR("com.apple.iokit.hid.displayStatus"),  // event name
+      NULL,                                        // object
+      CFNotificationSuspensionBehaviorDeliverImmediately);
+  //  CFNotificationCenterAddObserver(
+  //      CFNotificationCenterGetDarwinNotifyCenter(),     // center
+  //      NULL,                                            // observer
+  //      displayStatusChanged,                            // callback
+  //      CFSTR("com.apple.springboard.hasBlankedScreen"), // event name
+  //      NULL,                                            // object
+  //      CFNotificationSuspensionBehaviorDeliverImmediately);
 }
 
 @end

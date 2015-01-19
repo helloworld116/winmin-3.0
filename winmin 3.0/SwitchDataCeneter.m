@@ -8,6 +8,7 @@
 
 #import "SwitchDataCeneter.h"
 #import "SwitchSyncService.h"
+#import "BackgroundAudioPlay.h"
 
 static NSTimeInterval localToRemoteFactor = 2.f;
 static NSTimeInterval remoteToOfflineFactor = 3.f;
@@ -23,7 +24,6 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
 }
 
 @interface SwitchDataCeneter ()
-@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundUpdateTask;
 @end
 
 @implementation SwitchDataCeneter
@@ -222,10 +222,10 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   //      [[NSSortDescriptor alloc] initWithKey:@"mac" ascending:YES];
   //  return [[self.switchsDict allValues]
   //      sortedArrayUsingDescriptors:@[ netDescriptor, macDescriptor ]];
-  NSSortDescriptor *_idDescriptor =
-      [[NSSortDescriptor alloc] initWithKey:@"_id" ascending:NO];
-  return [[self.switchsDict allValues]
-      sortedArrayUsingDescriptors:@[ _idDescriptor ]];
+  //  NSSortDescriptor *_idDescriptor =
+  //      [[NSSortDescriptor alloc] initWithKey:@"_id" ascending:NO];
+  return
+      [[self.switchsDict allValues] sortedArrayUsingDescriptors:descriptors()];
 }
 
 - (NSArray *)switchs {
@@ -238,11 +238,20 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   //      [[NSSortDescriptor alloc] initWithKey:@"mac" ascending:YES];
   //  return [[self.switchsDict allValues]
   //      sortedArrayUsingDescriptors:@[ netDescriptor, macDescriptor ]];
+  //  NSSortDescriptor *_idDescriptor =
+  //      [[NSSortDescriptor alloc] initWithKey:@"_id" ascending:NO];
+  return
+      [[self.switchsDict allValues] sortedArrayUsingDescriptors:descriptors()];
+}
 
+static NSArray *descriptors() {
+  NSSortDescriptor *nameDescriptor =
+      [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+  NSSortDescriptor *macDescriptor =
+      [[NSSortDescriptor alloc] initWithKey:@"mac" ascending:YES];
   NSSortDescriptor *_idDescriptor =
       [[NSSortDescriptor alloc] initWithKey:@"_id" ascending:NO];
-  return [[self.switchsDict allValues]
-      sortedArrayUsingDescriptors:@[ _idDescriptor ]];
+  return @[ nameDescriptor, macDescriptor, _idDescriptor ];
 }
 
 - (BOOL)isAllSwitchOffLine {
@@ -255,32 +264,6 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
     }
   }
   return result;
-}
-
-- (void)syncSwitchs {
-  dispatch_async(GLOBAL_QUEUE, ^{
-      [self beginBackgroundUpdateTask];
-      [[DBUtil sharedInstance] saveSwitchs:[self switchs]];
-      SwitchSyncService *service = [[SwitchSyncService alloc] init];
-      //      for (int i = 0; i < 10; i++) {
-      //        [NSThread sleepForTimeInterval:1];
-      //      }
-      [service
-          uploadSwitchs:^(BOOL isSuccess) { [self endBackgroundUpdateTask]; }];
-  });
-}
-
-- (void)beginBackgroundUpdateTask {
-  self.backgroundUpdateTask = [[UIApplication sharedApplication]
-      beginBackgroundTaskWithExpirationHandler:^{
-          [self endBackgroundUpdateTask];
-      }];
-}
-
-- (void)endBackgroundUpdateTask {
-  [[UIApplication sharedApplication]
-      endBackgroundTask:self.backgroundUpdateTask];
-  self.backgroundUpdateTask = UIBackgroundTaskInvalid;
 }
 
 - (BOOL)removeSwitch:(SDZGSwitch *)aSwtich {

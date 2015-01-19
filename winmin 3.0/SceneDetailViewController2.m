@@ -224,15 +224,20 @@ preparation before navigation
   if (aSwitch) {
     //
     self.aSwitch = aSwitch;
-    NSString *title = [NSString
-        stringWithFormat:@"设置%@将要执行的命令", aSwitch.name];
+    NSString *title =
+        [NSString stringWithFormat:NSLocalizedString(
+                                       @"Set command %@ will be executed", nil),
+                                   aSwitch.name];
     UIActionSheet *sheet = [[UIActionSheet alloc]
                  initWithTitle:title
                       delegate:self
              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
         destructiveButtonTitle:nil
-             otherButtonTitles:@"打开开关I", @"关闭开关I",
-                               @"打开开关II", @"关闭开关II", nil];
+             otherButtonTitles:NSLocalizedString(@"Open Switch I", nil),
+                               NSLocalizedString(@"Close Switch I", nil),
+                               NSLocalizedString(@"Open Switch II", nil),
+                               NSLocalizedString(@"Close Switch II", nil), nil];
+
     sheet.tag = 98981;
     [sheet showInView:self.view];
   } else {
@@ -358,11 +363,15 @@ preparation before navigation
   DDLogDebug(@"row is %d", indexPath.row);
   self.currentEditRow = indexPath.row;
   UIActionSheet *sheet = [[UIActionSheet alloc]
-               initWithTitle:@"您希望对这条命令做怎样的操作？"
+               initWithTitle:
+                   NSLocalizedString(
+                       @"You want to do this kind of operation command?", nil)
                     delegate:self
            cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
       destructiveButtonTitle:nil
-           otherButtonTitles:@"插入", @"重设", @"删除", nil];
+           otherButtonTitles:NSLocalizedString(@"Insert", nil),
+                             NSLocalizedString(@"Reset", nil),
+                             NSLocalizedString(@"Delete", nil), nil];
   sheet.tag = 98982;
   [sheet showInView:self.view];
 }

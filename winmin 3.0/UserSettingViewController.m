@@ -13,8 +13,9 @@ NSString *const showMac = @"ShowMac";
 NSString *const wwanWarn = @"WWANWarn";
 NSString *const remoteNotification = @"remoteNotification";
 NSString *const jPushTagArrayKey = @"jPushTagArrayKey";
+NSString *const acceleration = @"acceleration";
 
-@interface UserSettingCell : UITableViewCell
+@interface UserSettingCell : UITableViewCell<UIAlertViewDelegate>
 @property (strong, nonatomic) IBOutlet UIView *viewOfCellContent;
 @property (strong, nonatomic) IBOutlet UILabel *lblName;
 @property (strong, nonatomic) IBOutlet UISwitch *_switch;
@@ -78,6 +79,14 @@ NSString *const jPushTagArrayKey = @"jPushTagArrayKey";
           }];
       });
     }
+  } else if ([self.name isEqualToString:acceleration] && self._switch.on) {
+    UIAlertView *alert = [[UIAlertView alloc]
+            initWithTitle:NSLocalizedString(@"Notice", nil)
+                  message:NSLocalizedString(@"setting_shake_hint", nil)
+                 delegate:self
+        cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+        otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
+    [alert show];
   } else {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:@(self._switch.on) forKey:self.name];
@@ -85,6 +94,22 @@ NSString *const jPushTagArrayKey = @"jPushTagArrayKey";
   }
 }
 
+- (void)alertView:(UIAlertView *)alertView
+    clickedButtonAtIndex:(NSInteger)buttonIndex {
+  switch (buttonIndex) {
+    case 0:
+      self._switch.on = !self._switch.on;
+      break;
+    case 1: {
+      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+      [defaults setObject:@(self._switch.on) forKey:self.name];
+      [defaults synchronize];
+    } break;
+
+    default:
+      break;
+  }
+}
 @end
 
 @interface UserSettingViewController ()
@@ -104,7 +129,8 @@ NSString *const jPushTagArrayKey = @"jPushTagArrayKey";
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self setupStyle];
-  self.settings = @[ showMac, keyShake, wwanWarn, remoteNotification ];
+  self.settings =
+      @[ showMac, keyShake, wwanWarn, remoteNotification, acceleration ];
 }
 
 - (void)didReceiveMemoryWarning {

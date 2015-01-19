@@ -36,6 +36,7 @@
 "No UDP Response Msg"="网络延迟，请检查设备网络连接";
 "WWAN Message"="您正在使用移动网络，运营商可能会收取其他费用，具体取决于您的网络订阅情况";
 "Default"="默认";
+"Notice"="注意";
 
 /**
  *  控制
@@ -120,6 +121,19 @@
 "Vestibule"="玄关";
 "ON_Scene"="开";
 "OFF_Scene"="关";
+"Set command %@ will be executed"="设置%@将要执行的命令";
+"Open Switch I"="打开开关I";
+"Close Switch I"="关闭开关II";
+"Open Switch II"="打开开关I";
+"Close Switch II"="关闭开关II";
+"You want to do this kind of operation command?"="您希望对这条命令做怎样的操作？";
+"Insert"="插入";
+"Reset"="重设";
+"Open Shake"="开启摇一摇";
+"Close Shake"="关闭摇一摇";
+"scene_shake_enable"="开启场景摇一摇功能需要打开摇一摇控制开关。开启之后可使用摇一摇来控制场景执行。注意: 此功能需要硬件支持。若在使用中对此功能有困扰，请关闭此设置。确定打开并开启吗？";
+"scene_shake_setting"="开启场景摇一摇功能之后可使用摇一摇来控制场景执行。注意: 此功能需要硬件支持。若在使用中对此功能有困扰，请关闭此设置。确定开启吗？";
+"scene_shake_replace"="场景摇一摇功能只支持设置一个场景作为执行目标，继续将替换原有摇一摇场景设置。确定继续吗？";
 
 /**
  *  更多
@@ -152,12 +166,14 @@
 "verfication code can not be empty"="验证码不能为空";
 "Answer Update"="有新的版本更新，是否前往更新？";
 "Go Update"="前往更新";
-"User Setting"="用户设置";
+"User Setting"="功能设置";
 "KeyShake"="按键时震动反馈";
 "ShowMac"="列表显示MAC地址";
 "WWANWarn"="移动网络下提醒";
 "remoteNotification"="接收推送消息";
+"acceleration"="摇一摇控制";
 "feedback cannot empty"="请输入您的反馈意见";
 "feedback error"="网络延迟，请重试";
 "feedback success"="提交成功";
 "No Message!"="暂无消息！";
+"setting_shake_hint"="开启之后可通过指定摇一摇场景并通过摇一摇来控制场景执行。注意: 此功能需要硬件支持。若在使用中对此功能有困扰，请关闭此设置。确定打开吗？";

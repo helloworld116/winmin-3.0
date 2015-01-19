@@ -101,6 +101,7 @@ extern NSString *const showMac;
 extern NSString *const wwanWarn;
 extern NSString *const remoteNotification;
 extern NSString *const jPushTagArrayKey;
+extern NSString *const acceleration;
 static NSString *const switchListLongPressDelete = @"switchListLongPressDelete";
 static NSString *const switchListPulldownRefresh = @"switchListPulldownRefresh";
 static long switchListPulldownRefreshViewTag = 100101;

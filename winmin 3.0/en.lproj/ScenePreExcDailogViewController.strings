@@ -1,0 +1,12 @@
+
+/* Class = "IBUILabel"; text = "场景是预定义的一组开关操作。\\n执行场景可能会立即打开或关闭你的用电设备。\\n确定执行吗？\\n确定执行吗？\\n确定执行吗？"; ObjectID = "DES-0Z-82x"; */
+"DES-0Z-82x.text" = "The scene is a predefined set of switching operations. \\n execution scene may immediately turn on or off your electrical equipment. \\n determining perform it? \\n determining perform it? \\n determining perform it?";
+
+/* Class = "IBUIButton"; normalTitle = "确定"; ObjectID = "OUq-GQ-rqU"; */
+"OUq-GQ-rqU.normalTitle" = "Sure";
+
+/* Class = "IBUIButton"; normalTitle = "取消"; ObjectID = "oLv-6h-1f6"; */
+"oLv-6h-1f6.normalTitle" = "Cancel";
+
+/* Class = "IBUILabel"; text = "注意"; ObjectID = "roM-0s-oaJ"; */
+"roM-0s-oaJ.text" = "Notice";

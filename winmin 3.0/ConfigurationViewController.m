@@ -256,7 +256,7 @@
                     success:(BOOL)success {
   [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
   if (success) {
-    self.tabBarController.selectedIndex = 0;
+    self.tabBarController.selectedIndex = 1;
   }
 }
 @end

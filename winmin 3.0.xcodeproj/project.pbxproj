@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		06276B622ABA4D69A45BB762 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B2B7BB80C1420797A2EE26 /* libPods.a */; };
-		1500CD7A1A411E1E00A720E0 /* SceneSwitchListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1500CD791A411E1E00A720E0 /* SceneSwitchListController.xib */; };
 		1500CD7D1A41270200A720E0 /* SceneSwitchListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1500CD7C1A41270200A720E0 /* SceneSwitchListController.m */; };
 		1500CD7F1A41570200A720E0 /* libFTC_RELEASE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98F919C7CA000068AFC5 /* libFTC_RELEASE.a */; };
 		1500CD821A415BEA00A720E0 /* SceneDetailViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 1500CD811A415BEA00A720E0 /* SceneDetailViewController2.m */; };
@@ -25,6 +24,7 @@
 		150BE8641A00F35D00A358CF /* SceneExcCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150BE8661A00F35D00A358CF /* SceneExcCell.xib */; };
 		150BE86D1A01D47700A358CF /* SceneExcTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE86C1A01D47700A358CF /* SceneExcTitleView.m */; };
 		150BE86F1A01D49700A358CF /* SceneExcTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150BE86E1A01D49700A358CF /* SceneExcTitleView.xib */; };
+		150D5EFB1A68FF9600C841A9 /* SceneSwitchListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150D5EFD1A68FF9600C841A9 /* SceneSwitchListController.xib */; };
 		150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6DD19F9E276005134B7 /* FaqCell.xib */; };
 		150FC6E319FA39DB005134B7 /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150FC6E219FA39DB005134B7 /* ProtocolViewController.m */; };
 		150FC6E519FA419B005134B7 /* protocol.htm in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6E419FA419B005134B7 /* protocol.htm */; };
@@ -35,6 +35,7 @@
 		15391C401A37DCBB00287C4F /* LoadmoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15391C3F1A37DCBB00287C4F /* LoadmoreCell.m */; };
 		15391C431A38378000287C4F /* FeedbackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15391C421A38378000287C4F /* FeedbackModel.m */; };
 		15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 15476D4B19E68B6B00EC6BD1 /* NetUtil.m */; };
+		154C197E1A6908D400FBB19C /* ScenePreExcDailogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 154C19801A6908D400FBB19C /* ScenePreExcDailogViewController.xib */; };
 		1551F6EF19F8951200A24447 /* FAQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1551F6EE19F8951200A24447 /* FAQViewController.m */; };
 		1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6F019F8AC9300A24447 /* bookinfo@2x.png */; };
 		1551F6F319F90AF500A24447 /* faq.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6F219F90AF400A24447 /* faq.plist */; };
@@ -126,7 +127,6 @@
 		15AC865819D158D700D154EB /* DelayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865719D158D700D154EB /* DelayModel.m */; };
 		15AC865B19D2C56400D154EB /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC865A19D2C56400D154EB /* DatePickerViewController.m */; };
 		15B3B92C19F511760058D91F /* ConfigLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15B3B92E19F511760058D91F /* ConfigLoadingViewController.xib */; };
-		15B5B99F1A2808B4008C8F94 /* ScenePreExcDailogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15B5B99E1A2808B4008C8F94 /* ScenePreExcDailogViewController.xib */; };
 		15B5B9A21A280901008C8F94 /* ScenePreExcDailogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B5B9A11A280900008C8F94 /* ScenePreExcDailogViewController.m */; };
 		15B5B9A51A2821FB008C8F94 /* ConfHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B5B9A41A2821FB008C8F94 /* ConfHelpViewController.m */; };
 		15B649DE1A306B01005AF244 /* welcome4-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B649DA1A306B01005AF244 /* welcome4-5@2x.png */; };
@@ -147,6 +147,8 @@
 		15BBD6FB19DA89540002D973 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6FA19DA89540002D973 /* TestViewController.m */; };
 		15C738321A17328D0025F7A1 /* SwitchSyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C738311A17328D0025F7A1 /* SwitchSyncService.m */; };
 		15CE02581A5BEA3100F44EA5 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15CE02571A5BEA3100F44EA5 /* CoreMotion.framework */; };
+		15E31BB31A6508310054CE81 /* BackgroundAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E31BB21A6508310054CE81 /* BackgroundAudioPlay.m */; };
+		15E31BB51A6517BA0054CE81 /* glass.wav in Resources */ = {isa = PBXBuildFile; fileRef = 15E31BB41A6517BA0054CE81 /* glass.wav */; };
 		15EA3F191A2F0A6F00D14A47 /* welcome1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EA3F151A2F0A6F00D14A47 /* welcome1@2x.png */; };
 		15EA3F1A1A2F0A6F00D14A47 /* welcome2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EA3F161A2F0A6F00D14A47 /* welcome2@2x.png */; };
 		15EA3F1B1A2F0A6F00D14A47 /* welcome3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EA3F171A2F0A6F00D14A47 /* welcome3@2x.png */; };
@@ -175,7 +177,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1500CD791A411E1E00A720E0 /* SceneSwitchListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SceneSwitchListController.xib; sourceTree = "<group>"; };
 		1500CD7B1A41270200A720E0 /* SceneSwitchListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneSwitchListController.h; sourceTree = "<group>"; };
 		1500CD7C1A41270200A720E0 /* SceneSwitchListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneSwitchListController.m; sourceTree = "<group>"; };
 		1500CD801A415BE900A720E0 /* SceneDetailViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDetailViewController2.h; sourceTree = "<group>"; };
@@ -201,6 +202,9 @@
 		150BE86E1A01D49700A358CF /* SceneExcTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SceneExcTitleView.xib; sourceTree = "<group>"; };
 		150BE8751A02183F00A358CF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		150BE8771A02189C00A358CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		150D5EFC1A68FF9600C841A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SceneSwitchListController.xib; sourceTree = "<group>"; };
+		150D5EFF1A68FFA900C841A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SceneSwitchListController.strings; sourceTree = "<group>"; };
+		150D5F011A68FFAC00C841A9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SceneSwitchListController.strings"; sourceTree = "<group>"; };
 		150FC6DD19F9E276005134B7 /* FaqCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FaqCell.xib; sourceTree = "<group>"; };
 		150FC6E119FA39DB005134B7 /* ProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolViewController.h; sourceTree = "<group>"; };
 		150FC6E219FA39DB005134B7 /* ProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolViewController.m; sourceTree = "<group>"; };
@@ -218,6 +222,9 @@
 		15391C421A38378000287C4F /* FeedbackModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackModel.m; sourceTree = "<group>"; };
 		15476D4A19E68B6B00EC6BD1 /* NetUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetUtil.h; sourceTree = "<group>"; };
 		15476D4B19E68B6B00EC6BD1 /* NetUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetUtil.m; sourceTree = "<group>"; };
+		154C197F1A6908D400FBB19C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ScenePreExcDailogViewController.xib; sourceTree = "<group>"; };
+		154C19821A6908EA00FBB19C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ScenePreExcDailogViewController.strings; sourceTree = "<group>"; };
+		154C19841A6908F300FBB19C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ScenePreExcDailogViewController.strings"; sourceTree = "<group>"; };
 		1551F6ED19F8951200A24447 /* FAQViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQViewController.h; sourceTree = "<group>"; };
 		1551F6EE19F8951200A24447 /* FAQViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQViewController.m; sourceTree = "<group>"; };
 		1551F6F019F8AC9300A24447 /* bookinfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookinfo@2x.png"; sourceTree = "<group>"; };
@@ -376,7 +383,6 @@
 		15B3B92D19F511760058D91F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ConfigLoadingViewController.xib; sourceTree = "<group>"; };
 		15B3B93019F5117C0058D91F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ConfigLoadingViewController.strings; sourceTree = "<group>"; };
 		15B3B93219F5117F0058D91F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ConfigLoadingViewController.strings"; sourceTree = "<group>"; };
-		15B5B99E1A2808B4008C8F94 /* ScenePreExcDailogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScenePreExcDailogViewController.xib; sourceTree = "<group>"; };
 		15B5B9A01A280900008C8F94 /* ScenePreExcDailogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScenePreExcDailogViewController.h; sourceTree = "<group>"; };
 		15B5B9A11A280900008C8F94 /* ScenePreExcDailogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScenePreExcDailogViewController.m; sourceTree = "<group>"; };
 		15B5B9A31A2821FB008C8F94 /* ConfHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfHelpViewController.h; sourceTree = "<group>"; };
@@ -414,6 +420,9 @@
 		15C738311A17328D0025F7A1 /* SwitchSyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchSyncService.m; sourceTree = "<group>"; };
 		15C738331A1732B30025F7A1 /* SwitchSyncService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwitchSyncService.h; sourceTree = "<group>"; };
 		15CE02571A5BEA3100F44EA5 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		15E31BB11A6508300054CE81 /* BackgroundAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundAudioPlay.h; sourceTree = "<group>"; };
+		15E31BB21A6508310054CE81 /* BackgroundAudioPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundAudioPlay.m; sourceTree = "<group>"; };
+		15E31BB41A6517BA0054CE81 /* glass.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = glass.wav; sourceTree = "<group>"; };
 		15EA3F151A2F0A6F00D14A47 /* welcome1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1@2x.png"; sourceTree = "<group>"; };
 		15EA3F161A2F0A6F00D14A47 /* welcome2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2@2x.png"; sourceTree = "<group>"; };
 		15EA3F171A2F0A6F00D14A47 /* welcome3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3@2x.png"; sourceTree = "<group>"; };
@@ -523,10 +532,10 @@
 				155A5BF519D3E718007864C8 /* SceneDetailViewController.m */,
 				155A5BFA19D53835007864C8 /* SceneExecuteViewController.h */,
 				155A5BFB19D53835007864C8 /* SceneExecuteViewController.m */,
-				15B5B99E1A2808B4008C8F94 /* ScenePreExcDailogViewController.xib */,
+				154C19801A6908D400FBB19C /* ScenePreExcDailogViewController.xib */,
 				15B5B9A01A280900008C8F94 /* ScenePreExcDailogViewController.h */,
 				15B5B9A11A280900008C8F94 /* ScenePreExcDailogViewController.m */,
-				1500CD791A411E1E00A720E0 /* SceneSwitchListController.xib */,
+				150D5EFD1A68FF9600C841A9 /* SceneSwitchListController.xib */,
 				1500CD7B1A41270200A720E0 /* SceneSwitchListController.h */,
 				1500CD7C1A41270200A720E0 /* SceneSwitchListController.m */,
 				1500CD801A415BE900A720E0 /* SceneDetailViewController2.h */,
@@ -896,6 +905,7 @@
 		158D990D19C7CBB40068AFC5 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				15E31BB41A6517BA0054CE81 /* glass.wav */,
 				158D991819C7CC2E0068AFC5 /* protocol */,
 				15476D4A19E68B6B00EC6BD1 /* NetUtil.h */,
 				15476D4B19E68B6B00EC6BD1 /* NetUtil.m */,
@@ -920,6 +930,8 @@
 				152355751A4D4D2700BDB850 /* UIDeviceHardware.m */,
 				157924821A58DE440034C832 /* ShakeWindow.h */,
 				157924831A58DE440034C832 /* ShakeWindow.m */,
+				15E31BB11A6508300054CE81 /* BackgroundAudioPlay.h */,
+				15E31BB21A6508310054CE81 /* BackgroundAudioPlay.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -1146,9 +1158,9 @@
 				151B4AAA1A0226DF00C77467 /* winmin 3.0-Info.plist in Resources */,
 				15EA3F1C1A2F0A6F00D14A47 /* welcome4@2x.png in Resources */,
 				1551F6F319F90AF500A24447 /* faq.plist in Resources */,
-				1500CD7A1A411E1E00A720E0 /* SceneSwitchListController.xib in Resources */,
+				150D5EFB1A68FF9600C841A9 /* SceneSwitchListController.xib in Resources */,
 				15BA47B919FE153E008ADB9D /* DatePickerViewController.xib in Resources */,
-				15B5B99F1A2808B4008C8F94 /* ScenePreExcDailogViewController.xib in Resources */,
+				154C197E1A6908D400FBB19C /* ScenePreExcDailogViewController.xib in Resources */,
 				158D988519C6F39C0068AFC5 /* InfoPlist.strings in Resources */,
 				150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */,
 				150BE8641A00F35D00A358CF /* SceneExcCell.xib in Resources */,
@@ -1169,6 +1181,7 @@
 				1560132519CA79D700BF7E12 /* image.plist in Resources */,
 				158D98EF19C7C9660068AFC5 /* WeiboSDK.bundle in Resources */,
 				15EA3F1B1A2F0A6F00D14A47 /* welcome3@2x.png in Resources */,
+				15E31BB51A6517BA0054CE81 /* glass.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1252,6 +1265,7 @@
 				15AC864D19D10A2100D154EB /* DelayViewController.m in Sources */,
 				15B8E4C01A36FC76004DAD1E /* MessageCell.m in Sources */,
 				1500CD7D1A41270200A720E0 /* SceneSwitchListController.m in Sources */,
+				15E31BB31A6508310054CE81 /* BackgroundAudioPlay.m in Sources */,
 				15AC865B19D2C56400D154EB /* DatePickerViewController.m in Sources */,
 				1564D7001A42A6C100F574A5 /* SceneEditCell2.m in Sources */,
 				15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */,
@@ -1353,6 +1367,26 @@
 				150BE86A1A00F36500A358CF /* zh-Hans */,
 			);
 			name = SceneExcCell.xib;
+			sourceTree = "<group>";
+		};
+		150D5EFD1A68FF9600C841A9 /* SceneSwitchListController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				150D5EFC1A68FF9600C841A9 /* Base */,
+				150D5EFF1A68FFA900C841A9 /* en */,
+				150D5F011A68FFAC00C841A9 /* zh-Hans */,
+			);
+			name = SceneSwitchListController.xib;
+			sourceTree = "<group>";
+		};
+		154C19801A6908D400FBB19C /* ScenePreExcDailogViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				154C197F1A6908D400FBB19C /* Base */,
+				154C19821A6908EA00FBB19C /* en */,
+				154C19841A6908F300FBB19C /* zh-Hans */,
+			);
+			name = ScenePreExcDailogViewController.xib;
 			sourceTree = "<group>";
 		};
 		158D988319C6F39C0068AFC5 /* InfoPlist.strings */ = {

@@ -124,11 +124,6 @@
                      mac:(NSString *)mac;
 
 /**
- *  退出前保存到数据库
- */
-- (void)syncSwitchs;
-
-/**
  *  保存图片信息
  *
  *  @param groupId     socket所在分组，值为1和2

@@ -42,24 +42,24 @@
 - (void)setup {
   [self setupStyle];
   self.titles = @[
-    NSLocalizedString(@"About Us", nil),
     NSLocalizedString(@"User Setting", nil),
     NSLocalizedString(@"Safety Warning", nil),
     NSLocalizedString(@"FAQ", nil),
     NSLocalizedString(@"User Manual", nil),
     NSLocalizedString(@"Message Center", nil),
     NSLocalizedString(@"Feedback", nil),
-    NSLocalizedString(@"Purchase Products", nil)
+    NSLocalizedString(@"Purchase Products", nil),
+    NSLocalizedString(@"About Us", nil)
   ];
   self.icons = @[
-    @"about_us",
     @"user_setting",
     @"security",
     @"question",
     @"book",
     @"push_message",
     @"feedback",
-    @"buy"
+    @"buy",
+    @"about_us"
   ];
   [[NSNotificationCenter defaultCenter]
       addObserverForName:kLoginSuccess
@@ -194,43 +194,43 @@
     UIViewController *nextController;
     switch (indexPath.row) {
       case 0:
-        nextController = [self.storyboard
-            instantiateViewControllerWithIdentifier:@"AboutUsViewController"];
-        break;
-      case 1:
         nextController =
             [self.storyboard instantiateViewControllerWithIdentifier:
                                  @"UserSettingViewController"];
         break;
-      case 2:
+      case 1:
         nextController =
             [self.storyboard instantiateViewControllerWithIdentifier:
                                  @"SecurityWarnViewController"];
         break;
-      case 3:
+      case 2:
         nextController = [self.storyboard
             instantiateViewControllerWithIdentifier:@"FAQViewController"];
         break;
-      case 4:
+      case 3:
         nextController = [self.storyboard
             instantiateViewControllerWithIdentifier:@"BookViewController"];
         break;
-      case 5:
+      case 4:
         nextController =
             [self.storyboard instantiateViewControllerWithIdentifier:
                                  @"MessageCenterViewController"];
         break;
-      case 6:
+      case 5:
         nextController = [self.storyboard
             instantiateViewControllerWithIdentifier:@"FeedbackViewController"];
         break;
-      case 7:
+      case 6:
         [[UIApplication sharedApplication]
             openURL:[NSURL URLWithString:@"http://yunzujj.tmall.com/"]];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         //        nextController = [self.storyboard
         //            instantiateViewControllerWithIdentifier:@"TestViewController"];
 
+        break;
+      case 7:
+        nextController = [self.storyboard
+            instantiateViewControllerWithIdentifier:@"AboutUsViewController"];
         break;
       default:
         break;

@@ -19,9 +19,14 @@
 #import <CRToast.h>
 #import <FIR/FIR.h>
 #import "Scene.h"
+#import "BackgroundAudioPlay.h"
+#import "SwitchSyncService.h"
 
 @interface AppDelegate ()
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundUpdateTask;
+@property (nonatomic, strong) NSTimer* backgroundTimer;
 @property (nonatomic, strong) NetUtil* netUtil;
+@property (nonatomic, assign) int totalBackgroundSeconds;
 @end
 
 @implementation AppDelegate
@@ -67,7 +72,37 @@
   // application to its current state in case it is terminated later.
   // If your application supports background execution, this method is called
   // instead of applicationWillTerminate: when the user quits.
-  [[SwitchDataCeneter sharedInstance] syncSwitchs];
+  //  [[SwitchDataCeneter sharedInstance] syncSwitchs];
+
+  NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+  BOOL motionEnable = [[userDefaults objectForKey:acceleration] boolValue];
+  int shakeId = [[userDefaults objectForKey:@"shakeId"] intValue];
+  if (motionEnable && shakeId) {
+    self.backgroundUpdateTask = [[UIApplication sharedApplication]
+        beginBackgroundTaskWithExpirationHandler:nil];
+    [[DBUtil sharedInstance]
+        saveSwitchs:[[SwitchDataCeneter sharedInstance] switchs]];
+    SwitchSyncService* service = [[SwitchSyncService alloc] init];
+    [service uploadSwitchs:^(BOOL isSuccess){}];
+    dispatch_after(
+        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+        dispatch_get_main_queue(), ^{ [self startBackgroundTimer]; });
+  } else {
+    self.backgroundUpdateTask = [[UIApplication sharedApplication]
+        beginBackgroundTaskWithExpirationHandler:^{
+            [[UIApplication sharedApplication]
+                endBackgroundTask:self.backgroundUpdateTask];
+            self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+        }];
+    [[DBUtil sharedInstance]
+        saveSwitchs:[[SwitchDataCeneter sharedInstance] switchs]];
+    SwitchSyncService* service = [[SwitchSyncService alloc] init];
+    [service uploadSwitchs:^(BOOL isSuccess) {
+        [[UIApplication sharedApplication]
+            endBackgroundTask:self.backgroundUpdateTask];
+        self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+    }];
+  }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication*)application {
@@ -79,6 +114,8 @@
   //  [APService resetBadge];
   [APService setBadge:0];
   [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+  [self endBackgroundTimer];
+  [self endBackgroundUpdateTask];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication*)application {
@@ -105,7 +142,20 @@
   // Called when the application is about to terminate. Save
   // data if
   // appropriate. See also applicationDidEnterBackground:.
-  [[SwitchDataCeneter sharedInstance] syncSwitchs];
+  self.backgroundUpdateTask = [[UIApplication sharedApplication]
+      beginBackgroundTaskWithExpirationHandler:^{
+          [[UIApplication sharedApplication]
+              endBackgroundTask:self.backgroundUpdateTask];
+          self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+      }];
+  [[DBUtil sharedInstance]
+      saveSwitchs:[[SwitchDataCeneter sharedInstance] switchs]];
+  SwitchSyncService* service = [[SwitchSyncService alloc] init];
+  [service uploadSwitchs:^(BOOL isSuccess) {
+      [[UIApplication sharedApplication]
+          endBackgroundTask:self.backgroundUpdateTask];
+      self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+  }];
 }
 
 - (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url {
@@ -381,4 +431,44 @@
         [[ShakeWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   return shakeWindow;
 }
+
+#pragma mark - 后台执行定时器
+- (void)startBackgroundTimer {
+  self.backgroundTimer = [NSTimer timerWithTimeInterval:60
+                                                 target:self
+                                               selector:@selector(tik)
+                                               userInfo:nil
+                                                repeats:YES];
+  [self.backgroundTimer fire];
+  [[NSRunLoop mainRunLoop] addTimer:self.backgroundTimer
+                            forMode:NSRunLoopCommonModes];
+}
+
+- (void)endBackgroundTimer {
+  if (self.backgroundTimer) {
+    [self.backgroundTimer invalidate];
+    self.backgroundTimer = nil;
+  }
+}
+
+- (void)tik {
+  DDLogDebug(@"##############后台执行%d秒##############",
+             self.totalBackgroundSeconds);
+  self.totalBackgroundSeconds += 60;
+  NSTimeInterval leftSeconds =
+      [[UIApplication sharedApplication] backgroundTimeRemaining];
+  DDLogDebug(@"applicationDidEnterBackground left seconds is %f", leftSeconds);
+  if ([[UIApplication sharedApplication] backgroundTimeRemaining] < 61.0) {
+    [[BackgroundAudioPlay sharedInstance] playSound];
+    self.backgroundUpdateTask = [[UIApplication sharedApplication]
+        beginBackgroundTaskWithExpirationHandler:nil];
+  }
+}
+
+- (void)endBackgroundUpdateTask {
+  [[UIApplication sharedApplication]
+      endBackgroundTask:self.backgroundUpdateTask];
+  self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+}
+
 @end
