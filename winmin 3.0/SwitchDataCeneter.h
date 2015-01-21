@@ -19,6 +19,8 @@
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 + (instancetype)sharedInstance;
 
+- (SDZGSwitch *)getSwitchByMac:(NSString *)mac;
+
 - (NSArray *)switchsWithChangeStatus;
 
 /**

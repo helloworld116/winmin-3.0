@@ -19,6 +19,16 @@ static dispatch_queue_t udp_send_serial_queue() {
   return sdzg_udp_send_serial_queue;
 }
 
+static dispatch_queue_t udp_recive_serial_queue() {
+  static dispatch_queue_t sdzg_udp_recive_serial_queue;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+      sdzg_udp_recive_serial_queue = dispatch_queue_create(
+          "serial.socketrecive.com.itouchco.www", DISPATCH_QUEUE_SERIAL);
+  });
+  return sdzg_udp_recive_serial_queue;
+}
+
 // static dispatch_queue_t udp_send_concurrent_queue() {
 //  static dispatch_queue_t sdzg_udp_send_concurrent_queue;
 //  static dispatch_once_t onceToken;
@@ -160,13 +170,13 @@ static dispatch_queue_t delegateQueue;
     case P2D_SET_PASSWD_REQ_69:
     case P2D_SET_POWERACTION_REQ_6B:
     case P2D_GET_POWERACTION_REQ_71: {
-      dispatch_async(udp_send_serial_queue(), ^{
+      dispatch_sync(udp_send_serial_queue(), ^{
           [self.udpSocket sendData:self.msg
                             toHost:self.host
                               port:self.port
                        withTimeout:kPrivateUDPTimeOut
                                tag:self.tag];
-          [NSThread sleepForTimeInterval:.08f];
+          //          [NSThread sleepForTimeInterval:.08f];
       });
     } break;
 
@@ -189,13 +199,13 @@ static dispatch_queue_t delegateQueue;
     case P2S_GET_CITY_WEATHER_REQ_67:
     case P2S_SET_POWERACTION_REQ_6D:
     case P2S_GET_POWERACTION_REQ_73: {
-      dispatch_async(udp_send_serial_queue(), ^{
+      dispatch_sync(udp_send_serial_queue(), ^{
           [self.udpSocket sendData:self.msg
                             toHost:self.host
                               port:self.port
                        withTimeout:kPublicUDPTimeOut
                                tag:self.tag];
-          [NSThread sleepForTimeInterval:.08f];
+          //          [NSThread sleepForTimeInterval:.08f];
       });
     } break;
   }
@@ -212,7 +222,7 @@ static dispatch_queue_t delegateQueue;
   //        //不在内网的情况下的处理
   //      }
   //  });
-  dispatch_sync(udp_send_serial_queue(), ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (mode == ActiveMode) {
         self.msgSendCount = 0;
       } else if (mode == PassiveMode) {
@@ -227,7 +237,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg09:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         if (mode == ActiveMode) {
           self.msgSendCount = 0;
@@ -249,7 +259,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg0B:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus != ReachableViaWiFi) {
         if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
           [self.delegate errorMsg:kNotReachable];
@@ -285,7 +295,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode tag:(long)tag {
-  dispatch_sync(udp_send_serial_queue(), ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
         if ([self.delegate respondsToSelector:@selector(errorMsg:)]) {
           [self.delegate errorMsg:kNotReachable];
@@ -679,7 +689,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg59WithSendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (mode == ActiveMode) {
         self.msgSendCount = 0;
       } else if (mode == PassiveMode) {
@@ -726,7 +736,7 @@ static dispatch_queue_t delegateQueue;
           endTime:(int)endTime
          interval:(int)interval
          sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
         [self noResponseTag:P2S_GET_POWER_LOG_REQ_63 socketGroupId:0];
       } else {
@@ -753,7 +763,7 @@ static dispatch_queue_t delegateQueue;
 
 // type 0 为获取设备当地的城市 1为获取换手机当地的城市
 - (void)sendMsg65:(NSString *)mac type:(int)type sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
         [self noResponseTag:P2S_GET_CITY_REQ_65 socketGroupId:0];
       } else {
@@ -778,7 +788,7 @@ static dispatch_queue_t delegateQueue;
              type:(int)type
          cityName:(NSString *)cityName
          sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
         [self noResponseTag:P2S_GET_CITY_WEATHER_REQ_67 socketGroupId:0];
       } else {
@@ -804,7 +814,7 @@ static dispatch_queue_t delegateQueue;
 - (void)sendMsg69:(NSString *)oldPassword
       newPassword:(NSString *)newPassword
          sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == NotReachable) {
         [self noResponseTag:P2D_SET_PASSWD_REQ_69 socketGroupId:0];
       } else {
@@ -936,7 +946,7 @@ static dispatch_queue_t delegateQueue;
 
 #pragma mark - 处理内外网请求
 - (void)sendMsg0BOr0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_REMOTE) {
@@ -957,7 +967,7 @@ static dispatch_queue_t delegateQueue;
 - (void)sendMsg11Or13:(SDZGSwitch *)aSwitch
         socketGroupId:(int)socketGroupId
              sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL ||
@@ -985,7 +995,7 @@ static dispatch_queue_t delegateQueue;
 - (void)sendMsg17Or19:(SDZGSwitch *)aSwitch
         socketGroupId:(int)socketGroupId
              sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1013,7 +1023,7 @@ static dispatch_queue_t delegateQueue;
         socketGroupId:(int)socketGroupId
              timeList:(NSArray *)timeList
              sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1041,7 +1051,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg33Or35:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1062,7 +1072,7 @@ static dispatch_queue_t delegateQueue;
 - (void)sendMsg39Or3B:(SDZGSwitch *)aSwitch
                    on:(BOOL)on
              sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL ||
@@ -1085,7 +1095,7 @@ static dispatch_queue_t delegateQueue;
                  type:(int)type
                  name:(NSString *)name
              sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1104,7 +1114,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg47Or49:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1127,7 +1137,7 @@ static dispatch_queue_t delegateQueue;
             delayTime:(NSInteger)delayTime
              switchOn:(BOOL)on
              sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1160,7 +1170,7 @@ static dispatch_queue_t delegateQueue;
 - (void)sendMsg53Or55:(SDZGSwitch *)aSwitch
         socketGroupId:(int)socketGroupId
              sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1185,7 +1195,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg5DOr5F:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1213,7 +1223,7 @@ static dispatch_queue_t delegateQueue;
        turnOffGreater:(short)turnOffGreater
      isTurnOffGreater:(BOOL)isTurnOffGreater
              sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {
@@ -1259,7 +1269,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg71Or73:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
-  dispatch_sync(GLOBAL_QUEUE, ^{
+  dispatch_sync(udp_recive_serial_queue(), ^{
       if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
         //根据不同的网络环境，发送 本地/远程 消息
         if (aSwitch.networkStatus == SWITCH_LOCAL) {

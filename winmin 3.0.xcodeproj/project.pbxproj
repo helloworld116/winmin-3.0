@@ -147,6 +147,7 @@
 		15BBD6FB19DA89540002D973 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6FA19DA89540002D973 /* TestViewController.m */; };
 		15C738321A17328D0025F7A1 /* SwitchSyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C738311A17328D0025F7A1 /* SwitchSyncService.m */; };
 		15CE02581A5BEA3100F44EA5 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15CE02571A5BEA3100F44EA5 /* CoreMotion.framework */; };
+		15CF11E41A6F8674003F8DEA /* RealTimePowerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CF11E31A6F8674003F8DEA /* RealTimePowerView.m */; };
 		15E31BB31A6508310054CE81 /* BackgroundAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E31BB21A6508310054CE81 /* BackgroundAudioPlay.m */; };
 		15E31BB51A6517BA0054CE81 /* glass.wav in Resources */ = {isa = PBXBuildFile; fileRef = 15E31BB41A6517BA0054CE81 /* glass.wav */; };
 		15EA3F191A2F0A6F00D14A47 /* welcome1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EA3F151A2F0A6F00D14A47 /* welcome1@2x.png */; };
@@ -420,6 +421,8 @@
 		15C738311A17328D0025F7A1 /* SwitchSyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchSyncService.m; sourceTree = "<group>"; };
 		15C738331A1732B30025F7A1 /* SwitchSyncService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwitchSyncService.h; sourceTree = "<group>"; };
 		15CE02571A5BEA3100F44EA5 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		15CF11E21A6F8674003F8DEA /* RealTimePowerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealTimePowerView.h; sourceTree = "<group>"; };
+		15CF11E31A6F8674003F8DEA /* RealTimePowerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealTimePowerView.m; sourceTree = "<group>"; };
 		15E31BB11A6508300054CE81 /* BackgroundAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundAudioPlay.h; sourceTree = "<group>"; };
 		15E31BB21A6508310054CE81 /* BackgroundAudioPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundAudioPlay.m; sourceTree = "<group>"; };
 		15E31BB41A6517BA0054CE81 /* glass.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = glass.wav; sourceTree = "<group>"; };
@@ -685,6 +688,8 @@
 				15BBD6F419DA7CBC0002D973 /* ElecView.m */,
 				15BBD6F619DA857A0002D973 /* ElecRealTimeView.h */,
 				15BBD6F719DA857A0002D973 /* ElecRealTimeView.m */,
+				15CF11E21A6F8674003F8DEA /* RealTimePowerView.h */,
+				15CF11E31A6F8674003F8DEA /* RealTimePowerView.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -1287,6 +1292,7 @@
 				15F3A46B19EB717E001CD296 /* SecurityWarnViewController.m in Sources */,
 				1560130B19C9542C00BF7E12 /* MoreViewController.m in Sources */,
 				151E7BC51A1AD5AD002BE94F /* UserSettingViewController.m in Sources */,
+				15CF11E41A6F8674003F8DEA /* RealTimePowerView.m in Sources */,
 				158D992619C7E0FF0068AFC5 /* SDZGSwitch.m in Sources */,
 				1560130E19C956A600BF7E12 /* MoreCellTypeSecond.m in Sources */,
 				15AC864719CFFE7000D154EB /* UIView+NoDataView.m in Sources */,

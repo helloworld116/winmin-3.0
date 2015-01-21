@@ -182,7 +182,7 @@ typedef void (^NotReceiveDataBlock)(long tag, int socktGroupId);
 #define REFRESH_DEV_TIME 5
 
 static float const kElecRefreshInterval = 3.f;
-static float const kElecDiff = 2.8f;
+static float const kElecDiff = 2.7f;
 static float const kElecFactor = 46246.9f;
 
 #define BROADCAST_ADDRESS @"255.255.255.255"

@@ -244,6 +244,13 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
       [[self.switchsDict allValues] sortedArrayUsingDescriptors:descriptors()];
 }
 
+- (SDZGSwitch *)getSwitchByMac:(NSString *)mac {
+  __block SDZGSwitch *aSwitch;
+  dispatch_sync(switch_datacenter_serial_queue(),
+                ^{ aSwitch = [self.switchsDict objectForKey:mac]; });
+  return aSwitch;
+}
+
 static NSArray *descriptors() {
   NSSortDescriptor *nameDescriptor =
       [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];

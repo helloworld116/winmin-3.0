@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RealTimePowerView.h"
 
 @interface SwitchListCell : UITableViewCell
-@property(strong, nonatomic) IBOutlet UIImageView *imgViewOfSwitch;
-@property(strong, nonatomic) IBOutlet UIImageView *imgViewOfState;
-@property(strong, nonatomic) IBOutlet UILabel *lblName;
-@property(strong, nonatomic) IBOutlet UILabel *lblMac;
+@property (weak, nonatomic) IBOutlet UIImageView *imgViewOfSwitch;
+@property (weak, nonatomic) IBOutlet UIImageView *imgViewOfState;
+@property (weak, nonatomic) IBOutlet UILabel *lblName;
+@property (weak, nonatomic) IBOutlet UILabel *lblMac;
+@property (weak, nonatomic) IBOutlet RealTimePowerView *realTimeView;
 - (void)setCellInfo:(SDZGSwitch *)aSwitch;
 @end

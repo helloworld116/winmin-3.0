@@ -60,34 +60,25 @@
   UIImage *imgState;
   if (aSwitch.lockStatus == LockStatusOn) {
     if (aSwitch.networkStatus == SWITCH_LOCAL) {
-      //      imageName = NSLocalizedString(@"zx_lock", nil);
       imgState = self.img_zx_lock;
     } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
-      //      imageName = NSLocalizedString(@"yc_lock", nil);
       imgState = self.img_yc_lock;
     } else if (aSwitch.networkStatus == SWITCH_OFFLINE) {
-      //      imageName = NSLocalizedString(@"lx_lock", nil);
       imgState = self.img_lx_lock;
     } else if (aSwitch.networkStatus == SWITCH_NEW) {
-      //      imageName = NSLocalizedString(@"new_lock", nil);
       imgState = self.img_new_lock;
     }
   } else {
     if (aSwitch.networkStatus == SWITCH_LOCAL) {
-      //      imageName = NSLocalizedString(@"zx", nil);
       imgState = self.img_zx;
     } else if (aSwitch.networkStatus == SWITCH_REMOTE) {
-      //      imageName = NSLocalizedString(@"yc", nil);
       imgState = self.img_yc;
     } else if (aSwitch.networkStatus == SWITCH_OFFLINE) {
-      //      imageName = NSLocalizedString(@"lx", nil);
       imgState = self.img_lx;
     } else if (aSwitch.networkStatus == SWITCH_NEW) {
-      //      imageName = NSLocalizedString(@"new", nil);
       imgState = self.img_new;
     }
   }
-  //  self.imgViewOfState.image = [UIImage imageNamed:imageName];
   self.imgViewOfState.image = imgState;
   SDZGSocket *socket1 = aSwitch.sockets[0];
   SDZGSocket *socket2 = aSwitch.sockets[1];
@@ -100,6 +91,7 @@
   } else {
     self.imgViewOfSwitch.image = [SDZGSwitch imgNameToImage:aSwitch.imageName];
   }
+  [self.realTimeView setPower:aSwitch.power];
 }
 
 @end

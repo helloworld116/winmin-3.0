@@ -30,11 +30,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "winmin 3.0/CC3xMessage.m"
-            timestampString = "441275454.056356"
+            timestampString = "443523558.320983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1285"
-            endingLineNumber = "1285"
+            startingLineNumber = "1326"
+            endingLineNumber = "1326"
             landmarkName = "+getP2DMsg6B:isAlertUnder:alertGreater:isAlertGreater:turnOffUnder:isTurnOffUnder:turnOffGreater:isTurnOffGreater:"
             landmarkType = "5">
          </BreakpointContent>
@@ -46,11 +46,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "winmin 3.0/CC3xMessage.m"
-            timestampString = "441275454.056356"
+            timestampString = "443523558.320983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1485"
-            endingLineNumber = "1485"
+            startingLineNumber = "1526"
+            endingLineNumber = "1526"
             landmarkName = "+parseS2P0E:"
             landmarkType = "5">
          </BreakpointContent>
@@ -127,6 +127,22 @@
             continueAfterRunningActions = "No"
             symbolName = ""
             moduleName = "">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "winmin 3.0/SwitchListViewController.m"
+            timestampString = "443431216.602175"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "428"
+            endingLineNumber = "428"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -142,6 +142,11 @@
           DDLogDebug(@"switch mac is %@", aSwitch.mac);
           [self.request sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
         }
+        //实时电量
+        if (aSwitch.networkStatus != SWITCH_OFFLINE) {
+          [self.request sendMsg33Or35:aSwitch sendMode:ActiveMode];
+        }
+        //        aSwitch.power = (arc4random() % 900);
       }
   });
 }
@@ -233,6 +238,11 @@
     case 0xc:
     case 0xe:
       [self responseMsgCOrE:message request:request];
+      break;
+    //实时电量
+    case 0x34:
+    case 0x36:
+      [self responseMsg34Or36:message];
       break;
     //闪烁
     case 0x3a:
@@ -335,6 +345,16 @@
                           }];
     }
   }
+}
+
+- (void)responseMsg34Or36:(CC3xMessage *)message {
+  DDLogDebug(@"power is %f mac is %@", message.power, message.mac);
+  float diff = floorf(message.power - kElecDiff);
+  float power = diff > 0 ? diff : 0.f;
+  DDLogDebug(@"show power is %f", power);
+  SDZGSwitch *aSwitch =
+      [[SwitchDataCeneter sharedInstance] getSwitchByMac:message.mac];
+  aSwitch.power = (int)power;
 }
 
 - (void)responseMsg3AOr3C:(CC3xMessage *)message {

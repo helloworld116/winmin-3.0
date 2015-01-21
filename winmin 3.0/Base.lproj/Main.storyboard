@@ -40,7 +40,7 @@
                                                     <rect key="frame" x="275" y="12" width="35" height="35"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pIh-Wn-Q3s">
-                                                    <rect key="frame" x="52" y="9" width="223" height="42"/>
+                                                    <rect key="frame" x="52" y="9" width="148" height="42"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ea-mN-Gr8">
                                                             <rect key="frame" x="10" y="0.0" width="42" height="21"/>
@@ -64,12 +64,46 @@
                                                         <constraint firstAttribute="bottom" secondItem="ufU-yV-rQz" secondAttribute="bottom" constant="2" id="qPh-rc-ubz"/>
                                                     </constraints>
                                                 </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H1W-ks-gLT" customClass="RealTimePowerView">
+                                                    <rect key="frame" x="200" y="10" width="75" height="40"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="realtime_power_green_0" translatesAutoresizingMaskIntoConstraints="NO" id="zub-FP-X9f">
+                                                            <rect key="frame" x="8" y="12" width="11" height="15"/>
+                                                        </imageView>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="realtime_power_green_0" translatesAutoresizingMaskIntoConstraints="NO" id="IpL-TH-vra">
+                                                            <rect key="frame" x="20" y="12" width="11" height="15"/>
+                                                        </imageView>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="realtime_power_green_0" translatesAutoresizingMaskIntoConstraints="NO" id="3zr-ed-c7e">
+                                                            <rect key="frame" x="32" y="12" width="11" height="15"/>
+                                                        </imageView>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="realtime_power_green_0" translatesAutoresizingMaskIntoConstraints="NO" id="JH0-3a-tt2">
+                                                            <rect key="frame" x="44" y="12" width="11" height="15"/>
+                                                        </imageView>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="realtime_power_green_unit" translatesAutoresizingMaskIntoConstraints="NO" id="fho-hc-1lf">
+                                                            <rect key="frame" x="56" y="6" width="11" height="15"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="75" id="eGK-6Z-6Z8"/>
+                                                        <constraint firstAttribute="height" constant="40" id="uHv-4h-GG1"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="img1" destination="JH0-3a-tt2" id="REw-oj-h6H"/>
+                                                        <outlet property="img2" destination="3zr-ed-c7e" id="OSV-3y-NEL"/>
+                                                        <outlet property="img3" destination="IpL-TH-vra" id="4aO-1n-8bg"/>
+                                                        <outlet property="img4" destination="zub-FP-X9f" id="biF-Pt-KKh"/>
+                                                        <outlet property="imgUnit" destination="fho-hc-1lf" id="Xdy-tZ-4he"/>
+                                                    </connections>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="pIh-Wn-Q3s" secondAttribute="bottom" constant="8" id="0O1-Bq-VXb"/>
                                                 <constraint firstAttribute="trailing" secondItem="bNx-iX-elh" secondAttribute="trailing" constant="10" id="7Ge-2J-0m9"/>
                                                 <constraint firstItem="Wfa-Ac-dzf" firstAttribute="top" secondItem="K73-Zl-qhP" secondAttribute="top" constant="9" id="AL7-zh-2UN"/>
-                                                <constraint firstItem="bNx-iX-elh" firstAttribute="leading" secondItem="pIh-Wn-Q3s" secondAttribute="trailing" id="S38-V5-zCJ"/>
+                                                <constraint firstItem="H1W-ks-gLT" firstAttribute="top" secondItem="K73-Zl-qhP" secondAttribute="top" constant="10" id="Gir-Mg-YxA"/>
+                                                <constraint firstItem="H1W-ks-gLT" firstAttribute="leading" secondItem="pIh-Wn-Q3s" secondAttribute="trailing" id="NU6-q4-Q1x"/>
+                                                <constraint firstItem="bNx-iX-elh" firstAttribute="leading" secondItem="H1W-ks-gLT" secondAttribute="trailing" id="VhH-Il-wbU"/>
                                                 <constraint firstItem="bNx-iX-elh" firstAttribute="top" secondItem="K73-Zl-qhP" secondAttribute="top" constant="12" id="ZwN-YL-K87"/>
                                                 <constraint firstItem="pIh-Wn-Q3s" firstAttribute="top" secondItem="K73-Zl-qhP" secondAttribute="top" constant="9" id="bDk-un-kas"/>
                                                 <constraint firstItem="pIh-Wn-Q3s" firstAttribute="leading" secondItem="Wfa-Ac-dzf" secondAttribute="trailing" id="gl9-wg-ZRe"/>
@@ -82,6 +116,7 @@
                                             <outlet property="imgViewOfSwitch" destination="Wfa-Ac-dzf" id="6Ae-tY-0O2"/>
                                             <outlet property="lblMac" destination="ufU-yV-rQz" id="JlC-VZ-Cyp"/>
                                             <outlet property="lblName" destination="1Ea-mN-Gr8" id="tCt-uJ-Y0J"/>
+                                            <outlet property="realTimeView" destination="H1W-ks-gLT" id="vEo-VE-V3q"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -102,7 +137,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ovh-WD-3p2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1100" y="-506"/>
+            <point key="canvasLocation" x="1100" y="-509"/>
         </scene>
         <!--winmin智能-->
         <scene sceneID="hOx-nm-Fky">
@@ -4781,6 +4816,8 @@
         <image name="protocol_selected" width="24" height="24"/>
         <image name="pz" width="30" height="30"/>
         <image name="qq" width="19" height="20"/>
+        <image name="realtime_power_green_0" width="11" height="15"/>
+        <image name="realtime_power_green_unit" width="11" height="15"/>
         <image name="scene_add" width="42" height="42"/>
         <image name="scene_bj" width="320" height="480"/>
         <image name="sdef__" width="34" height="34"/>

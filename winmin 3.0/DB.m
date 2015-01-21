@@ -490,8 +490,14 @@
   if ([self.db open]) {
     NSString *sql = @"select sceneid from scenedetail where mac = ?";
     FMResultSet *sceneDetailResultSet = [self.db executeQuery:sql, aSwitch.mac];
+    int shakeSceneId = [[[NSUserDefaults standardUserDefaults]
+        objectForKey:@"shakeId"] intValue];
     while ([sceneDetailResultSet next]) {
       int sceneId = [sceneDetailResultSet intForColumn:@"sceneid"];
+      if (sceneId == shakeSceneId) {
+        [[NSUserDefaults standardUserDefaults] setObject:@(0)
+                                                  forKey:@"shakeId"];
+      }
       sql = @"delete from scene where id = ?";
       [self.db executeUpdate:sql, @(sceneId)];
     }

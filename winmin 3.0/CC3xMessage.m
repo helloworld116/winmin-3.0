@@ -295,6 +295,7 @@ typedef struct {
   char state;           // 0表示成功
   unsigned short pulse; //电量脉冲的周期值x，单位为ms 功率W=（53035.5/x）
                         //保留2位小数
+  unsigned int power; //用电功率,单位厘瓦
   unsigned short crc;
 } d2pMsg34;
 
@@ -311,6 +312,7 @@ typedef struct {
   unsigned char mac[6];
   char state;
   unsigned short pulse;
+  unsigned int power; //用电功率,单位厘瓦
   unsigned short crc;
 } s2pMsg36;
 
@@ -699,6 +701,45 @@ typedef struct {
   unsigned short turnOffGreater;
   unsigned short crc;
 } s2pMsg74;
+
+// P2D_GET_FIRMWARE_VESION_REQ    0X7B
+typedef struct {
+  msgHeader header;
+  unsigned short crc;
+} p2dMsg7B;
+
+// D2P_GET_FIRMWARE_VESION_RESP    0X7C
+typedef struct {
+  msgHeader header;
+  unsigned char mac[6];
+  unsigned char version[15];
+  unsigned short crc;
+} d2pMsg7C;
+
+// P2D_INFORM_UPDATE_FIRMWARE_REQ   0X7D
+typedef struct {
+  msgHeader header;
+  unsigned char version[15];
+  unsigned short totalByte;
+  unsigned short crc;
+} p2dMsg7D;
+
+// D2P_SEND_FIRMWARE_PACKAGE_RESP   0X80
+typedef struct {
+  msgHeader header;
+  unsigned char mac[6];
+  unsigned char num; //当前传输的包号（从1开始）
+  char state;
+  // 0为成功（CRC校验OK）1为失败（CRC校验失败，手机重新发送当前包内容）
+  unsigned short crc;
+} d2pMsg80;
+
+// D2P_INFORM_UPDATE_OVER_RESP   0X81
+typedef struct {
+  msgHeader header;
+  unsigned char mac[6];
+  unsigned short crc;
+} d2pMsg81;
 
 #pragma pack()
 #pragma mark - method implementation 将信息转换为Data ，用于发送
@@ -1570,10 +1611,17 @@ typedef struct {
   message.msgDir = msg.header.msgDir;
   message.msgLength = msg.header.msgLength;
   message.state = msg.state;
-  if (msg.pulse == 0) {
-    message.power = 0;
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                                           msg.mac[0], msg.mac[1], msg.mac[2],
+                                           msg.mac[3], msg.mac[4], msg.mac[5]];
+  if ([aData length] == sizeof(msg)) {
+    message.power = ntohl(msg.power) / 100;
   } else {
-    message.power = kElecFactor / ntohs(msg.pulse);
+    if (msg.pulse == 0) {
+      message.power = 0;
+    } else {
+      message.power = kElecFactor / ntohs(msg.pulse);
+    }
   }
   return message;
 }
@@ -1590,10 +1638,14 @@ typedef struct {
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
   message.state = msg.state;
-  if (msg.pulse == 0) {
-    message.power = 0;
+  if ([aData length] == sizeof(msg)) {
+    message.power = ntohl(msg.power) / 100;
   } else {
-    message.power = kElecFactor / ntohs(msg.pulse);
+    if (msg.pulse == 0) {
+      message.power = 0;
+    } else {
+      message.power = kElecFactor / ntohs(msg.pulse);
+    }
   }
   return message;
 }

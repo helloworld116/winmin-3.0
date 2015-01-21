@@ -454,6 +454,7 @@
   float diff = floorf(message.power - kElecDiff);
   float power = diff > 0 ? diff : 0.f;
   DDLogDebug(@"draw is %f", power);
+  self.aSwitch.power = (int)power;
   NSDictionary *userInfo = @{ @"power" : @(power) };
   [[NSNotificationCenter defaultCenter]
       postNotificationName:kRealTimeElecNotification

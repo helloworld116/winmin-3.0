@@ -55,6 +55,7 @@ static dispatch_queue_t switch_parse_serial_queue() {
         aSwitch.ip = message.ip;
         aSwitch.port = message.port;
         aSwitch.name = message.deviceName;
+        aSwitch.power = 0;
         DDLogDebug(@"device name is %@", message.deviceName);
         aSwitch.version = message.version;
         aSwitch.lockStatus = message.lockStatus;
@@ -95,6 +96,7 @@ static dispatch_queue_t switch_parse_serial_queue() {
           } else {
             aSwitch.lastUpdateInterval = current;
           }
+          aSwitch.power = 0;
           aSwitch.mac = message.mac;
           aSwitch.ip = message.ip;
           aSwitch.port = message.port;
