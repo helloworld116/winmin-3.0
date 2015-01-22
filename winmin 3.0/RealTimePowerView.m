@@ -81,7 +81,7 @@
     self.img2.hidden = YES;
     self.img3.hidden = YES;
     self.img4.hidden = YES;
-    self.img4.image = [UIImage imageNamed:@"realtime_power_green_0"];
+    self.img1.image = [UIImage imageNamed:@"realtime_power_green_0"];
     self.imgUnit.image = [UIImage imageNamed:@"realtime_power_green_unit"];
   }
 }

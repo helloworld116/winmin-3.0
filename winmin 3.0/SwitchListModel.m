@@ -348,13 +348,14 @@
 }
 
 - (void)responseMsg34Or36:(CC3xMessage *)message {
-  DDLogDebug(@"power is %f mac is %@", message.power, message.mac);
+  //  DDLogDebug(@"power is %f mac is %@", message.power, message.mac);
   float diff = floorf(message.power - kElecDiff);
   float power = diff > 0 ? diff : 0.f;
-  DDLogDebug(@"show power is %f", power);
+  //  DDLogDebug(@"show power is %f", power);
   SDZGSwitch *aSwitch =
       [[SwitchDataCeneter sharedInstance] getSwitchByMac:message.mac];
   aSwitch.power = (int)power;
+  DDLogDebug(@"power is %i mac is %@", aSwitch.power, aSwitch.mac);
 }
 
 - (void)responseMsg3AOr3C:(CC3xMessage *)message {

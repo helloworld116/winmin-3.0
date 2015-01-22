@@ -195,9 +195,11 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   if (diff > localToRemoteFactor * REFRESH_DEV_TIME &&
       aSwitch.networkStatus == SWITCH_LOCAL) {
     aSwitch.networkStatus = SWITCH_OFFLINE;
+    aSwitch.power = 0;
   } else if (diff > remoteToOfflineFactor * REFRESH_DEV_TIME &&
              aSwitch.networkStatus == SWITCH_REMOTE) {
     aSwitch.networkStatus = SWITCH_OFFLINE;
+    aSwitch.power = 0;
   }
 }
 

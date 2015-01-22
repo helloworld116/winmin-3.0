@@ -64,6 +64,12 @@
   [self setupStyle];
   self.tableView.delegate = self;
   self.tableView.dataSource = self;
+  UILongPressGestureRecognizer *longPressGesture =
+      [[UILongPressGestureRecognizer alloc]
+          initWithTarget:self
+                  action:@selector(handlerLongPress:)];
+  longPressGesture.minimumPressDuration = 0.5;
+  [self.tableView addGestureRecognizer:longPressGesture];
   self.isFirstLoad = YES;
   self.delayInterval = 1.f;
   self.noDataView = [[UIView alloc]
@@ -410,12 +416,12 @@
 
   SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
   [cell setCellInfo:aSwitch];
-  UILongPressGestureRecognizer *longPressGesture =
-      [[UILongPressGestureRecognizer alloc]
-          initWithTarget:self
-                  action:@selector(handlerLongPress:)];
-  longPressGesture.minimumPressDuration = 0.5;
-  [cell addGestureRecognizer:longPressGesture];
+  //  UILongPressGestureRecognizer *longPressGesture =
+  //      [[UILongPressGestureRecognizer alloc]
+  //          initWithTarget:self
+  //                  action:@selector(handlerLongPress:)];
+  //  longPressGesture.minimumPressDuration = 0.5;
+  //  [cell addGestureRecognizer:longPressGesture];
   UIView *myBackView = [[UIView alloc] initWithFrame:cell.frame];
   myBackView.backgroundColor = [UIColor colorWithHexString:@"#F6F4F4"];
   cell.selectedBackgroundView = myBackView;
