@@ -182,6 +182,10 @@ enum {
 @property (nonatomic, strong) NSString *airDesc;      //空气质量说明
 @property (nonatomic, assign) unsigned short crc;
 
+@property (nonatomic, strong) NSString *firmwareVersion;
+//固件升级包的顺序
+@property (nonatomic, assign) int packageNum;
+
 @property (nonatomic, assign) short alertUnder;
 @property (nonatomic, assign) short alertGreater;
 @property (nonatomic, assign) short turnOffUnder;

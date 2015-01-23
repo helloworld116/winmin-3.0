@@ -1575,7 +1575,7 @@
 					"$(PROJECT_DIR)/jpush",
 				);
 				PRODUCT_NAME = winmin;
-				PROVISIONING_PROFILE = "8eb32d76-f343-4e6e-8bac-3d83c1441858";
+				PROVISIONING_PROFILE = "181dfd90-8863-40c4-bfb1-db725c241a18";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

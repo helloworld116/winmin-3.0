@@ -712,17 +712,25 @@ typedef struct {
 typedef struct {
   msgHeader header;
   unsigned char mac[6];
-  unsigned char version[15];
+  char version[16];
   unsigned short crc;
 } d2pMsg7C;
 
 // P2D_INFORM_UPDATE_FIRMWARE_REQ   0X7D
 typedef struct {
   msgHeader header;
-  unsigned char version[15];
+  unsigned char version[16];
   unsigned short totalByte;
   unsigned short crc;
 } p2dMsg7D;
+
+// P2D_SEND_FIRMWARE_PACKAGE_REQ    0X7F
+typedef struct {
+  msgHeader header;
+  unsigned char num; //当前传输的包号（从1开始）
+  char content[512];
+  unsigned short crc;
+} p2dMsg7F;
 
 // D2P_SEND_FIRMWARE_PACKAGE_RESP   0X80
 typedef struct {
@@ -1414,6 +1422,42 @@ typedef struct {
   return B2D(msg);
 }
 
++ (NSData *)getP2DMsg7B {
+  p2dMsg7B msg;
+  memset(&msg, 0, sizeof(msg));
+  msg.header.msgId = 0x7B;
+  msg.header.msgDir = 0xAD;
+  msg.header.msgLength = htons(sizeof(msg));
+  msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
+  return B2D(msg);
+}
+
++ (NSData *)getP2DMsg7D:(NSString *)version
+              totalByte:(unsigned short)totalByte {
+  p2dMsg7D msg;
+  memset(&msg, 0, sizeof(msg));
+  msg.header.msgId = 0x7D;
+  msg.header.msgDir = 0xAD;
+  msg.header.msgLength = htons(sizeof(msg));
+  NSData *versionData = [version dataUsingEncoding:NSUTF8StringEncoding];
+  memcpy(&msg.version, [versionData bytes], [versionData length]);
+  msg.totalByte = htons(totalByte);
+  msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
+  return B2D(msg);
+}
+
++ (NSData *)getP2DMsg7F:(char *)content num:(char)num {
+  p2dMsg7F msg;
+  memset(&msg, 0, sizeof(msg));
+  msg.header.msgId = 0x7F;
+  msg.header.msgDir = 0xAD;
+  msg.header.msgLength = htons(sizeof(msg));
+  memcpy(msg.content, content, 512);
+  msg.num = num;
+  msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
+  return B2D(msg);
+}
+
 #pragma mark - response message 解析收到的data数据，转为其他数据类型
 
 + (CC3xMessage *)parseD2P02:(NSData *)aData {
@@ -1807,6 +1851,56 @@ typedef struct {
   return message;
 }
 
++ (CC3xMessage *)parseD2P7C:(NSData *)aData {
+  CC3xMessage *message = nil;
+  d2pMsg7C msg;
+  [aData getBytes:&msg length:sizeof(msg)];
+  message = [[CC3xMessage alloc] init];
+  message.msgId = msg.header.msgId;
+  message.msgDir = msg.header.msgDir;
+  message.msgLength = msg.header.msgLength;
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                                           msg.mac[0], msg.mac[1], msg.mac[2],
+                                           msg.mac[3], msg.mac[4], msg.mac[5]];
+  message.firmwareVersion =
+      [[NSString alloc] initWithBytes:msg.version
+                               length:strlen(msg.version)
+                             encoding:NSUTF8StringEncoding];
+  message.crc = ntohs(msg.crc);
+  return message;
+}
+
++ (CC3xMessage *)parseD2P80:(NSData *)aData {
+  CC3xMessage *message = nil;
+  d2pMsg80 msg;
+  [aData getBytes:&msg length:sizeof(msg)];
+  message = [[CC3xMessage alloc] init];
+  message.msgId = msg.header.msgId;
+  message.msgDir = msg.header.msgDir;
+  message.msgLength = msg.header.msgLength;
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                                           msg.mac[0], msg.mac[1], msg.mac[2],
+                                           msg.mac[3], msg.mac[4], msg.mac[5]];
+  message.packageNum = msg.num;
+  message.state = msg.state;
+  message.crc = ntohs(msg.crc);
+  return message;
+}
+
++ (CC3xMessage *)parseD2P81:(NSData *)aData {
+  CC3xMessage *message = nil;
+  d2pMsg81 msg;
+  [aData getBytes:&msg length:sizeof(msg)];
+  message = [[CC3xMessage alloc] init];
+  message.msgId = msg.header.msgId;
+  message.msgDir = msg.header.msgDir;
+  message.msgLength = msg.header.msgLength;
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                                           msg.mac[0], msg.mac[1], msg.mac[2],
+                                           msg.mac[3], msg.mac[4], msg.mac[5]];
+  return message;
+}
+
 + (CC3xMessage *)parseMessage:(NSData *)data {
   CC3xMessage *result = nil;
   msgHeader header;
@@ -1850,6 +1944,7 @@ typedef struct {
     case 0x4a:
     case 0x6c:
     case 0x6e:
+    case 0x7e:
       result = [CC3xMessageUtil parseD2P3A:data];
       break;
     case 0x54:
@@ -1878,6 +1973,15 @@ typedef struct {
     case 0x72:
     case 0x74:
       result = [CC3xMessageUtil parseD2P72:data];
+      break;
+    case 0x7c:
+      result = [CC3xMessageUtil parseD2P7C:data];
+      break;
+    case 0x80:
+      result = [CC3xMessageUtil parseD2P80:data];
+      break;
+    case 0x81:
+      result = [CC3xMessageUtil parseD2P81:data];
       break;
     default:
       break;
