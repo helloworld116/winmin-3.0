@@ -290,4 +290,38 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
              sendMode:(SENDMODE)mode;
 
 - (void)sendMsg71Or73:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode;
+
+/**
+ *  获取设备当前固件版本
+ *
+ *  @param aSwitch
+ *  @param mode
+ */
+- (void)sendMsg7BWithSwitch:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode;
+
+/**
+ *
+ *
+ *  @param aSwitch
+ *  @param version
+ *  @param totalByte
+ *  @param mode
+ */
+- (void)sendMsg7DWithSwitch:(SDZGSwitch *)aSwitch
+                    version:(NSString *)version
+                  totalByte:(int)totalByte
+                   sendMode:(SENDMODE)mode;
+
+/**
+ *  分包发送固件文件，每个包大小为512字节
+ *
+ *  @param aSwitch
+ *  @param content 固件文件指定序列的文件字节内容
+ *  @param num     固件文件序列号，从1开始
+ *  @param mode
+ */
+- (void)sendMsg7FWithSwitch:(SDZGSwitch *)aSwitch
+                    content:(char *)content
+                        num:(int)num
+                   sendMode:(SENDMODE)mode;
 @end

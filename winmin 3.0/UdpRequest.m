@@ -944,6 +944,72 @@ static dispatch_queue_t delegateQueue;
   [self sendDataToHost];
 }
 
+- (void)sendMsg7BWithSwitch:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
+  dispatch_sync(udp_recive_serial_queue(), ^{
+      if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
+        if (mode == ActiveMode) {
+          self.msgSendCount = 0;
+        } else if (mode == PassiveMode) {
+          self.msgSendCount++;
+        }
+        self.aSwitch = aSwitch;
+        self.msg = [NSData dataWithData:[CC3xMessageUtil getP2DMsg7B]];
+        self.host = aSwitch.ip;
+        self.port = DEVICE_PORT;
+        self.tag = P2D_GET_FIRMWARE_VESION_REQ_7B;
+        [self sendDataToHost];
+      } else {
+      }
+  });
+}
+
+- (void)sendMsg7DWithSwitch:(SDZGSwitch *)aSwitch
+                    version:(NSString *)version
+                  totalByte:(int)totalByte
+                   sendMode:(SENDMODE)mode {
+  dispatch_sync(udp_recive_serial_queue(), ^{
+      if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
+        if (mode == ActiveMode) {
+          self.msgSendCount = 0;
+        } else if (mode == PassiveMode) {
+          self.msgSendCount++;
+        }
+        self.aSwitch = aSwitch;
+        self.msg =
+            [NSData dataWithData:[CC3xMessageUtil getP2DMsg7D:version
+                                                    totalByte:totalByte]];
+        self.host = aSwitch.ip;
+        self.port = DEVICE_PORT;
+        self.tag = P2D_INFORM_UPDATE_FIRMWARE_REQ_7D;
+        [self sendDataToHost];
+      } else {
+      }
+  });
+}
+
+- (void)sendMsg7FWithSwitch:(SDZGSwitch *)aSwitch
+                    content:(char *)content
+                        num:(int)num
+                   sendMode:(SENDMODE)mode {
+  dispatch_sync(udp_recive_serial_queue(), ^{
+      if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
+        if (mode == ActiveMode) {
+          self.msgSendCount = 0;
+        } else if (mode == PassiveMode) {
+          self.msgSendCount++;
+        }
+        self.aSwitch = aSwitch;
+        self.msg =
+            [NSData dataWithData:[CC3xMessageUtil getP2DMsg7F:content num:num]];
+        self.host = aSwitch.ip;
+        self.port = DEVICE_PORT;
+        self.tag = P2D_GET_FIRMWARE_VESION_REQ_7B;
+        [self sendDataToHost];
+      } else {
+      }
+  });
+}
+
 #pragma mark - 处理内外网请求
 - (void)sendMsg0BOr0D:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode {
   dispatch_sync(udp_recive_serial_queue(), ^{

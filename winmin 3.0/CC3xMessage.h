@@ -143,6 +143,9 @@ enum {
        isTurnOffGreater:(BOOL)isTurnOffGreater;
 + (NSData *)getP2DMsg71;
 + (NSData *)getP2SMsg73:(NSString *)mac;
++ (NSData *)getP2DMsg7B;
++ (NSData *)getP2DMsg7D:(NSString *)version totalByte:(unsigned short)totalByte;
++ (NSData *)getP2DMsg7F:(char *)content num:(char)num;
 @end
 
 @interface CC3xMessage : NSObject
