@@ -15,6 +15,7 @@ NSString *const kSetElecPowerInfoSuccess = @"SetElecPowerInfoSuccess";
 @property (nonatomic, strong) UdpRequest *request1;
 @property (nonatomic, strong) UdpRequest *request2;
 @property (nonatomic, strong) UdpRequest *request3;
+@property (nonatomic, strong) CompetionBlock competion;
 @end
 
 @implementation SwitchInfoModel
@@ -44,6 +45,15 @@ NSString *const kSetElecPowerInfoSuccess = @"SetElecPowerInfoSuccess";
 
 - (void)getElecPowerInfo {
   [self.request1 sendMsg71Or73:self.aSwitch sendMode:ActiveMode];
+}
+
+- (void)getSwitchsFireware:(CompetionBlock)block {
+  if (!self.request2) {
+    self.request2 = [UdpRequest manager];
+    self.request2.delegate = self;
+  }
+  [self.request2 sendMsg7BWithSwitch:self.aSwitch sendMode:ActiveMode];
+  self.competion = block;
 }
 
 - (void)setElecInfoWithAlertUnder:(short)alertUnder
@@ -107,6 +117,9 @@ NSString *const kSetElecPowerInfoSuccess = @"SetElecPowerInfoSuccess";
     case 0x74:
       [self responseMsg72Or74:message];
       break;
+    case 0x7c:
+      [self responseMsg7C:message];
+      break;
     default:
       break;
   }
@@ -166,4 +179,13 @@ NSString *const kSetElecPowerInfoSuccess = @"SetElecPowerInfoSuccess";
   }
 }
 
+- (void)responseMsg7C:(CC3xMessage *)message {
+  //  SDZGSwitch *aSwitch =
+  //      [[SwitchDataCeneter sharedInstance] getSwitchByMac:message.mac];
+  if ([self.aSwitch.mac isEqualToString:message.mac]) {
+    self.aSwitch.firewareVersion = message.firmwareVersion;
+    self.aSwitch.deviceType = message.deviceType;
+    dispatch_async(dispatch_get_main_queue(), ^{ self.competion(); });
+  }
+}
 @end

@@ -17,7 +17,7 @@ const int successCode = 1;
                completion:(void (^)(int status, NSArray *messages,
                                     int totalCount))compeltion {
   NSString *messageUrl =
-      [NSString stringWithFormat:@"%@message/list", MessageURLString];
+      [NSString stringWithFormat:@"%@message/list", BaseURLStringWithNoEncrypt];
   AFHTTPRequestOperationManager *manager =
       [AFHTTPRequestOperationManager manager];
   manager.responseSerializer = [AFHTTPResponseSerializer serializer];

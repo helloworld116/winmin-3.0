@@ -215,6 +215,9 @@ static int switchId = 200000;
   copy->_imageName = [_imageName copy];
   copy->_password = [_password copy];
   copy->_lastUpdateInterval = _lastUpdateInterval;
+  copy->_firewareVersion = [_firewareVersion copy];
+  copy->_deviceType = [_deviceType copy];
+  copy->_isRestart = _isRestart;
   return copy;
 }
 

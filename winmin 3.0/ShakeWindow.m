@@ -53,25 +53,25 @@ typedef void (^shakeNoResponseMsg)(NSMutableArray *);
   if (self) {
     self.request = [UdpRequest manager];
     self.request.delegate = self;
-    CMMotionManager *manager = [[CMMotionManager alloc] init];
-    if (!manager.accelerometerAvailable) {
-      NSLog(@"Accelerometer not available");
-    } else {
-      self.motionQueue = [[NSOperationQueue alloc] init];
-      manager.deviceMotionUpdateInterval = .5f;
-    }
-    self.manager = manager;
-    [[NSNotificationCenter defaultCenter]
-        addObserver:self
-           selector:@selector(applicationWillEnterForegroundNotification:)
-               name:UIApplicationWillEnterForegroundNotification
-             object:nil];
-    [[NSNotificationCenter defaultCenter]
-        addObserver:self
-           selector:@selector(applicationDidEnterBackgroundNotification:)
-               name:UIApplicationDidEnterBackgroundNotification
-             object:nil];
-    [self registerforDeviceLockNotif];
+    //    CMMotionManager *manager = [[CMMotionManager alloc] init];
+    //    if (!manager.accelerometerAvailable) {
+    //      NSLog(@"Accelerometer not available");
+    //    } else {
+    //      self.motionQueue = [[NSOperationQueue alloc] init];
+    //      manager.deviceMotionUpdateInterval = .5f;
+    //    }
+    //    self.manager = manager;
+    //    [[NSNotificationCenter defaultCenter]
+    //        addObserver:self
+    //           selector:@selector(applicationWillEnterForegroundNotification:)
+    //               name:UIApplicationWillEnterForegroundNotification
+    //             object:nil];
+    //    [[NSNotificationCenter defaultCenter]
+    //        addObserver:self
+    //           selector:@selector(applicationDidEnterBackgroundNotification:)
+    //               name:UIApplicationDidEnterBackgroundNotification
+    //             object:nil];
+    //    [self registerforDeviceLockNotif];
   }
   return self;
 }
@@ -155,6 +155,7 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
   //  }
 
   if (self.scene && kSharedAppliction.networkStatus == ReachableViaWiFi) {
+    [[BackgroundAudioPlay sharedInstance] playSound];
     NSArray *sceneDetails = self.scene.detailList;
     [self executeSceneDetails:sceneDetails];
   }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		06276B622ABA4D69A45BB762 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B2B7BB80C1420797A2EE26 /* libPods.a */; };
+		150057561A80A2F900431BEC /* SwitchRestartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150057551A80A2F900431BEC /* SwitchRestartViewController.m */; };
 		1500CD7D1A41270200A720E0 /* SceneSwitchListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1500CD7C1A41270200A720E0 /* SceneSwitchListController.m */; };
 		1500CD7F1A41570200A720E0 /* libFTC_RELEASE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D98F919C7CA000068AFC5 /* libFTC_RELEASE.a */; };
 		1500CD821A415BEA00A720E0 /* SceneDetailViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 1500CD811A415BEA00A720E0 /* SceneDetailViewController2.m */; };
@@ -25,6 +26,8 @@
 		150BE86D1A01D47700A358CF /* SceneExcTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 150BE86C1A01D47700A358CF /* SceneExcTitleView.m */; };
 		150BE86F1A01D49700A358CF /* SceneExcTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150BE86E1A01D49700A358CF /* SceneExcTitleView.xib */; };
 		150D5EFB1A68FF9600C841A9 /* SceneSwitchListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150D5EFD1A68FF9600C841A9 /* SceneSwitchListController.xib */; };
+		150F79E61A81B446003E6BC3 /* SwitchRestartModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 150F79E51A81B446003E6BC3 /* SwitchRestartModel.m */; };
+		150F79E91A81BC4B003E6BC3 /* SDZGHttpResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 150F79E81A81BC4B003E6BC3 /* SDZGHttpResponse.m */; };
 		150FC6DE19F9E276005134B7 /* FaqCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6DD19F9E276005134B7 /* FaqCell.xib */; };
 		150FC6E319FA39DB005134B7 /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150FC6E219FA39DB005134B7 /* ProtocolViewController.m */; };
 		150FC6E519FA419B005134B7 /* protocol.htm in Resources */ = {isa = PBXBuildFile; fileRef = 150FC6E419FA419B005134B7 /* protocol.htm */; };
@@ -36,6 +39,7 @@
 		15391C431A38378000287C4F /* FeedbackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15391C421A38378000287C4F /* FeedbackModel.m */; };
 		15476D4C19E68B6B00EC6BD1 /* NetUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 15476D4B19E68B6B00EC6BD1 /* NetUtil.m */; };
 		154C197E1A6908D400FBB19C /* ScenePreExcDailogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 154C19801A6908D400FBB19C /* ScenePreExcDailogViewController.xib */; };
+		154E24F51A7725CA00C5D530 /* FirewareUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 154E24F41A7725CA00C5D530 /* FirewareUpdateViewController.m */; };
 		1551F6EF19F8951200A24447 /* FAQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1551F6EE19F8951200A24447 /* FAQViewController.m */; };
 		1551F6F119F8AC9300A24447 /* bookinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6F019F8AC9300A24447 /* bookinfo@2x.png */; };
 		1551F6F319F90AF500A24447 /* faq.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1551F6F219F90AF400A24447 /* faq.plist */; };
@@ -67,8 +71,10 @@
 		1564D7001A42A6C100F574A5 /* SceneEditCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 1564D6FF1A42A6C100F574A5 /* SceneEditCell2.m */; };
 		1564D7031A42B1F400F574A5 /* SceneEditAddCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1564D7021A42B1F400F574A5 /* SceneEditAddCell.m */; };
 		156692011A1EECC000E94C39 /* APServiceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 156692001A1EECC000E94C39 /* APServiceUtil.m */; };
+		156C8DDE1A7895EC005C6CB3 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 156C8DDD1A7895EC005C6CB3 /* NSData+MD5.m */; };
 		15736B9019F2482F00D6A45D /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15736B8F19F2482F00D6A45D /* WelcomeViewController.m */; };
 		157924841A58DE440034C832 /* ShakeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 157924831A58DE440034C832 /* ShakeWindow.m */; };
+		158B3EAC1A84CF9C00BDC262 /* shake.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 158B3EAB1A84CF9C00BDC262 /* shake.mp3 */; };
 		158D987B19C6F39C0068AFC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987A19C6F39C0068AFC5 /* Foundation.framework */; };
 		158D987D19C6F39C0068AFC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */; };
 		158D987F19C6F39C0068AFC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D987E19C6F39C0068AFC5 /* UIKit.framework */; };
@@ -145,6 +151,7 @@
 		15BBD6F519DA7CBC0002D973 /* ElecView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F419DA7CBC0002D973 /* ElecView.m */; };
 		15BBD6F819DA857A0002D973 /* ElecRealTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6F719DA857A0002D973 /* ElecRealTimeView.m */; };
 		15BBD6FB19DA89540002D973 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBD6FA19DA89540002D973 /* TestViewController.m */; };
+		15C626EC1A7733DA0063C2EC /* FirewareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C626EB1A7733DA0063C2EC /* FirewareModel.m */; };
 		15C738321A17328D0025F7A1 /* SwitchSyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C738311A17328D0025F7A1 /* SwitchSyncService.m */; };
 		15CE02581A5BEA3100F44EA5 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15CE02571A5BEA3100F44EA5 /* CoreMotion.framework */; };
 		15CF11E41A6F8674003F8DEA /* RealTimePowerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CF11E31A6F8674003F8DEA /* RealTimePowerView.m */; };
@@ -178,6 +185,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		150057541A80A2F900431BEC /* SwitchRestartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchRestartViewController.h; sourceTree = "<group>"; };
+		150057551A80A2F900431BEC /* SwitchRestartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchRestartViewController.m; sourceTree = "<group>"; };
 		1500CD7B1A41270200A720E0 /* SceneSwitchListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneSwitchListController.h; sourceTree = "<group>"; };
 		1500CD7C1A41270200A720E0 /* SceneSwitchListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneSwitchListController.m; sourceTree = "<group>"; };
 		1500CD801A415BE900A720E0 /* SceneDetailViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDetailViewController2.h; sourceTree = "<group>"; };
@@ -206,6 +215,10 @@
 		150D5EFC1A68FF9600C841A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SceneSwitchListController.xib; sourceTree = "<group>"; };
 		150D5EFF1A68FFA900C841A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SceneSwitchListController.strings; sourceTree = "<group>"; };
 		150D5F011A68FFAC00C841A9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SceneSwitchListController.strings"; sourceTree = "<group>"; };
+		150F79E41A81B446003E6BC3 /* SwitchRestartModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchRestartModel.h; sourceTree = "<group>"; };
+		150F79E51A81B446003E6BC3 /* SwitchRestartModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchRestartModel.m; sourceTree = "<group>"; };
+		150F79E71A81BC4B003E6BC3 /* SDZGHttpResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDZGHttpResponse.h; sourceTree = "<group>"; };
+		150F79E81A81BC4B003E6BC3 /* SDZGHttpResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDZGHttpResponse.m; sourceTree = "<group>"; };
 		150FC6DD19F9E276005134B7 /* FaqCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FaqCell.xib; sourceTree = "<group>"; };
 		150FC6E119FA39DB005134B7 /* ProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolViewController.h; sourceTree = "<group>"; };
 		150FC6E219FA39DB005134B7 /* ProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolViewController.m; sourceTree = "<group>"; };
@@ -226,6 +239,8 @@
 		154C197F1A6908D400FBB19C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ScenePreExcDailogViewController.xib; sourceTree = "<group>"; };
 		154C19821A6908EA00FBB19C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ScenePreExcDailogViewController.strings; sourceTree = "<group>"; };
 		154C19841A6908F300FBB19C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ScenePreExcDailogViewController.strings"; sourceTree = "<group>"; };
+		154E24F31A7725CA00C5D530 /* FirewareUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirewareUpdateViewController.h; sourceTree = "<group>"; };
+		154E24F41A7725CA00C5D530 /* FirewareUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirewareUpdateViewController.m; sourceTree = "<group>"; };
 		1551F6ED19F8951200A24447 /* FAQViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQViewController.h; sourceTree = "<group>"; };
 		1551F6EE19F8951200A24447 /* FAQViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQViewController.m; sourceTree = "<group>"; };
 		1551F6F019F8AC9300A24447 /* bookinfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookinfo@2x.png"; sourceTree = "<group>"; };
@@ -286,10 +301,13 @@
 		1564D7021A42B1F400F574A5 /* SceneEditAddCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneEditAddCell.m; sourceTree = "<group>"; };
 		156691FF1A1EECC000E94C39 /* APServiceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APServiceUtil.h; sourceTree = "<group>"; };
 		156692001A1EECC000E94C39 /* APServiceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APServiceUtil.m; sourceTree = "<group>"; };
+		156C8DDC1A7895EC005C6CB3 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
+		156C8DDD1A7895EC005C6CB3 /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
 		15736B8E19F2482F00D6A45D /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		15736B8F19F2482F00D6A45D /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		157924821A58DE440034C832 /* ShakeWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShakeWindow.h; sourceTree = "<group>"; };
 		157924831A58DE440034C832 /* ShakeWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShakeWindow.m; sourceTree = "<group>"; };
+		158B3EAB1A84CF9C00BDC262 /* shake.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shake.mp3; sourceTree = "<group>"; };
 		158D987719C6F39C0068AFC5 /* winmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = winmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		158D987A19C6F39C0068AFC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		158D987C19C6F39C0068AFC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -418,6 +436,8 @@
 		15BBD6F719DA857A0002D973 /* ElecRealTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ElecRealTimeView.m; sourceTree = "<group>"; };
 		15BBD6F919DA89540002D973 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		15BBD6FA19DA89540002D973 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		15C626EA1A7733DA0063C2EC /* FirewareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirewareModel.h; sourceTree = "<group>"; };
+		15C626EB1A7733DA0063C2EC /* FirewareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirewareModel.m; sourceTree = "<group>"; };
 		15C738311A17328D0025F7A1 /* SwitchSyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchSyncService.m; sourceTree = "<group>"; };
 		15C738331A1732B30025F7A1 /* SwitchSyncService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwitchSyncService.h; sourceTree = "<group>"; };
 		15CE02571A5BEA3100F44EA5 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
@@ -669,6 +689,10 @@
 				15AC865719D158D700D154EB /* DelayModel.m */,
 				15C738331A1732B30025F7A1 /* SwitchSyncService.h */,
 				15C738311A17328D0025F7A1 /* SwitchSyncService.m */,
+				15C626EA1A7733DA0063C2EC /* FirewareModel.h */,
+				15C626EB1A7733DA0063C2EC /* FirewareModel.m */,
+				150F79E41A81B446003E6BC3 /* SwitchRestartModel.h */,
+				150F79E51A81B446003E6BC3 /* SwitchRestartModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -719,6 +743,10 @@
 				15AC865919D2C56400D154EB /* DatePickerViewController.h */,
 				15AC865A19D2C56400D154EB /* DatePickerViewController.m */,
 				15BA47BB19FE153E008ADB9D /* DatePickerViewController.xib */,
+				154E24F31A7725CA00C5D530 /* FirewareUpdateViewController.h */,
+				154E24F41A7725CA00C5D530 /* FirewareUpdateViewController.m */,
+				150057541A80A2F900431BEC /* SwitchRestartViewController.h */,
+				150057551A80A2F900431BEC /* SwitchRestartViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -910,6 +938,7 @@
 		158D990D19C7CBB40068AFC5 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				158B3EAB1A84CF9C00BDC262 /* shake.mp3 */,
 				15E31BB41A6517BA0054CE81 /* glass.wav */,
 				158D991819C7CC2E0068AFC5 /* protocol */,
 				15476D4A19E68B6B00EC6BD1 /* NetUtil.h */,
@@ -937,6 +966,10 @@
 				157924831A58DE440034C832 /* ShakeWindow.m */,
 				15E31BB11A6508300054CE81 /* BackgroundAudioPlay.h */,
 				15E31BB21A6508310054CE81 /* BackgroundAudioPlay.m */,
+				156C8DDC1A7895EC005C6CB3 /* NSData+MD5.h */,
+				156C8DDD1A7895EC005C6CB3 /* NSData+MD5.m */,
+				150F79E71A81BC4B003E6BC3 /* SDZGHttpResponse.h */,
+				150F79E81A81BC4B003E6BC3 /* SDZGHttpResponse.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -1162,6 +1195,7 @@
 				1500CD871A419DA300A720E0 /* SceneSwitchListCell.xib in Resources */,
 				151B4AAA1A0226DF00C77467 /* winmin 3.0-Info.plist in Resources */,
 				15EA3F1C1A2F0A6F00D14A47 /* welcome4@2x.png in Resources */,
+				158B3EAC1A84CF9C00BDC262 /* shake.mp3 in Resources */,
 				1551F6F319F90AF500A24447 /* faq.plist in Resources */,
 				150D5EFB1A68FF9600C841A9 /* SceneSwitchListController.xib in Resources */,
 				15BA47B919FE153E008ADB9D /* DatePickerViewController.xib in Resources */,
@@ -1261,9 +1295,11 @@
 				156012FE19C8464000BF7E12 /* SwitchListViewController.m in Sources */,
 				15AC865519D1555600D154EB /* DelayTimeCountDownView.m in Sources */,
 				1560130119C846EE00BF7E12 /* SwitchListCell.m in Sources */,
+				150F79E91A81BC4B003E6BC3 /* SDZGHttpResponse.m in Sources */,
 				15F31C1E19D3C7C70095E5BD /* SceneListViewController.m in Sources */,
 				156692011A1EECC000E94C39 /* APServiceUtil.m in Sources */,
 				15AC864A19D02F7300D154EB /* SwitchInfoModel.m in Sources */,
+				154E24F51A7725CA00C5D530 /* FirewareUpdateViewController.m in Sources */,
 				15BBD6F819DA857A0002D973 /* ElecRealTimeView.m in Sources */,
 				1564D6F71A429FD000F574A5 /* SceneEditLeftCell.m in Sources */,
 				1560131419C9600600BF7E12 /* UIImage+Color.m in Sources */,
@@ -1284,6 +1320,7 @@
 				150BE85519FF8CA600A358CF /* ForgetPwdViewController.m in Sources */,
 				155A5BF019D3D7B3007864C8 /* SceneCell.m in Sources */,
 				1551F6EF19F8951200A24447 /* FAQViewController.m in Sources */,
+				156C8DDE1A7895EC005C6CB3 /* NSData+MD5.m in Sources */,
 				15AC864419CFC7B100D154EB /* TimerModel.m in Sources */,
 				158D992F19C7E2380068AFC5 /* HistoryElec.m in Sources */,
 				158D992E19C7E2380068AFC5 /* SwitchDataCeneter.m in Sources */,
@@ -1291,6 +1328,7 @@
 				1560131A19C96BE200BF7E12 /* SwitchDetailViewController.m in Sources */,
 				15F3A46B19EB717E001CD296 /* SecurityWarnViewController.m in Sources */,
 				1560130B19C9542C00BF7E12 /* MoreViewController.m in Sources */,
+				150F79E61A81B446003E6BC3 /* SwitchRestartModel.m in Sources */,
 				151E7BC51A1AD5AD002BE94F /* UserSettingViewController.m in Sources */,
 				15CF11E41A6F8674003F8DEA /* RealTimePowerView.m in Sources */,
 				158D992619C7E0FF0068AFC5 /* SDZGSwitch.m in Sources */,
@@ -1314,6 +1352,7 @@
 				1560132819CBDCA700BF7E12 /* SwitchDetailModel.m in Sources */,
 				15AC865119D10A4E00D154EB /* DelaySettingViewController.m in Sources */,
 				1564D7031A42B1F400F574A5 /* SceneEditAddCell.m in Sources */,
+				15C626EC1A7733DA0063C2EC /* FirewareModel.m in Sources */,
 				150BE86D1A01D47700A358CF /* SceneExcTitleView.m in Sources */,
 				15B8E4BA1A36EF30004DAD1E /* HistoryMessage.m in Sources */,
 				15B5B9A21A280901008C8F94 /* ScenePreExcDailogViewController.m in Sources */,
@@ -1326,6 +1365,7 @@
 				1560132319CA795100BF7E12 /* SocketImgTemplateViewController.m in Sources */,
 				158D991F19C7DF7A0068AFC5 /* CRC.c in Sources */,
 				15F3A48219EBCCE6001CD296 /* QuestionViewController.m in Sources */,
+				150057561A80A2F900431BEC /* SwitchRestartViewController.m in Sources */,
 				15F3A47E19EB8123001CD296 /* UserInfo.m in Sources */,
 				15B8E4C31A36FF51004DAD1E /* MessageCenterModel.m in Sources */,
 				1500CD821A415BEA00A720E0 /* SceneDetailViewController2.m in Sources */,

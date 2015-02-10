@@ -9,6 +9,7 @@
 #import "SwitchInfoViewController.h"
 #import "SwitchInfoModel.h"
 #import "ApService.h"
+#import "FirewareUpdateViewController.h"
 #import <CRToast.h>
 static const int maxPower = 2500;
 @interface InfoTextField : UITextField
@@ -42,7 +43,7 @@ static const int maxPower = 2500;
 
 @interface SwitchInfoViewController () <
     UIActionSheetDelegate, UITextFieldDelegate, UINavigationControllerDelegate,
-    UIImagePickerControllerDelegate>
+    UIImagePickerControllerDelegate, MBProgressHUDDelegate>
 @property (nonatomic, weak) IBOutlet UIImageView *imgViewSwitch;
 @property (nonatomic, weak) IBOutlet UITextField *textFieldName;
 @property (nonatomic, weak) IBOutlet UITextField *textFieldAlertUnder;
@@ -54,8 +55,10 @@ static const int maxPower = 2500;
 @property (nonatomic, weak) IBOutlet UISwitch *_switchAlertGreater;
 @property (nonatomic, weak) IBOutlet UISwitch *_switchOffUnder;
 @property (nonatomic, weak) IBOutlet UISwitch *_switchOffGreater;
+@property (nonatomic, weak) IBOutlet UIButton *btnUpdateFireware;
 @property (nonatomic, strong) UITextField *currentEditField;
 
+@property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, assign) LockStatus lockStatus;
 @property (nonatomic, assign) BOOL isAlertUnder;
 @property (nonatomic, assign) BOOL isAlertGreater;
@@ -67,6 +70,7 @@ static const int maxPower = 2500;
 @property (nonatomic, assign) short offGreaterValue;
 - (IBAction)showActionSheet:(id)sender;
 - (IBAction)switchValueChanged:(id)sender;
+- (IBAction)updateFireware:(id)sender;
 
 @property (nonatomic, strong) NSString *imgName; //保存在本地的图片名称
 @property (nonatomic, strong) SwitchInfoModel *model;
@@ -103,6 +107,9 @@ static const int maxPower = 2500;
                                        style:UIBarButtonItemStylePlain
                                       target:self
                                       action:@selector(save:)];
+  UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+  backButtonItem.title = NSLocalizedString(@"Back", nil);
+  self.navigationItem.backBarButtonItem = backButtonItem;
 
   UIView *tableHeaderView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 10)];
@@ -166,7 +173,22 @@ static const int maxPower = 2500;
   // Do any additional setup after loading the view.
   [self setup];
 
+  self.hud = [[MBProgressHUD alloc] initWithView:self.view];
+  [self.view addSubview:self.hud];
+  self.hud.delegate = self;
+  [self.hud show:YES];
   [self.model getElecPowerInfo];
+  if (self.aSwitch.firewareVersion && self.aSwitch.deviceType) {
+    self.btnUpdateFireware.hidden = NO;
+    self.btnUpdateFireware.layer.cornerRadius = 4.f;
+  } else {
+    [self.model getSwitchsFireware:^{
+        if (self.aSwitch.firewareVersion && self.aSwitch.deviceType) {
+          self.btnUpdateFireware.hidden = NO;
+          self.btnUpdateFireware.layer.cornerRadius = 4.f;
+        }
+    }];
+  }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -356,6 +378,14 @@ preparation before navigation
   }
 }
 
+- (IBAction)updateFireware:(id)sender {
+  FirewareUpdateViewController *detailViewController = [self.storyboard
+      instantiateViewControllerWithIdentifier:@"FirewareUpdateViewController"];
+  detailViewController.aSwitch = self.aSwitch;
+  [self.navigationController pushViewController:detailViewController
+                                       animated:YES];
+}
+
 #pragma mark - UITextField协议
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
   self.currentEditField = textField;
@@ -418,6 +448,7 @@ preparation before navigation
   }
   self.offGreaterValue = message.turnOffGreater;
   dispatch_async(MAIN_QUEUE, ^{
+      [self.hud hide:YES];
       self._switchAlertUnder.on = message.isAlertUnderOn;
       self._switchAlertGreater.on = message.isAlertGreaterOn;
       self._switchOffUnder.on = message.isTurnOffUnderOn;
@@ -637,6 +668,13 @@ preparation before navigation
   //  [self.textField resignFirstResponder];
   //  self.actionMinitues = [self.textField.text intValue];
   [self.currentEditField resignFirstResponder];
+}
+
+#pragma mark - MBProgressHUDDelegate
+- (void)hudWasHidden:(MBProgressHUD *)hud {
+  // Remove HUD from screen when the HUD was hidded
+  [self.hud removeFromSuperview];
+  self.hud = nil;
 }
 
 #pragma mark - 选择图片

@@ -11,6 +11,7 @@
 #import "SwitchListCell.h"
 #import "SwitchListModel.h"
 #import "SwitchSyncService.h"
+#import "SwitchRestartViewController.h"
 
 @interface SwitchListViewController () <
     UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate,
@@ -190,6 +191,9 @@
                              }];
         });
   }
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(),
+                 ^{ [self.model getSwitchRestartInfo]; });
   if (self.isLogin) {
     self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
     if (self.switchs.count) {
@@ -455,10 +459,10 @@
                       status:(int)status
                    indexPath:(NSIndexPath *)indexPath {
   dispatch_async(MAIN_QUEUE, ^{
-      [self.HUD hide:YES];
       DDLogDebug(@"result is %d", status);
       [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
       if (status == -1) {
+        [self.HUD hide:YES];
         if (aSwitch.networkStatus != SWITCH_OFFLINE) {
           aSwitch.networkStatus = SWITCH_OFFLINE;
           NSArray *indexPaths = @[ indexPath ];
@@ -471,6 +475,7 @@
                           @"Device offline, Please check your network", nil)];
         [self resumeUpdateList];
       } else if (status == kUdpResponsePasswordErrorCode) {
+        [self.HUD hide:YES];
         if (aSwitch.networkStatus != SWITCH_OFFLINE) {
           aSwitch.networkStatus = SWITCH_OFFLINE;
           NSArray *indexPaths = @[ indexPath ];
@@ -489,14 +494,46 @@
       } else {
         self.lastSelectedIndexPath = indexPath;
         aSwitch.networkStatus = status;
-        SwitchDetailViewController *detailViewController =
-            [self.storyboard instantiateViewControllerWithIdentifier:
-                                 @"SwitchDetailViewController"];
-        detailViewController.aSwitch = aSwitch;
-        [self.navigationController pushViewController:detailViewController
-                                             animated:YES];
+        if (aSwitch.isRestart) {
+          [self.model getDealFlag:aSwitch
+                       completion:^(SDZGHttpResponse *response) {
+                           [self.HUD hide:YES];
+                           if (response.isSuccess) {
+                             int dealFlag =
+                                 [response.data[@"dealFlag"] intValue];
+                             //未重置
+                             if (dealFlag == -1) {
+                               [self goRestartViewController:aSwitch];
+                             } else {
+                               //重置了或不存在
+                               aSwitch.isRestart = NO;
+                               [self goDetailViewController:aSwitch];
+                             }
+                           } else {
+                           }
+                       }];
+        } else {
+          [self.HUD hide:YES];
+          [self goDetailViewController:aSwitch];
+        }
       }
   });
+}
+
+- (void)goRestartViewController:(SDZGSwitch *)aSwitch {
+  SwitchRestartViewController *nextViewController = [self.storyboard
+      instantiateViewControllerWithIdentifier:@"SwitchRestartViewController"];
+  nextViewController.aSwitch = aSwitch;
+  [self.navigationController pushViewController:nextViewController
+                                       animated:YES];
+}
+
+- (void)goDetailViewController:(SDZGSwitch *)aSwitch {
+  SwitchDetailViewController *detailViewController = [self.storyboard
+      instantiateViewControllerWithIdentifier:@"SwitchDetailViewController"];
+  detailViewController.aSwitch = aSwitch;
+  [self.navigationController pushViewController:detailViewController
+                                       animated:YES];
 }
 
 #pragma mark - 长按处理

@@ -15,4 +15,6 @@
 @property (nonatomic, assign) NetworkStatus networkStatus;
 @property (nonatomic, strong) SwitchDataCeneter *switchDataCeneter;
 @property (nonatomic, strong) NSString *currnetLanguage;
+//服务器最新固件版本信息{@"T1501":@".....",@"T1502",@"...."}
+@property (nonatomic, strong) NSMutableDictionary *dictOfFireware;
 @end

@@ -300,6 +300,13 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
 - (void)sendMsg7BWithSwitch:(SDZGSwitch *)aSwitch sendMode:(SENDMODE)mode;
 
 /**
+ *  获取局域网内固件版本
+ *
+ *  @param mode
+ */
+- (void)sendMsg7BWithsendMode:(SENDMODE)mode;
+
+/**
  *
  *
  *  @param aSwitch
@@ -321,7 +328,7 @@ typedef enum { ActiveMode, PassiveMode } SENDMODE;
  *  @param mode
  */
 - (void)sendMsg7FWithSwitch:(SDZGSwitch *)aSwitch
-                    content:(char *)content
+                    content:(NSData *)content
                         num:(int)num
                    sendMode:(SENDMODE)mode;
 @end

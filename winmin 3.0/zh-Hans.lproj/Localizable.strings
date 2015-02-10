@@ -79,6 +79,7 @@
 "Name can't empty"="名称不能为空";
 "Save Success"="保存成功";
 "Auth Error"="设备已被重新配置，请进入设备所在局域网内刷新设备";
+"UpdateFirewareWarn"="确定升级设备固件吗？升级过程中请保持设备通电，及手机屏幕常亮。若升级失败，请待设备完全重启(即WiFi指示灯常亮)后尝试再次控制或升级设备";
 
 /**
  *  控制列表设备状态图片
@@ -123,8 +124,8 @@
 "OFF_Scene"="关";
 "Set command %@ will be executed"="设置%@将要执行的命令";
 "Open Switch I"="打开开关I";
-"Close Switch I"="关闭开关II";
-"Open Switch II"="打开开关I";
+"Close Switch I"="关闭开关I";
+"Open Switch II"="打开开关II";
 "Close Switch II"="关闭开关II";
 "You want to do this kind of operation command?"="您希望对这条命令做怎样的操作？";
 "Insert"="插入";

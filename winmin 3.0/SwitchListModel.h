@@ -65,4 +65,15 @@ typedef void (^ScaneOneSwitchCompleteBlock)(int);
  */
 - (void)scanSwitchState:(SDZGSwitch *)aSwitch
                complete:(ScaneOneSwitchCompleteBlock)complete;
+
+- (void)getSwitchRestartInfo;
+
+/**
+ *
+ *
+ *  @param aSwitch
+ *  @param completion
+ */
+- (void)getDealFlag:(SDZGSwitch *)aSwitch
+         completion:(HttpCompletionBlock)completion;
 @end

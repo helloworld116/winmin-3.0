@@ -193,8 +193,8 @@
   //  });
 
   self.historyElecBlock = compeltion;
-  NSString *messageUrl =
-      [NSString stringWithFormat:@"%@degrees/listIncrement", MessageURLString];
+  NSString *messageUrl = [NSString
+      stringWithFormat:@"%@degrees/listIncrement", BaseURLStringWithNoEncrypt];
   AFHTTPRequestOperationManager *manager =
       [AFHTTPRequestOperationManager manager];
   manager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -450,12 +450,12 @@
 }
 
 - (void)responseMsg34Or36:(CC3xMessage *)message {
-  DDLogDebug(@"power is %f", message.power);
-  float diff = floorf(message.power - kElecDiff);
-  float power = diff > 0 ? diff : 0.f;
-  DDLogDebug(@"draw is %f", power);
-  self.aSwitch.power = (int)power;
-  NSDictionary *userInfo = @{ @"power" : @(power) };
+  //  DDLogDebug(@"power is %f", message.power);
+  //  float diff = floorf(message.power - kElecDiff);
+  //  float power = diff > 0 ? diff : 0.f;
+  //  DDLogDebug(@"draw is %f", power);
+  self.aSwitch.power = (int)message.power;
+  NSDictionary *userInfo = @{ @"power" : @(message.power) };
   [[NSNotificationCenter defaultCenter]
       postNotificationName:kRealTimeElecNotification
                     object:self

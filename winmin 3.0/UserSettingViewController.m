@@ -129,8 +129,9 @@ NSString *const acceleration = @"acceleration";
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self setupStyle];
-  self.settings =
-      @[ showMac, keyShake, wwanWarn, remoteNotification, acceleration ];
+  //  self.settings =
+  //      @[ showMac, keyShake, wwanWarn, remoteNotification, acceleration ];
+  self.settings = @[ keyShake, wwanWarn, remoteNotification, acceleration ];
 }
 
 - (void)didReceiveMemoryWarning {

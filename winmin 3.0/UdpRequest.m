@@ -73,6 +73,11 @@ static dispatch_queue_t udp_recive_serial_queue() {
 @property (nonatomic, assign) BOOL isTurnOffUnder;
 @property (nonatomic, assign) short turnOffGreater;
 @property (nonatomic, assign) BOOL isTurnOffGreater;
+//固件升级
+@property (nonatomic, strong) NSString *firewareVersion;
+@property (nonatomic, assign) NSUInteger firewareTotalByte;
+@property (nonatomic, assign) NSUInteger packageNum;
+@property (nonatomic, strong) NSData *packageContent;
 @end
 @implementation UdpRequest
 
@@ -169,7 +174,11 @@ static dispatch_queue_t delegateQueue;
     case P2D_GET_NAME_REQ_5D:
     case P2D_SET_PASSWD_REQ_69:
     case P2D_SET_POWERACTION_REQ_6B:
-    case P2D_GET_POWERACTION_REQ_71: {
+    case P2D_GET_POWERACTION_REQ_71:
+    case P2D_GET_FIRMWARE_VESION_REQ_7B:
+    case P2D_INFORM_UPDATE_FIRMWARE_REQ_7D:
+    case P2D_SEND_FIRMWARE_PACKAGE_REQ_7F:
+    case P2D_GET_FIRMWARE_VESION_REQ_7B_LOCAL: {
       dispatch_sync(udp_send_serial_queue(), ^{
           [self.udpSocket sendData:self.msg
                             toHost:self.host
@@ -963,6 +972,24 @@ static dispatch_queue_t delegateQueue;
   });
 }
 
+- (void)sendMsg7BWithsendMode:(SENDMODE)mode {
+  dispatch_sync(udp_recive_serial_queue(), ^{
+      if (kSharedAppliction.networkStatus == ReachableViaWiFi) {
+        if (mode == ActiveMode) {
+          self.msgSendCount = 0;
+        } else if (mode == PassiveMode) {
+          self.msgSendCount++;
+        }
+        self.msg = [NSData dataWithData:[CC3xMessageUtil getP2DMsg7B]];
+        self.host = BROADCAST_ADDRESS;
+        self.port = DEVICE_PORT;
+        self.tag = P2D_GET_FIRMWARE_VESION_REQ_7B_LOCAL;
+        [self sendDataToHost];
+      } else {
+      }
+  });
+}
+
 - (void)sendMsg7DWithSwitch:(SDZGSwitch *)aSwitch
                     version:(NSString *)version
                   totalByte:(int)totalByte
@@ -980,6 +1007,8 @@ static dispatch_queue_t delegateQueue;
                                                     totalByte:totalByte]];
         self.host = aSwitch.ip;
         self.port = DEVICE_PORT;
+        self.firewareVersion = version;
+        self.firewareTotalByte = totalByte;
         self.tag = P2D_INFORM_UPDATE_FIRMWARE_REQ_7D;
         [self sendDataToHost];
       } else {
@@ -988,7 +1017,7 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)sendMsg7FWithSwitch:(SDZGSwitch *)aSwitch
-                    content:(char *)content
+                    content:(NSData *)content
                         num:(int)num
                    sendMode:(SENDMODE)mode {
   dispatch_sync(udp_recive_serial_queue(), ^{
@@ -999,11 +1028,13 @@ static dispatch_queue_t delegateQueue;
           self.msgSendCount++;
         }
         self.aSwitch = aSwitch;
-        self.msg =
-            [NSData dataWithData:[CC3xMessageUtil getP2DMsg7F:content num:num]];
+        self.msg = [NSData
+            dataWithData:[CC3xMessageUtil getP2DMsg7F:content num:(char)num]];
         self.host = aSwitch.ip;
         self.port = DEVICE_PORT;
-        self.tag = P2D_GET_FIRMWARE_VESION_REQ_7B;
+        self.packageContent = content;
+        self.packageNum = num;
+        self.tag = P2D_SEND_FIRMWARE_PACKAGE_REQ_7F;
         [self sendDataToHost];
       } else {
       }
@@ -1402,6 +1433,12 @@ static dispatch_queue_t delegateQueue;
     case P2S_GET_POWER_INFO_REQ_35:
       delay = 0;
       break;
+    case P2D_GET_FIRMWARE_VESION_REQ_7B:
+    case P2D_INFORM_UPDATE_FIRMWARE_REQ_7D:
+    case P2D_SEND_FIRMWARE_PACKAGE_REQ_7F:
+    case P2D_GET_FIRMWARE_VESION_REQ_7B_LOCAL:
+      delay = 2 * kCheckPrivateResponseInterval;
+      break;
     default:
       delay = kCheckPublicResponseInterval;
       break;
@@ -1422,8 +1459,8 @@ static dispatch_queue_t delegateQueue;
 }
 
 - (void)checkWithTag:(NSTimer *)timer {
-  DDLogDebug(@"%s", __FUNCTION__);
   long tag = [timer.userInfo longValue];
+  DDLogDebug(@"%s tag is %ld", __FUNCTION__, tag);
   dispatch_sync(GLOBAL_QUEUE, ^{
       if (kSharedAppliction.networkStatus != NotReachable) {
         switch (tag) {
@@ -1783,6 +1820,56 @@ static dispatch_queue_t delegateQueue;
               }
             }
             break;
+
+          case P2D_GET_FIRMWARE_VESION_REQ_7B:
+            if (!self.isReciviedResponseData) {
+              if (self.msgSendCount < kTryCount) {
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg7BWithSwitch:self.aSwitch sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+
+          case P2D_INFORM_UPDATE_FIRMWARE_REQ_7D:
+            if (!self.isReciviedResponseData) {
+              if (self.msgSendCount < kTryCount) {
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg7DWithSwitch:self.aSwitch
+                                  version:self.firewareVersion
+                                totalByte:self.firewareTotalByte
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+            break;
+
+          case P2D_SEND_FIRMWARE_PACKAGE_REQ_7F:
+            if (!self.isReciviedResponseData) {
+              if (self.msgSendCount < kTryCount) {
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg7FWithSwitch:self.aSwitch
+                                  content:self.packageContent
+                                      num:self.packageNum
+                                 sendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+
+            break;
+          case P2D_GET_FIRMWARE_VESION_REQ_7B_LOCAL: {
+            if (!self.isReciviedResponseData) {
+              if (self.msgSendCount < kTryCount) {
+                DDLogWarn(@"tag %ld 重新发送%d次", tag, self.msgSendCount + 1);
+                [self sendMsg7BWithsendMode:PassiveMode];
+              } else {
+                [self noResponseTag:tag socketGroupId:self.socketGroupId];
+              }
+            }
+          } break;
         }
       }
   });
@@ -1841,7 +1928,8 @@ static dispatch_queue_t delegateQueue;
   // 需要执行的操作：
   // 1、清空响应数据
   // 2、指定时间后检查数据是否为空，为空说明未响应，触发请求重发
-  self.responseData = nil;
+  //  self.responseData = nil;
+  self.isReciviedResponseData = NO;
   [self checkResponseDataAfterSettingIntervalWithTag:tag];
 }
 

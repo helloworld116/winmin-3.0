@@ -61,6 +61,7 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   dispatch_async(switch_datacenter_serial_queue(), ^{
       for (SDZGSwitch *aSwitch in switchs) {
         aSwitch.networkStatus = SWITCH_OFFLINE;
+        aSwitch.power = 0;
       }
   });
 }
@@ -212,10 +213,12 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
          aSwitch.networkStatus == SWITCH_LOCAL) &&
         diff > localToRemoteFactor * REFRESH_DEV_TIME) {
       aSwitch.networkStatus = SWITCH_REMOTE;
+      aSwitch.power = 0;
     }
     if (aSwitch.networkStatus == SWITCH_REMOTE &&
         diff > remoteToOfflineFactor * REFRESH_DEV_TIME) {
       aSwitch.networkStatus = SWITCH_OFFLINE;
+      aSwitch.power = 0;
     }
   }
   //  NSSortDescriptor *netDescriptor =

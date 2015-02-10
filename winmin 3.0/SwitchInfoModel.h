@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 extern NSString *const kGetElecPowerInfoSuccess;
 extern NSString *const kSetElecPowerInfoSuccess;
+typedef void (^CompetionBlock)(void);
 
 @interface SwitchInfoModel : NSObject
 - (id)initWithSwitch:(SDZGSwitch *)aSwitch;
@@ -27,4 +28,6 @@ extern NSString *const kSetElecPowerInfoSuccess;
                    isTurnOffUnder:(BOOL)isTurnOffUnder
                    turnOffGreater:(short)turnOffGreater
                  isTurnOffGreater:(BOOL)isTurnOffGreater;
+
+- (void)getSwitchsFireware:(CompetionBlock)block;
 @end

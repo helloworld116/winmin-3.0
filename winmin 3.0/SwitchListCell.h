@@ -15,5 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblName;
 @property (weak, nonatomic) IBOutlet UILabel *lblMac;
 @property (weak, nonatomic) IBOutlet RealTimePowerView *realTimeView;
+@property (weak, nonatomic) IBOutlet UIImageView *imgVNewFireware;
+@property (weak, nonatomic) IBOutlet UIImageView *imgVRestartWarn;
 - (void)setCellInfo:(SDZGSwitch *)aSwitch;
 @end

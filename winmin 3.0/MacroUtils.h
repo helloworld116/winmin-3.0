@@ -31,6 +31,7 @@
 #import "NetUtil.h"
 #import "UIView+NoDataView.h"
 #import "AppDelegate.h"
+#import "SDZGHttpResponse.h"
 #endif
 
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
@@ -153,25 +154,30 @@ static long switchListLongPressDeleteViewTag = 100102;
                    error:nil]
 
 #ifdef DEBUG
-//#define SERVER_IP @"183.63.35.203"
-//#define SERVER_IP @"192.168.0.89"
-#define SERVER_IP @"120.24.75.50"
-// static NSString *const BaseURLString = @"http://192.168.0.188:8080/ais/app/";
-static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
-static NSString *const MessageURLString = @"http://120.24.75.50:18080/ais/app/";
+#define SERVER_IP @"183.63.35.203"
+static NSString *const BaseURLString = @"http://183.63.35.203:18080/ais/api/";
+static NSString *const BaseURLStringWithNoEncrypt =
+    @"http://183.63.35.203:18080/ais/app/";
+//#define SERVER_IP @"120.24.75.50"
+// static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
+// static NSString *const BaseURLStringWithNoEncrypt =
+//    @"http://120.24.75.50:18080/ais/app/";
 #else
 #define SERVER_IP @"120.24.75.50"
 static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
-static NSString *const MessageURLString = @"http://120.24.75.50:18080/ais/app/";
+static NSString *const BaseURLStringWithNoEncrypt =
+    @"http://120.24.75.50:18080/ais/app/";
 #endif
 static float const kHardwareVersion = 2.0;
 static int const kUdpResponseSuccessCode = 0;
 static int const kUdpResponsePasswordErrorCode = 4;
+static const int HttpSuccessCode = 1;
 // static NSString *const BaseURLString =
 // @"http://183.63.35.203:18080/ais/api/";
 
 static NSString *const AboutUsURLString = @"http://www.itouchco.com/";
 typedef void (^NotReceiveDataBlock)(long tag, int socktGroupId);
+typedef void (^HttpCompletionBlock)(SDZGHttpResponse *response);
 
 #define SERVER_PORT 20002
 

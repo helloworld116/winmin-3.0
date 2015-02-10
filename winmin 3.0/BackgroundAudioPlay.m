@@ -27,9 +27,13 @@
 - (id)init {
   self = [super init];
   if (self) {
-    NSString *musicPath =
-        [[NSBundle mainBundle] pathForResource:@"glass" ofType:@"wav"];
-    self.musicUrl = [[NSURL alloc] initFileURLWithPath:musicPath];
+    //    NSString *musicPath =
+    //        [[NSBundle mainBundle] pathForResource:@"glass" ofType:@"wav"];
+    //          self.musicUrl = [[NSURL alloc] initFileURLWithPath:musicPath];
+    //    NSString *musicPath =
+    //        [[NSBundle mainBundle] pathForResource:@"shake" ofType:@"mp3"];
+    self.musicUrl =
+        [[NSBundle mainBundle] URLForResource:@"shake" withExtension:@"mp3"];
     self.player =
         [[AVAudioPlayer alloc] initWithContentsOfURL:self.musicUrl error:nil];
     [[AVAudioSession sharedInstance]
@@ -42,7 +46,7 @@
 
 - (void)playSound {
   [self.player prepareToPlay];
-  self.player.volume = 0;
+  //  self.player.volume = 0;
   self.player.numberOfLoops = 0;
   [self.player play];
 }

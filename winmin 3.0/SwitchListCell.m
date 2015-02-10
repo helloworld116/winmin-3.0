@@ -49,13 +49,14 @@
 
 - (void)setCellInfo:(SDZGSwitch *)aSwitch {
   self.lblName.text = aSwitch.name;
-  BOOL sMac =
-      [[[NSUserDefaults standardUserDefaults] objectForKey:showMac] boolValue];
-  if (sMac) {
-    self.lblMac.text = aSwitch.mac;
-  } else {
-    self.lblMac.text = @"";
-  }
+  //  BOOL sMac =
+  //      [[[NSUserDefaults standardUserDefaults] objectForKey:showMac]
+  //      boolValue];
+  //  if (sMac) {
+  //    self.lblMac.text = aSwitch.mac;
+  //  } else {
+  //    self.lblMac.text = @"";
+  //  }
   //  NSString *imageName;
   UIImage *imgState;
   if (aSwitch.lockStatus == LockStatusOn) {
@@ -92,6 +93,21 @@
     self.imgViewOfSwitch.image = [SDZGSwitch imgNameToImage:aSwitch.imageName];
   }
   [self.realTimeView setPower:aSwitch.power];
+  if (aSwitch.firewareVersion && aSwitch.deviceType &&
+      ![aSwitch.firewareVersion
+          isEqualToString:kSharedAppliction
+                              .dictOfFireware[aSwitch.deviceType]]) {
+    self.imgVNewFireware.hidden = NO;
+  } else {
+    self.imgVNewFireware.hidden = YES;
+  }
+  if (aSwitch.isRestart) {
+    self.imgVRestartWarn.hidden = NO;
+    self.lblMac.text = @"设备似乎被移动过";
+  } else {
+    self.imgVRestartWarn.hidden = YES;
+    self.lblMac.text = @"";
+  }
 }
 
 @end

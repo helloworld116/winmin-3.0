@@ -47,7 +47,8 @@ enum {
   P2S_GET_POWERACTION_REQ_73 = 1034,
   P2D_GET_FIRMWARE_VESION_REQ_7B = 1035,
   P2D_INFORM_UPDATE_FIRMWARE_REQ_7D = 1036,
-  P2D_SEND_FIRMWARE_PACKAGE_REQ_7F = 1037
+  P2D_SEND_FIRMWARE_PACKAGE_REQ_7F = 1037,
+  P2D_GET_FIRMWARE_VESION_REQ_7B_LOCAL = 9999
 };
 
 @class CC3xMessage;
@@ -145,7 +146,7 @@ enum {
 + (NSData *)getP2SMsg73:(NSString *)mac;
 + (NSData *)getP2DMsg7B;
 + (NSData *)getP2DMsg7D:(NSString *)version totalByte:(unsigned short)totalByte;
-+ (NSData *)getP2DMsg7F:(char *)content num:(char)num;
++ (NSData *)getP2DMsg7F:(NSData *)content num:(char)num;
 @end
 
 @interface CC3xMessage : NSObject
@@ -186,6 +187,8 @@ enum {
 @property (nonatomic, assign) unsigned short crc;
 
 @property (nonatomic, strong) NSString *firmwareVersion;
+@property (nonatomic, strong) NSString *deviceType; //设备型号
+@property (nonatomic, assign) int totalBytes;       //升级包字节数
 //固件升级包的顺序
 @property (nonatomic, assign) int packageNum;
 

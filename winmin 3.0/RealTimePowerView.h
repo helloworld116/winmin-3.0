@@ -14,6 +14,6 @@
 @property (nonatomic, weak) IBOutlet UIImageView *img3;    //百位
 @property (nonatomic, weak) IBOutlet UIImageView *img4;    //千位
 @property (nonatomic, weak) IBOutlet UIImageView *imgUnit; //单位
-
+@property (nonatomic, weak) IBOutlet UILabel *lblUnit;
 - (void)setPower:(int)power;
 @end

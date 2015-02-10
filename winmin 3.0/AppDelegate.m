@@ -72,37 +72,50 @@
   // application to its current state in case it is terminated later.
   // If your application supports background execution, this method is called
   // instead of applicationWillTerminate: when the user quits.
-  //  [[SwitchDataCeneter sharedInstance] syncSwitchs];
 
-  NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
-  BOOL motionEnable = [[userDefaults objectForKey:acceleration] boolValue];
-  int shakeId = [[userDefaults objectForKey:@"shakeId"] intValue];
-  if (motionEnable && shakeId) {
-    self.backgroundUpdateTask = [[UIApplication sharedApplication]
-        beginBackgroundTaskWithExpirationHandler:nil];
-    [[DBUtil sharedInstance]
-        saveSwitchs:[[SwitchDataCeneter sharedInstance] switchs]];
-    SwitchSyncService* service = [[SwitchSyncService alloc] init];
-    [service uploadSwitchs:^(BOOL isSuccess){}];
-    dispatch_after(
-        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
-        dispatch_get_main_queue(), ^{ [self startBackgroundTimer]; });
-  } else {
-    self.backgroundUpdateTask = [[UIApplication sharedApplication]
-        beginBackgroundTaskWithExpirationHandler:^{
-            [[UIApplication sharedApplication]
-                endBackgroundTask:self.backgroundUpdateTask];
-            self.backgroundUpdateTask = UIBackgroundTaskInvalid;
-        }];
-    [[DBUtil sharedInstance]
-        saveSwitchs:[[SwitchDataCeneter sharedInstance] switchs]];
-    SwitchSyncService* service = [[SwitchSyncService alloc] init];
-    [service uploadSwitchs:^(BOOL isSuccess) {
-        [[UIApplication sharedApplication]
-            endBackgroundTask:self.backgroundUpdateTask];
-        self.backgroundUpdateTask = UIBackgroundTaskInvalid;
-    }];
-  }
+  //  NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+  //  BOOL motionEnable = [[userDefaults objectForKey:acceleration] boolValue];
+  //  int shakeId = [[userDefaults objectForKey:@"shakeId"] intValue];
+  //  if (motionEnable && shakeId) {
+  //    self.backgroundUpdateTask = [[UIApplication sharedApplication]
+  //        beginBackgroundTaskWithExpirationHandler:nil];
+  //    [[DBUtil sharedInstance]
+  //        saveSwitchs:[[SwitchDataCeneter sharedInstance] switchs]];
+  //    SwitchSyncService* service = [[SwitchSyncService alloc] init];
+  //    [service uploadSwitchs:^(BOOL isSuccess){}];
+  //    dispatch_after(
+  //        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+  //        dispatch_get_main_queue(), ^{ [self startBackgroundTimer]; });
+  //  } else {
+  //    self.backgroundUpdateTask = [[UIApplication sharedApplication]
+  //        beginBackgroundTaskWithExpirationHandler:^{
+  //            [[UIApplication sharedApplication]
+  //                endBackgroundTask:self.backgroundUpdateTask];
+  //            self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+  //        }];
+  //    [[DBUtil sharedInstance]
+  //        saveSwitchs:[[SwitchDataCeneter sharedInstance] switchs]];
+  //    SwitchSyncService* service = [[SwitchSyncService alloc] init];
+  //    [service uploadSwitchs:^(BOOL isSuccess) {
+  //        [[UIApplication sharedApplication]
+  //            endBackgroundTask:self.backgroundUpdateTask];
+  //        self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+  //    }];
+  //  }
+  self.backgroundUpdateTask = [[UIApplication sharedApplication]
+      beginBackgroundTaskWithExpirationHandler:^{
+          [[UIApplication sharedApplication]
+              endBackgroundTask:self.backgroundUpdateTask];
+          self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+      }];
+  [[DBUtil sharedInstance]
+      saveSwitchs:[[SwitchDataCeneter sharedInstance] switchs]];
+  SwitchSyncService* service = [[SwitchSyncService alloc] init];
+  [service uploadSwitchs:^(BOOL isSuccess) {
+      [[UIApplication sharedApplication]
+          endBackgroundTask:self.backgroundUpdateTask];
+      self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+  }];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication*)application {
@@ -114,8 +127,8 @@
   //  [APService resetBadge];
   [APService setBadge:0];
   [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-  [self endBackgroundTimer];
-  [self endBackgroundUpdateTask];
+  //  [self endBackgroundTimer];
+  //  [self endBackgroundUpdateTask];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication*)application {
@@ -191,6 +204,17 @@
           fetchCompletionHandler:
               (void (^)(UIBackgroundFetchResult))completionHandler {
   if (application.applicationState == UIApplicationStateActive) {
+    int notificationType = [userInfo[@"type"] intValue];
+    //断电重启提醒
+    if (notificationType == 2) {
+      NSString* date = userInfo[@"date"];
+      NSString* mac = userInfo[@"mac"];
+      SDZGSwitch* aSwtich = [self.switchDataCeneter getSwitchByMac:mac];
+      if (aSwtich) {
+        aSwtich.isRestart = YES;
+        aSwtich.restartMsgDateStr = date;
+      }
+    }
     [APService setLocalNotification:[NSDate dateWithTimeIntervalSinceNow:1]
                           alertBody:[[userInfo objectForKey:@"aps"]
                                         objectForKey:@"alert"]
@@ -248,7 +272,8 @@
   [[UINavigationBar appearance] setBarTintColor:kThemeColor];
   [[UINavigationBar appearance] setTitleTextAttributes:@{
     NSFontAttributeName : [UIFont systemFontOfSize:22],
-    UITextAttributeTextColor : [UIColor whiteColor]
+    //    UITextAttributeTextColor : [UIColor whiteColor]
+    NSForegroundColorAttributeName : [UIColor whiteColor]
   }];
   [[UITabBar appearance]
       setBarTintColor:[UIColor colorWithHexString:@"#F0EFEF"]];
@@ -258,6 +283,7 @@
 }
 
 - (void)setData {
+  self.dictOfFireware = [@{} mutableCopy];
   self.switchDataCeneter = [SwitchDataCeneter sharedInstance];
   NSArray* scenes = [[[DBUtil sharedInstance] scenes] mutableCopy];
   NSInteger shakeId = [[[NSUserDefaults standardUserDefaults]

@@ -713,6 +713,7 @@ typedef struct {
   msgHeader header;
   unsigned char mac[6];
   char version[16];
+  char deviceType[20]; //设备型号
   unsigned short crc;
 } d2pMsg7C;
 
@@ -723,6 +724,15 @@ typedef struct {
   unsigned short totalByte;
   unsigned short crc;
 } p2dMsg7D;
+
+// D2P_INFORM_UPDATE_FIRMWARE_RESP  0X7E
+typedef struct {
+  msgHeader header;
+  unsigned char mac[6];
+  unsigned short totalBytes; //总字节
+  char state;                // 0成功，非0失败
+  unsigned short crc;
+} d2pMsg7E;
 
 // P2D_SEND_FIRMWARE_PACKAGE_REQ    0X7F
 typedef struct {
@@ -746,6 +756,7 @@ typedef struct {
 typedef struct {
   msgHeader header;
   unsigned char mac[6];
+  char version[16]; //最新版本号
   unsigned short crc;
 } d2pMsg81;
 
@@ -1446,13 +1457,16 @@ typedef struct {
   return B2D(msg);
 }
 
-+ (NSData *)getP2DMsg7F:(char *)content num:(char)num {
++ (NSData *)getP2DMsg7F:(NSData *)content num:(char)num {
   p2dMsg7F msg;
   memset(&msg, 0, sizeof(msg));
   msg.header.msgId = 0x7F;
   msg.header.msgDir = 0xAD;
   msg.header.msgLength = htons(sizeof(msg));
-  memcpy(msg.content, content, 512);
+  memcpy(msg.content, (char *)[content bytes], [content length]);
+  if ((int)num == 114) {
+    //    NSLog(@"........ is %ld", sizeof(*content));
+  }
   msg.num = num;
   msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
   return B2D(msg);
@@ -1664,31 +1678,8 @@ typedef struct {
     if (msg.pulse == 0) {
       message.power = 0;
     } else {
-      message.power = kElecFactor / ntohs(msg.pulse);
-    }
-  }
-  return message;
-}
-
-+ (CC3xMessage *)parseS2P36:(NSData *)aData {
-  CC3xMessage *message = nil;
-  s2pMsg36 msg;
-  [aData getBytes:&msg length:sizeof(msg)];
-  message = [[CC3xMessage alloc] init];
-  message.msgId = msg.header.msgId;
-  message.msgDir = msg.header.msgDir;
-  message.msgLength = msg.header.msgLength;
-  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
-                                           msg.mac[0], msg.mac[1], msg.mac[2],
-                                           msg.mac[3], msg.mac[4], msg.mac[5]];
-  message.state = msg.state;
-  if ([aData length] == sizeof(msg)) {
-    message.power = ntohl(msg.power) / 100;
-  } else {
-    if (msg.pulse == 0) {
-      message.power = 0;
-    } else {
-      message.power = kElecFactor / ntohs(msg.pulse);
+      float diff = floorf(kElecFactor / ntohs(msg.pulse) - kElecDiff);
+      message.power = diff > 0 ? diff : 0.f;
     }
   }
   return message;
@@ -1862,10 +1853,31 @@ typedef struct {
   message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
+  //  NSLog(@"length is %lu", strlen(msg.version));
   message.firmwareVersion =
       [[NSString alloc] initWithBytes:msg.version
-                               length:strlen(msg.version)
-                             encoding:NSUTF8StringEncoding];
+                               length:sizeof(msg.version)
+                             encoding:NSASCIIStringEncoding];
+  message.deviceType = [[NSString alloc] initWithBytes:msg.deviceType
+                                                length:sizeof(msg.deviceType)
+                                              encoding:NSUTF8StringEncoding];
+  message.crc = ntohs(msg.crc);
+  return message;
+}
+
++ (CC3xMessage *)parseD2P7E:(NSData *)aData {
+  CC3xMessage *message = nil;
+  d2pMsg7E msg;
+  [aData getBytes:&msg length:sizeof(msg)];
+
+  message = [[CC3xMessage alloc] init];
+  message.msgId = msg.header.msgId;
+  message.msgDir = msg.header.msgDir;
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                                           msg.mac[0], msg.mac[1], msg.mac[2],
+                                           msg.mac[3], msg.mac[4], msg.mac[5]];
+  message.totalBytes = ntohs(msg.totalBytes);
+  message.state = msg.state;
   message.crc = ntohs(msg.crc);
   return message;
 }
@@ -1898,6 +1910,10 @@ typedef struct {
   message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
+  message.firmwareVersion =
+      [[NSString alloc] initWithBytes:msg.version
+                               length:sizeof(msg.version)
+                             encoding:NSASCIIStringEncoding];
   return message;
 }
 
@@ -1944,7 +1960,6 @@ typedef struct {
     case 0x4a:
     case 0x6c:
     case 0x6e:
-    case 0x7e:
       result = [CC3xMessageUtil parseD2P3A:data];
       break;
     case 0x54:
@@ -1958,10 +1973,8 @@ typedef struct {
       result = [CC3xMessageUtil parseS2P6A:data];
       break;
     case 0x34:
-      result = [CC3xMessageUtil parseD2P34:data];
-      break;
     case 0x36:
-      result = [CC3xMessageUtil parseS2P36:data];
+      result = [CC3xMessageUtil parseD2P34:data];
       break;
     case 0x5e:
     case 0x60:
@@ -1976,6 +1989,9 @@ typedef struct {
       break;
     case 0x7c:
       result = [CC3xMessageUtil parseD2P7C:data];
+      break;
+    case 0x7e:
+      result = [CC3xMessageUtil parseD2P7E:data];
       break;
     case 0x80:
       result = [CC3xMessageUtil parseD2P80:data];
@@ -2066,7 +2082,6 @@ typedef struct {
 + (NSData *)dataFromHexString:(NSString *)hexString {
   NSString *cleanString = hexString;
   NSMutableData *result = [[NSMutableData alloc] init];
-
   int i = 0;
   for (i = 0; i + 2 <= cleanString.length; i += 2) {
     NSRange range = NSMakeRange(i, 2);

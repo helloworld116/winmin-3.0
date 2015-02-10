@@ -71,6 +71,7 @@
 "Added successfully"="Added successfully";
 "Modified successfully"="Modified successfully";
 "Keyboard return"="Done";
+"UpdateFirewareWarn"="Are you sure to upgrade the device firmware? During upgrading, please keep the device electricity and phone screen on.If failed, please wait for your device restart completely (i.e. WiFi indicator continuous light), then try control it or upgrade again.";
 
 "zx_lock"="zx_lock_en";
 "yc_lock"="yc_lock_en";
