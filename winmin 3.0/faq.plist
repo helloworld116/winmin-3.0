@@ -84,87 +84,142 @@
 			<key>a</key>
 			<string>不能，该设备为六孔插排，分为两组I、II，每组包含3个插孔，您可以对每组进行单独控制。</string>
 		</dict>
+		<dict>
+			<key>q</key>
+			<string>设备配置不成功，该如何解决？</string>
+			<key>a</key>
+			<string>可以通过长按任一辅助开关按钮5秒钟至WiFi指示灯快闪状态，进行复位操作后配置，并检查WiFi密码输入是否正确；也可以通过断电重新配置来解决。通过以上两种方式还是不能解决，请联系客服寻求帮助。</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>定时任务是否可以控制路由器？</string>
+			<key>a</key>
+			<string>可以。因为我们的定时任务是存储在插排设备中，因此当给路由器制定了定时开任务时，是可以给启动路由器的。</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>面板上2个辅助按钮有什么不同？</string>
+			<key>a</key>
+			<string>首先，这两个按钮具有控制对应三个插孔开关的功能，其次这两个按键具有复位插排的功能；从开关上讲是分别控制不同的插孔，从复位功能上讲是没有区别的，通过长按任何一个按键均可以实现复位操作。</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>插排使用安全吗？</string>
+			<key>a</key>
+			<string>我们的插排均通过国家检测机构检测，并颁发了质量检测安全合格证书。</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>USB充电可以给IPAD和IPHONE充电吗？</string>
+			<key>a</key>
+			<string>可以的。我们的USB设计中考虑了苹果产品充电的特殊性，增加了识别机制，另外两个USB输出电流采用同一电路进行供电，因此可以满足只用一个设备充电式输出电流为5V 2.1A。</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>是否支持给超过2500W的产品使用？</string>
+			<key>a</key>
+			<string>不可以，插排的元器件均可以保证2500W的用电器长时间使用，当超过2500W时，出于安全考虑，插排会自动断电。温馨提醒：当所需要控制的用点设备超出2500W时，请选用更加合适的产品。</string>
+		</dict>
+		<dict>
+			<key>q</key>
+			<string>功率检测功能是否可以当电表使用？</string>
+			<key>a</key>
+			<string>不可以，本产品的功率检测和统计数据仅供参考，不能当作电表来使用。</string>
+		</dict>
 	</array>
 	<key>en</key>
-	<array>
+	<dict>
+		<key>New item</key>
 		<dict>
 			<key>q</key>
 			<string>How to configuring?</string>
 			<key>a</key>
 			<string>First,confirm that your mobile phone connect to the wifi.Then reset the device by pressing rest button until light flashing rapidly at about 5-6times per sec.Thirdly,put in the password and click configure and the light will turn into slow flash.Last,if the light is always on,means the configuring succeed.If configuring fail,repeat the above steps to reconfigure.</string>
 		</dict>
+		<key>New item - 2</key>
 		<dict>
 			<key>q</key>
 			<string>How to delete device?</string>
 			<key>a</key>
 			<string>Press on the device at the device list to delete the device.</string>
 		</dict>
+		<key>New item - 3</key>
 		<dict>
 			<key>q</key>
 			<string>The device status shows &quot;Remote&quot;,&quot;Online&quot;,&quot;Offline&quot; and &quot;New&quot;. what does that mean?</string>
 			<key>a</key>
 			<string>&quot;Remote&quot;means the device and your mobile phone is not in the same LAN。&quot;Online&quot;means the device and your phone is in the same LAN.&quot;Offline&quot;means the device has configured,but it does not connect to electricity.&quot;New&quot;means the device is new added。</string>
 		</dict>
+		<key>New item - 4</key>
 		<dict>
 			<key>q</key>
 			<string>What is lock device? Where can I lock the device?</string>
 			<key>a</key>
 			<string>After the device lock,the terminals who did not add the device  will not be able to search the device.So it is safe for you to manage your device.Enter the device control page,click&quot;…&quot;icon,and enter to the device info page where you can lock your device.</string>
 		</dict>
+		<key>New item - 5</key>
 		<dict>
 			<key>q</key>
 			<string>How many timer task can I set up?</string>
 			<key>a</key>
 			<string>At most 20</string>
 		</dict>
+		<key>New item - 6</key>
 		<dict>
 			<key>q</key>
 			<string>Can I control the device remotely?</string>
 			<key>a</key>
 			<string>Yes,if only the device is online and your mobile phone can connect to Internet,then you can control your device all around th world.</string>
 		</dict>
+		<key>New item - 7</key>
 		<dict>
 			<key>q</key>
 			<string>What is Time-delay?</string>
 			<key>a</key>
 			<string>Time-delay is delay sometime to turn on or turn off the device.</string>
 		</dict>
+		<key>New item - 8</key>
 		<dict>
 			<key>q</key>
 			<string>How to edit the device information?</string>
 			<key>a</key>
 			<string>Enter the device control page,click&quot;…&quot;icon,then you can change the device&apos;s name and picture.</string>
 		</dict>
+		<key>New item - 9</key>
 		<dict>
 			<key>q</key>
 			<string>How to control the device&apos;s switch?</string>
 			<key>a</key>
 			<string>Click&quot;Control&quot;icon，then click the device to the control page.Click&quot;ON&quot;or&quot;OFF&quot;to control the switch.</string>
 		</dict>
+		<key>New item - 10</key>
 		<dict>
 			<key>q</key>
 			<string>What is &quot;scene&quot;?</string>
 			<key>a</key>
 			<string>&quot;Scene&quot; function can be setting a series of commands in a scene mode,Such as air conditioning, television, set-top box, lighting inside your bedroom。You can select multiple devices, multiple switch command in one scenario，then when you click the scene icon,the switch command you set up can be executed.</string>
 		</dict>
+		<key>New item - 11</key>
 		<dict>
 			<key>q</key>
 			<string>What dose long press and short press on the scene icon? </string>
 			<key>a</key>
 			<string>Long press on the scene icon can edit or delete the scene.Short press can execute the command you set up.</string>
 		</dict>
+		<key>New item - 12</key>
 		<dict>
 			<key>q</key>
 			<string>How to protect my device and prevent others find it?</string>
 			<key>a</key>
 			<string>Only connect to your home wifi,and then find your device. You can lock your device at &quot;Device Info&quot; page.</string>
 		</dict>
+		<key>New item - 13</key>
 		<dict>
 			<key>q</key>
 			<string>Can I control each socket seperately?</string>
 			<key>a</key>
 			<string>No,you can&apos;t.The device which has 6 sockets is divided into two groups has，each group has 3 sockets，and you can control each group seperately。</string>
 		</dict>
-	</array>
+	</dict>
 </dict>
 </plist>

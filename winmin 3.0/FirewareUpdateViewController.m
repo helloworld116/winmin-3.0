@@ -27,7 +27,9 @@
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) NSString *lastVersionInServer;
 @property (nonatomic, strong) NSString *deviceVersion;
-@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) NSTimer *timer; //终止更新线程
+@property (nonatomic, strong)
+    NSTimer *timerCheck; //升级成功广播包未收到，检查固件是否已更新
 @property (nonatomic, assign) BOOL isFinishedUpdate; //更新固件操作是否已结束
 - (IBAction)updateAction:(id)sender;
 @end
@@ -231,6 +233,7 @@ preparation before navigation
 }
 
 - (void)doUpdate {
+  static NSTimeInterval time = 200.f;
   [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
   self.isFinishedUpdate = NO;
   //超过指定时间，自动停止更新固件
@@ -239,8 +242,19 @@ preparation before navigation
                                      selector:@selector(checkUpdateProgress:)
                                      userInfo:nil
                                       repeats:NO];
-  [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:200.f]];
+  [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:time]];
   [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+  //未收到升级成功的广播包，检查设备最新固件
+  self.timerCheck =
+      [NSTimer timerWithTimeInterval:10
+                              target:self
+                            selector:@selector(checkSiwtchLastFirewareVersion:)
+                            userInfo:nil
+                             repeats:YES];
+  [self.timerCheck
+      setFireDate:[NSDate dateWithTimeIntervalSinceNow:time - 100]];
+  [[NSRunLoop mainRunLoop] addTimer:self.timerCheck
+                            forMode:NSRunLoopCommonModes];
 
   self.hud = [[MBProgressHUD alloc] initWithWindow:kSharedAppliction.window];
   [kSharedAppliction.window addSubview:self.hud];
@@ -262,10 +276,11 @@ preparation before navigation
                                  self.isFinishedUpdate = YES;
                                  [self.timer invalidate];
                                  self.timer = nil;
+                                 [self.timerCheck invalidate];
+                                 self.timerCheck = nil;
                                  [self.hud hide:YES afterDelay:2];
                                  self.hud.mode = MBProgressHUDModeCustomView;
                                  if (success) {
-
                                    self.hud.customView = [[UIImageView alloc]
                                        initWithImage:
                                            [UIImage
@@ -303,6 +318,51 @@ preparation before navigation
         initWithImage:[UIImage imageNamed:@"update_failure"]];
     [self.hud hide:YES afterDelay:2];
   }
+}
+
+- (void)checkSiwtchLastFirewareVersion:(NSTimer *)timer {
+  //  if (!self.isFinishedUpdate) {
+  //    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+  //    self.isFinishedUpdate = YES;
+  //    self.hud.mode = MBProgressHUDModeCustomView;
+  //    self.hud.labelText = @"固件更新出错";
+  //    self.hud.customView = [[UIImageView alloc]
+  //        initWithImage:[UIImage imageNamed:@"update_failure"]];
+  //    [self.hud hide:YES afterDelay:2];
+  //  }
+  [self.model
+      getFirewareInfoWithType:self.aSwitch.deviceType
+                   completion:^(NSString *firewareVersion,
+                                NSString *deviceType_) {
+                       if ([self.lastVersionInServer
+                               isEqualToString:firewareVersion]) {
+                         //已是最新版本
+                         dispatch_async(dispatch_get_main_queue(), ^{
+                             [[UIApplication sharedApplication]
+                                 setIdleTimerDisabled:NO];
+                             self.isFinishedUpdate = YES;
+                             [self.timer invalidate];
+                             self.timer = nil;
+                             [self.timerCheck invalidate];
+                             self.timerCheck = nil;
+                             [self.hud hide:YES afterDelay:2];
+                             self.hud.mode = MBProgressHUDModeCustomView;
+                             self.hud.customView = [[UIImageView alloc]
+                                 initWithImage:
+                                     [UIImage imageNamed:@"update_success"]];
+                             [self.infos[3] setValue:self.lastVersionInServer
+                                              forKey:@"value"];
+                             [self.tableView reloadData];
+                             self.aSwitch.firewareVersion =
+                                 self.lastVersionInServer;
+                             self.deviceVersion = self.lastVersionInServer;
+                             [self setUpdateBtnEnable];
+                             [kSharedAppliction.dictOfFireware
+                                 setObject:self.lastVersionInServer
+                                    forKey:self.deviceType];
+                         });
+                       }
+                   }];
 }
 
 #pragma mark - MBProgressHUDDelegate

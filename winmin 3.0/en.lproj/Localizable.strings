@@ -121,9 +121,9 @@
 "Reset"="Reset";
 "Open Shake"="Open Shake";
 "Close Shake"="Close Shake";
-"scene_shake_enable"="Enable scene shake need to turn on the shake controller.Scenes will be execute on shaking after turn on.Notice: This function need your hardware support. If you feel trouble while using, please turn off this.Are you sure to turn on it and enable this scene?";
-"scene_shake_setting"="Enable scene shake will result on scenes execute on shaking.Notice: This function need your hardware support. If you feel trouble while using, please turn off this.Are you sure to enable this scene?";
-"scene_shake_replace"="Scene shake only support one scene as the target, continue will replace the original setting.Are you sure to continue?";
+"scene_shake_enable"="Please go to function setting and turn on the shake controller!";
+"scene_shake_setting"="Are you sure to set this scene as shake target?";
+"scene_shake_replace"="Scene shake only support one scene as the target, are you sure to replace the original setting?";
 
 /**
  *  更多
@@ -167,3 +167,4 @@
 "feedback success"="Submit success";
 "No Message!"="No Message!";
 "setting_shake_hint"="Turn on the shake controller and set target scene will result on shake to execute scene.Notice: This function need your hardware support. If you feel trouble while using, please turn off this.Are you sure to turn on it?";
+"setting_shake_disable_hint"="You have set shake scene, are you sure to clear the record and turn off this function?";

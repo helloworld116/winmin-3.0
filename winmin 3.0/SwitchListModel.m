@@ -166,14 +166,14 @@ static const int successCode = 1;
 
 - (void)scanSwitchState:(SDZGSwitch *)aSwitch
                complete:(ScaneOneSwitchCompleteBlock)complete {
-  if (!self.request2) {
-    self.request2 = [UdpRequest manager];
-    self.request2.delegate = self;
-  }
   [self pauseScanState];
   self.request.delegate = nil;
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
                  dispatch_get_main_queue(), ^{ self.request.delegate = self; });
+  if (!self.request2) {
+    self.request2 = [UdpRequest manager];
+    self.request2.delegate = self;
+  }
   self.timerCheckOneSwitch =
       [NSTimer scheduledTimerWithTimeInterval:5.f
                                        target:self

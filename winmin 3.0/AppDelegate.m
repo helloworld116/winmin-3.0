@@ -415,6 +415,7 @@
   id shake = [userDefaults objectForKey:keyShake];
   id warn = [userDefaults objectForKey:wwanWarn];
   id remoteNotifi = [userDefaults objectForKey:remoteNotification];
+  id acceleratio = [userDefaults objectForKey:acceleration];
   if (!showmac) {
     [userDefaults setObject:@(YES) forKey:showMac];
   }
@@ -426,6 +427,9 @@
   }
   if (!remoteNotifi) {
     [userDefaults setObject:@(YES) forKey:remoteNotification];
+  }
+  if (!acceleratio) {
+    [userDefaults setObject:@(YES) forKey:acceleratio];
   }
   [userDefaults synchronize];
 }

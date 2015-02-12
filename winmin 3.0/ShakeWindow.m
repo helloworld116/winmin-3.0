@@ -147,14 +147,16 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
 }
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-  NSLog(@"shake");
+  //  NSLog(@"shake");
   //  if (self.aSwitch && self.groupId) {
   //    [self.request sendMsg11Or13:self.aSwitch
   //                  socketGroupId:self.groupId
   //                       sendMode:ActiveMode];
   //  }
-
-  if (self.scene && kSharedAppliction.networkStatus == ReachableViaWiFi) {
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  BOOL motionEnable = [[userDefaults objectForKey:acceleration] boolValue];
+  if (motionEnable && self.scene &&
+      kSharedAppliction.networkStatus == ReachableViaWiFi) {
     [[BackgroundAudioPlay sharedInstance] playSound];
     NSArray *sceneDetails = self.scene.detailList;
     [self executeSceneDetails:sceneDetails];

@@ -57,6 +57,12 @@ typedef NS_ENUM(NSInteger, ShakeType) {
            message:NSLocalizedString(@"You have not add any scene!", nil)];
   self.noDataView.hidden = YES;
   [self.view addSubview:self.noDataView];
+  UILongPressGestureRecognizer *longPressGesture =
+      [[UILongPressGestureRecognizer alloc]
+          initWithTarget:self
+                  action:@selector(handlerLongPress:)];
+  longPressGesture.minimumPressDuration = 0.5;
+  [self.collectionView addGestureRecognizer:longPressGesture];
   [[NSNotificationCenter defaultCenter]
       addObserver:self
          selector:@selector(addOrUpdateScene:)
@@ -96,6 +102,19 @@ typedef NS_ENUM(NSInteger, ShakeType) {
   [self setup];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  if (self.shakeId) {
+    //清除设置中关闭摇一摇后的显示摇一摇
+    self.shakeId = [[[NSUserDefaults standardUserDefaults]
+        objectForKey:@"shakeId"] integerValue];
+    if (!self.shakeId) {
+      self.lastShakeIndexPath = nil;
+      [self.collectionView reloadData];
+    }
+  }
+}
+
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
@@ -132,12 +151,6 @@ preparation before navigation
     isShowShake = NO;
   }
   [cell setCellInfo:scene isShowShake:isShowShake];
-  UILongPressGestureRecognizer *longPressGesture =
-      [[UILongPressGestureRecognizer alloc]
-          initWithTarget:self
-                  action:@selector(handlerLongPress:)];
-  longPressGesture.minimumPressDuration = 0.5;
-  [cell addGestureRecognizer:longPressGesture];
   return cell;
 }
 
@@ -256,24 +269,29 @@ preparation before navigation
         if (motionShake) {
           if (self.lastShakeIndexPath &&
               self.lastShakeIndexPath != self.operationIndexPath) {
-            //          reloadItemsAtIndexPaths =
-            //              @[ self.lastShakeIndexPath, self.operationIndexPath
-            //              ];
             message = NSLocalizedString(@"scene_shake_replace", nil);
           } else {
-            //          reloadItemsAtIndexPaths = @[ self.operationIndexPath ];
             message = NSLocalizedString(@"scene_shake_setting", nil);
           }
+          UIAlertView *alert = [[UIAlertView alloc]
+                  initWithTitle:NSLocalizedString(@"Notice", nil)
+                        message:message
+                       delegate:self
+              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+              otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
+          alert.tag = 10086;
+          [alert show];
         } else {
           message = NSLocalizedString(@"scene_shake_enable", nil);
+          UIAlertView *alert = [[UIAlertView alloc]
+                  initWithTitle:NSLocalizedString(@"Notice", nil)
+                        message:message
+                       delegate:self
+              cancelButtonTitle:NSLocalizedString(@"Sure", nil)
+              otherButtonTitles:nil, nil];
+          alert.tag = 10087;
+          [alert show];
         }
-        UIAlertView *alert = [[UIAlertView alloc]
-                initWithTitle:NSLocalizedString(@"Notice", nil)
-                      message:message
-                     delegate:self
-            cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-            otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
-        [alert show];
       } else if (self.shakeType == ShakeType_Cancel) {
         shakeId = 0;
         self.lastShakeIndexPath = nil;
@@ -347,12 +365,12 @@ preparation before navigation
     case 0:
       break;
     case 1: {
-      BOOL motionShake = [[[NSUserDefaults standardUserDefaults]
-          objectForKey:acceleration] boolValue];
-      if (!motionShake) {
-        [[NSUserDefaults standardUserDefaults] setObject:@(YES)
-                                                  forKey:acceleration];
-      }
+      //      BOOL motionShake = [[[NSUserDefaults standardUserDefaults]
+      //          objectForKey:acceleration] boolValue];
+      //      if (!motionShake) {
+      //        [[NSUserDefaults standardUserDefaults] setObject:@(YES)
+      //                                                  forKey:acceleration];
+      //      }
       NSArray *reloadItemsAtIndexPaths;
       NSInteger shakeId = self.currentEditScene.indentifier;
       if (self.lastShakeIndexPath &&

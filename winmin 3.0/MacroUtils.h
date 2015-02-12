@@ -154,14 +154,16 @@ static long switchListLongPressDeleteViewTag = 100102;
                    error:nil]
 
 #ifdef DEBUG
-#define SERVER_IP @"183.63.35.203"
-static NSString *const BaseURLString = @"http://183.63.35.203:18080/ais/api/";
-static NSString *const BaseURLStringWithNoEncrypt =
-    @"http://183.63.35.203:18080/ais/app/";
-//#define SERVER_IP @"120.24.75.50"
-// static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
+//#define SERVER_IP @"183.63.35.203"
+// static NSString *const BaseURLString =
+// @"http://183.63.35.203:18080/ais/api/";
 // static NSString *const BaseURLStringWithNoEncrypt =
-//    @"http://120.24.75.50:18080/ais/app/";
+//    @"http://183.63.35.203:18080/ais/app/";
+
+#define SERVER_IP @"120.24.75.50"
+static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";
+static NSString *const BaseURLStringWithNoEncrypt =
+    @"http://120.24.75.50:18080/ais/app/";
 #else
 #define SERVER_IP @"120.24.75.50"
 static NSString *const BaseURLString = @"http://120.24.75.50:18080/ais/api/";

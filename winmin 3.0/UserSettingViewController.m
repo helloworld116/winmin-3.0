@@ -79,14 +79,24 @@ NSString *const acceleration = @"acceleration";
           }];
       });
     }
-  } else if ([self.name isEqualToString:acceleration] && self._switch.on) {
-    UIAlertView *alert = [[UIAlertView alloc]
-            initWithTitle:NSLocalizedString(@"Notice", nil)
-                  message:NSLocalizedString(@"setting_shake_hint", nil)
-                 delegate:self
-        cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-        otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
-    [alert show];
+  } else if ([self.name isEqualToString:acceleration]) {
+    NSString *message;
+    NSInteger shakeId =
+        [[NSUserDefaults standardUserDefaults] integerForKey:@"shakeId"];
+    if (self._switch.on) {
+      message = NSLocalizedString(@"setting_shake_hint", nil);
+    } else if (!self._switch.on && shakeId) {
+      message = NSLocalizedString(@"setting_shake_disable_hint", nil);
+    }
+    if (message) {
+      UIAlertView *alert = [[UIAlertView alloc]
+              initWithTitle:NSLocalizedString(@"Notice", nil)
+                    message:message
+                   delegate:self
+          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+          otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
+      [alert show];
+    }
   } else {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:@(self._switch.on) forKey:self.name];
@@ -102,6 +112,9 @@ NSString *const acceleration = @"acceleration";
       break;
     case 1: {
       NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+      if (!self._switch.on) {
+        [defaults setObject:@(0) forKey:@"shakeId"];
+      }
       [defaults setObject:@(self._switch.on) forKey:self.name];
       [defaults synchronize];
     } break;
