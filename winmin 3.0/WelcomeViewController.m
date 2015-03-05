@@ -30,30 +30,17 @@
 
   self.introView.delegate = self;
   NSString *page1Name, *page2Name, *page3Name, *page4Name;
-  CGFloat descPositionY;
   if (is4Inch) {
     page1Name = @"welcome1-5@2x";
     page2Name = @"welcome2-5@2x";
     page3Name = @"welcome3-5@2x";
     page4Name = @"welcome4-5@2x";
-    descPositionY = 125 - 88;
   } else {
     page1Name = @"welcome1@2x";
     page2Name = @"welcome2@2x";
     page3Name = @"welcome3@2x";
     page4Name = @"welcome4@2x";
-    descPositionY = 125;
   }
-  UIImageView *imgViewRightGo1 = [[UIImageView alloc]
-      initWithImage:[UIImage imageNamed:@"welcome_rigthgo"]];
-  imgViewRightGo1.frame = CGRectMake(0, 0, 27, 27);
-  UIImageView *imgViewRightGo2 = [[UIImageView alloc]
-      initWithImage:[UIImage imageNamed:@"welcome_rigthgo"]];
-  imgViewRightGo2.frame = CGRectMake(0, 0, 27, 27);
-  UIImageView *imgViewRightGo3 = [[UIImageView alloc]
-      initWithImage:[UIImage imageNamed:@"welcome_rigthgo"]];
-  imgViewRightGo3.frame = CGRectMake(0, 0, 27, 27);
-  NSString *desc = @"向右滑动";
 
   EAIntroPage *page1 = [EAIntroPage page];
   [page1
@@ -81,7 +68,7 @@
                       forState:UIControlStateNormal];
   CGFloat btnWidth;
   if ([kSharedAppliction.currnetLanguage isEqualToString:@"en"]) {
-    btnWidth = 160.f;
+    btnWidth = 180.f;
   } else {
     btnWidth = 105.f;
   }
@@ -91,31 +78,13 @@
   [enterBtn addTarget:self
                 action:@selector(enterMainViewController:)
       forControlEvents:UIControlEventTouchUpInside];
-  page1.titleIconPositionY = [[UIScreen mainScreen] bounds].size.height - 55;
-  page1.desc = desc;
-  page1.descPositionY = descPositionY;
-  page1.titleIconView = imgViewRightGo1;
-
-  page2.titleIconPositionY = [[UIScreen mainScreen] bounds].size.height - 55;
-  page2.desc = desc;
-  page2.descPositionY = descPositionY;
-  page2.titleIconView = imgViewRightGo2;
-
-  page3.titleIconPositionY = [[UIScreen mainScreen] bounds].size.height - 55;
-  page3.desc = desc;
-  page3.descPositionY = descPositionY;
-  page3.titleIconView = imgViewRightGo3;
-
-  page4.titleIconPositionY = [[UIScreen mainScreen] bounds].size.height - 70;
+  page4.titleIconPositionY = [[UIScreen mainScreen] bounds].size.height - 90;
   page4.titleIconView = enterBtn;
 
   NSArray *pages = @[ page1, page2, page3, page4 ];
   [self.introView setPages:pages];
   [self.introView setSwipeToExit:NO];
-  [self.introView setSkipButton:nil];
-  //  self.introView.pageControl.currentPageIndicatorTintColor = kThemeColor;
-  //  self.introView.pageControl.pageIndicatorTintColor = [UIColor whiteColor];
-  self.introView.pageControl = nil;
+  self.introView.skipButton.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -141,8 +110,8 @@
   [self presentViewController:mainViewController
                      animated:YES
                    completion:^{
-                       kSharedAppliction.window.rootViewController =
-                           mainViewController;
+                     kSharedAppliction.window.rootViewController =
+                         mainViewController;
                    }];
 }
 

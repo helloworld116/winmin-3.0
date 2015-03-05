@@ -370,3 +370,14 @@
 
 /* Class = "IBUILabel"; text = "默认"; ObjectID = "Pjt-xV-W6u"; */
 "Pjt-xV-W6u.text" = "Default";
+
+/* Class = "IBUIBarButtonItem"; title = "帮助"; ObjectID = "q4b-fH-fyQ"; */
+"q4b-fH-fyQ.title" = "Help";
+
+"fkk-DF-uWS.normalTitle" = "Problem";
+"me4-Kh-jf0.normalTitle" = "Suggestion";
+"jLD-LL-DkE.normalTitle" = "Usage";
+"jld-6l-hSQ.normalTitle" = "Other";
+"qog-HW-oIW.placeholder" = "Please enter your e-mail address";
+"LKf-sz-xoE.normalTitle" = "Submit";
+"ftO-Td-HdT.placeholder" = "Please enter your feedback ...";

@@ -62,6 +62,7 @@
 "Everyday"="每天";
 "ON"="开启";
 "OFF"="关闭";
+"Switch Action"="插座动作";
 "Please choose whether to open the task"="请选择是否开启这个任务";
 ""="暂时还未添加任何定时计划";
 ""="确定删除该定时记录";

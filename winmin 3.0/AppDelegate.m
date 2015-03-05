@@ -104,17 +104,17 @@
   //  }
   self.backgroundUpdateTask = [[UIApplication sharedApplication]
       beginBackgroundTaskWithExpirationHandler:^{
-          [[UIApplication sharedApplication]
-              endBackgroundTask:self.backgroundUpdateTask];
-          self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+        [[UIApplication sharedApplication]
+            endBackgroundTask:self.backgroundUpdateTask];
+        self.backgroundUpdateTask = UIBackgroundTaskInvalid;
       }];
   [[DBUtil sharedInstance]
       saveSwitchs:[[SwitchDataCeneter sharedInstance] switchs]];
   SwitchSyncService* service = [[SwitchSyncService alloc] init];
   [service uploadSwitchs:^(BOOL isSuccess) {
-      [[UIApplication sharedApplication]
-          endBackgroundTask:self.backgroundUpdateTask];
-      self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+    [[UIApplication sharedApplication]
+        endBackgroundTask:self.backgroundUpdateTask];
+    self.backgroundUpdateTask = UIBackgroundTaskInvalid;
   }];
 }
 
@@ -140,15 +140,18 @@
   // background, optionally refresh the user interface.
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)),
                  dispatch_get_main_queue(), ^{
-      NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-      BOOL reciveRemoteNotification =
-          [[defaults objectForKey:remoteNotification] boolValue];
-      if (reciveRemoteNotification) {
-        [APServiceUtil openRemoteNotification:^(BOOL result){}];
-      } else {
-        [APServiceUtil closeRemoteNotification:^(BOOL result){}];
-      }
-  });
+                   NSUserDefaults* defaults =
+                       [NSUserDefaults standardUserDefaults];
+                   BOOL reciveRemoteNotification =
+                       [[defaults objectForKey:remoteNotification] boolValue];
+                   if (reciveRemoteNotification) {
+                     [APServiceUtil openRemoteNotification:^(BOOL result){
+                     }];
+                   } else {
+                     [APServiceUtil closeRemoteNotification:^(BOOL result){
+                     }];
+                   }
+                 });
 }
 
 - (void)applicationWillTerminate:(UIApplication*)application {
@@ -157,17 +160,17 @@
   // appropriate. See also applicationDidEnterBackground:.
   self.backgroundUpdateTask = [[UIApplication sharedApplication]
       beginBackgroundTaskWithExpirationHandler:^{
-          [[UIApplication sharedApplication]
-              endBackgroundTask:self.backgroundUpdateTask];
-          self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+        [[UIApplication sharedApplication]
+            endBackgroundTask:self.backgroundUpdateTask];
+        self.backgroundUpdateTask = UIBackgroundTaskInvalid;
       }];
   [[DBUtil sharedInstance]
       saveSwitchs:[[SwitchDataCeneter sharedInstance] switchs]];
   SwitchSyncService* service = [[SwitchSyncService alloc] init];
   [service uploadSwitchs:^(BOOL isSuccess) {
-      [[UIApplication sharedApplication]
-          endBackgroundTask:self.backgroundUpdateTask];
-      self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+    [[UIApplication sharedApplication]
+        endBackgroundTask:self.backgroundUpdateTask];
+    self.backgroundUpdateTask = UIBackgroundTaskInvalid;
   }];
 }
 
@@ -246,7 +249,9 @@
     kCRToastNotificationTypeKey : @(CRToastTypeNavigationBar),
     kCRToastImageKey : [UIImage imageNamed:@"notification_warning"]
   };
-  [CRToastManager showNotificationWithOptions:options completionBlock:^{}];
+  [CRToastManager showNotificationWithOptions:options
+                              completionBlock:^{
+                              }];
 }
 
 #pragma mark -
@@ -429,7 +434,7 @@
     [userDefaults setObject:@(YES) forKey:remoteNotification];
   }
   if (!acceleratio) {
-    [userDefaults setObject:@(YES) forKey:acceleratio];
+    [userDefaults setObject:@(YES) forKey:acceleration];
   }
   [userDefaults synchronize];
 }

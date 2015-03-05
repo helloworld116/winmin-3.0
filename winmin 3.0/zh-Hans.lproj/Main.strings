@@ -388,3 +388,11 @@
 
 /* Class = "IBUITextField"; placeholder = "输入您的邮箱"; ObjectID = "zwv-Cp-1vr"; */
 "zwv-Cp-1vr.placeholder" = "输入您的邮箱";
+
+"fkk-DF-uWS.normalTitle" = "有问题";
+"me4-Kh-jf0.normalTitle" = "提建议";
+"jLD-LL-DkE.normalTitle" = "不会用";
+"jld-6l-hSQ.normalTitle" = "其他";
+"qog-HW-oIW.placeholder" = "请输入您的邮箱地址";
+"LKf-sz-xoE.normalTitle" = "提  交";
+"ftO-Td-HdT.placeholder" = "请输入您的反馈意见...";

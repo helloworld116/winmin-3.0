@@ -100,8 +100,10 @@ static const int maxCount = 20;
     actionType = NSLocalizedString(@"OFF", nil);
   }
 
-  [self.menus addObject:[[TimerCellInfo alloc] initWithTitle:@"插座动作"
-                                                        info:actionType]];
+  [self.menus
+      addObject:[[TimerCellInfo alloc]
+                    initWithTitle:NSLocalizedString(@"Switch Action", nil)
+                             info:actionType]];
 
   [self.menus addObject:[[TimerCellInfo alloc]
                             initWithTitle:NSLocalizedString(@"Repeat", nil)
@@ -229,49 +231,49 @@ static const int maxCount = 20;
 - (void)timerAddNotification:(NSNotification *)notification {
   DDLogDebug(@"add success");
   dispatch_async(MAIN_QUEUE, ^{
-      [MBProgressHUD hideHUDForView:self.view animated:YES];
-      NSDictionary *userInfo = @{ @"type" : @(self.index) };
-      [[NSNotificationCenter defaultCenter]
-          postNotificationName:kAddOrEditTimerNotification
-                        object:self
-                      userInfo:userInfo];
-      [self.navigationController popViewControllerAnimated:YES];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    NSDictionary *userInfo = @{ @"type" : @(self.index) };
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:kAddOrEditTimerNotification
+                      object:self
+                    userInfo:userInfo];
+    [self.navigationController popViewControllerAnimated:YES];
   });
 }
 
 - (void)timerUpdateNotification:(NSNotification *)notification {
   dispatch_async(MAIN_QUEUE, ^{
-      [MBProgressHUD hideHUDForView:self.view animated:YES];
-      NSDictionary *userInfo = @{ @"type" : @(self.index) };
-      [[NSNotificationCenter defaultCenter]
-          postNotificationName:kAddOrEditTimerNotification
-                        object:self
-                      userInfo:userInfo];
-      [self.navigationController popViewControllerAnimated:YES];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    NSDictionary *userInfo = @{ @"type" : @(self.index) };
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:kAddOrEditTimerNotification
+                      object:self
+                    userInfo:userInfo];
+    [self.navigationController popViewControllerAnimated:YES];
   });
 }
 
 - (void)noResponseNotification:(NSNotification *)notif {
   dispatch_async(MAIN_QUEUE, ^{
-      if (self.index == -1) {
-        //未添加成功则从数组中删除，避免下次继续保存出错
-        //只在添加情况下执行删除操作，修改不从集合中删除
-        [self.timers removeObject:self.timer];
-      }
-      [MBProgressHUD hideHUDForView:self.view animated:YES];
-      self.navigationItem.rightBarButtonItem.enabled = YES;
-      NSDictionary *userInfo = notif.userInfo;
-      long tag = [userInfo[@"tag"] longValue];
-      switch (tag) {
-        case P2D_GET_TIMER_REQ_17:
-        case P2S_GET_TIMER_REQ_19:
-          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
-          break;
-        case P2D_SET_TIMER_REQ_1D:
-        case P2S_SET_TIMER_REQ_1F:
-          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
-          break;
-      }
+    if (self.index == -1) {
+      //未添加成功则从数组中删除，避免下次继续保存出错
+      //只在添加情况下执行删除操作，修改不从集合中删除
+      [self.timers removeObject:self.timer];
+    }
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+    NSDictionary *userInfo = notif.userInfo;
+    long tag = [userInfo[@"tag"] longValue];
+    switch (tag) {
+      case P2D_GET_TIMER_REQ_17:
+      case P2S_GET_TIMER_REQ_19:
+        [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+        break;
+      case P2D_SET_TIMER_REQ_1D:
+      case P2S_SET_TIMER_REQ_1F:
+        [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+        break;
+    }
   });
 }
 
