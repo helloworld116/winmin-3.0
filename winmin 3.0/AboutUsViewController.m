@@ -68,12 +68,14 @@ preparation before navigation
 - (IBAction)checkVersion:(id)sender {
   //  [self.view makeToast:@"已是最新版本"];
   [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-  dispatch_async(GLOBAL_QUEUE, ^{ [self onCheckVersion:self.appVersion]; });
+  dispatch_async(GLOBAL_QUEUE, ^{
+    [self onCheckVersion:self.appVersion];
+  });
 }
 
 - (IBAction)moreInfo:(id)sender {
-  [[UIApplication sharedApplication]
-      openURL:[NSURL URLWithString:AboutUsURLString]];
+  //  [[UIApplication sharedApplication]
+  //      openURL:[NSURL URLWithString:AboutUsURLString]];
 }
 
 - (void)onCheckVersion:(NSString *)currentVersion {
@@ -96,19 +98,19 @@ preparation before navigation
     if (![lastVersion isEqualToString:currentVersion]) {
       self.trackViewURL = [releaseInfo objectForKey:@"trackViewUrl"];
       dispatch_async(MAIN_QUEUE, ^{
-          [MBProgressHUD hideHUDForView:self.view animated:YES];
-          UIAlertView *alert = [[UIAlertView alloc]
-                  initWithTitle:nil
-                        message:NSLocalizedString(@"Answer Update", nil)
-                       delegate:self
-              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-              otherButtonTitles:NSLocalizedString(@"Go Update", nil), nil];
-          [alert show];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        UIAlertView *alert = [[UIAlertView alloc]
+                initWithTitle:nil
+                      message:NSLocalizedString(@"Answer Update", nil)
+                     delegate:self
+            cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+            otherButtonTitles:NSLocalizedString(@"Go Update", nil), nil];
+        [alert show];
       });
     } else {
       dispatch_async(MAIN_QUEUE, ^{
-          [MBProgressHUD hideHUDForView:self.view animated:YES];
-          [self.view makeToast:@"已是最新版本"];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self.view makeToast:@"已是最新版本"];
       });
     }
   }

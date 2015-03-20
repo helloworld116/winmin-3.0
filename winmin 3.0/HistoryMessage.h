@@ -15,5 +15,6 @@
 @property (nonatomic, strong) NSString *insertDate;
 @property (nonatomic, strong) NSString *mac;
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *alertDateStr;
 - (id)initWithMessage:(NSDictionary *)message;
 @end

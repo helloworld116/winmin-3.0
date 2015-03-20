@@ -62,67 +62,66 @@
   self.deviceType = deviceType;
   self.infos = @[
     @{
-      @"title" : @"设备名称",
+      @"title" : NSLocalizedString(@"Device_Name", nil),
       @"value" : self.aSwitch.name
     },
     @{
-      @"title" : @"设备MAC",
+      @"title" : NSLocalizedString(@"Device_Mac", nil),
       @"value" : self.aSwitch.mac
     },
     [@{
-      @"title" : @"设备型号",
+      @"title" : NSLocalizedString(@"Device_Type", nil),
       @"value" : deviceType
     } mutableCopy],
     [@{
-      @"title" : @"设备固件版本",
+      @"title" : NSLocalizedString(@"Device_FirewareVersion", nil),
       @"value" : deviceFirewareVersion
     } mutableCopy],
     [@{
-      @"title" : @"最新固件版本",
+      @"title" : NSLocalizedString(@"Device_LastVesion", nil),
       @"value" : lastFirewareVersion
     } mutableCopy],
     @{
-      @"title" : @"升级",
+      @"title" : NSLocalizedString(@"Upgrade", nil),
       @"value" : @""
     }
   ];
 
   [self.view addSubview:self.hud];
-  self.navigationItem.title = @"固件升级";
+  self.navigationItem.title = NSLocalizedString(@"Fireware Upgrade", nil);
   self.tableView.dataSource = self;
   self.model = [[FirewareModel alloc] initWithSwitch:self.aSwitch];
   [self.model getSwitchFirewareInfo:^(NSString *firewareVersion,
                                       NSString *deviceType_) {
-      DDLogDebug(@"local version is %@ and type is %@", firewareVersion,
-                 _deviceType);
-      self.deviceType = deviceType_;
-      self.deviceVersion = firewareVersion;
-      [self.infos[2] setValue:deviceType_ forKey:@"value"];
-      [self.infos[3] setValue:firewareVersion forKey:@"value"];
-      dispatch_async(dispatch_get_main_queue(), ^{
-          [self.tableView reloadData];
-          [self setUpdateBtnEnable];
-      });
+    DDLogDebug(@"local version is %@ and type is %@", firewareVersion,
+               _deviceType);
+    self.deviceType = deviceType_;
+    self.deviceVersion = firewareVersion;
+    [self.infos[2] setValue:deviceType_ forKey:@"value"];
+    [self.infos[3] setValue:firewareVersion forKey:@"value"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self.tableView reloadData];
+      [self setUpdateBtnEnable];
+    });
   }];
 
-  [self.model getFirewareInfoWithType:self.aSwitch.deviceType
-                           completion:^(NSString *firewareVersion,
-                                        NSString *deviceType_) {
-                               DDLogDebug(
-                                   @"server version is %@ and type is %@",
-                                   firewareVersion, _deviceType);
-                               if (firewareVersion &&
-                                   ![firewareVersion
-                                       isEqualToString:lastFirewareVersion]) {
-                                 [self.infos[4] setValue:firewareVersion
-                                                  forKey:@"value"];
-                                 self.lastVersionInServer = firewareVersion;
-                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                     [self.tableView reloadData];
-                                     [self setUpdateBtnEnable];
-                                 });
-                               }
-                           }];
+  [self.model
+      getFirewareInfoWithType:self.aSwitch.deviceType
+                   completion:^(NSString *firewareVersion,
+                                NSString *deviceType_) {
+                     DDLogDebug(@"server version is %@ and type is %@",
+                                firewareVersion, _deviceType);
+                     if (firewareVersion &&
+                         ![firewareVersion
+                             isEqualToString:lastFirewareVersion]) {
+                       [self.infos[4] setValue:firewareVersion forKey:@"value"];
+                       self.lastVersionInServer = firewareVersion;
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                         [self.tableView reloadData];
+                         [self setUpdateBtnEnable];
+                       });
+                     }
+                   }];
 }
 
 - (void)viewDidLoad {
@@ -266,45 +265,41 @@ preparation before navigation
       checkFirewareWithDeviceType:self.deviceType
                        completion:^(BOOL needContinue, BOOL success,
                                     NSString *msg) {
-                           dispatch_async(dispatch_get_main_queue(), ^{
-                               self.hud.labelText = msg;
-                               if (needContinue) {
+                         dispatch_async(dispatch_get_main_queue(), ^{
+                           self.hud.labelText = msg;
+                           if (needContinue) {
 
-                               } else {
-                                 [[UIApplication sharedApplication]
-                                     setIdleTimerDisabled:NO];
-                                 self.isFinishedUpdate = YES;
-                                 [self.timer invalidate];
-                                 self.timer = nil;
-                                 [self.timerCheck invalidate];
-                                 self.timerCheck = nil;
-                                 [self.hud hide:YES afterDelay:2];
-                                 self.hud.mode = MBProgressHUDModeCustomView;
-                                 if (success) {
-                                   self.hud.customView = [[UIImageView alloc]
-                                       initWithImage:
-                                           [UIImage
-                                               imageNamed:@"update_success"]];
-                                   [self.infos[3]
-                                       setValue:self.lastVersionInServer
-                                         forKey:@"value"];
-                                   [self.tableView reloadData];
-                                   self.aSwitch.firewareVersion =
-                                       self.lastVersionInServer;
-                                   self.deviceVersion =
-                                       self.lastVersionInServer;
-                                   [self setUpdateBtnEnable];
-                                   [kSharedAppliction.dictOfFireware
-                                       setObject:self.lastVersionInServer
-                                          forKey:self.deviceType];
-                                 } else {
-                                   self.hud.customView = [[UIImageView alloc]
-                                       initWithImage:
-                                           [UIImage
-                                               imageNamed:@"update_failure"]];
-                                 }
-                               }
-                           });
+                           } else {
+                             [[UIApplication sharedApplication]
+                                 setIdleTimerDisabled:NO];
+                             self.isFinishedUpdate = YES;
+                             [self.timer invalidate];
+                             self.timer = nil;
+                             [self.timerCheck invalidate];
+                             self.timerCheck = nil;
+                             [self.hud hide:YES afterDelay:2];
+                             self.hud.mode = MBProgressHUDModeCustomView;
+                             if (success) {
+                               self.hud.customView = [[UIImageView alloc]
+                                   initWithImage:
+                                       [UIImage imageNamed:@"update_success"]];
+                               [self.infos[3] setValue:self.lastVersionInServer
+                                                forKey:@"value"];
+                               [self.tableView reloadData];
+                               self.aSwitch.firewareVersion =
+                                   self.lastVersionInServer;
+                               self.deviceVersion = self.lastVersionInServer;
+                               [self setUpdateBtnEnable];
+                               [kSharedAppliction.dictOfFireware
+                                   setObject:self.lastVersionInServer
+                                      forKey:self.deviceType];
+                             } else {
+                               self.hud.customView = [[UIImageView alloc]
+                                   initWithImage:
+                                       [UIImage imageNamed:@"update_failure"]];
+                             }
+                           }
+                         });
                        }];
 }
 
@@ -334,34 +329,34 @@ preparation before navigation
       getFirewareInfoWithType:self.aSwitch.deviceType
                    completion:^(NSString *firewareVersion,
                                 NSString *deviceType_) {
-                       if ([self.lastVersionInServer
-                               isEqualToString:firewareVersion]) {
-                         //已是最新版本
-                         dispatch_async(dispatch_get_main_queue(), ^{
-                             [[UIApplication sharedApplication]
-                                 setIdleTimerDisabled:NO];
-                             self.isFinishedUpdate = YES;
-                             [self.timer invalidate];
-                             self.timer = nil;
-                             [self.timerCheck invalidate];
-                             self.timerCheck = nil;
-                             [self.hud hide:YES afterDelay:2];
-                             self.hud.mode = MBProgressHUDModeCustomView;
-                             self.hud.customView = [[UIImageView alloc]
-                                 initWithImage:
-                                     [UIImage imageNamed:@"update_success"]];
-                             [self.infos[3] setValue:self.lastVersionInServer
-                                              forKey:@"value"];
-                             [self.tableView reloadData];
-                             self.aSwitch.firewareVersion =
-                                 self.lastVersionInServer;
-                             self.deviceVersion = self.lastVersionInServer;
-                             [self setUpdateBtnEnable];
-                             [kSharedAppliction.dictOfFireware
-                                 setObject:self.lastVersionInServer
-                                    forKey:self.deviceType];
-                         });
-                       }
+                     if ([self.lastVersionInServer
+                             isEqualToString:firewareVersion]) {
+                       //已是最新版本
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                         [[UIApplication sharedApplication]
+                             setIdleTimerDisabled:NO];
+                         self.isFinishedUpdate = YES;
+                         [self.timer invalidate];
+                         self.timer = nil;
+                         [self.timerCheck invalidate];
+                         self.timerCheck = nil;
+                         [self.hud hide:YES afterDelay:2];
+                         self.hud.mode = MBProgressHUDModeCustomView;
+                         self.hud.customView = [[UIImageView alloc]
+                             initWithImage:[UIImage
+                                               imageNamed:@"update_success"]];
+                         [self.infos[3] setValue:self.lastVersionInServer
+                                          forKey:@"value"];
+                         [self.tableView reloadData];
+                         self.aSwitch.firewareVersion =
+                             self.lastVersionInServer;
+                         self.deviceVersion = self.lastVersionInServer;
+                         [self setUpdateBtnEnable];
+                         [kSharedAppliction.dictOfFireware
+                             setObject:self.lastVersionInServer
+                                forKey:self.deviceType];
+                       });
+                     }
                    }];
 }
 

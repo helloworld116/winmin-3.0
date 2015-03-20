@@ -44,6 +44,8 @@ typedef void (^shakeNoResponseMsg)(NSMutableArray *);
 @property (nonatomic, strong) SceneDetail *sceneDetail; //当前执行任务
 @property (nonatomic, assign) BOOL isFirstExc;
 
+@property (nonatomic, assign) BOOL
+    isExcSettingOrNegetion; //场景摇一摇循环控制，默认执行设定，要一次后执行取反
 @end
 
 @implementation ShakeWindow
@@ -53,6 +55,7 @@ typedef void (^shakeNoResponseMsg)(NSMutableArray *);
   if (self) {
     self.request = [UdpRequest manager];
     self.request.delegate = self;
+    self.isExcSettingOrNegetion = YES;
     //    CMMotionManager *manager = [[CMMotionManager alloc] init];
     //    if (!manager.accelerometerAvailable) {
     //      NSLog(@"Accelerometer not available");
@@ -123,8 +126,8 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
   static dispatch_queue_t sdzg_scene_shake_recive_send_serial_queue;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-      sdzg_scene_shake_recive_send_serial_queue = dispatch_queue_create(
-          "serial.shake.scenerecive.com.itouchco.www", DISPATCH_QUEUE_SERIAL);
+    sdzg_scene_shake_recive_send_serial_queue = dispatch_queue_create(
+        "serial.shake.scenerecive.com.itouchco.www", DISPATCH_QUEUE_SERIAL);
   });
   return sdzg_scene_shake_recive_send_serial_queue;
 }
@@ -159,6 +162,7 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
       kSharedAppliction.networkStatus == ReachableViaWiFi) {
     [[BackgroundAudioPlay sharedInstance] playSound];
     NSArray *sceneDetails = self.scene.detailList;
+    self.isExcSettingOrNegetion = !self.isExcSettingOrNegetion;
     [self executeSceneDetails:sceneDetails];
   }
 }
@@ -173,14 +177,14 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
     self.sceneDetails = sceneDetails;
     __weak typeof(self) weakSelf = self;
     self.response = ^(NSMutableArray *details) {
-        if (details.count) {
-          [weakSelf executeFirstOperationInSceneDetails:details isFirstExc:NO];
-        }
+      if (details.count) {
+        [weakSelf executeFirstOperationInSceneDetails:details isFirstExc:NO];
+      }
     };
     self.noResponse = ^(NSMutableArray *details) {
-        if (details.count) {
-          [weakSelf executeFirstOperationInSceneDetails:details isFirstExc:NO];
-        }
+      if (details.count) {
+        [weakSelf executeFirstOperationInSceneDetails:details isFirstExc:NO];
+      }
     };
 
     self.remainingSceneDetails = [sceneDetails mutableCopy];
@@ -231,36 +235,39 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
   BOOL isFirstExc = [userInfo[@"isFirstExc"] boolValue];
   SceneDetail *sceneDetail = userInfo[@"sceneDetail"];
   dispatch_async(shake_scene_recive_serial_queue(), ^{
-      if (sceneDetail) {
-        SDZGSwitch *aSwitch = sceneDetail.aSwitch;
-        //        if (aSwitch.networkStatus == SWITCH_OFFLINE) {
-        //          aSwitch.networkStatus = SWITCH_REMOTE;
-        //        }
-        aSwitch.networkStatus = SWITCH_LOCAL;
-        SDZGSocket *socket = aSwitch.sockets[sceneDetail.groupId - 1];
+    if (sceneDetail) {
+      SDZGSwitch *aSwitch = sceneDetail.aSwitch;
+      //        if (aSwitch.networkStatus == SWITCH_OFFLINE) {
+      //          aSwitch.networkStatus = SWITCH_REMOTE;
+      //        }
+      aSwitch.networkStatus = SWITCH_LOCAL;
+      SDZGSocket *socket = aSwitch.sockets[sceneDetail.groupId - 1];
+      if (self.isExcSettingOrNegetion) {
         socket.socketStatus = !sceneDetail.onOrOff;
-        NSOperation *op = [NSBlockOperation blockOperationWithBlock:^{
-            SENDMODE mode = ActiveMode;
-            self.executeSuccess = NO;
-            if (self.sendMsgCount < self.sceneDetails.count) {
-              if (isFirstExc ||
-                  ([sceneDetail
-                      isEqual:self.sceneDetails[self.sendMsgCount]])) {
-                self.socketGroupId = sceneDetail.groupId;
-                self.mac = aSwitch.mac;
-                self.sendMsgCount++;
-                mode = ActiveMode;
-              } else {
-                mode = PassiveMode;
-              }
-            }
-            DDLogDebug(@"sendMsgCount is %d", self.sendMsgCount);
-            [self.request sendMsg11Or13:aSwitch
-                          socketGroupId:sceneDetail.groupId
-                               sendMode:mode];
-        }];
-        [op start];
+      } else {
+        socket.socketStatus = sceneDetail.onOrOff;
       }
+      NSOperation *op = [NSBlockOperation blockOperationWithBlock:^{
+        SENDMODE mode = ActiveMode;
+        self.executeSuccess = NO;
+        if (self.sendMsgCount < self.sceneDetails.count) {
+          if (isFirstExc ||
+              ([sceneDetail isEqual:self.sceneDetails[self.sendMsgCount]])) {
+            self.socketGroupId = sceneDetail.groupId;
+            self.mac = aSwitch.mac;
+            self.sendMsgCount++;
+            mode = ActiveMode;
+          } else {
+            mode = PassiveMode;
+          }
+        }
+        DDLogDebug(@"sendMsgCount is %d", self.sendMsgCount);
+        [self.request sendMsg11Or13:aSwitch
+                      socketGroupId:sceneDetail.groupId
+                           sendMode:mode];
+      }];
+      [op start];
+    }
   });
 }
 
@@ -280,8 +287,9 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
     //开关控制
     case 0x12:
     case 0x14:
-      dispatch_sync(shake_scene_recive_serial_queue(),
-                    ^{ [self responseMsg12Or14:message]; });
+      dispatch_sync(shake_scene_recive_serial_queue(), ^{
+        [self responseMsg12Or14:message];
+      });
 
       break;
   }
@@ -291,13 +299,13 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
     didNotReceiveMsgTag:(long)tag
           socketGroupId:(int)socketGroupId {
   dispatch_sync(shake_scene_recive_serial_queue(), ^{
-      if (!self.executeSuccess) {
-        if (self.remainingSceneDetails.count > 0) {
-          [self.remainingSceneDetails removeObjectAtIndex:0];
-        }
-        DDLogDebug(@"details is %@", self.remainingSceneDetails);
-        self.noResponse(self.remainingSceneDetails);
+    if (!self.executeSuccess) {
+      if (self.remainingSceneDetails.count > 0) {
+        [self.remainingSceneDetails removeObjectAtIndex:0];
       }
+      DDLogDebug(@"details is %@", self.remainingSceneDetails);
+      self.noResponse(self.remainingSceneDetails);
+    }
   });
 }
 
@@ -335,7 +343,7 @@ static dispatch_queue_t shake_scene_recive_serial_queue() {
   [self.manager startDeviceMotionUpdatesToQueue:self.motionQueue
                                     withHandler:^(CMDeviceMotion *motion,
                                                   NSError *error) {
-                                        [self motionMethod:motion];
+                                      [self motionMethod:motion];
                                     }];
 }
 

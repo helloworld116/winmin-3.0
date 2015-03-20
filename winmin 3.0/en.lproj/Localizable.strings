@@ -73,6 +73,14 @@
 "Modified successfully"="Modified successfully";
 "Keyboard return"="Done";
 "UpdateFirewareWarn"="Are you sure to upgrade the device firmware? During upgrading, please keep the device electricity and phone screen on.If failed, please wait for your device restart completely (i.e. WiFi indicator continuous light), then try control it or upgrade again.";
+"Fireware Upgrade"="Fireware Upgrade";
+"Device_Name"="Name";
+"Device_Mac"="MAC";
+"Device_Type"="ProductId";
+"Device_FirewareVersion"="Device Fireware";
+"Device_LastVesion"="Available Fireware";
+"Upgrade"="Upgrade";
+"Upgrade Now"="Upgrade Now";
 
 "zx_lock"="zx_lock_en";
 "yc_lock"="yc_lock_en";
@@ -125,6 +133,7 @@
 "scene_shake_enable"="Please go to function setting and turn on the shake controller!";
 "scene_shake_setting"="Are you sure to set this scene as shake target?";
 "scene_shake_replace"="Scene shake only support one scene as the target, are you sure to replace the original setting?";
+"Scene_PreExecute"="Scene is a collection of operations predefined.\nTo continue will result on trun on/off your devices right now.\nAre you sure?";
 
 /**
  *  更多

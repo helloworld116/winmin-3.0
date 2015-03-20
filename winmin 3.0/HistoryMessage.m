@@ -18,6 +18,7 @@
     self.mac = message[@"mac"];
     self.title = message[@"title"];
     self.type = [message[@"type"] intValue];
+    self.alertDateStr = message[@"alertDateStr"];
   }
   return self;
 }

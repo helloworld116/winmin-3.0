@@ -81,6 +81,14 @@
 "Save Success"="保存成功";
 "Auth Error"="设备已被重新配置，请进入设备所在局域网内刷新设备";
 "UpdateFirewareWarn"="确定升级设备固件吗？升级过程中请保持设备通电，及手机屏幕常亮。若升级失败，请待设备完全重启(即WiFi指示灯常亮)后尝试再次控制或升级设备";
+"Fireware Upgrade"="固件升级";
+"Device_Name"="设备名称";
+"Device_Mac"="设备MAC";
+"Device_Type"="设备型号";
+"Device_FirewareVersion"="设备固件版本";
+"Device_LastVesion"="最新固件版本";
+"Upgrade"="升级";
+"Upgrade Now"="立即升级";
 
 /**
  *  控制列表设备状态图片
@@ -136,6 +144,7 @@
 "scene_shake_enable"="请到功能设置中打开摇一摇设置!";
 "scene_shake_setting"="确定设置此场景作为摇一摇执行目标吗？";
 "scene_shake_replace"="只支持设置一个场景作为摇一摇执行目标，是否替换原有设置？";
+"Scene_PreExecute"="场景是预定义的一组开关操作。\n执行场景可能会立即打开或关闭你的用电设备。\n确定执行吗？";
 
 /**
  *  更多

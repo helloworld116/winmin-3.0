@@ -209,45 +209,45 @@
 		</dict>
 		<dict>
 			<key>q</key>
-			<string>Device configuration fails, what is the solution?</string>
+			<string>What should I do if the device does not pair successfully?</string>
 			<key>a</key>
-			<string>You can press any button for 5 seconds until the auxiliary switch WiFi status indicator flash, reset operation is configured, and check WiFi password is correct; power outages can also be reconfigured to solve. Through the above two methods is still not resolved, please contact customer service for help.</string>
+			<string>You can click and hold any on/off button for 5 sec till the WiFi indicator start to blink, check your WiFi user name and password; you can also turn off your phone and restart to reset. If all of above did not fix the problem, please contact our costumer service.</string>
 		</dict>
 		<dict>
 			<key>q</key>
-			<string>Whether you can control the timing of the task router?</string>
+			<string>Can the device control the router by using the timer feature?</string>
 			<key>a</key>
-			<string>Can. Because our mission is to be stored in timing device inserted row, so when the router developed a timer on the task, is to start the router.</string>
+			<string>Yes. We have programmed specific code for the device to control its router, so our WINMIN device are capable of controlling the router.</string>
 		</dict>
 		<dict>
 			<key>q</key>
-			<string>Two buttons on the front panel auxiliary What is the difference?</string>
+			<string>What is the difference between the two support buttons on the strip?</string>
 			<key>a</key>
-			<string>First of all, these two buttons have the control switch function corresponding to the three jacks, followed by two keys inserted row with reset function; speaking from the switch is controlled separately different jack, reset function from speaking there is no difference by long pressing any button reset operation can achieve.</string>
+			<string>Each of the button is subjected to control the three corresponding outlets, you can also reset the device by press and hold those buttons. You can press any of the two buttons to reset your entire device.</string>
 		</dict>
 		<dict>
 			<key>q</key>
-			<string>Socket use safe?</string>
+			<string>Are the strip safe to use?</string>
 			<key>a</key>
-			<string>We inserted row through national testing organizations, and issued a certificate of quality inspection safety.</string>
+			<string>Yes. All of product has been checked by government agencies for qualities and all has won the safety quality inspection certificate.</string>
 		</dict>
 		<dict>
 			<key>q</key>
-			<string>USB charging for IPAD and IPHONE can charge it?</string>
+			<string>Can the USB portals used to charge iPads and iPhones?</string>
 			<key>a</key>
-			<string>Possible. Considered in the design of our USB charging Apple products particularity, increased recognition mechanism, two additional USB output current circuit using the same power supply, so only one device can meet the rechargeable output current 5V 2.1A.</string>
+			<string>Yes, our product are specially designed to fit Apple devices. Also, both USB portals uses same current for power supply, therefore the device cannot be used for charging two iPad device at once. </string>
 		</dict>
 		<dict>
 			<key>q</key>
-			<string>Support for more than 2500W of product?</string>
+			<string>Does the strip support devices use power exceed 2500W?</string>
 			<key>a</key>
-			<string>No, the components are inserted row 2500W electrical appliances can guarantee long-term use, when more than 2500W, for security reasons, inserted row will automatically power off. Reminder: When the need to control the device with a point beyond the 2500W, please choose a more suitable product.</string>
+			<string>No, the strip is specially designed for devices uses power under 2500W, when the device uses power exceed 2500W, the strip will be automatically turned off for safety reasons. Reminder: When uses devices use power exceed 2500W, please choose another more suitable strip.</string>
 		</dict>
 		<dict>
 			<key>q</key>
-			<string>Are power detection function can use when the meter?</string>
+			<string>Can the power measuring function use as a watt-hour meter?</string>
 			<key>a</key>
-			<string>No, power detection and statistical data for this product is for reference only and can not be used as a meter.</string>
+			<string>No, the power measuring function of the WINMIN strip is only used for view, it cannot be used as a watt-hour meter.</string>
 		</dict>
 	</array>
 </dict>

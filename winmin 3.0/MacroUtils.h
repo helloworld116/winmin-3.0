@@ -192,6 +192,7 @@ typedef void (^HttpCompletionBlock)(SDZGHttpResponse *response);
 static float const kElecRefreshInterval = 3.f;
 static float const kElecDiff = 2.7f;
 static float const kElecFactor = 46246.9f;
+static NSString *const kHistoryMessageId = @"HistoryMessageId";
 
 #define BROADCAST_ADDRESS @"255.255.255.255"
 

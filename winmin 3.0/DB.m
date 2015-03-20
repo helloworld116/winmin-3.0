@@ -10,6 +10,7 @@
 #import <FMDB/FMDB.h>
 #import "Scene.h"
 #import "SceneDetail.h"
+#import "HistoryMessage.h"
 
 @interface DBUtil ()
 @property (nonatomic, strong) FMDatabase *db;
@@ -40,6 +41,9 @@
     if (![self isExistTable:@"scenedetailtmp"]) {
       [self createTableSceneDetailTmp];
     }
+    if (![self isExistTable:@"notificationhistory"]) {
+      [self createTableNotificationHistory];
+    }
   }
   return self;
 }
@@ -47,7 +51,9 @@
 + (instancetype)sharedInstance {
   static DBUtil *dbUtil;
   static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{ dbUtil = [[DBUtil alloc] init]; });
+  dispatch_once(&onceToken, ^{
+    dbUtil = [[DBUtil alloc] init];
+  });
   return dbUtil;
 }
 
@@ -163,6 +169,24 @@
   return NO;
 }
 
+- (BOOL)createTableNotificationHistory {
+  if ([self.db open]) {
+    NSString *createTableSql = @"create table notificationhistory(id integer "
+        @"primary key autoincrement,alertDateStr "
+        @"text,content text,serverid integer,insertDate text,mac text,title "
+        @"text,type integer);";
+    BOOL success = [self.db executeUpdate:createTableSql];
+    if (success) {
+      DDLogDebug(@"创建表notificationhistory成功");
+    } else {
+      DDLogDebug(@"创建表notificationhistory失败");
+    }
+    [self.db close];
+    return success;
+  }
+  return NO;
+}
+
 - (BOOL)isExistTable:(NSString *)tableName {
   NSString *name = nil;
   BOOL isExistTable = NO;
@@ -188,70 +212,70 @@
 - (void)saveSwitch:(SDZGSwitch *)aSwitch {
   if (aSwitch && [aSwitch.sockets count] == 2) {
     [self.queue inDatabase:^(FMDatabase *db) {
-        if ([db open]) {
-          NSString *sql = @"select count(id) as sid from switch where mac=?";
-          FMResultSet *switchResult = [db executeQuery:sql, aSwitch.mac];
-          if ([switchResult next]) {
-            int sid = [switchResult intForColumn:@"sid"];
-            if (sid) {
-              NSString *sql = @"update switch set "
-                  @"name=?,networkstatus=?,lockstatus=?,version=?,tag=?,"
-                  @"imagename=?,password=?,ip=? where mac=?";
-              [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
-                                @(aSwitch.lockStatus), @(aSwitch.version), @(0),
-                                aSwitch.imageName, aSwitch.password, aSwitch.ip,
-                                aSwitch.mac];
-            } else {
-              NSString *sql = @"insert into "
-                  @"switch(name,networkstatus,mac,ip,port,lockstatus,version,"
-                  @"tag," @"imagename,password) values(?,?,?,?,?,?,?,?,?,?)";
-              [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
-                                aSwitch.mac, aSwitch.ip, @(aSwitch.port),
-                                @(aSwitch.lockStatus), @(aSwitch.version), @(0),
-                                aSwitch.imageName, aSwitch.password];
-            }
+      if ([db open]) {
+        NSString *sql = @"select count(id) as sid from switch where mac=?";
+        FMResultSet *switchResult = [db executeQuery:sql, aSwitch.mac];
+        if ([switchResult next]) {
+          int sid = [switchResult intForColumn:@"sid"];
+          if (sid) {
+            NSString *sql = @"update switch set "
+                @"name=?,networkstatus=?,lockstatus=?,version=?,tag=?,"
+                @"imagename=?,password=?,ip=? where mac=?";
+            [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
+                              @(aSwitch.lockStatus), @(aSwitch.version), @(0),
+                              aSwitch.imageName, aSwitch.password, aSwitch.ip,
+                              aSwitch.mac];
+          } else {
+            NSString *sql = @"insert into "
+                @"switch(name,networkstatus,mac,ip,port,lockstatus,version,"
+                @"tag," @"imagename,password) values(?,?,?,?,?,?,?,?,?,?)";
+            [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
+                              aSwitch.mac, aSwitch.ip, @(aSwitch.port),
+                              @(aSwitch.lockStatus), @(aSwitch.version), @(0),
+                              aSwitch.imageName, aSwitch.password];
           }
-
-          sql = @"select count(id) as socketcount from socket where mac=?";
-          FMResultSet *socketResult = [db executeQuery:sql, aSwitch.mac];
-          if ([socketResult next]) {
-            int socketcount = [socketResult intForColumn:@"socketcount"];
-            if (socketcount && socketcount == 2) {
-              sql = @"update socket set "
-                  @"delaytime=?,delayaction=?,socketstatus=? where mac=? "
-                  @"and groupid=?";
-              for (SDZGSocket *socket in aSwitch.sockets) {
-                [db executeUpdate:sql, @(socket.delayTime),
-                                  @(socket.delayAction), @(socket.socketStatus),
-                                  aSwitch.mac, @(socket.groupId)];
-              }
-            } else {
-              sql = @"insert into "
-                  @"socket(mac,groupid,name,delaytime,delayaction,socketstatus,"
-                  @"socket1image,socket2image,socket3image) "
-                  @"values(?,?,?,?,?,?,?,?,?)";
-              for (SDZGSocket *socket in aSwitch.sockets) {
-                [db executeUpdate:sql, aSwitch.mac, @(socket.groupId),
-                                  socket.name, @(socket.delayTime),
-                                  @(socket.delayAction), @(socket.socketStatus),
-                                  socket.imageNames[0], socket.imageNames[1],
-                                  socket.imageNames[2]];
-              }
-            }
-          }
-          sql = @"delete from timertask where mac=?";
-          [db executeUpdate:sql, aSwitch.mac];
-          for (SDZGSocket *socket in aSwitch.sockets) {
-            for (SDZGTimerTask *timer in socket.timerList) {
-              sql = @"insert into timertask(mac,groupid,week,actiontime,"
-                  @"actiontype,iseffective) values(?,?,?,?,?,?)";
-              [db executeUpdate:sql, aSwitch.mac, @(socket.groupId),
-                                @(timer.week), @(timer.actionTime),
-                                @(timer.timerActionType), @(timer.isEffective)];
-            }
-          }
-          [db close];
         }
+
+        sql = @"select count(id) as socketcount from socket where mac=?";
+        FMResultSet *socketResult = [db executeQuery:sql, aSwitch.mac];
+        if ([socketResult next]) {
+          int socketcount = [socketResult intForColumn:@"socketcount"];
+          if (socketcount && socketcount == 2) {
+            sql = @"update socket set "
+                @"delaytime=?,delayaction=?,socketstatus=? where mac=? "
+                @"and groupid=?";
+            for (SDZGSocket *socket in aSwitch.sockets) {
+              [db executeUpdate:sql, @(socket.delayTime), @(socket.delayAction),
+                                @(socket.socketStatus), aSwitch.mac,
+                                @(socket.groupId)];
+            }
+          } else {
+            sql = @"insert into "
+                @"socket(mac,groupid,name,delaytime,delayaction,socketstatus,"
+                @"socket1image,socket2image,socket3image) "
+                @"values(?,?,?,?,?,?,?,?,?)";
+            for (SDZGSocket *socket in aSwitch.sockets) {
+              [db executeUpdate:sql, aSwitch.mac, @(socket.groupId),
+                                socket.name, @(socket.delayTime),
+                                @(socket.delayAction), @(socket.socketStatus),
+                                socket.imageNames[0], socket.imageNames[1],
+                                socket.imageNames[2]];
+            }
+          }
+        }
+        sql = @"delete from timertask where mac=?";
+        [db executeUpdate:sql, aSwitch.mac];
+        for (SDZGSocket *socket in aSwitch.sockets) {
+          for (SDZGTimerTask *timer in socket.timerList) {
+            sql = @"insert into timertask(mac,groupid,week,actiontime,"
+                @"actiontype,iseffective) values(?,?,?,?,?,?)";
+            [db executeUpdate:sql, aSwitch.mac, @(socket.groupId),
+                              @(timer.week), @(timer.actionTime),
+                              @(timer.timerActionType), @(timer.isEffective)];
+          }
+        }
+        [db close];
+      }
     }];
   }
 }
@@ -589,5 +613,67 @@
     [self.db executeUpdate:sql];
     [self.db close];
   }
+}
+
+#pragma mark - 推送消息
+- (void)saveNotificationHistory:(HistoryMessage *)message {
+  static NSString *sql =
+      @"insert into " @"notificationhistory(alertDateStr,content,serverid,"
+      @"insertDate,mac,title,type)" @"values(?,?,?,?,?,?,?)";
+  NSString *selectSql =
+      @"select count(id) as sid from notificationhistory where serverid=?";
+  [self.queue inDatabase:^(FMDatabase *db) {
+    if ([db open]) {
+      FMResultSet *result = [db executeQuery:selectSql, @(message._id)];
+      if ([result next]) {
+        int sid = [result intForColumn:@"sid"];
+        if (sid == 0) {
+          [db executeUpdate:sql, message.alertDateStr, message.content,
+                            @(message._id), message.insertDate, message.mac,
+                            message.title, @(message.type)];
+        }
+      }
+      [db close];
+    }
+  }];
+}
+
+- (void)saveNotificationHistorys:(NSArray *)messages {
+  if (messages && messages.count) {
+    for (HistoryMessage *message in messages) {
+      [self saveNotificationHistory:message];
+    }
+  }
+}
+
+- (NSArray *)getHistoryMessagesWithCount:(int)count offset:(int)offset {
+  NSMutableArray *messages = [@[] mutableCopy];
+  static NSString *sql =
+      @"select alertDateStr,content,serverid,insertDate,mac,title,type from "
+      @"notificationhistory order by serverid desc limit ? offset ?";
+  if ([self.db open]) {
+    FMResultSet *resultSet = [self.db executeQuery:sql, @(count), @(offset)];
+    while ([resultSet next]) {
+      HistoryMessage *message = [[HistoryMessage alloc] init];
+      message.alertDateStr = [resultSet stringForColumn:@"alertDateStr"];
+      message.content = [resultSet stringForColumn:@"content"];
+      message._id = [resultSet intForColumn:@"serverid"];
+      message.insertDate = [resultSet stringForColumn:@"insertDate"];
+      message.mac = [resultSet stringForColumn:@"mac"];
+      message.title = [resultSet stringForColumn:@"title"];
+      message.type = [resultSet intForColumn:@"type"];
+      [messages addObject:message];
+    }
+    [self.db close];
+  }
+  return messages;
+}
+
+- (void)removeAllHistoryMessages {
+  static NSString *sql = @"delete from notificationhistory";
+  if ([self.db open]) {
+    [self.db executeUpdate:sql];
+  }
+  [self.db close];
 }
 @end

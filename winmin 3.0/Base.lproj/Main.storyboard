@@ -3066,7 +3066,7 @@
                                     <constraint firstItem="FIP-G5-CqJ" firstAttribute="top" secondItem="PIP-GH-4rv" secondAttribute="bottom" constant="13" id="n0N-e5-EZs"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hzL-9g-9hM">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hzL-9g-9hM">
                                 <rect key="frame" x="50" y="411" width="220" height="34"/>
                                 <state key="normal" title="了解更多关于winmin的信息">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -3076,7 +3076,7 @@
                                     <action selector="moreInfo:" destination="jNZ-Dq-Clb" eventType="touchUpInside" id="gpk-Xx-9lN"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R8O-eg-E2v">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R8O-eg-E2v">
                                 <rect key="frame" x="50" y="438" width="220" height="1"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>

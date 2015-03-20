@@ -30,30 +30,36 @@
   // Do any additional setup after loading the view.
   self.navigationItem.title = NSLocalizedString(@"User Manual", nil);
   dispatch_async(GLOBAL_QUEUE, ^{
-      //      NSData *data =
-      //          [NSData dataWithContentsOfFile:[[NSBundle mainBundle]
-      //                                             pathForResource:@"book@2x"
-      //                                                      ofType:@"jpg"]];
-      NSData *data =
-          [NSData dataWithContentsOfFile:[[NSBundle mainBundle]
-                                             pathForResource:@"bookinfo@2x"
-                                                      ofType:@"png"]];
+    //      NSData *data =
+    //          [NSData dataWithContentsOfFile:[[NSBundle mainBundle]
+    //                                             pathForResource:@"book@2x"
+    //                                                      ofType:@"jpg"]];
+    NSString *resoureName;
+    if ([kSharedAppliction.currnetLanguage isEqualToString:@"en"]) {
+      resoureName = @"bookinfo_en@2x";
+    } else {
+      resoureName = @"bookinfo_zh@2x";
+    }
+    NSData *data =
+        [NSData dataWithContentsOfFile:[[NSBundle mainBundle]
+                                           pathForResource:resoureName
+                                                    ofType:@"png"]];
 
-      UIImage *image = [UIImage imageWithData:data];
+    UIImage *image = [UIImage imageWithData:data];
 
-      self.imgWidth = image.size.width;
-      dispatch_async(MAIN_QUEUE, ^{
-          self.imgView.image = image;
-          self.scollView.frame =
-              CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - STATUSBAR_HEIGHT -
-                                                 NAVIGATIONBAR_HEIGHT);
-          self.scollView.contentSize =
-              CGSizeMake(self.imgWidth / 2, SCREEN_HEIGHT - STATUSBAR_HEIGHT -
-                                                NAVIGATIONBAR_HEIGHT);
-          self.imgView.frame = CGRectMake(0, 0, self.imgWidth / 2,
-                                          SCREEN_HEIGHT - STATUSBAR_HEIGHT -
-                                              NAVIGATIONBAR_HEIGHT);
-      });
+    self.imgWidth = image.size.width;
+    dispatch_async(MAIN_QUEUE, ^{
+      self.imgView.image = image;
+      self.scollView.frame =
+          CGRectMake(0, 0, SCREEN_WIDTH,
+                     SCREEN_HEIGHT - STATUSBAR_HEIGHT - NAVIGATIONBAR_HEIGHT);
+      self.scollView.contentSize =
+          CGSizeMake(self.imgWidth / 2,
+                     SCREEN_HEIGHT - STATUSBAR_HEIGHT - NAVIGATIONBAR_HEIGHT);
+      self.imgView.frame =
+          CGRectMake(0, 0, self.imgWidth / 2,
+                     SCREEN_HEIGHT - STATUSBAR_HEIGHT - NAVIGATIONBAR_HEIGHT);
+    });
   });
 }
 
@@ -65,7 +71,8 @@
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
   self.scollView.contentSize =
-      CGSizeMake(3757, SCREEN_HEIGHT - STATUSBAR_HEIGHT - NAVIGATIONBAR_HEIGHT);
+      CGSizeMake(self.imgWidth / 2,
+                 SCREEN_HEIGHT - STATUSBAR_HEIGHT - NAVIGATIONBAR_HEIGHT);
 }
 
 /*

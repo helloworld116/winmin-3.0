@@ -26,34 +26,40 @@ const int successCode = 1;
   [parameters setObject:@(type) forKey:@"type"];
   [parameters setObject:@(startId) forKey:@"id"];
   [parameters setObject:@(count) forKey:@"count"];
+  [parameters setObject:@([[[NSUserDefaults standardUserDefaults]
+                            objectForKey:kHistoryMessageId] longValue])
+                 forKey:@"beginId"];
   [manager POST:messageUrl
       parameters:parameters
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          NSString *string =
-              [[NSString alloc] initWithData:responseObject
-                                    encoding:NSUTF8StringEncoding];
-          //          DDLogDebug(@"response msg is %@",string);
-          NSDictionary *responseData = __JSON(string);
-          int status = [responseData[@"status"] intValue];
-          if (status == successCode) {
-            NSDictionary *data = responseData[@"data"];
-            int responseCount = [data[@"count"] intValue];
-            int totalCount = [data[@"total"] intValue];
-            NSMutableArray *messageArray =
-                [NSMutableArray arrayWithCapacity:responseCount];
-            NSArray *messages = data[@"message"];
-            for (NSDictionary *message in messages) {
-              HistoryMessage *historyMessage =
-                  [[HistoryMessage alloc] initWithMessage:message];
-              [messageArray addObject:historyMessage];
-            }
-            compeltion(status, messageArray, totalCount);
-          } else {
-            compeltion(status, nil, 0);
+        NSString *string = [[NSString alloc] initWithData:responseObject
+                                                 encoding:NSUTF8StringEncoding];
+        DDLogDebug(@"response msg is %@", string);
+        NSDictionary *responseData = __JSON(string);
+        int status = [responseData[@"status"] intValue];
+        if (status == successCode) {
+          NSDictionary *data = responseData[@"data"];
+          int responseCount = [data[@"count"] intValue];
+          int totalCount = [data[@"total"] intValue];
+          NSMutableArray *messageArray =
+              [NSMutableArray arrayWithCapacity:responseCount];
+          NSArray *messages = data[@"message"];
+          for (NSDictionary *message in messages) {
+            HistoryMessage *historyMessage =
+                [[HistoryMessage alloc] initWithMessage:message];
+            [messageArray addObject:historyMessage];
           }
+          compeltion(status, messageArray, totalCount);
+          //          dispatch_async(dispatch_get_global_queue(0, 0), ^{
+          //            [[DBUtil sharedInstance]
+          //            saveNotificationHistorys:messageArray];
+          //          });
+        } else {
+          compeltion(status, nil, 0);
+        }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          compeltion(-1, nil, 0);
+        compeltion(-1, nil, 0);
       }];
 }
 

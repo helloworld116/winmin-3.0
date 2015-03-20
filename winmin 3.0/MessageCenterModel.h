@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+
 const int successCode;
 @interface MessageCenterModel : NSObject
 - (void)requestWithStartId:(int)startId

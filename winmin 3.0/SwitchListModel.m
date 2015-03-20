@@ -38,16 +38,22 @@ static const int successCode = 1;
     self.request2.delegate = self;
     dispatch_after(
         dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)),
-        dispatch_get_main_queue(), ^{ [self uploadDeviceAndAppInfo]; });
+        dispatch_get_main_queue(), ^{
+          [self uploadDeviceAndAppInfo];
+        });
     //获取设备固件版本
     dispatch_after(
         dispatch_time(DISPATCH_TIME_NOW,
                       (int64_t)((REFRESH_DEV_TIME / 3.0) * NSEC_PER_SEC)),
-        dispatch_get_main_queue(), ^{ [self getSwitchsFireware]; });
+        dispatch_get_main_queue(), ^{
+          [self getSwitchsFireware];
+        });
     //获取服务端设备固件版本
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
                                  (int64_t)(REFRESH_DEV_TIME * NSEC_PER_SEC)),
-                   dispatch_get_main_queue(), ^{ [self getFirewareInServer]; });
+                   dispatch_get_main_queue(), ^{
+                     [self getFirewareInServer];
+                   });
   }
   return self;
 }
@@ -61,15 +67,14 @@ static const int successCode = 1;
   [self stopScanState];
   DDLogDebug(@"%s", __FUNCTION__);
   dispatch_async(MAIN_QUEUE, ^{
-      _isScanningState = YES;
-      self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
-                                           target:self
-                                         selector:@selector(sendMsg0BOr0D)
-                                         userInfo:nil
-                                          repeats:YES];
-      [self.timer fire];
-      [[NSRunLoop mainRunLoop] addTimer:self.timer
-                                forMode:NSRunLoopCommonModes];
+    _isScanningState = YES;
+    self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
+                                         target:self
+                                       selector:@selector(sendMsg0BOr0D)
+                                       userInfo:nil
+                                        repeats:YES];
+    [self.timer fire];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
   });
 }
 
@@ -84,11 +89,11 @@ static const int successCode = 1;
 - (void)stopScanState {
   DDLogDebug(@"%s", __FUNCTION__);
   dispatch_async(MAIN_QUEUE, ^{
-      _isScanningState = NO;
-      if (self.timer) {
-        [self.timer invalidate];
-        self.timer = nil;
-      }
+    _isScanningState = NO;
+    if (self.timer) {
+      [self.timer invalidate];
+      self.timer = nil;
+    }
   });
 }
 
@@ -113,7 +118,9 @@ static const int successCode = 1;
   [self pauseScanState];
   [self.request sendMsg09:ActiveMode];
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
-                 dispatch_get_main_queue(), ^{ [self resumeScanState]; });
+                 dispatch_get_main_queue(), ^{
+                   [self resumeScanState];
+                 });
 }
 
 - (void)addSwitchWithMac:(NSString *)mac password:(NSString *)password {
@@ -144,23 +151,23 @@ static const int successCode = 1;
 - (void)sendMsg0BOr0D {
   //先局域网内扫描，0.5秒后请求外网，更新设备状态
   dispatch_async(GLOBAL_QUEUE, ^{
-      [self.request sendMsg0B:ActiveMode];
-      //设置0.5秒，保证内网的响应优先级
-      [NSThread sleepForTimeInterval:0.5];
-      NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
-      for (SDZGSwitch *aSwitch in switchs) {
-        if ((aSwitch.networkStatus == SWITCH_REMOTE ||
-             aSwitch.networkStatus == SWITCH_OFFLINE) &&
-            _isScanningState) {
-          DDLogDebug(@"switch mac is %@", aSwitch.mac);
-          [self.request sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
-        }
-        //实时电量
-        if (aSwitch.networkStatus != SWITCH_OFFLINE) {
-          [self.request sendMsg33Or35:aSwitch sendMode:ActiveMode];
-        }
-        //        aSwitch.power = (arc4random() % 2500);
+    [self.request sendMsg0B:ActiveMode];
+    //设置0.5秒，保证内网的响应优先级
+    [NSThread sleepForTimeInterval:0.5];
+    NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+    for (SDZGSwitch *aSwitch in switchs) {
+      if ((aSwitch.networkStatus == SWITCH_REMOTE ||
+           aSwitch.networkStatus == SWITCH_OFFLINE) &&
+          _isScanningState) {
+        DDLogDebug(@"switch mac is %@", aSwitch.mac);
+        [self.request sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
       }
+      //实时电量
+      if (aSwitch.networkStatus != SWITCH_OFFLINE) {
+        [self.request sendMsg33Or35:aSwitch sendMode:ActiveMode];
+      }
+      //        aSwitch.power = (arc4random() % 2500);
+    }
   });
 }
 
@@ -169,7 +176,9 @@ static const int successCode = 1;
   [self pauseScanState];
   self.request.delegate = nil;
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
-                 dispatch_get_main_queue(), ^{ self.request.delegate = self; });
+                 dispatch_get_main_queue(), ^{
+                   self.request.delegate = self;
+                 });
   if (!self.request2) {
     self.request2 = [UdpRequest manager];
     self.request2.delegate = self;
@@ -223,7 +232,8 @@ static const int successCode = 1;
       [[defaults objectForKey:remoteNotification] boolValue];
   if (reciveRemoteNotification) {
     [APServiceUtil removeSwitchRemoteNotification:aSwitch
-                                      finishBlock:^(BOOL result){}];
+                                      finishBlock:^(BOOL result){
+                                      }];
   }
 }
 
@@ -295,7 +305,7 @@ static const int successCode = 1;
       [[SwitchDataCeneter sharedInstance]
           addSwitchToTmp:aSwitch
               completion:^{
-                  [self.request sendMsg0B:aSwitch sendMode:ActiveMode];
+                [self.request sendMsg0B:aSwitch sendMode:ActiveMode];
               }];
     }
   }
@@ -350,14 +360,14 @@ static const int successCode = 1;
         message.state == kUdpResponseSuccessCode) {
       [SDZGSwitch parseMessageCOrE:message
                           toSwitch:^(SDZGSwitch *aSwitch) {
-                              if (aSwitchInTmp) {
-                                [[SwitchDataCeneter sharedInstance]
-                                    removeSwitchFromTmp:aSwitchInTmp];
-                                [[NSNotificationCenter defaultCenter]
-                                    postNotificationName:kSwitchUpdate
-                                                  object:self
-                                                userInfo:nil];
-                              }
+                            if (aSwitchInTmp) {
+                              [[SwitchDataCeneter sharedInstance]
+                                  removeSwitchFromTmp:aSwitchInTmp];
+                              [[NSNotificationCenter defaultCenter]
+                                  postNotificationName:kSwitchUpdate
+                                                object:self
+                                              userInfo:nil];
+                            }
                           }];
     }
   }
@@ -413,24 +423,24 @@ static const int successCode = 1;
     [manager POST:requestUrl
         parameters:parameters
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSString *string =
-                [[NSString alloc] initWithData:responseObject
-                                      encoding:NSUTF8StringEncoding];
-            //          DDLogDebug(@"response msg is %@",string);
-            NSDictionary *responseData = __JSON(string);
-            int status = [responseData[@"status"] intValue];
-            if (status == successCode) {
-              NSDictionary *data = responseData[@"data"];
-              NSDictionary *lastVersion = data[@"lastVersion"];
-              NSString *serverFirewareVersion = lastVersion[@"softWareVersion"];
-              [kSharedAppliction.dictOfFireware setObject:serverFirewareVersion
-                                                   forKey:deviceType];
-            } else {
-              DDLogDebug(@"服务器错误，请稍后再试");
-            }
+          NSString *string =
+              [[NSString alloc] initWithData:responseObject
+                                    encoding:NSUTF8StringEncoding];
+          //          DDLogDebug(@"response msg is %@",string);
+          NSDictionary *responseData = __JSON(string);
+          int status = [responseData[@"status"] intValue];
+          if (status == successCode) {
+            NSDictionary *data = responseData[@"data"];
+            NSDictionary *lastVersion = data[@"lastVersion"];
+            NSString *serverFirewareVersion = lastVersion[@"softWareVersion"];
+            [kSharedAppliction.dictOfFireware setObject:serverFirewareVersion
+                                                 forKey:deviceType];
+          } else {
+            DDLogDebug(@"服务器错误，请稍后再试");
+          }
         }
         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            DDLogDebug(@"网络错误，请稍后再试");
+          DDLogDebug(@"网络错误，请稍后再试");
         }];
   } else {
     DDLogDebug(@"未知设备");
@@ -456,31 +466,30 @@ static const int successCode = 1;
   [manager POST:requestUrl
       parameters:parameters
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          NSString *string =
-              [[NSString alloc] initWithData:responseObject
-                                    encoding:NSUTF8StringEncoding];
-          //          DDLogDebug(@"response msg is %@",string);
-          NSDictionary *responseData = __JSON(string);
-          int status = [responseData[@"status"] intValue];
-          if (status == successCode) {
-            NSArray *data = responseData[@"data"];
-            DDLogDebug(@"data is %@", data);
-            for (NSDictionary *info in data) {
-              NSString *alertDate = info[@"alertDate"];
-              NSString *mac = info[@"mac"];
-              SDZGSwitch *aSwitch =
-                  [[SwitchDataCeneter sharedInstance] getSwitchByMac:mac];
-              if (aSwitch) {
-                aSwitch.isRestart = YES;
-                aSwitch.restartMsgDateStr = alertDate;
-              }
+        NSString *string = [[NSString alloc] initWithData:responseObject
+                                                 encoding:NSUTF8StringEncoding];
+        //          DDLogDebug(@"response msg is %@",string);
+        NSDictionary *responseData = __JSON(string);
+        int status = [responseData[@"status"] intValue];
+        if (status == successCode) {
+          NSArray *data = responseData[@"data"];
+          DDLogDebug(@"data is %@", data);
+          for (NSDictionary *info in data) {
+            NSString *alertDate = info[@"alertDate"];
+            NSString *mac = info[@"mac"];
+            SDZGSwitch *aSwitch =
+                [[SwitchDataCeneter sharedInstance] getSwitchByMac:mac];
+            if (aSwitch) {
+              aSwitch.isRestart = YES;
+              aSwitch.restartMsgDateStr = alertDate;
             }
-          } else {
-            DDLogDebug(@"服务器错误，请稍后再试");
           }
+        } else {
+          DDLogDebug(@"服务器错误，请稍后再试");
+        }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          DDLogDebug(@"网络错误，请稍后再试");
+        DDLogDebug(@"网络错误，请稍后再试");
       }];
 }
 
@@ -497,33 +506,32 @@ static const int successCode = 1;
   [manager POST:requestUrl
       parameters:parameters
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          NSString *string =
-              [[NSString alloc] initWithData:responseObject
-                                    encoding:NSUTF8StringEncoding];
-          //          DDLogDebug(@"response msg is %@",string);
-          NSDictionary *responseData = __JSON(string);
-          int status = [responseData[@"status"] intValue];
-          if (status == successCode) {
-            SDZGHttpResponse *response = [[SDZGHttpResponse alloc]
-                initWithResponseCode:status
-                                data:responseData[@"data"]];
-            completion(response);
-          } else {
-            DDLogDebug(@"服务器错误，请稍后再试");
-            SDZGHttpResponse *response = [[SDZGHttpResponse alloc]
-                initWithResponseCode:status
-                             message:@"服务器错误，请稍后再试"
-                               error:nil];
-            completion(response);
-          }
+        NSString *string = [[NSString alloc] initWithData:responseObject
+                                                 encoding:NSUTF8StringEncoding];
+        //          DDLogDebug(@"response msg is %@",string);
+        NSDictionary *responseData = __JSON(string);
+        int status = [responseData[@"status"] intValue];
+        if (status == successCode) {
+          SDZGHttpResponse *response = [[SDZGHttpResponse alloc]
+              initWithResponseCode:status
+                              data:responseData[@"data"]];
+          completion(response);
+        } else {
+          DDLogDebug(@"服务器错误，请稍后再试");
+          SDZGHttpResponse *response = [[SDZGHttpResponse alloc]
+              initWithResponseCode:status
+                           message:@"服务器错误，请稍后再试"
+                             error:nil];
+          completion(response);
+        }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          DDLogDebug(@"网络错误，请稍后再试");
-          SDZGHttpResponse *response = [[SDZGHttpResponse alloc]
-              initWithResponseCode:-1
-                           message:@"网络错误，请稍后再试"
-                             error:error];
-          completion(response);
+        DDLogDebug(@"网络错误，请稍后再试");
+        SDZGHttpResponse *response = [[SDZGHttpResponse alloc]
+            initWithResponseCode:-1
+                         message:@"网络错误，请稍后再试"
+                           error:error];
+        completion(response);
 
       }];
 }

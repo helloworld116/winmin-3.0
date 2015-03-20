@@ -46,4 +46,11 @@
                          onOffStatus:(BOOL)onOffStatus;
 - (NSArray *)allSceneDetailsTmp;
 - (void)removeAllSceneDetailTmp;
+
+#pragma mark - 历史消息
+- (void)saveNotificationHistorys:(NSArray *)messages;
+
+- (NSArray *)getHistoryMessagesWithCount:(int)count offset:(int)offset;
+
+- (void)removeAllHistoryMessages;
 @end

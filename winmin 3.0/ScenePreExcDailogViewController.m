@@ -20,9 +20,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  self.lblMsg.text = @"场"
-                     @"景是预定义的一组开关操作。\n执行场景可能会立即打开或关"
-                     @"闭你的用电设备。\n确定执行吗？";
+  self.lblMsg.text = NSLocalizedString(@"Scene_PreExecute", nil);
 }
 
 - (void)didReceiveMemoryWarning {

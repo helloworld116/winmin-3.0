@@ -82,6 +82,9 @@
   page4.titleIconView = enterBtn;
 
   NSArray *pages = @[ page1, page2, page3, page4 ];
+  self.introView.pageControl.pageIndicatorTintColor = [UIColor whiteColor];
+  self.introView.pageControl.currentPageIndicatorTintColor =
+      [UIColor colorWithRed:0.210 green:0.948 blue:0.501 alpha:1.000];
   [self.introView setPages:pages];
   [self.introView setSwipeToExit:NO];
   self.introView.skipButton.hidden = YES;

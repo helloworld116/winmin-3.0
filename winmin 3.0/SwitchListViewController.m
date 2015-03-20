@@ -109,20 +109,23 @@
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
-                  NSString *mac = note.userInfo[@"mac"];
-                  NSString *password = note.userInfo[@"password"];
-                  [self.model addSwitchWithMac:mac password:password];
-                  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
-                                               (int64_t)(1 * NSEC_PER_SEC)),
-                                 dispatch_get_main_queue(),
-                                 ^{ [self reloadTableView]; });
+                NSString *mac = note.userInfo[@"mac"];
+                NSString *password = note.userInfo[@"password"];
+                [self.model addSwitchWithMac:mac password:password];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                                             (int64_t)(1 * NSEC_PER_SEC)),
+                               dispatch_get_main_queue(), ^{
+                                 [self reloadTableView];
+                               });
               }];
   //检查登录后设备变化
   [[NSNotificationCenter defaultCenter]
       addObserverForName:kLoginSuccess
                   object:nil
                    queue:nil
-              usingBlock:^(NSNotification *note) { self.isLogin = YES; }];
+              usingBlock:^(NSNotification *note) {
+                self.isLogin = YES;
+              }];
 
   //下拉刷新
   self.refreshHeaderView = [[EGORefreshTableHeaderView alloc]
@@ -141,20 +144,20 @@
     dispatch_after(
         dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
         dispatch_get_main_queue(), ^{
-            UIView *viewForGuide =
-                [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-            viewForGuide.backgroundColor = [UIColor blackColor];
-            viewForGuide.alpha = .5f;
-            viewForGuide.tag = switchListPulldownRefreshViewTag;
-            UIImageView *imageView = [[UIImageView alloc]
-                initWithImage:[UIImage imageNamed:@"pulldown_guide"]];
-            imageView.frame = CGRectMake(100, 64, 216.f, 141.f);
-            [viewForGuide addSubview:imageView];
-            [UIView animateWithDuration:0.3f
-                             animations:^{
-                                 [[[UIApplication sharedApplication] keyWindow]
-                                     addSubview:viewForGuide];
-                             }];
+          UIView *viewForGuide =
+              [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+          viewForGuide.backgroundColor = [UIColor blackColor];
+          viewForGuide.alpha = .5f;
+          viewForGuide.tag = switchListPulldownRefreshViewTag;
+          UIImageView *imageView = [[UIImageView alloc]
+              initWithImage:[UIImage imageNamed:@"pulldown_guide"]];
+          imageView.frame = CGRectMake(100, 64, 216.f, 141.f);
+          [viewForGuide addSubview:imageView];
+          [UIView animateWithDuration:0.3f
+                           animations:^{
+                             [[[UIApplication sharedApplication] keyWindow]
+                                 addSubview:viewForGuide];
+                           }];
         });
   }
 }
@@ -175,25 +178,26 @@
     dispatch_after(
         dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)),
         dispatch_get_main_queue(), ^{
-            UIView *viewForGuide =
-                [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-            viewForGuide.backgroundColor = [UIColor blackColor];
-            viewForGuide.alpha = .5f;
-            viewForGuide.tag = switchListLongPressDeleteViewTag;
-            UIImageView *imageView = [[UIImageView alloc]
-                initWithImage:[UIImage imageNamed:@"delete_guide"]];
-            imageView.frame = CGRectMake(-5, 58, 96.f, 98.f);
-            [viewForGuide addSubview:imageView];
-            [UIView animateWithDuration:0.3f
-                             animations:^{
-                                 [[[UIApplication sharedApplication] keyWindow]
-                                     addSubview:viewForGuide];
-                             }];
+          UIView *viewForGuide =
+              [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+          viewForGuide.backgroundColor = [UIColor blackColor];
+          viewForGuide.alpha = .5f;
+          viewForGuide.tag = switchListLongPressDeleteViewTag;
+          UIImageView *imageView = [[UIImageView alloc]
+              initWithImage:[UIImage imageNamed:@"delete_guide"]];
+          imageView.frame = CGRectMake(-5, 58, 96.f, 98.f);
+          [viewForGuide addSubview:imageView];
+          [UIView animateWithDuration:0.3f
+                           animations:^{
+                             [[[UIApplication sharedApplication] keyWindow]
+                                 addSubview:viewForGuide];
+                           }];
         });
   }
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
-                 dispatch_get_main_queue(),
-                 ^{ [self.model getSwitchRestartInfo]; });
+                 dispatch_get_main_queue(), ^{
+                   [self.model getSwitchRestartInfo];
+                 });
   if (self.isLogin) {
     self.switchs = [[SwitchDataCeneter sharedInstance] switchs];
     if (self.switchs.count) {
@@ -346,50 +350,53 @@
 - (void)updateSwitchList:(NSNotification *)notification {
   self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
   dispatch_async(MAIN_QUEUE, ^{
-      if (!self.switchs || self.switchs.count == 0) {
-        self.noDataView.hidden = NO;
-      } else {
-        self.noDataView.hidden = YES;
-      }
-      [self.tableView reloadData];
+    if (!self.switchs || self.switchs.count == 0) {
+      self.noDataView.hidden = NO;
+    } else {
+      self.noDataView.hidden = YES;
+    }
+    [self.tableView reloadData];
   });
 }
 
 - (void)netChangedNotification:(NSNotification *)notification {
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
-                 dispatch_get_main_queue(), ^{
-      NetworkStatus status = kSharedAppliction.networkStatus;
-      if (status == NotReachable) {
-        //网络不可用时修改所有设备状态为离线并停止扫描
-        [self.model stopScanState];
-        [[SwitchDataCeneter sharedInstance] updateAllSwitchStautsToOffLine];
-        [self.tableView reloadData];
-        [self stopUpdateList];
+  dispatch_after(
+      dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+      dispatch_get_main_queue(), ^{
+        NetworkStatus status = kSharedAppliction.networkStatus;
+        if (status == NotReachable) {
+          //网络不可用时修改所有设备状态为离线并停止扫描
+          [self.model stopScanState];
+          [[SwitchDataCeneter sharedInstance] updateAllSwitchStautsToOffLine];
+          [self.tableView reloadData];
+          [self stopUpdateList];
 
-        //        self.tableView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0);
-        //        self.tableView.contentOffset = CGPointMake(0, -20);
-      } else {
-        //        self.tableView.contentInset = UIEdgeInsetsZero;
-        //        self.tableView.contentOffset = CGPointZero;
-        if (status == ReachableViaWWAN) {
-          BOOL warn = [[[NSUserDefaults standardUserDefaults]
-              objectForKey:wwanWarn] boolValue];
-          if (warn) {
-            [self.view
-                makeToast:NSLocalizedString(@"WWAN Message", nil)
-                 duration:5.f
-                 position:[NSValue valueWithCGPoint:
-                                       CGPointMake(
-                                           self.view.frame.size.width / 2,
-                                           self.view.frame.size.height - 40)]];
+          //        self.tableView.contentInset = UIEdgeInsetsMake(-20, 0, 0,
+          //        0);
+          //        self.tableView.contentOffset = CGPointMake(0, -20);
+        } else {
+          //        self.tableView.contentInset = UIEdgeInsetsZero;
+          //        self.tableView.contentOffset = CGPointZero;
+          if (status == ReachableViaWWAN) {
+            BOOL warn = [[[NSUserDefaults standardUserDefaults]
+                objectForKey:wwanWarn] boolValue];
+            if (warn) {
+              [self.view
+                  makeToast:NSLocalizedString(@"WWAN Message", nil)
+                   duration:5.f
+                   position:[NSValue
+                                valueWithCGPoint:
+                                    CGPointMake(self.view.frame.size.width / 2,
+                                                self.view.frame.size.height -
+                                                    40)]];
+            }
+          }
+          if (!self.model.isScanningState) {
+            [self.model startScanState];
+            [self startUpdateList];
           }
         }
-        if (!self.model.isScanningState) {
-          [self.model startScanState];
-          [self startUpdateList];
-        }
-      }
-  });
+      });
 }
 
 - (void)reloadTableView {
@@ -449,9 +456,9 @@
   }
   [self.model scanSwitchState:aSwitch
                      complete:^(int status) {
-                         [self switchStatusRecivied:aSwitch
-                                             status:status
-                                          indexPath:indexPath];
+                       [self switchStatusRecivied:aSwitch
+                                           status:status
+                                        indexPath:indexPath];
                      }];
 }
 
@@ -459,64 +466,63 @@
                       status:(int)status
                    indexPath:(NSIndexPath *)indexPath {
   dispatch_async(MAIN_QUEUE, ^{
-      DDLogDebug(@"result is %d", status);
-      [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-      if (status == -1) {
-        [self.HUD hide:YES];
-        if (aSwitch.networkStatus != SWITCH_OFFLINE) {
-          aSwitch.networkStatus = SWITCH_OFFLINE;
-          NSArray *indexPaths = @[ indexPath ];
-          [self.tableView
-              reloadRowsAtIndexPaths:indexPaths
-                    withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-        [self.view
-            makeToast:NSLocalizedString(
-                          @"Device offline, Please check your network", nil)];
-        [self resumeUpdateList];
-      } else if (status == kUdpResponsePasswordErrorCode) {
-        [self.HUD hide:YES];
-        if (aSwitch.networkStatus != SWITCH_OFFLINE) {
-          aSwitch.networkStatus = SWITCH_OFFLINE;
-          NSArray *indexPaths = @[ indexPath ];
-          [self.tableView
-              reloadRowsAtIndexPaths:indexPaths
-                    withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-        UIAlertView *alertView = [[UIAlertView alloc]
-                initWithTitle:nil
-                      message:NSLocalizedString(@"Auth Error", nil)
-                     delegate:self
-            cancelButtonTitle:NSLocalizedString(@"Sure", nil)
-            otherButtonTitles:nil, nil];
-        [alertView show];
-        [self resumeUpdateList];
-      } else {
-        self.lastSelectedIndexPath = indexPath;
-        aSwitch.networkStatus = status;
-        if (aSwitch.isRestart) {
-          [self.model getDealFlag:aSwitch
-                       completion:^(SDZGHttpResponse *response) {
-                           [self.HUD hide:YES];
-                           if (response.isSuccess) {
-                             int dealFlag =
-                                 [response.data[@"dealFlag"] intValue];
-                             //未重置
-                             if (dealFlag == -1) {
-                               [self goRestartViewController:aSwitch];
-                             } else {
-                               //重置了或不存在
-                               aSwitch.isRestart = NO;
-                               [self goDetailViewController:aSwitch];
-                             }
-                           } else {
-                           }
-                       }];
-        } else {
-          [self.HUD hide:YES];
-          [self goDetailViewController:aSwitch];
-        }
+    DDLogDebug(@"result is %d", status);
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (status == -1) {
+      [self.HUD hide:YES];
+      if (aSwitch.networkStatus != SWITCH_OFFLINE) {
+        aSwitch.networkStatus = SWITCH_OFFLINE;
+        NSArray *indexPaths = @[ indexPath ];
+        [self.tableView
+            reloadRowsAtIndexPaths:indexPaths
+                  withRowAnimation:UITableViewRowAnimationAutomatic];
       }
+      [self.view
+          makeToast:NSLocalizedString(
+                        @"Device offline, Please check your network", nil)];
+      [self resumeUpdateList];
+    } else if (status == kUdpResponsePasswordErrorCode) {
+      [self.HUD hide:YES];
+      if (aSwitch.networkStatus != SWITCH_OFFLINE) {
+        aSwitch.networkStatus = SWITCH_OFFLINE;
+        NSArray *indexPaths = @[ indexPath ];
+        [self.tableView
+            reloadRowsAtIndexPaths:indexPaths
+                  withRowAnimation:UITableViewRowAnimationAutomatic];
+      }
+      UIAlertView *alertView = [[UIAlertView alloc]
+              initWithTitle:nil
+                    message:NSLocalizedString(@"Auth Error", nil)
+                   delegate:self
+          cancelButtonTitle:NSLocalizedString(@"Sure", nil)
+          otherButtonTitles:nil, nil];
+      [alertView show];
+      [self resumeUpdateList];
+    } else {
+      self.lastSelectedIndexPath = indexPath;
+      aSwitch.networkStatus = status;
+      if (aSwitch.isRestart) {
+        [self.model getDealFlag:aSwitch
+                     completion:^(SDZGHttpResponse *response) {
+                       [self.HUD hide:YES];
+                       if (response.isSuccess) {
+                         int dealFlag = [response.data[@"dealFlag"] intValue];
+                         //未重置
+                         if (dealFlag == -1) {
+                           [self goRestartViewController:aSwitch];
+                         } else {
+                           //重置了或不存在
+                           aSwitch.isRestart = NO;
+                           [self goDetailViewController:aSwitch];
+                         }
+                       } else {
+                       }
+                     }];
+      } else {
+        [self.HUD hide:YES];
+        [self goDetailViewController:aSwitch];
+      }
+    }
   });
 }
 
@@ -629,10 +635,10 @@
 - (void)doneLoadingTableViewData {
   //  model should call this when its done loading
   dispatch_async(MAIN_QUEUE, ^{
-      _reloading = NO;
-      [self.tableView reloadData];
-      [_refreshHeaderView
-          egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    _reloading = NO;
+    [self.tableView reloadData];
+    [_refreshHeaderView
+        egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
   });
 }
 
@@ -652,7 +658,7 @@
 #pragma mark EGORefreshTableHeaderDelegate Methods
 
 - (void)egoRefreshTableHeaderDidTriggerRefresh:
-            (EGORefreshTableHeaderView *)view {
+        (EGORefreshTableHeaderView *)view {
   [self reloadTableViewDataSource];
   [self performSelector:@selector(doneLoadingTableViewData)
              withObject:nil
@@ -660,12 +666,12 @@
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:
-            (EGORefreshTableHeaderView *)view {
+        (EGORefreshTableHeaderView *)view {
   return _reloading; // should return if data source model is reloading
 }
 
 - (NSDate *)egoRefreshTableHeaderDataSourceLastUpdated:
-                (EGORefreshTableHeaderView *)view {
+        (EGORefreshTableHeaderView *)view {
   return [NSDate date]; // should return date data source was last changed
 }
 

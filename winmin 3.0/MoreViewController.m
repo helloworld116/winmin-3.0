@@ -48,7 +48,7 @@
     NSLocalizedString(@"User Manual", nil),
     NSLocalizedString(@"Message Center", nil),
     NSLocalizedString(@"Feedback", nil),
-    NSLocalizedString(@"Purchase Products", nil),
+    //    NSLocalizedString(@"Purchase Products", nil),
     NSLocalizedString(@"About Us", nil)
   ];
   self.icons = @[
@@ -58,7 +58,7 @@
     @"book",
     @"push_message",
     @"feedback",
-    @"buy",
+    //    @"buy",
     @"about_us"
   ];
   [[NSNotificationCenter defaultCenter]
@@ -66,28 +66,27 @@
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
-                  self.isLogin = YES;
-                  SwitchSyncService *service = [[SwitchSyncService alloc] init];
-                  [service downloadSwitchs];
-                  dispatch_async(MAIN_QUEUE, ^{
-                      NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
-                      [self.tableView
-                            reloadSections:indexSet
-                          withRowAnimation:UITableViewRowAnimationNone];
-                      [self.view makeToast:NSLocalizedString(
-                                               @"Login successful", nil)];
-                  });
+                self.isLogin = YES;
+                SwitchSyncService *service = [[SwitchSyncService alloc] init];
+                [service downloadSwitchs];
+                dispatch_async(MAIN_QUEUE, ^{
+                  NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
+                  [self.tableView reloadSections:indexSet
+                                withRowAnimation:UITableViewRowAnimationNone];
+                  [self.view
+                      makeToast:NSLocalizedString(@"Login successful", nil)];
+                });
               }];
   [[NSNotificationCenter defaultCenter]
       addObserverForName:kLoginOut
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
-                  self.isLogin = NO;
-                  [UserInfo userLoginout];
-                  NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
-                  [self.tableView reloadSections:indexSet
-                                withRowAnimation:UITableViewRowAnimationNone];
+                self.isLogin = NO;
+                [UserInfo userLoginout];
+                NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
+                [self.tableView reloadSections:indexSet
+                              withRowAnimation:UITableViewRowAnimationNone];
               }];
   self.isLogin = [UserInfo userInfoInDisk];
 }
@@ -220,15 +219,12 @@
         nextController = [self.storyboard
             instantiateViewControllerWithIdentifier:@"FeedbackViewController"];
         break;
+      //      case 6:
+      //        [[UIApplication sharedApplication]
+      //            openURL:[NSURL URLWithString:@"http://yunzujj.tmall.com/"]];
+      //        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+      //        break;
       case 6:
-        [[UIApplication sharedApplication]
-            openURL:[NSURL URLWithString:@"http://yunzujj.tmall.com/"]];
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        //        nextController = [self.storyboard
-        //            instantiateViewControllerWithIdentifier:@"TestViewController"];
-
-        break;
-      case 7:
         nextController = [self.storyboard
             instantiateViewControllerWithIdentifier:@"AboutUsViewController"];
         break;
