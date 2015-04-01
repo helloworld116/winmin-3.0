@@ -29,6 +29,8 @@ typedef NS_ENUM(NSInteger, ShakeType) {
     NSIndexPath *lastShakeIndexPath; //修改摇一摇之前的indexPath
 @property (nonatomic, strong) Scene *currentEditScene; //
 @property (nonatomic, strong) UIView *noDataView;
+@property (nonatomic, strong) id sceneRemoveObserver;
+@property (nonatomic, strong) id windowObserver;
 @end
 
 @implementation SceneListViewController
@@ -68,25 +70,29 @@ typedef NS_ENUM(NSInteger, ShakeType) {
          selector:@selector(addOrUpdateScene:)
              name:kSceneAddOrUpdateNotification
            object:nil];
-  [[NSNotificationCenter defaultCenter]
+  __weak __typeof__(self) weakSelf = self;
+  self.sceneRemoveObserver = [[NSNotificationCenter defaultCenter]
       addObserverForName:kSwitchDeleteSceneNotification
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
-                  self.scenes = [[[DBUtil sharedInstance] scenes] mutableCopy];
-                  [self.collectionView reloadData];
-                  if (!self.scenes || self.scenes.count == 0) {
-                    self.noDataView.hidden = NO;
-                  }
+                __strong __typeof__(self) strongSelf = weakSelf;
+                strongSelf.scenes =
+                    [[[DBUtil sharedInstance] scenes] mutableCopy];
+                [strongSelf.collectionView reloadData];
+                if (!strongSelf.scenes || strongSelf.scenes.count == 0) {
+                  strongSelf.noDataView.hidden = NO;
+                }
               }];
-  [[NSNotificationCenter defaultCenter]
+  self.windowObserver = [[NSNotificationCenter defaultCenter]
       addObserverForName:kSceneFinishedWindowViewRemoveNotification
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
-                  [self.collectionView
-                      deselectItemAtIndexPath:self.operationIndexPath
-                                     animated:YES];
+                __strong __typeof__(self) strongSelf = weakSelf;
+                [strongSelf.collectionView
+                    deselectItemAtIndexPath:strongSelf.operationIndexPath
+                                   animated:YES];
               }];
   self.scenes = [[[DBUtil sharedInstance] scenes] mutableCopy];
   if (!self.scenes || self.scenes.count == 0) {
@@ -122,6 +128,9 @@ typedef NS_ENUM(NSInteger, ShakeType) {
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self.sceneRemoveObserver];
+  [[NSNotificationCenter defaultCenter] removeObserver:self.windowObserver];
 }
 
 /*
@@ -299,19 +308,17 @@ preparation before navigation
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:@(shakeId) forKey:@"shakeId"];
         [self.collectionView performBatchUpdates:^{
-            self.shakeId = shakeId;
-            [self.collectionView
-                reloadItemsAtIndexPaths:reloadItemsAtIndexPaths];
+          self.shakeId = shakeId;
+          [self.collectionView reloadItemsAtIndexPaths:reloadItemsAtIndexPaths];
         } completion:^(BOOL finished) {
-            if (finished) {
-              ShakeWindow *shakeWindow =
-                  (ShakeWindow *)kSharedAppliction.window;
-              if (self.shakeType == ShakeType_Set) {
-                [shakeWindow setShakeScene:scene];
-              } else {
-                [shakeWindow setShakeScene:nil];
-              }
+          if (finished) {
+            ShakeWindow *shakeWindow = (ShakeWindow *)kSharedAppliction.window;
+            if (self.shakeType == ShakeType_Set) {
+              [shakeWindow setShakeScene:scene];
+            } else {
+              [shakeWindow setShakeScene:nil];
             }
+          }
         }];
       }
     } break;
@@ -342,15 +349,17 @@ preparation before navigation
         //删除后提示页面
         NSArray *indexPaths = @[ self.operationIndexPath ];
         [self.collectionView performBatchUpdates:^{
-            [self.scenes removeObjectAtIndex:self.operationIndexPath.row];
-            [self.collectionView deleteItemsAtIndexPaths:indexPaths];
+          [self.scenes removeObjectAtIndex:self.operationIndexPath.row];
+          [self.collectionView deleteItemsAtIndexPaths:indexPaths];
         } completion:^(BOOL finished) {
-            if (finished) {
-              if (self.scenes.count == 0) {
-                [UIView animateWithDuration:0.3
-                                 animations:^{ self.noDataView.hidden = NO; }];
-              }
+          if (finished) {
+            if (self.scenes.count == 0) {
+              [UIView animateWithDuration:0.3
+                               animations:^{
+                                 self.noDataView.hidden = NO;
+                               }];
             }
+          }
         }];
       }
       break;
@@ -383,17 +392,17 @@ preparation before navigation
       NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
       [userDefaults setObject:@(shakeId) forKey:@"shakeId"];
       [self.collectionView performBatchUpdates:^{
-          self.shakeId = shakeId;
-          [self.collectionView reloadItemsAtIndexPaths:reloadItemsAtIndexPaths];
+        self.shakeId = shakeId;
+        [self.collectionView reloadItemsAtIndexPaths:reloadItemsAtIndexPaths];
       } completion:^(BOOL finished) {
-          if (finished) {
-            ShakeWindow *shakeWindow = (ShakeWindow *)kSharedAppliction.window;
-            if (self.shakeType == ShakeType_Set) {
-              [shakeWindow setShakeScene:self.currentEditScene];
-            } else {
-              [shakeWindow setShakeScene:nil];
-            }
+        if (finished) {
+          ShakeWindow *shakeWindow = (ShakeWindow *)kSharedAppliction.window;
+          if (self.shakeType == ShakeType_Set) {
+            [shakeWindow setShakeScene:self.currentEditScene];
+          } else {
+            [shakeWindow setShakeScene:nil];
           }
+        }
       }];
     } break;
     default:
@@ -412,24 +421,25 @@ preparation before navigation
     }
     //添加
     [self.collectionView performBatchUpdates:^{
-        [self.scenes addObject:scene];
-        NSIndexPath *indexPath =
-            [NSIndexPath indexPathForRow:self.scenes.count - 1 inSection:0];
-        [self.collectionView insertItemsAtIndexPaths:@[ indexPath ]];
-    } completion:^(BOOL finished){}];
+      [self.scenes addObject:scene];
+      NSIndexPath *indexPath =
+          [NSIndexPath indexPathForRow:self.scenes.count - 1 inSection:0];
+      [self.collectionView insertItemsAtIndexPaths:@[ indexPath ]];
+    } completion:^(BOOL finished){
+    }];
   } else {
     //修改
     [self.collectionView performBatchUpdates:^{
-        [self.scenes replaceObjectAtIndex:row withObject:scene];
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-        [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
+      [self.scenes replaceObjectAtIndex:row withObject:scene];
+      NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+      [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
     } completion:^(BOOL finished) {
-        if (finished) {
-          if (scene.indentifier == self.shakeId) {
-            ShakeWindow *shakeWindow = (ShakeWindow *)kSharedAppliction.window;
-            [shakeWindow setShakeScene:scene];
-          }
+      if (finished) {
+        if (scene.indentifier == self.shakeId) {
+          ShakeWindow *shakeWindow = (ShakeWindow *)kSharedAppliction.window;
+          [shakeWindow setShakeScene:scene];
         }
+      }
     }];
   }
 }

@@ -7,26 +7,38 @@
 //
 
 #import <Foundation/Foundation.h>
-typedef NS_OPTIONS(NSUInteger, SwitchStatus){
-  SWITCH_NEW, SWITCH_LOCAL, SWITCH_REMOTE, SWITCH_OFFLINE,
+typedef NS_OPTIONS(NSUInteger, SwitchStatus) {
+  SWITCH_NEW,
+  SWITCH_LOCAL,
+  SWITCH_REMOTE,
+  SWITCH_OFFLINE,
 };
 
-typedef NS_OPTIONS(NSUInteger, DelayAction){
-  DelayActionOff = 0, DelayActionOn,
+typedef NS_OPTIONS(NSUInteger, DelayAction) {
+  DelayActionOff = 0,
+  DelayActionOn,
 };
-typedef NS_OPTIONS(NSUInteger, SocketStatus){
-  SocketStatusOff = 0, SocketStatusOn,
+typedef NS_OPTIONS(NSUInteger, SocketStatus) {
+  SocketStatusOff = 0,
+  SocketStatusOn,
 };
-typedef NS_OPTIONS(NSUInteger, TimerActionType){
-  TimerActionTypeOff = 0, TimerActionTypeOn,
+typedef NS_OPTIONS(NSUInteger, TimerActionType) {
+  TimerActionTypeOff = 0,
+  TimerActionTypeOn,
 };
-typedef NS_OPTIONS(NSUInteger, LockStatus){
-  LockStatusOff = 0, LockStatusOn,
+typedef NS_OPTIONS(NSUInteger, LockStatus) {
+  LockStatusOff = 0,
+  LockStatusOn,
 };
-typedef NS_OPTIONS(NSUInteger, DAYTYPE){ MONDAY = 1 << 0,  TUESDAY = 1 << 1,
-                                         WENSDAY = 1 << 2, THURSDAY = 1 << 3,
-                                         FRIDAY = 1 << 4,  SATURDAY = 1 << 5,
-                                         SUNDAY = 1 << 6 };
+typedef NS_OPTIONS(NSUInteger, DAYTYPE) {
+  MONDAY = 1 << 0,
+  TUESDAY = 1 << 1,
+  WENSDAY = 1 << 2,
+  THURSDAY = 1 << 3,
+  FRIDAY = 1 << 4,
+  SATURDAY = 1 << 5,
+  SUNDAY = 1 << 6
+};
 
 @interface SDZGSwitch : NSObject<NSCopying>
 @property (nonatomic, assign) int _id;
@@ -59,9 +71,12 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE){ MONDAY = 1 << 0,  TUESDAY = 1 << 1,
                        password:(NSString *)password
                            name:(NSString *)name
                         version:(int)version
+                     deviceType:(NSString *)deviceType
                      lockStauts:(LockStatus)lockStauts;
 + (UIImage *)imgNameToImage:(NSString *)imgName;
 + (UIImage *)imgNameToImageOffline:(NSString *)imgName;
++ (UIImage *)imgNameToImageSnake:(NSString *)imgName;
++ (UIImage *)imgNameToImageOfflineSnake:(NSString *)imgName;
 
 @end
 @interface SDZGSocket : NSObject<NSCopying>

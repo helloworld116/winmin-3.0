@@ -90,6 +90,7 @@ typedef struct {
   unsigned char FWVersion;
   char isLocked;
   unsigned char password[6];
+  char deviceType[20];
   unsigned short crc;
 } d2pMsg0A;
 
@@ -111,6 +112,7 @@ typedef struct {
   unsigned char FWVersion;
   unsigned char onOffState;
   unsigned char password[6];
+  char deviceType[20];
   unsigned short crc;
 } d2pMsg0C;
 
@@ -295,7 +297,17 @@ typedef struct {
   char state;           // 0表示成功
   unsigned short pulse; //电量脉冲的周期值x，单位为ms 功率W=（53035.5/x）
                         //保留2位小数
-  unsigned int power; //用电功率,单位厘瓦
+  unsigned int power;            //用电功率,单位厘瓦
+  unsigned char tSensorFlag;     //温度传感器标志1有0无
+  short temperature;             //温度
+  unsigned char hSensorFlag;     //湿度传感器标志1有0无
+  short humidity;                //湿度
+  unsigned char smogSensorFlag;  //烟雾传感器标志1有0无
+  short smog;                    //烟雾
+  unsigned char coSensorFlag;    //一氧化碳传感器标志1有0无
+  short co;                      //一氧化碳
+  unsigned char lightSensorFlag; //光感传感器标志1有0无
+  short light;                   //光强度
   unsigned short crc;
 } d2pMsg34;
 
@@ -312,7 +324,17 @@ typedef struct {
   unsigned char mac[6];
   char state;
   unsigned short pulse;
-  unsigned int power; //用电功率,单位厘瓦
+  unsigned int power;            //用电功率,单位厘瓦
+  unsigned char tSensorFlag;     //温度传感器标志1有0无
+  short temperature;             //温度
+  unsigned char hSensorFlag;     //湿度传感器标志1有0无
+  short humidity;                //湿度
+  unsigned char smogSensorFlag;  //烟雾传感器标志1有0无
+  short smog;                    //烟雾
+  unsigned char coSensorFlag;    //一氧化碳传感器标志1有0无
+  short co;                      //一氧化碳
+  unsigned char lightSensorFlag; //光感传感器标志1有0无
+  short light;                   //光强度
   unsigned short crc;
 } s2pMsg36;
 
@@ -1562,6 +1584,9 @@ typedef struct {
       stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X", msg.password[0],
                        msg.password[1], msg.password[2], msg.password[3],
                        msg.password[4], msg.password[5]];
+  message.deviceType = [[NSString alloc] initWithBytes:msg.deviceType
+                                                length:strlen(msg.deviceType)
+                                              encoding:NSUTF8StringEncoding];
   message.crc = msg.crc;
   return message;
 }
@@ -1672,8 +1697,20 @@ typedef struct {
   message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
-  if ([aData length] == sizeof(msg)) {
+  if ([aData length] == sizeof(msg) - 15) {
     message.power = ntohl(msg.power) / 100;
+  } else if ([aData length] == sizeof(msg)) {
+    message.power = ntohl(msg.power) / 100;
+    message.hasSensorTemperature = msg.tSensorFlag;
+    message.temperature = ntohs(msg.temperature);
+    message.hasSensorHumidity = msg.hSensorFlag;
+    message.humidity = ntohs(msg.humidity);
+    message.hasSensorSmog = msg.smogSensorFlag;
+    message.smog = ntohs(msg.smog);
+    message.hasSensorCo = msg.coSensorFlag;
+    message.co = ntohs(msg.co);
+    message.hasSensorLight = msg.lightSensorFlag;
+    message.light = ntohs(msg.light);
   } else {
     if (msg.pulse == 0) {
       message.power = 0;
@@ -1859,7 +1896,7 @@ typedef struct {
                                length:sizeof(msg.version)
                              encoding:NSASCIIStringEncoding];
   message.deviceType = [[NSString alloc] initWithBytes:msg.deviceType
-                                                length:sizeof(msg.deviceType)
+                                                length:strlen(msg.deviceType)
                                               encoding:NSUTF8StringEncoding];
   message.crc = ntohs(msg.crc);
   return message;
@@ -2142,22 +2179,22 @@ typedef struct {
 
 - (void)setAirTag:(unsigned char)airTag {
   //  self.airTag = airTag;
-  switch (airTag) {
-    case 1:
-      self.airDesc = @"优";
-      break;
-    case 2:
-      self.airDesc = @"良";
-      break;
-    case 3:
-      self.airDesc = @"轻度污染";
-      break;
-    case 4:
-      self.airDesc = @"中度污染";
-      break;
-    default:
-      self.airDesc = @"优";
-      break;
-  }
+  //  switch (airTag) {
+  //    case 1:
+  //      self.airDesc = @"优";
+  //      break;
+  //    case 2:
+  //      self.airDesc = @"良";
+  //      break;
+  //    case 3:
+  //      self.airDesc = @"轻度污染";
+  //      break;
+  //    case 4:
+  //      self.airDesc = @"中度污染";
+  //      break;
+  //    default:
+  //      self.airDesc = @"优";
+  //      break;
+  //  }
 }
 @end

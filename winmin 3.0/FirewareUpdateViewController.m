@@ -111,6 +111,8 @@
                                 NSString *deviceType_) {
                      DDLogDebug(@"server version is %@ and type is %@",
                                 firewareVersion, _deviceType);
+                     kSharedAppliction.dictOfFireware[self.aSwitch.deviceType] =
+                         firewareVersion;
                      if (firewareVersion &&
                          ![firewareVersion
                              isEqualToString:lastFirewareVersion]) {
@@ -196,7 +198,9 @@ preparation before navigation
 - (void)setUpdateBtnEnable {
   FirewareUpdateCell *cell =
       (FirewareUpdateCell *)[[self.tableView visibleCells] lastObject];
-  if ([self.lastVersionInServer isEqualToString:self.deviceVersion]) {
+  NSComparisonResult compareResult =
+      [self.lastVersionInServer compare:self.deviceVersion];
+  if (compareResult == NSOrderedAscending || compareResult == NSOrderedSame) {
     cell.btnUpdate.enabled = NO;
   } else {
     if (self.aSwitch.networkStatus == SWITCH_LOCAL &&

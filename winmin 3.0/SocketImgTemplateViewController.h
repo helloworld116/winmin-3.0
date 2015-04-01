@@ -8,16 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "SocketView.h"
+#import "SnakeSocketView.h"
 
 @protocol SocketImgTemplateDelegate<NSObject>
-- (void)socketView:(SocketView *)socketView
+- (void)socketView:(UIView *)socketView
           socketId:(int)socketId
            imgName:(NSString *)imgName;
 @end
 
 @interface SocketImgTemplateViewController : UIViewController
-@property(nonatomic, assign) id<SocketImgTemplateDelegate> delegate;
-@property(nonatomic, assign) int socketId;
-@property(nonatomic, strong) SocketView *socketView;
-@property(nonatomic, strong) SDZGSwitch *aSwitch;
+@property (nonatomic, assign) id<SocketImgTemplateDelegate> delegate;
+@property (nonatomic, assign) int socketId;
+@property (nonatomic, strong) SocketView *socketView;
+@property (nonatomic, strong) SnakeSocketView *snakeSocketView;
+@property (nonatomic, strong) SDZGSwitch *aSwitch;
 @end

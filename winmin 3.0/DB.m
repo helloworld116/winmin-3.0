@@ -26,8 +26,14 @@
     if (![self isExistTable:@"switch"]) {
       [self createTableSwitch];
     }
+    if (![self isTable:@"switch" existColumn:@"devicetype"]) {
+      [self alterSwitchAddDeviceType];
+    }
     if (![self isExistTable:@"socket"]) {
       [self createTableSocket];
+    }
+    if (![self isTable:@"socket" existColumn:@"socket4image"]) {
+      [self alterSocketAddSocket4Image];
     }
     if (![self isExistTable:@"timertask"]) {
       [self createTableTimerTask];
@@ -83,6 +89,21 @@
   return NO;
 }
 
+- (BOOL)alterSwitchAddDeviceType {
+  if ([self.db open]) {
+    NSString *sql = @"alter table switch add devicetype text;";
+    BOOL success = [self.db executeUpdate:sql];
+    if (success) {
+      DDLogDebug(@"switch增加字段成功");
+    } else {
+      DDLogDebug(@"switch增加字段失败");
+    }
+    [self.db close];
+    return success;
+  }
+  return NO;
+}
+
 - (BOOL)createTableSocket {
   if ([self.db open]) {
     NSString *sql = @"create table socket(id integer primary key  "
@@ -95,6 +116,21 @@
       DDLogDebug(@"创建表socket成功");
     } else {
       DDLogDebug(@"创建表socket失败");
+    }
+    [self.db close];
+    return success;
+  }
+  return NO;
+}
+
+- (BOOL)alterSocketAddSocket4Image {
+  if ([self.db open]) {
+    NSString *sql = @"alter table socket add socket4image text;";
+    BOOL success = [self.db executeUpdate:sql];
+    if (success) {
+      DDLogDebug(@"socket增加字段成功");
+    } else {
+      DDLogDebug(@"socket增加字段失败");
     }
     [self.db close];
     return success;
@@ -209,8 +245,19 @@
   return isExistTable;
 }
 
+- (BOOL)isTable:(NSString *)tableName existColumn:(NSString *)columnName {
+  BOOL columnExists = NO;
+  if ([self.db open]) {
+    columnExists = [self.db columnExists:columnName inTableWithName:tableName];
+    [self.db close];
+  }
+  return columnExists;
+}
+
 - (void)saveSwitch:(SDZGSwitch *)aSwitch {
-  if (aSwitch && [aSwitch.sockets count] == 2) {
+  if (aSwitch && ([aSwitch.sockets count] == 2 ||
+                  ([aSwitch.sockets count] == 1 &&
+                   [aSwitch.deviceType isEqualToString:kDeviceType_Snake]))) {
     [self.queue inDatabase:^(FMDatabase *db) {
       if ([db open]) {
         NSString *sql = @"select count(id) as sid from switch where mac=?";
@@ -220,46 +267,77 @@
           if (sid) {
             NSString *sql = @"update switch set "
                 @"name=?,networkstatus=?,lockstatus=?,version=?,tag=?,"
-                @"imagename=?,password=?,ip=? where mac=?";
+                @"imagename=?,password=?,ip=?,devicetype=? where mac=?";
             [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
                               @(aSwitch.lockStatus), @(aSwitch.version), @(0),
                               aSwitch.imageName, aSwitch.password, aSwitch.ip,
-                              aSwitch.mac];
+                              aSwitch.deviceType, aSwitch.mac];
           } else {
             NSString *sql = @"insert into "
                 @"switch(name,networkstatus,mac,ip,port,lockstatus,version,"
-                @"tag," @"imagename,password) values(?,?,?,?,?,?,?,?,?,?)";
+                @"tag,"
+                @"imagename,password,devicetype) values(?,?,?,?,?,?,?,?,?,?,?)";
             [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
                               aSwitch.mac, aSwitch.ip, @(aSwitch.port),
                               @(aSwitch.lockStatus), @(aSwitch.version), @(0),
-                              aSwitch.imageName, aSwitch.password];
+                              aSwitch.imageName, aSwitch.password,
+                              aSwitch.deviceType];
           }
         }
-
-        sql = @"select count(id) as socketcount from socket where mac=?";
-        FMResultSet *socketResult = [db executeQuery:sql, aSwitch.mac];
-        if ([socketResult next]) {
-          int socketcount = [socketResult intForColumn:@"socketcount"];
-          if (socketcount && socketcount == 2) {
-            sql = @"update socket set "
-                @"delaytime=?,delayaction=?,socketstatus=? where mac=? "
-                @"and groupid=?";
-            for (SDZGSocket *socket in aSwitch.sockets) {
-              [db executeUpdate:sql, @(socket.delayTime), @(socket.delayAction),
-                                @(socket.socketStatus), aSwitch.mac,
-                                @(socket.groupId)];
+        if ([aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
+          sql = @"select count(id) as socketcount from socket where mac=?";
+          FMResultSet *socketResult = [db executeQuery:sql, aSwitch.mac];
+          if ([socketResult next]) {
+            int socketcount = [socketResult intForColumn:@"socketcount"];
+            if (socketcount && socketcount == 1) {
+              sql = @"update socket set "
+                  @"delaytime=?,delayaction=?,socketstatus=? where mac=? "
+                  @"and groupid=?";
+              for (SDZGSocket *socket in aSwitch.sockets) {
+                [db executeUpdate:sql, @(socket.delayTime),
+                                  @(socket.delayAction), @(socket.socketStatus),
+                                  aSwitch.mac, @(socket.groupId)];
+              }
+            } else {
+              sql = @"insert into "
+                  @"socket(mac,groupid,name,delaytime,delayaction,socketstatus,"
+                  @"socket1image,socket2image,socket3image,socket4image) "
+                  @"values(?,?,?,?,?,?,?,?,?,?)";
+              for (SDZGSocket *socket in aSwitch.sockets) {
+                [db executeUpdate:sql, aSwitch.mac, @(socket.groupId),
+                                  socket.name, @(socket.delayTime),
+                                  @(socket.delayAction), @(socket.socketStatus),
+                                  socket.imageNames[0], socket.imageNames[1],
+                                  socket.imageNames[2], socket.imageNames[3]];
+              }
             }
-          } else {
-            sql = @"insert into "
-                @"socket(mac,groupid,name,delaytime,delayaction,socketstatus,"
-                @"socket1image,socket2image,socket3image) "
-                @"values(?,?,?,?,?,?,?,?,?)";
-            for (SDZGSocket *socket in aSwitch.sockets) {
-              [db executeUpdate:sql, aSwitch.mac, @(socket.groupId),
-                                socket.name, @(socket.delayTime),
-                                @(socket.delayAction), @(socket.socketStatus),
-                                socket.imageNames[0], socket.imageNames[1],
-                                socket.imageNames[2]];
+          }
+        } else {
+          sql = @"select count(id) as socketcount from socket where mac=?";
+          FMResultSet *socketResult = [db executeQuery:sql, aSwitch.mac];
+          if ([socketResult next]) {
+            int socketcount = [socketResult intForColumn:@"socketcount"];
+            if (socketcount && socketcount == 2) {
+              sql = @"update socket set "
+                  @"delaytime=?,delayaction=?,socketstatus=? where mac=? "
+                  @"and groupid=?";
+              for (SDZGSocket *socket in aSwitch.sockets) {
+                [db executeUpdate:sql, @(socket.delayTime),
+                                  @(socket.delayAction), @(socket.socketStatus),
+                                  aSwitch.mac, @(socket.groupId)];
+              }
+            } else {
+              sql = @"insert into "
+                  @"socket(mac,groupid,name,delaytime,delayaction,socketstatus,"
+                  @"socket1image,socket2image,socket3image) "
+                  @"values(?,?,?,?,?,?,?,?,?)";
+              for (SDZGSocket *socket in aSwitch.sockets) {
+                [db executeUpdate:sql, aSwitch.mac, @(socket.groupId),
+                                  socket.name, @(socket.delayTime),
+                                  @(socket.delayAction), @(socket.socketStatus),
+                                  socket.imageNames[0], socket.imageNames[1],
+                                  socket.imageNames[2]];
+              }
             }
           }
         }
@@ -318,6 +396,7 @@
       aSwitch.lockStatus = [switchResult intForColumn:@"lockstatus"];
       aSwitch.version = [switchResult intForColumn:@"version"];
       aSwitch.tag = [switchResult intForColumn:@"tag"];
+      aSwitch.deviceType = [switchResult stringForColumn:@"devicetype"];
       aSwitch.sockets = [@[] mutableCopy];
 
       NSString *socketSql = @"select * from socket where mac = ?";
@@ -329,6 +408,7 @@
         NSString *socket1image = [socketResult stringForColumn:@"socket1image"];
         NSString *socket2image = [socketResult stringForColumn:@"socket2image"];
         NSString *socket3image = [socketResult stringForColumn:@"socket3image"];
+        NSString *socket4image = [socketResult stringForColumn:@"socket4image"];
         if (!socket1image) {
           socket1image = socket_default_image;
         }
@@ -338,12 +418,16 @@
         if (!socket3image) {
           socket3image = socket_default_image;
         }
-        socket.imageNames = @[ socket1image, socket2image, socket3image ];
-        //        socket.delayTime = [socketResult intForColumn:@"delaytime"];
-        //        socket.delayAction = [socketResult
-        //        intForColumn:@"delayaction"];
+        if ([aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
+          if (!socket4image) {
+            socket4image = socket_default_image;
+          }
+          socket.imageNames =
+              @[ socket1image, socket2image, socket3image, socket4image ];
+        } else {
+          socket.imageNames = @[ socket1image, socket2image, socket3image ];
+        }
         socket.socketStatus = [socketResult intForColumn:@"socketstatus"];
-        //        socket.socketStatus = SocketStatusOff;
         socket.timerList = [@[] mutableCopy];
 
         NSString *timertaskSql =
@@ -362,26 +446,42 @@
         }
         [aSwitch.sockets addObject:socket];
       }
-      if (!aSwitch.sockets || [aSwitch.sockets count] != 2) {
-        aSwitch.sockets = [@[] mutableCopy];
-        SDZGSocket *socket1 = [[SDZGSocket alloc] init];
-        socket1.groupId = 1;
-        socket1.socketStatus = SocketStatusOff;
-        socket1.imageNames = @[
-          socket_default_image,
-          socket_default_image,
-          socket_default_image
-        ];
-        [aSwitch.sockets addObject:socket1];
-        SDZGSocket *socket2 = [[SDZGSocket alloc] init];
-        socket2.groupId = 2;
-        socket2.socketStatus = SocketStatusOff;
-        socket2.imageNames = @[
-          socket_default_image,
-          socket_default_image,
-          socket_default_image
-        ];
-        [aSwitch.sockets addObject:socket2];
+      if ([aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
+        if (!aSwitch.sockets || [aSwitch.sockets count] != 1) {
+          aSwitch.sockets = [@[] mutableCopy];
+          SDZGSocket *socket1 = [[SDZGSocket alloc] init];
+          socket1.groupId = 1;
+          socket1.socketStatus = SocketStatusOff;
+          socket1.imageNames = @[
+            socket_default_image,
+            socket_default_image,
+            socket_default_image,
+            socket_default_image
+          ];
+          [aSwitch.sockets addObject:socket1];
+        }
+      } else {
+        if (!aSwitch.sockets || [aSwitch.sockets count] != 2) {
+          aSwitch.sockets = [@[] mutableCopy];
+          SDZGSocket *socket1 = [[SDZGSocket alloc] init];
+          socket1.groupId = 1;
+          socket1.socketStatus = SocketStatusOff;
+          socket1.imageNames = @[
+            socket_default_image,
+            socket_default_image,
+            socket_default_image
+          ];
+          [aSwitch.sockets addObject:socket1];
+          SDZGSocket *socket2 = [[SDZGSocket alloc] init];
+          socket2.groupId = 2;
+          socket2.socketStatus = SocketStatusOff;
+          socket2.imageNames = @[
+            socket_default_image,
+            socket_default_image,
+            socket_default_image
+          ];
+          [aSwitch.sockets addObject:socket2];
+        }
       }
       [switchs addObject:aSwitch];
     }
@@ -419,6 +519,8 @@
     case 3:
       socketImage = @"socket3image";
       break;
+    case 4:
+      socketImage = @"socket4image";
   }
   NSString *sql = [NSString
       stringWithFormat:@"update socket set %@=? where mac=? and groupid=?",

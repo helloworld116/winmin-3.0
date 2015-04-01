@@ -10,21 +10,22 @@
 #import "FindPassword.h"
 
 @interface ResetPwdViewController () <UITextFieldDelegate>
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UITextField *textEmail;
-@property (strong, nonatomic) IBOutlet UITextField *textPassword;
-@property (strong, nonatomic) IBOutlet UITextField *textPassword2;
-@property (strong, nonatomic) IBOutlet UITextField *textCode;
-@property (strong, nonatomic) IBOutlet UIView *view1;
-@property (strong, nonatomic) IBOutlet UIView *view2;
-@property (strong, nonatomic) IBOutlet UIView *view3;
-@property (strong, nonatomic) IBOutlet UIView *view4;
-@property (strong, nonatomic) IBOutlet UIButton *btnSave;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UITextField *textEmail;
+@property (weak, nonatomic) IBOutlet UITextField *textPassword;
+@property (weak, nonatomic) IBOutlet UITextField *textPassword2;
+@property (weak, nonatomic) IBOutlet UITextField *textCode;
+@property (weak, nonatomic) IBOutlet UIView *view1;
+@property (weak, nonatomic) IBOutlet UIView *view2;
+@property (weak, nonatomic) IBOutlet UIView *view3;
+@property (weak, nonatomic) IBOutlet UIView *view4;
+@property (weak, nonatomic) IBOutlet UIButton *btnSave;
 
 @property (strong, nonatomic) UITextField *activeField;
 @property (strong, nonatomic) NSString *code;
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) FindPassword *findPassword;
+@property (strong, nonatomic) id resetPasswordObserver;
 
 - (IBAction)save:(id)sender;
 - (IBAction)touchBackground:(id)sender;
@@ -74,31 +75,33 @@
          selector:@selector(keyboardWillBeHidden:)
              name:UIKeyboardWillHideNotification
            object:nil];
-  [[NSNotificationCenter defaultCenter]
+  __weak __typeof__(self) weakSelf = self;
+  self.resetPasswordObserver = [[NSNotificationCenter defaultCenter]
       addObserverForName:kResetPasswordResponse
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
-                  NSDictionary *userInfo = note.userInfo;
-                  int status = [userInfo[@"status"] intValue];
-                  [MBProgressHUD hideHUDForView:self.view animated:YES];
-                  if (status == 1) {
-                    //修改成功
-                    //返回登录页面
-                    int count =
-                        [[self.navigationController viewControllers] count];
-                    UIViewController *loginViewController =
-                        [self.navigationController viewControllers][count -
-                                                                    3]; //上上层
-                    [self.navigationController
-                        popToViewController:loginViewController
-                                   animated:YES];
-                    [[NSNotificationCenter defaultCenter]
-                        postNotificationName:kNewPasswordLogin
-                                      object:nil];
-                  } else {
-                    [self showMessage:userInfo[@"msg"]];
-                  }
+                __strong __typeof__(self) strongSelf = weakSelf;
+                NSDictionary *userInfo = note.userInfo;
+                int status = [userInfo[@"status"] intValue];
+                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+                if (status == 1) {
+                  //修改成功
+                  //返回登录页面
+                  int count =
+                      [[strongSelf.navigationController viewControllers] count];
+                  UIViewController *loginViewController =
+                      [strongSelf.navigationController
+                              viewControllers][count - 3]; //上上层
+                  [strongSelf.navigationController
+                      popToViewController:loginViewController
+                                 animated:YES];
+                  [[NSNotificationCenter defaultCenter]
+                      postNotificationName:kNewPasswordLogin
+                                    object:nil];
+                } else {
+                  [strongSelf showMessage:userInfo[@"msg"]];
+                }
               }];
 }
 
@@ -116,6 +119,8 @@
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self.resetPasswordObserver];
 }
 
 #pragma mark - UITextField协议
@@ -219,12 +224,12 @@
 
 - (void)sendRequest {
   dispatch_async(GLOBAL_QUEUE, ^{
-      dispatch_async(MAIN_QUEUE, ^{
-          [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-      });
-      [self.findPassword resetPassword:self.password
-                             withEmail:self.email
-                              withCode:self.code];
+    dispatch_async(MAIN_QUEUE, ^{
+      [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    });
+    [self.findPassword resetPassword:self.password
+                           withEmail:self.email
+                            withCode:self.code];
 
   });
 }

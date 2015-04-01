@@ -17,6 +17,9 @@
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *icons;
 @property (nonatomic, assign) BOOL isLogin;
+
+@property (nonatomic, strong) id loginSuccessObserver;
+@property (nonatomic, strong) id loginOutObserver;
 @end
 
 @implementation MoreViewController
@@ -61,32 +64,37 @@
     //    @"buy",
     @"about_us"
   ];
-  [[NSNotificationCenter defaultCenter]
+  __weak __typeof__(self) weakSelf = self;
+  self.loginSuccessObserver = [[NSNotificationCenter defaultCenter]
       addObserverForName:kLoginSuccess
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
-                self.isLogin = YES;
+                __strong __typeof__(self) strongSelf = weakSelf;
+                strongSelf.isLogin = YES;
                 SwitchSyncService *service = [[SwitchSyncService alloc] init];
                 [service downloadSwitchs];
                 dispatch_async(MAIN_QUEUE, ^{
                   NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
-                  [self.tableView reloadSections:indexSet
-                                withRowAnimation:UITableViewRowAnimationNone];
-                  [self.view
+                  [strongSelf.tableView
+                        reloadSections:indexSet
+                      withRowAnimation:UITableViewRowAnimationNone];
+                  [strongSelf.view
                       makeToast:NSLocalizedString(@"Login successful", nil)];
                 });
               }];
-  [[NSNotificationCenter defaultCenter]
+  self.loginOutObserver = [[NSNotificationCenter defaultCenter]
       addObserverForName:kLoginOut
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
-                self.isLogin = NO;
+                __strong __typeof__(self) strongSelf = weakSelf;
+                strongSelf.isLogin = NO;
                 [UserInfo userLoginout];
                 NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
-                [self.tableView reloadSections:indexSet
-                              withRowAnimation:UITableViewRowAnimationNone];
+                [strongSelf.tableView
+                      reloadSections:indexSet
+                    withRowAnimation:UITableViewRowAnimationNone];
               }];
   self.isLogin = [UserInfo userInfoInDisk];
 }
@@ -129,6 +137,9 @@
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self.loginSuccessObserver];
+  [[NSNotificationCenter defaultCenter] removeObserver:self.loginOutObserver];
 }
 
 #pragma mark - Table view data source

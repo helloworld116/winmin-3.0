@@ -64,26 +64,25 @@
   [manager POST:uploadUrl
       parameters:parameters
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          NSString *string =
-              [[NSString alloc] initWithData:responseObject
-                                    encoding:NSUTF8StringEncoding];
-          NSString *responseStr = __DECRYPT(string);
-          ServerResponse *response =
-              [[ServerResponse alloc] initWithResponseString:responseStr];
-          int status = response.status;
-          DDLogDebug(@"response is %@", responseStr);
-          if (self.completionBlock) {
-            if (status == 1) {
-              self.completionBlock(YES);
-            } else {
-              self.completionBlock(NO);
-            }
-          }
-      }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          if (self.completionBlock) {
+        NSString *string = [[NSString alloc] initWithData:responseObject
+                                                 encoding:NSUTF8StringEncoding];
+        NSString *responseStr = __DECRYPT(string);
+        ServerResponse *response =
+            [[ServerResponse alloc] initWithResponseString:responseStr];
+        int status = response.status;
+        DDLogDebug(@"response is %@", responseStr);
+        if (self.completionBlock) {
+          if (status == 1) {
+            self.completionBlock(YES);
+          } else {
             self.completionBlock(NO);
           }
+        }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (self.completionBlock) {
+          self.completionBlock(NO);
+        }
       }];
 }
 
@@ -106,22 +105,21 @@
   [manager POST:downloadUrl
       parameters:parameters
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          NSString *string =
-              [[NSString alloc] initWithData:responseObject
-                                    encoding:NSUTF8StringEncoding];
-          NSString *responseStr = __DECRYPT(string);
-          ServerResponse *response =
-              [[ServerResponse alloc] initWithResponseString:responseStr];
-          DDLogDebug(@"response is %@", responseStr);
-          NSArray *switchs = [response.data objectForKey:@"devices"];
-          NSArray *needAddSwitchs = [self switchsToSdzgSwitch:switchs];
-          if (needAddSwitchs.count) {
-            DDLogDebug(@"有新设备");
-            [[SwitchDataCeneter sharedInstance]
-                addSwitchFromServer:needAddSwitchs];
-          } else {
-            DDLogDebug(@"没有新设备");
-          }
+        NSString *string = [[NSString alloc] initWithData:responseObject
+                                                 encoding:NSUTF8StringEncoding];
+        NSString *responseStr = __DECRYPT(string);
+        ServerResponse *response =
+            [[ServerResponse alloc] initWithResponseString:responseStr];
+        DDLogDebug(@"response is %@", responseStr);
+        NSArray *switchs = [response.data objectForKey:@"devices"];
+        NSArray *needAddSwitchs = [self switchsToSdzgSwitch:switchs];
+        if (needAddSwitchs.count) {
+          DDLogDebug(@"有新设备");
+          [[SwitchDataCeneter sharedInstance]
+              addSwitchFromServer:needAddSwitchs];
+        } else {
+          DDLogDebug(@"没有新设备");
+        }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error){
 
@@ -147,13 +145,17 @@
         [[UserInfo alloc] initWithSinaUid:sinaUid nickname:nickname];
   }
   [self.userInfo loginRequestWithResponse:^(int status, id response) {
-      if (status == 1) {
-        if (self.type == 1) {
-          dispatch_async(GLOBAL_QUEUE, ^{ [self upload]; });
-        } else if (self.type == 2) {
-          dispatch_async(GLOBAL_QUEUE, ^{ [self download]; });
-        }
+    if (status == 1) {
+      if (self.type == 1) {
+        dispatch_async(GLOBAL_QUEUE, ^{
+          [self upload];
+        });
+      } else if (self.type == 2) {
+        dispatch_async(GLOBAL_QUEUE, ^{
+          [self download];
+        });
       }
+    }
   }];
 }
 
@@ -195,10 +197,12 @@
         NSString *name = [jsonSwitch objectForKey:@"name"];
         int locked = [[jsonSwitch objectForKey:@"locked"] intValue];
         int version = [[jsonSwitch objectForKey:@"fw_version"] intValue];
+        NSString *deviceType = [jsonSwitch objectForKey:@"deviceType"];
         SDZGSwitch *parseSwtich = [SDZGSwitch parseSyncSwitch:localMac
                                                      password:localPassword
                                                          name:name
                                                       version:version
+                                                   deviceType:deviceType
                                                    lockStauts:locked];
         [switchs addObject:parseSwtich];
       }

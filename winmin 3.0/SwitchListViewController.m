@@ -12,6 +12,7 @@
 #import "SwitchListModel.h"
 #import "SwitchSyncService.h"
 #import "SwitchRestartViewController.h"
+#import "SnakeSwitchDetailViewController.h"
 
 @interface SwitchListViewController () <
     UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate,
@@ -36,6 +37,8 @@
 @property (nonatomic, strong) NSIndexPath *lastSelectedIndexPath;
 //判断是不是刚登录，是则刷新设备列表，然后将值设为NO；
 @property (nonatomic, assign) BOOL isLogin;
+@property (nonatomic, strong) id loginSuccessObserver;
+@property (nonatomic, strong) id configObserver;
 @end
 
 @implementation SwitchListViewController
@@ -104,27 +107,30 @@
   //             name:kNewSwitch
   //           object:self.model];
 
-  [[NSNotificationCenter defaultCenter]
+  __weak __typeof__(self) weakSelf = self;
+  self.configObserver = [[NSNotificationCenter defaultCenter]
       addObserverForName:kConfigNewSwitch
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
                 NSString *mac = note.userInfo[@"mac"];
                 NSString *password = note.userInfo[@"password"];
+                __strong __typeof__(self) strongSelf = weakSelf;
                 [self.model addSwitchWithMac:mac password:password];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
                                              (int64_t)(1 * NSEC_PER_SEC)),
                                dispatch_get_main_queue(), ^{
-                                 [self reloadTableView];
+                                 [strongSelf reloadTableView];
                                });
               }];
   //检查登录后设备变化
-  [[NSNotificationCenter defaultCenter]
+  self.loginSuccessObserver = [[NSNotificationCenter defaultCenter]
       addObserverForName:kLoginSuccess
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
-                self.isLogin = YES;
+                __strong __typeof__(self) strongSelf = weakSelf;
+                strongSelf.isLogin = YES;
               }];
 
   //下拉刷新
@@ -282,6 +288,9 @@
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [[NSNotificationCenter defaultCenter] removeObserver:self.configObserver];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self.loginSuccessObserver];
 }
 
 #pragma mark - begin iOS8下cell分割线处理
@@ -535,11 +544,20 @@
 }
 
 - (void)goDetailViewController:(SDZGSwitch *)aSwitch {
-  SwitchDetailViewController *detailViewController = [self.storyboard
-      instantiateViewControllerWithIdentifier:@"SwitchDetailViewController"];
-  detailViewController.aSwitch = aSwitch;
-  [self.navigationController pushViewController:detailViewController
-                                       animated:YES];
+  if ([aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
+    SnakeSwitchDetailViewController *detailViewController =
+        [self.storyboard instantiateViewControllerWithIdentifier:
+                             @"SnakeSwitchDetailViewController"];
+    detailViewController.aSwitch = aSwitch;
+    [self.navigationController pushViewController:detailViewController
+                                         animated:YES];
+  } else {
+    SwitchDetailViewController *detailViewController = [self.storyboard
+        instantiateViewControllerWithIdentifier:@"SwitchDetailViewController"];
+    detailViewController.aSwitch = aSwitch;
+    [self.navigationController pushViewController:detailViewController
+                                         animated:YES];
+  }
 }
 
 #pragma mark - 长按处理

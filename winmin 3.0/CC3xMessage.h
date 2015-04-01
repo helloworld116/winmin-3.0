@@ -178,12 +178,12 @@ enum {
 @property (nonatomic, strong) NSArray *historyElecs;
 @property (nonatomic, strong) NSString *password;
 
-@property (nonatomic, assign) unsigned short pmTwoPointFive;
-@property (nonatomic, assign) float temperature;
-@property (nonatomic, assign) unsigned char humidity; //湿度
-@property (nonatomic, assign) float power;            //功率
-@property (nonatomic, assign) unsigned char airTag;   //空气质量代号
-@property (nonatomic, strong) NSString *airDesc;      //空气质量说明
+//@property (nonatomic, assign) unsigned short pmTwoPointFive;
+//@property (nonatomic, assign) float temperature;
+//@property (nonatomic, assign) unsigned char humidity; //湿度
+@property (nonatomic, assign) float power; //功率
+//@property (nonatomic, assign) unsigned char airTag;   //空气质量代号
+//@property (nonatomic, strong) NSString *airDesc;      //空气质量说明
 @property (nonatomic, assign) unsigned short crc;
 
 @property (nonatomic, strong) NSString *firmwareVersion;
@@ -200,4 +200,16 @@ enum {
 @property (nonatomic, assign) BOOL isAlertGreaterOn;
 @property (nonatomic, assign) BOOL isTurnOffUnderOn;
 @property (nonatomic, assign) BOOL isTurnOffGreaterOn;
+
+// 4.0传感器
+@property (nonatomic, assign) BOOL hasSensorTemperature;
+@property (nonatomic, assign) short temperature;
+@property (nonatomic, assign) BOOL hasSensorHumidity;
+@property (nonatomic, assign) short humidity;
+@property (nonatomic, assign) BOOL hasSensorSmog;
+@property (nonatomic, assign) short smog;
+@property (nonatomic, assign) BOOL hasSensorCo;
+@property (nonatomic, assign) short co;
+@property (nonatomic, assign) BOOL hasSensorLight;
+@property (nonatomic, assign) short light;
 @end

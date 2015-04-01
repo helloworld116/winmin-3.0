@@ -111,29 +111,28 @@
   self.model =
       [[SwitchDetailModel alloc] initWithSwitch:self.aSwitch
                          switchStateChangeBlock:^(int switchStatus) {
-                             dispatch_async(MAIN_QUEUE, ^{
-                                 if (switchStatus == SWITCH_OFFLINE) {
-                                   weakSelf.scrollView.contentInset =
-                                       UIEdgeInsetsMake(20, 0, 0, 0);
-                                   weakSelf.scrollView.contentOffset =
-                                       CGPointMake(0, -20);
-                                   //关闭开关动画
-                                   [weakSelf.socketView1 removeRotateAnimation];
-                                   [weakSelf.socketView2 removeRotateAnimation];
-                                   //关闭实时电量查询
-                                   [weakSelf.model stopRealTimeElec];
-                                   [weakSelf.elecView stopRealTimeDraw];
-                                 } else {
-                                   weakSelf.scrollView.contentInset =
-                                       UIEdgeInsetsZero;
-                                   weakSelf.scrollView.contentOffset =
-                                       CGPointZero;
-                                   //从详情、定时和延时页面返回时如果选中的是实时则开启刷新
-                                   if (weakSelf.showingRealTimeElecView) {
-                                     weakSelf.showingRealTimeElecView = YES;
-                                   }
-                                 }
-                             });
+                           dispatch_async(MAIN_QUEUE, ^{
+                             if (switchStatus == SWITCH_OFFLINE) {
+                               weakSelf.scrollView.contentInset =
+                                   UIEdgeInsetsMake(20, 0, 0, 0);
+                               weakSelf.scrollView.contentOffset =
+                                   CGPointMake(0, -20);
+                               //关闭开关动画
+                               [weakSelf.socketView1 removeRotateAnimation];
+                               [weakSelf.socketView2 removeRotateAnimation];
+                               //关闭实时电量查询
+                               [weakSelf.model stopRealTimeElec];
+                               [weakSelf.elecView stopRealTimeDraw];
+                             } else {
+                               weakSelf.scrollView.contentInset =
+                                   UIEdgeInsetsZero;
+                               weakSelf.scrollView.contentOffset = CGPointZero;
+                               //从详情、定时和延时页面返回时如果选中的是实时则开启刷新
+                               if (weakSelf.showingRealTimeElecView) {
+                                 weakSelf.showingRealTimeElecView = YES;
+                               }
+                             }
+                           });
                          }];
   self.powers = [@[] mutableCopy];
   //必须在添加观察者之前
@@ -229,82 +228,82 @@
   dispatch_after(
       dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.10 * NSEC_PER_SEC)),
       dispatch_get_main_queue(), ^{
-          [self.model socket1Timer:^(BOOL isSuccess, NSArray *timers) {
-              dispatch_async(MAIN_QUEUE, ^{
-                  __strong SwitchDetailViewController *strongSelf = weakSelf;
-                  if (isSuccess) {
-                    SDZGSocket *socket = strongSelf.aSwitch.sockets[0];
-                    [socket.timerList removeAllObjects];
-                    [socket.timerList addObjectsFromArray:timers];
-                    int seconds = [SDZGTimerTask getShowSeconds:timers];
-                    if (seconds) {
-                      [strongSelf.socketView1 timerState:YES];
-                    } else {
-                      [strongSelf.socketView1 timerState:NO];
-                    }
-                  } else {
-                    [strongSelf.socketView1 timerState:NO];
-                  }
-              });
-          }];
+        [self.model socket1Timer:^(BOOL isSuccess, NSArray *timers) {
+          dispatch_async(MAIN_QUEUE, ^{
+            __strong SwitchDetailViewController *strongSelf = weakSelf;
+            if (isSuccess) {
+              SDZGSocket *socket = strongSelf.aSwitch.sockets[0];
+              [socket.timerList removeAllObjects];
+              [socket.timerList addObjectsFromArray:timers];
+              int seconds = [SDZGTimerTask getShowSeconds:timers];
+              if (seconds) {
+                [strongSelf.socketView1 timerState:YES];
+              } else {
+                [strongSelf.socketView1 timerState:NO];
+              }
+            } else {
+              [strongSelf.socketView1 timerState:NO];
+            }
+          });
+        }];
       });
   dispatch_after(
       dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)),
       dispatch_get_main_queue(), ^{
-          [self.model socket2Timer:^(BOOL isSuccess, NSArray *timers) {
-              dispatch_async(MAIN_QUEUE, ^{
-                  __strong SwitchDetailViewController *strongSelf = weakSelf;
-                  if (isSuccess) {
-                    SDZGSocket *socket = strongSelf.aSwitch.sockets[1];
-                    [socket.timerList removeAllObjects];
-                    [socket.timerList addObjectsFromArray:timers];
-                    int seconds = [SDZGTimerTask getShowSeconds:timers];
-                    if (seconds) {
-                      [strongSelf.socketView2 timerState:YES];
-                    } else {
-                      [strongSelf.socketView2 timerState:NO];
-                    }
-                  } else {
-                    [strongSelf.socketView2 timerState:NO];
-                  }
-              });
-          }];
+        [self.model socket2Timer:^(BOOL isSuccess, NSArray *timers) {
+          dispatch_async(MAIN_QUEUE, ^{
+            __strong SwitchDetailViewController *strongSelf = weakSelf;
+            if (isSuccess) {
+              SDZGSocket *socket = strongSelf.aSwitch.sockets[1];
+              [socket.timerList removeAllObjects];
+              [socket.timerList addObjectsFromArray:timers];
+              int seconds = [SDZGTimerTask getShowSeconds:timers];
+              if (seconds) {
+                [strongSelf.socketView2 timerState:YES];
+              } else {
+                [strongSelf.socketView2 timerState:NO];
+              }
+            } else {
+              [strongSelf.socketView2 timerState:NO];
+            }
+          });
+        }];
       });
   dispatch_after(
       dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.20 * NSEC_PER_SEC)),
       dispatch_get_main_queue(), ^{
-          [self.model socket1Delay:^(BOOL isSuccess, int delaySeconds) {
-              dispatch_async(MAIN_QUEUE, ^{
-                  __strong SwitchDetailViewController *strongSelf = weakSelf;
-                  if (isSuccess) {
-                    if (delaySeconds) {
-                      [strongSelf.socketView1 delayState:YES];
-                    } else {
-                      [strongSelf.socketView1 delayState:NO];
-                    }
-                  } else {
-                    [strongSelf.socketView1 delayState:NO];
-                  }
-              });
-          }];
+        [self.model socket1Delay:^(BOOL isSuccess, int delaySeconds) {
+          dispatch_async(MAIN_QUEUE, ^{
+            __strong SwitchDetailViewController *strongSelf = weakSelf;
+            if (isSuccess) {
+              if (delaySeconds) {
+                [strongSelf.socketView1 delayState:YES];
+              } else {
+                [strongSelf.socketView1 delayState:NO];
+              }
+            } else {
+              [strongSelf.socketView1 delayState:NO];
+            }
+          });
+        }];
       });
   dispatch_after(
       dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)),
       dispatch_get_main_queue(), ^{
-          [self.model socket2Delay:^(BOOL isSuccess, int delaySeconds) {
-              dispatch_async(MAIN_QUEUE, ^{
-                  __strong SwitchDetailViewController *strongSelf = weakSelf;
-                  if (isSuccess) {
-                    if (delaySeconds) {
-                      [strongSelf.socketView2 delayState:YES];
-                    } else {
-                      [strongSelf.socketView2 delayState:NO];
-                    }
-                  } else {
-                    [strongSelf.socketView2 delayState:NO];
-                  }
-              });
-          }];
+        [self.model socket2Delay:^(BOOL isSuccess, int delaySeconds) {
+          dispatch_async(MAIN_QUEUE, ^{
+            __strong SwitchDetailViewController *strongSelf = weakSelf;
+            if (isSuccess) {
+              if (delaySeconds) {
+                [strongSelf.socketView2 delayState:YES];
+              } else {
+                [strongSelf.socketView2 delayState:NO];
+              }
+            } else {
+              [strongSelf.socketView2 delayState:NO];
+            }
+          });
+        }];
       });
 }
 
@@ -371,7 +370,8 @@ preparation before navigation
 
   [self presentViewController:templateViewController
                      animated:NO
-                   completion:^{}];
+                   completion:^{
+                   }];
 }
 
 - (void)touchOnOrOffWithSelf:(SocketView *)_self {
@@ -408,9 +408,10 @@ preparation before navigation
   }
 }
 
-- (void)socketView:(SocketView *)socketView
+- (void)socketView:(UIView *)view
           socketId:(int)socketId
            imgName:(NSString *)imgName {
+  SocketView *socketView = (SocketView *)view;
   UIImage *img = [SDZGSocket imgNameToImage:imgName status:SocketStatusOn];
   UIImage *defaultSelectBgImage = [UIImage imageNamed:@"socket_bg_selected"];
   UIImage *customSelectBgImage = [UIImage imageNamed:@"socket_bg_custom"];
@@ -476,16 +477,15 @@ preparation before navigation
             historyElec:dateType
              completion:^(BOOL isSuccess, HistoryElecDateType dateType,
                           HistoryElecData *elecData) {
-                 __strong SwitchDetailViewController *strongSelf = weakSelf;
-                 dispatch_async(MAIN_QUEUE, ^{
-                     if (isSuccess) {
-                       [strongSelf.elecView showChart:elecData
-                                             dateType:dateType];
-                     } else {
-                       [strongSelf.elecView showChart:nil dateType:dateType];
-                     }
-                     [strongSelf.HUD hide:YES];
-                 });
+               __strong SwitchDetailViewController *strongSelf = weakSelf;
+               dispatch_async(MAIN_QUEUE, ^{
+                 if (isSuccess) {
+                   [strongSelf.elecView showChart:elecData dateType:dateType];
+                 } else {
+                   [strongSelf.elecView showChart:nil dateType:dateType];
+                 }
+                 [strongSelf.HUD hide:YES];
+               });
              }];
       }
       break;
@@ -501,13 +501,13 @@ preparation before navigation
   int socketGroupId = [[userInfo objectForKey:@"socketGroupId"] intValue];
   SDZGSocket *socket = [self.aSwitch.sockets objectAtIndex:socketGroupId - 1];
   dispatch_async(MAIN_QUEUE, ^{
-      if (socketGroupId == 1) {
-        [self.socketView1 changeSocketState:socket];
-        [self.socketView1 removeRotateAnimation];
-      } else if (socketGroupId == 2) {
-        [self.socketView2 changeSocketState:socket];
-        [self.socketView2 removeRotateAnimation];
-      }
+    if (socketGroupId == 1) {
+      [self.socketView1 changeSocketState:socket];
+      [self.socketView1 removeRotateAnimation];
+    } else if (socketGroupId == 2) {
+      [self.socketView2 changeSocketState:socket];
+      [self.socketView2 removeRotateAnimation];
+    }
   });
 }
 
@@ -515,8 +515,9 @@ preparation before navigation
   NSDictionary *userInfo = notif.userInfo;
   HistoryElecData *data = userInfo[@"data"];
   HistoryElecDateType dateType = [userInfo[@"dateType"] intValue];
-  dispatch_async(MAIN_QUEUE,
-                 ^{ [self.elecView showChart:data dateType:dateType]; });
+  dispatch_async(MAIN_QUEUE, ^{
+    [self.elecView showChart:data dateType:dateType];
+  });
 }
 
 - (void)realTimeElecDataRecivied:(NSNotification *)notif {
@@ -542,10 +543,10 @@ preparation before navigation
   SDZGSocket *socket1 = sockets[0];
   SDZGSocket *socket2 = sockets[1];
   dispatch_async(MAIN_QUEUE, ^{
-      [self.socketView1 changeSocketState:socket1];
-      [self.socketView1 removeRotateAnimation];
-      [self.socketView2 changeSocketState:socket2];
-      [self.socketView2 removeRotateAnimation];
+    [self.socketView1 changeSocketState:socket1];
+    [self.socketView1 removeRotateAnimation];
+    [self.socketView2 changeSocketState:socket2];
+    [self.socketView2 removeRotateAnimation];
   });
   DDLogDebug(@"############## 修改界面");
 }
@@ -553,28 +554,29 @@ preparation before navigation
 - (void)noResponse:(NSNotification *)notif {
   DDLogDebug(@"%s", __func__);
   dispatch_async(MAIN_QUEUE, ^{
-      NSDictionary *userInfo = notif.userInfo;
-      long tag = [userInfo[@"tag"] longValue];
-      int socketGroupId = [userInfo[@"socketGroupId"] intValue];
-      switch (tag) {
-        case P2D_CONTROL_REQ_11:
-        case P2S_CONTROL_REQ_13:
-          //          [self.view makeToast:NSLocalizedString(@"No UDP Response
-          //          Msg", nil)];
-          [CRToastManager
-              showNotificationWithMessage:NSLocalizedString(
-                                              @"No UDP Response Msg", nil)
-                          completionBlock:^{}];
-          if (socketGroupId == 1) {
-            [self.socketView1 removeRotateAnimation];
-          } else {
-            [self.socketView2 removeRotateAnimation];
-          }
-          break;
+    NSDictionary *userInfo = notif.userInfo;
+    long tag = [userInfo[@"tag"] longValue];
+    int socketGroupId = [userInfo[@"socketGroupId"] intValue];
+    switch (tag) {
+      case P2D_CONTROL_REQ_11:
+      case P2S_CONTROL_REQ_13:
+        //          [self.view makeToast:NSLocalizedString(@"No UDP Response
+        //          Msg", nil)];
+        [CRToastManager
+            showNotificationWithMessage:NSLocalizedString(
+                                            @"No UDP Response Msg", nil)
+                        completionBlock:^{
+                        }];
+        if (socketGroupId == 1) {
+          [self.socketView1 removeRotateAnimation];
+        } else {
+          [self.socketView2 removeRotateAnimation];
+        }
+        break;
 
-        default:
-          break;
-      }
+      default:
+        break;
+    }
   });
 }
 
@@ -583,22 +585,23 @@ preparation before navigation
   if (status == NotReachable) {
     //网络不可用时
     [UIView
-        animateWithDuration:0.3
-                 animations:^{
-                   //                         self.scrollView.contentInset =
-                   //                             UIEdgeInsetsMake(50, 0, 0, 0);
-                   //                         self.scrollView.contentOffset =
-                   //                         CGPointMake(0, -50);
-                 }];
+        animateWithDuration:
+            0.3 animations:^{
+                //                         self.scrollView.contentInset =
+                //                             UIEdgeInsetsMake(50, 0, 0, 0);
+                //                         self.scrollView.contentOffset =
+                //                         CGPointMake(0, -50);
+            }];
 
   } else {
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                       //                         self.scrollView.contentInset =
-                       //                         UIEdgeInsetsZero;
-                       //                         self.scrollView.contentOffset
-                       //                         = CGPointZero;
-                     }];
+    [UIView
+        animateWithDuration:0.3
+                 animations:^{
+                     //                         self.scrollView.contentInset =
+                     //                         UIEdgeInsetsZero;
+                     //                         self.scrollView.contentOffset
+                     //                         = CGPointZero;
+                 }];
     if (status == ReachableViaWWAN) {
       BOOL warn = [[[NSUserDefaults standardUserDefaults]
           objectForKey:wwanWarn] boolValue];

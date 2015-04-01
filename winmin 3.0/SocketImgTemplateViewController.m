@@ -91,7 +91,9 @@ preparation before navigation
 */
 - (IBAction)close:(id)sender {
   [[UIApplication sharedApplication] setStatusBarHidden:NO];
-  [self dismissViewControllerAnimated:YES completion:^{}];
+  [self dismissViewControllerAnimated:YES
+                           completion:^{
+                           }];
 }
 
 - (IBAction)touchImg:(id)sender {
@@ -111,9 +113,13 @@ preparation before navigation
       if (self.delegate &&
           [self.delegate
               respondsToSelector:@selector(socketView:socketId:imgName:)]) {
-        [self.delegate socketView:self.socketView
-                         socketId:self.socketId
-                          imgName:imgName];
+        UIView *view;
+        if (self.socketView) {
+          view = self.socketView;
+        } else if (self.snakeSocketView) {
+          view = self.snakeSocketView;
+        }
+        [self.delegate socketView:view socketId:self.socketId imgName:imgName];
       }
       [self close:nil];
     } else {
@@ -152,15 +158,21 @@ preparation before navigation
 }
 
 - (BOOL)saveImage:(NSString *)imgName {
+  int groupId;
+  if (self.socketView) {
+    groupId = self.socketView.groupId;
+  } else if (self.snakeSocketView) {
+    groupId = self.snakeSocketView.groupId;
+  }
   //保存到数据库
   BOOL saveToDBResult =
       [[DBUtil sharedInstance] updateSocketImage:imgName
-                                         groupId:self.socketView.groupId
+                                         groupId:groupId
                                         socketId:self.socketId
                                      whichSwitch:self.aSwitch];
   //修改内存中的备份
   [[SwitchDataCeneter sharedInstance] updateSocketImage:imgName
-                                                groupId:self.socketView.groupId
+                                                groupId:groupId
                                                socketId:self.socketId
                                             whichSwitch:self.aSwitch];
   return saveToDBResult;
@@ -230,9 +242,13 @@ preparation before navigation
     if (self.delegate &&
         [self.delegate
             respondsToSelector:@selector(socketView:socketId:imgName:)]) {
-      [self.delegate socketView:self.socketView
-                       socketId:self.socketId
-                        imgName:name];
+      UIView *view;
+      if (self.socketView) {
+        view = self.socketView;
+      } else if (self.snakeSocketView) {
+        view = self.snakeSocketView;
+      }
+      [self.delegate socketView:view socketId:self.socketId imgName:name];
     }
     [self performSelector:@selector(close:) withObject:nil afterDelay:1];
   }

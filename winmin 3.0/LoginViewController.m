@@ -12,14 +12,14 @@
 static int const kCancelAuthoriztionCode = -103;
 
 @interface LoginViewController () <UITextFieldDelegate, ISSViewDelegate>
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UIView *view1;
-@property (strong, nonatomic) IBOutlet UIView *view2;
-@property (strong, nonatomic) IBOutlet UITextField *textFieldUsername;
-@property (strong, nonatomic) IBOutlet UITextField *textFieldPassword;
-@property (strong, nonatomic) IBOutlet UIButton *btnLogin;
-@property (strong, nonatomic) IBOutlet UIButton *btnWeibo;
-@property (strong, nonatomic) IBOutlet UIButton *btnQQ;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *view1;
+@property (weak, nonatomic) IBOutlet UIView *view2;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldUsername;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldPassword;
+@property (weak, nonatomic) IBOutlet UIButton *btnLogin;
+@property (weak, nonatomic) IBOutlet UIButton *btnWeibo;
+@property (weak, nonatomic) IBOutlet UIButton *btnQQ;
 
 - (IBAction)toRegisterPage:(id)sender;
 - (IBAction)weiboLogin:(id)sender;
@@ -33,6 +33,7 @@ static int const kCancelAuthoriztionCode = -103;
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) ResponseBlock successResonse;
 @property (strong, nonatomic) ResponseBlock failureResponse;
+@property (strong, nonatomic) id passwordLoginObserver;
 @end
 @implementation LoginViewController
 - (id)initWithNibName:(NSString *)nibNameOrNil
@@ -86,42 +87,43 @@ static int const kCancelAuthoriztionCode = -103;
   //                                           selector:@selector(loginResponse:)
   //                                               name:kLoginResponse
   //                                             object:nil];
-  [[NSNotificationCenter defaultCenter]
+  __weak __typeof__(self) weakSelf = self;
+  self.passwordLoginObserver = [[NSNotificationCenter defaultCenter]
       addObserverForName:kNewPasswordLogin
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
-                  [self showMessage:NSLocalizedString(@"new  password login",
-                                                      nil)];
+                __strong __typeof__(self) strongSelf = weakSelf;
+                [strongSelf
+                    showMessage:NSLocalizedString(@"new  password login", nil)];
               }];
-
-  __weak typeof(self) weakSelf = self;
   self.successResonse = ^(int status, id responseData) {
-      [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-      if (status == 1) {
-        ServerResponse *reponse = (ServerResponse *)responseData;
-        switch (reponse.status) {
-          case 1: {
-            //登陆成功
-            [[NSNotificationCenter defaultCenter]
-                postNotificationName:kLoginSuccess
-                              object:weakSelf
-                            userInfo:nil];
-            [weakSelf.navigationController popViewControllerAnimated:NO];
-            break;
-          }
-          default:
-            [weakSelf.view
-                makeToast:reponse.errorMsg
-                 duration:1.f
-                 position:[NSValue
-                              valueWithCGPoint:
-                                  CGPointMake(
-                                      weakSelf.view.frame.size.width / 2,
-                                      weakSelf.view.frame.size.height - 40)]];
-            break;
+    __strong __typeof__(self) strongSelf = weakSelf;
+    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    if (status == 1) {
+      ServerResponse *reponse = (ServerResponse *)responseData;
+      switch (reponse.status) {
+        case 1: {
+          //登陆成功
+          [[NSNotificationCenter defaultCenter]
+              postNotificationName:kLoginSuccess
+                            object:weakSelf
+                          userInfo:nil];
+          [strongSelf.navigationController popViewControllerAnimated:NO];
+          break;
         }
+        default:
+          [strongSelf.view
+              makeToast:reponse.errorMsg
+               duration:1.f
+               position:[NSValue
+                            valueWithCGPoint:
+                                CGPointMake(
+                                    strongSelf.view.frame.size.width / 2,
+                                    strongSelf.view.frame.size.height - 40)]];
+          break;
       }
+    }
   };
 }
 
@@ -167,6 +169,8 @@ static int const kCancelAuthoriztionCode = -103;
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self.passwordLoginObserver];
 }
 
 #pragma mark - UIStatusBarStyle
@@ -195,29 +199,29 @@ static int const kCancelAuthoriztionCode = -103;
               authOptions:authOptions
                    result:^(BOOL result, id<ISSPlatformUser> userInfo,
                             id<ICMErrorInfo> error) {
-                       if (result) {
-                         DDLogDebug(@".......nickname is %@ and uid is %@",
-                                    [userInfo nickname], [userInfo uid]);
-                         UserInfo *uInfo = [[UserInfo alloc]
-                             initWithSinaUid:[userInfo uid]
-                                    nickname:[userInfo nickname]];
-                         [uInfo loginRequestWithResponse:^(int status,
-                                                           id response) {
+                     if (result) {
+                       DDLogDebug(@".......nickname is %@ and uid is %@",
+                                  [userInfo nickname], [userInfo uid]);
+                       UserInfo *uInfo = [[UserInfo alloc]
+                           initWithSinaUid:[userInfo uid]
+                                  nickname:[userInfo nickname]];
+                       [uInfo
+                           loginRequestWithResponse:^(int status, id response) {
                              self.successResonse(status, response);
-                         }];
-                         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                       }
-                       DDLogDebug(@"errorCode is %d and errorDescription is %@",
-                                  [error errorCode], error.errorDescription);
-                       if (kCancelAuthoriztionCode == [error errorCode]) {
-                         [self.view makeToast:NSLocalizedString(
-                                                  @"The user cancels the "
-                                                  @"authorization, use the "
-                                                  @"account login or retry",
-                                                  nil)
-                                     duration:1
-                                     position:nil];
-                       }
+                           }];
+                       [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                     }
+                     DDLogDebug(@"errorCode is %d and errorDescription is %@",
+                                [error errorCode], error.errorDescription);
+                     if (kCancelAuthoriztionCode == [error errorCode]) {
+                       [self.view makeToast:NSLocalizedString(
+                                                @"The user cancels the "
+                                                @"authorization, use the "
+                                                @"account login or retry",
+                                                nil)
+                                   duration:1
+                                   position:nil];
+                     }
                    }];
 }
 
@@ -233,27 +237,27 @@ static int const kCancelAuthoriztionCode = -103;
               authOptions:authOptions
                    result:^(BOOL result, id<ISSPlatformUser> userInfo,
                             id<ICMErrorInfo> error) {
-                       if (result) {
-                         UserInfo *uInfo = [[UserInfo alloc]
-                             initWithQQUid:[userInfo uid]
-                                  nickname:[userInfo nickname]];
-                         [uInfo loginRequestWithResponse:^(int status,
-                                                           id response) {
+                     if (result) {
+                       UserInfo *uInfo =
+                           [[UserInfo alloc] initWithQQUid:[userInfo uid]
+                                                  nickname:[userInfo nickname]];
+                       [uInfo
+                           loginRequestWithResponse:^(int status, id response) {
                              self.successResonse(status, response);
-                         }];
-                         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                       }
-                       DDLogDebug(@"errorCode is %d and errorDescription is %@",
-                                  [error errorCode], error.errorDescription);
-                       if (kCancelAuthoriztionCode == [error errorCode]) {
-                         [self.view makeToast:NSLocalizedString(
-                                                  @"The user cancels the "
-                                                  @"authorization, use the "
-                                                  @"account login or retry",
-                                                  nil)
-                                     duration:1
-                                     position:nil];
-                       }
+                           }];
+                       [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                     }
+                     DDLogDebug(@"errorCode is %d and errorDescription is %@",
+                                [error errorCode], error.errorDescription);
+                     if (kCancelAuthoriztionCode == [error errorCode]) {
+                       [self.view makeToast:NSLocalizedString(
+                                                @"The user cancels the "
+                                                @"authorization, use the "
+                                                @"account login or retry",
+                                                nil)
+                                   duration:1
+                                   position:nil];
+                     }
                    }];
 }
 
@@ -267,7 +271,7 @@ static int const kCancelAuthoriztionCode = -103;
     UserInfo *userInfo =
         [[UserInfo alloc] initWithEmail:self.username password:self.password];
     [userInfo loginRequestWithResponse:^(int status, id response) {
-        self.successResonse(status, response);
+      self.successResonse(status, response);
     }];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
   }

@@ -130,12 +130,28 @@ static const int successCode = 1;
     aSwitch.networkStatus = SWITCH_NEW;
     aSwitch.password = password;
     aSwitch.name = NSLocalizedString(@"Smart Switch", nil);
-    SDZGSocket *socket1 = aSwitch.sockets[0];
-    socket1.imageNames =
-        @[ socket_default_image, socket_default_image, socket_default_image ];
-    SDZGSocket *socket2 = aSwitch.sockets[1];
-    socket2.imageNames =
-        @[ socket_default_image, socket_default_image, socket_default_image ];
+    if ([aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
+      SDZGSocket *socket1 = aSwitch.sockets[0];
+      socket1.imageNames = @[
+        socket_default_image,
+        socket_default_image,
+        socket_default_image,
+        socket_default_image
+      ];
+    } else {
+      SDZGSocket *socket1 = aSwitch.sockets[0];
+      socket1.imageNames = @[
+        socket_default_image,
+        socket_default_image,
+        socket_default_image
+      ];
+      SDZGSocket *socket2 = aSwitch.sockets[1];
+      socket2.imageNames = @[
+        socket_default_image,
+        socket_default_image,
+        socket_default_image
+      ];
+    }
     NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
     NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
     for (SDZGSwitch *aSwitch in switchs) {
@@ -433,8 +449,10 @@ static const int successCode = 1;
             NSDictionary *data = responseData[@"data"];
             NSDictionary *lastVersion = data[@"lastVersion"];
             NSString *serverFirewareVersion = lastVersion[@"softWareVersion"];
-            [kSharedAppliction.dictOfFireware setObject:serverFirewareVersion
-                                                 forKey:deviceType];
+            if (serverFirewareVersion) {
+              [kSharedAppliction.dictOfFireware setObject:serverFirewareVersion
+                                                   forKey:deviceType];
+            }
           } else {
             DDLogDebug(@"服务器错误，请稍后再试");
           }

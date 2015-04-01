@@ -23,110 +23,214 @@ static dispatch_queue_t switch_parse_serial_queue() {
 + (void)parseMessageCOrE:(CC3xMessage *)message
                 toSwitch:(void (^)(SDZGSwitch *aSwitch))completion {
   dispatch_async(switch_parse_serial_queue(), ^{
-    NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
-    BOOL needToDBImmediately; //新扫描到的设备立即添加到数据库
-    SDZGSwitch *aSwitch =
-        [[SwitchDataCeneter sharedInstance] getSwitchFromTmpByMac:message.mac];
-    if (aSwitch) {
-      //表示新增的
-      needToDBImmediately = YES;
-      aSwitch.sockets = [@[] mutableCopy];
-      SDZGSocket *socket1 = [[SDZGSocket alloc] init];
-      socket1.groupId = 1;
-      socket1.socketStatus = ((message.onStatus & 1 << 0) == 1 << 0);
-      socket1.imageNames = @[
-        socket_default_image,
-        socket_default_image,
-        socket_default_image
-      ];
-      [aSwitch.sockets addObject:socket1];
+    if ([message.deviceType isEqualToString:kDeviceType_Snake]) {
+      [SDZGSwitch parseMessageSnake:message toSwitch:completion];
+    } else {
+      [SDZGSwitch parseMessageOther:message toSwitch:completion];
+    }
+  });
+}
 
-      SDZGSocket *socket2 = [[SDZGSocket alloc] init];
-      socket2.groupId = 2;
-      socket2.socketStatus = ((message.onStatus & 1 << 1) == 1 << 1);
-      socket2.imageNames = @[
-        socket_default_image,
-        socket_default_image,
-        socket_default_image
-      ];
-      [aSwitch.sockets addObject:socket2];
-      aSwitch.imageName = switch_default_image;
++ (void)parseMessageSnake:(CC3xMessage *)message
+                 toSwitch:(void (^)(SDZGSwitch *))completion {
+  NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+  BOOL needToDBImmediately; //新扫描到的设备立即添加到数据库]
+  SDZGSwitch *aSwitch =
+      [[SwitchDataCeneter sharedInstance] getSwitchFromTmpByMac:message.mac];
+  if (aSwitch) {
+    //表示新增的
+    needToDBImmediately = YES;
+    aSwitch.sockets = [@[] mutableCopy];
+    SDZGSocket *socket1 = [[SDZGSocket alloc] init];
+    socket1.groupId = 1;
+    socket1.socketStatus = ((message.onStatus & 1 << 0) == 1 << 0);
+    socket1.imageNames = @[
+      socket_default_image,
+      socket_default_image,
+      socket_default_image,
+      socket_default_image
+    ];
+    [aSwitch.sockets addObject:socket1];
+
+    aSwitch.imageName = snake_switch_default_image;
+    aSwitch.mac = message.mac;
+    aSwitch.ip = message.ip;
+    aSwitch.port = message.port;
+    aSwitch.name = message.deviceName;
+    DDLogDebug(@"device name is %@", message.deviceName);
+    aSwitch.version = message.version;
+    aSwitch.lockStatus = message.lockStatus;
+    aSwitch.deviceType = message.deviceType;
+    if (message.password) {
+      aSwitch.password = message.password;
+    }
+    aSwitch.lastUpdateInterval = current;
+  } else {
+    needToDBImmediately = NO;
+    aSwitch = [[SwitchDataCeneter sharedInstance].switchsDict
+        objectForKey:message.mac];
+    NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
+    //内网外网都返回时，时间间隔大于刷新时间一半就更新设备，否则不更新设备，认为是外网响应
+    if (diff > REFRESH_DEV_TIME / 2) {
+      DDLogDebug(@"%s", __func__);
+      DDLogDebug(@"switch mac is %@ and thread is %@ diff is %f", aSwitch.mac,
+                 [NSThread currentThread], diff);
+      NSMutableArray *sockets = aSwitch.sockets;
+      for (int i = 0; i < sockets.count; i++) {
+        SDZGSocket *socket = sockets[i];
+        socket.socketStatus = ((message.onStatus & 1 << i) == 1 << i);
+      }
+      if (aSwitch.networkStatus != SWITCH_NEW) {
+        if (message.msgId == 0xc) {
+          aSwitch.networkStatus = SWITCH_LOCAL;
+          aSwitch.lastUpdateInterval = current;
+        } else if (message.msgId == 0xe) {
+          if (aSwitch.networkStatus == SWITCH_LOCAL) {
+            if (diff > 1.5 * REFRESH_DEV_TIME + 0.5) {
+              aSwitch.networkStatus = SWITCH_REMOTE;
+              aSwitch.lastUpdateInterval = current;
+            }
+          } else {
+            aSwitch.networkStatus = SWITCH_REMOTE;
+            aSwitch.lastUpdateInterval = current;
+          }
+        }
+      } else {
+        aSwitch.lastUpdateInterval = current;
+      }
       aSwitch.mac = message.mac;
       aSwitch.ip = message.ip;
       aSwitch.port = message.port;
       aSwitch.name = message.deviceName;
-      //        aSwitch.power = 0;
-      DDLogDebug(@"device name is %@", message.deviceName);
       aSwitch.version = message.version;
       aSwitch.lockStatus = message.lockStatus;
+      aSwitch.deviceType = message.deviceType;
       if (message.password) {
         aSwitch.password = message.password;
       }
-      aSwitch.lastUpdateInterval = current;
     } else {
-      needToDBImmediately = NO;
-      aSwitch = [[SwitchDataCeneter sharedInstance].switchsDict
-          objectForKey:message.mac];
-      NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
-      //内网外网都返回时，时间间隔大于刷新时间一半就更新设备，否则不更新设备，认为是外网响应
-      if (diff > REFRESH_DEV_TIME / 2) {
-        DDLogDebug(@"%s", __func__);
-        DDLogDebug(@"switch mac is %@ and thread is %@ diff is %f", aSwitch.mac,
-                   [NSThread currentThread], diff);
-        NSMutableArray *sockets = aSwitch.sockets;
-        for (int i = 0; i < sockets.count; i++) {
-          SDZGSocket *socket = sockets[i];
-          socket.socketStatus = ((message.onStatus & 1 << i) == 1 << i);
-        }
-        if (aSwitch.networkStatus != SWITCH_NEW) {
-          if (message.msgId == 0xc) {
-            aSwitch.networkStatus = SWITCH_LOCAL;
-            aSwitch.lastUpdateInterval = current;
-          } else if (message.msgId == 0xe) {
-            if (aSwitch.networkStatus == SWITCH_LOCAL) {
-              if (diff > 1.5 * REFRESH_DEV_TIME + 0.5) {
-                aSwitch.networkStatus = SWITCH_REMOTE;
-                aSwitch.lastUpdateInterval = current;
-              }
-            } else {
+      completion(nil);
+    }
+  }
+  if (needToDBImmediately && aSwitch.sockets.count) {
+    [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
+    [[DBUtil sharedInstance] saveSwitch:aSwitch];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL reciveRemoteNotification =
+        [[defaults objectForKey:remoteNotification] boolValue];
+    if (reciveRemoteNotification) {
+      dispatch_after(
+          dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)),
+          dispatch_get_main_queue(), ^{
+            [APServiceUtil openRemoteNotification:^(BOOL result){
+            }];
+          });
+    }
+  }
+  completion(aSwitch);
+}
+
++ (void)parseMessageOther:(CC3xMessage *)message
+                 toSwitch:(void (^)(SDZGSwitch *))completion {
+  NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+  BOOL needToDBImmediately; //新扫描到的设备立即添加到数据库]
+  SDZGSwitch *aSwitch =
+      [[SwitchDataCeneter sharedInstance] getSwitchFromTmpByMac:message.mac];
+  if (aSwitch) {
+    //表示新增的
+    needToDBImmediately = YES;
+    aSwitch.sockets = [@[] mutableCopy];
+    SDZGSocket *socket1 = [[SDZGSocket alloc] init];
+    socket1.groupId = 1;
+    socket1.socketStatus = ((message.onStatus & 1 << 0) == 1 << 0);
+    socket1.imageNames =
+        @[ socket_default_image, socket_default_image, socket_default_image ];
+    [aSwitch.sockets addObject:socket1];
+
+    SDZGSocket *socket2 = [[SDZGSocket alloc] init];
+    socket2.groupId = 2;
+    socket2.socketStatus = ((message.onStatus & 1 << 1) == 1 << 1);
+    socket2.imageNames =
+        @[ socket_default_image, socket_default_image, socket_default_image ];
+    [aSwitch.sockets addObject:socket2];
+    aSwitch.imageName = switch_default_image;
+    aSwitch.mac = message.mac;
+    aSwitch.ip = message.ip;
+    aSwitch.port = message.port;
+    aSwitch.name = message.deviceName;
+    //        aSwitch.power = 0;
+    DDLogDebug(@"device name is %@", message.deviceName);
+    aSwitch.version = message.version;
+    aSwitch.lockStatus = message.lockStatus;
+    aSwitch.deviceType = message.deviceType;
+    if (message.password) {
+      aSwitch.password = message.password;
+    }
+    aSwitch.lastUpdateInterval = current;
+  } else {
+    needToDBImmediately = NO;
+    aSwitch = [[SwitchDataCeneter sharedInstance].switchsDict
+        objectForKey:message.mac];
+    NSTimeInterval diff = current - aSwitch.lastUpdateInterval;
+    //内网外网都返回时，时间间隔大于刷新时间一半就更新设备，否则不更新设备，认为是外网响应
+    if (diff > REFRESH_DEV_TIME / 2) {
+      DDLogDebug(@"%s", __func__);
+      DDLogDebug(@"switch mac is %@ and thread is %@ diff is %f", aSwitch.mac,
+                 [NSThread currentThread], diff);
+      NSMutableArray *sockets = aSwitch.sockets;
+      for (int i = 0; i < sockets.count; i++) {
+        SDZGSocket *socket = sockets[i];
+        socket.socketStatus = ((message.onStatus & 1 << i) == 1 << i);
+      }
+      if (aSwitch.networkStatus != SWITCH_NEW) {
+        if (message.msgId == 0xc) {
+          aSwitch.networkStatus = SWITCH_LOCAL;
+          aSwitch.lastUpdateInterval = current;
+        } else if (message.msgId == 0xe) {
+          if (aSwitch.networkStatus == SWITCH_LOCAL) {
+            if (diff > 1.5 * REFRESH_DEV_TIME + 0.5) {
               aSwitch.networkStatus = SWITCH_REMOTE;
               aSwitch.lastUpdateInterval = current;
             }
+          } else {
+            aSwitch.networkStatus = SWITCH_REMOTE;
+            aSwitch.lastUpdateInterval = current;
           }
-        } else {
-          aSwitch.lastUpdateInterval = current;
-        }
-        //          aSwitch.power = 0;
-        aSwitch.mac = message.mac;
-        aSwitch.ip = message.ip;
-        aSwitch.port = message.port;
-        aSwitch.name = message.deviceName;
-        aSwitch.version = message.version;
-        aSwitch.lockStatus = message.lockStatus;
-        if (message.password) {
-          aSwitch.password = message.password;
         }
       } else {
-        completion(nil);
+        aSwitch.lastUpdateInterval = current;
       }
-    }
-    if (needToDBImmediately && aSwitch.sockets.count == 2) {
-      [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
-      [[DBUtil sharedInstance] saveSwitch:aSwitch];
-      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-      BOOL reciveRemoteNotification =
-          [[defaults objectForKey:remoteNotification] boolValue];
-      if (reciveRemoteNotification) {
-        dispatch_after(
-            dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)),
-            dispatch_get_main_queue(), ^{
-              [APServiceUtil openRemoteNotification:^(BOOL result){
-              }];
-            });
+      //          aSwitch.power = 0;
+      aSwitch.mac = message.mac;
+      aSwitch.ip = message.ip;
+      aSwitch.port = message.port;
+      aSwitch.name = message.deviceName;
+      aSwitch.version = message.version;
+      aSwitch.lockStatus = message.lockStatus;
+      aSwitch.deviceType = message.deviceType;
+      if (message.password) {
+        aSwitch.password = message.password;
       }
+    } else {
+      completion(nil);
     }
-    completion(aSwitch);
-  });
+  }
+  if (needToDBImmediately && aSwitch.sockets.count == 2) {
+    [[SwitchDataCeneter sharedInstance] addSwitch:aSwitch];
+    [[DBUtil sharedInstance] saveSwitch:aSwitch];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL reciveRemoteNotification =
+        [[defaults objectForKey:remoteNotification] boolValue];
+    if (reciveRemoteNotification) {
+      dispatch_after(
+          dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)),
+          dispatch_get_main_queue(), ^{
+            [APServiceUtil openRemoteNotification:^(BOOL result){
+            }];
+          });
+    }
+  }
+  completion(aSwitch);
 }
 
 /**
@@ -139,11 +243,11 @@ static int switchId = 200000;
                        password:(NSString *)password
                            name:(NSString *)name
                         version:(int)version
+                     deviceType:(NSString *)deviceType
                      lockStauts:(LockStatus)lockStauts {
   SDZGSwitch *aSwitch = [[SDZGSwitch alloc] init];
   aSwitch._id = switchId++;
   aSwitch.networkStatus = SWITCH_REMOTE;
-  aSwitch.imageName = switch_default_image;
   aSwitch.mac = mac;
   aSwitch.ip = @"";
   aSwitch.port = 0;
@@ -153,19 +257,34 @@ static int switchId = 200000;
   aSwitch.version = version;
 
   aSwitch.sockets = [@[] mutableCopy];
-  SDZGSocket *socket1 = [[SDZGSocket alloc] init];
-  socket1.groupId = 1;
-  socket1.socketStatus = SocketStatusOff;
-  socket1.imageNames =
-      @[ socket_default_image, socket_default_image, socket_default_image ];
-  [aSwitch.sockets addObject:socket1];
+  if ([deviceType isEqualToString:kDeviceType_Snake]) {
+    aSwitch.imageName = snake_switch_default_image;
+    SDZGSocket *socket1 = [[SDZGSocket alloc] init];
+    socket1.groupId = 1;
+    socket1.socketStatus = SocketStatusOff;
+    socket1.imageNames = @[
+      socket_default_image,
+      socket_default_image,
+      socket_default_image,
+      socket_default_image
+    ];
+    [aSwitch.sockets addObject:socket1];
+  } else {
+    aSwitch.imageName = switch_default_image;
+    SDZGSocket *socket1 = [[SDZGSocket alloc] init];
+    socket1.groupId = 1;
+    socket1.socketStatus = SocketStatusOff;
+    socket1.imageNames =
+        @[ socket_default_image, socket_default_image, socket_default_image ];
+    [aSwitch.sockets addObject:socket1];
 
-  SDZGSocket *socket2 = [[SDZGSocket alloc] init];
-  socket2.groupId = 2;
-  socket2.socketStatus = SocketStatusOff;
-  socket2.imageNames =
-      @[ socket_default_image, socket_default_image, socket_default_image ];
-  [aSwitch.sockets addObject:socket2];
+    SDZGSocket *socket2 = [[SDZGSocket alloc] init];
+    socket2.groupId = 2;
+    socket2.socketStatus = SocketStatusOff;
+    socket2.imageNames =
+        @[ socket_default_image, socket_default_image, socket_default_image ];
+    [aSwitch.sockets addObject:socket2];
+  }
   return aSwitch;
 }
 
@@ -186,6 +305,23 @@ static int switchId = 200000;
   return image;
 }
 
++ (UIImage *)imgNameToImageSnake:(NSString *)imgName {
+  UIImage *image;
+  if (imgName.length < 10) {
+    image = [UIImage imageNamed:imgName];
+  } else {
+    image = [UIImage
+        imageWithContentsOfFile:[PATH_OF_DOCUMENT
+                                    stringByAppendingPathComponent:imgName]];
+    if (!image) {
+      image = [UIImage imageNamed:snake_switch_default_image];
+    } else {
+      image = [UIImage circleImage:image withParam:0];
+    }
+  }
+  return image;
+}
+
 + (UIImage *)imgNameToImageOffline:(NSString *)imgName {
   UIImage *image;
   if (imgName.length < 10) {
@@ -196,6 +332,23 @@ static int switchId = 200000;
                                     stringByAppendingPathComponent:imgName]];
     if (!image) {
       image = [UIImage imageNamed:switch_default_image_offline];
+    } else {
+      image = [UIImage circleImage:[UIImage grayImage:image] withParam:0];
+    }
+  }
+  return image;
+}
+
++ (UIImage *)imgNameToImageOfflineSnake:(NSString *)imgName {
+  UIImage *image;
+  if (imgName.length < 10) {
+    image = [UIImage imageNamed:snake_switch_default_image_offline];
+  } else {
+    image = [UIImage
+        imageWithContentsOfFile:[PATH_OF_DOCUMENT
+                                    stringByAppendingPathComponent:imgName]];
+    if (!image) {
+      image = [UIImage imageNamed:snake_switch_default_image_offline];
     } else {
       image = [UIImage circleImage:[UIImage grayImage:image] withParam:0];
     }

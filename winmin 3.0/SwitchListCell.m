@@ -81,22 +81,36 @@
     }
   }
   self.imgViewOfState.image = imgState;
-  SDZGSocket *socket1 = aSwitch.sockets[0];
-  SDZGSocket *socket2 = aSwitch.sockets[1];
-  //插孔均关闭或离线情况下
-  if (aSwitch.networkStatus == SWITCH_OFFLINE ||
-      (socket1.socketStatus == SocketStatusOff &&
-       socket2.socketStatus == SocketStatusOff)) {
-    self.imgViewOfSwitch.image =
-        [SDZGSwitch imgNameToImageOffline:aSwitch.imageName];
+  if ([aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
+    SDZGSocket *socket1 = aSwitch.sockets[0];
+    if (aSwitch.networkStatus == SWITCH_OFFLINE ||
+        socket1.socketStatus == SocketStatusOff) {
+      self.imgViewOfSwitch.image =
+          [SDZGSwitch imgNameToImageOfflineSnake:aSwitch.imageName];
+    } else {
+      self.imgViewOfSwitch.image =
+          [SDZGSwitch imgNameToImageSnake:aSwitch.imageName];
+    }
   } else {
-    self.imgViewOfSwitch.image = [SDZGSwitch imgNameToImage:aSwitch.imageName];
+    SDZGSocket *socket1 = aSwitch.sockets[0];
+    SDZGSocket *socket2 = aSwitch.sockets[1];
+    //插孔均关闭或离线情况下
+    if (aSwitch.networkStatus == SWITCH_OFFLINE ||
+        (socket1.socketStatus == SocketStatusOff &&
+         socket2.socketStatus == SocketStatusOff)) {
+      self.imgViewOfSwitch.image =
+          [SDZGSwitch imgNameToImageOffline:aSwitch.imageName];
+    } else {
+      self.imgViewOfSwitch.image =
+          [SDZGSwitch imgNameToImage:aSwitch.imageName];
+    }
   }
   [self.realTimeView setPower:aSwitch.power];
-  if (aSwitch.firewareVersion && aSwitch.deviceType &&
-      ![aSwitch.firewareVersion
-          isEqualToString:kSharedAppliction
-                              .dictOfFireware[aSwitch.deviceType]]) {
+  NSString *deviceTypeInServer =
+      kSharedAppliction.dictOfFireware[aSwitch.deviceType];
+  if (aSwitch.firewareVersion && aSwitch.deviceType && deviceTypeInServer &&
+      [deviceTypeInServer compare:aSwitch.firewareVersion] ==
+          NSOrderedDescending) {
     self.imgVNewFireware.hidden = NO;
   } else {
     self.imgVNewFireware.hidden = YES;

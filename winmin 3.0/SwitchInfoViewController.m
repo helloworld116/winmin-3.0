@@ -183,10 +183,10 @@ static const int maxPower = 2500;
     self.btnUpdateFireware.layer.cornerRadius = 4.f;
   } else {
     [self.model getSwitchsFireware:^{
-        if (self.aSwitch.firewareVersion && self.aSwitch.deviceType) {
-          self.btnUpdateFireware.hidden = NO;
-          self.btnUpdateFireware.layer.cornerRadius = 4.f;
-        }
+      if (self.aSwitch.firewareVersion && self.aSwitch.deviceType) {
+        self.btnUpdateFireware.hidden = NO;
+        self.btnUpdateFireware.layer.cornerRadius = 4.f;
+      }
     }];
   }
 }
@@ -260,13 +260,15 @@ preparation before navigation
   if ([name isEqualToString:@""]) {
     [CRToastManager
         showNotificationWithMessage:NSLocalizedString(@"Name can't empty", nil)
-                    completionBlock:^{}];
+                    completionBlock:^{
+                    }];
     return NO;
   } else if (nameLength > 24) {
     [CRToastManager
         showNotificationWithMessage:
             @"输入名称过长(最大支持8个纯中文或24个纯英文)"
-                    completionBlock:^{}];
+                    completionBlock:^{
+                    }];
     return NO;
   }
 
@@ -448,25 +450,27 @@ preparation before navigation
   }
   self.offGreaterValue = message.turnOffGreater;
   dispatch_async(MAIN_QUEUE, ^{
-      [self.hud hide:YES];
-      self._switchAlertUnder.on = message.isAlertUnderOn;
-      self._switchAlertGreater.on = message.isAlertGreaterOn;
-      self._switchOffUnder.on = message.isTurnOffUnderOn;
-      self._switchOffGreater.on = message.isTurnOffGreaterOn;
-      self.textFieldAlertUnder.text =
-          [NSString stringWithFormat:@"%d", message.alertUnder];
-      self.textFieldAlertGreater.text =
-          [NSString stringWithFormat:@"%d", message.alertGreater];
-      self.textFieldOffUnder.text =
-          [NSString stringWithFormat:@"%d", message.turnOffUnder];
-      self.textFieldOffGreater.text =
-          [NSString stringWithFormat:@"%d", message.turnOffGreater];
+    [self.hud hide:YES];
+    self._switchAlertUnder.on = message.isAlertUnderOn;
+    self._switchAlertGreater.on = message.isAlertGreaterOn;
+    self._switchOffUnder.on = message.isTurnOffUnderOn;
+    self._switchOffGreater.on = message.isTurnOffGreaterOn;
+    self.textFieldAlertUnder.text =
+        [NSString stringWithFormat:@"%d", message.alertUnder];
+    self.textFieldAlertGreater.text =
+        [NSString stringWithFormat:@"%d", message.alertGreater];
+    self.textFieldOffUnder.text =
+        [NSString stringWithFormat:@"%d", message.turnOffUnder];
+    self.textFieldOffGreater.text =
+        [NSString stringWithFormat:@"%d", message.turnOffGreater];
   });
 }
 
 - (void)setElecPowerInfoSuccessNotification:(NSNotification *)notification {
   self.isUpdatePowerInfoSuccess = YES;
-  dispatch_async(MAIN_QUEUE, ^{ [self allResuestSuccess]; });
+  dispatch_async(MAIN_QUEUE, ^{
+    [self allResuestSuccess];
+  });
 }
 
 - (void)switchNameChanged:(NSNotification *)notification {
@@ -477,15 +481,14 @@ preparation before navigation
                                            socketNames:nil
                                                    mac:self.aSwitch.mac];
   dispatch_async(MAIN_QUEUE, ^{
-      [self allResuestSuccess];
-      self.navigationItem.title = self.switchName;
-      int count = [[self.navigationController viewControllers] count];
-      if (count == 3) {
-        UIViewController *popViewController =
-            [[self.navigationController viewControllers]
-                objectAtIndex:count - 2];
-        popViewController.navigationItem.title = self.switchName;
-      }
+    [self allResuestSuccess];
+    self.navigationItem.title = self.switchName;
+    int count = [[self.navigationController viewControllers] count];
+    if (count == 3) {
+      UIViewController *popViewController =
+          [[self.navigationController viewControllers] objectAtIndex:count - 2];
+      popViewController.navigationItem.title = self.switchName;
+    }
   });
 }
 
@@ -494,7 +497,9 @@ preparation before navigation
   self.isLockUpdate = NO;
   [[SwitchDataCeneter sharedInstance] updateSwitchLockStaus:self.lockStatus
                                                         mac:self.aSwitch.mac];
-  dispatch_async(MAIN_QUEUE, ^{ [self allResuestSuccess]; });
+  dispatch_async(MAIN_QUEUE, ^{
+    [self allResuestSuccess];
+  });
 }
 
 - (void)allResuestSuccess {
@@ -513,23 +518,23 @@ preparation before navigation
 
 - (void)noResponseNotification:(NSNotification *)notif {
   dispatch_async(MAIN_QUEUE, ^{
-      [MBProgressHUD hideHUDForView:self.view animated:YES];
-      NSDictionary *userInfo = notif.userInfo;
-      long tag = [userInfo[@"tag"] longValue];
-      switch (tag) {
-        case P2D_DEV_LOCK_REQ_47:
-        case P2S_DEV_LOCK_REQ_49:
-          //锁定状态还原
-          self._switchLock.on = !self._switchLock.on;
-          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
-          break;
-        case P2D_SET_NAME_REQ_3F:
-        case P2S_SET_NAME_REQ_41:
-          //名字还原
-          self.textFieldName.text = self.aSwitch.name;
-          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
-          break;
-      }
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    NSDictionary *userInfo = notif.userInfo;
+    long tag = [userInfo[@"tag"] longValue];
+    switch (tag) {
+      case P2D_DEV_LOCK_REQ_47:
+      case P2S_DEV_LOCK_REQ_49:
+        //锁定状态还原
+        self._switchLock.on = !self._switchLock.on;
+        [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+        break;
+      case P2D_SET_NAME_REQ_3F:
+      case P2S_SET_NAME_REQ_41:
+        //名字还原
+        self.textFieldName.text = self.aSwitch.name;
+        [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+        break;
+    }
   });
 }
 
@@ -687,7 +692,11 @@ preparation before navigation
   switch (buttonIndex) {
     case 0:
       self.isImgUpdate = YES;
-      self.imgName = switch_default_image;
+      if ([self.aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
+        self.imgName = snake_switch_default_image;
+      } else {
+        self.imgName = switch_default_image;
+      }
       self.imgViewSwitch.image = [UIImage imageNamed:self.imgName];
       break;
     case 1:

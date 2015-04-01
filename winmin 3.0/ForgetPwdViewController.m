@@ -17,6 +17,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *btn;
 @property (nonatomic, strong) FindPassword *findPassword;
 @property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) id emailResponseObserver;
 - (IBAction)sendEmail:(id)sender;
 - (IBAction)touchBackground:(id)sender;
 @end
@@ -39,24 +40,28 @@
   backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
 
-  [[NSNotificationCenter defaultCenter]
+  __weak __typeof__(self) weakSelf = self;
+  self.emailResponseObserver = [[NSNotificationCenter defaultCenter]
       addObserverForName:kSendEmailResponse
                   object:nil
                    queue:nil
               usingBlock:^(NSNotification *note) {
-                  NSDictionary *userInfo = [note userInfo];
-                  int status = [userInfo[@"status"] intValue];
-                  [MBProgressHUD hideHUDForView:self.view animated:YES];
-                  if (status == 1) {
-                    ResetPwdViewController *nextController = [self.storyboard
-                        instantiateViewControllerWithIdentifier:
-                            @"ResetPwdViewController"];
-                    nextController.email = self.email;
-                    [self.navigationController pushViewController:nextController
-                                                         animated:YES];
-                  } else {
-                    [self showMessage:userInfo[@"msg"]];
-                  }
+                __strong __typeof__(self) strongSelf = weakSelf;
+                NSDictionary *userInfo = [note userInfo];
+                int status = [userInfo[@"status"] intValue];
+                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+                if (status == 1) {
+                  ResetPwdViewController *nextController =
+                      [strongSelf.storyboard
+                          instantiateViewControllerWithIdentifier:
+                              @"ResetPwdViewController"];
+                  nextController.email = strongSelf.email;
+                  [strongSelf.navigationController
+                      pushViewController:nextController
+                                animated:YES];
+                } else {
+                  [strongSelf showMessage:userInfo[@"msg"]];
+                }
               }];
 }
 
@@ -74,7 +79,8 @@
 }
 
 - (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [[NSNotificationCenter defaultCenter]
+      removeObserver:self.emailResponseObserver];
 }
 
 - (IBAction)sendEmail:(id)sender {
@@ -138,10 +144,10 @@ preparation before navigation
 
 - (void)sendRequest {
   dispatch_async(GLOBAL_QUEUE, ^{
-      dispatch_async(MAIN_QUEUE, ^{
-          [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-      });
-      [self.findPassword sendEmail:self.email];
+    dispatch_async(MAIN_QUEUE, ^{
+      [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    });
+    [self.findPassword sendEmail:self.email];
 
   });
 }

@@ -80,6 +80,8 @@ static const int ddLogLevel = LOG_LEVEL_OFF;
 #define socket_default_image @"099"
 #define switch_default_image @"100"
 #define switch_default_image_offline @"100_"
+#define snake_switch_default_image @"snake"
+#define snake_switch_default_image_offline @"snake_off"
 #define kSceneTemplateDict                                                     \
   @{                                                                           \
     @"101" : NSLocalizedString(@"Living room", nil),                           \
@@ -180,6 +182,10 @@ static const int HttpSuccessCode = 1;
 static NSString *const AboutUsURLString = @"http://www.itouchco.com/";
 typedef void (^NotReceiveDataBlock)(long tag, int socktGroupId);
 typedef void (^HttpCompletionBlock)(SDZGHttpResponse *response);
+typedef NS_OPTIONS(NSUInteger, DeviceType) {
+  DeviceType_T1501 = 0,
+  DeviceType_T1601,
+};
 
 #define SERVER_PORT 20002
 
@@ -192,6 +198,8 @@ typedef void (^HttpCompletionBlock)(SDZGHttpResponse *response);
 static float const kElecRefreshInterval = 3.f;
 static float const kElecDiff = 2.7f;
 static float const kElecFactor = 46246.9f;
+static NSString *const kDeviceType_Snake = @"T1-1601";
+static NSString *const kDeviceType_Other = @"T1-1501";
 static NSString *const kHistoryMessageId = @"HistoryMessageId";
 
 #define BROADCAST_ADDRESS @"255.255.255.255"
