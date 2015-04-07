@@ -25,7 +25,12 @@
   } else {
     self.lblMac.text = @"";
   }
-  self.imgViewOfSwitch.image = [SDZGSwitch imgNameToImage:aSwitch.imageName];
+  if ([aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
+    self.imgViewOfSwitch.image = [SDZGSwitch imgNameToImage:aSwitch.imageName];
+  } else {
+    self.imgViewOfSwitch.image =
+        [SDZGSwitch imgNameToImageSnake:aSwitch.imageName];
+  }
 }
 
 @end

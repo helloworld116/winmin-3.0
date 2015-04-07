@@ -411,8 +411,10 @@ static const int successCode = 1;
       [[SwitchDataCeneter sharedInstance] getSwitchByMac:message.mac];
   aSwitch.firewareVersion = message.firmwareVersion;
   aSwitch.deviceType = message.deviceType;
-  [kSharedAppliction.dictOfFireware setObject:message.firmwareVersion
-                                       forKey:message.deviceType];
+  if (message.firmwareVersion && message.deviceType) {
+    [kSharedAppliction.dictOfFireware setObject:message.firmwareVersion
+                                         forKey:message.deviceType];
+  }
 }
 
 #pragma mark - HTTP

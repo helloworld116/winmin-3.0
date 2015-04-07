@@ -1587,6 +1587,7 @@ typedef struct {
   message.deviceType = [[NSString alloc] initWithBytes:msg.deviceType
                                                 length:strlen(msg.deviceType)
                                               encoding:NSUTF8StringEncoding];
+
   message.crc = msg.crc;
   return message;
 }

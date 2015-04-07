@@ -107,7 +107,7 @@
       [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
   [userDefaults setObject:appVersion forKey:kCurrentVersion];
   UIViewController *mainViewController = [self.storyboard
-      instantiateViewControllerWithIdentifier:@"MainController"];
+      instantiateViewControllerWithIdentifier:@"ChoiceViewController"];
   [mainViewController
       setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
   [self presentViewController:mainViewController

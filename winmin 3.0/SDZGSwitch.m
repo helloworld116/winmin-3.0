@@ -98,13 +98,13 @@ static dispatch_queue_t switch_parse_serial_queue() {
       } else {
         aSwitch.lastUpdateInterval = current;
       }
-      aSwitch.mac = message.mac;
+      //      aSwitch.mac = message.mac;
       aSwitch.ip = message.ip;
       aSwitch.port = message.port;
       aSwitch.name = message.deviceName;
       aSwitch.version = message.version;
       aSwitch.lockStatus = message.lockStatus;
-      aSwitch.deviceType = message.deviceType;
+      //      aSwitch.deviceType = message.deviceType;
       if (message.password) {
         aSwitch.password = message.password;
       }
@@ -200,14 +200,13 @@ static dispatch_queue_t switch_parse_serial_queue() {
       } else {
         aSwitch.lastUpdateInterval = current;
       }
-      //          aSwitch.power = 0;
-      aSwitch.mac = message.mac;
+      //      aSwitch.mac = message.mac;
       aSwitch.ip = message.ip;
       aSwitch.port = message.port;
       aSwitch.name = message.deviceName;
       aSwitch.version = message.version;
       aSwitch.lockStatus = message.lockStatus;
-      aSwitch.deviceType = message.deviceType;
+      //      aSwitch.deviceType = message.deviceType;
       if (message.password) {
         aSwitch.password = message.password;
       }

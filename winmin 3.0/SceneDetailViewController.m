@@ -165,7 +165,7 @@
       self.sceneImageName = @"sdef_";
     }
     scene.imageName = self.sceneImageName;
-    scene.detailList = details;
+    scene.detailList = [details mutableCopy];
     [[DBUtil sharedInstance] saveScene:scene];
     [self.navigationController popViewControllerAnimated:YES];
     [[NSNotificationCenter defaultCenter]
@@ -196,7 +196,10 @@
                      functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
   [[templateController.view layer] addAnimation:animation
                                          forKey:@"SceneTemplate"];
-  [self presentViewController:templateController animated:NO completion:^{}];
+  [self presentViewController:templateController
+                     animated:NO
+                   completion:^{
+                   }];
 }
 
 #pragma mark - SceneTemplateDelegate

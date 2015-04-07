@@ -13,8 +13,10 @@
 #import "SceneDetail.h"
 #import "SceneEditAddCell.h"
 #import "SceneEditCell2.h"
-typedef NS_OPTIONS(NSUInteger, SceneSwitchListOperation){
-  Add_After, Add_Before, Modify,
+typedef NS_OPTIONS(NSUInteger, SceneSwitchListOperation) {
+  Add_After,
+  Add_Before,
+  Modify,
 };
 
 @interface SceneDetailViewController2 () <
@@ -198,15 +200,15 @@ preparation before navigation
   UITableViewCell *cell;
   if (indexPath.row < self.scene.detailList.count) {
     if (indexPath.row % 2 == 0) {
-      cell = [tableView dequeueReusableCellWithIdentifier:leftCell
+      cell = [tableView dequeueReusableCellWithIdentifier:rightCell
                                              forIndexPath:indexPath];
     } else {
-      cell = [tableView dequeueReusableCellWithIdentifier:rightCell
+      cell = [tableView dequeueReusableCellWithIdentifier:leftCell
                                              forIndexPath:indexPath];
     }
     SceneEditCell2 *editCell = (SceneEditCell2 *)cell;
     SceneDetail *sceneDetail = self.scene.detailList[indexPath.row];
-    [editCell setSceneDetail:sceneDetail];
+    [editCell setSceneDetail:sceneDetail row:indexPath.row];
   } else {
     cell = [tableView dequeueReusableCellWithIdentifier:addCell
                                            forIndexPath:indexPath];
@@ -228,16 +230,27 @@ preparation before navigation
         [NSString stringWithFormat:NSLocalizedString(
                                        @"Set command %@ will be executed", nil),
                                    aSwitch.name];
-    UIActionSheet *sheet = [[UIActionSheet alloc]
-                 initWithTitle:title
-                      delegate:self
-             cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-        destructiveButtonTitle:nil
-             otherButtonTitles:NSLocalizedString(@"Open Switch I", nil),
-                               NSLocalizedString(@"Close Switch I", nil),
-                               NSLocalizedString(@"Open Switch II", nil),
-                               NSLocalizedString(@"Close Switch II", nil), nil];
-
+    UIActionSheet *sheet;
+    if ([self.aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
+      sheet = [[UIActionSheet alloc]
+                   initWithTitle:title
+                        delegate:self
+               cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+          destructiveButtonTitle:nil
+               otherButtonTitles:NSLocalizedString(@"Open", nil),
+                                 NSLocalizedString(@"Close", nil), nil];
+    } else {
+      sheet = [[UIActionSheet alloc]
+                   initWithTitle:title
+                        delegate:self
+               cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+          destructiveButtonTitle:nil
+               otherButtonTitles:NSLocalizedString(@"Open Switch I", nil),
+                                 NSLocalizedString(@"Close Switch I", nil),
+                                 NSLocalizedString(@"Open Switch II", nil),
+                                 NSLocalizedString(@"Close Switch II", nil),
+                                 nil];
+    }
     sheet.tag = 98981;
     [sheet showInView:self.view];
   } else {
@@ -251,30 +264,51 @@ preparation before navigation
   if (actionSheet.tag == 98981) {
     int socketGroupId = 0;
     BOOL isOn = NO;
-    switch (buttonIndex) {
-      case 0:
-        socketGroupId = 1;
-        isOn = YES;
-        break;
-      case 1:
-        socketGroupId = 1;
-        isOn = NO;
-        break;
-      case 2:
-        socketGroupId = 2;
-        isOn = YES;
-        break;
-      case 3:
-        socketGroupId = 2;
-        isOn = NO;
-        break;
-      case 4:
-        DDLogDebug(@"cancel");
-        break;
-      default:
-        break;
+    if ([self.aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
+      switch (buttonIndex) {
+        case 0:
+          socketGroupId = 1;
+          isOn = YES;
+          break;
+        case 1:
+          socketGroupId = 1;
+          isOn = NO;
+          break;
+        case 2:
+          DDLogDebug(@"cancel");
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (buttonIndex) {
+        case 0:
+          socketGroupId = 1;
+          isOn = YES;
+          break;
+        case 1:
+          socketGroupId = 1;
+          isOn = NO;
+          break;
+        case 2:
+          socketGroupId = 2;
+          isOn = YES;
+          break;
+        case 3:
+          socketGroupId = 2;
+          isOn = NO;
+          break;
+        case 4:
+          DDLogDebug(@"cancel");
+          break;
+        default:
+          break;
+      }
     }
-    if (buttonIndex != 4) {
+    if (([self.aSwitch.deviceType isEqualToString:kDeviceType_Snake] &&
+         buttonIndex != 2) ||
+        (![self.aSwitch.deviceType isEqualToString:kDeviceType_Snake] &&
+         buttonIndex != 4)) {
       SceneDetail *detail = [[SceneDetail alloc] initWithMac:self.aSwitch.mac
                                                      groupId:socketGroupId
                                                      onOrOff:isOn];
@@ -375,6 +409,20 @@ preparation before navigation
   sheet.tag = 98982;
   [sheet showInView:self.view];
 }
+
+- (IBAction)changeOnOffState:(id)sender {
+  CGPoint buttonPosition =
+      [sender convertPoint:CGPointZero toView:self.tableView];
+  NSIndexPath *indexPath =
+      [self.tableView indexPathForRowAtPoint:buttonPosition];
+  SceneDetail *detail = self.scene.detailList[indexPath.row];
+  detail.onOrOff = !detail.onOrOff;
+  [self.tableView beginUpdates];
+  [self.tableView reloadRowsAtIndexPaths:@[ indexPath ]
+                        withRowAnimation:UITableViewRowAnimationNone];
+  [self.tableView endUpdates];
+}
+
 #pragma mark - 模板
 - (IBAction)showTemplate:(id)sender {
   self.showTemplateController = YES;
@@ -391,7 +439,10 @@ preparation before navigation
                      functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
   [[templateController.view layer] addAnimation:animation
                                          forKey:@"SceneTemplate"];
-  [self presentViewController:templateController animated:NO completion:^{}];
+  [self presentViewController:templateController
+                     animated:NO
+                   completion:^{
+                   }];
 }
 
 #pragma mark - SceneTemplateDelegate
