@@ -149,6 +149,7 @@ enum {
 + (NSData *)getP2DMsg7F:(NSData *)content num:(char)num;
 @end
 
+@class CityEnvironment;
 @interface CC3xMessage : NSObject
 
 @property (nonatomic, assign) unsigned char msgId;
@@ -212,4 +213,26 @@ enum {
 @property (nonatomic, assign) short co;
 @property (nonatomic, assign) BOOL hasSensorLight;
 @property (nonatomic, assign) short light;
+
+@property (nonatomic, strong) CityEnvironment *cityEnvironment;
+@end
+
+@interface CityEnvironment : NSObject
+@property (nonatomic, strong) NSString *cityName;
+@property (nonatomic, strong) NSString *temperature;
+@property (nonatomic, strong) NSString *humidity;
+@property (nonatomic, strong) NSString *weather;
+@property (nonatomic, strong) NSString *wind;
+@property (nonatomic, strong) NSString *pm2point5;
+@property (nonatomic, strong) NSString *dayPictureUrl;
+@property (nonatomic, strong) NSString *nightPictureUrl;
+
+- (id)initWithCityName:(NSString *)cityName
+           temperature:(NSString *)temperature
+              humidity:(NSString *)humidity
+               weather:(NSString *)weather
+                  wind:(NSString *)wind
+             pm2point5:(NSString *)pm2point5
+         dayPictureUrl:(NSString *)dayPictureUrl
+       nightPictureUrl:(NSString *)nightPictureUrl;
 @end

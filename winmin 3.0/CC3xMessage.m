@@ -301,13 +301,13 @@ typedef struct {
   unsigned char tSensorFlag;     //温度传感器标志1有0无
   short temperature;             //温度
   unsigned char hSensorFlag;     //湿度传感器标志1有0无
-  short humidity;                //湿度
+  char humidity;                 //湿度
   unsigned char smogSensorFlag;  //烟雾传感器标志1有0无
   short smog;                    //烟雾
   unsigned char coSensorFlag;    //一氧化碳传感器标志1有0无
   short co;                      //一氧化碳
   unsigned char lightSensorFlag; //光感传感器标志1有0无
-  short light;                   //光强度
+  char light;                    //光强度
   unsigned short crc;
 } d2pMsg34;
 
@@ -328,13 +328,13 @@ typedef struct {
   unsigned char tSensorFlag;     //温度传感器标志1有0无
   short temperature;             //温度
   unsigned char hSensorFlag;     //湿度传感器标志1有0无
-  short humidity;                //湿度
+  char humidity;                 //湿度
   unsigned char smogSensorFlag;  //烟雾传感器标志1有0无
   short smog;                    //烟雾
   unsigned char coSensorFlag;    //一氧化碳传感器标志1有0无
   short co;                      //一氧化碳
   unsigned char lightSensorFlag; //光感传感器标志1有0无
-  short light;                   //光强度
+  char light;                    //光强度
   unsigned short crc;
 } s2pMsg36;
 
@@ -616,14 +616,14 @@ typedef struct {
   // 3为获取指定城市的天气
   char cityName[20]; //城市名称
   unsigned short crc;
-} p2sMSg67;
+} p2sMsg67;
 
 // S2P_GET_ CITY_WEATHER _RESP 0X68
 typedef struct {
   msgHeader header;
   unsigned char mac[6];
   char state;                // 0表示成功
-  char city[10];             //城市
+  char city[20];             //城市
   char temperature[10];      //温度
   char humidity[10];         //湿度
   char weather[20];          //天气
@@ -1331,7 +1331,17 @@ typedef struct {
 + (NSData *)getP2SMsg67:(NSString *)mac
                    type:(int)type
                cityName:(NSString *)cityName {
-  return nil;
+  p2sMsg67 msg;
+  memset(&msg, 0, sizeof(msg));
+  msg.header.msgId = 0x67;
+  msg.header.msgDir = 0xA5;
+  msg.header.msgLength = htons(sizeof(msg));
+  Byte *macBytes = [CC3xMessageUtil mac2HexBytes:mac];
+  memcpy(&msg.mac, macBytes, sizeof(msg.mac));
+  free(macBytes);
+  msg.type = type;
+  msg.crc = CRC16((unsigned char *)&msg, sizeof(msg) - 2);
+  return B2D(msg);
 }
 + (NSData *)getP2DMsg69:(NSString *)oldPassword
             newPassword:(NSString *)newPassword {
@@ -1555,6 +1565,9 @@ typedef struct {
       stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X", msg.password[0],
                        msg.password[1], msg.password[2], msg.password[3],
                        msg.password[4], msg.password[5]];
+  message.deviceType = [[NSString alloc] initWithBytes:msg.deviceType
+                                                length:strlen(msg.deviceType)
+                                              encoding:NSUTF8StringEncoding];
   message.crc = msg.crc;
   return message;
 }
@@ -1698,20 +1711,22 @@ typedef struct {
   message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
-  if ([aData length] == sizeof(msg) - 15) {
+  if ([aData length] == sizeof(msg) - 13) {
+    //不包含传感器
     message.power = ntohl(msg.power) / 100;
   } else if ([aData length] == sizeof(msg)) {
+    //包含传感器
     message.power = ntohl(msg.power) / 100;
     message.hasSensorTemperature = msg.tSensorFlag;
     message.temperature = ntohs(msg.temperature);
     message.hasSensorHumidity = msg.hSensorFlag;
-    message.humidity = ntohs(msg.humidity);
+    message.humidity = msg.humidity;
     message.hasSensorSmog = msg.smogSensorFlag;
     message.smog = ntohs(msg.smog);
     message.hasSensorCo = msg.coSensorFlag;
     message.co = ntohs(msg.co);
     message.hasSensorLight = msg.lightSensorFlag;
-    message.light = ntohs(msg.light);
+    message.light = msg.light;
   } else {
     if (msg.pulse == 0) {
       message.power = 0;
@@ -1848,6 +1863,60 @@ typedef struct {
     message.crc = ntohs(crc);
   } else {
     message.crc = msg.crc;
+  }
+  return message;
+}
+
++ (CC3xMessage *)parseS2P68:(NSData *)aData {
+  CC3xMessage *message = nil;
+  s2pMsg68 msg;
+  [aData getBytes:&msg length:sizeof(msg)];
+  message = [[CC3xMessage alloc] init];
+  message.msgId = msg.header.msgId;
+  message.msgDir = msg.header.msgDir;
+  message.msgLength = msg.header.msgLength;
+  message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                                           msg.mac[0], msg.mac[1], msg.mac[2],
+                                           msg.mac[3], msg.mac[4], msg.mac[5]];
+  message.state = msg.state;
+  if (msg.state == kUdpResponseSuccessCode) {
+    NSString *city = [[NSString alloc] initWithBytes:msg.city
+                                              length:sizeof(msg.city)
+                                            encoding:NSUTF8StringEncoding];
+    NSString *temperature =
+        [[NSString alloc] initWithBytes:msg.temperature
+                                 length:sizeof(msg.temperature)
+                               encoding:NSUTF8StringEncoding];
+    NSString *humidity = [[NSString alloc] initWithBytes:msg.humidity
+                                                  length:sizeof(msg.humidity)
+                                                encoding:NSUTF8StringEncoding];
+    NSString *weather = [[NSString alloc] initWithBytes:msg.weather
+                                                 length:sizeof(msg.weather)
+                                               encoding:NSUTF8StringEncoding];
+    NSString *wind = [[NSString alloc] initWithBytes:msg.wind
+                                              length:sizeof(msg.wind)
+                                            encoding:NSUTF8StringEncoding];
+    NSString *pm2point5 = [[NSString alloc] initWithBytes:msg.pm2point5
+                                                   length:sizeof(msg.pm2point5)
+                                                 encoding:NSUTF8StringEncoding];
+    NSString *dayPictureUrl =
+        [[NSString alloc] initWithBytes:msg.dayPictureUrl
+                                 length:sizeof(msg.dayPictureUrl)
+                               encoding:NSUTF8StringEncoding];
+    NSString *nightPictureUrl =
+        [[NSString alloc] initWithBytes:msg.nightPictureUrl
+                                 length:sizeof(msg.nightPictureUrl)
+                               encoding:NSUTF8StringEncoding];
+    CityEnvironment *cityEnviroment =
+        [[CityEnvironment alloc] initWithCityName:city
+                                      temperature:temperature
+                                         humidity:humidity
+                                          weather:weather
+                                             wind:wind
+                                        pm2point5:pm2point5
+                                    dayPictureUrl:dayPictureUrl
+                                  nightPictureUrl:nightPictureUrl];
+    message.cityEnvironment = cityEnviroment;
   }
   return message;
 }
@@ -2020,6 +2089,9 @@ typedef struct {
       break;
     case 0x64:
       result = [CC3xMessageUtil parseS2P64:data];
+      break;
+    case 0x68:
+      result = [CC3xMessageUtil parseS2P68:data];
       break;
     case 0x72:
     case 0x74:
@@ -2197,5 +2269,29 @@ typedef struct {
   //      self.airDesc = @"优";
   //      break;
   //  }
+}
+@end
+
+@implementation CityEnvironment
+- (id)initWithCityName:(NSString *)cityName
+           temperature:(NSString *)temperature
+              humidity:(NSString *)humidity
+               weather:(NSString *)weather
+                  wind:(NSString *)wind
+             pm2point5:(NSString *)pm2point5
+         dayPictureUrl:(NSString *)dayPictureUrl
+       nightPictureUrl:(NSString *)nightPictureUrl {
+  self = [super init];
+  if (self) {
+    self.cityName = cityName;
+    self.temperature = temperature;
+    self.humidity = humidity;
+    self.weather = weather;
+    self.wind = wind;
+    self.pm2point5 = pm2point5;
+    self.dayPictureUrl = dayPictureUrl;
+    self.nightPictureUrl = nightPictureUrl;
+  }
+  return self;
 }
 @end
