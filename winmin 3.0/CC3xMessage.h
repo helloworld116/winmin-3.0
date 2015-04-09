@@ -150,6 +150,7 @@ enum {
 @end
 
 @class CityEnvironment;
+@class SensorInfo;
 @interface CC3xMessage : NSObject
 
 @property (nonatomic, assign) unsigned char msgId;
@@ -203,18 +204,8 @@ enum {
 @property (nonatomic, assign) BOOL isTurnOffGreaterOn;
 
 // 4.0传感器
-@property (nonatomic, assign) BOOL hasSensorTemperature;
-@property (nonatomic, assign) short temperature;
-@property (nonatomic, assign) BOOL hasSensorHumidity;
-@property (nonatomic, assign) short humidity;
-@property (nonatomic, assign) BOOL hasSensorSmog;
-@property (nonatomic, assign) short smog;
-@property (nonatomic, assign) BOOL hasSensorCo;
-@property (nonatomic, assign) short co;
-@property (nonatomic, assign) BOOL hasSensorLight;
-@property (nonatomic, assign) short light;
-
 @property (nonatomic, strong) CityEnvironment *cityEnvironment;
+@property (nonatomic, strong) SensorInfo *sensorInfo;
 @end
 
 @interface CityEnvironment : NSObject
@@ -235,4 +226,28 @@ enum {
              pm2point5:(NSString *)pm2point5
          dayPictureUrl:(NSString *)dayPictureUrl
        nightPictureUrl:(NSString *)nightPictureUrl;
+@end
+
+@interface SensorInfo : NSObject
+@property (nonatomic, assign) BOOL hasSensorTemperature;
+@property (nonatomic, assign) short temperature;
+@property (nonatomic, assign) BOOL hasSensorHumidity;
+@property (nonatomic, assign) short humidity;
+@property (nonatomic, assign) BOOL hasSensorSmog;
+@property (nonatomic, assign) short smog;
+@property (nonatomic, assign) BOOL hasSensorCo;
+@property (nonatomic, assign) short co;
+@property (nonatomic, assign) BOOL hasSensorLight;
+@property (nonatomic, assign) short light;
+
+- (id)initWithHasSensorTemperature:(BOOL)hasSensorTemperature
+                       temperature:(short)temperature
+                 hasSensorHumidity:(BOOL)hasSensorHumidity
+                          humidity:(short)humidity
+                     hasSensorSmog:(BOOL)hasSensorSmog
+                              somg:(short)smog
+                       hasSensorCo:(BOOL)hasSensorCo
+                                co:(short)co
+                    hasSensorLight:(BOOL)hasSensorLight
+                             light:(short)light;
 @end

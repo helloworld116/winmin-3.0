@@ -1716,17 +1716,29 @@ typedef struct {
     message.power = ntohl(msg.power) / 100;
   } else if ([aData length] == sizeof(msg)) {
     //包含传感器
-    message.power = ntohl(msg.power) / 100;
-    message.hasSensorTemperature = msg.tSensorFlag;
-    message.temperature = ntohs(msg.temperature);
-    message.hasSensorHumidity = msg.hSensorFlag;
-    message.humidity = msg.humidity;
-    message.hasSensorSmog = msg.smogSensorFlag;
-    message.smog = ntohs(msg.smog);
-    message.hasSensorCo = msg.coSensorFlag;
-    message.co = ntohs(msg.co);
-    message.hasSensorLight = msg.lightSensorFlag;
-    message.light = msg.light;
+    message.power = msg.power;
+    BOOL hasSensorTemperature = msg.tSensorFlag;
+    short temperature = ntohs(msg.temperature);
+    BOOL hasSensorHumidity = msg.hSensorFlag;
+    char humidity = msg.humidity;
+    BOOL hasSensorSmog = msg.smogSensorFlag;
+    short smog = ntohs(msg.smog);
+    BOOL hasSensorCo = msg.coSensorFlag;
+    short co = ntohs(msg.co);
+    BOOL hasSensorLight = msg.lightSensorFlag;
+    char light = msg.light;
+    SensorInfo *sensorInfo =
+        [[SensorInfo alloc] initWithHasSensorTemperature:hasSensorTemperature
+                                             temperature:temperature
+                                       hasSensorHumidity:hasSensorHumidity
+                                                humidity:humidity
+                                           hasSensorSmog:hasSensorSmog
+                                                    somg:smog
+                                             hasSensorCo:hasSensorCo
+                                                      co:co
+                                          hasSensorLight:hasSensorLight
+                                                   light:light];
+    message.sensorInfo = sensorInfo;
   } else {
     if (msg.pulse == 0) {
       message.power = 0;
@@ -2294,4 +2306,34 @@ typedef struct {
   }
   return self;
 }
+@end
+
+@implementation SensorInfo
+
+- (id)initWithHasSensorTemperature:(BOOL)hasSensorTemperature
+                       temperature:(short)temperature
+                 hasSensorHumidity:(BOOL)hasSensorHumidity
+                          humidity:(short)humidity
+                     hasSensorSmog:(BOOL)hasSensorSmog
+                              somg:(short)smog
+                       hasSensorCo:(BOOL)hasSensorCo
+                                co:(short)co
+                    hasSensorLight:(BOOL)hasSensorLight
+                             light:(short)light {
+  self = [super init];
+  if (self) {
+    self.hasSensorTemperature = hasSensorTemperature;
+    self.temperature = temperature;
+    self.hasSensorHumidity = hasSensorHumidity;
+    self.humidity = humidity;
+    self.hasSensorSmog = hasSensorSmog;
+    self.smog = smog;
+    self.hasSensorCo = hasSensorCo;
+    self.co = co;
+    self.hasSensorLight = hasSensorLight;
+    self.light = light;
+  }
+  return self;
+}
+
 @end

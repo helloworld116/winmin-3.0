@@ -167,6 +167,8 @@
 		15DFD5671AC3EA37007551C5 /* ProductIntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15DFD5661AC3EA37007551C5 /* ProductIntroViewController.m */; };
 		15E31BB31A6508310054CE81 /* BackgroundAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E31BB21A6508310054CE81 /* BackgroundAudioPlay.m */; };
 		15E31BB51A6517BA0054CE81 /* glass.wav in Resources */ = {isa = PBXBuildFile; fileRef = 15E31BB41A6517BA0054CE81 /* glass.wav */; };
+		15E7D6D31AD61BF00009A9F3 /* SensorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E7D6D21AD61BF00009A9F3 /* SensorViewController.m */; };
+		15E7D6D61AD61D730009A9F3 /* SensorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E7D6D51AD61D730009A9F3 /* SensorModel.m */; };
 		15EA3F191A2F0A6F00D14A47 /* welcome1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EA3F151A2F0A6F00D14A47 /* welcome1@2x.png */; };
 		15EA3F1A1A2F0A6F00D14A47 /* welcome2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EA3F161A2F0A6F00D14A47 /* welcome2@2x.png */; };
 		15EA3F1B1A2F0A6F00D14A47 /* welcome3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EA3F171A2F0A6F00D14A47 /* welcome3@2x.png */; };
@@ -472,6 +474,10 @@
 		15E31BB11A6508300054CE81 /* BackgroundAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundAudioPlay.h; sourceTree = "<group>"; };
 		15E31BB21A6508310054CE81 /* BackgroundAudioPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundAudioPlay.m; sourceTree = "<group>"; };
 		15E31BB41A6517BA0054CE81 /* glass.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = glass.wav; sourceTree = "<group>"; };
+		15E7D6D11AD61BF00009A9F3 /* SensorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorViewController.h; sourceTree = "<group>"; };
+		15E7D6D21AD61BF00009A9F3 /* SensorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorViewController.m; sourceTree = "<group>"; };
+		15E7D6D41AD61D730009A9F3 /* SensorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorModel.h; sourceTree = "<group>"; };
+		15E7D6D51AD61D730009A9F3 /* SensorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorModel.m; sourceTree = "<group>"; };
 		15EA3F151A2F0A6F00D14A47 /* welcome1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1@2x.png"; sourceTree = "<group>"; };
 		15EA3F161A2F0A6F00D14A47 /* welcome2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2@2x.png"; sourceTree = "<group>"; };
 		15EA3F171A2F0A6F00D14A47 /* welcome3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3@2x.png"; sourceTree = "<group>"; };
@@ -725,6 +731,8 @@
 				15C626EB1A7733DA0063C2EC /* FirewareModel.m */,
 				150F79E41A81B446003E6BC3 /* SwitchRestartModel.h */,
 				150F79E51A81B446003E6BC3 /* SwitchRestartModel.m */,
+				15E7D6D41AD61D730009A9F3 /* SensorModel.h */,
+				15E7D6D51AD61D730009A9F3 /* SensorModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -783,6 +791,8 @@
 				150057551A80A2F900431BEC /* SwitchRestartViewController.m */,
 				155C547B1AC156220097D862 /* SnakeSwitchDetailViewController.h */,
 				155C547C1AC156220097D862 /* SnakeSwitchDetailViewController.m */,
+				15E7D6D11AD61BF00009A9F3 /* SensorViewController.h */,
+				15E7D6D21AD61BF00009A9F3 /* SensorViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -1340,6 +1350,7 @@
 				157924841A58DE440034C832 /* ShakeWindow.m in Sources */,
 				15F3A47619EB80E4001CD296 /* RegisterViewController.m in Sources */,
 				150BE86119FFA7B700A358CF /* FindPassword.m in Sources */,
+				15E7D6D31AD61BF00009A9F3 /* SensorViewController.m in Sources */,
 				158D993619C7E2530068AFC5 /* SceneDetail.m in Sources */,
 				158D988B19C6F39C0068AFC5 /* AppDelegate.m in Sources */,
 				155A5BF919D3F306007864C8 /* SceneEditCell.m in Sources */,
@@ -1371,6 +1382,7 @@
 				15AC864119CFC71400D154EB /* TimerCell.m in Sources */,
 				158D992919C7E1390068AFC5 /* ViewUtil.m in Sources */,
 				150BE85519FF8CA600A358CF /* ForgetPwdViewController.m in Sources */,
+				15E7D6D61AD61D730009A9F3 /* SensorModel.m in Sources */,
 				155A5BF019D3D7B3007864C8 /* SceneCell.m in Sources */,
 				1551F6EF19F8951200A24447 /* FAQViewController.m in Sources */,
 				156C8DDE1A7895EC005C6CB3 /* NSData+MD5.m in Sources */,
