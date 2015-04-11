@@ -16,7 +16,7 @@
 #import <AFNetworking.h>
 #import <UIViewController+MJPopupViewController.h>
 #import <ShareSDK/ShareSDK.h>
-#import <CocoaLumberjack.h>
+#import <CocoaLumberjack/CocoaLumberjack.h>
 
 #import "CC3xMessage.h"
 #import "SDZGSwitch.h"
@@ -57,9 +57,9 @@
 
 //日志
 #ifdef DEBUG
-static const int ddLogLevel = LOG_LEVEL_DEBUG;
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 #else
-static const int ddLogLevel = LOG_LEVEL_OFF;
+static const DDLogLevel ddLogLevel = DDLogLevelOff;
 #endif
 
 #define isEqualOrGreaterToiOS7                                                 \

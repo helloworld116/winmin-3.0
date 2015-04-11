@@ -12,4 +12,8 @@
 typedef void (^CityWeatherBlock)(CityEnvironment *cityEnviroment);
 typedef void (^SensorDataBlock)(SensorInfo *sensorInfo);
 - (id)initWithSwitch:(SDZGSwitch *)aSwitch;
+
+- (void)queryWeatherInfo:(CityWeatherBlock)weatherBlock;
+
+- (void)querySensorInfo:(SensorDataBlock)sensorBlock;
 @end

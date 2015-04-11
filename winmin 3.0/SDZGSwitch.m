@@ -372,6 +372,7 @@ static int switchId = 200000;
   copy->_firewareVersion = [_firewareVersion copy];
   copy->_deviceType = [_deviceType copy];
   copy->_isRestart = _isRestart;
+  copy->_hasSensorData = _hasSensorData;
   return copy;
 }
 

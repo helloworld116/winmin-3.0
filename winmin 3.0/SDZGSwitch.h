@@ -60,6 +60,9 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE) {
 @property (nonatomic, strong) NSString *deviceType;              //设备类型
 @property (nonatomic, assign) BOOL isRestart; //标识改设备是否重新启动
 @property (nonatomic, strong) NSString *restartMsgDateStr; //设备重启时间
+
+@property (nonatomic, assign) BOOL hasSensorData;
+@property (nonatomic, strong) NSString *sensorBgImage;//传感器背景图片
 + (void)parseMessageCOrE:(CC3xMessage *)message
                 toSwitch:(void (^)(SDZGSwitch *aSwitch))completion;
 /**

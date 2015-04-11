@@ -1,0 +1,1 @@
+../../../NCICharts/NCIChart/views/NCISimpleChartView.h

@@ -13,6 +13,9 @@
 #import "SwitchSyncService.h"
 #import "SwitchRestartViewController.h"
 #import "SnakeSwitchDetailViewController.h"
+#import "SensorListCell.h"
+#import "SensorViewController.h"
+#import "UIImageView+LBBlurredImage.h"
 
 @interface SwitchListViewController () <
     UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate,
@@ -21,6 +24,7 @@
 @property (nonatomic, strong) SwitchListModel *model;
 @property (nonatomic, strong) SDZGSwitch *operationSwitch; //当前操作的switch
 @property (nonatomic, strong) NSArray *switchs;
+@property (nonatomic, strong) NSMutableArray *sensors;
 @property (nonatomic, strong) NSIndexPath *longPressIndexPath;
 @property (nonatomic, strong) UIView *noDataView;
 @property (nonatomic, strong) NSTimer *timerUpdateList;
@@ -95,6 +99,12 @@
     self.noDataView.hidden = NO;
   } else {
     [self.tableView reloadData];
+  }
+  self.sensors = [@[] mutableCopy];
+  for (SDZGSwitch *aSwitch in self.switchs) {
+    if (aSwitch.hasSensorData) {
+      [self.sensors addObject:aSwitch];
+    }
   }
   self.model = [[SwitchListModel alloc] init];
   [[NSNotificationCenter defaultCenter] addObserver:self
@@ -411,6 +421,12 @@
 - (void)reloadTableView {
   DDLogDebug(@"***************%s****************", __FUNCTION__);
   self.switchs = [[SwitchDataCeneter sharedInstance] switchsWithChangeStatus];
+  [self.sensors removeAllObjects];
+  for (SDZGSwitch *aSwitch in self.switchs) {
+    if (aSwitch.hasSensorData) {
+      [self.sensors addObject:aSwitch];
+    }
+  }
   [self.tableView reloadData];
 }
 
@@ -423,52 +439,76 @@
 }
 
 #pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+  return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView
     numberOfRowsInSection:(NSInteger)section {
-  return [self.switchs count];
+  if (section == 0) {
+    return [self.switchs count];
+  } else {
+    return self.sensors.count;
+  }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *CellId = @"SwitchListCell";
-  SwitchListCell *cell =
-      [self.tableView dequeueReusableCellWithIdentifier:CellId];
+  if (indexPath.section == 0) {
+    static NSString *CellId = @"SwitchListCell";
+    SwitchListCell *cell =
+        [self.tableView dequeueReusableCellWithIdentifier:CellId];
 
-  SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
-  [cell setCellInfo:aSwitch];
-  //  UILongPressGestureRecognizer *longPressGesture =
-  //      [[UILongPressGestureRecognizer alloc]
-  //          initWithTarget:self
-  //                  action:@selector(handlerLongPress:)];
-  //  longPressGesture.minimumPressDuration = 0.5;
-  //  [cell addGestureRecognizer:longPressGesture];
-  UIView *myBackView = [[UIView alloc] initWithFrame:cell.frame];
-  myBackView.backgroundColor = [UIColor colorWithHexString:@"#F6F4F4"];
-  cell.selectedBackgroundView = myBackView;
-  return cell;
+    SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
+    [cell setCellInfo:aSwitch];
+    UIView *myBackView = [[UIView alloc] initWithFrame:cell.frame];
+    myBackView.backgroundColor = [UIColor colorWithHexString:@"#F6F4F4"];
+    cell.selectedBackgroundView = myBackView;
+    return cell;
+  } else {
+    static NSString *CellId = @"SensorListCell";
+    SensorListCell *cell =
+        [self.tableView dequeueReusableCellWithIdentifier:CellId];
+    SDZGSwitch *aSwitch = [self.sensors objectAtIndex:indexPath.row];
+    cell.lblSwitchName.text = [NSString stringWithFormat:@"(%@)", aSwitch.name];
+    return cell;
+  }
 }
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  [self pauseUpdateList];
-  self.HUD = [[MBProgressHUD alloc] initWithWindow:kSharedAppliction.window];
-  [self.view.window addSubview:self.HUD];
-  self.HUD.delegate = self;
-  [self.HUD show:YES];
-  SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
-  if (aSwitch.networkStatus == SWITCH_NEW) {
-    aSwitch.networkStatus = SWITCH_LOCAL;
-    NSArray *indexPaths = @[ indexPath ];
-    [self.tableView reloadRowsAtIndexPaths:indexPaths
-                          withRowAnimation:UITableViewRowAnimationAutomatic];
+  if (indexPath.section == 0) {
+    [self pauseUpdateList];
+    self.HUD = [[MBProgressHUD alloc] initWithWindow:kSharedAppliction.window];
+    [self.view.window addSubview:self.HUD];
+    self.HUD.delegate = self;
+    [self.HUD show:YES];
+    SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
+    if (aSwitch.networkStatus == SWITCH_NEW) {
+      aSwitch.networkStatus = SWITCH_LOCAL;
+      NSArray *indexPaths = @[ indexPath ];
+      [self.tableView reloadRowsAtIndexPaths:indexPaths
+                            withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    [self.model scanSwitchState:aSwitch
+                       complete:^(int status) {
+                         [self switchStatusRecivied:aSwitch
+                                             status:status
+                                          indexPath:indexPath];
+                       }];
+  } else {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    SDZGSwitch *aSwtich;
+    if (indexPath.row < self.sensors.count) {
+      aSwtich = self.sensors[indexPath.row];
+    }
+    SensorViewController *sensorViewController = [self.storyboard
+        instantiateViewControllerWithIdentifier:@"SensorViewController"];
+    sensorViewController.aSwitch = aSwtich;
+    [self.navigationController pushViewController:sensorViewController
+                                         animated:YES];
   }
-  [self.model scanSwitchState:aSwitch
-                     complete:^(int status) {
-                       [self switchStatusRecivied:aSwitch
-                                           status:status
-                                        indexPath:indexPath];
-                     }];
 }
 
 - (void)switchStatusRecivied:(SDZGSwitch *)aSwitch
@@ -564,34 +604,36 @@
 - (void)handlerLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
   CGPoint p = [gestureRecognizer locationInView:self.tableView];
   NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
-  SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
-  self.operationSwitch = aSwitch;
-  if (indexPath && gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-    [self pauseUpdateList];
-    self.longPressIndexPath = indexPath;
-    UIActionSheet *actionSheet;
-    if (aSwitch.networkStatus == SWITCH_OFFLINE) {
-      self.hasBlinkMenu = NO;
-      actionSheet = [[UIActionSheet alloc]
-                   initWithTitle:NSLocalizedString(
-                                     @"Which operation do you want?", nil)
-                        delegate:self
-               cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-          destructiveButtonTitle:nil
-               otherButtonTitles:NSLocalizedString(@"Delete", nil), nil];
-    } else {
-      self.hasBlinkMenu = YES;
-      actionSheet = [[UIActionSheet alloc]
-                   initWithTitle:NSLocalizedString(
-                                     @"Which operation do you want?", nil)
-                        delegate:self
-               cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-          destructiveButtonTitle:nil
-               otherButtonTitles:NSLocalizedString(@"Flash", nil),
-                                 NSLocalizedString(@"Delete", nil), nil];
+  if (indexPath.section == 0) {
+    SDZGSwitch *aSwitch = [self.switchs objectAtIndex:indexPath.row];
+    self.operationSwitch = aSwitch;
+    if (indexPath && gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+      [self pauseUpdateList];
+      self.longPressIndexPath = indexPath;
+      UIActionSheet *actionSheet;
+      if (aSwitch.networkStatus == SWITCH_OFFLINE) {
+        self.hasBlinkMenu = NO;
+        actionSheet = [[UIActionSheet alloc]
+                     initWithTitle:NSLocalizedString(
+                                       @"Which operation do you want?", nil)
+                          delegate:self
+                 cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+            destructiveButtonTitle:nil
+                 otherButtonTitles:NSLocalizedString(@"Delete", nil), nil];
+      } else {
+        self.hasBlinkMenu = YES;
+        actionSheet = [[UIActionSheet alloc]
+                     initWithTitle:NSLocalizedString(
+                                       @"Which operation do you want?", nil)
+                          delegate:self
+                 cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+            destructiveButtonTitle:nil
+                 otherButtonTitles:NSLocalizedString(@"Flash", nil),
+                                   NSLocalizedString(@"Delete", nil), nil];
+      }
+      //    [actionSheet showInView:self.view];
+      [actionSheet showFromTabBar:self.tabBarController.tabBar];
     }
-    //    [actionSheet showInView:self.view];
-    [actionSheet showFromTabBar:self.tabBarController.tabBar];
   }
 }
 

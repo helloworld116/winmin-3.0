@@ -1716,7 +1716,7 @@ typedef struct {
     message.power = ntohl(msg.power) / 100;
   } else if ([aData length] == sizeof(msg)) {
     //包含传感器
-    message.power = msg.power;
+    message.power = ntohl(msg.power) / 100;
     BOOL hasSensorTemperature = msg.tSensorFlag;
     short temperature = ntohs(msg.temperature);
     BOOL hasSensorHumidity = msg.hSensorFlag;
@@ -1746,6 +1746,20 @@ typedef struct {
       float diff = floorf(kElecFactor / ntohs(msg.pulse) - kElecDiff);
       message.power = diff > 0 ? diff : 0.f;
     }
+  }
+  if ([message.mac isEqualToString:@"00:19:94:47:D1:8E"]) {
+    SensorInfo *sensorInfo =
+        [[SensorInfo alloc] initWithHasSensorTemperature:YES
+                                             temperature:25
+                                       hasSensorHumidity:YES
+                                                humidity:80
+                                           hasSensorSmog:NO
+                                                    somg:0
+                                             hasSensorCo:NO
+                                                      co:0
+                                          hasSensorLight:NO
+                                                   light:0];
+    message.sensorInfo = sensorInfo;
   }
   return message;
 }

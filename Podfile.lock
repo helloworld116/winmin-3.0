@@ -1,11 +1,11 @@
 PODS:
   - AFNetworking (2.4.1):
-    - AFNetworking/NSURLConnection
-    - AFNetworking/NSURLSession
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-    - AFNetworking/UIKit
+    - AFNetworking/NSURLConnection (= 2.4.1)
+    - AFNetworking/NSURLSession (= 2.4.1)
+    - AFNetworking/Reachability (= 2.4.1)
+    - AFNetworking/Security (= 2.4.1)
+    - AFNetworking/Serialization (= 2.4.1)
+    - AFNetworking/UIKit (= 2.4.1)
   - AFNetworking/NSURLConnection (2.4.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
@@ -22,25 +22,25 @@ PODS:
     - AFNetworking/NSURLSession
   - BEMSimpleLineGraph (3.2)
   - CocoaAsyncSocket (7.3.5)
-  - CocoaLumberjack (2.0.0-beta):
-    - CocoaLumberjack/CLI
+  - CocoaLumberjack (2.0.0):
+    - CocoaLumberjack/Default (= 2.0.0)
+    - CocoaLumberjack/Extensions (= 2.0.0)
+  - CocoaLumberjack/Core (2.0.0)
+  - CocoaLumberjack/Default (2.0.0):
     - CocoaLumberjack/Core
-    - CocoaLumberjack/Extensions
-  - CocoaLumberjack/CLI (2.0.0-beta):
-    - CocoaLumberjack/Core
-  - CocoaLumberjack/Core (2.0.0-beta)
-  - CocoaLumberjack/Extensions (2.0.0-beta):
-    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.0.0):
+    - CocoaLumberjack/Default
   - CRToast (0.0.7)
   - DDProgressView (0.1)
   - EAIntroView (2.6.3)
   - EGOTableViewPullRefresh (0.1.0)
   - FMDB (2.3):
-    - FMDB/standard
+    - FMDB/standard (= 2.3)
   - FMDB/common (2.3)
   - FMDB/standard (2.3):
     - FMDB/common
   - HexColors (2.2.1)
+  - LBBlurredImage (0.2.2)
   - MBProgressHUD (0.9)
   - MJPopupViewController (0.4)
   - NCICharts (2.0.1)
@@ -64,6 +64,7 @@ DEPENDENCIES:
   - EGOTableViewPullRefresh
   - FMDB
   - HexColors
+  - LBBlurredImage
   - MBProgressHUD (from `https://github.com/jdg/MBProgressHUD.git`)
   - MJPopupViewController
   - NCICharts
@@ -79,25 +80,26 @@ EXTERNAL SOURCES:
     :git: https://github.com/jdg/MBProgressHUD.git
 
 SPEC CHECKSUMS:
-  AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  BEMSimpleLineGraph: 68e349eb22320d1a21a29e390d0f67772f6f6f44
-  CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
-  CocoaLumberjack: aadc76d7bd6c839ca84b38ed50cbf89d7cf8c693
-  CRToast: f9f2c4b29776d68ba24c4d621cba59a83fea921b
-  DDProgressView: 4619e79b2b1c8437ed451c0d439eec88bb99e243
-  EAIntroView: 45924b81c153d1206ee24f4fa654e9d9dae79e93
-  EGOTableViewPullRefresh: 04bb7d115f660c91a036ebade5e6678c7ef26c59
-  FMDB: 31ec26773c7f7b7890a6038235a1f2bbd933a7cb
-  HexColors: 01384d2bbe8dc4ffa43c3b4135db6e976952d153
+  AFNetworking: 41d45d2c14219af0fa5addf3cfd433a002c13c9f
+  BEMSimpleLineGraph: 25676aef045e470b04ea0534e18a9c87c32a9cdf
+  CocoaAsyncSocket: 94c582a5bef4bb0f51b6ebf3e1b561d9091a68ba
+  CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
+  CRToast: 99a28f4387def43b439ad88f957ce31357ff7373
+  DDProgressView: d5a8983e5585217ee58f4a046bb4038f6e1b6306
+  EAIntroView: 32297ea4c8907933ab87386c9e17c424452cd625
+  EGOTableViewPullRefresh: d4c15be51914f4168d6fd7529b6ad3a4ab01e5f4
+  FMDB: 773d79bb74226959b7e2286b1d6e0bd857c88915
+  HexColors: abfd172e329dab59888614ccba6f216cec59289d
+  LBBlurredImage: 700634c17922bc2d22343118e7deb6a3ca12db43
   MBProgressHUD: 85f9608e8473269aba4f6603958bb8bafcb60388
-  MJPopupViewController: b087684832981731f3d11b7a2ae6293a9073e011
-  NCICharts: 4d203189de31450f20cebfc3f4dfbc08a2321338
-  NSDate+Calendar: d1e6f7298a9f95f3e0bb999acc445aee282e6769
-  PNChart: 0d0cf4531de3aa7f2b12434a54845d70d9c9cfe3
-  Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7
-  SGNavigationProgress: 6c38006ca3c652618411c67d493b263343d5aece
-  Toast: 1d773017c5d2e7b1d90565a5f9530340e6eeff72
-  TWMessageBarManager: 427c1f2463b22f4048ea2663184d33644212be37
-  UICountingLabel: 0a0e9e34bf4690dbd127aaec552d19ed938087a9
+  MJPopupViewController: e9ad553a3145eb8126ba2748e872ae7fb25cc605
+  NCICharts: 14a333dafaa3aec48f678ef76d2f3ffd88c1dd46
+  NSDate+Calendar: 8cbf6528073758b12e021a02e9c2427dd72c3832
+  PNChart: a37bcc02f66524c2d267c6d7f0ac79ce8d880ec8
+  Reachability: dd9aa4fb6667b9f787690a74f53cb7634ce99893
+  SGNavigationProgress: f04e3bd0058c53e1172ee020b5239f22aa9e4a0f
+  Toast: 4f935860c02d547ae3f514d9fc06c25ab88cf858
+  TWMessageBarManager: 8b334f1b160b9686cd6b7a909b199c2e38dc037f
+  UICountingLabel: 540feeca6bbb78be892c8ab75b6ad02313cb2b10
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.35.0

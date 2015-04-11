@@ -320,13 +320,13 @@
   [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
   [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor whiteColor]
                                    backgroundColor:nil
-                                           forFlag:LOG_FLAG_DEBUG];
+                                           forFlag:DDLogFlagDebug];
   [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor]
                                    backgroundColor:nil
-                                           forFlag:LOG_FLAG_WARN];
+                                           forFlag:DDLogFlagWarning];
   [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor redColor]
                                    backgroundColor:nil
-                                           forFlag:LOG_FLAG_ERROR];
+                                           forFlag:DDLogFlagError];
 }
 
 - (void)registPlatform {

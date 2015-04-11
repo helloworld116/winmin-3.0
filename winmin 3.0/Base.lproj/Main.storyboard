@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <scenes>
         <!--控制-->
@@ -136,6 +136,41 @@
                                             <outlet property="realTimeView" destination="H1W-ks-gLT" id="vEo-VE-V3q"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SensorListCell" id="vXt-mu-A13" customClass="SensorListCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vXt-mu-A13" id="oc8-m6-O3o">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_env" translatesAutoresizingMaskIntoConstraints="NO" id="Niw-pd-aBi">
+                                                    <rect key="frame" x="10" y="9" width="42" height="42"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="环境监测" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n96-Ho-LpA">
+                                                    <rect key="frame" x="62" y="9" width="68" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.15686274510000001" green="0.72549019609999998" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pi8-qz-rsd">
+                                                    <rect key="frame" x="62" y="33" width="38" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Pi8-qz-rsd" firstAttribute="leading" secondItem="Niw-pd-aBi" secondAttribute="trailing" constant="10" id="GJz-1I-K7W"/>
+                                                <constraint firstItem="n96-Ho-LpA" firstAttribute="leading" secondItem="Niw-pd-aBi" secondAttribute="trailing" constant="10" id="HqW-46-9h6"/>
+                                                <constraint firstItem="Niw-pd-aBi" firstAttribute="top" secondItem="oc8-m6-O3o" secondAttribute="top" constant="9" id="IK4-c4-RlC"/>
+                                                <constraint firstItem="n96-Ho-LpA" firstAttribute="top" secondItem="oc8-m6-O3o" secondAttribute="top" constant="9" id="Jay-MH-4iz"/>
+                                                <constraint firstItem="Pi8-qz-rsd" firstAttribute="top" secondItem="n96-Ho-LpA" secondAttribute="bottom" constant="3" id="kWN-BZ-VLW"/>
+                                                <constraint firstItem="Niw-pd-aBi" firstAttribute="leading" secondItem="oc8-m6-O3o" secondAttribute="leading" constant="10" id="o7O-Ml-gcm"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="lblSwitchName" destination="Pi8-qz-rsd" id="3nd-CX-9cA"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
@@ -235,7 +270,7 @@
         <!--Sensor View Controller-->
         <scene sceneID="Qre-XG-72u">
             <objects>
-                <viewController storyboardIdentifier="SensorViewController" id="IR6-q2-kUi" customClass="SensorViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SensorViewController" hidesBottomBarWhenPushed="YES" id="IR6-q2-kUi" customClass="SensorViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="03T-pg-u9a"/>
                         <viewControllerLayoutGuide type="bottom" id="o8P-bv-5h0"/>
@@ -257,16 +292,16 @@
                                 <rect key="frame" x="25" y="194" width="60" height="60"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_temper" translatesAutoresizingMaskIntoConstraints="NO" id="cUe-e2-Jib">
-                                <rect key="frame" x="25" y="274" width="40" height="40"/>
+                                <rect key="frame" x="20" y="274" width="40" height="40"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_smoke" translatesAutoresizingMaskIntoConstraints="NO" id="l5D-pj-Cz6">
                                 <rect key="frame" x="115" y="274" width="40" height="40"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_co" translatesAutoresizingMaskIntoConstraints="NO" id="2Dd-Na-WiC">
-                                <rect key="frame" x="205" y="274" width="40" height="40"/>
+                                <rect key="frame" x="210" y="274" width="40" height="40"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="温湿度" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sbc-Kf-eCm">
-                                <rect key="frame" x="65" y="287" width="36" height="15"/>
+                                <rect key="frame" x="60" y="287" width="36" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -278,19 +313,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一氧化碳" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYg-e6-hdy">
-                                <rect key="frame" x="245" y="286" width="48" height="15"/>
+                                <rect key="frame" x="250" y="286" width="48" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PvW-dC-MxY">
-                                <rect key="frame" x="65" y="305" width="37" height="15"/>
+                                <rect key="frame" x="60" y="305" width="37" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SPM-ul-UQ5">
-                                <rect key="frame" x="245" y="304" width="37" height="15"/>
+                                <rect key="frame" x="250" y="304" width="37" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -302,19 +337,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_bottom_bg" translatesAutoresizingMaskIntoConstraints="NO" id="uo9-bu-kLa">
-                                <rect key="frame" x="0.0" y="488" width="320" height="80"/>
+                                <rect key="frame" x="0.0" y="498" width="320" height="70"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="avi-6z-Goz"/>
+                                    <constraint firstAttribute="height" constant="70" id="avi-6z-Goz"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_bottom_line" translatesAutoresizingMaskIntoConstraints="NO" id="nzD-6M-i0E">
-                                <rect key="frame" x="160" y="488" width="1" height="80"/>
+                                <rect key="frame" x="160" y="498" width="1" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="1" id="8YA-9h-DJn"/>
-                                    <constraint firstAttribute="height" constant="80" id="dZL-kE-Sdk"/>
+                                    <constraint firstAttribute="height" constant="70" id="dZL-kE-Sdk"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="今天" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pub-XG-Y41">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="今天" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pub-XG-Y41">
                                 <rect key="frame" x="8" y="518" width="24" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -365,10 +400,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2Dd-Na-WiC" firstAttribute="leading" secondItem="l5D-pj-Cz6" secondAttribute="trailing" constant="50" id="1L6-XV-OmG"/>
+                            <constraint firstItem="2Dd-Na-WiC" firstAttribute="leading" secondItem="l5D-pj-Cz6" secondAttribute="trailing" constant="55" id="1L6-XV-OmG"/>
                             <constraint firstItem="Vgj-uR-uki" firstAttribute="top" secondItem="03T-pg-u9a" secondAttribute="bottom" constant="20" id="2x9-n1-Mef"/>
-                            <constraint firstItem="l5D-pj-Cz6" firstAttribute="leading" secondItem="cUe-e2-Jib" secondAttribute="trailing" constant="50" id="44K-N9-ZTc"/>
+                            <constraint firstItem="l5D-pj-Cz6" firstAttribute="leading" secondItem="cUe-e2-Jib" secondAttribute="trailing" constant="55" id="44K-N9-ZTc"/>
                             <constraint firstAttribute="centerX" secondItem="Vgj-uR-uki" secondAttribute="centerX" id="48o-Ry-inb"/>
+                            <constraint firstItem="3CV-6p-yPe" firstAttribute="top" secondItem="Pub-XG-Y41" secondAttribute="bottom" constant="12" id="4Vi-6n-GRo"/>
                             <constraint firstItem="VwV-4E-nxo" firstAttribute="leading" secondItem="l5D-pj-Cz6" secondAttribute="trailing" id="5kh-ZR-iNa"/>
                             <constraint firstItem="XYg-e6-hdy" firstAttribute="leading" secondItem="2Dd-Na-WiC" secondAttribute="trailing" id="8R1-hU-KhR"/>
                             <constraint firstItem="l5D-pj-Cz6" firstAttribute="centerY" secondItem="2Dd-Na-WiC" secondAttribute="centerY" id="A9u-d3-CDp"/>
@@ -384,7 +420,7 @@
                             <constraint firstItem="o8P-bv-5h0" firstAttribute="top" secondItem="2JE-nf-p8c" secondAttribute="bottom" constant="8" id="Pnr-S4-JY4"/>
                             <constraint firstItem="2JE-nf-p8c" firstAttribute="top" secondItem="94j-Z2-dja" secondAttribute="bottom" constant="12" id="Q6N-hf-oO7"/>
                             <constraint firstItem="cUe-e2-Jib" firstAttribute="top" secondItem="1ER-ha-7aD" secondAttribute="bottom" constant="20" id="SYa-6v-XVg"/>
-                            <constraint firstItem="cUe-e2-Jib" firstAttribute="leading" secondItem="KHz-ye-qn4" secondAttribute="leading" constant="25" id="TrU-R8-u0p"/>
+                            <constraint firstItem="cUe-e2-Jib" firstAttribute="leading" secondItem="KHz-ye-qn4" secondAttribute="leading" constant="20" id="TrU-R8-u0p"/>
                             <constraint firstItem="94j-Z2-dja" firstAttribute="leading" secondItem="nzD-6M-i0E" secondAttribute="trailing" constant="8" id="U1R-wP-xbh"/>
                             <constraint firstItem="2JE-nf-p8c" firstAttribute="leading" secondItem="nzD-6M-i0E" secondAttribute="trailing" constant="8" id="VRu-PN-4gA"/>
                             <constraint firstAttribute="trailing" secondItem="lxr-bP-e9L" secondAttribute="trailing" constant="8" id="Veo-l2-vVp"/>
@@ -405,6 +441,7 @@
                             <constraint firstItem="g0j-wg-Rac" firstAttribute="top" secondItem="lxr-bP-e9L" secondAttribute="bottom" constant="12" id="maT-Ny-k7a"/>
                             <constraint firstAttribute="trailing" secondItem="uo9-bu-kLa" secondAttribute="trailing" id="oqa-jY-HI1"/>
                             <constraint firstItem="SEt-YW-kSi" firstAttribute="top" secondItem="WEC-Lx-eL5" secondAttribute="bottom" constant="12" id="pUs-OG-Fzs"/>
+                            <constraint firstItem="Pub-XG-Y41" firstAttribute="leading" secondItem="KHz-ye-qn4" secondAttribute="leading" constant="8" id="qpM-JL-cxN"/>
                             <constraint firstItem="uo9-bu-kLa" firstAttribute="leading" secondItem="KHz-ye-qn4" secondAttribute="leading" id="qpR-AY-LKB"/>
                             <constraint firstItem="SPM-ul-UQ5" firstAttribute="leading" secondItem="2Dd-Na-WiC" secondAttribute="trailing" id="rz3-K7-qeo"/>
                             <constraint firstItem="o8P-bv-5h0" firstAttribute="top" secondItem="uo9-bu-kLa" secondAttribute="bottom" id="whf-YX-Pse"/>
@@ -413,6 +450,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="imgVBg" destination="6NB-t6-yJ2" id="Tyi-lo-cxt"/>
                         <outlet property="lblCityName" destination="SEt-YW-kSi" id="NOz-Aa-5Dw"/>
                         <outlet property="lblCityPm2point5" destination="3CV-6p-yPe" id="ykZ-jH-nyh"/>
                         <outlet property="lblCityTemerature" destination="WEC-Lx-eL5" id="I0w-xf-M1Q"/>
@@ -5719,6 +5757,7 @@
         <image name="sensor_bottom_bg" width="2" height="1"/>
         <image name="sensor_bottom_line" width="1" height="1"/>
         <image name="sensor_co" width="40" height="40"/>
+        <image name="sensor_env" width="42" height="42"/>
         <image name="sensor_logo" width="60" height="60"/>
         <image name="sensor_smoke" width="40" height="40"/>
         <image name="sensor_temper" width="40" height="40"/>

@@ -23,9 +23,9 @@
   self = [super init];
   if (self) {
     self.aSwitch = aSwitch;
-    self.request1 = [[UdpRequest alloc] init];
+    self.request1 = [UdpRequest manager];
     self.request1.delegate = self;
-    self.request2 = [[UdpRequest alloc] init];
+    self.request2 = [UdpRequest manager];
     self.request2.delegate = self;
   }
   return self;
@@ -69,8 +69,22 @@
 }
 
 - (void)responseMsg34Or36:(CC3xMessage *)message {
+  if (self.sensorBlock) {
+    if (message.state == kUdpResponseSuccessCode) {
+      self.sensorBlock(message.sensorInfo);
+    } else {
+      self.sensorBlock(nil);
+    }
+  }
 }
 
 - (void)responseMsg68:(CC3xMessage *)message {
+  if (self.cityWeatherBlock) {
+    if (message.state == kUdpResponseSuccessCode) {
+      self.cityWeatherBlock(message.cityEnvironment);
+    } else {
+      self.cityWeatherBlock(nil);
+    }
+  }
 }
 @end

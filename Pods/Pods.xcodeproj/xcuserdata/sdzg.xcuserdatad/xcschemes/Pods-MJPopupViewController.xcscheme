@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1B8325C363FA4B3DA0F758C5"
+               BlueprintIdentifier = "012D62439808ADDABD33654A"
                BuildableName = "libPods-MJPopupViewController.a"
                BlueprintName = "Pods-MJPopupViewController"
                ReferencedContainer = "container:Pods.xcodeproj">

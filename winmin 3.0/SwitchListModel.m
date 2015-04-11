@@ -397,6 +397,15 @@ static const int successCode = 1;
   SDZGSwitch *aSwitch =
       [[SwitchDataCeneter sharedInstance] getSwitchByMac:message.mac];
   aSwitch.power = (int)message.power;
+  if (message.sensorInfo.hasSensorTemperature ||
+      message.sensorInfo.hasSensorHumidity ||
+      message.sensorInfo.hasSensorSmog || message.sensorInfo.hasSensorCo ||
+      message.sensorInfo.hasSensorLight) {
+    //有传感器数据
+    aSwitch.hasSensorData = YES;
+  } else {
+    aSwitch.hasSensorData = NO;
+  }
   DDLogDebug(@"power is %i mac is %@", aSwitch.power, aSwitch.mac);
 }
 

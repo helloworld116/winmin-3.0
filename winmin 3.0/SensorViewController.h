@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SensorViewController : UIViewController
-
+@property (nonatomic, strong) SDZGSwitch *aSwitch;
 @end

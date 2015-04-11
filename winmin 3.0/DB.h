@@ -21,6 +21,8 @@
 
 - (BOOL)updateSwitch:(SDZGSwitch *)aSwitch imageName:(NSString *)imageName;
 
+- (BOOL)updateSwitch:(SDZGSwitch *)aSwitch sensorBgImage:(NSString *)sensorBgImage;
+
 - (BOOL)updateSocketImage:(NSString *)imageName
                   groupId:(int)groupId
                  socketId:(int)socketId

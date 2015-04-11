@@ -29,6 +29,9 @@
     if (![self isTable:@"switch" existColumn:@"devicetype"]) {
       [self alterSwitchAddDeviceType];
     }
+    if (![self isTable:@"switch" existColumn:@"hasSensor"]) {
+      [self alterSwitchAddSensor];
+    }
     if (![self isExistTable:@"socket"]) {
       [self createTableSocket];
     }
@@ -100,6 +103,23 @@
     }
     [self.db close];
     return success;
+  }
+  return NO;
+}
+
+- (BOOL)alterSwitchAddSensor {
+  if ([self.db open]) {
+    NSString *sql = @"alter table switch add hasSensor integer;";
+    BOOL success1 = [self.db executeUpdate:sql];
+    sql = @"alter table switch add sensorBackgroundImage text;";
+    BOOL success2 = [self.db executeUpdate:sql];
+    if (success1 && success2) {
+      DDLogDebug(@"switch增加sensor字段成功");
+    } else {
+      DDLogDebug(@"switch增加sensor字段失败");
+    }
+    [self.db close];
+    return success1 && success2;
   }
   return NO;
 }
@@ -267,21 +287,23 @@
           if (sid) {
             NSString *sql = @"update switch set "
                 @"name=?,networkstatus=?,lockstatus=?,version=?,tag=?,"
-                @"imagename=?,password=?,ip=?,devicetype=? where mac=?";
+                @"imagename=?,password=?,ip=?,devicetype=?,hasSensor=? where "
+                @"mac=?";
             [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
                               @(aSwitch.lockStatus), @(aSwitch.version), @(0),
                               aSwitch.imageName, aSwitch.password, aSwitch.ip,
-                              aSwitch.deviceType, aSwitch.mac];
+                              aSwitch.deviceType, @(aSwitch.hasSensorData),
+                              aSwitch.mac];
           } else {
             NSString *sql = @"insert into "
                 @"switch(name,networkstatus,mac,ip,port,lockstatus,version,"
-                @"tag,"
-                @"imagename,password,devicetype) values(?,?,?,?,?,?,?,?,?,?,?)";
+                @"tag," @"imagename,password,devicetype,hasSensor) "
+                        @"values(?,?,?,?,?,?,?,?,?,?,?,?)";
             [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
                               aSwitch.mac, aSwitch.ip, @(aSwitch.port),
                               @(aSwitch.lockStatus), @(aSwitch.version), @(0),
                               aSwitch.imageName, aSwitch.password,
-                              aSwitch.deviceType];
+                              aSwitch.deviceType, @(aSwitch.hasSensorData)];
           }
         }
         if ([aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
@@ -377,6 +399,17 @@
   return result;
 }
 
+- (BOOL)updateSwitch:(SDZGSwitch *)aSwitch
+       sensorBgImage:(NSString *)sensorBgImage {
+  BOOL result = NO;
+  NSString *sql = @"update switch set sensorBackgroundImage=? where mac =?";
+  if ([self.db open]) {
+    result = [self.db executeUpdate:sql, sensorBgImage, aSwitch.mac];
+    [self.db close];
+  }
+  return result;
+}
+
 - (NSArray *)getSwitchs {
   NSMutableArray *switchs = [@[] mutableCopy];
   NSString *switchSql = @"select * from switch order by name,mac asc, id desc";
@@ -397,6 +430,9 @@
       aSwitch.version = [switchResult intForColumn:@"version"];
       aSwitch.tag = [switchResult intForColumn:@"tag"];
       aSwitch.deviceType = [switchResult stringForColumn:@"devicetype"];
+      aSwitch.hasSensorData = [switchResult boolForColumn:@"hasSensor"];
+      aSwitch.sensorBgImage =
+          [switchResult stringForColumn:@"sensorBackgroundImage"];
       aSwitch.sockets = [@[] mutableCopy];
 
       NSString *socketSql = @"select * from socket where mac = ?";
