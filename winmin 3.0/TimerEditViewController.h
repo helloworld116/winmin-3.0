@@ -10,8 +10,9 @@
 #import "TimerModel.h"
 
 #define kAddOrEditTimerNotification @"AddOrEditTimerNotification"
-typedef NS_OPTIONS(NSInteger, TimerOperationType){
-  TimerOperationAdd = 1, TimerOperationEdit,
+typedef NS_OPTIONS(NSInteger, TimerOperationType) {
+  TimerOperationAdd = 1,
+  TimerOperationEdit,
 };
 
 @interface TimerEditViewController : UIViewController
@@ -33,5 +34,6 @@ typedef NS_OPTIONS(NSInteger, TimerOperationType){
 - (void)setTimers:(NSMutableArray *)timers
             timer:(SDZGTimerTask *)timer
        timerModel:(TimerModel *)model
+           action:(TimerOperationType)action
             index:(int)index;
 @end

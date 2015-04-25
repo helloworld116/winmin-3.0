@@ -37,13 +37,17 @@
 }
 
 - (void)queryTimers {
-  dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg17Or19]; });
+  dispatch_async(GLOBAL_QUEUE, ^{
+    [self sendMsg17Or19];
+  });
 }
 
 - (void)updateTimers:(NSMutableArray *)timers type:(int)type {
   self.timers = timers;
   self.type = type;
-  dispatch_async(GLOBAL_QUEUE, ^{ [self sendMsg1DOr1F]; });
+  dispatch_async(GLOBAL_QUEUE, ^{
+    [self sendMsg1DOr1F];
+  });
 }
 
 #pragma mark - 定时列表查询请求
@@ -96,8 +100,8 @@
 }
 
 - (void)responseMsg18Or1A:(CC3xMessage *)message {
+  [self.timers removeAllObjects];
   if (message.timerTaskList) {
-    [self.timers removeAllObjects];
     [self.timers addObjectsFromArray:message.timerTaskList];
   }
   NSDictionary *userInfo = @{ @"timers" : self.timers };

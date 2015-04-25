@@ -23,7 +23,8 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   return sdzg_switch_datacenter_serial_queue;
 }
 
-@interface SwitchDataCeneter ()
+@interface SwitchDataCeneter () <UdpRequestDelegate>
+@property (strong, nonatomic) UdpRequest *request;
 @end
 
 @implementation SwitchDataCeneter
@@ -39,6 +40,8 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
         [self.switchsDict setObject:aSwitch forKey:aSwitch.mac];
       }
     }
+    //从数据库中加载设备后更新设备的状态
+    [self sendMsg0BOr0D];
   }
   return self;
 }
@@ -204,10 +207,12 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
   if (diff > localToRemoteFactor * REFRESH_DEV_TIME &&
       aSwitch.networkStatus == SWITCH_LOCAL) {
     aSwitch.networkStatus = SWITCH_OFFLINE;
+    aSwitch.hasSensorData = NO;
     aSwitch.power = 0;
   } else if (diff > remoteToOfflineFactor * REFRESH_DEV_TIME &&
              aSwitch.networkStatus == SWITCH_REMOTE) {
     aSwitch.networkStatus = SWITCH_OFFLINE;
+    aSwitch.hasSensorData = NO;
     aSwitch.power = 0;
   }
 }
@@ -226,6 +231,7 @@ static dispatch_queue_t switch_datacenter_serial_queue() {
     if (aSwitch.networkStatus == SWITCH_REMOTE &&
         diff > remoteToOfflineFactor * REFRESH_DEV_TIME) {
       aSwitch.networkStatus = SWITCH_OFFLINE;
+      aSwitch.hasSensorData = NO;
       aSwitch.power = 0;
     }
   }
@@ -316,5 +322,50 @@ static NSArray *descriptors() {
     aSwitch = [self.switchTmpDict objectForKey:mac];
   });
   return aSwitch;
+}
+
+#pragma mark - UDP
+//扫描设备
+- (void)sendMsg0BOr0D {
+  self.request = [UdpRequest manager];
+  self.request.delegate = self;
+  //先局域网内扫描，0.5秒后请求外网，更新设备状态
+  dispatch_async(GLOBAL_QUEUE, ^{
+    [self.request sendMsg0B:ActiveMode];
+    //设置0.5秒，保证内网的响应优先级
+    [NSThread sleepForTimeInterval:0.5];
+    NSArray *switchs = [[SwitchDataCeneter sharedInstance] switchs];
+    for (SDZGSwitch *aSwitch in switchs) {
+      [self.request sendMsg0D:aSwitch sendMode:ActiveMode tag:0];
+    }
+  });
+}
+
+- (void)udpRequest:(UdpRequest *)request
+     didReceiveMsg:(CC3xMessage *)message
+           address:(NSData *)address {
+  switch (message.msgId) {
+    //开关状态查询
+    case 0xc:
+    case 0xe:
+      [self responseMsgCOrE:message request:request];
+      break;
+    default:
+      break;
+  }
+}
+
+- (void)responseMsgCOrE:(CC3xMessage *)message request:(UdpRequest *)request {
+  if (message.state == kUdpResponseSuccessCode) {
+    [SDZGSwitch parseMessageCOrE:message
+                        toSwitch:^(SDZGSwitch *aSwitch){
+
+                        }];
+  }
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{
+                   self.request.delegate = nil;
+                   self.request = nil;
+                 });
 }
 @end

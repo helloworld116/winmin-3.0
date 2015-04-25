@@ -53,6 +53,7 @@ static const int maxCount = 20;
 @property (nonatomic, strong) SDZGTimerTask *timer; //正在编辑的定时任务
 @property (nonatomic, assign)
     int index; //正在编辑的timer在数组中位置，方便后续编辑操作时replace
+@property (nonatomic, assign) TimerOperationType action;
 @property (strong, nonatomic) TimerModel *model;
 @property (strong, nonatomic) NSMutableArray *menus;
 @property (strong, nonatomic) NSIndexPath *currentEditIndexPath;
@@ -63,10 +64,12 @@ static const int maxCount = 20;
 - (void)setTimers:(NSMutableArray *)timers
             timer:(SDZGTimerTask *)timer
        timerModel:(TimerModel *)model
+           action:(TimerOperationType)action
             index:(int)index {
   self.model = model;
   self.timers = timers;
   self.timer = timer;
+  self.action = action;
   self.index = index;
 }
 
@@ -120,7 +123,7 @@ static const int maxCount = 20;
 - (void)viewDidLoad {
   [super viewDidLoad];
   NSString *operationType;
-  if (self.index == TimerOperationAdd) {
+  if (self.action == TimerOperationAdd) {
     operationType = NSLocalizedString(@"AddWithBlank", nil);
   } else {
     operationType = NSLocalizedString(@"EditWithBlank", nil);
@@ -187,7 +190,7 @@ static const int maxCount = 20;
 #pragma mark - UINavigationBar事件_保存
 - (void)save:(id)sender {
   int type = 0;
-  if (self.index == TimerOperationAdd) {
+  if (self.action == TimerOperationAdd) {
     //添加
     type = TimerOperationAdd;
     [self.timers addObject:self.timer];
@@ -232,7 +235,10 @@ static const int maxCount = 20;
   DDLogDebug(@"add success");
   dispatch_async(MAIN_QUEUE, ^{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    NSDictionary *userInfo = @{ @"type" : @(self.index) };
+    NSDictionary *userInfo = @{
+      @"index" : @(self.index),
+      @"action" : @(self.action)
+    };
     [[NSNotificationCenter defaultCenter]
         postNotificationName:kAddOrEditTimerNotification
                       object:self
@@ -244,7 +250,10 @@ static const int maxCount = 20;
 - (void)timerUpdateNotification:(NSNotification *)notification {
   dispatch_async(MAIN_QUEUE, ^{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    NSDictionary *userInfo = @{ @"type" : @(self.index) };
+    NSDictionary *userInfo = @{
+      @"index" : @(self.index),
+      @"action" : @(self.action)
+    };
     [[NSNotificationCenter defaultCenter]
         postNotificationName:kAddOrEditTimerNotification
                       object:self

@@ -303,11 +303,13 @@ typedef struct {
   unsigned char hSensorFlag;     //湿度传感器标志1有0无
   char humidity;                 //湿度
   unsigned char smogSensorFlag;  //烟雾传感器标志1有0无
-  short smog;                    //烟雾
+  unsigned short smog;           //烟雾
   unsigned char coSensorFlag;    //一氧化碳传感器标志1有0无
   short co;                      //一氧化碳
   unsigned char lightSensorFlag; //光感传感器标志1有0无
   char light;                    //光强度
+  unsigned char infaredFlag;     //红外传感器标志1有0无
+  char infared;                  //红外数据
   unsigned short crc;
 } d2pMsg34;
 
@@ -335,6 +337,8 @@ typedef struct {
   short co;                      //一氧化碳
   unsigned char lightSensorFlag; //光感传感器标志1有0无
   char light;                    //光强度
+  unsigned char infaredFlag;     //红外传感器标志1有0无
+  char infared;                  //红外数据
   unsigned short crc;
 } s2pMsg36;
 
@@ -1711,22 +1715,24 @@ typedef struct {
   message.mac = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
                                            msg.mac[0], msg.mac[1], msg.mac[2],
                                            msg.mac[3], msg.mac[4], msg.mac[5]];
-  if ([aData length] == sizeof(msg) - 13) {
+  if ([aData length] == sizeof(msg) - 15) {
     //不包含传感器
     message.power = ntohl(msg.power) / 100;
   } else if ([aData length] == sizeof(msg)) {
     //包含传感器
     message.power = ntohl(msg.power) / 100;
     BOOL hasSensorTemperature = msg.tSensorFlag;
-    short temperature = ntohs(msg.temperature);
+    float temperature = ntohs(msg.temperature) / 10.f;
     BOOL hasSensorHumidity = msg.hSensorFlag;
     char humidity = msg.humidity;
     BOOL hasSensorSmog = msg.smogSensorFlag;
-    short smog = ntohs(msg.smog);
+    unsigned short smog = ntohs(msg.smog);
     BOOL hasSensorCo = msg.coSensorFlag;
     short co = ntohs(msg.co);
     BOOL hasSensorLight = msg.lightSensorFlag;
     char light = msg.light;
+    BOOL hasInfaredFlag = msg.infaredFlag;
+    BOOL infared = msg.infared;
     SensorInfo *sensorInfo =
         [[SensorInfo alloc] initWithHasSensorTemperature:hasSensorTemperature
                                              temperature:temperature
@@ -1737,7 +1743,9 @@ typedef struct {
                                              hasSensorCo:hasSensorCo
                                                       co:co
                                           hasSensorLight:hasSensorLight
-                                                   light:light];
+                                                   light:light
+                                    hasSensorInfaredFlag:hasInfaredFlag
+                                                 infared:infared];
     message.sensorInfo = sensorInfo;
   } else {
     if (msg.pulse == 0) {
@@ -1747,20 +1755,21 @@ typedef struct {
       message.power = diff > 0 ? diff : 0.f;
     }
   }
-  if ([message.mac isEqualToString:@"00:19:94:47:D1:8E"]) {
-    SensorInfo *sensorInfo =
-        [[SensorInfo alloc] initWithHasSensorTemperature:YES
-                                             temperature:25
-                                       hasSensorHumidity:YES
-                                                humidity:80
-                                           hasSensorSmog:NO
-                                                    somg:0
-                                             hasSensorCo:NO
-                                                      co:0
-                                          hasSensorLight:NO
-                                                   light:0];
-    message.sensorInfo = sensorInfo;
-  }
+  message.crc = msg.crc;
+  //  if ([message.mac isEqualToString:@"00:19:94:47:D1:8E"]) {
+  //    SensorInfo *sensorInfo =
+  //        [[SensorInfo alloc] initWithHasSensorTemperature:YES
+  //                                             temperature:25
+  //                                       hasSensorHumidity:YES
+  //                                                humidity:80
+  //                                           hasSensorSmog:NO
+  //                                                    somg:0
+  //                                             hasSensorCo:NO
+  //                                                      co:0
+  //                                          hasSensorLight:NO
+  //                                                   light:0];
+  //    message.sensorInfo = sensorInfo;
+  //  }
   return message;
 }
 
@@ -2325,15 +2334,17 @@ typedef struct {
 @implementation SensorInfo
 
 - (id)initWithHasSensorTemperature:(BOOL)hasSensorTemperature
-                       temperature:(short)temperature
+                       temperature:(float)temperature
                  hasSensorHumidity:(BOOL)hasSensorHumidity
                           humidity:(short)humidity
                      hasSensorSmog:(BOOL)hasSensorSmog
-                              somg:(short)smog
+                              somg:(unsigned short)smog
                        hasSensorCo:(BOOL)hasSensorCo
                                 co:(short)co
                     hasSensorLight:(BOOL)hasSensorLight
-                             light:(short)light {
+                             light:(short)light
+              hasSensorInfaredFlag:(BOOL)hasSensorInfaredFlag
+                           infared:(BOOL)infared {
   self = [super init];
   if (self) {
     self.hasSensorTemperature = hasSensorTemperature;
@@ -2346,6 +2357,25 @@ typedef struct {
     self.co = co;
     self.hasSensorLight = hasSensorLight;
     self.light = light;
+    switch (light) {
+      case 1:
+        self.lightStatus = NSLocalizedString(@"弱", nil);
+        break;
+      case 2:
+        self.lightStatus = NSLocalizedString(@"较弱", nil);
+        break;
+      case 3:
+        self.lightStatus = NSLocalizedString(@"较强", nil);
+        break;
+      case 4:
+        self.lightStatus = NSLocalizedString(@"强", nil);
+        break;
+      default:
+        self.lightStatus = NSLocalizedString(@"未知", nil);
+        break;
+    }
+    self.hasSensorInfaredFlag = hasSensorInfaredFlag;
+    self.infared = infared;
   }
   return self;
 }

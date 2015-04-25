@@ -146,9 +146,9 @@
   self.actionMinitues = minitues;
   [UIView animateWithDuration:0.3
                    animations:^{
-                       self.btnOfLast.selected = NO;
-                       btnOfCurrentSelected.selected = YES;
-                       self.btnOfLast = btnOfCurrentSelected;
+                     self.btnOfLast.selected = NO;
+                     btnOfCurrentSelected.selected = YES;
+                     self.btnOfLast = btnOfCurrentSelected;
                    }];
 }
 
@@ -164,34 +164,35 @@
     [self.view makeToast:NSLocalizedString(@"at most 1440 minutes", nil)];
   } else {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
+    if (self.btnInput == self.btnOfLast) {
+      self.actionMinitues = [self.textField.text intValue];
+    }
     __weak DelaySettingViewController *weakSelf = self;
     [self.model setDelayWithMinitues:self.actionMinitues
         onOrOff:self.actionState
         completion:^(BOOL result) {
-            __strong DelaySettingViewController *strongSelf = weakSelf;
-            if (result) {
-              dispatch_async(MAIN_QUEUE, ^{
-                  [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
-                  if ([strongSelf.delegate
-                          respondsToSelector:@selector(
-                                                 closePopViewController:
-                                                           passMinitues:
-                                                             actionType:)]) {
-                    [strongSelf.delegate
-                        closePopViewController:strongSelf
-                                  passMinitues:strongSelf.actionMinitues
-                                    actionType:strongSelf.actionState];
-                  }
+          __strong DelaySettingViewController *strongSelf = weakSelf;
+          if (result) {
+            dispatch_async(MAIN_QUEUE, ^{
+              [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+              if ([strongSelf.delegate
+                      respondsToSelector:@selector(closePopViewController:
+                                                             passMinitues:
+                                                               actionType:)]) {
+                [strongSelf.delegate
+                    closePopViewController:strongSelf
+                              passMinitues:strongSelf.actionMinitues
+                                actionType:strongSelf.actionState];
+              }
 
-              });
-            }
+            });
+          }
         }
         notReceiveData:^(long tag, int socktGroupId) {
-            __strong DelaySettingViewController *strongSelf = weakSelf;
-            dispatch_async(MAIN_QUEUE, ^{
-                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
-            });
+          __strong DelaySettingViewController *strongSelf = weakSelf;
+          dispatch_async(MAIN_QUEUE, ^{
+            [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+          });
         }];
   }
 }
@@ -227,16 +228,22 @@
   if (self.btnDone.superview == nil) {
     [tempWindow addSubview:self.btnDone]; // 注意这里直接加到window上
   }
-
+  self.btnOfLast = self.btnInput;
   CGRect selfFrame = self.view.frame;
   selfFrame.origin.y -= 90;
-  [UIView animateWithDuration:0.3 animations:^{ self.view.frame = selfFrame; }];
+  [UIView animateWithDuration:0.3
+                   animations:^{
+                     self.view.frame = selfFrame;
+                   }];
 }
 
 - (void)keyboardWillBeHidden:(NSNotification *)notification {
   CGRect selfFrame = self.view.frame;
   selfFrame.origin.y += 90;
-  [UIView animateWithDuration:0.3 animations:^{ self.view.frame = selfFrame; }];
+  [UIView animateWithDuration:0.3
+                   animations:^{
+                     self.view.frame = selfFrame;
+                   }];
   if (self.btnDone.superview) {
     [self.btnDone removeFromSuperview];
     self.btnDone = nil;

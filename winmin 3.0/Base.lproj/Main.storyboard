@@ -289,49 +289,49 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_logo" translatesAutoresizingMaskIntoConstraints="NO" id="1ER-ha-7aD">
-                                <rect key="frame" x="25" y="194" width="60" height="60"/>
+                                <rect key="frame" x="25" y="154" width="60" height="60"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_temper" translatesAutoresizingMaskIntoConstraints="NO" id="cUe-e2-Jib">
-                                <rect key="frame" x="20" y="274" width="40" height="40"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_temper" highlightedImage="sensor_temper_highlight" translatesAutoresizingMaskIntoConstraints="NO" id="cUe-e2-Jib">
+                                <rect key="frame" x="20" y="234" width="40" height="40"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_smoke" translatesAutoresizingMaskIntoConstraints="NO" id="l5D-pj-Cz6">
-                                <rect key="frame" x="115" y="274" width="40" height="40"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_smoke" highlightedImage="sensor_smoke_highlight" translatesAutoresizingMaskIntoConstraints="NO" id="l5D-pj-Cz6">
+                                <rect key="frame" x="115" y="234" width="40" height="40"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_co" translatesAutoresizingMaskIntoConstraints="NO" id="2Dd-Na-WiC">
-                                <rect key="frame" x="210" y="274" width="40" height="40"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_co" highlightedImage="sensor_co_highlight" translatesAutoresizingMaskIntoConstraints="NO" id="2Dd-Na-WiC">
+                                <rect key="frame" x="210" y="234" width="40" height="40"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="温湿度" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sbc-Kf-eCm">
-                                <rect key="frame" x="60" y="287" width="36" height="15"/>
+                                <rect key="frame" x="60" y="247" width="36" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="烟雾" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U1V-f4-iQH">
-                                <rect key="frame" x="155" y="286" width="24" height="15"/>
+                                <rect key="frame" x="155" y="246" width="24" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一氧化碳" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYg-e6-hdy">
-                                <rect key="frame" x="250" y="286" width="48" height="15"/>
+                                <rect key="frame" x="250" y="246" width="48" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PvW-dC-MxY">
-                                <rect key="frame" x="60" y="305" width="37" height="15"/>
+                                <rect key="frame" x="60" y="265" width="37" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SPM-ul-UQ5">
-                                <rect key="frame" x="250" y="304" width="37" height="15"/>
+                                <rect key="frame" x="250" y="264" width="37" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VwV-4E-nxo">
-                                <rect key="frame" x="155" y="304" width="37" height="15"/>
+                                <rect key="frame" x="155" y="264" width="37" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -397,6 +397,44 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_body" highlightedImage="sensor_body_highlight" translatesAutoresizingMaskIntoConstraints="NO" id="J13-u5-TLw">
+                                <rect key="frame" x="20" y="309" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="GjB-Nz-x72"/>
+                                    <constraint firstAttribute="width" constant="40" id="cuW-jZ-xpR"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor_light" highlightedImage="sensor_light_highlight" translatesAutoresizingMaskIntoConstraints="NO" id="2ub-lt-tOc">
+                                <rect key="frame" x="115" y="309" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="X4M-wJ-yid"/>
+                                    <constraint firstAttribute="width" constant="40" id="fYF-P8-Nux"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="人体感应" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aOG-vG-5uh">
+                                <rect key="frame" x="60" y="321" width="48" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value9" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVt-Fz-HxC">
+                                <rect key="frame" x="60" y="339" width="37" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="光照" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dfy-pc-yVJ">
+                                <rect key="frame" x="155" y="321" width="24" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnR-l7-FDd">
+                                <rect key="frame" x="155" y="339" width="44" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -406,10 +444,14 @@
                             <constraint firstAttribute="centerX" secondItem="Vgj-uR-uki" secondAttribute="centerX" id="48o-Ry-inb"/>
                             <constraint firstItem="3CV-6p-yPe" firstAttribute="top" secondItem="Pub-XG-Y41" secondAttribute="bottom" constant="12" id="4Vi-6n-GRo"/>
                             <constraint firstItem="VwV-4E-nxo" firstAttribute="leading" secondItem="l5D-pj-Cz6" secondAttribute="trailing" id="5kh-ZR-iNa"/>
+                            <constraint firstItem="QVt-Fz-HxC" firstAttribute="leading" secondItem="J13-u5-TLw" secondAttribute="trailing" id="8PR-py-hWM"/>
                             <constraint firstItem="XYg-e6-hdy" firstAttribute="leading" secondItem="2Dd-Na-WiC" secondAttribute="trailing" id="8R1-hU-KhR"/>
                             <constraint firstItem="l5D-pj-Cz6" firstAttribute="centerY" secondItem="2Dd-Na-WiC" secondAttribute="centerY" id="A9u-d3-CDp"/>
                             <constraint firstItem="SPM-ul-UQ5" firstAttribute="top" secondItem="XYg-e6-hdy" secondAttribute="bottom" constant="3" id="Czn-j9-CNM"/>
+                            <constraint firstItem="dfy-pc-yVJ" firstAttribute="centerY" secondItem="2ub-lt-tOc" secondAttribute="centerY" id="DFJ-I8-obh"/>
+                            <constraint firstItem="aOG-vG-5uh" firstAttribute="leading" secondItem="J13-u5-TLw" secondAttribute="trailing" id="DIm-Nh-tND"/>
                             <constraint firstItem="nzD-6M-i0E" firstAttribute="leading" secondItem="SEt-YW-kSi" secondAttribute="trailing" constant="8" id="EQT-pb-8gN"/>
+                            <constraint firstItem="QVt-Fz-HxC" firstAttribute="top" secondItem="aOG-vG-5uh" secondAttribute="bottom" constant="3" id="FwS-qC-oWm"/>
                             <constraint firstAttribute="trailing" secondItem="6NB-t6-yJ2" secondAttribute="trailing" id="H0m-Vc-CU2"/>
                             <constraint firstItem="3CV-6p-yPe" firstAttribute="leading" secondItem="KHz-ye-qn4" secondAttribute="leading" constant="8" id="HOR-YI-uRJ"/>
                             <constraint firstItem="nzD-6M-i0E" firstAttribute="leading" secondItem="WEC-Lx-eL5" secondAttribute="trailing" constant="8" id="J3U-hx-zeY"/>
@@ -417,6 +459,7 @@
                             <constraint firstItem="VwV-4E-nxo" firstAttribute="top" secondItem="U1V-f4-iQH" secondAttribute="bottom" constant="3" id="L2x-Aa-3ik"/>
                             <constraint firstItem="PvW-dC-MxY" firstAttribute="top" secondItem="Sbc-Kf-eCm" secondAttribute="bottom" constant="3" id="MY2-ws-gig"/>
                             <constraint firstItem="o8P-bv-5h0" firstAttribute="top" secondItem="6NB-t6-yJ2" secondAttribute="bottom" id="Mte-Ss-ejJ"/>
+                            <constraint firstItem="2ub-lt-tOc" firstAttribute="centerX" secondItem="l5D-pj-Cz6" secondAttribute="centerX" id="P71-HW-LA5"/>
                             <constraint firstItem="o8P-bv-5h0" firstAttribute="top" secondItem="2JE-nf-p8c" secondAttribute="bottom" constant="8" id="Pnr-S4-JY4"/>
                             <constraint firstItem="2JE-nf-p8c" firstAttribute="top" secondItem="94j-Z2-dja" secondAttribute="bottom" constant="12" id="Q6N-hf-oO7"/>
                             <constraint firstItem="cUe-e2-Jib" firstAttribute="top" secondItem="1ER-ha-7aD" secondAttribute="bottom" constant="20" id="SYa-6v-XVg"/>
@@ -426,7 +469,8 @@
                             <constraint firstAttribute="trailing" secondItem="lxr-bP-e9L" secondAttribute="trailing" constant="8" id="Veo-l2-vVp"/>
                             <constraint firstItem="cUe-e2-Jib" firstAttribute="centerY" secondItem="Sbc-Kf-eCm" secondAttribute="centerY" id="Xan-PJ-88c"/>
                             <constraint firstItem="1ER-ha-7aD" firstAttribute="leading" secondItem="KHz-ye-qn4" secondAttribute="leading" constant="25" id="YLL-b7-98o"/>
-                            <constraint firstAttribute="centerY" secondItem="1ER-ha-7aD" secondAttribute="centerY" constant="60" id="apB-x6-CQG"/>
+                            <constraint firstAttribute="centerY" secondItem="1ER-ha-7aD" secondAttribute="centerY" constant="100" id="apB-x6-CQG"/>
+                            <constraint firstItem="bnR-l7-FDd" firstAttribute="top" secondItem="dfy-pc-yVJ" secondAttribute="bottom" constant="3" id="bbe-bD-1V3"/>
                             <constraint firstItem="6NB-t6-yJ2" firstAttribute="top" secondItem="KHz-ye-qn4" secondAttribute="top" id="blw-If-lyC"/>
                             <constraint firstItem="6NB-t6-yJ2" firstAttribute="leading" secondItem="KHz-ye-qn4" secondAttribute="leading" id="cDX-x7-0DS"/>
                             <constraint firstItem="cUe-e2-Jib" firstAttribute="centerY" secondItem="l5D-pj-Cz6" secondAttribute="centerY" id="cVl-oo-0ek"/>
@@ -435,6 +479,10 @@
                             <constraint firstAttribute="trailing" secondItem="g0j-wg-Rac" secondAttribute="trailing" constant="8" id="evu-4X-zuy"/>
                             <constraint firstItem="o8P-bv-5h0" firstAttribute="top" secondItem="SEt-YW-kSi" secondAttribute="bottom" constant="8" id="fRE-ip-gnf"/>
                             <constraint firstAttribute="centerX" secondItem="nzD-6M-i0E" secondAttribute="centerX" id="g7k-ER-lPT"/>
+                            <constraint firstItem="cUe-e2-Jib" firstAttribute="centerX" secondItem="J13-u5-TLw" secondAttribute="centerX" id="hEY-Pu-7tB"/>
+                            <constraint firstItem="aOG-vG-5uh" firstAttribute="centerY" secondItem="J13-u5-TLw" secondAttribute="centerY" id="iMb-68-j51"/>
+                            <constraint firstItem="2ub-lt-tOc" firstAttribute="top" secondItem="l5D-pj-Cz6" secondAttribute="bottom" constant="35" id="ioI-s7-tR1"/>
+                            <constraint firstItem="dfy-pc-yVJ" firstAttribute="leading" secondItem="2ub-lt-tOc" secondAttribute="trailing" id="jNa-s6-rfT"/>
                             <constraint firstItem="o8P-bv-5h0" firstAttribute="top" secondItem="3CV-6p-yPe" secondAttribute="bottom" constant="8" id="lPi-uP-UvR"/>
                             <constraint firstItem="XYg-e6-hdy" firstAttribute="centerY" secondItem="2Dd-Na-WiC" secondAttribute="centerY" id="lg8-b5-uho"/>
                             <constraint firstItem="U1V-f4-iQH" firstAttribute="leading" secondItem="l5D-pj-Cz6" secondAttribute="trailing" id="mX1-JL-dfO"/>
@@ -446,20 +494,34 @@
                             <constraint firstItem="SPM-ul-UQ5" firstAttribute="leading" secondItem="2Dd-Na-WiC" secondAttribute="trailing" id="rz3-K7-qeo"/>
                             <constraint firstItem="o8P-bv-5h0" firstAttribute="top" secondItem="uo9-bu-kLa" secondAttribute="bottom" id="whf-YX-Pse"/>
                             <constraint firstItem="PvW-dC-MxY" firstAttribute="leading" secondItem="cUe-e2-Jib" secondAttribute="trailing" id="wui-7Z-W44"/>
+                            <constraint firstItem="bnR-l7-FDd" firstAttribute="leading" secondItem="2ub-lt-tOc" secondAttribute="trailing" id="xUd-pT-KGS"/>
+                            <constraint firstItem="J13-u5-TLw" firstAttribute="top" secondItem="cUe-e2-Jib" secondAttribute="bottom" constant="35" id="yAe-ou-aWB"/>
                             <constraint firstItem="U1V-f4-iQH" firstAttribute="centerY" secondItem="l5D-pj-Cz6" secondAttribute="centerY" id="zOF-mx-w5z"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="imgVBg" destination="6NB-t6-yJ2" id="Tyi-lo-cxt"/>
+                        <outlet property="imgVBody" destination="J13-u5-TLw" id="4St-cc-QLM"/>
+                        <outlet property="imgVCo" destination="2Dd-Na-WiC" id="ESg-c7-f8g"/>
+                        <outlet property="imgVLight" destination="2ub-lt-tOc" id="Nsj-IE-VMI"/>
+                        <outlet property="imgVSmog" destination="l5D-pj-Cz6" id="oAl-Qe-ApS"/>
+                        <outlet property="imgVTemeratureAndHudmidity" destination="cUe-e2-Jib" id="ig7-2p-RBv"/>
                         <outlet property="lblCityName" destination="SEt-YW-kSi" id="NOz-Aa-5Dw"/>
                         <outlet property="lblCityPm2point5" destination="3CV-6p-yPe" id="ykZ-jH-nyh"/>
                         <outlet property="lblCityTemerature" destination="WEC-Lx-eL5" id="I0w-xf-M1Q"/>
                         <outlet property="lblCityWeather" destination="g0j-wg-Rac" id="pfB-zm-MXC"/>
                         <outlet property="lblCityWind" destination="lxr-bP-e9L" id="2kE-p7-Qbi"/>
                         <outlet property="lblDate" destination="Vgj-uR-uki" id="OXS-oA-uHK"/>
+                        <outlet property="lblSensorBody" destination="QVt-Fz-HxC" id="m0l-Wj-amd"/>
                         <outlet property="lblSensorCo" destination="SPM-ul-UQ5" id="wV0-Jd-N0u"/>
+                        <outlet property="lblSensorLight" destination="bnR-l7-FDd" id="z94-h6-H1d"/>
                         <outlet property="lblSensorSmog" destination="VwV-4E-nxo" id="e9O-WV-98D"/>
                         <outlet property="lblSensorTemeratureAndHudmidity" destination="PvW-dC-MxY" id="2xq-OY-K2H"/>
+                        <outlet property="lblTagSensorBody" destination="aOG-vG-5uh" id="73k-ns-H8C"/>
+                        <outlet property="lblTagSensorCo" destination="XYg-e6-hdy" id="k7G-Mh-Xzb"/>
+                        <outlet property="lblTagSensorLight" destination="dfy-pc-yVJ" id="jzx-Z6-lnc"/>
+                        <outlet property="lblTagSensorSmog" destination="U1V-f4-iQH" id="UhZ-V2-t3Y"/>
+                        <outlet property="lblTagSensorTemeratureAndHudmidity" destination="Sbc-Kf-eCm" id="lOr-uh-hO5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yQ1-Az-Dyq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5754,13 +5816,20 @@
         <image name="scene_cicle_on" width="13" height="13"/>
         <image name="sdef__" width="34" height="34"/>
         <image name="sensor_bg" width="320" height="480"/>
+        <image name="sensor_body" width="40" height="40"/>
+        <image name="sensor_body_highlight" width="40" height="40"/>
         <image name="sensor_bottom_bg" width="2" height="1"/>
         <image name="sensor_bottom_line" width="1" height="1"/>
         <image name="sensor_co" width="40" height="40"/>
+        <image name="sensor_co_highlight" width="40" height="40"/>
         <image name="sensor_env" width="42" height="42"/>
+        <image name="sensor_light" width="40" height="40"/>
+        <image name="sensor_light_highlight" width="40" height="40"/>
         <image name="sensor_logo" width="60" height="60"/>
         <image name="sensor_smoke" width="40" height="40"/>
+        <image name="sensor_smoke_highlight" width="40" height="40"/>
         <image name="sensor_temper" width="40" height="40"/>
+        <image name="sensor_temper_highlight" width="40" height="40"/>
         <image name="shake" width="31" height="31"/>
         <image name="snake_delay_highlight" width="20" height="20"/>
         <image name="snake_delay_normal" width="20" height="20"/>

@@ -84,31 +84,31 @@
 
   __weak typeof(self) weakSelf = self;
   self.successResonse = ^(int status, id responseData) {
-      if (status == 1) {
-        ServerResponse *reponse = (ServerResponse *)responseData;
-        switch (reponse.status) {
-          case 1: {
-            //登陆成功
-            [[NSNotificationCenter defaultCenter]
-                postNotificationName:kLoginSuccess
-                              object:weakSelf
-                            userInfo:nil];
+    if (status == 1) {
+      ServerResponse *reponse = (ServerResponse *)responseData;
+      switch (reponse.status) {
+        case 1: {
+          //登陆成功
+          [[NSNotificationCenter defaultCenter]
+              postNotificationName:kLoginSuccess
+                            object:weakSelf
+                          userInfo:nil];
 
-            [weakSelf.navigationController popToRootViewControllerAnimated:NO];
-            break;
-          }
-          default:
-            [weakSelf.view
-                makeToast:reponse.errorMsg
-                 duration:1.f
-                 position:[NSValue
-                              valueWithCGPoint:
-                                  CGPointMake(
-                                      weakSelf.view.frame.size.width / 2,
-                                      weakSelf.view.frame.size.height - 40)]];
-            break;
+          [weakSelf.navigationController popToRootViewControllerAnimated:NO];
+          break;
         }
+        default:
+          [weakSelf.view
+              makeToast:reponse.errorMsg
+               duration:1.f
+               position:[NSValue
+                            valueWithCGPoint:
+                                CGPointMake(weakSelf.view.frame.size.width / 2,
+                                            weakSelf.view.frame.size.height -
+                                                40)]];
+          break;
       }
+    }
   };
 }
 
@@ -192,7 +192,8 @@ preparation before navigation
                                                 password:self.password
                                                 nickName:self.nickName];
     [userInfo registerRequestWithResponse:^(int status, id response) {
-        self.successResonse(status, response);
+      [MBProgressHUD hideHUDForView:self.view animated:YES];
+      self.successResonse(status, response);
     }];
   }
 }

@@ -22,16 +22,12 @@ static const int successCode = 1;
 @property (assign, nonatomic) BOOL isScanOneSwitch;
 @property (assign, nonatomic) BOOL isRemote;
 @property (strong, nonatomic) SDZGSwitch *currentSwitch;
-//新添加设备的序列号，设备按序列号排序，扫描到一个设备，该值累加，零时的序列号，保存到数据库后序列号将更新，默认值100000
-//配置时，默认值为200000
-@property (assign, nonatomic) int switchId;
 @end
 @implementation SwitchListModel
 
 - (id)init {
   self = [super init];
   if (self) {
-    self.switchId = 100000;
     self.request = [UdpRequest manager];
     self.request.delegate = self;
     self.request2 = [UdpRequest manager];
@@ -126,7 +122,6 @@ static const int successCode = 1;
 - (void)addSwitchWithMac:(NSString *)mac password:(NSString *)password {
   SDZGSwitch *aSwitch = [SwitchDataCeneter sharedInstance].switchsDict[mac];
   if (aSwitch) {
-    aSwitch._id = self.switchId++;
     aSwitch.networkStatus = SWITCH_NEW;
     aSwitch.password = password;
     aSwitch.name = NSLocalizedString(@"Smart Switch", nil);
@@ -305,7 +300,6 @@ static const int successCode = 1;
     if (![self.mac isEqualToString:message.mac]) {
       return;
     }
-    self.switchId = 200000;
   }
   if (message.version >= kHardwareVersion) {
     SDZGSwitch *aSwitch = [[[SwitchDataCeneter sharedInstance] switchsDict]
@@ -313,7 +307,6 @@ static const int successCode = 1;
     if (!aSwitch && message.lockStatus == LockStatusOff) {
       //设备未加锁，并且不在本地列表中，发送请求，查询设备状态
       aSwitch = [[SDZGSwitch alloc] init];
-      aSwitch._id = self.switchId++;
       aSwitch.mac = message.mac;
       aSwitch.ip = message.ip;
       aSwitch.port = message.port;
@@ -400,7 +393,8 @@ static const int successCode = 1;
   if (message.sensorInfo.hasSensorTemperature ||
       message.sensorInfo.hasSensorHumidity ||
       message.sensorInfo.hasSensorSmog || message.sensorInfo.hasSensorCo ||
-      message.sensorInfo.hasSensorLight) {
+      message.sensorInfo.hasSensorLight ||
+      message.sensorInfo.hasSensorInfaredFlag) {
     //有传感器数据
     aSwitch.hasSensorData = YES;
   } else {

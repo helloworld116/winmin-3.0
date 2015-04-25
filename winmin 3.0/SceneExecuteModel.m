@@ -16,8 +16,8 @@ static dispatch_queue_t scene_recive_serial_queue() {
   static dispatch_queue_t sdzg_scene_recive_send_serial_queue;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-      sdzg_scene_recive_send_serial_queue = dispatch_queue_create(
-          "serial.scenerecive.com.itouchco.www", DISPATCH_QUEUE_SERIAL);
+    sdzg_scene_recive_send_serial_queue = dispatch_queue_create(
+        "serial.scenerecive.com.itouchco.www", DISPATCH_QUEUE_SERIAL);
   });
   return sdzg_scene_recive_send_serial_queue;
 }
@@ -25,7 +25,7 @@ static dispatch_queue_t scene_recive_serial_queue() {
 @interface SceneExecuteModel () <UdpRequestDelegate>
 @property (nonatomic, strong) UdpRequest *request;
 @property (nonatomic, assign) int taskCount; //任务个数，队列中的数据个数
-@property (nonatomic, assign) BOOL executeSuccess;
+@property (nonatomic, assign) BOOL executeSuccess; //单条任务是否执行成功
 @property (nonatomic, assign)
     int sendMsgCount; //发送消息次数,每个开关任务对应一条执行次数
 
@@ -66,14 +66,14 @@ static dispatch_queue_t scene_recive_serial_queue() {
     self.sceneDetails = sceneDetails;
     __weak typeof(self) weakSelf = self;
     self.response = ^(NSMutableArray *details) {
-        if (details.count) {
-          [weakSelf executeFirstOperationInSceneDetails:details isFirstExc:NO];
-        }
+      if (details.count) {
+        [weakSelf executeFirstOperationInSceneDetails:details isFirstExc:NO];
+      }
     };
     self.noResponse = ^(NSMutableArray *details) {
-        if (details.count) {
-          [weakSelf executeFirstOperationInSceneDetails:details isFirstExc:NO];
-        }
+      if (details.count) {
+        [weakSelf executeFirstOperationInSceneDetails:details isFirstExc:NO];
+      }
     };
 
     self.remainingSceneDetails = [sceneDetails mutableCopy];
@@ -164,40 +164,43 @@ static dispatch_queue_t scene_recive_serial_queue() {
   BOOL isFirstExc = [userInfo[@"isFirstExc"] boolValue];
   SceneDetail *sceneDetail = userInfo[@"sceneDetail"];
   dispatch_async(scene_recive_serial_queue(), ^{
-      if (sceneDetail) {
-        SDZGSwitch *aSwitch = sceneDetail.aSwitch;
-        if (aSwitch.networkStatus == SWITCH_OFFLINE) {
-          aSwitch.networkStatus = SWITCH_REMOTE;
-        }
-        SDZGSocket *socket = aSwitch.sockets[sceneDetail.groupId - 1];
-        socket.socketStatus = !sceneDetail.onOrOff;
-        NSOperation *op = [NSBlockOperation blockOperationWithBlock:^{
-            SENDMODE mode = ActiveMode;
-            self.executeSuccess = NO;
-            if (self.sendMsgCount < self.sceneDetails.count) {
-              if (isFirstExc ||
-                  ([sceneDetail
-                      isEqual:self.sceneDetails[self.sendMsgCount]])) {
-                self.socketGroupId = sceneDetail.groupId;
-                self.mac = aSwitch.mac;
-                self.sendMsgCount++;
-                NSDictionary *userInfo = @{ @"row" : @(self.sendMsgCount - 1) };
-                [[NSNotificationCenter defaultCenter]
-                    postNotificationName:kSceneExecuteBeginNotification
-                                  object:self
-                                userInfo:userInfo];
-                mode = ActiveMode;
-              } else {
-                mode = PassiveMode;
-              }
-            }
-            DDLogDebug(@"sendMsgCount is %d", self.sendMsgCount);
-            [self.request sendMsg11Or13:aSwitch
-                          socketGroupId:sceneDetail.groupId
-                               sendMode:mode];
-        }];
-        [op start];
+    if (sceneDetail) {
+      SDZGSwitch *aSwitch = sceneDetail.aSwitch;
+      //获取最新设备的信息，防止设备旧状态信息
+      aSwitch = [
+          [[SwitchDataCeneter sharedInstance] getSwitchByMac:aSwitch.mac] copy];
+      if (aSwitch.networkStatus == SWITCH_OFFLINE) {
+        aSwitch.networkStatus = SWITCH_REMOTE;
       }
+      SDZGSocket *socket = aSwitch.sockets[sceneDetail.groupId - 1];
+      socket.socketStatus = !sceneDetail.onOrOff;
+      NSOperation *op = [NSBlockOperation blockOperationWithBlock:^{
+        SENDMODE mode = ActiveMode;
+        self.executeSuccess = NO;
+        if (self.sendMsgCount < self.sceneDetails.count) {
+          if (isFirstExc ||
+              ([sceneDetail isEqual:self.sceneDetails[self.sendMsgCount]])) {
+            self.socketGroupId = sceneDetail.groupId;
+            self.mac = aSwitch.mac;
+            self.sendMsgCount++;
+            NSDictionary *userInfo = @{ @"row" : @(self.sendMsgCount - 1) };
+            [[NSNotificationCenter defaultCenter]
+                postNotificationName:kSceneExecuteBeginNotification
+                              object:self
+                            userInfo:userInfo];
+            mode = ActiveMode;
+          } else {
+            mode = PassiveMode;
+            aSwitch.networkStatus = SWITCH_REMOTE;
+          }
+        }
+        DDLogDebug(@"sendMsgCount is %d", self.sendMsgCount);
+        [self.request sendMsg11Or13:aSwitch
+                      socketGroupId:sceneDetail.groupId
+                           sendMode:mode];
+      }];
+      [op start];
+    }
   });
 }
 
@@ -229,8 +232,9 @@ static dispatch_queue_t scene_recive_serial_queue() {
     //开关控制
     case 0x12:
     case 0x14:
-      dispatch_sync(scene_recive_serial_queue(),
-                    ^{ [self responseMsg12Or14:message]; });
+      dispatch_sync(scene_recive_serial_queue(), ^{
+        [self responseMsg12Or14:message];
+      });
 
       break;
   }
@@ -240,14 +244,14 @@ static dispatch_queue_t scene_recive_serial_queue() {
     didNotReceiveMsgTag:(long)tag
           socketGroupId:(int)socketGroupId {
   dispatch_sync(scene_recive_serial_queue(), ^{
-      if (!self.executeSuccess) {
-        if (self.remainingSceneDetails.count > 0) {
-          [self.remainingSceneDetails removeObjectAtIndex:0];
-        }
-        DDLogDebug(@"details is %@", self.remainingSceneDetails);
-        self.noResponse(self.remainingSceneDetails);
-        [self sendNotification];
+    if (!self.executeSuccess) {
+      if (self.remainingSceneDetails.count > 0) {
+        [self.remainingSceneDetails removeObjectAtIndex:0];
       }
+      DDLogDebug(@"details is %@", self.remainingSceneDetails);
+      self.noResponse(self.remainingSceneDetails);
+      [self sendNotification];
+    }
   });
 }
 

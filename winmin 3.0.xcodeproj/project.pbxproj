@@ -166,7 +166,6 @@
 		15CF11E41A6F8674003F8DEA /* RealTimePowerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CF11E31A6F8674003F8DEA /* RealTimePowerView.m */; };
 		15DFD5671AC3EA37007551C5 /* ProductIntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15DFD5661AC3EA37007551C5 /* ProductIntroViewController.m */; };
 		15E31BB31A6508310054CE81 /* BackgroundAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E31BB21A6508310054CE81 /* BackgroundAudioPlay.m */; };
-		15E31BB51A6517BA0054CE81 /* glass.wav in Resources */ = {isa = PBXBuildFile; fileRef = 15E31BB41A6517BA0054CE81 /* glass.wav */; };
 		15E7D6D31AD61BF00009A9F3 /* SensorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E7D6D21AD61BF00009A9F3 /* SensorViewController.m */; };
 		15E7D6D61AD61D730009A9F3 /* SensorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E7D6D51AD61D730009A9F3 /* SensorModel.m */; };
 		15EA3F191A2F0A6F00D14A47 /* welcome1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EA3F151A2F0A6F00D14A47 /* welcome1@2x.png */; };
@@ -474,7 +473,6 @@
 		15DFD5661AC3EA37007551C5 /* ProductIntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductIntroViewController.m; sourceTree = "<group>"; };
 		15E31BB11A6508300054CE81 /* BackgroundAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundAudioPlay.h; sourceTree = "<group>"; };
 		15E31BB21A6508310054CE81 /* BackgroundAudioPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundAudioPlay.m; sourceTree = "<group>"; };
-		15E31BB41A6517BA0054CE81 /* glass.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = glass.wav; sourceTree = "<group>"; };
 		15E7D6D11AD61BF00009A9F3 /* SensorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorViewController.h; sourceTree = "<group>"; };
 		15E7D6D21AD61BF00009A9F3 /* SensorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorViewController.m; sourceTree = "<group>"; };
 		15E7D6D41AD61D730009A9F3 /* SensorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorModel.h; sourceTree = "<group>"; };
@@ -991,14 +989,11 @@
 			isa = PBXGroup;
 			children = (
 				158B3EAB1A84CF9C00BDC262 /* shake.mp3 */,
-				15E31BB41A6517BA0054CE81 /* glass.wav */,
 				158D991819C7CC2E0068AFC5 /* protocol */,
 				15476D4A19E68B6B00EC6BD1 /* NetUtil.h */,
 				15476D4B19E68B6B00EC6BD1 /* NetUtil.m */,
 				158D992719C7E1390068AFC5 /* ViewUtil.h */,
 				158D992819C7E1390068AFC5 /* ViewUtil.m */,
-				158D990E19C7CBC50068AFC5 /* UdpRequest.h */,
-				158D990F19C7CBC50068AFC5 /* UdpRequest.m */,
 				158D991019C7CBC50068AFC5 /* MacroUtils.h */,
 				158D991119C7CBC50068AFC5 /* DB.h */,
 				158D991219C7CBC50068AFC5 /* DB.m */,
@@ -1037,6 +1032,8 @@
 		158D991C19C7DF6A0068AFC5 /* 报文相关 */ = {
 			isa = PBXGroup;
 			children = (
+				158D990E19C7CBC50068AFC5 /* UdpRequest.h */,
+				158D990F19C7CBC50068AFC5 /* UdpRequest.m */,
 				158D992019C7DF830068AFC5 /* CC3xMessage.h */,
 				158D992119C7DF830068AFC5 /* CC3xMessage.m */,
 				158D991D19C7DF7A0068AFC5 /* CRC.h */,
@@ -1297,7 +1294,6 @@
 				1560132519CA79D700BF7E12 /* image.plist in Resources */,
 				158D98EF19C7C9660068AFC5 /* WeiboSDK.bundle in Resources */,
 				15EA3F1B1A2F0A6F00D14A47 /* welcome3@2x.png in Resources */,
-				15E31BB51A6517BA0054CE81 /* glass.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

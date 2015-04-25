@@ -230,24 +230,29 @@ enum {
 
 @interface SensorInfo : NSObject
 @property (nonatomic, assign) BOOL hasSensorTemperature;
-@property (nonatomic, assign) short temperature;
+@property (nonatomic, assign) float temperature;
 @property (nonatomic, assign) BOOL hasSensorHumidity;
 @property (nonatomic, assign) short humidity;
 @property (nonatomic, assign) BOOL hasSensorSmog;
-@property (nonatomic, assign) short smog;
+@property (nonatomic, assign) unsigned short smog;
 @property (nonatomic, assign) BOOL hasSensorCo;
 @property (nonatomic, assign) short co;
 @property (nonatomic, assign) BOOL hasSensorLight;
 @property (nonatomic, assign) short light;
+@property (nonatomic, strong) NSString *lightStatus;
+@property (nonatomic, assign) BOOL hasSensorInfaredFlag;
+@property (nonatomic, assign) BOOL infared;
 
 - (id)initWithHasSensorTemperature:(BOOL)hasSensorTemperature
-                       temperature:(short)temperature
+                       temperature:(float)temperature
                  hasSensorHumidity:(BOOL)hasSensorHumidity
                           humidity:(short)humidity
                      hasSensorSmog:(BOOL)hasSensorSmog
-                              somg:(short)smog
+                              somg:(unsigned short)smog
                        hasSensorCo:(BOOL)hasSensorCo
                                 co:(short)co
                     hasSensorLight:(BOOL)hasSensorLight
-                             light:(short)light;
+                             light:(short)light
+              hasSensorInfaredFlag:(BOOL)hasSensorInfaredFlag
+                           infared:(BOOL)infared;
 @end

@@ -483,12 +483,6 @@ preparation before navigation
   dispatch_async(MAIN_QUEUE, ^{
     [self allResuestSuccess];
     self.navigationItem.title = self.switchName;
-    int count = [[self.navigationController viewControllers] count];
-    if (count == 3) {
-      UIViewController *popViewController =
-          [[self.navigationController viewControllers] objectAtIndex:count - 2];
-      popViewController.navigationItem.title = self.switchName;
-    }
   });
 }
 
@@ -512,6 +506,17 @@ preparation before navigation
     //        showNotificationWithMessage:NSLocalizedString(@"Save Success",
     //        nil)
     //                    completionBlock:^{}];
+    if (self.isUpdateNameSuccess) {
+      NSUInteger count = [[self.navigationController viewControllers] count];
+      if (count > 2) {
+        UIViewController *popViewController =
+            [[self.navigationController viewControllers]
+                objectAtIndex:count - 2];
+        dispatch_async(dispatch_get_main_queue(), ^{
+          popViewController.navigationItem.title = self.switchName;
+        });
+      }
+    }
     [self.navigationController popViewControllerAnimated:YES];
   }
 }

@@ -11,6 +11,8 @@
 #import "UIImageView+LBBlurredImage.h"
 
 static NSString *const defaultBg = @"sensor_bg";
+#define kSensorDefaultColor [UIColor whiteColor]
+#define kSensorHighlightColor [UIColor colorWithHexString:@"#00FF66"]
 @interface SensorViewController () <UIActionSheetDelegate,
                                     UINavigationControllerDelegate,
                                     UIImagePickerControllerDelegate>
@@ -18,6 +20,20 @@ static NSString *const defaultBg = @"sensor_bg";
 @property (weak, nonatomic) IBOutlet UILabel *lblSensorTemeratureAndHudmidity;
 @property (weak, nonatomic) IBOutlet UILabel *lblSensorSmog;
 @property (weak, nonatomic) IBOutlet UILabel *lblSensorCo;
+@property (weak, nonatomic) IBOutlet UILabel *lblSensorBody;
+@property (weak, nonatomic) IBOutlet UILabel *lblSensorLight;
+@property (weak, nonatomic)
+    IBOutlet UILabel *lblTagSensorTemeratureAndHudmidity;
+@property (weak, nonatomic) IBOutlet UILabel *lblTagSensorSmog;
+@property (weak, nonatomic) IBOutlet UILabel *lblTagSensorCo;
+@property (weak, nonatomic) IBOutlet UILabel *lblTagSensorBody;
+@property (weak, nonatomic) IBOutlet UILabel *lblTagSensorLight;
+@property (weak, nonatomic) IBOutlet UIImageView *imgVTemeratureAndHudmidity;
+@property (weak, nonatomic) IBOutlet UIImageView *imgVSmog;
+@property (weak, nonatomic) IBOutlet UIImageView *imgVCo;
+@property (weak, nonatomic) IBOutlet UIImageView *imgVBody;
+@property (weak, nonatomic) IBOutlet UIImageView *imgVLight;
+
 @property (weak, nonatomic) IBOutlet UILabel *lblCityName;
 @property (weak, nonatomic) IBOutlet UILabel *lblCityTemerature;
 @property (weak, nonatomic) IBOutlet UILabel *lblCityWind;
@@ -26,6 +42,7 @@ static NSString *const defaultBg = @"sensor_bg";
 @property (weak, nonatomic) IBOutlet UIImageView *imgVBg;
 
 @property (strong, nonatomic) SensorModel *sensorModel;
+@property (strong, nonatomic) NSTimer *timer;
 @end
 
 @implementation SensorViewController
@@ -58,6 +75,8 @@ static NSString *const defaultBg = @"sensor_bg";
   self.lblCityWeather.text = @"";
   self.lblSensorCo.text = @"";
   self.lblSensorSmog.text = @"";
+  self.lblSensorBody.text = @"";
+  self.lblSensorLight.text = @"";
   self.lblSensorTemeratureAndHudmidity.text = @"";
   self.sensorModel = [[SensorModel alloc] initWithSwitch:self.aSwitch];
   [self.sensorModel queryWeatherInfo:^(CityEnvironment *cityEnviroment) {
@@ -66,14 +85,19 @@ static NSString *const defaultBg = @"sensor_bg";
         self.lblCityName.text = cityEnviroment.cityName;
         self.lblCityWind.text = cityEnviroment.wind;
         self.lblCityTemerature.text = cityEnviroment.temperature;
-        self.lblCityPm2point5.text = cityEnviroment.pm2point5;
+        self.lblCityPm2point5.text =
+            [NSString stringWithFormat:@"PM2.5/%@", cityEnviroment.pm2point5];
         self.lblCityWeather.text = cityEnviroment.weather;
       }
     });
   }];
-  [self.sensorModel querySensorInfo:^(SensorInfo *sensorInfo){
-
-  }];
+  self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
+                                       target:self
+                                     selector:@selector(getSensorInfo:)
+                                     userInfo:nil
+                                      repeats:YES];
+  [self.timer fire];
+  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
 - (void)viewDidLoad {
@@ -85,6 +109,79 @@ static NSString *const defaultBg = @"sensor_bg";
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)getSensorInfo:(NSTimer *)timer {
+  [self.sensorModel querySensorInfo:^(SensorInfo *sensorInfo) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self setSensorValue:sensorInfo];
+    });
+  }];
+}
+
+- (void)setSensorValue:(SensorInfo *)sensorInfo {
+  if (sensorInfo) {
+    if (sensorInfo.hasSensorHumidity && sensorInfo.hasSensorTemperature) {
+      self.imgVTemeratureAndHudmidity.highlighted = YES;
+      self.lblSensorTemeratureAndHudmidity.textColor = kSensorHighlightColor;
+      self.lblTagSensorTemeratureAndHudmidity.textColor = kSensorHighlightColor;
+      self.lblSensorTemeratureAndHudmidity.text =
+          [NSString stringWithFormat:@"%.1f°C %d%%", sensorInfo.temperature,
+                                     sensorInfo.humidity];
+    } else {
+      self.imgVTemeratureAndHudmidity.highlighted = NO;
+      self.lblSensorTemeratureAndHudmidity.textColor = kSensorDefaultColor;
+      self.lblTagSensorTemeratureAndHudmidity.textColor = kSensorDefaultColor;
+      self.lblSensorTemeratureAndHudmidity.text = @"";
+    }
+    if (sensorInfo.hasSensorCo) {
+      self.imgVCo.highlighted = YES;
+      self.lblSensorCo.textColor = kSensorHighlightColor;
+      self.lblTagSensorCo.textColor = kSensorHighlightColor;
+      self.lblSensorCo.text = [NSString stringWithFormat:@"%d", sensorInfo.co];
+    } else {
+      self.imgVCo.highlighted = NO;
+      self.lblSensorCo.textColor = kSensorDefaultColor;
+      self.lblTagSensorCo.textColor = kSensorDefaultColor;
+      self.lblSensorCo.text = @"";
+    }
+    if (sensorInfo.hasSensorSmog) {
+      self.imgVSmog.highlighted = YES;
+      self.lblSensorSmog.textColor = kSensorHighlightColor;
+      self.lblTagSensorSmog.textColor = kSensorHighlightColor;
+      self.lblSensorSmog.text =
+          [NSString stringWithFormat:@"%d", sensorInfo.smog];
+    } else {
+      self.imgVSmog.highlighted = NO;
+      self.lblSensorSmog.textColor = kSensorDefaultColor;
+      self.lblTagSensorSmog.textColor = kSensorDefaultColor;
+      self.lblSensorSmog.text = @"";
+    }
+    if (sensorInfo.hasSensorInfaredFlag) {
+      self.imgVBody.highlighted = YES;
+      self.lblSensorBody.textColor = kSensorHighlightColor;
+      self.lblTagSensorBody.textColor = kSensorHighlightColor;
+      self.lblSensorBody.text =
+          [NSString stringWithFormat:@"%d", sensorInfo.infared];
+    } else {
+      self.imgVBody.highlighted = NO;
+      self.lblSensorBody.textColor = kSensorDefaultColor;
+      self.lblTagSensorBody.textColor = kSensorDefaultColor;
+      self.lblSensorBody.text = @"";
+    }
+    if (sensorInfo.hasSensorLight) {
+      self.imgVLight.highlighted = YES;
+      self.lblSensorLight.textColor = kSensorHighlightColor;
+      self.lblTagSensorLight.textColor = kSensorHighlightColor;
+      self.lblSensorLight.text = sensorInfo.lightStatus;
+      //              [NSString stringWithFormat:@"%d", sensorInfo.light];
+    } else {
+      self.imgVLight.highlighted = NO;
+      self.lblSensorLight.textColor = kSensorDefaultColor;
+      self.lblTagSensorLight.textColor = kSensorDefaultColor;
+      self.lblSensorLight.text = @"";
+    }
+  }
 }
 
 - (NSString *)getDate:(NSDate *)date {

@@ -203,6 +203,7 @@
   [nextVC setTimers:self.timers
               timer:timer
          timerModel:self.model
+             action:TimerOperationEdit
               index:indexPath.row];
   [self.navigationController pushViewController:nextVC animated:YES];
 }
@@ -219,7 +220,8 @@
   [nextVC setTimers:self.timers
               timer:nil
          timerModel:self.model
-              index:TimerOperationAdd];
+             action:TimerOperationAdd
+              index:0];
   [self.navigationController pushViewController:nextVC animated:YES];
 }
 
@@ -255,10 +257,11 @@
 #pragma mark - AddOrEditTimerNotification
 - (void)addOrEditTimerNotification:(NSNotification *)notification {
   NSDictionary *userIofo = [notification userInfo];
-  int type = [[userIofo objectForKey:@"type"] intValue];
+  int index = [[userIofo objectForKey:@"index"] intValue];
+  TimerOperationType action = [[userIofo objectForKey:@"action"] intValue];
   NSIndexPath *indexPath;
   //  NSString *message;
-  switch (type) {
+  switch (action) {
     case TimerOperationAdd:
       //      message = NSLocalizedString(@"Added successfully", nil);
       indexPath =
@@ -271,7 +274,7 @@
       break;
     default:
       //      message = NSLocalizedString(@"Modified successfully", nil);
-      indexPath = [NSIndexPath indexPathForRow:type inSection:0];
+      indexPath = [NSIndexPath indexPathForRow:index inSection:0];
       [self.tableView reloadRowsAtIndexPaths:@[ indexPath ]
                             withRowAnimation:UITableViewRowAnimationAutomatic];
       break;
@@ -293,19 +296,21 @@
   if (timers) {
     self.timers = timers;
   }
-  dispatch_async(MAIN_QUEUE, ^{ [self updateViewWithReloadData:YES]; });
+  dispatch_async(MAIN_QUEUE, ^{
+    [self updateViewWithReloadData:YES];
+  });
   [self updateMemorySwitch];
 }
 
 - (void)timerDeleteNotification:(NSNotification *)notification {
   [self.timers removeObjectAtIndex:self.editIndexPath.row];
   dispatch_async(MAIN_QUEUE, ^{
-      [MBProgressHUD hideHUDForView:self.view animated:YES];
-      [self.tableView beginUpdates];
-      [self.tableView deleteRowsAtIndexPaths:@[ self.editIndexPath ]
-                            withRowAnimation:UITableViewRowAnimationLeft];
-      [self.tableView endUpdates];
-      [self updateViewWithReloadData:NO];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self.tableView beginUpdates];
+    [self.tableView deleteRowsAtIndexPaths:@[ self.editIndexPath ]
+                          withRowAnimation:UITableViewRowAnimationLeft];
+    [self.tableView endUpdates];
+    [self updateViewWithReloadData:NO];
   });
   [self updateMemorySwitch];
 }
@@ -329,30 +334,31 @@
 - (void)timerEffectiveChangedNotifcation:(NSNotification *)notification {
   [self.timers replaceObjectAtIndex:self.editIndexPath.row
                          withObject:self.timer];
-  dispatch_async(MAIN_QUEUE,
-                 ^{ [MBProgressHUD hideHUDForView:self.view animated:YES]; });
+  dispatch_async(MAIN_QUEUE, ^{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+  });
 }
 
 - (void)noResponseNotification:(NSNotification *)notif {
   dispatch_async(MAIN_QUEUE, ^{
-      [MBProgressHUD hideHUDForView:self.view animated:YES];
-      NSDictionary *userInfo = notif.userInfo;
-      long tag = [userInfo[@"tag"] longValue];
-      switch (tag) {
-        case P2D_GET_TIMER_REQ_17:
-        case P2S_GET_TIMER_REQ_19:
-          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
-          break;
-        case P2D_SET_TIMER_REQ_1D:
-        case P2S_SET_TIMER_REQ_1F:
-          [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
-          if (self.isModifyEffective) {
-            TimerCell *cell = (TimerCell *)
-                [self.tableView cellForRowAtIndexPath:self.editIndexPath];
-            [cell switchStateBackup];
-          }
-          break;
-      }
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    NSDictionary *userInfo = notif.userInfo;
+    long tag = [userInfo[@"tag"] longValue];
+    switch (tag) {
+      case P2D_GET_TIMER_REQ_17:
+      case P2S_GET_TIMER_REQ_19:
+        [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+        break;
+      case P2D_SET_TIMER_REQ_1D:
+      case P2S_SET_TIMER_REQ_1F:
+        [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+        if (self.isModifyEffective) {
+          TimerCell *cell = (TimerCell *)
+              [self.tableView cellForRowAtIndexPath:self.editIndexPath];
+          [cell switchStateBackup];
+        }
+        break;
+    }
   });
 }
 
@@ -383,9 +389,9 @@
 - (void)doneLoadingTableViewData {
   //  model should call this when its done loading
   dispatch_async(MAIN_QUEUE, ^{
-      _reloading = NO;
-      [_refreshHeaderView
-          egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    _reloading = NO;
+    [_refreshHeaderView
+        egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
   });
 }
 
@@ -405,7 +411,7 @@
 #pragma mark EGORefreshTableHeaderDelegate Methods
 
 - (void)egoRefreshTableHeaderDidTriggerRefresh:
-            (EGORefreshTableHeaderView *)view {
+        (EGORefreshTableHeaderView *)view {
   [self reloadTableViewDataSource];
   [self performSelector:@selector(doneLoadingTableViewData)
              withObject:nil
@@ -413,12 +419,12 @@
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:
-            (EGORefreshTableHeaderView *)view {
+        (EGORefreshTableHeaderView *)view {
   return _reloading; // should return if data source model is reloading
 }
 
 - (NSDate *)egoRefreshTableHeaderDataSourceLastUpdated:
-                (EGORefreshTableHeaderView *)view {
+        (EGORefreshTableHeaderView *)view {
   return [NSDate date]; // should return date data source was last changed
 }
 
