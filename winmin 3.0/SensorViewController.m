@@ -91,6 +91,16 @@ static NSString *const defaultBg = @"sensor_bg";
       }
     });
   }];
+}
+
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  // Do any additional setup after loading the view.
+  [self setup];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
   self.timer = [NSTimer timerWithTimeInterval:REFRESH_DEV_TIME
                                        target:self
                                      selector:@selector(getSensorInfo:)
@@ -100,10 +110,10 @@ static NSString *const defaultBg = @"sensor_bg";
   [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
-- (void)viewDidLoad {
-  [super viewDidLoad];
-  // Do any additional setup after loading the view.
-  [self setup];
+- (void)viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  [self.timer invalidate];
+  self.timer = nil;
 }
 
 - (void)didReceiveMemoryWarning {
