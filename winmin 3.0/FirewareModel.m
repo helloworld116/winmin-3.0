@@ -66,25 +66,25 @@ static const int successCode = 1;
     [manager POST:requestUrl
         parameters:parameters
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSString *string =
-                [[NSString alloc] initWithData:responseObject
-                                      encoding:NSUTF8StringEncoding];
-            DDLogDebug(@"response msg is %@", string);
-            NSDictionary *responseData = __JSON(string);
-            int status = [responseData[@"status"] intValue];
-            if (status == successCode) {
-              NSDictionary *data = responseData[@"data"];
-              NSDictionary *lastVersion = data[@"lastVersion"];
-              NSString *serverFirewareVersion = lastVersion[@"softWareVersion"];
-              self.serverFirewareVersion = serverFirewareVersion;
-              DDLogDebug(@"服务器版本为%@", serverFirewareVersion);
-              block(serverFirewareVersion, nil);
-            } else {
-              block(nil, nil);
-            }
+          NSString *string =
+              [[NSString alloc] initWithData:responseObject
+                                    encoding:NSUTF8StringEncoding];
+          DDLogDebug(@"response msg is %@", string);
+          NSDictionary *responseData = __JSON(string);
+          int status = [responseData[@"status"] intValue];
+          if (status == successCode) {
+            NSDictionary *data = responseData[@"data"];
+            NSDictionary *lastVersion = data[@"lastVersion"];
+            NSString *serverFirewareVersion = lastVersion[@"softWareVersion"];
+            self.serverFirewareVersion = serverFirewareVersion;
+            DDLogDebug(@"服务器版本为%@", serverFirewareVersion);
+            block(serverFirewareVersion, nil);
+          } else {
+            block(nil, nil);
+          }
         }
         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            block(nil, nil);
+          block(nil, nil);
         }];
   } else {
     block(nil, nil);
@@ -105,34 +105,33 @@ static const int successCode = 1;
     [manager POST:requestUrl
         parameters:parameters
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSString *string =
-                [[NSString alloc] initWithData:responseObject
-                                      encoding:NSUTF8StringEncoding];
-            //          DDLogDebug(@"response msg is %@",string);
-            NSDictionary *responseData = __JSON(string);
-            int status = [responseData[@"status"] intValue];
-            if (status == successCode) {
-              NSDictionary *data = responseData[@"data"];
-              NSDictionary *lastVersion = data[@"lastVersion"];
-              NSString *serverFirewareVersion = lastVersion[@"softWareVersion"];
-              self.serverFirewareVersion = serverFirewareVersion;
-              DDLogDebug(@"服务器版本为%@", serverFirewareVersion);
-              if ([self.firmwareVersion
-                      isEqualToString:serverFirewareVersion]) {
-                block(NO, YES, @"已是最新版本");
-              } else {
-                self.serverMD5 = lastVersion[@"md5Check"];
-                NSString *downloadUrl = lastVersion[@"pathUrl"];
-                self.progressBlock = block;
-                block(YES, NO, @"正在下载固件文件");
-                [self downloadFile:downloadUrl];
-              }
+          NSString *string =
+              [[NSString alloc] initWithData:responseObject
+                                    encoding:NSUTF8StringEncoding];
+          //          DDLogDebug(@"response msg is %@",string);
+          NSDictionary *responseData = __JSON(string);
+          int status = [responseData[@"status"] intValue];
+          if (status == successCode) {
+            NSDictionary *data = responseData[@"data"];
+            NSDictionary *lastVersion = data[@"lastVersion"];
+            NSString *serverFirewareVersion = lastVersion[@"softWareVersion"];
+            self.serverFirewareVersion = serverFirewareVersion;
+            DDLogDebug(@"服务器版本为%@", serverFirewareVersion);
+            if ([self.firmwareVersion isEqualToString:serverFirewareVersion]) {
+              block(NO, YES, @"已是最新版本");
             } else {
-              block(NO, NO, @"服务器错误，请稍后再试");
+              self.serverMD5 = lastVersion[@"md5Check"];
+              NSString *downloadUrl = lastVersion[@"pathUrl"];
+              self.progressBlock = block;
+              block(YES, NO, @"正在下载固件文件");
+              [self downloadFile:downloadUrl];
             }
+          } else {
+            block(NO, NO, @"服务器错误，请稍后再试");
+          }
         }
         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            block(NO, NO, @"网络错误，请稍后再试");
+          block(NO, NO, @"网络错误，请稍后再试");
         }];
   } else {
     block(NO, NO, @"未知设备");
@@ -153,15 +152,16 @@ static const int successCode = 1;
                                                                append:NO]];
   [operation
       setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead,
-                                 long long totalBytesExpectedToRead){}];
+                                 long long totalBytesExpectedToRead){
+      }];
   [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation,
                                              id responseObject) {
-      self.firmwareData = [NSData dataWithContentsOfFile:fullPath];
-      self.progressBlock(YES, NO, @"文件下载成功，验证MD5");
-      [self checkDownloadFileMD5];
+    self.firmwareData = [NSData dataWithContentsOfFile:fullPath];
+    self.progressBlock(YES, NO, @"文件下载成功，验证MD5");
+    [self checkDownloadFileMD5];
   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-      DDLogDebug(@"ERR: %@", [error description]);
-      self.progressBlock(NO, NO, @"文件下载出错");
+    DDLogDebug(@"ERR: %@", [error description]);
+    self.progressBlock(NO, NO, @"文件下载出错");
   }];
   [operation start];
 }

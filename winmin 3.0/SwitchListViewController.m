@@ -117,6 +117,7 @@
   //             name:kNewSwitch
   //           object:self.model];
 
+  //配置设备使用的观察者对象
   __weak __typeof__(self) weakSelf = self;
   self.configObserver = [[NSNotificationCenter defaultCenter]
       addObserverForName:kConfigNewSwitch
@@ -154,6 +155,8 @@
   self.refreshHeaderView.delegate = self;
   [self.tableView addSubview:self.refreshHeaderView];
   [self.refreshHeaderView refreshLastUpdatedDate];
+
+  //首次使用app时的指导下拉扫描刷新设备的说明
   BOOL isShowedPulldownGuide = [[[NSUserDefaults standardUserDefaults]
       objectForKey:switchListPulldownRefresh] boolValue];
   if (!isShowedPulldownGuide) {
@@ -182,6 +185,7 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   [self setup];
+  //登录状态下，第一次打开设备下载服务器上该账号关联的设备
   SwitchSyncService *service = [[SwitchSyncService alloc] init];
   [service downloadSwitchs];
 }
@@ -379,6 +383,7 @@
 }
 
 - (void)netChangedNotification:(NSNotification *)notification {
+  //网络状态改变时通知
   dispatch_after(
       dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
       dispatch_get_main_queue(), ^{
@@ -479,6 +484,7 @@
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == 0) {
+    //插排组
     [self pauseUpdateList];
     self.HUD = [[MBProgressHUD alloc] initWithWindow:kSharedAppliction.window];
     [self.view.window addSubview:self.HUD];
@@ -498,6 +504,7 @@
                                           indexPath:indexPath];
                        }];
   } else {
+    //传感器组
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     SDZGSwitch *aSwtich;
     if (indexPath.row < self.sensors.count) {
@@ -514,7 +521,9 @@
 - (void)switchStatusRecivied:(SDZGSwitch *)aSwitch
                       status:(int)status
                    indexPath:(NSIndexPath *)indexPath {
+  //进入设备详情页前检查设备是否在线或重新配置
   dispatch_async(MAIN_QUEUE, ^{
+    //设备未收到本地和远程心跳，将其状态置为离线
     DDLogDebug(@"result is %d", status);
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (status == -1) {
@@ -531,6 +540,7 @@
                         @"Device offline, Please check your network", nil)];
       [self resumeUpdateList];
     } else if (status == kUdpResponsePasswordErrorCode) {
+      //设备被重新配置过，不对设备有控制权
       [self.HUD hide:YES];
       if (aSwitch.networkStatus != SWITCH_OFFLINE) {
         aSwitch.networkStatus = SWITCH_OFFLINE;
@@ -576,6 +586,7 @@
 }
 
 - (void)goRestartViewController:(SDZGSwitch *)aSwitch {
+  //调转到插排断电重启页面
   SwitchRestartViewController *nextViewController = [self.storyboard
       instantiateViewControllerWithIdentifier:@"SwitchRestartViewController"];
   nextViewController.aSwitch = aSwitch;
@@ -584,7 +595,9 @@
 }
 
 - (void)goDetailViewController:(SDZGSwitch *)aSwitch {
+  //调转到插排详情控制页面
   if ([aSwitch.deviceType isEqualToString:kDeviceType_Snake]) {
+    //蛇形插排
     SnakeSwitchDetailViewController *detailViewController =
         [self.storyboard instantiateViewControllerWithIdentifier:
                              @"SnakeSwitchDetailViewController"];

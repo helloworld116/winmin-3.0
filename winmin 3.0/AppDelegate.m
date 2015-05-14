@@ -229,8 +229,8 @@
   } else {
     // IOS 7 Support Required
     [APService handleRemoteNotification:userInfo];
-    completionHandler(UIBackgroundFetchResultNewData);
   }
+  completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)application:(UIApplication*)application

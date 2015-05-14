@@ -43,9 +43,9 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE) {
 @interface SDZGSwitch : NSObject<NSCopying>
 @property (nonatomic, assign) int _id;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, assign) SwitchStatus networkStatus;
-@property (nonatomic, strong) NSString *mac;
-@property (nonatomic, strong) NSString *ip;
+@property (nonatomic, assign) SwitchStatus networkStatus; //设备网络状态
+@property (nonatomic, strong) NSString *mac;              //设备mac地址
+@property (nonatomic, strong) NSString *ip; //设备最后一次在局域网内使用到的ip
 @property (nonatomic, assign) unsigned short port;
 @property (nonatomic, assign) LockStatus lockStatus;
 @property (nonatomic, strong) NSMutableArray *sockets; //插孔
@@ -61,8 +61,10 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE) {
 @property (nonatomic, assign) BOOL isRestart; //标识改设备是否重新启动
 @property (nonatomic, strong) NSString *restartMsgDateStr; //设备重启时间
 
-@property (nonatomic, assign) BOOL hasSensorData;
-@property (nonatomic, strong) NSString *sensorBgImage;//传感器背景图片
+@property (nonatomic, assign)
+    BOOL hasSensorData; //设备是否收到传感器的数据，用于判断显示在列表上的条件
+@property (nonatomic, strong) SensorInfo *sensorInfo;
+@property (nonatomic, strong) NSString *sensorBgImage; //传感器背景图片
 + (void)parseMessageCOrE:(CC3xMessage *)message
                 toSwitch:(void (^)(SDZGSwitch *aSwitch))completion;
 /**
@@ -76,6 +78,7 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE) {
                         version:(int)version
                      deviceType:(NSString *)deviceType
                      lockStauts:(LockStatus)lockStauts;
+//以下四个方法是根据图片的名称来确定显示的图片，关闭、开启、蛇形等不同状态下
 + (UIImage *)imgNameToImage:(NSString *)imgName;
 + (UIImage *)imgNameToImageOffline:(NSString *)imgName;
 + (UIImage *)imgNameToImageSnake:(NSString *)imgName;
@@ -83,9 +86,9 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE) {
 
 @end
 @interface SDZGSocket : NSObject<NSCopying>
-@property (nonatomic, assign) int groupId;
+@property (nonatomic, assign) int groupId; //组别，I组值为1，II组值为2
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSMutableArray *timerList;
+@property (nonatomic, strong) NSMutableArray *timerList; //定时任务的集合
 @property (nonatomic, assign) short delayTime; //延迟剩余时间，单位分钟
 @property (nonatomic, assign)
     DelayAction delayAction; //延迟操作 on为开操作，off为关操作
@@ -97,7 +100,8 @@ typedef NS_OPTIONS(NSUInteger, DAYTYPE) {
 @end
 
 @interface SDZGTimerTask : NSObject<NSCopying>
-@property (nonatomic, assign) unsigned char week;
+@property (nonatomic, assign)
+    unsigned char week; //执行动作的周期，具体值参考报文
 @property (nonatomic, assign) unsigned int actionTime; //动作时间
 @property (nonatomic, assign) BOOL isEffective;        //是否生效
 @property (nonatomic, assign)

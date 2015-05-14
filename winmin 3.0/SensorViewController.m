@@ -78,6 +78,8 @@ static NSString *const defaultBg = @"sensor_bg";
   self.lblSensorBody.text = @"";
   self.lblSensorLight.text = @"";
   self.lblSensorTemeratureAndHudmidity.text = @"";
+  //设置在列表中获取到的值
+  [self setSensorValue:self.aSwitch.sensorInfo];
   self.sensorModel = [[SensorModel alloc] initWithSwitch:self.aSwitch];
   [self.sensorModel queryWeatherInfo:^(CityEnvironment *cityEnviroment) {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -148,7 +150,7 @@ static NSString *const defaultBg = @"sensor_bg";
       self.imgVCo.highlighted = YES;
       self.lblSensorCo.textColor = kSensorHighlightColor;
       self.lblTagSensorCo.textColor = kSensorHighlightColor;
-      self.lblSensorCo.text = [NSString stringWithFormat:@"%d", sensorInfo.co];
+      self.lblSensorCo.text = sensorInfo.coStatus;
     } else {
       self.imgVCo.highlighted = NO;
       self.lblSensorCo.textColor = kSensorDefaultColor;
@@ -159,8 +161,7 @@ static NSString *const defaultBg = @"sensor_bg";
       self.imgVSmog.highlighted = YES;
       self.lblSensorSmog.textColor = kSensorHighlightColor;
       self.lblTagSensorSmog.textColor = kSensorHighlightColor;
-      self.lblSensorSmog.text =
-          [NSString stringWithFormat:@"%d", sensorInfo.smog];
+      self.lblSensorSmog.text = sensorInfo.smogStatus;
     } else {
       self.imgVSmog.highlighted = NO;
       self.lblSensorSmog.textColor = kSensorDefaultColor;
@@ -171,8 +172,7 @@ static NSString *const defaultBg = @"sensor_bg";
       self.imgVBody.highlighted = YES;
       self.lblSensorBody.textColor = kSensorHighlightColor;
       self.lblTagSensorBody.textColor = kSensorHighlightColor;
-      self.lblSensorBody.text =
-          [NSString stringWithFormat:@"%d", sensorInfo.infared];
+      self.lblSensorBody.text = sensorInfo.infaredStatus;
     } else {
       self.imgVBody.highlighted = NO;
       self.lblSensorBody.textColor = kSensorDefaultColor;

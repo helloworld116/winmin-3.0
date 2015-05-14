@@ -9,6 +9,7 @@
 #import "SDZGSwitch.h"
 #import "APServiceUtil.h"
 
+//串行队列，解析设备的过程放到串行队列中执行
 static dispatch_queue_t switch_parse_serial_queue() {
   static dispatch_queue_t sdzg_switch_parse_serial_queue;
   static dispatch_once_t onceToken;

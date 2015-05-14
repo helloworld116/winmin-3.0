@@ -21,6 +21,7 @@ static double interval = 1.0;
     self.groupId = groupId;
     self.onOrOff = onOrOff;
     if (!self.switchs) {
+      // copy一份switchs数据，避免在执行场景的过程中修改switch的状态而影响设备列表switch的状态
       self.switchs = [[NSMutableArray alloc]
           initWithArray:[[SwitchDataCeneter sharedInstance] switchs]
               copyItems:YES];

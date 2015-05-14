@@ -2353,19 +2353,47 @@ typedef struct {
     self.humidity = humidity;
     self.hasSensorSmog = hasSensorSmog;
     self.smog = smog;
+    switch (smog) {
+      case 1:
+        self.smogStatus = NSLocalizedString(@"正常无烟", nil);
+        break;
+      case 2:
+        self.smogStatus = NSLocalizedString(@"少量烟雾", nil);
+        break;
+      case 3:
+        self.smogStatus = NSLocalizedString(@"较浓烟雾", nil);
+        break;
+      default:
+        self.smogStatus = NSLocalizedString(@"未知", nil);
+        break;
+    }
     self.hasSensorCo = hasSensorCo;
     self.co = co;
+    switch (co) {
+      case 1:
+        self.coStatus = NSLocalizedString(@"安全", nil);
+        break;
+      case 2:
+        self.coStatus = NSLocalizedString(@"警告", nil);
+        break;
+      case 3:
+        self.coStatus = NSLocalizedString(@"危险", nil);
+        break;
+      default:
+        self.coStatus = NSLocalizedString(@"未知", nil);
+        break;
+    }
     self.hasSensorLight = hasSensorLight;
     self.light = light;
     switch (light) {
       case 1:
-        self.lightStatus = NSLocalizedString(@"弱", nil);
+        self.lightStatus = NSLocalizedString(@"暗", nil);
         break;
       case 2:
-        self.lightStatus = NSLocalizedString(@"较弱", nil);
+        self.lightStatus = NSLocalizedString(@"弱", nil);
         break;
       case 3:
-        self.lightStatus = NSLocalizedString(@"较强", nil);
+        self.lightStatus = NSLocalizedString(@"中", nil);
         break;
       case 4:
         self.lightStatus = NSLocalizedString(@"强", nil);
@@ -2376,6 +2404,17 @@ typedef struct {
     }
     self.hasSensorInfaredFlag = hasSensorInfaredFlag;
     self.infared = infared;
+    switch (infared) {
+      case 0:
+        self.infaredStatus = NSLocalizedString(@"正常状态", nil);
+        break;
+      case 1:
+        self.infaredStatus = NSLocalizedString(@"有人经过", nil);
+        break;
+      default:
+        self.infaredStatus = NSLocalizedString(@"未知", nil);
+        break;
+    }
   }
   return self;
 }

@@ -298,7 +298,7 @@
             NSString *sql = @"insert into "
                 @"switch(name,networkstatus,mac,ip,port,lockstatus,version,"
                 @"tag," @"imagename,password,devicetype,hasSensor) "
-                        @"values(?,?,?,?,?,?,?,?,?,?,?,?)";
+                @"values(?,?,?,?,?,?,?,?,?,?,?,?)";
             [db executeUpdate:sql, aSwitch.name, @(aSwitch.networkStatus),
                               aSwitch.mac, aSwitch.ip, @(aSwitch.port),
                               @(aSwitch.lockStatus), @(aSwitch.version), @(0),
@@ -430,7 +430,7 @@
       aSwitch.version = [switchResult intForColumn:@"version"];
       aSwitch.tag = [switchResult intForColumn:@"tag"];
       aSwitch.deviceType = [switchResult stringForColumn:@"devicetype"];
-      aSwitch.hasSensorData = [switchResult boolForColumn:@"hasSensor"];
+      //      aSwitch.hasSensorData = [switchResult boolForColumn:@"hasSensor"];
       aSwitch.sensorBgImage =
           [switchResult stringForColumn:@"sensorBackgroundImage"];
       aSwitch.sockets = [@[] mutableCopy];

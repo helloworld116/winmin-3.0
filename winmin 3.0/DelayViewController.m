@@ -74,9 +74,9 @@
 
 - (void)viewAppearOrEnterForeground {
   [self.model queryDelay:^(int delaySeconds, SocketStatus status) {
-      [self showDelayInfo:delaySeconds action:status];
+    [self showDelayInfo:delaySeconds action:status];
   } notReceiveData:^(long tag, int socktGroupId) {
-      [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+    [self.view makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
   }];
 }
 
@@ -140,9 +140,8 @@ preparation before navigation
                   passMinitues:(int)minitues
                     actionType:(int)actionType {
   dispatch_async(MAIN_QUEUE, ^{
-      [self
-          dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
-      [self showDelayInfo:minitues * 60 action:actionType];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+    [self showDelayInfo:minitues * 60 action:actionType];
   });
 }
 
@@ -157,35 +156,35 @@ preparation before navigation
     action = NSLocalizedString(@"OFF", nil);
   }
   dispatch_async(MAIN_QUEUE, ^{
-      [self.countDownView countDown:delaySeconds];
-      self.viewTop.hidden = NO;
-      self.lblOperationInfo.text =
-          [NSString stringWithFormat:@"延时至%@%@", info, action];
-      self.timer =
-          [NSTimer scheduledTimerWithTimeInterval:delaySeconds
-                                           target:self
-                                         selector:@selector(timerAction)
-                                         userInfo:nil
-                                          repeats:NO];
-      [self.settingBtn setTitle:NSLocalizedString(@"CancelWithBlank", nil)
-                       forState:UIControlStateNormal];
-      [self.settingBtn removeTarget:self
-                             action:@selector(showSetting:)
-                   forControlEvents:UIControlEventTouchUpInside];
-      [self.settingBtn addTarget:self
-                          action:@selector(cancelDelay:)
-                forControlEvents:UIControlEventTouchUpInside];
+    [self.countDownView countDown:delaySeconds];
+    self.viewTop.hidden = NO;
+    self.lblOperationInfo.text = [NSString
+        stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Delay to", nil), info,
+                         action];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:delaySeconds
+                                                  target:self
+                                                selector:@selector(timerAction)
+                                                userInfo:nil
+                                                 repeats:NO];
+    [self.settingBtn setTitle:NSLocalizedString(@"CancelWithBlank", nil)
+                     forState:UIControlStateNormal];
+    [self.settingBtn removeTarget:self
+                           action:@selector(showSetting:)
+                 forControlEvents:UIControlEventTouchUpInside];
+    [self.settingBtn addTarget:self
+                        action:@selector(cancelDelay:)
+              forControlEvents:UIControlEventTouchUpInside];
   });
 }
 
 #pragma mark -
 - (void)cancelDelay:(id)sender {
-  UIAlertView *alertView =
-      [[UIAlertView alloc] initWithTitle:nil
-                                 message:@"确定取消延时吗？"
-                                delegate:self
-                       cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                       otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
+  UIAlertView *alertView = [[UIAlertView alloc]
+          initWithTitle:nil
+                message:NSLocalizedString(@"Are you sure cancel delay", nil)
+               delegate:self
+      cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+      otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
   [alertView show];
 }
 
@@ -210,30 +209,29 @@ preparation before navigation
   [self.model setDelayWithMinitues:0
       onOrOff:NO
       completion:^(BOOL result) {
-          __strong DelayViewController *strongSelf = weakSelf;
-          dispatch_async(MAIN_QUEUE, ^{
-              if (result) {
-                [strongSelf cancelTimer];
-                [strongSelf.settingBtn
-                    setTitle:NSLocalizedString(@"SettingWithBlank", nil)
-                    forState:UIControlStateNormal];
-                [strongSelf.settingBtn
-                        removeTarget:strongSelf
-                              action:@selector(cancelDelay:)
-                    forControlEvents:UIControlEventTouchUpInside];
-                [strongSelf.settingBtn addTarget:strongSelf
-                                          action:@selector(showSetting:)
-                                forControlEvents:UIControlEventTouchUpInside];
-                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
-              }
-          });
+        __strong DelayViewController *strongSelf = weakSelf;
+        dispatch_async(MAIN_QUEUE, ^{
+          if (result) {
+            [strongSelf cancelTimer];
+            [strongSelf.settingBtn
+                setTitle:NSLocalizedString(@"SettingWithBlank", nil)
+                forState:UIControlStateNormal];
+            [strongSelf.settingBtn removeTarget:strongSelf
+                                         action:@selector(cancelDelay:)
+                               forControlEvents:UIControlEventTouchUpInside];
+            [strongSelf.settingBtn addTarget:strongSelf
+                                      action:@selector(showSetting:)
+                            forControlEvents:UIControlEventTouchUpInside];
+            [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+          }
+        });
       }
       notReceiveData:^(long tag, int socktGroupId) {
-          __strong DelayViewController *strongSelf = weakSelf;
-          dispatch_async(MAIN_QUEUE, ^{
-              [strongSelf.view
-                  makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
-          });
+        __strong DelayViewController *strongSelf = weakSelf;
+        dispatch_async(MAIN_QUEUE, ^{
+          [strongSelf.view
+              makeToast:NSLocalizedString(@"No UDP Response Msg", nil)];
+        });
       }];
 }
 

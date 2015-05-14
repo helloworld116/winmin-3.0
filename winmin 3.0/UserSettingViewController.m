@@ -47,36 +47,34 @@ NSString *const acceleration = @"acceleration";
     if (self._switch.on) {
       //执行打开
       dispatch_async(GLOBAL_QUEUE, ^{
-          [APServiceUtil openRemoteNotification:^(BOOL result) {
-              dispatch_async(MAIN_QUEUE, ^{
-                  if (result) {
-                    NSUserDefaults *defaults =
-                        [NSUserDefaults standardUserDefaults];
-                    [defaults setObject:@(self._switch.on) forKey:self.name];
-                    [defaults synchronize];
-                  } else {
-                    //改变界面
-                    self._switch.on = !self._switch.on;
-                  }
-              });
-          }];
+        [APServiceUtil openRemoteNotification:^(BOOL result) {
+          dispatch_async(MAIN_QUEUE, ^{
+            if (result) {
+              NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+              [defaults setObject:@(self._switch.on) forKey:self.name];
+              [defaults synchronize];
+            } else {
+              //改变界面
+              self._switch.on = !self._switch.on;
+            }
+          });
+        }];
       });
     } else {
       //执行关闭
       dispatch_async(GLOBAL_QUEUE, ^{
-          [APServiceUtil closeRemoteNotification:^(BOOL result) {
-              dispatch_async(MAIN_QUEUE, ^{
-                  if (result) {
-                    NSUserDefaults *defaults =
-                        [NSUserDefaults standardUserDefaults];
-                    [defaults setObject:@(self._switch.on) forKey:self.name];
-                    [defaults synchronize];
-                  } else {
-                    //改变界面
-                    self._switch.on = !self._switch.on;
-                  }
-              });
-          }];
+        [APServiceUtil closeRemoteNotification:^(BOOL result) {
+          dispatch_async(MAIN_QUEUE, ^{
+            if (result) {
+              NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+              [defaults setObject:@(self._switch.on) forKey:self.name];
+              [defaults synchronize];
+            } else {
+              //改变界面
+              self._switch.on = !self._switch.on;
+            }
+          });
+        }];
       });
     }
   } else if ([self.name isEqualToString:acceleration]) {

@@ -41,6 +41,8 @@
 /* Class = "IBUIButton"; normalTitle = "Timer"; ObjectID = "58q-ea-yYU"; */
 "58q-ea-yYU.normalTitle" = "Timer";
 
+"58q-ea-yYU.highlightedTitle" = "Timer";
+
 /* Class = "IBUITabBarItem"; title = "Control"; ObjectID = "5L5-oc-qBr"; */
 "5L5-oc-qBr.title" = "Control";
 
@@ -148,6 +150,7 @@
 
 /* Class = "IBUIButton"; normalTitle = "Delay"; ObjectID = "Lq6-md-TsT"; */
 "Lq6-md-TsT.normalTitle" = "Delay";
+"Lq6-md-TsT.highlightedTitle" = "Delay";
 
 /* Class = "IBUITextField"; placeholder = "输入您的邮箱"; ObjectID = "MTh-6X-OCh"; */
 "MTh-6X-OCh.placeholder" = "输入您的邮箱";
@@ -265,6 +268,7 @@
 
 /* Class = "IBUIButton"; normalTitle = "Timer"; ObjectID = "hE1-u5-U5v"; */
 "hE1-u5-U5v.normalTitle" = "Timer";
+"hE1-u5-U5v.highlightedTitle" = "Timer";
 
 /* Class = "IBUILabel"; text = "电冰箱"; ObjectID = "hNK-y0-Gxk"; */
 "hNK-y0-Gxk.text" = "Refrigerator";
@@ -298,6 +302,7 @@
 
 /* Class = "IBUIButton"; normalTitle = "Delay"; ObjectID = "mzk-Ah-mge"; */
 "mzk-Ah-mge.normalTitle" = "Delay";
+"mzk-Ah-mge.highlightedTitle" = "Delay";
 
 /* Class = "IBUILabel"; text = "用户名"; ObjectID = "o8i-sh-lzF"; */
 "o8i-sh-lzF.text" = "用户名";
@@ -392,3 +397,5 @@
 "jAu-Oy-Czk.normalTitle" = "Fireware Upgrade";
 "eyx-0L-LYj.normalTitle" = "Upgrade Now";
 "5KF-1K-WFY.text" = "Setup a list of orders,and touch to execute this orders";
+"aLO-oa-LoO.normalTitle" = "show next 20";
+"cUD-yl-ZfV.text" = "Repeat";

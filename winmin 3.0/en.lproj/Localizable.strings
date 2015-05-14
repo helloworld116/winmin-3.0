@@ -81,6 +81,8 @@
 "Device_LastVesion"="Available Fireware";
 "Upgrade"="Upgrade";
 "Upgrade Now"="Upgrade Now";
+"Are you sure cancel delay"="Are you sure cancel delay?";
+"Delay to"="Delay to";
 
 "zx_lock"="zx_lock_en";
 "yc_lock"="yc_lock_en";
@@ -178,3 +180,9 @@
 "No Message!"="No Message!";
 "setting_shake_hint"="Turn on the shake controller and set target scene will result on shake to execute scene.Notice: This function need your hardware support. If you feel trouble while using, please turn off this.Are you sure to turn on it?";
 "setting_shake_disable_hint"="You have set shake scene, are you sure to clear the record and turn off this function?";
+"Message_Clear"="Clear";
+"Are you sure clear message"="Are you sure clear history message?";
+"Message_Show_Next"="show next 20";
+"Message_Load_Failure"="loaded failure";
+"Message_Loading"="loading";
+"Message_No_More"="no more...";

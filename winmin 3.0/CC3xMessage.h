@@ -235,13 +235,16 @@ enum {
 @property (nonatomic, assign) short humidity;
 @property (nonatomic, assign) BOOL hasSensorSmog;
 @property (nonatomic, assign) unsigned short smog;
+@property (nonatomic, strong) NSString *smogStatus;
 @property (nonatomic, assign) BOOL hasSensorCo;
 @property (nonatomic, assign) short co;
+@property (nonatomic, strong) NSString *coStatus;
 @property (nonatomic, assign) BOOL hasSensorLight;
 @property (nonatomic, assign) short light;
 @property (nonatomic, strong) NSString *lightStatus;
 @property (nonatomic, assign) BOOL hasSensorInfaredFlag;
 @property (nonatomic, assign) BOOL infared;
+@property (nonatomic, strong) NSString *infaredStatus;
 
 - (id)initWithHasSensorTemperature:(BOOL)hasSensorTemperature
                        temperature:(float)temperature

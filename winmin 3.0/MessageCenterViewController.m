@@ -46,11 +46,11 @@ void (^loadCompletion)(MessageCenterViewController *iSelf, int status,
 - (void)setup {
   self.navigationItem.title = NSLocalizedString(@"Message Center", nil);
   //  self.navigationItem.rightBarButtonItem = self.editButtonItem;
-  self.navigationItem.rightBarButtonItem =
-      [[UIBarButtonItem alloc] initWithTitle:@"清空"
-                                       style:UIBarButtonItemStylePlain
-                                      target:self
-                                      action:@selector(clear:)];
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+      initWithTitle:NSLocalizedString(@"Message_Clear", nil)
+              style:UIBarButtonItemStylePlain
+             target:self
+             action:@selector(clear:)];
   self.noDataView =
       [[UIView alloc] initWithSize:self.view.frame.size
                            imgName:@"no_message"
@@ -184,12 +184,12 @@ preparation before navigation
 }
 
 - (void)clear:(id)sender {
-  UIAlertView *alertView =
-      [[UIAlertView alloc] initWithTitle:@""
-                                 message:@"确定清空历史消息吗？"
-                                delegate:self
-                       cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                       otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
+  UIAlertView *alertView = [[UIAlertView alloc]
+          initWithTitle:@""
+                message:NSLocalizedString(@"Are you sure clear message", nil)
+               delegate:self
+      cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+      otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
   [alertView show];
 }
 

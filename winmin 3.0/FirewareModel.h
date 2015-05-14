@@ -14,6 +14,11 @@ typedef void (^UpdateFirewareProgressBlock)(BOOL needContinue, BOOL success,
 
 @interface FirewareModel : NSObject
 - (id)initWithSwitch:(SDZGSwitch *)aSwitch;
+/**
+ *
+ *
+ *  @param block
+ */
 - (void)getSwitchFirewareInfo:(GetSwitchFirewareInfoBlock)block;
 - (void)getFirewareInfoWithType:(NSString *)deviceType
                      completion:(GetSwitchFirewareInfoBlock)block;

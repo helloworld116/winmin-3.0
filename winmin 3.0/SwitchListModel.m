@@ -397,6 +397,7 @@ static const int successCode = 1;
       message.sensorInfo.hasSensorInfaredFlag) {
     //有传感器数据
     aSwitch.hasSensorData = YES;
+    aSwitch.sensorInfo = message.sensorInfo;
   } else {
     aSwitch.hasSensorData = NO;
   }

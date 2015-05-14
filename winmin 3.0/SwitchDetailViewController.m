@@ -63,6 +63,7 @@
   self.HUD.delegate = self;
 
   if (!self.aSwitch.sockets || [self.aSwitch.sockets count] != 2) {
+    //检查插排数据是否正常，不正常数据则重置数据，解决可能存在的数组越界的问题
     self.aSwitch.sockets = [@[] mutableCopy];
     SDZGSocket *socket1 = [[SDZGSocket alloc] init];
     socket1.groupId = 1;
@@ -79,16 +80,19 @@
     [self.aSwitch.sockets addObject:socket2];
   }
 
+  //插口组I
   self.socketView1.sockeViewDelegate = self;
   self.socketView1.groupId = 1;
   SDZGSocket *socket1 = [self.aSwitch.sockets objectAtIndex:0];
   [self.socketView1 setSocketInfo:socket1];
 
+  //插口组II
   self.socketView2.sockeViewDelegate = self;
   self.socketView2.groupId = 2;
   SDZGSocket *socket2 = [self.aSwitch.sockets objectAtIndex:1];
   [self.socketView2 setSocketInfo:socket2];
 
+  //电量显示view
   self.elecView.layer.borderColor =
       [UIColor colorWithHexString:@"#C3C3C3" alpha:1].CGColor;
   self.elecView.layer.cornerRadius = 5.f;
@@ -96,6 +100,7 @@
   self.elecView.layer.masksToBounds = YES;
   self.elecView.delegate = self;
 
+  //错误消息显示view
   self.errorMsgView =
       [[UIView alloc] initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH, 20)];
   UILabel *lblMsg = [[UILabel alloc] initWithFrame:self.errorMsgView.bounds];
@@ -225,6 +230,7 @@
     self.showingRealTimeElecView = YES;
   }
   __weak SwitchDetailViewController *weakSelf = self;
+  //获取插孔组I定时任务
   dispatch_after(
       dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.10 * NSEC_PER_SEC)),
       dispatch_get_main_queue(), ^{
@@ -247,6 +253,7 @@
           });
         }];
       });
+  //获取插孔组II定时任务
   dispatch_after(
       dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)),
       dispatch_get_main_queue(), ^{
@@ -269,6 +276,7 @@
           });
         }];
       });
+  //获取插孔组I延时任务
   dispatch_after(
       dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.20 * NSEC_PER_SEC)),
       dispatch_get_main_queue(), ^{
@@ -287,6 +295,7 @@
           });
         }];
       });
+  //获取插孔组II延时任务
   dispatch_after(
       dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)),
       dispatch_get_main_queue(), ^{
@@ -326,6 +335,7 @@ preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   // Get the new view controller using [segue destinationViewController].
   // Pass the selected object to the new view controller.
+  //进入设备信息页面前检查设备状态，只有在设备状态为非离线的情况下才进入
   if (self.aSwitch.networkStatus == SWITCH_OFFLINE) {
     [self showOfflineMsg];
   } else {
@@ -336,6 +346,7 @@ preparation before navigation
 }
 
 - (void)shwoInfo:(id)sender {
+  //进入设备信息页面前检查设备状态，只有在设备状态为非离线的情况下才进入
   if (self.aSwitch.networkStatus == SWITCH_OFFLINE) {
     [self showOfflineMsg];
   } else {

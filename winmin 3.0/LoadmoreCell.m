@@ -33,21 +33,23 @@
 }
 
 - (void)noMoreData {
-  [self.btnLoadmore setTitle:@"没有更多了..." forState:UIControlStateNormal];
+  [self.btnLoadmore setTitle:NSLocalizedString(@"Message_No_More", nil)
+                    forState:UIControlStateNormal];
   self.btnLoadmore.enabled = NO;
 }
 
 - (void)loadMore:(id)sender {
   self.activityIndicator.hidden = NO;
   [self.activityIndicator startAnimating];
-  [self.btnLoadmore setTitle:@"正在载入" forState:UIControlStateNormal];
+  [self.btnLoadmore setTitle:NSLocalizedString(@"Message_Loading", nil)
+                    forState:UIControlStateNormal];
   self.btnLoadmore.enabled = NO;
   [self.delegate beginLoad:^(BOOL result) {
-      if (result) {
-        [self success];
-      } else {
-        [self faiure];
-      }
+    if (result) {
+      [self success];
+    } else {
+      [self faiure];
+    }
   }];
 }
 
@@ -55,14 +57,15 @@
   self.activityIndicator.hidden = YES;
   [self.activityIndicator stopAnimating];
   self.btnLoadmore.enabled = YES;
-  [self.btnLoadmore setTitle:@"显示下20条" forState:UIControlStateNormal];
+  [self.btnLoadmore setTitle:NSLocalizedString(@"Message_Show_Next", nil)
+                    forState:UIControlStateNormal];
 }
 
 - (void)faiure {
   self.activityIndicator.hidden = YES;
   [self.activityIndicator stopAnimating];
   self.btnLoadmore.enabled = YES;
-  [self.btnLoadmore setTitle:@"加载失败，点击重新加载"
+  [self.btnLoadmore setTitle:NSLocalizedString(@"Message_Load_Failure", nil)
                     forState:UIControlStateNormal];
 }
 @end
