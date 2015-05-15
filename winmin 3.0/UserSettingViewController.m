@@ -94,6 +94,10 @@ NSString *const acceleration = @"acceleration";
           cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
           otherButtonTitles:NSLocalizedString(@"Sure", nil), nil];
       [alert show];
+    } else {
+      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+      [defaults setObject:@(self._switch.on) forKey:self.name];
+      [defaults synchronize];
     }
   } else {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
