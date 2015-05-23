@@ -1,4 +1,3 @@
-
 /* Class = "IBUINavigationItem"; title = "Control"; ObjectID = "3Vd-6D-VL1"; */
 "3Vd-6D-VL1.title" = "Control";
 
@@ -110,7 +109,7 @@
 "GlH-h6-AVG.text" = "Confirm Password";
 
 /* Class = "IBUIButton"; normalTitle = "确  定"; ObjectID = "Gqh-Nt-oHp"; */
-"Gqh-Nt-oHp.normalTitle" = "确  定";
+"Gqh-Nt-oHp.normalTitle" = "Sure";
 
 /* Class = "IBUITextField"; placeholder = "Enter your email"; ObjectID = "H3Q-7x-DEg"; */
 "H3Q-7x-DEg.placeholder" = "Enter your email";
@@ -150,6 +149,7 @@
 
 /* Class = "IBUIButton"; normalTitle = "Delay"; ObjectID = "Lq6-md-TsT"; */
 "Lq6-md-TsT.normalTitle" = "Delay";
+
 "Lq6-md-TsT.highlightedTitle" = "Delay";
 
 /* Class = "IBUITextField"; placeholder = "输入您的邮箱"; ObjectID = "MTh-6X-OCh"; */
@@ -268,6 +268,7 @@
 
 /* Class = "IBUIButton"; normalTitle = "Timer"; ObjectID = "hE1-u5-U5v"; */
 "hE1-u5-U5v.normalTitle" = "Timer";
+
 "hE1-u5-U5v.highlightedTitle" = "Timer";
 
 /* Class = "IBUILabel"; text = "电冰箱"; ObjectID = "hNK-y0-Gxk"; */
@@ -302,6 +303,7 @@
 
 /* Class = "IBUIButton"; normalTitle = "Delay"; ObjectID = "mzk-Ah-mge"; */
 "mzk-Ah-mge.normalTitle" = "Delay";
+
 "mzk-Ah-mge.highlightedTitle" = "Delay";
 
 /* Class = "IBUILabel"; text = "用户名"; ObjectID = "o8i-sh-lzF"; */
@@ -380,22 +382,48 @@
 "q4b-fH-fyQ.title" = "Help";
 
 "fkk-DF-uWS.normalTitle" = "Problem";
+
 "me4-Kh-jf0.normalTitle" = "Suggestion";
+
 "jLD-LL-DkE.normalTitle" = "Usage";
+
 "jld-6l-hSQ.normalTitle" = "Other";
+
 "qog-HW-oIW.placeholder" = "Please enter your e-mail address";
+
 "LKf-sz-xoE.normalTitle" = "Submit";
+
 "ftO-Td-HdT.placeholder" = "Please enter your feedback ...";
+
 "ffZ-Cl-mbe.text" = "W notify";
+
 "8yX-al-9Pb.text" = "W notify";
+
 "U4z-G0-2od.text" = "W close";
+
 "eIu-aH-Phe.text" = "W close";
+
 "Vyo-TQ-7RM.text" = "Power upper than";
+
 "aDZ-Y9-Q13.text" = "Power upper than";
+
 "vyo-Hs-rhK.text" = "Power lower than";
+
 "B6a-bY-4Hp.text" = "Power lower than";
+
 "jAu-Oy-Czk.normalTitle" = "Fireware Upgrade";
+
 "eyx-0L-LYj.normalTitle" = "Upgrade Now";
+
 "5KF-1K-WFY.text" = "Setup a list of orders,and touch to execute this orders";
+
 "aLO-oa-LoO.normalTitle" = "show next 20";
+
 "cUD-yl-ZfV.text" = "Repeat";
+
+/* Class = "IBUILabel"; text = "自定义"; ObjectID = "8K6-xM-Zko"; */
+"8K6-xM-Zko.text" = "Custom";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "Rnk-IX-3v8"; */
+"Rnk-IX-3v8.text" = "label";
+

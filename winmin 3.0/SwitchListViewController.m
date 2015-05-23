@@ -530,6 +530,7 @@
       [self.HUD hide:YES];
       if (aSwitch.networkStatus != SWITCH_OFFLINE) {
         aSwitch.networkStatus = SWITCH_OFFLINE;
+        aSwitch.power =0;
         NSArray *indexPaths = @[ indexPath ];
         [self.tableView
             reloadRowsAtIndexPaths:indexPaths

@@ -180,6 +180,7 @@ preparation before navigation
         [self.tableView dequeueReusableCellWithIdentifier:CellId2
                                              forIndexPath:indexPath];
     updateCell.lblTitle.text = self.infos[indexPath.row][@"title"];
+    updateCell.btnUpdate.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 5);
     [updateCell.btnUpdate
         setBackgroundImage:[UIImage imageNamed:@"update_enable"]
                   forState:UIControlStateNormal];

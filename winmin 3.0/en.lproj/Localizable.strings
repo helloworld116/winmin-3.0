@@ -1,188 +1,399 @@
-/* 
-  Localizable.strings
+/* Localizable.strings
   SmartSwitch
 
   Created by sdzg on 14-8-14.
-  Copyright (c) 2014年 itouchco.com. All rights reserved.
-*/
-"Pull down to refresh..."="Pull down to refresh...";
-"Release to refresh..."="Release to refresh...";
-"Loading..."="Loading...";
-"Last Updated"="Last Updated";
-"Skip"="Skip";
-"Smart Switch"="Smart Plug";
-"Socket1"="Plug Ⅰ";
-"Socket2"="Plug II";
-"Open"="Open";
-"Close"="Close";
+  Copyright (c) 2014年 itouchco.com. All rights reserved. */
 
-/**
- *  页面通用
- */
-"Back"="Back";
-"Save"="Save";
-"Cancel"="Cancel";
-"CancelWithBlank"="Cancel";
-"Add"="Add";
-"Edit"="Edit";
-"AddWithBlank"="Add ";
-"EditWithBlank"="Edit ";
-"Sure"="Sure";
-"Delete"="Delete";
-"Setting"="Setting";
-"SettingWithBlank"="Setting";
-"Take a picture"="Take a picture";
-"Choose from album"="Choose from album";
-"No UDP Response Msg"="Network latency, check the device network connection";
-"WWAN Message"="You are using the mobile network operators may charge other fees, depending on your network subscriptions";
-"Default"="Default";
-"Notice"="Notice";
+"Pull down to refresh..." = "Pull down to refresh...";
 
-/**
- *  控制
- */
-"Start to experience"="Start to experience";
-"You have not configure any device!"="You have not configure any device!";
-"Device offline, Please check your network"="Device offline, Please check your network";
-"Which operation do you want?"="Which operation do you want?";
-"Flash"="Flash";
-"Tips"="Warning";
-"TipsInfo"="Remove the device will delete all the scenes associated with the device under whether to continue to remove the device?";
-"Timer Task"="Timer Task";
-"maximum count is 20"="maximum count is 20";
-"Repeat"="Repeat";
-"Operating One Time"="Operating One Time";
-"Mon"="Mon";
-"Tues"="Tues";
-"Wed"="Wed";
-"Thurs"="Thurs";
-"Fri"="Fri";
-"Sat"="Sat";
-"Sun"="Sun";
-"Everyday"="Everday";
-"ON"="ON";
-"OFF"="OFF";
-"Switch Action"="Action";
-"Please choose whether to open the task"="Please choose whether to open the task";
-"Delay Task"="Delay Task";
-"at most 1440 minutes"="at most 1440 minutes";
-"How to set the Icon?"="How to set the Icon?";
-"You have not yet added any time task"="You have not yet added any time task";
-"Are you sure to delete the timer task"="Are you sure to delete the timer task";
-"Added successfully"="Added successfully";
-"Modified successfully"="Modified successfully";
-"Keyboard return"="Done";
-"UpdateFirewareWarn"="Are you sure to upgrade the device firmware? During upgrading, please keep the device electricity and phone screen on.If failed, please wait for your device restart completely (i.e. WiFi indicator continuous light), then try control it or upgrade again.";
-"Fireware Upgrade"="Fireware Upgrade";
-"Device_Name"="Name";
-"Device_Mac"="MAC";
-"Device_Type"="ProductId";
-"Device_FirewareVersion"="Device Fireware";
-"Device_LastVesion"="Available Fireware";
-"Upgrade"="Upgrade";
-"Upgrade Now"="Upgrade Now";
-"Are you sure cancel delay"="Are you sure cancel delay?";
-"Delay to"="Delay to";
+"Release to refresh..." = "Release to refresh...";
 
-"zx_lock"="zx_lock_en";
-"yc_lock"="yc_lock_en";
-"lx_lock"="lx_lock_en";
-"new_lock"="new_lock";
-"zx"="zx_en";
-"yc"="yc_en";
-"lx"="lx_en";
-"new"="new";
+"Loading..." = "Loading...";
 
-/**
- *  配置
- */
-"Config Success"="Config Success";
-"Config Timeout"="Config Timeout";
-"Config Close"="Close";
+"Last Updated" = "Last Updated";
 
-/**
- *  场景
- */
-"Scene"="Scene";
-"You have not add any scene!"="You have not add any scene!";
-"How do you want to perform operations on the scene"="How do you want to perform operations on the scene";
-"Please enter the scene name"="Please enter the scene name";
-"Please add one operation"="Please add one operation";
-"execute success"="success";
-"execute failure"="failure";
-"executing"="executing";
-"is executing"="is executing";
-"scene waiting"="waiting";
-"execute finished"="execute finished";
-"Living room"="Living room";
-"Kitchen"="Kitchen";
-"Bedroom"="Bedroom";
-"Studyroom"="Studyroom";
-"Kids room"="Kids room";
-"Vestibule"="Vestibule";
-"ON_Scene"="ON";
-"OFF_Scene"="OFF";
-"Set command %@ will be executed"="Set command %@ will be executed";
-"Open Switch I"="Open Switch I";
-"Close Switch I"="Close Switch I";
-"Open Switch II"="Open Switch II";
-"Close Switch II"="Close Switch II";
-"You want to do this kind of operation command?"="You want to do this kind of operation command?";
-"Insert"="Insert";
-"Reset"="Reset";
-"Open Shake"="Open Shake";
-"Close Shake"="Close Shake";
-"scene_shake_enable"="Please go to function setting and turn on the shake controller!";
-"scene_shake_setting"="Are you sure to set this scene as shake target?";
-"scene_shake_replace"="Scene shake only support one scene as the target, are you sure to replace the original setting?";
-"Scene_PreExecute"="Scene is a collection of operations predefined.\nTo continue will result on trun on/off your devices right now.\nAre you sure?";
+"Skip" = "Skip";
 
-/**
- *  更多
- */
-"About Us"="About Us";
-"Safety Warning"="Safety Warning";
-"FAQ"="FAQ";
-"User Manual"="User Manual";
-"Message Center"="Message Center";
-"Feedback"="Feedback";
-"Purchase Products"="Purchase Products";
-"User Login"="Log in";
-"User Register"="Sign up";
-"Login"="Log in";
-"Login successful"="Login successful";
-"Log out message"="Are you sure to log out?";
-"Username or password can not be empty"="Username or password can not be empty";
-"The user cancels the authorization, use the account login or retry"="The user cancels the authorization, use the account login or retry";
-"You are currently QQ or QQSpace is not installed, please install"="You are currently QQ or QQSpace is not installed, please install";
-"new  password login"="Password reset successfully, use the new password system";
-"Register"="Sign up";
-"Find Password"="Find Password";
-"Reset Password"="Reset Password";
-"email format is incorrect"="email format is incorrect";
-"email can not be empty"="email can not be empty";
-"password can not be empty"="password can not be empty";
-"password at least six"="password at least six characters";
-"two passwords do not match"="two passwords do not match";
-"nickname can not be empty"="nickname can not be empty";
-"verfication code can not be empty"="verfication code can not be empty";
-"Answer Update"="There is a new version of the update, whether access to updated?";
-"Go Update"="Go Update";
-"User Setting"="Function Setting";
-"KeyShake"="Vibrate while controlling";
-"ShowMac"="Show mac address in list";
-"WWANWarn"="Notify while using mobile network";
-"remoteNotification"="Receive push messages";
-"acceleration"="Shake to control";
-"feedback cannot empty"="feedback cannot empty";
-"feedback error"="Network delay, please try again";
-"feedback success"="Submit success";
-"No Message!"="No Message!";
-"setting_shake_hint"="Turn on the shake controller and set target scene will result on shake to execute scene.Notice: This function need your hardware support. If you feel trouble while using, please turn off this.Are you sure to turn on it?";
-"setting_shake_disable_hint"="You have set shake scene, are you sure to clear the record and turn off this function?";
-"Message_Clear"="Clear";
-"Are you sure clear message"="Are you sure clear history message?";
-"Message_Show_Next"="show next 20";
-"Message_Load_Failure"="loaded failure";
-"Message_Loading"="loading";
-"Message_No_More"="no more...";
+"Smart Switch" = "Smart Plug";
+
+"Socket1" = "Plug Ⅰ";
+
+"Socket2" = "Plug II";
+
+"Open" = "Open";
+
+"Close" = "Close";
+
+/* *
+ *  页面通用 */
+"Back" = "Back";
+
+"Save" = "Save";
+
+"Cancel" = "Cancel";
+
+"CancelWithBlank" = "Cancel";
+
+"Add" = "Add";
+
+"Edit" = "Edit";
+
+"AddWithBlank" = "Add ";
+
+"EditWithBlank" = "Edit ";
+
+"Sure" = "Sure";
+
+"Delete" = "Delete";
+
+"Setting" = "Setting";
+
+"SettingWithBlank" = "Setting";
+
+"Take a picture" = "Take a picture";
+
+"Choose from album" = "Choose from album";
+
+"No UDP Response Msg" = "Network latency, check the device network connection";
+
+"WWAN Message" = "You are using the mobile network operators may charge other fees, depending on your network subscriptions";
+
+"Default" = "Default";
+
+"Notice" = "Notice";
+
+/* *
+ *  控制 */
+"Start to experience" = "Start to experience";
+
+"You have not configure any device!" = "You have not configure any device!";
+
+"Device offline, Please check your network" = "Device offline, Please check your network";
+
+"Which operation do you want?" = "Which operation do you want?";
+
+"Flash" = "Flash";
+
+"Tips" = "Warning";
+
+"TipsInfo" = "Remove the device will delete all the scenes associated with the device under whether to continue to remove the device?";
+
+"Timer Task" = "Timer Task";
+
+"maximum count is 20" = "maximum count is 20";
+
+"Repeat" = "Repeat";
+
+"Operating One Time" = "Operating One Time";
+
+"Mon" = "Mon";
+
+"Tues" = "Tues";
+
+"Wed" = "Wed";
+
+"Thurs" = "Thurs";
+
+"Fri" = "Fri";
+
+"Sat" = "Sat";
+
+"Sun" = "Sun";
+
+"Everyday" = "Everday";
+
+"ON" = "ON";
+
+"OFF" = "OFF";
+
+"Switch Action" = "Action";
+
+"Please choose whether to open the task" = "Please choose whether to open the task";
+
+"Delay Task" = "Delay Task";
+
+"at most 1440 minutes" = "at most 1440 minutes";
+
+"How to set the Icon?" = "How to set the Icon?";
+
+"You have not yet added any time task" = "You have not yet added any time task";
+
+"Are you sure to delete the timer task" = "Are you sure to delete the timer task";
+
+"Added successfully" = "Added successfully";
+
+"Modified successfully" = "Modified successfully";
+
+"Keyboard return" = "Done";
+
+"UpdateFirewareWarn" = "Are you sure to upgrade the device firmware? During upgrading, please keep the device electricity and phone screen on.If failed, please wait for your device restart completely (i.e. WiFi indicator continuous light), then try control it or upgrade again.";
+
+"Fireware Upgrade" = "Fireware Upgrade";
+
+"Device_Name" = "Name";
+
+"Device_Mac" = "MAC";
+
+"Device_Type" = "ProductId";
+
+"Device_FirewareVersion" = "Device Fireware";
+
+"Device_LastVesion" = "Available Fireware";
+
+"Upgrade" = "Upgrade";
+
+"Upgrade Now" = "Upgrade Now";
+
+"Are you sure cancel delay" = "Are you sure cancel delay?";
+
+"Delay to" = "Delay to";
+
+"Move Confirm" = "Move Confirm";
+
+"Confirming" = "Confirming";
+
+"zx_lock" = "zx_lock_en";
+
+"yc_lock" = "yc_lock_en";
+
+"lx_lock" = "lx_lock_en";
+
+"new_lock" = "new_lock";
+
+"zx" = "zx_en";
+
+"yc" = "yc_en";
+
+"lx" = "lx_en";
+
+"new" = "new";
+
+/* *
+ *  配置 */
+"Config Success" = "Config Success";
+
+"Config Timeout" = "Config Timeout";
+
+"Config Close" = "Close";
+
+/* *
+ *  场景 */
+"Scene" = "Scene";
+
+"You have not add any scene!" = "You have not add any scene!";
+
+"How do you want to perform operations on the scene" = "How do you want to perform operations on the scene";
+
+"Please enter the scene name" = "Please enter the scene name";
+
+"Please add one operation" = "Please add one operation";
+
+"execute success" = "success";
+
+"execute failure" = "failure";
+
+"executing" = "executing";
+
+"is executing" = "is executing";
+
+"scene waiting" = "waiting";
+
+"execute finished" = "execute finished";
+
+"Living room" = "Living room";
+
+"Kitchen" = "Kitchen";
+
+"Bedroom" = "Bedroom";
+
+"Studyroom" = "Studyroom";
+
+"Kids room" = "Kids room";
+
+"Vestibule" = "Vestibule";
+
+"ON_Scene" = "ON";
+
+"OFF_Scene" = "OFF";
+
+"Set command %@ will be executed" = "Set command %@ will be executed";
+
+"Open Switch I" = "Open Switch I";
+
+"Close Switch I" = "Close Switch I";
+
+"Open Switch II" = "Open Switch II";
+
+"Close Switch II" = "Close Switch II";
+
+"You want to do this kind of operation command?" = "You want to do this kind of operation command?";
+
+"Insert" = "Insert";
+
+"Reset" = "Reset";
+
+"Open Shake" = "Open Shake";
+
+"Close Shake" = "Close Shake";
+
+"scene_shake_enable" = "Please go to function setting and turn on the shake controller!";
+
+"scene_shake_setting" = "Are you sure to set this scene as shake target?";
+
+"scene_shake_replace" = "Scene shake only support one scene as the target, are you sure to replace the original setting?";
+
+"Scene_PreExecute" = "Scene is a collection of operations predefined.\nTo continue will result on trun on/off your devices right now.\nAre you sure?";
+
+/* *
+ *  更多 */
+"About Us" = "About Us";
+
+"Safety Warning" = "Safety Warning";
+
+"FAQ" = "FAQ";
+
+"User Manual" = "User Manual";
+
+"Message Center" = "Message Center";
+
+"Feedback" = "Feedback";
+
+"Purchase Products" = "Purchase Products";
+
+"User Login" = "Log in";
+
+"User Register" = "Sign up";
+
+"Login" = "Log in";
+
+"Login successful" = "Login successful";
+
+"Log out message" = "Are you sure to log out?";
+
+"Username or password can not be empty" = "Username or password can not be empty";
+
+"The user cancels the authorization, use the account login or retry" = "The user cancels the authorization, use the account login or retry";
+
+"You are currently QQ or QQSpace is not installed, please install" = "You are currently QQ or QQSpace is not installed, please install";
+
+"new  password login" = "Password reset successfully, use the new password system";
+
+"Register" = "Sign up";
+
+"Find Password" = "Find Password";
+
+"Reset Password" = "Reset Password";
+
+"email format is incorrect" = "email format is incorrect";
+
+"email can not be empty" = "email can not be empty";
+
+"password can not be empty" = "password can not be empty";
+
+"password at least six" = "password at least six characters";
+
+"two passwords do not match" = "two passwords do not match";
+
+"nickname can not be empty" = "nickname can not be empty";
+
+"verfication code can not be empty" = "verfication code can not be empty";
+
+"Answer Update" = "There is a new version of the update, whether access to updated?";
+
+"Go Update" = "Go Update";
+
+"User Setting" = "Function Setting";
+
+"KeyShake" = "Vibrate while controlling";
+
+"ShowMac" = "Show mac address in list";
+
+"WWANWarn" = "Notify while using mobile network";
+
+"remoteNotification" = "Receive push messages";
+
+"acceleration" = "Shake to control";
+
+"feedback cannot empty" = "feedback cannot empty";
+
+"feedback error" = "Network delay, please try again";
+
+"feedback success" = "Submit success";
+
+"No Message!" = "No Message!";
+
+"setting_shake_hint" = "Turn on the shake controller and set target scene will result on shake to execute scene.Notice: This function need your hardware support. If you feel trouble while using, please turn off this.Are you sure to turn on it?";
+
+"setting_shake_disable_hint" = "You have set shake scene, are you sure to clear the record and turn off this function?";
+
+"Message_Clear" = "Clear";
+
+"Are you sure clear message" = "Are you sure clear history message?";
+
+"Message_Show_Next" = "show next 20";
+
+"Message_Load_Failure" = "loaded failure";
+
+"Message_Loading" = "loading";
+
+"Message_No_More" = "no more...";
+
+"Save Success" = "Save Success";
+
+"Auth Error" = "Equipment has been reconfigured, please enter the LAN where the device refresh device";
+
+/* No comment provided by engineer. */
+"安全" = "safety";
+
+/* No comment provided by engineer. */
+"暗" = "dark";
+
+/* No comment provided by engineer. */
+"较浓烟雾" = "thick";
+
+/* No comment provided by engineer. */
+"警告" = "warn";
+
+/* No comment provided by engineer. */
+"强" = "strong";
+
+/* No comment provided by engineer. */
+"弱" = "weak";
+
+/* No comment provided by engineer. */
+"少量烟雾" = "small";
+
+/* No comment provided by engineer. */
+"危险" = "danger";
+
+/* No comment provided by engineer. */
+"未知" = "unknow";
+
+/* No comment provided by engineer. */
+"有人经过" = "有人经过";
+
+/* No comment provided by engineer. */
+"正常无烟" = "normal";
+
+/* No comment provided by engineer. */
+"正常状态" = "normal";
+
+/* No comment provided by engineer. */
+"中" = "medium";
+
+/* No comment provided by engineer. */
+"Message error, please try again" = "Message error, please try again";
+
+/* No comment provided by engineer. */
+"No UDP Response Msg" = "No UDP Response Msg";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* nil */
+"Warning" = "Warning";
+
+"Power Set Message Error" = "power range of 0 to 2500";
+
+"Name can't empty" = "Name can't empty";
+

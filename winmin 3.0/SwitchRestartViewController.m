@@ -9,6 +9,7 @@
 #import "SwitchRestartViewController.h"
 #import "SwitchRestartModel.h"
 #import "SwitchDetailViewController.h"
+#import "SnakeSwitchDetailViewController.h"
 
 @interface SwitchRestartViewController () <MBProgressHUDDelegate>
 @property (nonatomic, weak) IBOutlet UILabel *lblMsg;
@@ -26,7 +27,7 @@
   UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
   backButtonItem.title = NSLocalizedString(@"Back", nil);
   self.navigationItem.backBarButtonItem = backButtonItem;
-  self.navigationItem.title = @"移动确认";
+  self.navigationItem.title = NSLocalizedString(@"Move Confirm", nil);
   self.btnType1.layer.cornerRadius = 5.f;
   self.btnType2.layer.cornerRadius = 5.f;
   self.model = [[SwitchRestartModel alloc] init];
@@ -55,7 +56,7 @@
     flag = 0;
   }
   self.hud = [[MBProgressHUD alloc] initWithView:self.view];
-  self.hud.labelText = @"确认中";
+  self.hud.labelText = NSLocalizedString(@"Confirming", nil);
   [self.view addSubview:self.hud];
   self.hud.delegate = self;
   [self.hud show:YES];
@@ -65,14 +66,25 @@
            completion:^(SDZGHttpResponse *response) {
                [self.hud hide:YES];
                if (response.isSuccess) {
-                 SwitchDetailViewController *detailViewController =
-                     [self.storyboard instantiateViewControllerWithIdentifier:
-                                          @"SwitchDetailViewController"];
-                 self.aSwitch.isRestart = NO;
-                 detailViewController.aSwitch = self.aSwitch;
-                 [self.navigationController
-                     pushViewController:detailViewController
-                               animated:YES];
+                   if([self.aSwitch.deviceType isEqualToString:kDeviceType_Snake]){
+                       SnakeSwitchDetailViewController *detailViewController =
+                            [self.storyboard instantiateViewControllerWithIdentifier:
+                                                @"SnakeSwitchDetailViewController"];
+                       self.aSwitch.isRestart = NO;
+                       detailViewController.aSwitch = self.aSwitch;
+                       [self.navigationController
+                        pushViewController:detailViewController
+                        animated:YES];
+                   }else{
+                     SwitchDetailViewController *detailViewController =
+                         [self.storyboard instantiateViewControllerWithIdentifier:
+                                              @"SwitchDetailViewController"];
+                     self.aSwitch.isRestart = NO;
+                     detailViewController.aSwitch = self.aSwitch;
+                     [self.navigationController
+                         pushViewController:detailViewController
+                      animated:YES];
+                }
                  NSMutableArray *stackControllers = [NSMutableArray
                      arrayWithArray:self.navigationController.viewControllers];
                  for (UIViewController *viewController in stackControllers) {

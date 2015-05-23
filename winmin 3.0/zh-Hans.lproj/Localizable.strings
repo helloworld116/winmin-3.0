@@ -1,199 +1,396 @@
-/* 
-  Localizable.strings
+/* Localizable.strings
   SmartSwitch
 
   Created by sdzg on 14-8-14.
-  Copyright (c) 2014年 itouchco.com. All rights reserved.
-*/
-"Pull down to refresh..."="下拉刷新...";
-"Release to refresh..."="放开后刷新...";
-"Loading..."="刷新中...";
-"Last Updated"="最后更新于";
-"Skip"="跳过";
-"Smart Switch"="智能插座";
-"Socket1"="插孔I";
-"Socket2"="插孔II";
-"Open"="打开";
-"Close"="关闭";
+  Copyright (c) 2014年 itouchco.com. All rights reserved. */
 
-/**
- *  页面通用
- */
-"Back"="返回";
-"Save"="保存";
-"Add"="添加";
-"Edit"="编辑";
-"AddWithBlank"="添加";
-"EditWithBlank"="编辑";
-"Cancel"="取消";
-"CancelWithBlank"="取  消";
-"Sure"="确定";
-"Delete"="删除";
-"Setting"="设置";
-"SettingWithBlank"="设  置";
-"Take a picture"="拍照";
-"Choose from album"="从手机相册中选择";
-"No UDP Response Msg"="网络延迟，请检查设备网络连接";
-"WWAN Message"="您正在使用移动网络，运营商可能会收取其他费用，具体取决于您的网络订阅情况";
-"Default"="默认";
-"Notice"="注意";
+"Pull down to refresh..." = "下拉刷新...";
 
-/**
- *  控制
- */
-"Start to experience"="开始体验";
-"You have not configure any device!"="您暂时还未添加任何设备";
-"Device offline, Please check your network"="设备已离线,请检查手机或设备网络情况";
-"Which operation do you want?"="请选择操作";
-"Flash"="闪烁";
-"Tips"="温馨提示";
-"TipsInfo"="删除设备将删除该设备关联下的所有场景，是否继续删除该设备？";
-"Timer Task"="定时";
-"maximum count is 20"="最多只能添加20条";
-"Repeat"="重复";
-"Operating One Time"="执行一次";
-"Mon"="周一";
-"Tues"="周二";
-"Wed"="周三";
-"Thurs"="周四";
-"Fri"="周五";
-"Sat"="周六";
-"Sun"="周日";
-"Everyday"="每天";
-"ON"="开启";
-"OFF"="关闭";
-"Switch Action"="插座动作";
-"Please choose whether to open the task"="请选择是否开启这个任务";
-""="暂时还未添加任何定时计划";
-""="确定删除该定时记录";
-""="添加成功";
-""="修改成功";
-"Delay Task"="延时";
-"at most 1440 minutes"="最多设置1440分钟";
-"How to set the Icon?"="如何设置图标？";
-"You have not yet added any time task"="您暂时还未添加任何定时任务";
-"Are you sure to delete the timer task"="您确定要删除该定时任务";
-"Added successfully"="添加成功";
-"Modified successfully"="修改成功";
-"Keyboard return"="完成";
-"Power Set Message Error"="功率范围为0~2500";
-"Name can't empty"="名称不能为空";
-"Save Success"="保存成功";
-"Auth Error"="设备已被重新配置，请进入设备所在局域网内刷新设备";
-"UpdateFirewareWarn"="确定升级设备固件吗？升级过程中请保持设备通电，及手机屏幕常亮。若升级失败，请待设备完全重启(即WiFi指示灯常亮)后尝试再次控制或升级设备";
-"Fireware Upgrade"="固件升级";
-"Device_Name"="设备名称";
-"Device_Mac"="设备MAC";
-"Device_Type"="设备型号";
-"Device_FirewareVersion"="设备固件版本";
-"Device_LastVesion"="最新固件版本";
-"Upgrade"="升级";
-"Upgrade Now"="立即升级";
-"Are you sure cancel delay"="确定取消延时吗？";
-"Delay to"="延时至";
+"Release to refresh..." = "放开后刷新...";
 
-/**
- *  控制列表设备状态图片
- */
-"zx_lock"="zx_lock";
-"yc_lock"="yc_lock";
-"lx_lock"="lx_lock";
-"new_lock"="new_lock";
-"zx"="zx";
-"yc"="yc";
-"lx"="lx";
-"new"="new";
+"Loading..." = "刷新中...";
 
+"Last Updated" = "最后更新于";
 
-/**
- *  配置
- */
-"Config Success"="配置成功";
-"Config Timeout"="配置超时";
-"Config Close"="关  闭";
-/**
- *  场景
- */
-"Scene"="场景";
-"You have not add any scene!"="您暂时还未添加任何场景!";
-"How do you want to perform operations on the scene"="您希望对这个场景执行怎样的操作";
-"Please enter the scene name"="请输入场景名称";
-"Please add one operation"="请添加一条操作";
-"is executing"="场景执行中...";
-"execute finished"="场景执行完成";
-"executing"="执行中";
-"execute success"="执行成功";
-"execute failure"="执行失败";
-"scene waiting"="等待";
-"Living room"="客厅";
-"Kitchen"="厨房";
-"Bedroom"="卧室";
-"Studyroom"="书房";
-"Kids room"="儿童房";
-"Vestibule"="玄关";
-"ON_Scene"="开";
-"OFF_Scene"="关";
-"Set command %@ will be executed"="设置%@将要执行的命令";
-"Open Switch I"="打开开关I";
-"Close Switch I"="关闭开关I";
-"Open Switch II"="打开开关II";
-"Close Switch II"="关闭开关II";
-"You want to do this kind of operation command?"="您希望对这条命令做怎样的操作？";
-"Insert"="插入";
-"Reset"="重设";
-"Open Shake"="开启摇一摇";
-"Close Shake"="关闭摇一摇";
-"scene_shake_enable"="请到功能设置中打开摇一摇设置!";
-"scene_shake_setting"="确定设置此场景作为摇一摇执行目标吗？";
-"scene_shake_replace"="只支持设置一个场景作为摇一摇执行目标，是否替换原有设置？";
-"Scene_PreExecute"="场景是预定义的一组开关操作。\n执行场景可能会立即打开或关闭你的用电设备。\n确定执行吗？";
+"Skip" = "跳过";
 
-/**
- *  更多
- */
-"About Us"="关于我们";
-"Safety Warning"="安全警告";
-"FAQ"="常见问题";
-"User Manual"="使用手册";
-"Message Center"="推送消息";
-"Feedback"="用户反馈";
-"Purchase Products"="购买产品";
-"User Login"="用户登录";
-"User Register"="用户注册";
-"Login"="登录";
-"Login successful"="登录成功";
-"Log out message"="确定注销登录？";
-"Username or password can not be empty"="用户名或密码不能为空";
-"The user cancels the authorization, use the account login or retry"="用户取消授权，请使用账号登陆或重试";
-"You are currently QQ or QQSpace is not installed, please install"="您当前未安装QQ或QQ空间，请先安装";
-"new  password login"="密码重置成功，请使用新密码登录系统";
-"Register"="注册";
-"Find Password"="找回密码";
-"Reset Password"="重置密码";
-"email format is incorrect"="邮箱格式不正确";
-"email can not be empty"="邮箱不能为空";
-"password can not be empty"="密码不能为空";
-"password at least six"="密码最少需6个字符";
-"two passwords do not match"="两次输入的密码不一致";
-"nickname can not be empty"="昵称不能为空";
-"verfication code can not be empty"="验证码不能为空";
-"Answer Update"="有新的版本更新，是否前往更新？";
-"Go Update"="前往更新";
-"User Setting"="功能设置";
-"KeyShake"="按键时震动反馈";
-"ShowMac"="列表显示MAC地址";
-"WWANWarn"="移动网络下提醒";
-"remoteNotification"="接收推送消息";
-"acceleration"="摇一摇控制";
-"feedback cannot empty"="请输入您的反馈意见";
-"feedback error"="网络延迟，请重试";
-"feedback success"="提交成功";
-"No Message!"="暂无消息！";
-"setting_shake_hint"="开启之后可通过指定摇一摇场景并摇动手机来控制场景执行。注意: 此功能需要手机硬件支持。若在使用中对此功能有困扰，请关闭此设置。确定打开吗？";
-"setting_shake_disable_hint"="您已指定摇一摇执行目标场景，确定要清除该记录并关闭摇一摇功能吗？";
-"Message_Clear"="清空";
-"Are you sure clear message"="确定清空历史消息吗？";
-"Message_Show_Next"="显示下20条";
-"Message_Load_Failure"="加载失败，点击重新加载";
-"Message_Loading"="正在载入";
-"Message_No_More"="没有更多了...";
+"Smart Switch" = "智能插座";
+
+"Socket1" = "插孔I";
+
+"Socket2" = "插孔II";
+
+"Open" = "打开";
+
+"Close" = "关闭";
+
+/* *
+ *  页面通用 */
+"Back" = "返回";
+
+"Save" = "保存";
+
+"Cancel" = "取消";
+
+"CancelWithBlank" = "取  消";
+
+"Add" = "添加";
+
+"Edit" = "编辑";
+
+"AddWithBlank" = "添加";
+
+"EditWithBlank" = "编辑";
+
+"Sure" = "确定";
+
+"Delete" = "删除";
+
+"Setting" = "设置";
+
+"SettingWithBlank" = "设  置";
+
+"Take a picture" = "拍照";
+
+"Choose from album" = "从手机相册中选择";
+
+"No UDP Response Msg" = "网络延迟，请检查设备网络连接";
+
+"WWAN Message" = "您正在使用移动网络，运营商可能会收取其他费用，具体取决于您的网络订阅情况";
+
+"Default" = "默认";
+
+"Notice" = "注意";
+
+/* *
+ *  控制 */
+"Start to experience" = "开始体验";
+
+"You have not configure any device!" = "您暂时还未添加任何设备";
+
+"Device offline, Please check your network" = "设备已离线,请检查手机或设备网络情况";
+
+"Which operation do you want?" = "请选择操作";
+
+"Flash" = "闪烁";
+
+"Tips" = "温馨提示";
+
+"TipsInfo" = "删除设备将删除该设备关联下的所有场景，是否继续删除该设备？";
+
+"Timer Task" = "定时";
+
+"maximum count is 20" = "最多只能添加20条";
+
+"Repeat" = "重复";
+
+"Operating One Time" = "执行一次";
+
+"Mon" = "周一";
+
+"Tues" = "周二";
+
+"Wed" = "周三";
+
+"Thurs" = "周四";
+
+"Fri" = "周五";
+
+"Sat" = "周六";
+
+"Sun" = "周日";
+
+"Everyday" = "每天";
+
+"ON" = "开启";
+
+"OFF" = "关闭";
+
+"Switch Action" = "插座动作";
+
+"Please choose whether to open the task" = "请选择是否开启这个任务";
+
+"Delay Task" = "延时";
+
+"at most 1440 minutes" = "最多设置1440分钟";
+
+"How to set the Icon?" = "如何设置图标？";
+
+"You have not yet added any time task" = "您暂时还未添加任何定时任务";
+
+"Are you sure to delete the timer task" = "您确定要删除该定时任务";
+
+"Added successfully" = "添加成功";
+
+"Modified successfully" = "修改成功";
+
+"Keyboard return" = "完成";
+
+"UpdateFirewareWarn" = "确定升级设备固件吗？升级过程中请保持设备通电，及手机屏幕常亮。若升级失败，请待设备完全重启(即WiFi指示灯常亮)后尝试再次控制或升级设备";
+
+"Fireware Upgrade" = "固件升级";
+
+"Device_Name" = "设备名称";
+
+"Device_Mac" = "设备MAC";
+
+"Device_Type" = "设备型号";
+
+"Device_FirewareVersion" = "设备固件版本";
+
+"Device_LastVesion" = "最新固件版本";
+
+"Upgrade" = "升级";
+
+"Upgrade Now" = "立即升级";
+
+"Are you sure cancel delay" = "确定取消延时吗？";
+
+"Delay to" = "延时至";
+
+"Move Confirm" = "移动确认";
+
+"Confirming" = "确认中";
+
+"zx_lock" = "zx_lock";
+
+"yc_lock" = "yc_lock";
+
+"lx_lock" = "lx_lock";
+
+"new_lock" = "new_lock";
+
+"zx" = "zx";
+
+"yc" = "yc";
+
+"lx" = "lx";
+
+"new" = "new";
+
+/* *
+ *  配置 */
+"Config Success" = "配置成功";
+
+"Config Timeout" = "配置超时";
+
+"Config Close" = "关  闭";
+
+/* *
+ *  场景 */
+"Scene" = "场景";
+
+"You have not add any scene!" = "您暂时还未添加任何场景!";
+
+"How do you want to perform operations on the scene" = "您希望对这个场景执行怎样的操作";
+
+"Please enter the scene name" = "请输入场景名称";
+
+"Please add one operation" = "请添加一条操作";
+
+"execute success" = "执行成功";
+
+"execute failure" = "执行失败";
+
+"executing" = "执行中";
+
+"is executing" = "场景执行中...";
+
+"scene waiting" = "等待";
+
+"execute finished" = "场景执行完成";
+
+"Living room" = "客厅";
+
+"Kitchen" = "厨房";
+
+"Bedroom" = "卧室";
+
+"Studyroom" = "书房";
+
+"Kids room" = "儿童房";
+
+"Vestibule" = "玄关";
+
+"ON_Scene" = "开";
+
+"OFF_Scene" = "关";
+
+"Set command %@ will be executed" = "设置%@将要执行的命令";
+
+"Open Switch I" = "打开开关I";
+
+"Close Switch I" = "关闭开关I";
+
+"Open Switch II" = "打开开关II";
+
+"Close Switch II" = "关闭开关II";
+
+"You want to do this kind of operation command?" = "您希望对这条命令做怎样的操作？";
+
+"Insert" = "插入";
+
+"Reset" = "重设";
+
+"Open Shake" = "开启摇一摇";
+
+"Close Shake" = "关闭摇一摇";
+
+"scene_shake_enable" = "请到功能设置中打开摇一摇设置!";
+
+"scene_shake_setting" = "确定设置此场景作为摇一摇执行目标吗？";
+
+"scene_shake_replace" = "只支持设置一个场景作为摇一摇执行目标，是否替换原有设置？";
+
+"Scene_PreExecute" = "场景是预定义的一组开关操作。\n执行场景可能会立即打开或关闭你的用电设备。\n确定执行吗？";
+
+/* *
+ *  更多 */
+"About Us" = "关于我们";
+
+"Safety Warning" = "安全警告";
+
+"FAQ" = "常见问题";
+
+"User Manual" = "使用手册";
+
+"Message Center" = "推送消息";
+
+"Feedback" = "用户反馈";
+
+"Purchase Products" = "购买产品";
+
+"User Login" = "用户登录";
+
+"User Register" = "用户注册";
+
+"Login" = "登录";
+
+"Login successful" = "登录成功";
+
+"Log out message" = "确定注销登录？";
+
+"Username or password can not be empty" = "用户名或密码不能为空";
+
+"The user cancels the authorization, use the account login or retry" = "用户取消授权，请使用账号登陆或重试";
+
+"You are currently QQ or QQSpace is not installed, please install" = "您当前未安装QQ或QQ空间，请先安装";
+
+"new  password login" = "密码重置成功，请使用新密码登录系统";
+
+"Register" = "注册";
+
+"Find Password" = "找回密码";
+
+"Reset Password" = "重置密码";
+
+"email format is incorrect" = "邮箱格式不正确";
+
+"email can not be empty" = "邮箱不能为空";
+
+"password can not be empty" = "密码不能为空";
+
+"password at least six" = "密码最少需6个字符";
+
+"two passwords do not match" = "两次输入的密码不一致";
+
+"nickname can not be empty" = "昵称不能为空";
+
+"verfication code can not be empty" = "验证码不能为空";
+
+"Answer Update" = "有新的版本更新，是否前往更新？";
+
+"Go Update" = "前往更新";
+
+"User Setting" = "功能设置";
+
+"KeyShake" = "按键时震动反馈";
+
+"ShowMac" = "列表显示MAC地址";
+
+"WWANWarn" = "移动网络下提醒";
+
+"remoteNotification" = "接收推送消息";
+
+"acceleration" = "摇一摇控制";
+
+"feedback cannot empty" = "请输入您的反馈意见";
+
+"feedback error" = "网络延迟，请重试";
+
+"feedback success" = "提交成功";
+
+"No Message!" = "暂无消息！";
+
+"setting_shake_hint" = "开启之后可通过指定摇一摇场景并摇动手机来控制场景执行。注意: 此功能需要手机硬件支持。若在使用中对此功能有困扰，请关闭此设置。确定打开吗？";
+
+"setting_shake_disable_hint" = "您已指定摇一摇执行目标场景，确定要清除该记录并关闭摇一摇功能吗？";
+
+"Message_Clear" = "清空";
+
+"Are you sure clear message" = "确定清空历史消息吗？";
+
+"Message_Show_Next" = "显示下20条";
+
+"Message_Load_Failure" = "加载失败，点击重新加载";
+
+"Message_Loading" = "正在载入";
+
+"Message_No_More" = "没有更多了...";
+
+"Save Success" = "保存成功";
+
+"Auth Error" = "设备已被重新配置，请进入设备所在局域网内刷新设备";
+
+/* No comment provided by engineer. */
+"安全" = "安全";
+
+/* No comment provided by engineer. */
+"暗" = "暗";
+
+/* No comment provided by engineer. */
+"较浓烟雾" = "较浓烟雾";
+
+/* No comment provided by engineer. */
+"警告" = "警告";
+
+/* No comment provided by engineer. */
+"强" = "强";
+
+/* No comment provided by engineer. */
+"弱" = "弱";
+
+/* No comment provided by engineer. */
+"少量烟雾" = "少量烟雾";
+
+/* No comment provided by engineer. */
+"危险" = "危险";
+
+/* No comment provided by engineer. */
+"未知" = "未知";
+
+/* No comment provided by engineer. */
+"有人经过" = "有人经过";
+
+/* No comment provided by engineer. */
+"正常无烟" = "正常无烟";
+
+/* No comment provided by engineer. */
+"正常状态" = "正常状态";
+
+/* No comment provided by engineer. */
+"中" = "中";
+
+/* No comment provided by engineer. */
+"Message error, please try again" = "消息错误，请重试";
+
+/* No comment provided by engineer. */
+"No UDP Response Msg" = "无响应";
+
+/* nil */
+"Warning" = "警告";
+
+"Power Set Message Error" = "功率范围为0~2500";
+
+"Name can't empty" = "名称不能为空";
+

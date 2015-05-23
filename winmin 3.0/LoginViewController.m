@@ -214,11 +214,7 @@ static int const kCancelAuthoriztionCode = -103;
                      DDLogDebug(@"errorCode is %d and errorDescription is %@",
                                 [error errorCode], error.errorDescription);
                      if (kCancelAuthoriztionCode == [error errorCode]) {
-                       [self.view makeToast:NSLocalizedString(
-                                                @"The user cancels the "
-                                                @"authorization, use the "
-                                                @"account login or retry",
-                                                nil)
+                       [self.view makeToast:NSLocalizedString(@"The user cancels the authorization, use the account login or retry",nil)
                                    duration:1
                                    position:nil];
                      }
@@ -250,13 +246,9 @@ static int const kCancelAuthoriztionCode = -103;
                      DDLogDebug(@"errorCode is %d and errorDescription is %@",
                                 [error errorCode], error.errorDescription);
                      if (kCancelAuthoriztionCode == [error errorCode]) {
-                       [self.view makeToast:NSLocalizedString(
-                                                @"The user cancels the "
-                                                @"authorization, use the "
-                                                @"account login or retry",
-                                                nil)
-                                   duration:1
-                                   position:nil];
+                         [self.view makeToast:NSLocalizedString(@"The user cancels the authorization, use the account login or retry",nil)
+                                     duration:1
+                                     position:nil];
                      }
                    }];
 }
